@@ -3,9 +3,9 @@
 exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
 <View
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
       },
@@ -15,25 +15,25 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#fff",
             "borderWidth": 2,
           },
-          Object {
+          {
             "marginLeft": 0,
             "zIndex": -0,
           },
         ],
-        Object {
+        {
           "height": 24,
           "width": 24,
         },
@@ -46,12 +46,12 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessibilityRole="image"
       accessible={false}
       source={
-        Object {
+        {
           "uri": "avatar-1",
         }
       }
       style={
-        Object {
+        {
           "height": "100%",
           "width": "100%",
         }
@@ -60,25 +60,25 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "red",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#fff",
             "borderWidth": 2,
           },
-          Object {
+          {
             "marginLeft": -4,
             "zIndex": -1,
           },
         ],
-        Object {
+        {
           "height": 24,
           "width": 24,
         },
@@ -92,18 +92,18 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Object {
+          {
             "color": "#fff",
             "fontSize": 10.799999999999999,
             "fontWeight": "bold",
@@ -118,25 +118,25 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#fff",
             "borderWidth": 2,
           },
-          Object {
+          {
             "marginLeft": -4,
             "zIndex": -2,
           },
         ],
-        Object {
+        {
           "height": 24,
           "width": 24,
         },
@@ -149,12 +149,12 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessibilityRole="image"
       accessible={false}
       source={
-        Object {
+        {
           "uri": "avatar-2",
         }
       }
       style={
-        Object {
+        {
           "height": "100%",
           "width": "100%",
         }
@@ -163,25 +163,25 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "yellow",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#fff",
             "borderWidth": 2,
           },
-          Object {
+          {
             "marginLeft": -4,
             "zIndex": -3,
           },
         ],
-        Object {
+        {
           "height": 24,
           "width": 24,
         },
@@ -195,18 +195,18 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Object {
+          {
             "color": "#262424",
             "fontSize": 10.799999999999999,
             "fontWeight": "bold",
@@ -221,25 +221,25 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
         },
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#fff",
             "borderWidth": 2,
           },
-          Object {
+          {
             "marginLeft": -4,
             "zIndex": -4,
           },
         ],
-        Object {
+        {
           "height": 24,
           "width": 24,
         },
@@ -252,12 +252,12 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessibilityRole="image"
       accessible={false}
       source={
-        Object {
+        {
           "uri": "avatar-3",
         }
       }
       style={
-        Object {
+        {
           "height": "100%",
           "width": "100%",
         }

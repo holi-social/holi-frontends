@@ -18,7 +18,7 @@ interface HoliUserAvatarPileProps {
   usersTotal?: number
 }
 
-const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
+const HoliUserAvatarPile = ({
   children,
   users,
   usersToShow = 5,
@@ -28,7 +28,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
   style,
   testID = 'holi-user-avatar-pile',
   usersTotal = users.length,
-}) => {
+}: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
 
   const uniqueUsers = users.reduce((newArr: User[], nextUser: User) => {

@@ -25,7 +25,7 @@ export type HoliTabButtonProps = {
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
-const HoliTabButton: React.FC<HoliTabButtonProps> = ({
+const HoliTabButton = ({
   disabled = false,
   disableFocusability = false,
   accessibilitySelected = false,

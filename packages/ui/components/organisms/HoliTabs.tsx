@@ -30,7 +30,7 @@ export type HoliTabsProps = {
 
 const isWeb = Platform.OS === 'web'
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
+const HoliTabs: React.FC<HoliTabsProps> = ({
   id,
   tabs,
   centeredButtons,

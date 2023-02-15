@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 // need to put this into separate component so it is wrapped with
 // AuthContextProvider & UserContextProvider. it it's not wrapped
 // useContext would not receive updates on context updates
-const Children: React.VFC<{ children: React.ReactElement | React.ReactNode }> = ({ children }) => {
+const Children = ({ children }: React.PropsWithChildren<unknown>) => {
   const authContext = useAuth()
   const userContext = useContext(UserContext)
   const { t } = useTranslation()

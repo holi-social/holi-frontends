@@ -20,7 +20,7 @@ exports[`renders correctly renders correctly when open 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "center",
       }
@@ -40,7 +40,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
+        {
           "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
@@ -53,7 +53,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "alignSelf": "center",
           "backgroundColor": "#fff",
           "borderColor": "#262424",
@@ -64,7 +64,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "minWidth": 425,
           "padding": 24,
           "shadowColor": "#262424",
-          "shadowOffset": Object {
+          "shadowOffset": {
             "height": 4,
             "width": 0,
           },
@@ -77,13 +77,13 @@ exports[`renders correctly renders correctly when open 1`] = `
         role="header"
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 22.4,
             },
@@ -97,18 +97,18 @@ exports[`renders correctly renders correctly when open 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 19.2,
             },
             false,
-            Object {
+            {
               "marginTop": 8,
             },
           ]
@@ -118,8 +118,8 @@ exports[`renders correctly renders correctly when open 1`] = `
       </Text>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "gap": 14,
@@ -134,7 +134,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabel="confirmation.dismiss"
           accessibilityRole="button"
           accessibilityState={
-            Object {
+            {
               "disabled": false,
             }
           }
@@ -151,12 +151,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
-                Object {
+                {
                   "backgroundColor": "#fff",
                   "borderColor": "#262424",
                   "borderRadius": 28,
@@ -169,7 +169,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "paddingVertical": 13,
                 },
               ],
-              Object {
+              {
                 "flex": 1,
                 "margin": 7,
                 "minWidth": 120,
@@ -181,8 +181,8 @@ exports[`renders correctly renders correctly when open 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
@@ -195,26 +195,26 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {
+                  {
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Array [
-                    Object {
+                  [
+                    {
                       "textAlign": "center",
                     },
-                    Object {},
-                    Object {},
+                    {},
+                    {},
                   ],
                 ]
               }
@@ -227,7 +227,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabel="confirmation.confirm"
           accessibilityRole="button"
           accessibilityState={
-            Object {
+            {
               "disabled": false,
             }
           }
@@ -244,12 +244,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
-                Object {
+                {
                   "backgroundColor": "#fff",
                   "borderColor": "#262424",
                   "borderRadius": 28,
@@ -261,11 +261,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
                 },
-                Object {
+                {
                   "backgroundColor": "#f5ef3f",
                 },
               ],
-              Object {
+              {
                 "flex": 1,
                 "margin": 7,
                 "minWidth": 120,
@@ -277,8 +277,8 @@ exports[`renders correctly renders correctly when open 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
@@ -291,26 +291,26 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {
+                  {
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Array [
-                    Object {
+                  [
+                    {
                       "textAlign": "center",
                     },
-                    Object {},
-                    Object {},
+                    {},
+                    {},
                   ],
                 ]
               }
@@ -335,7 +335,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "center",
       }
@@ -355,7 +355,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
+        {
           "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
@@ -368,7 +368,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
     />
     <View
       style={
-        Object {
+        {
           "alignSelf": "center",
           "backgroundColor": "#fff",
           "borderColor": "#262424",
@@ -379,7 +379,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           "minWidth": 425,
           "padding": 24,
           "shadowColor": "#262424",
-          "shadowOffset": Object {
+          "shadowOffset": {
             "height": 4,
             "width": 0,
           },
@@ -392,13 +392,13 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         role="header"
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 22.4,
             },
@@ -412,18 +412,18 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 19.2,
             },
             false,
-            Object {
+            {
               "marginTop": 8,
             },
           ]
@@ -433,8 +433,8 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
       </Text>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "gap": 14,
@@ -449,7 +449,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           accessibilityLabel="confirmation.dismiss"
           accessibilityRole="button"
           accessibilityState={
-            Object {
+            {
               "disabled": false,
             }
           }
@@ -466,12 +466,12 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
-                Object {
+                {
                   "backgroundColor": "#fff",
                   "borderColor": "#262424",
                   "borderRadius": 28,
@@ -484,7 +484,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "paddingVertical": 13,
                 },
               ],
-              Object {
+              {
                 "flex": 1,
                 "margin": 7,
                 "minWidth": 120,
@@ -496,8 +496,8 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           <View
             pointerEvents="none"
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
@@ -510,26 +510,26 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               accessible={false}
               selectable={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {
+                  {
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Array [
-                    Object {
+                  [
+                    {
                       "textAlign": "center",
                     },
-                    Object {},
-                    Object {},
+                    {},
+                    {},
                   ],
                 ]
               }
@@ -542,7 +542,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           accessibilityLabel="confirmation.confirm"
           accessibilityRole="button"
           accessibilityState={
-            Object {
+            {
               "disabled": false,
             }
           }
@@ -559,12 +559,12 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
-                Object {
+                {
                   "backgroundColor": "#fff",
                   "borderColor": "#262424",
                   "borderRadius": 28,
@@ -577,7 +577,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "paddingVertical": 13,
                 },
               ],
-              Object {
+              {
                 "flex": 1,
                 "margin": 7,
                 "minWidth": 120,
@@ -589,8 +589,8 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           <View
             pointerEvents="none"
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
@@ -603,26 +603,26 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               accessible={false}
               selectable={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {
+                  {
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Array [
-                    Object {
+                  [
+                    {
                       "textAlign": "center",
                     },
-                    Object {},
-                    Object {},
+                    {},
+                    {},
                   ],
                 ]
               }

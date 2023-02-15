@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { NavigationContext, initialScreenOptions } from './NavigationContext'
 
-export const NavigationContextProvider: React.FC = ({ children }) => {
+export const NavigationContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [pathname, setPathname] = useState('/')
   const [options, setOptions] = useState(initialScreenOptions)
 

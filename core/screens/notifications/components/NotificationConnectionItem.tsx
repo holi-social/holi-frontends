@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { displayError } from '@holi/core/errors/helpers'
 import { useUserConnection } from '@holi/core/helpers'
@@ -12,9 +11,9 @@ import {
   NotificationProps,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
@@ -103,13 +102,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         )}
       </NotificationWithUserAvatar>
 
-      {loading && (
-        <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
-          <View style={styles.loader} testID="connection-notification-loader-indicator">
-            <HoliLottie animType="loader" />
-          </View>
-        </Animated.View>
-      )}
+      {loading && <HoliLoader testID="connection-notification-loader-indicator" />}
     </View>
   )
 }
@@ -123,17 +116,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12,
-  },
-  loaderContainer: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 2,
-    backgroundColor: 'transparent',
-  },
-  loader: {
-    height: 64,
-    width: 64,
   },
 })
 

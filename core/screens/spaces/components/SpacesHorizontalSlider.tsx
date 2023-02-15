@@ -5,17 +5,16 @@ type SpacesHorizontalSliderProps = {
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactElement
   testID?: string
-  children?: React.ReactNode[]
   slideGap: number
 }
 
-const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
+const SpacesHorizontalSlider = ({
   style,
   testID = 'holi-slider',
   seeMoreButton,
   children,
   slideGap,
-}: SpacesHorizontalSliderProps) => {
+}: React.PropsWithChildren<SpacesHorizontalSliderProps>) => {
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
@@ -23,7 +22,7 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
     <View style={style} testID={testID}>
       {children && (
         <ScrollView horizontal contentContainerStyle={styles.scrollViewContainer} nestedScrollEnabled={true}>
-          {children?.map((space, index) => (
+          {React.Children.map(children, (space, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {space}
             </View>

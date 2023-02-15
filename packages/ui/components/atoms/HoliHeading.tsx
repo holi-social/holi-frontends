@@ -27,7 +27,6 @@ export const HoliHeadingLevels: HoliHeadingLevel[] = Object.keys(HoliHeadings) a
 export const HoliHeadingSizes: HoliHeadingSize[] = ['super', 'large', 'medium', 'small'] // keep in sync with type HoliHeadingSize
 
 export type HoliHeadingProps = {
-  children?: React.ReactNode
   size?: HoliHeadingSize
   level?: HoliHeadingLevel
   selectable?: boolean
@@ -35,7 +34,7 @@ export type HoliHeadingProps = {
   numberOfLines?: number
 }
 
-const HoliHeading: React.FC<HoliHeadingProps & TextProps> = ({
+const HoliHeading = ({
   children,
   level = '2',
   size = HoliHeadings[level].defaultSize,
@@ -43,7 +42,7 @@ const HoliHeading: React.FC<HoliHeadingProps & TextProps> = ({
   testID,
   numberOfLines,
   ...props
-}) => {
+}: React.PropsWithChildren<HoliHeadingProps & TextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
