@@ -29,6 +29,7 @@ import {
   updateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -148,6 +149,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
+  const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
+
   return (
     <SpaceTermContextProvider>
       <DefaultLayout
@@ -234,7 +237,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               >
                 {!!space.sdgs?.length && (
                   <View style={styles.listContainer}>
-                    {space.sdgs?.map((sdg, index) => (
+                    {sdgs.map((sdg, index) => (
                       <HoliChip
                         key={`sdg_${index}`}
                         text={`${sdg.number}. ${sdg.title}`}

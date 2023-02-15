@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { Term } from '@holi/core/screens/userprofile/types'
+import { SortedTerm, Term, termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -9,9 +9,6 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-type SortedTerm = Term & { number?: number }
-const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
 
 export type SpaceTermsInputProps = {
   title: string
