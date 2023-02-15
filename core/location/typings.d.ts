@@ -1,4 +1,5 @@
 export interface Place {
-  description: string
-  mainText: string
+  id: string
+  name: string
+  city?: string
 }
