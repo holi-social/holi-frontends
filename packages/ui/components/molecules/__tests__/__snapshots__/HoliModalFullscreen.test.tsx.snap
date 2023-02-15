@@ -102,7 +102,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
               align="xMidYMid"
               bbHeight={24}
               bbWidth={24}
-              color={4280689700}
+              color={4294967295}
               focusable={false}
               meetOrSlice={0}
               minX={0}
@@ -116,7 +116,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                   {
                     "borderStyle": "solid",
                     "borderWidth": 0,
-                    "color": "#262424",
+                    "color": "#fff",
                     "display": "flex",
                     "fill": "currentColor",
                     "flexDirection": "row",
@@ -132,7 +132,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                   },
                 ]
               }
-              tintColor={4280689700}
+              tintColor={4294967295}
               vbHeight={1024}
               vbWidth={1024}
             >

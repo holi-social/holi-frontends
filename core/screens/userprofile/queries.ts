@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
@@ -176,6 +176,10 @@ export interface TopicsQueryResult {
 
 export interface SkillsQueryResult {
   skills: Paged<Skill>
+}
+
+export interface SdgsQueryResult {
+  sdgs: Paged<SDG>
 }
 
 export type DeleteAuthenticatedUserResponse = {

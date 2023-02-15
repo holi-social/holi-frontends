@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
-import { colors } from '@holi/ui/styles/globalVars'
+import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
@@ -55,16 +54,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   }, [])
 
   const buttonLabel = buttonState === 'readMore' ? readMoreButtonText : readLessButtonText
-  const ToggleButton = (
-    <View style={styles[buttonState]}>
-      <HoliButton label={buttonLabel} onPress={toggleButtonState} transparent>
-        <HoliText style={buttonStyle}>
-          {buttonState === 'readMore' ? '...' : ''}
-          {buttonLabel}
-        </HoliText>
-      </HoliButton>
-    </View>
-  )
 
   return (
     <View style={[style, { position: 'relative' }]}>
@@ -77,34 +66,22 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText style={[{ color: colors.foreground20 }, fontStyle]} {...textProps}>
+        <HoliText size="small" style={[styles.text, fontStyle]} {...textProps}>
           {children}
         </HoliText>
       </Text>
-      {/* show button in new line (web only) */}
-      {buttonState !== 'hidden' && ToggleButton}
+      {buttonState !== 'hidden' && (
+        <View style={[buttonState === 'readMore' ? styles.readMoreWeb : styles.readLessWeb]}>
+          <HoliButton label={buttonLabel} onPress={toggleButtonState} transparent>
+            <HoliText size="small" style={[styles.text, buttonStyle]}>
+              {buttonState === 'readMore' ? '...' : ''}
+              {buttonLabel}
+            </HoliText>
+          </HoliButton>
+        </View>
+      )}
     </View>
   )
 }
 
 export default HoliReadMore
-
-const styles = StyleSheet.create({
-  textContainer: {
-    alignContent: 'flex-start',
-    justifyContent: 'center',
-  },
-  readMore: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    paddingLeft: 34,
-    paddingRight: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${colors.background10} 15%)`,
-  },
-  readLess: {
-    width: 'fit-content',
-    marginTop: 1.5,
-  },
-  hidden: {},
-})
