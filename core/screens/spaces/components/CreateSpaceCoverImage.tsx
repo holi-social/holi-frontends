@@ -54,12 +54,7 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
             title: t('spaces.create.space.stepThree.upload.tab.title'),
             style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
             children: (
-              <DefaultLayout
-                onScroll={onScreenScroll}
-                scrollEventThrottle={200}
-                style={styles.imageUploadContainer}
-                headerOverlap={true}
-              >
+              <DefaultLayout scrollable={false} style={styles.imageUploadContainer} headerOverlap={true}>
                 <ImageUploader />
               </DefaultLayout>
             ),
@@ -131,7 +126,8 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
     <View style={styles.wrapper}>
       <DefaultLayout
         headerOverlap={true}
-        scrollEnabled={false}
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
@@ -162,7 +158,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
   },
   contentStyle: {
-    flex: 1,
     width: '100%',
     backgroundColor: colors.background10,
     ...Platform.select({
