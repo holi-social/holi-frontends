@@ -8,8 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface LoginProtectionProps {
-  loggedOutContent?: React.ReactChild | React.ReactChildren
-  children?: React.ReactNode
+  loggedOutContent?: React.ReactNode
 }
 
 const LoginProtection = ({ children, loggedOutContent }: React.PropsWithChildren<LoginProtectionProps>) => {
@@ -24,28 +23,26 @@ const LoginProtection = ({ children, loggedOutContent }: React.PropsWithChildren
 
   return (
     <View style={[mixins.container, styles.loginProtection]}>
-      <>
-        {loggedOutContent || <Text>{t('auth.loginProtection.text')}</Text>}
+      {loggedOutContent || <Text>{t('auth.loginProtection.text')}</Text>}
 
-        <HoliButton
-          label={t('auth.loginProtection.loginLabel')}
-          onPress={() => navigate('/login')}
-          style={[styles.button, styles.loginButton]}
-          testID="btn-to-login-form"
-        >
-          {t('auth.loginProtection.login')}
-        </HoliButton>
+      <HoliButton
+        label={t('auth.loginProtection.loginLabel')}
+        onPress={() => navigate('/login')}
+        style={[styles.button, styles.loginButton]}
+        testID="btn-to-login-form"
+      >
+        {t('auth.loginProtection.login')}
+      </HoliButton>
 
-        <HoliButton
-          label={t('auth.loginProtection.registrationLabel')}
-          onPress={() => navigate('/registration')}
-          style={[styles.button, styles.registrationButton]}
-          type="secondary"
-          testID="btn-to-registration-form"
-        >
-          {t('auth.loginProtection.registration')}
-        </HoliButton>
-      </>
+      <HoliButton
+        label={t('auth.loginProtection.registrationLabel')}
+        onPress={() => navigate('/registration')}
+        style={[styles.button, styles.registrationButton]}
+        type="secondary"
+        testID="btn-to-registration-form"
+      >
+        {t('auth.loginProtection.registration')}
+      </HoliButton>
     </View>
   )
 }
