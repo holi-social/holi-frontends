@@ -7,7 +7,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
-const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps, onPickImage, maxFileSizeInMB }) => {
+const HoliImagePicker = ({
+  children,
+  buttonProps,
+  onPickImage,
+  maxFileSizeInMB,
+}: React.PropsWithChildren<HoliImagePickerProps>) => {
   const { pickImage } = useMediaLibraryImagePicker()
 
   const pickImageHandler = useCallback(async () => {

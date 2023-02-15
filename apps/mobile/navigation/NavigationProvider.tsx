@@ -30,7 +30,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   config: linkingConfig,
 }
 
-const NavigationProvider: React.FC = ({ children }) => (
+const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => (
   <NavigationContainer ref={navigationRef} theme={navigationTheme} linking={rootLinkingConfig}>
     {children}
   </NavigationContainer>

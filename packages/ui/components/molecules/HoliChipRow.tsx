@@ -11,13 +11,12 @@ export type HoliChipRowProps = {
   editable?: boolean
   editButtonText?: string
   editButtonLabel?: string
-  children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
   onPressEdit?: () => void
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   testID?: string
 }
 
-const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
+const HoliChipRow = ({
   title,
   editButtonText,
   editButtonLabel,
@@ -26,7 +25,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   onPressEdit,
   style,
   testID = undefined,
-}: HoliChipRowProps) => {
+}: React.PropsWithChildren<HoliChipRowProps>) => {
   const { t } = useTranslation()
   return (
     <View style={[styles.container, style]} testID={testID}>

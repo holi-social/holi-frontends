@@ -15,7 +15,7 @@ interface NotificationWithSpaceAvatarProps<T = NotificationSpaceConnection> exte
   i18nKey?: string
 }
 
-const NotificationWithSpaceAvatar: React.FC<NotificationWithSpaceAvatarProps> = ({
+const NotificationWithSpaceAvatar = ({
   notification,
   content,
   children,
@@ -23,7 +23,7 @@ const NotificationWithSpaceAvatar: React.FC<NotificationWithSpaceAvatarProps> = 
   i18nKey,
   style,
   testID = '',
-}) => {
+}: React.PropsWithChildren<NotificationWithSpaceAvatarProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { fullName } = notification.options.user

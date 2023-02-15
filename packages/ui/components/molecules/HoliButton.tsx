@@ -43,7 +43,7 @@ export interface HoliButtonProps {
   accessibilityState?: AccessibilityState
 }
 
-const HoliButton: React.FC<HoliButtonProps> = ({
+const HoliButton = ({
   inline = false,
   type = 'primary',
   variant = 'default',

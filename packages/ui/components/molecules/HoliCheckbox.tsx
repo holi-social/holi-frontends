@@ -18,7 +18,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliCheckboxShape = 'square' | 'round'
+export type HoliCheckboxShape = 'square' | 'round' | 'box'
 
 export type HoliCheckboxProps = {
   label?: string
@@ -35,7 +35,7 @@ export type HoliCheckboxProps = {
   testID?: string
 }
 
-const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
+const HoliCheckbox = ({
   children,
   label = '',
   shape = 'box',
@@ -49,7 +49,7 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
   autofocus = false,
   style,
   testID,
-}) => {
+}: React.PropsWithChildren<HoliCheckboxProps>) => {
   const checkboxRef = useRef(null)
   const [isChecked, setIsChecked] = useState(checked)
   const scaleFactor = useRef(new Animated.Value(1)).current

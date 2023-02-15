@@ -44,7 +44,7 @@ export const useAuth = () => {
 
 const kratosSdk = newKratosSdk()
 
-const AuthContextProvider: React.FC = ({ children }) => {
+const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
   const [state, setState] = useState<AuthContextInternalState>({ userId: null, isLoading: true, isLoggedIn: false })

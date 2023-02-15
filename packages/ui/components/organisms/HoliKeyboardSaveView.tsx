@@ -22,7 +22,7 @@ export type HoliKeyboardSaveViewProps = {
 
 const WITHOUT_MAX_HEIGHT = 10000
 
-const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
+const HoliKeyboardSaveView = ({
   style,
   contentStyle,
   bottomContent,
@@ -30,7 +30,7 @@ const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
   nativeProps,
   testID,
   children,
-}) => {
+}: React.PropsWithChildren<HoliKeyboardSaveViewProps>) => {
   const { height: screenHeight } = useWindowDimensions()
   const { keyboardIsOpen, keyboardHeight } = useKeyboard()
   const { softkeyboardIsOpen, viewPortHeight } = useSoftKeyboard()
