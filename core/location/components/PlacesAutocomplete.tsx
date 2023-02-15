@@ -90,7 +90,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     if (loading) {
       return
     }
-    const places = data?.geo_places || []
+    const places = data?.places || []
     const newPlaces = places.map(({ name, city }) => ({
       // Introduced with HOLI-3069 as hotfix for alpha release, will be removed again later
       id: useMainTextOnly && city ? city : name,
