@@ -61,7 +61,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
       </ScrollYProvider>
     </I18nextProvider>
   ) : (
-    // TODO: Workaround as React.Suspense is not yet supported for SSR
+    // FIXME: Use Suspence
     <SafeArea style={styles.loadingContainer}>
       <HoliText style={{ textAlign: 'center' }}>Loading translations...</HoliText>
     </SafeArea>
