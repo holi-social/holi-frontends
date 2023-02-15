@@ -54,6 +54,11 @@ const SpaceFragment = gql`
       }
     }
     topics {
+      id
+      title
+    }
+    sdgs {
+      id
       title
     }
   }
@@ -82,6 +87,17 @@ export const topicsQuery = gql`
         title
         isDiscoverSpacesDefault
         slug
+      }
+    }
+  }
+`
+
+export const sdgsQuery = gql`
+  query SDGs {
+    sdgs {
+      data {
+        id
+        title
       }
     }
   }
@@ -168,9 +184,12 @@ export const joinSpaceMutation = gql`
 `
 
 export const UpdateSpaceInputSchema = z.object({
+  id: z.string(),
   title: z.string().min(2).max(60).optional(),
   description: z.string().max(600).optional(),
   avatar: z.instanceof(Object).optional(),
+  topics: z.array(z.string()).optional(),
+  sdgs: z.array(z.string()).optional(),
 })
 
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
@@ -182,6 +201,14 @@ export const updateSpaceMutation = gql`
       title
       description
       avatar
+      topics {
+        id
+        title
+      }
+      sdgs {
+        id
+        title
+      }
     }
   }
 `

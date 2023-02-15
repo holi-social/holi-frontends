@@ -2,48 +2,74 @@ import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { SkillsQueryResult, TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
+import { sdgsQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
+import {
+  SdgsQueryResult,
+  SkillsQueryResult,
+  TopicsQueryResult,
+  skillsQuery,
+} from '@holi/core/screens/userprofile/queries'
+import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
-interface SpaceTermContext {
-  loading: boolean
-  loadingFailed: boolean
+export interface SpaceTermContextResult {
+  loadingTopics: boolean
+  loadingSkills: boolean
+  loadingSdgs: boolean
+  failedTopics: boolean
+  failedSkills: boolean
+  failedSdgs: boolean
   topics: Topic[]
   skills: Skill[]
+  sdgs: SDG[]
 }
 
 const initialState = {
-  loading: true,
-  loadingFailed: false,
+  loadingTopics: true,
+  loadingSkills: true,
+  loadingSdgs: true,
+  failedTopics: false,
+  failedSkills: false,
+  failedSdgs: false,
   topics: [],
   skills: [],
+  sdgs: [],
 }
 
-export const SpaceTermContext = createContext<SpaceTermContext>(initialState)
+export const SpaceTermContext = createContext<SpaceTermContextResult>(initialState)
 SpaceTermContext.displayName = 'SpaceTermContext'
 
 const SpaceTermContextProvider: React.FC = ({ children }) => {
-  const { loading: topicsLoading, data: topicsData, error: topicsError } = useQuery<TopicsQueryResult>(topicsQuery)
+  const { loading: loadingTopics, data: topicsData, error: errorTopics } = useQuery<TopicsQueryResult>(topicsQuery)
   const topics = topicsData?.topics.data || []
 
-  const { loading: skillsLoading, data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
+  const { loading: loadingSkills, data: skillsData, error: errorSkills } = useQuery<SkillsQueryResult>(skillsQuery)
   const skills = skillsData?.skills.data || []
 
-  if (topicsError) {
-    logError(topicsError, `[SpaceTermContextProvider.tsx] ${topicsError.message}`)
+  const { loading: loadingSdgs, data: sdgsData, error: errorSdgs } = useQuery<SdgsQueryResult>(sdgsQuery)
+  const sdgs = sdgsData?.sdgs.data || []
+
+  if (errorTopics) {
+    logError(errorTopics, `[SpaceTermContextProvider.tsx] ${errorTopics.message}`)
   }
-  if (skillsError) {
-    logError(skillsError, `[SpaceTermContextProvider.tsx] ${skillsError.message}`)
+  if (errorSkills) {
+    logError(errorSkills, `[SpaceTermContextProvider.tsx] ${errorSkills.message}`)
+  }
+  if (errorSdgs) {
+    logError(errorSdgs, `[SpaceTermContextProvider.tsx] ${errorSdgs.message}`)
   }
 
   return (
     <SpaceTermContext.Provider
       value={{
-        loading: topicsLoading || skillsLoading,
-        loadingFailed: !!topicsError || !!skillsError,
+        loadingTopics,
+        loadingSkills,
+        loadingSdgs,
+        failedTopics: !!errorTopics,
+        failedSkills: !!errorSkills,
+        failedSdgs: !!errorSdgs,
         topics,
         skills,
+        sdgs,
       }}
     >
       {children}
