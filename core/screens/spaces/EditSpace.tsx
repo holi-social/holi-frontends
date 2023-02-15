@@ -41,10 +41,13 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import EditSpaceCoverImage from './components/EditSpaceCoverImage'
+
 enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
   SDGS = 'SDGS',
+  COVER_IMAGE = 'COVER_IMAGE',
 }
 
 export type EditSpaceParams = {
@@ -192,7 +195,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {/* Body */}
           <View style={styles.body}>
             <View style={mixins.container}>
-              <SpaceMainImage uri={space.mainImage} label={space.title} editable />
+              <SpaceMainImage
+                uri={space.mainImage}
+                label={space.title}
+                onPress={() => openEditModal(EditFields.COVER_IMAGE)}
+                editable
+              />
 
               <SpaceSection
                 title={t('spaces.spaceDetails.goal')}
@@ -280,6 +288,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
         {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
         {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
+        {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
       </HoliModal>
     </SpaceTermContextProvider>
   )
