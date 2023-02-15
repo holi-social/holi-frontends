@@ -1,6 +1,9 @@
+/* eslint-disable no-var */
 import type { ScreenOptions } from '@react-navigation/native'
 
-declare let mockNavigate: (routeName: string) => void
-declare let captureSentryException: (error: Error) => void
-declare let mockSetOptions: (options: Partial<ScreenOptions>) => void
-declare let mockOpenURL: (url: string) => void
+declare global {
+  var mockNavigate: (routeName: string) => void
+  var captureSentryException: (error: Error) => void
+  var mockSetOptions: (options: Partial<ScreenOptions>) => void
+  var mockOpenURL: (url: string) => void
+}

@@ -34,7 +34,7 @@ export interface ToastContextValue {
 
 export const ToastContext = createContext<ToastContextValue>({} as ToastContextValue)
 
-export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }) => {
+export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<ToastContextValue>>) => {
   const [toasts, setToasts] = useState<Toast[]>([])
   const closeToast = useCallback(
     (id: string) => setToasts((currentToasts: Toast[]) => currentToasts.filter((toast) => toast.id !== id)),

@@ -20,7 +20,7 @@ const initialState = {
 export const UserContext = createContext<UserContext>(initialState)
 UserContext.displayName = 'UserContext'
 
-const UserContextProvider: React.FC = ({ children }) => {
+const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn, setUserLoggedOut } = useAuth()
   const { t } = useTranslation()
 

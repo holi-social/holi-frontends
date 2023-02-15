@@ -18,7 +18,7 @@ const GridContext = createContext<GridContextValue>({
   width: '100%',
 })
 
-const GridProvider: React.FC<GridContextValue> = ({ children, ...value }) => {
+const GridProvider = ({ children, ...value }: React.PropsWithChildren<GridContextValue>) => {
   return <GridContext.Provider value={value}>{children}</GridContext.Provider>
 }
 

@@ -20,8 +20,8 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#6267e7",
         },
         undefined,
@@ -32,7 +32,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "display": "flex",
           "flexDirection": "row",
         }
@@ -40,8 +40,8 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#7BD7EA",
               "borderRadius": 20,
@@ -49,7 +49,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
               "overflow": "hidden",
             },
             undefined,
-            Object {
+            {
               "height": 40,
               "width": 40,
             },
@@ -62,18 +62,18 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 16,
                 "lineHeight": 19.2,
               },
               false,
-              Object {
+              {
                 "color": "#262424",
                 "fontSize": 18,
                 "fontWeight": "bold",
@@ -88,7 +88,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "flexBasis": "100%",
             "flexGrow": 1,
             "flexShrink": 1,
@@ -100,18 +100,18 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
               false,
-              Object {
+              {
                 "color": "#787777",
               },
             ]
@@ -121,13 +121,13 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 16.8,
                 },
@@ -141,22 +141,22 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 12,
                 "lineHeight": 14.399999999999999,
               },
               false,
-              Array [
-                Object {
+              [
+                {
                   "color": "#787777",
                 },
-                Object {
+                {
                   "marginTop": 4,
                 },
               ],
@@ -168,7 +168,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "backgroundColor": "#6267e7",
             "borderRadius": 4,
             "height": 8,

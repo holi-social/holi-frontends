@@ -11,7 +11,7 @@ export const LoginRedirectContext = createContext<LoginRedirectContextType>({
   openLoginDialog: () => null,
 })
 
-export const LoginRedirectProvider: React.FC = ({ children }) => {
+export const LoginRedirectProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [props, setProps] = useState<LoginGuardModalProps>({})
   const { setShow, props: loginGuardModalProps } = useConfirmationState(props)
 

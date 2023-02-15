@@ -14,17 +14,16 @@ type SpaceSectionProps = {
   onPressEdit?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
-  children?: React.ReactNode
 }
 
-const SpaceSection: React.FC<SpaceSectionProps> = ({
+const SpaceSection = ({
   title,
   editable,
   onPressEdit,
   style,
   testID = 'space-section',
   children,
-}: SpaceSectionProps) => {
+}: React.PropsWithChildren<SpaceSectionProps>) => {
   const { t } = useTranslation()
 
   return (
