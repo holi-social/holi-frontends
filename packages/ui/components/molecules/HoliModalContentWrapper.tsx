@@ -15,7 +15,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapperProps {
@@ -75,7 +75,7 @@ const HoliModalContentWrapper = (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
 
-      {loading && <HoliLoader />}
+      {loading && <HoliLoader style={styles.saveLoaderContainer} />}
 
       {scrollable ? (
         <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
@@ -134,5 +134,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 0,
     maxWidth: vars.maxButtonWidth,
+  },
+  saveLoaderContainer: {
+    backgroundColor: colors.background10,
   },
 })
