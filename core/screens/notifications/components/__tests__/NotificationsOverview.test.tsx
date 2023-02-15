@@ -114,6 +114,7 @@ describe('Notifications.tsx', () => {
 
     const notLoggedInMessage = 'loginRedirect.title'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(notLoggedInMessage)
+    // TODO: fix me after expo upgrade!
     // const emptyNotificationsMessage = 'notifications.display.empty.text2'
     // expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
   })

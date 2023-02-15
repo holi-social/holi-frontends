@@ -13,6 +13,7 @@ const ErrorComponent: React.VFC = () => {
 }
 
 describe('displays errors correctly', () => {
+  // TODO: fix me after expo upgrade! After upgrade to expo 46 we can not spy on Alert.alert function anymore
   it.skip('displays alert with error message', () => {
     render(<ErrorComponent />)
 
