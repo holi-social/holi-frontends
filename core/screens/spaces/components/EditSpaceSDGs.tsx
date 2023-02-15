@@ -6,7 +6,7 @@ import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
-import { SDG } from '@holi/core/screens/userprofile/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 import { SpaceTermContext } from './SpaceTermContextProvider'
@@ -17,7 +17,7 @@ type EditSpaceSDGsProps = {
 }
 
 const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: EditSpaceSDGsProps) => {
-  const [sdgs, setSdgs] = useState<SDG[]>([...(space?.sdgs || [])])
+  const [sdgs, setSdgs] = useState<Term[]>([...(space?.sdgs || [])])
   const { openToast } = useToast()
   const { sdgs: allSdgs } = useContext(SpaceTermContext)
 
@@ -42,6 +42,7 @@ const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: Edit
         selected={sdgs}
         onSelect={setSdgs}
         terms={allSdgs}
+        showSortNumber
       />
     </EditSpaceModal>
   )
