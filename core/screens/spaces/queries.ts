@@ -80,21 +80,6 @@ const SpaceOverviewFragment = gql`
   }
 `
 
-const SpaceOverviewFragment = gql`
-  ${SpaceMemberFragment}
-  fragment OverviewSpace on Space {
-    id
-    title
-    description
-    created
-    mainImage
-    location
-    members {
-      ...FullSpaceMember
-    }
-  }
-`
-
 export const topicsQuery = gql`
   query Topics {
     topics {
