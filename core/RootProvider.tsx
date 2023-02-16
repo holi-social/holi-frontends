@@ -1,11 +1,12 @@
 import { ApolloProvider } from '@apollo/client'
 import React, { Suspense, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import AuthContextProvider, { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
+import { useApolloWebClient } from '@holi/core/helpers/useApolloWebClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
@@ -25,6 +26,8 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
 })
+
+const isWeb = Platform.OS === 'web'
 
 // need to put this into separate component so it is wrapped with
 // AuthContextProvider & UserContextProvider. it it's not wrapped
@@ -49,9 +52,15 @@ const Children = ({ children }: React.PropsWithChildren<unknown>) => {
   )
 }
 
-const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement | React.ReactNode }> = ({
-  children,
-}) => {
+interface RootProviderProps {
+  webPageProps?: unknown
+}
+
+const RootProvider = ({ children, webPageProps }: React.PropsWithChildren<RootProviderProps>) => {
+  // FIXME: provide right types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const apolloWebClient = useApolloWebClient(webPageProps ?? ({} as any))
+
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       {/* Necessary for loading e.g. translations on mobile */}
@@ -64,7 +73,7 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement |
         }
       >
         <ErrorBoundary>
-          <ApolloProvider client={client}>
+          <ApolloProvider client={isWeb ? apolloWebClient : client}>
             <AuthContextProvider>
               <UserContextProvider>
                 <LoginRedirectProvider>
