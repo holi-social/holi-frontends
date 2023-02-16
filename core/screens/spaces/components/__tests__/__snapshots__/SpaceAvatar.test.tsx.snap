@@ -67,27 +67,5 @@ exports[`React tree renders default grey background, when given image prop is em
     ]
   }
   testID="space-avatar"
->
-  <Image
-    accessibilityLabel="Communcal Cooking by XR"
-    accessibilityRole="image"
-    accessible={false}
-    source={
-      {
-        "uri": undefined,
-      }
-    }
-    style={
-      [
-        {
-          "height": "100%",
-          "width": "100%",
-        },
-        {
-          "resizeMode": "cover",
-        },
-      ]
-    }
-  />
-</View>
+/>
 `;
