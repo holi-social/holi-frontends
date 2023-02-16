@@ -159,6 +159,7 @@
   "notifications.join.request": "{{fullName}} möchte beitreten",
   "notifications.join.request.accept": "Akzeptieren",
   "notifications.join.request.decline": "Ablehnen",
+  "notifications.loading": "Loading...",
   "notifications.post.mention.message": "<0>{{name}}</0> hat Dich in einem Kommentar erwähnt.",
   "notifications.space.connection.accepted.message": "Du bist jetzt Mitglied im Space {{space}}",
   "notifications.space.connection.ignored.message": "Du hast die Mitgliedschaftsanfrage von <0>{{name}}</0> für Space {{space}} ignoriert.",

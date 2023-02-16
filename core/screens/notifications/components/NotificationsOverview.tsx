@@ -12,6 +12,7 @@ import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -80,7 +81,7 @@ const NotificationsOverview: React.VFC = () => {
     isLoggedIn && getNotifications()
   }, [getNotifications, isLoggedIn])
 
-  if (loading || error) return <></>
+  if (loading || error) return <HoliText>{t('notifications.loading')}</HoliText>
 
   if (!isLoggedIn) {
     return (

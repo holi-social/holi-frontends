@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -112,11 +112,13 @@ describe('Notifications.tsx', () => {
       </AuthContext.Provider>
     )
 
+    // wait for loader to be removed first
+    const loader = 'notifications.loading'
+    await waitForElementToBeRemoved(() => screen.getByText(loader))
     const notLoggedInMessage = 'loginRedirect.title'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(notLoggedInMessage)
-    // TODO: fix me after expo upgrade!
-    // const emptyNotificationsMessage = 'notifications.display.empty.text2'
-    // expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+    const emptyNotificationsMessage = 'notifications.display.empty.text2'
+    expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
   })
 
   it('does not show an empty message when proper notifications are given', async () => {
