@@ -4,11 +4,11 @@ exports[`HoliUserCard renders correctly 1`] = `
 <View
   accessible={true}
   style={
-    Array [
-      Object {
+    [
+      {
         "alignContent": "center",
         "alignItems": "center",
-        "backgroundColor": "#f7f6f3",
+        "backgroundColor": "#f5f5f5",
         "borderRadius": 16,
         "height": "100%",
         "padding": 24,
@@ -20,17 +20,17 @@ exports[`HoliUserCard renders correctly 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
           "borderRadius": 64,
           "justifyContent": "center",
           "overflow": "hidden",
         },
         undefined,
-        Object {
-          "borderColor": "#222326",
+        {
+          "borderColor": "#262424",
           "borderWidth": 2,
           "height": 128,
           "width": 128,
@@ -43,12 +43,12 @@ exports[`HoliUserCard renders correctly 1`] = `
       accessibilityRole="image"
       accessible={false}
       source={
-        Object {
+        {
           "uri": "avatar-1",
         }
       }
       style={
-        Object {
+        {
           "height": "100%",
           "width": "100%",
         }
@@ -59,21 +59,21 @@ exports[`HoliUserCard renders correctly 1`] = `
     accessible={false}
     selectable={true}
     style={
-      Array [
-        Object {
-          "color": "#222326",
+      [
+        {
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
-        Object {
+        {
           "fontSize": 16,
           "lineHeight": 19.2,
         },
-        Object {
+        {
           "fontFamily": "Circular Std Medium",
           "fontWeight": "500",
         },
-        Object {
+        {
           "marginVertical": 8,
           "textAlign": "center",
         },
@@ -84,7 +84,7 @@ exports[`HoliUserCard renders correctly 1`] = `
   </Text>
   <View
     style={
-      Object {
+      {
         "justifyContent": "center",
         "marginTop": 8,
       }
@@ -94,18 +94,18 @@ exports[`HoliUserCard renders correctly 1`] = `
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Object {
+          {
             "textAlign": "center",
           },
         ]
@@ -118,15 +118,15 @@ exports[`HoliUserCard renders correctly 1`] = `
 `;
 
 exports[`HoliUserCard renders correctly with small variant 1`] = `
-Array [
+[
   <View
     accessible={true}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignContent": "center",
           "alignItems": "center",
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
           "borderRadius": 16,
           "height": "auto",
           "padding": 16,
@@ -138,17 +138,17 @@ Array [
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
-            "backgroundColor": "#f7f6f3",
+            "backgroundColor": "#f5f5f5",
             "borderRadius": 64,
             "justifyContent": "center",
             "overflow": "hidden",
           },
           undefined,
-          Object {
-            "borderColor": "#222326",
+          {
+            "borderColor": "#262424",
             "borderWidth": 2,
             "height": 128,
             "width": 128,
@@ -161,12 +161,12 @@ Array [
         accessibilityRole="image"
         accessible={false}
         source={
-          Object {
+          {
             "uri": "avatar-1",
           }
         }
         style={
-          Object {
+          {
             "height": "100%",
             "width": "100%",
           }
@@ -176,7 +176,7 @@ Array [
   </View>,
   <View
     style={
-      Object {
+      {
         "marginTop": 16,
       }
     }
@@ -185,18 +185,18 @@ Array [
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 14,
             "lineHeight": 16.8,
           },
           false,
-          Object {
+          {
             "textAlign": "center",
           },
         ]

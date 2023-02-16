@@ -1,6 +1,15 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  Animated,
+  ModalProps,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -14,6 +23,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
@@ -29,6 +39,7 @@ export interface HoliModalProps extends ModalProps {
   heading?: string
   relativeHeight?: number
   autoHeight?: boolean
+  headerStyle?: ViewStyle
   testID?: string
 }
 
@@ -37,6 +48,7 @@ export const useModalState = ({
   onDismiss,
 }: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
   const [modalVisible, setModalVisible] = useState(visible)
+  const theme = useTheme()
 
   const show = useCallback(() => setModalVisible(true), [])
   const hide = useCallback(() => setModalVisible(false), [])
@@ -45,6 +57,10 @@ export const useModalState = ({
     setModalVisible(false)
     onDismiss?.()
   }, [onDismiss])
+
+  useEffect(() => {
+    theme.setModalIsOpen(modalVisible)
+  }, [theme, modalVisible])
 
   return {
     visible: modalVisible,
@@ -63,8 +79,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
   onDismiss,
   heading,
   relativeHeight = 0.9,
-  testID,
   autoHeight = true,
+  headerStyle,
+  testID,
   children,
 }) => {
   const { t } = useTranslation()
@@ -171,7 +188,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
             }}
             testID={`${testID}-animatedview`}
           >
-            <SafeAreaView style={styles.headerContainer}>
+            <SafeAreaView style={[styles.headerContainer, headerStyle]}>
               {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
@@ -197,7 +214,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   >
                     <HoliIcon
                       icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
-                      color={colors.fontColorBlack}
+                      color={colors.foreground30}
                       size={25}
                     />
                   </HoliButton>
@@ -209,6 +226,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 </View>
               )}
             </SafeAreaView>
+
             {children}
           </Animated.View>
         </GestureHandlerRootView>
@@ -225,11 +243,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   root: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -245,7 +263,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 40,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
   },
   lineButton: {
@@ -255,14 +273,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
     opacity: 0.3,
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     opacity: 0.4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
   },
   dismissIcon: {
     alignSelf: 'flex-end',

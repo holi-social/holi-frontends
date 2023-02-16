@@ -5,7 +5,7 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   accessibilityLabel="generic filter"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -22,9 +22,9 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -36,11 +36,11 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Array [
-          Object {
-            "borderColor": "#222326",
+        [
+          {
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -48,7 +48,7 @@ exports[`SpacesFilterPill renders correctly 1`] = `
             "paddingHorizontal": 10,
             "paddingVertical": 4,
           },
-          Object {
+          {
             "backgroundColor": "#fff",
           },
         ],
@@ -60,13 +60,13 @@ exports[`SpacesFilterPill renders correctly 1`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
@@ -86,7 +86,7 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   accessibilityLabel="location filter"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -103,9 +103,9 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -117,11 +117,11 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Array [
-          Object {
-            "borderColor": "#222326",
+        [
+          {
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -129,7 +129,7 @@ exports[`SpacesFilterPill renders correctly 2`] = `
             "paddingHorizontal": 10,
             "paddingVertical": 4,
           },
-          Object {
+          {
             "backgroundColor": "#fff",
           },
         ],
@@ -141,13 +141,13 @@ exports[`SpacesFilterPill renders correctly 2`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
@@ -167,7 +167,7 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   accessibilityLabel="topic filter"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -184,9 +184,9 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -198,11 +198,11 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Array [
-          Object {
-            "borderColor": "#222326",
+        [
+          {
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -210,7 +210,7 @@ exports[`SpacesFilterPill renders correctly 3`] = `
             "paddingHorizontal": 10,
             "paddingVertical": 4,
           },
-          Object {
+          {
             "backgroundColor": "#abff8b",
           },
         ],
@@ -222,13 +222,13 @@ exports[`SpacesFilterPill renders correctly 3`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
@@ -248,7 +248,7 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   accessibilityLabel="skill filter"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -265,9 +265,9 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -279,11 +279,11 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Array [
-          Object {
-            "borderColor": "#222326",
+        [
+          {
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -291,7 +291,7 @@ exports[`SpacesFilterPill renders correctly 4`] = `
             "paddingHorizontal": 10,
             "paddingVertical": 4,
           },
-          Object {
+          {
             "backgroundColor": "#90ddff",
           },
         ],
@@ -303,13 +303,13 @@ exports[`SpacesFilterPill renders correctly 4`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },

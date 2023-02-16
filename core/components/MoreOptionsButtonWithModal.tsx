@@ -14,16 +14,16 @@ export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
   tintColor?: string
 }
 
-const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
+const MoreOptionsButtonWithModal = ({
   showOptions = false,
   onModalDismiss,
-  tintColor = colors.fontColorGrey,
+  tintColor = colors.foreground20,
   // HoliButton specific props
   label,
   onPress,
   children,
   ...buttonProps
-}) => {
+}: React.PropsWithChildren<MoreOptionsButtonWithModalProps>) => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
 

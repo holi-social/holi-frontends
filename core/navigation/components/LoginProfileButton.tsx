@@ -16,7 +16,12 @@ export type LoginProfileButtonProps = {
   testID?: string
 }
 
-const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {
+const LoginProfileButton = ({
+  focused,
+  children,
+  style,
+  ...props
+}: React.PropsWithChildren<LoginProfileButtonProps>) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useAuth()
@@ -56,7 +61,7 @@ const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, childr
       ) : (
         <HoliIcon
           filled={focused}
-          color={focused ? colors.fontColorBlack : colors.fontColorGrey}
+          color={focused ? colors.foreground30 : colors.foreground20}
           icon="account-circle"
           size={24}
         />
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userAvatarHighlighted: {
-    borderColor: colors.backgroundColorBlack,
+    borderColor: colors.foreground30,
     borderWidth: 2,
   },
 })

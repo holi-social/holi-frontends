@@ -1,18 +1,19 @@
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
@@ -25,7 +26,7 @@ const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
-  const mixins = useStyleMixins()
+  const onScreenScroll = useScrollYHandler()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -79,14 +80,20 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         </HoliHeading>
       ),
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [setOptions, navigate, t, title, isFiltering])
 
   return (
-    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap testID={'volunteering-list-container'}>
+    <DefaultLayout
+      style={styles.defaultLayout}
+      scrollView={false}
+      headerOverlap
+      hasFooterTabBar={false}
+      testID={'volunteering-list-container'}
+    >
       <HoliModal
         show={showFilterModal}
         onDismiss={closeModal}
@@ -98,11 +105,9 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         <VolunteeringFilterForm onSubmit={submit} filters={filters} />
       </HoliModal>
 
-      <View style={[mixins.container]} testID="volunteering-app-home">
-        <SafeAreaView>
-          <VolunteeringListing filters={filters} clearFilters={clearFilters} />
-        </SafeAreaView>
-      </View>
+      <SafeArea style={{ backgroundColor: colors.background10 }}>
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScroll} />
+      </SafeArea>
     </DefaultLayout>
   )
 }
@@ -111,19 +116,19 @@ export default memo(VolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   dot: {
-    backgroundColor: colors.positivepurple,
+    backgroundColor: colors.brandColorB30,
     height: 12,
     width: 12,
     borderRadius: 6,
     position: 'absolute',
     top: -2,
     right: -2,
-    borderColor: colors.backgroundColor,
+    borderColor: colors.background10,
     borderWidth: 2,
   },
 })

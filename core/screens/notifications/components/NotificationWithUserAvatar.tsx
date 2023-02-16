@@ -15,7 +15,7 @@ interface NotificationWithUserAvatarProps<T = Notification> extends Notification
   i18nKey?: string
 }
 
-const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
+const NotificationWithUserAvatar = ({
   notification,
   content,
   children,
@@ -23,7 +23,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   i18nKey,
   style,
   testID = '',
-}) => {
+}: React.PropsWithChildren<NotificationWithUserAvatarProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   fontColorGray: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   createdDate: {
     marginTop: 4,
   },
   readStatus: {
-    backgroundColor: colors.secondaryColor,
+    backgroundColor: colors.brandColorB30,
     height: 8,
     width: 8,
     borderRadius: 4,

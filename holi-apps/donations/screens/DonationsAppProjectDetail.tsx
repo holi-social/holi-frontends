@@ -16,7 +16,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -64,9 +64,11 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>
-      </View>
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('donations:donationListing.loading')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
 
@@ -75,18 +77,24 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   }
 
   if (!project) {
-    return <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
+    return (
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
+        </View>
+      </DefaultLayout>
+    )
   }
 
   return (
     <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}
+      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
       testID="donations-detailview-container"
     >
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
@@ -141,7 +149,7 @@ export default memo(DonationsAppProjectDetail)
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: vars.topBarHeight + 50,
   },
   container: {
     paddingBottom: 132,
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
   },
   location: {
     flexDirection: 'row',
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
   card: {
     paddingHorizontal: 24,
     borderRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
     marginTop: 2,
     paddingVertical: 16,
   },

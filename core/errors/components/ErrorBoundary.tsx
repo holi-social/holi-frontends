@@ -7,7 +7,7 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ErrorBoundaryProps = {
-  children: React.ReactChild | React.ReactChildren | (React.ReactChild | string | undefined)[]
+  children?: React.ReactNode
 }
 
 type ErrorBoundaryState = { error: Error | null }

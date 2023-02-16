@@ -3,8 +3,8 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignContent": "center",
         "justifyContent": "center",
       },
@@ -14,7 +14,7 @@ exports[`renders correctly renders correctly when open 1`] = `
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "alignContent": "center",
         "alignItems": "center",
         "justifyContent": "center",
@@ -22,42 +22,43 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
     decelerationRate={0}
     horizontal={true}
-    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
     pagingEnabled={true}
+    scrollEventThrottle={66}
     showsHorizontalScrollIndicator={false}
     snapToInterval={758}
   >
     <View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {
+            {
               "marginLeft": 0,
             },
-            Object {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -66,17 +67,17 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
-                  "backgroundColor": "#f7f6f3",
+                  "backgroundColor": "#f5f5f5",
                   "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -89,12 +90,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessibilityRole="image"
               accessible={false}
               source={
-                Object {
+                {
                   "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
                 }
               }
               style={
-                Object {
+                {
                   "height": "100%",
                   "width": "100%",
                 }
@@ -105,21 +106,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -130,7 +131,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -140,18 +141,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -164,32 +165,32 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -198,8 +199,8 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "red",
                   "borderRadius": 64,
@@ -207,8 +208,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -222,18 +223,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "color": "#fff",
                     "fontSize": 57.6,
                     "fontWeight": "bold",
@@ -250,21 +251,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -275,7 +276,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -285,18 +286,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -309,32 +310,32 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -343,17 +344,17 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
-                  "backgroundColor": "#f7f6f3",
+                  "backgroundColor": "#f5f5f5",
                   "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -366,12 +367,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessibilityRole="image"
               accessible={false}
               source={
-                Object {
+                {
                   "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
                 }
               }
               style={
-                Object {
+                {
                   "height": "100%",
                   "width": "100%",
                 }
@@ -382,21 +383,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -407,7 +408,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -417,18 +418,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -441,32 +442,32 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -475,8 +476,8 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "yellow",
                   "borderRadius": 64,
@@ -484,8 +485,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -499,19 +500,19 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
-                    "color": "#222326",
+                  {
+                    "color": "#262424",
                     "fontSize": 57.6,
                     "fontWeight": "bold",
                     "lineHeight": 69.12,
@@ -527,21 +528,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -552,7 +553,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -562,18 +563,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -586,32 +587,32 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -620,17 +621,17 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
-                  "backgroundColor": "#f7f6f3",
+                  "backgroundColor": "#f5f5f5",
                   "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -643,12 +644,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessibilityRole="image"
               accessible={false}
               source={
-                Object {
+                {
                   "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
                 }
               }
               style={
-                Object {
+                {
                   "height": "100%",
                   "width": "100%",
                 }
@@ -659,21 +660,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -684,7 +685,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -694,18 +695,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -718,32 +719,32 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ]
         }
       >
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -752,8 +753,8 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "purple",
                   "borderRadius": 64,
@@ -761,8 +762,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -776,18 +777,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "color": "#fff",
                     "fontSize": 57.6,
                     "fontWeight": "bold",
@@ -804,21 +805,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -829,7 +830,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -839,18 +840,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -863,16 +864,16 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
               "width": 750,
             },
-            Object {},
-            Object {
+            {},
+            {
               "marginRight": 0,
             },
           ]
@@ -881,16 +882,16 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           accessible={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "#f7f6f3",
+                "backgroundColor": "#f5f5f5",
                 "borderRadius": 16,
                 "height": "100%",
                 "padding": 24,
               },
-              Object {
+              {
                 "width": "100%",
               },
             ]
@@ -899,17 +900,17 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
-                  "backgroundColor": "#f7f6f3",
+                  "backgroundColor": "#f5f5f5",
                   "borderRadius": 64,
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
                 undefined,
-                Object {
-                  "borderColor": "#222326",
+                {
+                  "borderColor": "#262424",
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -922,12 +923,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessibilityRole="image"
               accessible={false}
               source={
-                Object {
+                {
                   "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
                 }
               }
               style={
-                Object {
+                {
                   "height": "100%",
                   "width": "100%",
                 }
@@ -938,21 +939,21 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 16,
                   "lineHeight": 19.2,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "marginVertical": 8,
                   "textAlign": "center",
                 },
@@ -963,7 +964,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "justifyContent": "center",
                 "marginTop": 8,
               }
@@ -973,18 +974,18 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
                   false,
-                  Object {
+                  {
                     "textAlign": "center",
                   },
                 ]
@@ -1001,7 +1002,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     accessibilityOrientation="horizontal"
     accessibilityRole="tablist"
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "center",
@@ -1015,7 +1016,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={true}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1032,13 +1033,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1048,23 +1049,23 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {
-                "backgroundColor": "#222326",
+              {
+                "backgroundColor": "#262424",
                 "opacity": 1,
               },
             ]
@@ -1077,7 +1078,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1094,13 +1095,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1110,22 +1111,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1136,7 +1137,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1153,13 +1154,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1169,22 +1170,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1195,7 +1196,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1212,13 +1213,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1228,22 +1229,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1254,7 +1255,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1271,13 +1272,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1287,22 +1288,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1313,7 +1314,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1330,13 +1331,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1346,22 +1347,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1372,7 +1373,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="tab"
       accessibilitySelected={false}
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1389,13 +1390,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginHorizontal": 4,
           },
-          Object {
+          {
             "width": "auto",
           },
         ]
@@ -1405,22 +1406,22 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
+          {
             "flexDirection": "row",
           }
         }
       >
         <View
           style={
-            Array [
-              Object {
-                "backgroundColor": "#222326",
+            [
+              {
+                "backgroundColor": "#262424",
                 "borderRadius": 50,
                 "height": 8,
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />

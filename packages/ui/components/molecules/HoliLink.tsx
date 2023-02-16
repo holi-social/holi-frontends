@@ -17,7 +17,7 @@ export type HoliLinkProps = {
   testID?: string
 }
 
-const HoliLink: React.FC<HoliLinkProps> = ({
+const HoliLink = ({
   href,
   label,
   external,
@@ -27,7 +27,7 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   children,
   mobileNavigateBackFirst,
   testID = 'text-link',
-}) => {
+}: React.PropsWithChildren<HoliLinkProps>) => {
   const { navigate, navigateBack } = useUnifiedNavigation()
 
   const onLinkPress = useCallback(
@@ -71,6 +71,6 @@ export default HoliLink
 
 const styles = StyleSheet.create({
   link: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
 })

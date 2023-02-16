@@ -31,9 +31,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
     variables: { limit: numberOfInsights },
   })
   const [isFetchingMore, setIsFetchingMore] = useState(false)
-  const fetchingMoreButtonText = isFetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('homeFeed.insights.loadMoreText')
+  const fetchingMoreButtonText = isFetchingMore ? t('global.loading') : t('homeFeed.insights.loadMoreText')
 
   const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
   const canFetchMore = insights.length < totalResults || isFetchingMore
@@ -122,7 +120,7 @@ const styles = StyleSheet.create({
   insightsSubtitle: {
     marginTop: 8,
     fontWeight: '400',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   editorsButton: {
     marginTop: 8,

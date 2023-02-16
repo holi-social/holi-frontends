@@ -39,7 +39,7 @@ Primary.argTypes = {
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText size="default" style={{ color: colors.positivepurple }}>
+    <HoliText size="default" style={{ color: colors.brandColorB30 }}>
       Positive purple
     </HoliText>
   </Fragment>

@@ -19,85 +19,46 @@ interface XY {
 /**
  * The values in the below object are percentages of the screen
  */
-const SWIPE_DIRECTION = {
-  down: {
-    start: { x: 50, y: 15 },
-    end: { x: 50, y: 85 },
+const SCROLL_DIRECTIONS = {
+  up: {
+    start: { x: 50, y: 25 },
+    end: { x: 50, y: 75 },
   },
-  left: {
+  right: {
     start: { x: 85, y: 50 },
     end: { x: 15, y: 50 },
   },
-  right: {
+  left: {
     start: { x: 15, y: 50 },
     end: { x: 85, y: 50 },
   },
-  up: {
-    start: { x: 50, y: 85 },
-    end: { x: 50, y: 15 },
+  down: {
+    start: { x: 50, y: 75 },
+    end: { x: 50, y: 25 },
   },
 }
 
-/**
- * Swipe down based on a percentage
- */
-export const swipeDown = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.down.start, percentage),
-    calculateXY(SWIPE_DIRECTION.down.end, percentage)
-  )
+export const scrollUp = async () => {
+  swipe(SCROLL_DIRECTIONS.up)
+}
+
+export const scrollDown = async () => {
+  swipe(SCROLL_DIRECTIONS.down)
+}
+
+export const scrollRight = async () => {
+  swipe(SCROLL_DIRECTIONS.right)
+}
+
+export const scrollLeft = async () => {
+  swipe(SCROLL_DIRECTIONS.left)
 }
 
 /**
- * Swipe Up based on a percentage
+ * Swipe from coordinates (start) to the new coordinates (end). The given coordinates are in percentages of the screen.
  */
-export const swipeUp = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.up.start, percentage),
-    calculateXY(SWIPE_DIRECTION.up.end, percentage)
-  )
-}
-
-/**
- * Swipe left based on a percentage
- */
-export const swipeLeft = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.left.start, percentage),
-    calculateXY(SWIPE_DIRECTION.left.end, percentage)
-  )
-}
-
-/**
- * Swipe right based on a percentage
- */
-export const swipeRight = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.right.start, percentage),
-    calculateXY(SWIPE_DIRECTION.right.end, percentage)
-  )
-}
-
-/**
- * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
- * percentages of the screen.
- */
-const swipeOnPercentage = async (from: XY, to: XY) => {
-  // Get the screen size and store it so it can be re-used.
-  // This will save a lot of webdriver calls if this methods is used multiple times.
-  SCREEN_SIZE = SCREEN_SIZE || (await Appium.getWindowRect())
-  // Get the start position on the screen for the swipe
-  const pressOptions = getDeviceScreenCoordinates(SCREEN_SIZE, from)
-  // Get the move to position on the screen for the swipe
-  const moveToScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, to)
-
-  await swipe(pressOptions, moveToScreenCoordinates)
-}
-
-/**
- * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
- */
-const swipe = async (from: XY, to: XY) => {
+const swipe = async (coord: { start: XY; end: XY }) => {
+  const { start, end } = await convertToScreenCoordinates(coord)
   await Appium.performActions([
     {
       // a. Create the event
@@ -106,23 +67,39 @@ const swipe = async (from: XY, to: XY) => {
       parameters: { pointerType: 'touch' },
       actions: [
         // b. Move finger into start position
-        { type: 'pointerMove', duration: 0, x: from.x, y: from.y },
+        { type: 'pointerMove', duration: 0, x: start.x, y: start.y },
         // c. Finger comes down into contact with screen
         { type: 'pointerDown', button: 0 },
         // d. Pause for a little bit
-        { type: 'pause', duration: 100 },
+        { type: 'pause', duration: 50 },
         // e. Finger moves to end position
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
+        { type: 'pointerMove', duration: 500, x: end.x, y: end.y },
+        { type: 'pause', duration: 50 },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
+        // Add a pause to make sure the swipe is done
+        { type: 'pause', duration: 500 },
       ],
     },
   ])
-  // Add a pause, just to make sure the swipe is done
-  await Appium.pause(1000)
+}
+
+/**
+ * Convert percentages of screen coordinates to absolute coordinates according to the screen size
+ */
+const convertToScreenCoordinates = async (coord: { start: XY; end: XY }) => {
+  // Get the screen size and store it so it can be re-used.
+  // This will save a lot of webdriver calls if this methods is used multiple times.
+  SCREEN_SIZE = SCREEN_SIZE || (await Appium.getWindowRect())
+  // Get the start position on the screen for the swipe
+  const fromScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, coord.start)
+  // Get the move to position on the screen for the swipe
+  const toScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, coord.end)
+
+  return { start: fromScreenCoordinates, end: toScreenCoordinates }
 }
 
 /**
@@ -132,15 +109,5 @@ const getDeviceScreenCoordinates = (screenSize: RectReturn, coordinates: XY): XY
   return {
     x: Math.round(screenSize.width * (coordinates.x / 100)),
     y: Math.round(screenSize.height * (coordinates.y / 100)),
-  }
-}
-
-/**
- * Calculate the x y coordinates based on a percentage
- */
-const calculateXY = ({ x, y }: XY, percentage: number): XY => {
-  return {
-    x: x * percentage,
-    y: y * percentage,
   }
 }

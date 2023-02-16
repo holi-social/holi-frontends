@@ -48,7 +48,7 @@ else
   then
     echo "checking if emulator is connected..."
     sleep 15
-    # TODO(SF) wait longer / check in loop?
+    # TODO: wait longer / check in loop?
     if adb get-state 1>/dev/null 2>&1
     then
       echo 'emulator connected'

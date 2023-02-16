@@ -4,7 +4,7 @@ import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 
 import { holiApiUrl } from '@holi/api/config'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
 import { indexAwareOffsetLimitPagination } from './cachePolicies'
 import headerLink from './headerLink'
@@ -15,10 +15,8 @@ const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  console.log('####### errorLink ...', networkError)
-
-  // Do not log "not found" errors
-  if (graphQLErrors && isNotFoundError({ graphQLErrors })) {
+  // Do not log "not found" or "bad user input" errors
+  if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT'])) {
     return
   }
   if (graphQLErrors) {
@@ -115,6 +113,6 @@ export const createCache = () =>
     },
   })
 
-export const client = new ApolloClient({ link, cache: createCache() })
+export const client = new ApolloClient({ link, cache: createCache(), connectToDevTools: true })
 
 export default client

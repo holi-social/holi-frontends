@@ -23,7 +23,7 @@ exports[`renders correctly renders correctly when open 1`] = `
   <View
     accessible={false}
     style={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "flex-end",
       }
@@ -33,7 +33,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityLabel="modal.backdrop"
       accessibilityRole="button"
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -50,14 +50,14 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Array [
-            Object {
+        [
+          [
+            {
               "width": "100%",
             },
           ],
-          Object {
-            "backgroundColor": "#222326",
+          {
+            "backgroundColor": "#262424",
             "bottom": 0,
             "left": 0,
             "opacity": 0.4,
@@ -73,7 +73,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         pointerEvents="none"
         style={
-          Array [
+          [
             false,
             undefined,
           ]
@@ -82,8 +82,8 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           onAccessibilityEscape={[Function]}
           style={
-            Object {
-              "backgroundColor": "#222326",
+            {
+              "backgroundColor": "#262424",
               "bottom": 0,
               "left": 0,
               "opacity": 0.4,
@@ -100,20 +100,20 @@ exports[`renders correctly renders correctly when open 1`] = `
       collapsable={false}
       onLayout={[Function]}
       style={
-        Object {
+        {
           "backgroundColor": "#fff",
           "borderTopLeftRadius": 24,
           "borderTopRightRadius": 24,
           "bottom": "0%",
           "maxHeight": "90%",
           "overflow": "hidden",
-          "shadowColor": "#000",
-          "shadowOffset": Object {
+          "shadowColor": "#262424",
+          "shadowOffset": {
             "height": 0,
             "width": 0,
           },
-          "transform": Array [
-            Object {
+          "transform": [
+            {
               "translateY": 0,
             },
           ],
@@ -124,18 +124,23 @@ exports[`renders correctly renders correctly when open 1`] = `
       <RCTSafeAreaView
         emulateUnlessSupported={true}
         style={
-          Object {
-            "alignItems": "center",
-            "justifyContent": "flex-end",
-          }
+          [
+            {
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
         }
       >
         <View
           collapsable={false}
+          handlerTag={1}
+          handlerType="PanGestureHandler"
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
           style={
-            Object {
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "height": 40,
@@ -146,7 +151,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessibilityLabel="modal.backdrop"
             accessibilityRole="button"
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -163,13 +168,13 @@ exports[`renders correctly renders correctly when open 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "width": "100%",
                   },
                 ],
-                Object {
+                {
                   "padding": 15,
                 },
               ]
@@ -179,7 +184,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             <View
               pointerEvents="none"
               style={
-                Array [
+                [
                   false,
                   undefined,
                 ]
@@ -187,8 +192,8 @@ exports[`renders correctly renders correctly when open 1`] = `
             >
               <View
                 style={
-                  Object {
-                    "backgroundColor": "#222326",
+                  {
+                    "backgroundColor": "#262424",
                     "borderRadius": 4,
                     "height": 4,
                     "opacity": 0.3,

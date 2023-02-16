@@ -26,5 +26,5 @@ export const useKeyboard = () => {
     }
   }, [])
 
-  return { keyboardHeight }
+  return { keyboardHeight, keyboardIsOpen: keyboardHeight > 0 }
 }

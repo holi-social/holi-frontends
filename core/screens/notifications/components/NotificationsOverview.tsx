@@ -11,6 +11,7 @@ import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifi
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -85,6 +86,15 @@ const NotificationsOverview: React.VFC = () => {
     return (
       <HoliNoResults
         firstText={t('loginRedirect.title')}
+        media={
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
+            width={152}
+            height={152}
+            label=""
+            isSvg
+          />
+        }
         secondText={t('loginRedirect.text')}
         style={[styles.noResultsMessage]}
       >
@@ -99,6 +109,15 @@ const NotificationsOverview: React.VFC = () => {
     return (
       <HoliNoResults
         firstText={t('notifications.display.empty.text1')}
+        media={
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
+            width={152}
+            height={152}
+            label=""
+            isSvg
+          />
+        }
         secondText={t('notifications.display.empty.text2')}
         style={[styles.noResultsMessage]}
       />

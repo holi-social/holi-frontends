@@ -36,19 +36,15 @@ export const defaultAuthSteps = async (
 
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
+
+  // close keyboard by touching the submit button (outside of the keyboad)
+  await tapOnElementWithTestId('ory-submit-method')
+
   if (!isLogin) {
-    await tapOnElementWithTestId('ory-checkbox-traits_consent')
+    const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
+    consentCheckbox.click()
   }
 
-  await waitForElementWithTestId('ory-submit-method')
-
-  // close keyboard
-  // https://webdriver.io/docs/api/appium#hidekeyboard
-  // TODO: FIXME: does not work await Appium.hideKeyboard('tapOutside')
-  // workaround: click submit button twice:
-  // the 1st one closes the keyboard
-  await tapOnElementWithTestId('ory-submit-method')
-  // the 2nd one submits the form.
   await tapOnElementWithTestId('ory-submit-method')
 }
 

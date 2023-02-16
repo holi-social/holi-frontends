@@ -7,7 +7,7 @@ import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
-const DefaultLayout: React.FC = ({ children }) => {
+const DefaultLayout = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
 
   return (

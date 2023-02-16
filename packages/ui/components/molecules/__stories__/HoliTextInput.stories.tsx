@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -134,4 +134,31 @@ Password.argTypes = {
     type: 'select',
     options: ['password'],
   },
+}
+
+export const WithCharactorCount = ({ ...args }) => {
+  const [inputValue, setInputValue] = useState('')
+  return (
+    <HoliTextInput
+      inputLabel={'Label'}
+      accessibilityLabel={'accessibility label'}
+      placeholder={'Placeholder'}
+      helperText={'Helper Text'}
+      value={inputValue}
+      onChange={(value: string) => {
+        setInputValue(value)
+      }}
+      {...args}
+    />
+  )
+}
+
+WithCharactorCount.argTypes = {
+  showCharacterCount: { description: 'Charactor count', control: { type: 'boolean' } },
+  maxNoOfCharacters: { description: 'Max number of charactors', type: 'number', control: { type: 'number' } },
+}
+
+WithCharactorCount.args = {
+  showCharacterCount: true,
+  maxNoOfCharacters: 10,
 }

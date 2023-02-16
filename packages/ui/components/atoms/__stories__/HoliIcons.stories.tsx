@@ -5,11 +5,11 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export default {
-  title: 'Atoms/HoliIcons',
+  title: 'Atoms/HoliIcon',
   parameters: {
     docs: {
       description: {
-        component: 'HoliIcons - icon component.',
+        component: 'HoliIcon - icon component.',
       },
     },
   },
@@ -20,7 +20,7 @@ export const Primary = ({ ...args }) => (
 )
 Primary.args = {
   icon: 'home-smile-2',
-  color: colors.positivepurple,
+  color: colors.brandColorB30,
   filled: false,
   size: 50,
 }
@@ -77,7 +77,7 @@ export const All = () => {
   )
 }
 All.args = {
-  color: colors.fontColorBlack,
+  color: colors.foreground30,
 }
 All.argTypes = {
   color: { control: { type: 'color' } },

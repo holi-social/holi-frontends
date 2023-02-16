@@ -108,6 +108,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       onActionButtonPress={submit}
       headlineText={t(`user.${keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
+      hideFooterWhenKeyboardIsOpen={true}
       style={styles.modalWrapper}
       loading={loading || saved}
       testID="user-profile-chipform"
@@ -164,7 +165,7 @@ const getStyles = () =>
       justifyContent: 'center',
       marginHorizontal: 16,
       zIndex: 10,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     scrollViewContent: {
       paddingHorizontal: 16,

@@ -88,7 +88,7 @@ const Registration: React.VFC<ScreenProps> = () => {
       : Promise.resolve()
 
   return (
-    <DefaultLayout>
+    <DefaultLayout headerOverlap={true}>
       <LoginRegistrationContainer>
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   loginLinkText: {
-    color: colors.positivepurple,
+    color: colors.brandColorB30,
   },
 })

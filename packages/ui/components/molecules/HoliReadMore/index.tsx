@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
+import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
-import { colors } from '@holi/ui/styles/globalVars'
+import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
@@ -111,13 +110,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
     setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
   }, [])
 
-  // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
-  const ToggleButton = (
-    <Text onPress={toggleButtonState} accessible={true} accessibilityRole="button" style={buttonStyle}>
-      {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
-    </Text>
-  )
-
   return (
     <View style={style}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
@@ -129,22 +121,25 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
+        <HoliText size="small" style={[styles.text, fontStyle]} {...textProps}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
-        {/* show button inline (mobile only) */}
-        {buttonState !== 'hidden' && ToggleButton}
+        {/* using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549 */}
+        {buttonState !== 'hidden' && (
+          <HoliText
+            onPress={toggleButtonState}
+            accessible={true}
+            accessibilityRole="button"
+            size="small"
+            style={[styles.text, buttonStyle]}
+          >
+            {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+          </HoliText>
+        )}
       </Text>
     </View>
   )
 }
 
 export default HoliReadMore
-
-const styles = StyleSheet.create({
-  textContainer: {
-    alignContent: 'flex-start',
-    justifyContent: 'center',
-  },
-})

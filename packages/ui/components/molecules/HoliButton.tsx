@@ -43,7 +43,7 @@ export interface HoliButtonProps {
   accessibilityState?: AccessibilityState
 }
 
-const HoliButton: React.FC<HoliButtonProps> = ({
+const HoliButton = ({
   inline = false,
   type = 'primary',
   variant = 'default',
@@ -149,10 +149,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: colors.borderColorBlack,
+      borderColor: colors.foreground30,
       borderWidth: 2,
       borderRadius: 28,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       paddingHorizontal: 32,
       paddingVertical: 13,
       elevation: 0,
@@ -164,10 +164,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       textAlign: 'center',
     },
     textDisabled: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     hovered: {
-      shadowColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
+      shadowColor: isWarning ? colors.error30 : colors.foreground30,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -178,14 +178,14 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
+      outlineColor: isWarning ? colors.error30 : colors.foreground30,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
-      backgroundColor: colors.backgroundColorYellowDark,
+      backgroundColor: colors.brandColorA30,
     },
     pressedSecondary: {
-      backgroundColor: colors.backgroundColorGreyDark,
+      backgroundColor: colors.background20,
     },
     small: {
       borderRadius: 16,
@@ -196,22 +196,22 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      borderColor: colors.borderColorBlackDisabled,
+      borderColor: colors.background30,
     },
     primary: {
-      backgroundColor: colors.primaryColor,
+      backgroundColor: colors.brandColorA30,
     },
     primaryDisabled: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
     warningDisabled: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
     warning: {
-      backgroundColor: colors.backgroundColorErrorLight,
-      borderColor: colors.borderColorError,
+      backgroundColor: colors.error10,
+      borderColor: colors.error30,
     },
     textWarning: {
-      color: colors.fontColorError,
+      color: colors.error30,
     },
   })

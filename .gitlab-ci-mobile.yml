@@ -166,7 +166,7 @@ mobile_review_e2e_android:
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
+  needs: ['mobile_review_build_ios']
   variables:
     TEST_SUITES: (smoke|journey)
   except:
@@ -221,7 +221,7 @@ mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android']
   variables:
-    TEST_SUITES: smoke
+    TEST_SUITES: (smoke|journey)
   only:
     - main
 

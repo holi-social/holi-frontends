@@ -14,9 +14,9 @@
     "prepare:android": "./scripts/prepare_android.sh"
   },
   "devDependencies": {
-    "webdriverio": "^7.16.16"
+    "webdriverio": "^7.30.1"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.5.0"
+    "@faker-js/faker": "^7.6.0"
   }
 }

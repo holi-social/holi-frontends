@@ -12,7 +12,7 @@ export const PortalContext = createContext<PortalContextValue>({} as PortalConte
 
 export const usePortals = () => useContext(PortalContext)
 
-export const PortalProvider: React.FC = ({ children }) => {
+export const PortalProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [gates, setGates] = useState<Record<string, GateElement>>({})
 
   const teleport = useCallback(

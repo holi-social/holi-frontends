@@ -8,6 +8,7 @@ export const displayError = (error: Error, message?: string) => {
   const messageHeadline = message || i18next.t('error.alert.headline')
   try {
     const detailMessage = error ? error.message : ''
+    // TODO(SF) turn in to hook to use holi toast
     Alert.alert(i18next.t('error.alert.title'), `${messageHeadline}: ${detailMessage}`, [
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       { text: i18next.t('error.alert.button'), onPress: () => {} },

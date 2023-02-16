@@ -21,7 +21,12 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
-  const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
+  const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
+    // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
+  })
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)

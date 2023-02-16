@@ -1,6 +1,7 @@
 import React from 'react'
-import { Platform, SafeAreaView, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 /**
@@ -13,7 +14,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
-  scrollView?: boolean
+  scrollable?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   contentStyle?: ViewStyle | ViewStyle[] | Record<string, unknown>
   testID?: string
@@ -24,7 +25,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
     {
       headerOverlap,
       hasFooterTabBar = true,
-      scrollView = true,
+      scrollable = true,
       style,
       contentStyle,
       children,
@@ -49,7 +50,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    const mobileWrapper = scrollView ? (
+    const mobileWrapper = scrollable ? (
       <ScrollView
         testID={testID}
         {...scrollViewProps}
@@ -64,7 +65,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    return headerOverlap ? mobileWrapper : <SafeAreaView style={styles.safeArea}>{mobileWrapper}</SafeAreaView>
+    return headerOverlap ? mobileWrapper : <SafeArea style={styles.safeArea}>{mobileWrapper}</SafeArea>
   }
 )
 
@@ -75,15 +76,16 @@ export default DefaultLayout
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: colors.background10,
   },
   headerPadding: {
-    paddingTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
+    paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
   },
   footerPadding: {
     paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
   scrollLayout: {
     justifyContent: 'flex-start',
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
 })

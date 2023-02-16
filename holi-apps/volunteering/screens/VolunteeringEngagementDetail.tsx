@@ -18,7 +18,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
@@ -75,9 +75,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   // TODO: replace with proper loading indicator
   if (!engagementId || loading) {
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('volunteering:listing.loading')}</HoliText>
-      </View>
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('volunteering:listing.loading')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
   if (error) {
@@ -111,7 +113,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <View style={{ flex: 3 }}>
               <HoliText>{source}</HoliText>
             </View>
-            <HoliIcon icon="share-box" size={15} color={colors.backgroundColorModalDark} />
+            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
           </View>
         </HoliButton>
       </View>
@@ -147,7 +149,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
@@ -176,12 +178,12 @@ export default memo(VolunteeringEngagementDetail)
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: vars.topBarHeight + 50,
   },
   container: {
     alignItems: 'center',
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   wrapper: {
     paddingBottom: 132,

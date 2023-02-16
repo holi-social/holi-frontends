@@ -17,7 +17,7 @@ type MoreButtonProps = {
 const MoreButton: React.VFC<MoreButtonProps> = ({
   label,
   icon = 'more',
-  tintColor = colors.fontColorBlack,
+  tintColor = colors.foreground30,
   onPress,
   ...props
 }: MoreButtonProps) => {

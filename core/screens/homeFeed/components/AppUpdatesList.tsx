@@ -10,7 +10,6 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,8 +18,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type AppUpdatesListProps = {
   appName: string
@@ -61,7 +59,7 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   const seeMore = () => {
     return loading ? (
       <View style={styles.loadingContainer}>
-        <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
+        <HoliIcon icon="loader-4" size={50} color={colors.foreground20} spinning />
       </View>
     ) : (
       <HoliButton
@@ -92,7 +90,7 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
       <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
         <View style={styles.header} testID={`${appName}-updates-heading`}>
           <View style={styles.iconContainer}>
-            <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
+            <HoliIcon icon={headingIcon} size={20} color={colors.foreground20} />
           </View>
           <View>
             <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
@@ -124,8 +122,8 @@ const styles = StyleSheet.create({
     padding: 13,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
-    backgroundColor: colors.backgroundColorGrey,
+    borderColor: colors.foreground10,
+    backgroundColor: colors.background20,
   },
   listingItem: {
     height: 'auto',
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
   },
   listHeader: {
-    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingTop: vars.topBarHeight + 24,
     paddingBottom: 32,
   },
   loadingContainer: {
@@ -149,7 +147,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
   },
   lastButtonContainer: {
     marginRight: Platform.OS === 'web' ? 24 : 48,
@@ -162,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   seeMoreText: {
-    color: colors.secondaryColor,
+    color: colors.brandColorB30,
     textAlign: 'center',
     marginTop: 16,
   },

@@ -1,4 +1,4 @@
-import { swipeDown, swipeLeft, swipeRight, swipeUp } from './gestures'
+import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -7,9 +7,13 @@ const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@
 
 const byText = (text: string) => `*${text}`
 
+const elementBySelector = async (elementSelector: string) => await Appium.$(elementSelector)
+
+export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
+
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(elementSelector)
+  const element = await elementBySelector(elementSelector)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout })
@@ -25,7 +29,7 @@ export const waitForElementWithTestId = async (testId: string, timeout?: number)
 
 export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(byTestId(testId))
+  const element = await elementByTestId(testId)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout, reverse: true })
@@ -35,7 +39,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 
 export const checkIfElementWithTestIdExists = async (testId: string) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(byTestId(testId))
+  const element = await elementByTestId(testId)
 
   // https://webdriver.io/docs/api/element/isExisting
   return element.isExisting()
@@ -52,7 +56,7 @@ export const scrollToElementWithTestId = async (
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
-      const elem = await waitForElementWithTestId(testId, 1)
+      const elem = await waitForElementWithTestId(testId, 100)
       // reset the timeout before exiting the function
       await Appium.setImplicitTimeout(implicitTimeout)
       return elem
@@ -68,16 +72,16 @@ export const scrollToElementWithTestId = async (
      */
     switch (direction) {
       case 'down':
-        swipeUp()
+        scrollDown()
         break
       case 'up':
-        swipeDown()
+        scrollUp()
         break
       case 'left':
-        swipeRight()
+        scrollLeft()
         break
       case 'right':
-        swipeLeft()
+        scrollRight()
     }
 
     scrollCounter++

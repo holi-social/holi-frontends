@@ -25,7 +25,7 @@ type DiscoverSpacesProps = {
 const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { t } = useTranslation()
 
-  const { loading: topicsLoading, topics = [] } = useContext(SpaceTermContext)
+  const { loadingTopics, topics = [] } = useContext(SpaceTermContext)
 
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
   const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
@@ -81,7 +81,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     displayError(errorDefault, t('spaces.spaceListing.error'))
   }
 
-  if (topicsLoading || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
+  if (loadingTopics || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>
