@@ -6,6 +6,12 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
   initialRouteName: RouteName.BottomTabs,
   screens: {
+    [RouteName.InsightDetailPage]: 'insights/:insightId',
+    [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
+    [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+    [RouteName.PostDetailPage]: 'posts/:postId',
+    [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+
     // Views with bottom navigation
     [RouteName.BottomTabs]: {
       screens: {
@@ -13,11 +19,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
-            [RouteName.InsightDetailPage]: 'insights/:insightId',
-            [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
-            [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
-            [RouteName.PostDetailPage]: 'posts/:postId',
-            [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
           },
         },

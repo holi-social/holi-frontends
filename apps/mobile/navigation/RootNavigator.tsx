@@ -11,7 +11,10 @@ import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
+import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -27,6 +30,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
+  [RouteName.InsightDetailPage]: InsightDetailPageParams
+  [RouteName.InsightPostDetailPage]: PostDetailPageParams
+  [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
+  [RouteName.PostDetailPage]: PostDetailPageParams
+  [RouteName.PostCommentInputPage]: CommentInputPageParams
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
@@ -133,6 +141,27 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name={RouteName.BottomTabs} component={BottomTabsNavigator} />
+      <RootStack.Screen
+        name={RouteName.InsightDetailPage}
+        component={InsightDetailPage}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.PostDetailPage}
+        component={PostDetailPage}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.PostCommentInputPage}
+        component={CommentInputPage}
+        options={{
+          headerShown: true,
+        }}
+      />
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen
         name={RouteName.Notifications}

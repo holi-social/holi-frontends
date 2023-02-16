@@ -70,9 +70,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.background10 },
-        navigationCustomOptions: {
-          footerShown: false,
-        },
+        // navigationCustomOptions: {
+        //   footerShown: false,
+        // },
       }),
     [setOptions, t]
   )

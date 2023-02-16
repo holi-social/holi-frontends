@@ -23,9 +23,9 @@ const Notifications: React.VFC = () => {
         headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
         headerRight: ({ tintColor }) =>
           Platform.OS === 'web' ? <HeaderBackButton icon="close" tintColor={tintColor} /> : undefined,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
+        // navigationCustomOptions: {
+        //   footerShown: false,
+        // },
       }),
     [setOptions, title]
   )

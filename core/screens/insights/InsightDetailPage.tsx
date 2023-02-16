@@ -58,7 +58,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         headerTintColor: colors.background10,
         navigationCustomOptions: {
           headerBackgroundGradient: true,
-          footerShown: false,
+          // footerShown: false,
         },
       }),
     [setOptions, t, insight?.title]
