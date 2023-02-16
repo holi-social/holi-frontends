@@ -24,7 +24,6 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/components/Space
 import {
   SpaceByIdResponse,
   UpdateSpaceInput,
-  UpdateSpaceInputSchema,
   UpdateSpaceResponse,
   spaceByIdQuery,
   updateSpaceMutation,
@@ -40,6 +39,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -79,7 +79,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     onCompleted: () => openToast(t('spaces.edit.success'), HoliToastType.SUCCESS),
     onError: (error) => {
       const errors = extractFieldErrors(error)
-      // TODO: setFieldErrors
       if (errors && errors.avatar) {
         const avatarError = errors.avatar[0]
         const messageKey = `spaces.validation.avatar.${avatarError.code}`
@@ -91,20 +90,14 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   })
 
   const handleUpdate = useCallback(
-    async (input: UpdateSpaceInput) => {
-      const resultSchema = UpdateSpaceInputSchema.safeParse(input)
-      if (!resultSchema.success) {
-        // TODO: setFieldErrors(resultSchema.error.flatten().fieldErrors)
-        return
-      }
+    async (input: UpdateSpaceInput) =>
       await updateSpace({
         variables: {
           input: {
             ...input,
           },
         },
-      })
-    },
+      }),
     [updateSpace]
   )
 
@@ -119,7 +112,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { visible, show, hide } = useModalState()
 
   const handleAvatarUpload = useCallback(
-    (image) => space && image?.blob && handleUpdate({ id: space.id, avatar: image.blob }),
+    (image: ImageInfo) => space && image?.blob && handleUpdate({ id: space.id, avatar: image.blob }),
     [space, handleUpdate]
   )
 
