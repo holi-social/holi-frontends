@@ -35,7 +35,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   style,
   useMainTextOnly = false,
 }: PlacesAutocompleteProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(value || '')
   const submit = useCallback(
     (input) => {
@@ -57,7 +57,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     variables: {
       text: locationInput,
       limit: PLACE_SUGGESTION_MAX_COUNT,
-      language: i18n.language,
     },
   })
 
@@ -90,7 +89,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     if (loading) {
       return
     }
-    const places = data?.places || []
+    const places = data?.geo_placesAutocomplete || []
     const newPlaces = places.map(({ name, city }) => ({
       // Introduced with HOLI-3069 as hotfix for alpha release, will be removed again later
       id: useMainTextOnly && city ? city : name,
