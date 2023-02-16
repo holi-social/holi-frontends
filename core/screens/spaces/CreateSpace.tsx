@@ -18,7 +18,7 @@ import {
   mySpaceQuery,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
-import { Topic } from '@holi/core/screens/userprofile/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
@@ -32,7 +32,7 @@ const CreateSpace: React.VFC = () => {
   const { replaceRoute } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
-  const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
+  const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
   const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.space.close.dialog.title')
