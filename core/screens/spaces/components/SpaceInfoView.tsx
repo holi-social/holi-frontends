@@ -29,12 +29,9 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
       {!!space.topics?.length && (
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              space.topics?.map((topic, index) => (
-                <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
-              ))
-            }
+            {space.topics?.map((topic, index) => (
+              <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
+            ))}
           </View>
         </SpaceSection>
       )}
@@ -61,12 +58,9 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
       {!!space.links?.length && (
         <SpaceSection title={t('spaces.links.heading')}>
           <View style={styles.listContainer}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              space.links.map((link, index) => (
-                <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
-              ))
-            }
+            {space.links.map((link, index) => (
+              <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+            ))}
           </View>
         </SpaceSection>
       )}
