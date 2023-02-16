@@ -10,19 +10,19 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceCoverImageFormProps = {
+export type SpaceImageFormProps = {
   title: string
   onUploadImage: (image: ImageInfo | undefined) => void
-  coverImage: ImageInfo | undefined
+  image: ImageInfo | undefined
   style?: ViewStyle
 }
 
-const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
+const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   title,
   onUploadImage,
-  coverImage,
+  image,
   style,
-}: SpaceCoverImageFormProps) => {
+}: SpaceImageFormProps) => {
   const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
   const containerPadding = deviceWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20
@@ -31,7 +31,7 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
     onUploadImage(undefined)
   }
 
-  const CoverImageUploader = () => {
+  const ImageUploader = () => {
     return (
       <HoliTabs
         id="upload-image-tabs"
@@ -42,23 +42,23 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
           {
             title: t('spaces.create.space.stepThree.upload.tab.title'),
             style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
-            children: <ImageUploader />,
+            children: <Uploader />,
           },
         ]}
       />
     )
   }
 
-  const ImageUploader = () => {
+  const Uploader = () => {
     return (
       <View style={styles.imageUploader}>
-        {(coverImage && (
+        {(image && (
           <>
             <View style={styles.imageContainer}>
               <HoliImage
-                source={{ uri: coverImage?.uri ?? '' }}
-                label={t('spaces.create.space.stepThree.coverImage.label')}
-                style={styles.spaceCoverImage}
+                source={{ uri: image?.uri ?? '' }}
+                label={t('spaces.create.space.stepThree.Image.label')}
+                style={styles.spaceImage}
               />
             </View>
             <View style={styles.uploadButtonContainer}>
@@ -114,12 +114,12 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
         {title}
       </HoliText>
       <HoliText style={styles.subTitle}>{t('spaces.create.space.stepThree.subTitle')}</HoliText>
-      <CoverImageUploader />
+      <ImageUploader />
     </View>
   )
 }
 
-export default SpaceCoverImageForm
+export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
-  spaceCoverImage: {
+  spaceImage: {
     aspectRatio: 1.5,
     width: '100%',
     borderRadius: 8,

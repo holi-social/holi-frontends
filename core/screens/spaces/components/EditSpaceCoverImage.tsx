@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
-import SpaceCoverImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceCoverImageForm'
+import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -38,10 +38,10 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
-      <SpaceCoverImageForm
+      <SpaceImageForm
         title={t('spaces.edit.mainImage')}
         onUploadImage={handleImageUpload}
-        coverImage={coverImage}
+        image={coverImage}
         style={mixins.container}
       />
     </EditSpaceModal>
