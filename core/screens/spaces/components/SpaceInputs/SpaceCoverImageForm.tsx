@@ -2,8 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,7 +25,6 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
 }: SpaceCoverImageFormProps) => {
   const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const containerPadding = deviceWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20
 
   const removeImage = () => {
@@ -45,16 +42,7 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
           {
             title: t('spaces.create.space.stepThree.upload.tab.title'),
             style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
-            children: (
-              <DefaultLayout
-                onScroll={onScreenScroll}
-                scrollEventThrottle={200}
-                style={styles.imageUploadContainer}
-                headerOverlap={true}
-              >
-                <ImageUploader />
-              </DefaultLayout>
-            ),
+            children: <ImageUploader />,
           },
         ]}
       />
@@ -86,6 +74,7 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
           </>
         )) || (
           <HoliImagePicker
+            maxFileSizeInMB={8}
             buttonProps={{
               label: t('spaces.create.space.stepThree.upload.button.label'),
               transparent: true,
@@ -167,6 +156,7 @@ const styles = StyleSheet.create({
   },
   holiTabs: {
     width: '100%',
+    height: '100%',
     backgroundColor: colors.background20,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -197,6 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   imageUploader: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
