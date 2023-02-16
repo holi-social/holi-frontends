@@ -22,7 +22,7 @@ describe('@Comment', () => {
 
     // click first post within the insight
     await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
-    await tapOnElementWithTestId('btn-to-post')
+    await tapOnElementWithTestId('btn-to-post', 500)
 
     // click the comment footer button
     // TODO this is very slow due to client side rendering when there's a lot of comments - we're trying to fix it by using FlatList
