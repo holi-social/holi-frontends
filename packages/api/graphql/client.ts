@@ -1,5 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -14,6 +14,7 @@ import headerLink from './headerLink'
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+
 const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   console.log('####### errorLink ...', networkError)
@@ -120,8 +121,13 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
+const isServer = typeof window === 'undefined'
+// FIXME: remove static value for the link
+const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql' })
+
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  return new ApolloClient({ ssrMode, link, cache: createCache() })
+  const clientLink = isServer ? from([errorLink, httpLink]) : link
+  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
 }
 
 // Web
@@ -130,7 +136,7 @@ let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
 
 // TODO: include documentation comment
 export const initializeApolloWebClient = (initState = null) => {
-  const client = apolloWebClient ?? createApolloClient({ ssrMode: typeof window === 'undefined' })
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: isServer })
 
   if (initState) {
     // TODO: merge state and cache props
@@ -138,9 +144,7 @@ export const initializeApolloWebClient = (initState = null) => {
     const _ = client.extract()
   }
 
-  // For SSG and SSR always create a new Apollo Client
   if (typeof window === 'undefined') return client
-  // Create the Apollo Client once in the client
   if (!client) apolloWebClient = client
 
   return client

@@ -57,7 +57,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   return translationsLoaded ? (
     <I18nextProvider i18n={i18n}>
       <ScrollYProvider>
-        <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
+        <RootProvider webPageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</RootProvider>
       </ScrollYProvider>
     </I18nextProvider>
   ) : (
