@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -14,11 +14,10 @@ export type SpaceAvatarProps = {
 
 const SpaceAvatar = ({ label, imageSrc, width = 64, testID, style }: SpaceAvatarProps) => {
   const styles = getStyles(width)
-  const imageUri: ImageSourcePropType = { uri: imageSrc }
 
   return (
     <View style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
-      <HoliImage label={label} source={imageUri} style={styles.image} />
+      {!!imageSrc && <HoliImage label={label} source={{ uri: imageSrc }} style={styles.image} />}
     </View>
   )
 }
