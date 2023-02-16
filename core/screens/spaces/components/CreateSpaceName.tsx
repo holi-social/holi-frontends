@@ -46,7 +46,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
       >
         <SpaceNameAndGoalForm
           style={[styles.container, { minHeight: deviceHeight }]}
-          title={t('spaces.create.space.stepOne.title')}
+          title={t('spaces.create.stepOne.title')}
           spaceName={spaceName}
           spaceGoal={spaceGoal}
           spaceNameErrors={spaceNameErrors}

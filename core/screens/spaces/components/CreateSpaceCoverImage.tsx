@@ -42,8 +42,8 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <SpaceImageForm
-          title={t('spaces.create.space.stepThree.title')}
-          description={t('spaces.create.space.stepThree.subTitle')}
+          title={t('spaces.create.stepThree.title')}
+          description={t('spaces.input.coverImage.remove.description')}
           onUploadImage={onUploadImage}
           image={coverImage}
           style={mixins.container}

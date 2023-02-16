@@ -35,7 +35,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <SpaceTermsInput
-          title={t('spaces.create.space.stepTwo.title')}
+          title={t('spaces.create.stepTwo.title')}
           description={t('spaces.input.topics.description')}
           searchPlaceholder={t('spaces.input.topics.search')}
           hint={t('spaces.input.topics.hint')}

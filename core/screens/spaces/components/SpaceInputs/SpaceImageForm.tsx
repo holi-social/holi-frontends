@@ -42,7 +42,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         tabBarWidth={deviceWidth - containerPadding * 2}
         tabs={[
           {
-            title: t('spaces.create.space.stepThree.upload.tab.title'),
+            title: t('spaces.input.coverImage.tab.upload.title'),
             style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
             children: <Uploader />,
           },
@@ -59,18 +59,18 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             <View style={styles.imageContainer}>
               <HoliImage
                 source={{ uri: image?.uri ?? '' }}
-                label={t('spaces.create.space.stepThree.coverImage.label')}
+                label={t('spaces.input.coverImage.label')}
                 style={styles.spaceImage}
               />
             </View>
             <View style={styles.uploadButtonContainer}>
               <HoliButton
-                label={t('spaces.create.space.stepThree.remove.button.label')}
+                label={t('spaces.input.coverImage.remove.button.label')}
                 onPress={removeImage}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
               >
-                <HoliText>{t('spaces.create.space.stepThree.remove.button.label')}</HoliText>
+                <HoliText>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
               </HoliButton>
             </View>
           </>
@@ -78,7 +78,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
           <HoliImagePicker
             maxFileSizeInMB={8}
             buttonProps={{
-              label: t('spaces.create.space.stepThree.upload.button.label'),
+              label: t('spaces.input.coverImage.upload.button.label'),
               transparent: true,
               inline: true,
             }}
@@ -86,11 +86,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
           >
             <View style={styles.uploadButtonContainer}>
               <HoliButton
-                label={t('spaces.create.space.stepThree.upload.button.label')}
+                label={t('spaces.input.coverImage.upload.button.label')}
                 testID="create-space-upload-image-btn"
                 style={styles.imageUploadButton}
               >
-                <HoliText>{t('spaces.create.space.stepThree.upload.button.label')}</HoliText>
+                <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
               </HoliButton>
             </View>
           </HoliImagePicker>
@@ -104,7 +104,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
     return (
       <View style={styles.instructionsContainer}>
         <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.create.space.stepThree.uploadImage.hint')}
+          {t('spaces.input.coverImage.upload.hint')}
         </HoliText>
       </View>
     )

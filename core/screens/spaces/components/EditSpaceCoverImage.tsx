@@ -40,7 +40,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
       <SpaceImageForm
         title={t('spaces.edit.mainImage')}
-        description={t('spaces.create.space.stepThree.subTitle')}
+        description={t('spaces.input.coverImage.remove.description')}
         onUploadImage={handleImageUpload}
         image={coverImage}
         style={mixins.container}
