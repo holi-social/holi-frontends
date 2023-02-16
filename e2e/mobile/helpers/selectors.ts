@@ -12,7 +12,7 @@ const elementBySelector = async (elementSelector: string) => await Appium.$(elem
 
 export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
 
-const waitForElement = async (elementSelector: string, timeout?: number) => {
+const waitForElement = async (elementSelector: string, timeout = 200) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await elementBySelector(elementSelector)
 
@@ -41,7 +41,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 export const checkIfElementWithTestIdExists = async (testId: string) => {
   // https://webdriver.io/docs/api/browser/$
   const oldImplicitTimeout = Appium.options.waitforTimeout
-  await Appium.setImplicitTimeout(0)
+  await Appium.setImplicitTimeout(10)
   const element = await elementByTestId(testId)
   await Appium.setImplicitTimeout(oldImplicitTimeout)
   return element.elementId !== undefined
@@ -49,7 +49,7 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 
 export const waitForAnyElementWithTestId = async (testIds: string[]) => {
   // https://webdriver.io/docs/api/browser/$
-  await Appium.setImplicitTimeout(0)
+  await Appium.setImplicitTimeout(10)
   let found = false
   let count = 0
   const max = Appium.options.waitforTimeout / 1000

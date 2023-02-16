@@ -79,7 +79,7 @@ export const logout = async () => {
 export const deleteAccount = async () => {
   await gotoProfileSettingsOrLogin()
 
-  await tapOnElementWithTestId('your-account')
+  await tapOnElementWithTestId('btn-your-account')
   await tapOnElementWithTestId('btn-delete-account')
   await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
 
