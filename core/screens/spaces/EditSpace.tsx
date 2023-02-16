@@ -12,6 +12,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import EditSpaceCoverImage from '@holi/core/screens/spaces/components/EditSpaceCoverImage'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
@@ -46,6 +47,7 @@ enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
   SDGS = 'SDGS',
+  COVER_IMAGE = 'COVER_IMAGE',
 }
 
 export type EditSpaceParams = {
@@ -195,7 +197,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {/* Body */}
           <View style={styles.body}>
             <View style={mixins.container}>
-              <SpaceMainImage uri={space.cover} label={space.title} editable />
+              <SpaceMainImage
+                uri={space.cover}
+                label={space.title}
+                onPress={() => openEditModal(EditFields.COVER_IMAGE)}
+                editable
+              />
 
               <SpaceSection
                 title={t('spaces.spaceDetails.goal')}
@@ -283,6 +290,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
         {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
         {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
+        {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
       </HoliModal>
     </SpaceTermContextProvider>
   )

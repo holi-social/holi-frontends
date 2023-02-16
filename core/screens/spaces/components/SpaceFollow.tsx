@@ -6,7 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import { JoinSpaceResponse, joinSpaceMutation, mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -22,7 +22,10 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { openLoginDialog } = useLoginRedirect()
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
   const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
-    refetchQueries: [mySpaceQuery],
+    // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
   })
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
