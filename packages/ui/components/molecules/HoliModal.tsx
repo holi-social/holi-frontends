@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Animated,
@@ -21,8 +21,8 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
+import { isWebTouchDevice } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
-import { vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
@@ -86,8 +86,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
 }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const [isTouch, setIsTouch] = useState(true)
+  const { height: deviceHeight } = useWindowDimensions()
   const [contentHeight, setContentHeight] = useState(0)
 
   // value for appearance animation
@@ -140,12 +139,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
     }
   }, [show, animShift, gestureShift, setVisible])
 
-  useLayoutEffect(() => {
-    if (Platform.OS === 'web') {
-      navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
-    }
-  }, [])
-
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
     () => (relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD || contentHeight >= deviceHeight ? 100 : relativeHeight * 100),
@@ -153,6 +146,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 
   const isFullscreen = height === 100
+  const isMobile = Platform.OS !== 'web'
+  const isTouchDevice = isWebTouchDevice() || isMobile
 
   return (
     <>
@@ -189,7 +184,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
             testID={`${testID}-animatedview`}
           >
             <SafeAreaView style={[styles.headerContainer, headerStyle]}>
-              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
+              {/* not fullscreen modal on touch device */}
+              {!isFullscreen && isTouchDevice ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
                     <HoliButton
@@ -207,17 +203,14 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 <View style={styles.heading}>
                   <HoliButton
                     label={t('modal.backdrop')}
-                    style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
+                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
                     onPress={onDismiss}
                     transparent
                     testID={`btn-to-close-${testID}-modal`}
                   >
-                    <HoliIcon
-                      icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
-                      color={colors.foreground30}
-                      size={25}
-                    />
+                    <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
                   </HoliButton>
+
                   {heading && (
                     <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
                       {heading}
