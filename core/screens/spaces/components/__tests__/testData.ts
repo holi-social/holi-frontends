@@ -82,7 +82,7 @@ export const space: Space = {
   id: '1',
   title: 'Space title',
   description: 'Space description',
-  mainImage: 'https://www.example.com/space1.jpg',
+  cover: 'https://www.example.com/space1.jpg',
   members: pagedMembers,
   creator: user,
   created: '2022-11-21T12:34:56Z',

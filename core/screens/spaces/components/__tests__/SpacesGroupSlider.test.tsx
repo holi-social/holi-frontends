@@ -60,8 +60,8 @@ describe('SpacesGroupSlider', () => {
     const images = getAllByRole('image')
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
-    const [mainImage, avatarImage] = images
-    expect(mainImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
+    const [coverImage, avatarImage] = images
+    expect(coverImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
     expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
   })
 

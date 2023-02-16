@@ -195,7 +195,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {/* Body */}
           <View style={styles.body}>
             <View style={mixins.container}>
-              <SpaceMainImage uri={space.mainImage} label={space.title} editable />
+              <SpaceMainImage uri={space.cover} label={space.title} editable />
 
               <SpaceSection
                 title={t('spaces.spaceDetails.goal')}

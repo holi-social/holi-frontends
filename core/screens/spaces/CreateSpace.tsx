@@ -5,12 +5,19 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { ValidateSpaceResponse, validateSpaceMutation } from '@holi/core/screens/spaces/queries'
+import {
+  CreateSpaceResponse,
+  ValidateSpaceResponse,
+  createSpaceMutation,
+  mySpaceQuery,
+  validateSpaceMutation,
+} from '@holi/core/screens/spaces/queries'
 import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -22,6 +29,7 @@ const CreateSpace: React.VFC = () => {
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { replaceRoute } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
@@ -34,6 +42,11 @@ const CreateSpace: React.VFC = () => {
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
+  })
+  const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
+    onCompleted: (data) => replaceRoute(`/spaces/${data.createSpace.id}/edit`),
+    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    refetchQueries: [{ query: mySpaceQuery }],
   })
 
   useLayoutEffect(
@@ -58,7 +71,7 @@ const CreateSpace: React.VFC = () => {
           title: spaceName,
           description: spaceGoal,
           topics: currentStep > 0 ? spaceTopics.map((topic) => topic.id) : undefined,
-          cover: currentStep > 1 ? spaceCoverImage : undefined,
+          cover: currentStep > 1 ? spaceCoverImage?.blob : undefined,
         },
       },
     })
@@ -66,8 +79,16 @@ const CreateSpace: React.VFC = () => {
   }
 
   const handleSubmitButtonPress = async () => {
-    console.log('handle Submit Button Press')
-    return false
+    await createSpace({
+      variables: {
+        input: {
+          title: spaceName,
+          description: spaceGoal,
+          topics: spaceTopics.map((topic) => topic.id),
+          cover: spaceCoverImage?.blob,
+        },
+      },
+    })
   }
 
   return (
