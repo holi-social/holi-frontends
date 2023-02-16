@@ -58,23 +58,11 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     width: '100%',
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
     alignItems: 'center',
-    display: 'flex',
     backgroundColor: colors.background10,
   },
   contentStyle: {
     width: '100%',
     backgroundColor: colors.background10,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-        paddingHorizontal: 24,
-      },
-    }),
   },
 })

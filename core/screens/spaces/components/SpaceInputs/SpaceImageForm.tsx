@@ -57,7 +57,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             <View style={styles.imageContainer}>
               <HoliImage
                 source={{ uri: image?.uri ?? '' }}
-                label={t('spaces.create.space.stepThree.Image.label')}
+                label={t('spaces.create.space.stepThree.coverImage.label')}
                 style={styles.spaceImage}
               />
             </View>
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
   },
   holiTabs: {
     width: '100%',
-    height: '100%',
     backgroundColor: colors.background20,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -187,9 +186,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   imageUploader: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 60,
   },
   uploadButtonContainer: {
     alignItems: 'center',

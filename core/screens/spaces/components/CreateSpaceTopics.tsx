@@ -39,9 +39,9 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
           description={t('spaces.input.topics.description')}
           searchPlaceholder={t('spaces.input.topics.search')}
           hint={t('spaces.input.topics.hint')}
-          selected={topics}
+          selected={[...selectedTopics]}
           onSelect={onSelectSpaceTopics}
-          terms={selectedTopics}
+          terms={topics}
         />
       </DefaultLayout>
     </View>

@@ -121,7 +121,7 @@ const CreateSpace: React.VFC = () => {
         description={t('spaces.create.space.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.create.space.close.dialog.dismiss')}
-        confirmText={t('spaces.create.space.close.dialog.confirm')}
+        confirmText={t('global.yes')}
         testID="exit-space-creation-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
