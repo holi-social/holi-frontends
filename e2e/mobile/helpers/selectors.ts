@@ -43,8 +43,6 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
   const oldImplicitTimeout = Appium.options.waitforTimeout
   await Appium.setImplicitTimeout(0)
   const element = await elementByTestId(testId)
-  // https://webdriver.io/docs/api/element/isExisting
-  // const exists = element.isExisting()
   await Appium.setImplicitTimeout(oldImplicitTimeout)
   return element.elementId !== undefined
 }
@@ -65,8 +63,6 @@ export const waitForAnyElementWithTestId = async (testIds: string[]) => {
       delay(1)
     }
   }
-  // https://webdriver.io/docs/api/element/isExisting
-  // const exists = element.isExisting()
   await Appium.setImplicitTimeout(Appium.options.waitforTimeout)
   return found
 }
