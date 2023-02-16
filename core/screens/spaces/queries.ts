@@ -253,7 +253,7 @@ export const updateSpaceMutation = gql`
       title
       description
       avatar
-      mainImage
+      cover
       topics {
         id
         title
