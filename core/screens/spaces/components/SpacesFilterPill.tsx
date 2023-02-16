@@ -40,7 +40,7 @@ const SpacesFilterPill: React.VFC<SpacesFilterPillProps> = ({
         style={styles.filterIcon}
       />
     )}
-    <HoliText>{label}</HoliText>
+    <HoliText numberOfLines={1}>{label}</HoliText>
   </HoliButton>
 )
 
