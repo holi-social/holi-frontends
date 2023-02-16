@@ -43,6 +43,7 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
       >
         <SpaceImageForm
           title={t('spaces.create.space.stepThree.title')}
+          description={t('spaces.create.space.stepThree.subTitle')}
           onUploadImage={onUploadImage}
           image={coverImage}
           style={mixins.container}

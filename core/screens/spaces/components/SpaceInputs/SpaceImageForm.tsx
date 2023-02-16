@@ -12,6 +12,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceImageFormProps = {
   title: string
+  description?: string
   onUploadImage: (image: ImageInfo | undefined) => void
   image: ImageInfo | undefined
   style?: ViewStyle
@@ -19,6 +20,7 @@ export type SpaceImageFormProps = {
 
 const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   title,
+  description,
   onUploadImage,
   image,
   style,
@@ -113,7 +115,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>
-      <HoliText style={styles.subTitle}>{t('spaces.create.space.stepThree.subTitle')}</HoliText>
+      {description && <HoliText style={styles.subTitle}>{description}</HoliText>}
       <ImageUploader />
     </View>
   )
@@ -186,7 +188,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   imageUploader: {
-    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 60,
