@@ -4,7 +4,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliUserAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface HoliUserAvatarPileProps {
@@ -44,7 +44,7 @@ const HoliUserAvatarPile = ({
             const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
             return (
-              <HoliUserAvatar
+              <HoliAvatar
                 key={`${testID}-${user.id}`}
                 imageSrc={user.avatar}
                 label={user.fullName || t('navigation.headerRight.avatarFallbackLabel')}

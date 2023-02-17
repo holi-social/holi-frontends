@@ -6,8 +6,8 @@ import { Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskTileProps = {
@@ -23,7 +23,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
       <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
         <HoliHeading level="2">{task.name}</HoliHeading>
         {task.creator && (
-          <HoliUserAvatar
+          <HoliAvatar
             imageSrc={task.creator.avatar}
             label={task.creator.fullName || t('user.profileView.anonymous')}
             initials={task.creator.avatarLabel || ''}

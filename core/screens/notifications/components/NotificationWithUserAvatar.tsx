@@ -5,8 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { Notification, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationWithUserAvatarProps<T = Notification> extends NotificationProps<T> {
@@ -34,7 +34,7 @@ const NotificationWithUserAvatar = ({
     <View style={style} testID={testID}>
       <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
         <View style={styles.link}>
-          <HoliUserAvatar
+          <HoliAvatar
             imageSrc={avatar}
             label={userFullName}
             initials={avatarLabel || ''}

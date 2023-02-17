@@ -62,8 +62,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
-  const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
-
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
@@ -119,7 +117,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
-            <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-edit-avatar" />
+            <SpaceAvatar
+              space={space}
+              size={deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'}
+              testID="space-edit-avatar"
+            />
             <HoliButton
               label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"

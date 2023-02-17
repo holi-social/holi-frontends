@@ -1,16 +1,16 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 export default {
-  title: 'Molecules/HoliUserAvatar',
-  component: HoliUserAvatar,
-} as ComponentMeta<typeof HoliUserAvatar>
+  title: 'Molecules/HoliAvatar',
+  component: HoliAvatar,
+} as ComponentMeta<typeof HoliAvatar>
 
-const Template: ComponentStory<typeof HoliUserAvatar> = ({ ...args }) => {
+const Template: ComponentStory<typeof HoliAvatar> = ({ ...args }) => {
   return (
-    <HoliUserAvatar
+    <HoliAvatar
       label={args.label}
       imageSrc={args.imageSrc}
       defaultColor={args.defaultColor}
@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof HoliUserAvatar> = ({ ...args }) => {
   )
 }
 
-export const BasicExample: ComponentStory<typeof HoliUserAvatar> = Template.bind({})
+export const BasicExample: ComponentStory<typeof HoliAvatar> = Template.bind({})
 
 BasicExample.argTypes = {
   label: { description: 'Username', required: true, control: { type: 'text' } },
