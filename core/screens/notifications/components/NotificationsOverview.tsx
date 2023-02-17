@@ -81,7 +81,7 @@ const NotificationsOverview: React.VFC = () => {
     isLoggedIn && getNotifications()
   }, [getNotifications, isLoggedIn])
 
-  if (loading || error) return <HoliText>{t('notifications.loading')}</HoliText>
+  if (loading || error) return <HoliText>{t('global.loading')}</HoliText>
 
   if (!isLoggedIn) {
     return (

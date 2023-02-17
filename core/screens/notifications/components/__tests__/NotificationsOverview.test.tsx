@@ -113,8 +113,8 @@ describe('Notifications.tsx', () => {
     )
 
     // wait for loader to be removed first
-    const loader = 'notifications.loading'
-    await waitForElementToBeRemoved(() => screen.getByText(loader))
+    const loaderTextContent = 'global.loading'
+    await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
     const notLoggedInMessage = 'loginRedirect.title'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(notLoggedInMessage)
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
