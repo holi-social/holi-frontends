@@ -39,7 +39,6 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         id="upload-image-tabs"
         style={styles.holiTabs}
         tabBarStyle={styles.tabBar}
-        tabBarWidth={deviceWidth - containerPadding * 2}
         tabs={[
           {
             title: t('spaces.input.coverImage.tab.upload.title'),
@@ -125,23 +124,13 @@ export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
   },
   title: {
-    marginBottom: 24,
     marginTop: 40,
   },
   subTitle: {
-    marginBottom: 50,
     marginTop: 16,
-    width: '100%',
     color: colors.foreground20,
   },
   imageUploadButton: {
@@ -157,7 +146,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   holiTabs: {
-    width: '100%',
+    marginTop: 32,
     backgroundColor: colors.background20,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -190,7 +179,8 @@ const styles = StyleSheet.create({
   imageUploader: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 60,
+    paddingBottom: 42,
+    paddingTop: 16,
   },
   uploadButtonContainer: {
     alignItems: 'center',

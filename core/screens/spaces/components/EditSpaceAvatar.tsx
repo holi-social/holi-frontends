@@ -8,7 +8,6 @@ import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type EditSpaceAvatarProps = {
   space: Space
@@ -18,7 +17,6 @@ type EditSpaceAvatarProps = {
 const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
   const [avatar, setAvatar] = useState<ImageInfo | undefined>()
   const { openToast } = useToast()
-  const mixins = useStyleMixins()
 
   const handleImageUpload = (image: ImageInfo | undefined) => {
     setAvatar(image)
@@ -38,12 +36,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
-      <SpaceImageForm
-        title={t('spaces.edit.avatar')}
-        onUploadImage={handleImageUpload}
-        image={avatar}
-        style={mixins.container}
-      />
+      <SpaceImageForm title={t('spaces.edit.avatar')} onUploadImage={handleImageUpload} image={avatar} />
     </EditSpaceModal>
   )
 }

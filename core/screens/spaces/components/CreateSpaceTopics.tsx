@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
@@ -18,7 +17,6 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
   onSelectSpaceTopics,
   selectedTopics,
 }: CreateSpaceTopicsProps) => {
-  const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
   const { topics } = useContext(SpaceTermContext)
   const { setNextButtonEnabled } = useWizard()
@@ -29,21 +27,15 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
 
   return (
     <View style={styles.wrapper}>
-      <DefaultLayout
-        headerOverlap={true}
-        scrollable={false}
-        style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
-      >
-        <SpaceTermsInput
-          title={t('spaces.create.stepTwo.title')}
-          description={t('spaces.input.topics.description')}
-          searchPlaceholder={t('spaces.input.topics.search')}
-          hint={t('spaces.input.topics.hint')}
-          selected={[...selectedTopics]}
-          onSelect={onSelectSpaceTopics}
-          terms={topics}
-        />
-      </DefaultLayout>
+      <SpaceTermsInput
+        title={t('spaces.create.stepTwo.title')}
+        description={t('spaces.input.topics.description')}
+        searchPlaceholder={t('spaces.input.topics.search')}
+        hint={t('spaces.input.topics.hint')}
+        selected={[...selectedTopics]}
+        onSelect={onSelectSpaceTopics}
+        terms={topics}
+      />
     </View>
   )
 }
@@ -61,15 +53,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     backgroundColor: colors.background10,
-  },
-  contentStyle: {
-    flex: 1,
-    backgroundColor: colors.background10,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-        paddingHorizontal: 24,
-      },
-    }),
   },
 })
