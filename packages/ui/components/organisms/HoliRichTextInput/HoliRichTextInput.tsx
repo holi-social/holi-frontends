@@ -123,7 +123,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const renderUserSuggestions = useCallback(
     ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
-      setImmediate(() => setSafeKeyword(!keyword ? '' : keyword))
+      requestAnimationFrame(() => setSafeKeyword(!keyword ? '' : keyword))
       onChooseOptionRef.current = onSuggestionPress
     },
     [setSafeKeyword]
