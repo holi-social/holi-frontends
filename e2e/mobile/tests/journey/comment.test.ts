@@ -10,7 +10,6 @@ import {
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
-  // FIXME: fails on ios: expect(await submitButton.getAttribute('enabled')).toBe('false'), see HOLI-3047
   it('creates a comment and displays it in the post page.', async () => {
     await registerNewUser()
 
@@ -22,7 +21,7 @@ describe('@Comment', () => {
 
     // click first post within the insight
     await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
-    await tapOnElementWithTestId('btn-to-post', 500)
+    await tapOnElementWithTestId('btn-to-post')
 
     // click the comment footer button
     // TODO this is very slow due to client side rendering when there's a lot of comments - we're trying to fix it by using FlatList

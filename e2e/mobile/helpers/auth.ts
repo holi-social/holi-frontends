@@ -83,6 +83,7 @@ export const deleteAccount = async () => {
   await tapOnElementWithTestId('btn-delete-account')
   await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
 
+  await waitForElementWithTestId('btn-to-login-form')
   await tapOnElementWithTestId('btn-to-home-view')
 }
 
