@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontWeight: '400',
+    flex: 1,
   },
   body: {
     marginTop: 24,
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   editButton: {
+    marginLeft: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },

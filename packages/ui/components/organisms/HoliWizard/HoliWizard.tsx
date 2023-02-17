@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,7 +11,7 @@ import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWiza
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type HoliWizardProps = {
+interface HoliWizardProps {
   testID?: string
   onNextPress: (currentStep: number) => Promise<boolean>
   onSubmit: () => Promise<void>
@@ -34,7 +34,8 @@ const HoliWizard = ({
   const { height: deviceHeight } = useWindowDimensions()
   const mixins = useStyleMixins()
 
-  const stepCount = React.Children.toArray(children).length
+  const arrayChildren = Children.toArray(children)
+  const stepCount = arrayChildren.length
   const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
   const setNextButtonEnabled = (buttonStatus: boolean) => {
@@ -94,15 +95,15 @@ const HoliWizard = ({
         <View style={{ flex: 1 }}>
           <HoliButtonLoading
             disabled={!isNextButtonEnabled || isLoading}
-            label={isLoading ? t('global.loading') : t('global.next')}
+            label={
+              isLoading ? t('global.loading') : currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')
+            }
             onPress={handleNextButtonPress}
             testID="holi-wizard-next-btn"
             style={styles.nextButton}
             icon={isLoading ? 'loader-4' : undefined}
             iconSpinning={isLoading}
-          >
-            {currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')}
-          </HoliButtonLoading>
+          />
         </View>
       </View>
     )
@@ -115,7 +116,7 @@ const HoliWizard = ({
           <HoliProgressBar progress={progress} />
           <StepCount />
         </View>
-        {children && children[currentStep]}
+        <ScrollView style={styles.content}>{arrayChildren && arrayChildren[currentStep]}</ScrollView>
         <NavigationButtons />
       </View>
     </HoliWizardContext.Provider>
@@ -126,34 +127,20 @@ export default HoliWizard
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    width: '100%',
     paddingBottom: 0,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-        minWidth: '100vh',
-      },
-    }),
   },
   contentStyle: {
     paddingBottom: 0,
     display: 'flex',
     flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
   },
   container: {
     alignItems: 'center',
     flex: 1,
     paddingTop: Platform.OS === 'web' ? vars.topBarHeight : 44,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
+  },
+  content: {
+    width: '100%',
   },
   stepsContainer: {
     paddingHorizontal: 0,

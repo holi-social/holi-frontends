@@ -18,7 +18,7 @@ import {
   mySpaceQuery,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
-import { Topic } from '@holi/core/screens/userprofile/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
@@ -32,10 +32,10 @@ const CreateSpace: React.VFC = () => {
   const { replaceRoute } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
-  const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
+  const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
   const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const exitConfirmationTitle = t('spaces.create.space.close.dialog.title')
+  const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
 
@@ -53,7 +53,7 @@ const CreateSpace: React.VFC = () => {
     () =>
       setOptions({
         animation: 'slide_from_bottom',
-        title: t('spaces.create.space.title'),
+        title: t('spaces.create.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="close" onPress={() => setShowConfirmationModal(true)} />,
@@ -97,7 +97,7 @@ const CreateSpace: React.VFC = () => {
         <View style={[mixins.container, styles.container]}>
           <HoliWizard
             isBackButtonAvailable={true}
-            submitButtonLabel={t('spaces.create.space.button')}
+            submitButtonLabel={t('spaces.create.button')}
             onNextPress={handleNextButtonPress}
             onSubmit={handleSubmitButtonPress}
           >
@@ -118,10 +118,10 @@ const CreateSpace: React.VFC = () => {
         show={showConfirmationModal}
         label={exitConfirmationTitle}
         title={exitConfirmationTitle}
-        description={t('spaces.create.space.close.dialog.description')}
+        description={t('spaces.create.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('spaces.create.space.close.dialog.dismiss')}
-        confirmText={t('spaces.create.space.close.dialog.confirm')}
+        dismissText={t('spaces.create.close.dialog.dismiss')}
+        confirmText={t('global.yes')}
         testID="exit-space-creation-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
