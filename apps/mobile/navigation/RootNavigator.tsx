@@ -149,8 +149,22 @@ const RootNavigator: React.VFC = () => {
         }}
       />
       <RootStack.Screen
+        name={RouteName.InsightPostDetailPage}
+        component={PostDetailPage}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <RootStack.Screen
         name={RouteName.PostDetailPage}
         component={PostDetailPage}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.InsightPostCommentInputPage}
+        component={CommentInputPage}
         options={{
           headerShown: true,
         }}

@@ -58,7 +58,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         headerTintColor: colors.background10,
         navigationCustomOptions: {
           headerBackgroundGradient: true,
-          // footerShown: false,
+          footerShown: false,
         },
       }),
     [setOptions, t, insight?.title]
@@ -167,7 +167,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
                   </HoliGridCell>
                 ))
               }

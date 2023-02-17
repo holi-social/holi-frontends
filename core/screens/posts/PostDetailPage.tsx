@@ -76,9 +76,9 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title,
         headerStyle: { backgroundColor: colors.background10 },
-        // navigationCustomOptions: {
-        //   footerShown: false,
-        // },
+        navigationCustomOptions: {
+          footerShown: false,
+        },
       }),
     [setOptions, title]
   )

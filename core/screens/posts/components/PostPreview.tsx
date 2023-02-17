@@ -19,13 +19,16 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type PostPreviewProps = {
   post: Post
+  insightId?: string
   style?: StyleProp<ViewStyle>
 }
 
-const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
+const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
+
+  const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -62,7 +65,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
           </MoreOptionsButtonWithModal>
         </View>
 
-        <HoliLink href={`/posts/${post.id}`} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
+        <HoliLink href={postUrl} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
           <HoliHeading size="small" style={styles.postTitle}>
             {post.title}
           </HoliHeading>
@@ -85,7 +88,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
 
       {post.numberOfComments > 0 && (
         <View style={[styles.paddingHorizontal, styles.commentsPile]}>
-          <HoliLink href={`/posts/${post.id}?commentId=first`} label={t('insights.posts.comments.link')}>
+          <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
             <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
               {t('insights.post.response', { count: post.numberOfComments })}
             </HoliUserAvatarPile>
