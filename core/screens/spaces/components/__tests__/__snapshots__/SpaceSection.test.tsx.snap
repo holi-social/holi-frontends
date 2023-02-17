@@ -38,6 +38,7 @@ exports[`SpaceSection renders correctly 1`] = `
             "lineHeight": 25.2,
           },
           {
+            "flex": 1,
             "fontWeight": "400",
           },
         ]
@@ -85,6 +86,7 @@ exports[`SpaceSection renders correctly 1`] = `
             },
           ],
           {
+            "marginLeft": 12,
             "paddingHorizontal": 12,
             "paddingVertical": 8,
           },
@@ -233,6 +235,7 @@ exports[`SpaceSection renders correctly 2`] = `
             "lineHeight": 25.2,
           },
           {
+            "flex": 1,
             "fontWeight": "400",
           },
         ]

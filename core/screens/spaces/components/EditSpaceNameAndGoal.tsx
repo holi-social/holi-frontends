@@ -9,7 +9,7 @@ import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-type EditSpaceNameAndGoalProps = {
+interface EditSpaceNameAndGoalProps {
   space: Space
   onDismiss: () => void
 }

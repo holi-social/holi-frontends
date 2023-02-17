@@ -10,7 +10,6 @@ import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/type
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceInfoViewProps = {
   space: Space
@@ -18,14 +17,13 @@ type SpaceInfoViewProps = {
 }
 
 const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
-  const mixins = useStyleMixins()
   const { t } = useTranslation()
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
   return (
     <View style={style}>
-      <SpaceWelcome space={space} style={[mixins.container]} />
+      <SpaceWelcome space={space} />
       {!!space.topics?.length && (
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>

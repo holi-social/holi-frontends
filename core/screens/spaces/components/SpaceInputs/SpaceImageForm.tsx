@@ -10,19 +10,21 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceCoverImageFormProps = {
+export type SpaceImageFormProps = {
   title: string
+  description?: string
   onUploadImage: (image: ImageInfo | undefined) => void
-  coverImage: ImageInfo | undefined
+  image: ImageInfo | undefined
   style?: ViewStyle
 }
 
-const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
+const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   title,
+  description,
   onUploadImage,
-  coverImage,
+  image,
   style,
-}: SpaceCoverImageFormProps) => {
+}: SpaceImageFormProps) => {
   const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
   const containerPadding = deviceWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20
@@ -31,44 +33,43 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
     onUploadImage(undefined)
   }
 
-  const CoverImageUploader = () => {
+  const ImageUploader = () => {
     return (
       <HoliTabs
         id="upload-image-tabs"
         style={styles.holiTabs}
         tabBarStyle={styles.tabBar}
-        tabBarWidth={deviceWidth - containerPadding * 2}
         tabs={[
           {
-            title: t('spaces.create.space.stepThree.upload.tab.title'),
+            title: t('spaces.input.coverImage.tab.upload.title'),
             style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
-            children: <ImageUploader />,
+            children: <Uploader />,
           },
         ]}
       />
     )
   }
 
-  const ImageUploader = () => {
+  const Uploader = () => {
     return (
       <View style={styles.imageUploader}>
-        {(coverImage && (
+        {(image && (
           <>
             <View style={styles.imageContainer}>
               <HoliImage
-                source={{ uri: coverImage?.uri ?? '' }}
-                label={t('spaces.create.space.stepThree.coverImage.label')}
-                style={styles.spaceCoverImage}
+                source={{ uri: image?.uri ?? '' }}
+                label={t('spaces.input.coverImage.label')}
+                style={styles.spaceImage}
               />
             </View>
             <View style={styles.uploadButtonContainer}>
               <HoliButton
-                label={t('spaces.create.space.stepThree.remove.button.label')}
+                label={t('spaces.input.coverImage.remove.button.label')}
                 onPress={removeImage}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
               >
-                <HoliText>{t('spaces.create.space.stepThree.remove.button.label')}</HoliText>
+                <HoliText>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
               </HoliButton>
             </View>
           </>
@@ -76,7 +77,7 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
           <HoliImagePicker
             maxFileSizeInMB={8}
             buttonProps={{
-              label: t('spaces.create.space.stepThree.upload.button.label'),
+              label: t('spaces.input.coverImage.upload.button.label'),
               transparent: true,
               inline: true,
             }}
@@ -84,11 +85,11 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
           >
             <View style={styles.uploadButtonContainer}>
               <HoliButton
-                label={t('spaces.create.space.stepThree.upload.button.label')}
+                label={t('spaces.input.coverImage.upload.button.label')}
                 testID="create-space-upload-image-btn"
                 style={styles.imageUploadButton}
               >
-                <HoliText>{t('spaces.create.space.stepThree.upload.button.label')}</HoliText>
+                <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
               </HoliButton>
             </View>
           </HoliImagePicker>
@@ -102,7 +103,7 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
     return (
       <View style={styles.instructionsContainer}>
         <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.create.space.stepThree.uploadImage.hint')}
+          {t('spaces.input.coverImage.upload.hint')}
         </HoliText>
       </View>
     )
@@ -113,33 +114,23 @@ const SpaceCoverImageForm: React.VFC<SpaceCoverImageFormProps> = ({
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>
-      <HoliText style={styles.subTitle}>{t('spaces.create.space.stepThree.subTitle')}</HoliText>
-      <CoverImageUploader />
+      {description && <HoliText style={styles.subTitle}>{description}</HoliText>}
+      <ImageUploader />
     </View>
   )
 }
 
-export default SpaceCoverImageForm
+export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
   },
   title: {
-    marginBottom: 24,
     marginTop: 40,
   },
   subTitle: {
-    marginBottom: 50,
     marginTop: 16,
-    width: '100%',
     color: colors.foreground20,
   },
   imageUploadButton: {
@@ -155,8 +146,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   holiTabs: {
-    width: '100%',
-    height: '100%',
+    marginTop: 32,
     backgroundColor: colors.background20,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -181,15 +171,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
-  spaceCoverImage: {
+  spaceImage: {
     aspectRatio: 1.5,
     width: '100%',
     borderRadius: 8,
   },
   imageUploader: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 42,
+    paddingTop: 16,
   },
   uploadButtonContainer: {
     alignItems: 'center',

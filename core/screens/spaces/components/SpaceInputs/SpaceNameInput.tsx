@@ -14,15 +14,15 @@ const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({ onChange, value, error
 
   return (
     <HoliTextInput
-      placeholder={t('spaces.create.space.name.input.placeholder')}
-      inputLabel={t('spaces.create.space.name.label')}
+      placeholder={t('spaces.input.name.placeholder')}
+      inputLabel={t('spaces.input.name.label')}
       maxNoOfCharacters={60}
       showCharacterCount={true}
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
-      helperText={t('spaces.create.space.name.input.description')}
-      accessibilityLabel={t('spaces.create.space.name.label')}
+      helperText={t('spaces.input.name.description')}
+      accessibilityLabel={t('spaces.input.name.label')}
     />
   )
 }
