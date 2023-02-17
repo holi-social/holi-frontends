@@ -15,7 +15,10 @@ import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/i
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import Spaces from '@holi/core/screens/spaces/Spaces'
+import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
+import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
+import FilteredSpaces from '@holi/core/screens/spaces/FilteredSpaces'
+import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -38,7 +41,10 @@ export type RootStackScreens = {
   [RouteName.PostDetailPage]: PostDetailPageParams
   [RouteName.PostCommentInputPage]: CommentInputPageParams
 
-  [RouteName.Spaces]: undefined
+  [RouteName.SpaceDetails]: SpaceDetailsParams
+  [RouteName.FilteredSpaces]: undefined
+  [RouteName.CreateSpace]: undefined
+  [RouteName.EditSpace]: EditSpaceParams
 
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
@@ -52,7 +58,7 @@ export type RootStackScreens = {
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
-  [RouteName.SpacesHome]: undefined
+  [RouteName.Spaces]: undefined
   [RouteName.Chat]: undefined
   [RouteName.Auth]: undefined
 }
@@ -91,7 +97,6 @@ export const BottomTabsNavigator: React.VFC = () => {
         name={RouteName.Home}
         component={FeedNavigator}
         options={{
-          // tabBarLabel: t('navigation.home'),
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
@@ -99,7 +104,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarTestID: 'btn-to-home-view',
         }}
       />
-      <BottomTabs.Screen
+      {/* <BottomTabs.Screen
         name={RouteName.SpacesHome}
         component={Spaces}
         options={{
@@ -111,12 +116,22 @@ export const BottomTabsNavigator: React.VFC = () => {
           },
           tabBarTestID: 'btn-to-spaces',
         }}
+      /> */}
+      <BottomTabs.Screen
+        name={RouteName.Spaces}
+        component={SpacesNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+          },
+          tabBarTestID: 'btn-to-spaces',
+        }}
       />
       <BottomTabs.Screen
         name={RouteName.Chat}
         component={ChatStackNavigator}
         options={{
-          tabBarLabel: t('chat.title'),
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
@@ -185,7 +200,47 @@ const RootNavigator: React.VFC = () => {
       />
 
       {/* SpacesHome is in BottomTabs */}
-      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} />
+
+      <RootStack.Screen
+        name={RouteName.SpaceDetails}
+        component={SpaceDetails}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.FilteredSpaces}
+        component={FilteredSpaces}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.CreateSpace}
+        component={CreateSpace}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.EditSpace}
+        component={EditSpace}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
 
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen
