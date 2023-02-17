@@ -4,7 +4,6 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
 import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceNameAndGoalFormProps = {
   onChangeSpaceName: (name: string) => void
@@ -26,29 +25,25 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   spaceGoalErrors,
   title,
   style,
-}: SpaceNameAndGoalFormProps) => {
-  const mixins = useStyleMixins()
-
-  return (
-    <View style={[mixins.container, style]}>
-      <View style={styles.title}>
-        <HoliText size="extralarge">{title}</HoliText>
-      </View>
-      <SpaceNameInput
-        value={spaceName}
-        onChange={onChangeSpaceName}
-        errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
-      />
-      <View style={styles.goalInputContainer}>
-        <SpaceGoalInput
-          value={spaceGoal}
-          onChange={onChangeSpaceGoal}
-          errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
-        />
-      </View>
+}: SpaceNameAndGoalFormProps) => (
+  <View style={style}>
+    <View style={styles.title}>
+      <HoliText size="extralarge">{title}</HoliText>
     </View>
-  )
-}
+    <SpaceNameInput
+      value={spaceName}
+      onChange={onChangeSpaceName}
+      errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
+    />
+    <View style={styles.goalInputContainer}>
+      <SpaceGoalInput
+        value={spaceGoal}
+        onChange={onChangeSpaceGoal}
+        errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
+      />
+    </View>
+  </View>
+)
 
 export default SpaceNameAndGoalForm
 

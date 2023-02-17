@@ -17,9 +17,9 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { useKeyboard } from '@holi/ui/helper'
@@ -149,7 +149,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
               <VerticalLine style={styles.verticalLine} />
 
               <View style={styles.inputContainer}>
-                <HoliUserAvatar
+                <HoliAvatar
                   imageSrc={user.avatar}
                   label={user.fullName}
                   initials={user.avatarLabel || ''}

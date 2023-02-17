@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type SpaceHeaderProps = {
   space: Space
@@ -35,7 +35,6 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-  const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   const openModal = useCallback(() => {
     setModalVisible(true)
@@ -44,7 +43,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-avatar" />
+      <SpaceAvatar space={space} size={deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'} />
       <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>

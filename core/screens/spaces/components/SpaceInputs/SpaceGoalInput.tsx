@@ -14,8 +14,8 @@ const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, error
 
   return (
     <HoliTextInput
-      placeholder={t('spaces.create.space.goal.input.placeholder')}
-      inputLabel={t('spaces.create.space.goal.label')}
+      placeholder={t('spaces.input.goal.placeholder')}
+      inputLabel={t('spaces.input.goal.label')}
       maxNoOfCharacters={600}
       showCharacterCount={true}
       noOfVisibleLines={5}
@@ -23,7 +23,7 @@ const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, error
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
-      accessibilityLabel={t('spaces.create.space.goal.label')}
+      accessibilityLabel={t('spaces.input.goal.label')}
     />
   )
 }
