@@ -92,7 +92,8 @@ const HoliAutocomplete = ({
   const clearFocusAndClose = useCallback(
     (focusId) => {
       // using setTimeout to make sure no other item was selected in the mean time
-      setTimeout(() => {
+
+      requestAnimationFrame(() => {
         setFocusedItem((id) => {
           if (id === focusId) {
             setIsOpened(false)
@@ -100,7 +101,7 @@ const HoliAutocomplete = ({
           }
           return id
         })
-      }, 0)
+      })
     },
     [setFocusedItem, setIsOpened]
   )

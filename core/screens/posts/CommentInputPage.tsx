@@ -90,7 +90,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     } else {
       const paddingTop = screenHeight < SMALL_DEVICE_HEIGHT ? 50 : 20
       if (scrollContentHeight <= 0) return
-      setImmediate(() =>
+      requestAnimationFrame(() =>
         scrollViewRef.current?.scrollTo({
           animated: true,
           y:

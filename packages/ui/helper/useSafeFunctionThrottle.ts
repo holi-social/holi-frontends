@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef } from 'react'
  *
  * @usage
  * // init expects the function to call
- * const delayedFunction = useSaveFunctionThrottle(someFunc)
+ * const delayedFunction = useSafeFunctionThrottle(someFunc)
  *
  * // start the execution with run()
  * // 1st param: optional function props
@@ -22,12 +22,12 @@ import { useCallback, useEffect, useRef } from 'react'
  * is called.
  */
 
-type T = (props?: Record<string, unknown>) => boolean
-export const useSaveFunctionThrottle = (fn: T) => {
+type T = (props?: unknown) => boolean
+export const useSafeFunctionThrottle = (fn: T) => {
   const animationFrameRef = useRef(0)
   const startTimeRef = useRef(0)
   const delayRef = useRef(0)
-  const propsRef = useRef<Record<string, unknown>>(0)
+  const propsRef = useRef<unknown>(0)
 
   const funcRef = useRef<T | null>(null)
   funcRef.current = fn
@@ -52,7 +52,7 @@ export const useSaveFunctionThrottle = (fn: T) => {
   }, [animationFrameRef, recursiveFunc])
 
   const run = useCallback(
-    (props: Record<string, unknown>, delay: number) => {
+    (props: unknown, delay: number) => {
       startTimeRef.current = 0
       delayRef.current = delay
       propsRef.current = props
