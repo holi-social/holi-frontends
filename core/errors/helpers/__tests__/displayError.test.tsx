@@ -4,7 +4,7 @@ import { Alert, Text } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 
-jest.spyOn(Alert, 'alert')
+Alert.alert = jest.fn()
 
 const ErrorComponent: React.VFC = () => {
   displayError(new Error('Test'), 'An error occurred')
@@ -13,8 +13,7 @@ const ErrorComponent: React.VFC = () => {
 }
 
 describe('displays errors correctly', () => {
-  // TODO: fix me after expo upgrade! After upgrade to expo 46 we can not spy on Alert.alert function anymore
-  it.skip('displays alert with error message', () => {
+  it('displays alert with error message', () => {
     render(<ErrorComponent />)
 
     expect(Alert.alert).toHaveBeenCalledWith('error.alert.title', 'An error occurred: Test', expect.any(Array))
