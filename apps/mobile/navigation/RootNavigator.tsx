@@ -15,6 +15,7 @@ import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/i
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
+import Spaces from '@holi/core/screens/spaces/Spaces'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -30,14 +31,19 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
+
   [RouteName.InsightDetailPage]: InsightDetailPageParams
   [RouteName.InsightPostDetailPage]: PostDetailPageParams
   [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
   [RouteName.PostDetailPage]: PostDetailPageParams
   [RouteName.PostCommentInputPage]: CommentInputPageParams
+
+  [RouteName.Spaces]: undefined
+
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
+
   [RouteName.Login]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -46,8 +52,8 @@ export type RootStackScreens = {
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
+  [RouteName.SpacesHome]: undefined
   [RouteName.Chat]: undefined
-  [RouteName.Spaces]: undefined
   [RouteName.Auth]: undefined
 }
 
@@ -85,7 +91,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name={RouteName.Home}
         component={FeedNavigator}
         options={{
-          tabBarLabel: t('navigation.home'),
+          // tabBarLabel: t('navigation.home'),
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
@@ -94,11 +100,12 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
-        name={RouteName.Spaces}
-        component={SpacesNavigator}
+        name={RouteName.SpacesHome}
+        component={Spaces}
         options={{
-          tabBarLabel: t('spaces.title'),
-          headerShown: false,
+          // TODO: FIXME: HeaderAnimated causes too much recursion here
+          // header: HeaderAnimated,
+          // headerShadowVisible: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -176,6 +183,10 @@ const RootNavigator: React.VFC = () => {
           headerShown: true,
         }}
       />
+
+      {/* SpacesHome is in BottomTabs */}
+      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} />
+
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen
         name={RouteName.Notifications}

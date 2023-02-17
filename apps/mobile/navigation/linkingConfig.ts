@@ -6,12 +6,6 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
   initialRouteName: RouteName.BottomTabs,
   screens: {
-    [RouteName.InsightDetailPage]: 'insights/:insightId',
-    [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
-    [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
-    [RouteName.PostDetailPage]: 'posts/:postId',
-    [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
-
     // Views with bottom navigation
     [RouteName.BottomTabs]: {
       screens: {
@@ -22,22 +16,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.UserProfile]: 'profile/:userId',
           },
         },
-        [RouteName.Spaces]: {
-          initialRouteName: RouteName.SpacesHome,
-          screens: {
-            [RouteName.SpacesHome]: 'spaces',
-            [RouteName.SpaceDetails]: 'spaces/:spaceId',
-            [RouteName.FilteredSpaces]: 'spaces/filter',
-            [RouteName.CreateSpace]: 'spaces/create',
-            [RouteName.EditSpace]: 'spaces/:spaceId/edit',
-          },
-        },
-        [RouteName.Chat]: {
-          initialRouteName: RouteName.ChatHome,
-          screens: {
-            [RouteName.ChatHome]: 'chat',
-          },
-        },
+        [RouteName.SpacesHome]: 'spaces',
+        [RouteName.Chat]: 'chat',
         [RouteName.Auth]: {
           initialRouteName: RouteName.Profile,
           screens: {
@@ -48,13 +28,25 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         },
       },
     },
-    [RouteName.Search]: {
+
+    [RouteName.InsightDetailPage]: 'insights/:insightId',
+    [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
+    [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+    [RouteName.PostDetailPage]: 'posts/:postId',
+    [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+
+    // Spaces (SpacesHome is in BottomTabs)
+    [RouteName.Spaces]: {
       screens: {
-        [RouteName.Search]: 'search',
+        [RouteName.SpaceDetails]: 'spaces/:spaceId',
+        [RouteName.FilteredSpaces]: 'spaces/filter',
+        [RouteName.CreateSpace]: 'spaces/create',
+        [RouteName.EditSpace]: 'spaces/:spaceId/edit',
       },
     },
 
     // Modals
+    [RouteName.Search]: 'search',
     [RouteName.Notifications]: 'notifications',
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
