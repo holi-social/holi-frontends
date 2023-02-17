@@ -6,9 +6,9 @@ import UserConnectionButtons from '@holi/core/screens/userprofile/components/Use
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileViewProps = {
@@ -25,7 +25,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
     <View style={styles.header}>
       <View style={styles.avatarName}>
         <View>
-          <HoliUserAvatar
+          <HoliAvatar
             imageSrc={user.avatar}
             label={fullName}
             initials={user.avatarLabel}

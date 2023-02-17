@@ -7,3 +7,24 @@ export const createUUID = () => {
   })
   return uuid
 }
+
+export const getInitials = (name: string, maxLength = 3) =>
+  name
+    .split(' ')
+    .map((_) => _[0] || '')
+    .join('')
+    .substring(0, maxLength) // maxLength is the max number of characters in the initials string
+
+export const stringToColor = (str: string) => {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  let color = '#'
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff
+    const newValue = '00' + value.toString(16)
+    color += newValue.substring(newValue.length - 2)
+  }
+  return color
+}
