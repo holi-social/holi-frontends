@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, useWindowDimensions } from 'react-native'
 
-import { getInitials, stringToColor } from '@holi/core/helpers'
+import { getInitials } from '@holi/core/helpers'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -15,7 +15,6 @@ export interface SpaceAvatarProps {
 
 const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
   const initials = getInitials(space.title)
-  const color = stringToColor(initials)
   const { width: deviceWidth } = useWindowDimensions()
 
   const defaultSize = deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'
@@ -26,7 +25,7 @@ const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
       testID={testID || 'space-avatar'}
       imageSrc={space.avatar}
       label={space.title}
-      defaultColor={color}
+      defaultColor={space.avatarDefaultColor}
       initials={initials}
       size={size || defaultSize}
     />
