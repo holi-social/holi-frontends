@@ -135,6 +135,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      {/* TODO: FIXME: SaveKeyboardHeight is not correct ;-( */}
       <HoliKeyboardSaveView onHeightChange={onHeightChange}>
         <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
           <View

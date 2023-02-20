@@ -16,7 +16,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.UserProfile]: 'profile/:userId',
           },
         },
-        [RouteName.Spaces]: {
+        [RouteName.SpacesHomeStack]: {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
           },
@@ -43,11 +43,14 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.PostDetailPage]: 'posts/:postId',
     [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
 
-    // Spaces (SpacesHome is in BottomTabs)
-    [RouteName.SpaceDetails]: 'spaces/:spaceId',
-    [RouteName.FilteredSpaces]: 'spaces/filter',
-    [RouteName.CreateSpace]: 'spaces/create',
-    [RouteName.EditSpace]: 'spaces/:spaceId/edit',
+    [RouteName.Spaces]: {
+      screens: {
+        [RouteName.SpaceDetails]: 'spaces/:spaceId',
+        [RouteName.FilteredSpaces]: 'spaces/filter',
+        [RouteName.CreateSpace]: 'spaces/create',
+        [RouteName.EditSpace]: 'spaces/:spaceId/edit',
+      },
+    },
 
     // Modals
     [RouteName.Search]: 'search',

@@ -1,50 +1,32 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
-import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
-import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
-import FilteredSpaces from '@holi/core/screens/spaces/FilteredSpaces'
-import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
-import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
-import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
+import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
-import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
-import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
+import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
+  [RouteName.Spaces]: undefined
 
   [RouteName.InsightDetailPage]: InsightDetailPageParams
   [RouteName.InsightPostDetailPage]: PostDetailPageParams
   [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
   [RouteName.PostDetailPage]: PostDetailPageParams
   [RouteName.PostCommentInputPage]: CommentInputPageParams
-
-  [RouteName.SpaceDetails]: SpaceDetailsParams
-  [RouteName.FilteredSpaces]: undefined
-  [RouteName.CreateSpace]: undefined
-  [RouteName.EditSpace]: EditSpaceParams
 
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
@@ -56,101 +38,7 @@ export type RootStackScreens = {
   [RouteName.Search]: undefined
 }
 
-export type BottomTabsScreens = {
-  [RouteName.Home]: undefined
-  [RouteName.Spaces]: undefined
-  [RouteName.Chat]: undefined
-  [RouteName.Auth]: undefined
-}
-
 const RootStack = createNativeStackNavigator<RootStackScreens>()
-const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
-
-export const BottomTabsNavigator: React.VFC = () => {
-  const { options } = useUnifiedNavigation()
-  const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
-  const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
-
-  return (
-    <BottomTabs.Navigator
-      initialRouteName={RouteName.Home}
-      screenOptions={() => {
-        return {
-          tabBarStyle: {
-            backgroundColor: colors.background10,
-            paddingHorizontal: 0,
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderTopColor: colors.foreground20,
-            ...(options.navigationCustomOptions?.footerShown === false ? { display: 'none', maxHeight: 0 } : {}),
-            tabBarShowLabel: true,
-            tabBarLabelStyle: {
-              color: 'black',
-            },
-          },
-          tabBarActiveTintColor: colors.foreground30,
-          tabBarInactiveTintColor: colors.foreground20,
-        }
-      }}
-    >
-      <BottomTabs.Screen
-        name={RouteName.Home}
-        component={FeedNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
-          tabBarTestID: 'btn-to-home-view',
-        }}
-      />
-      {/* <BottomTabs.Screen
-        name={RouteName.SpacesHome}
-        component={Spaces}
-        options={{
-          // TODO: FIXME: HeaderAnimated causes too much recursion here
-          // header: HeaderAnimated,
-          // headerShadowVisible: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
-          tabBarTestID: 'btn-to-spaces',
-        }}
-      /> */}
-      <BottomTabs.Screen
-        name={RouteName.Spaces}
-        component={SpacesNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
-          tabBarTestID: 'btn-to-spaces',
-        }}
-      />
-      <BottomTabs.Screen
-        name={RouteName.Chat}
-        component={ChatStackNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
-        }}
-      />
-      <BottomTabs.Screen
-        name={RouteName.Auth}
-        component={AuthStackNavigator}
-        options={{
-          tabBarLabel: isLoggedIn ? t('profile.title') : t('auth.login'),
-          headerShown: false,
-          tabBarIcon: LoginProfileButton,
-          tabBarTestID: 'btn-to-profile-view',
-        }}
-      />
-    </BottomTabs.Navigator>
-  )
-}
 
 const RootNavigator: React.VFC = () => {
   return (
@@ -162,7 +50,7 @@ const RootNavigator: React.VFC = () => {
         headerShadowVisible: false,
       }}
     >
-      <RootStack.Screen name={RouteName.BottomTabs} component={BottomTabsNavigator} />
+      <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} />
       <RootStack.Screen
         name={RouteName.InsightDetailPage}
         component={InsightDetailPage}
@@ -200,47 +88,7 @@ const RootNavigator: React.VFC = () => {
       />
 
       {/* SpacesHome is in BottomTabs */}
-
-      <RootStack.Screen
-        name={RouteName.SpaceDetails}
-        component={SpaceDetails}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.FilteredSpaces}
-        component={FilteredSpaces}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.CreateSpace}
-        component={CreateSpace}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.EditSpace}
-        component={EditSpace}
-        options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
-        }}
-      />
+      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} />
 
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen

@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
-import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type FeedStackScreens = {

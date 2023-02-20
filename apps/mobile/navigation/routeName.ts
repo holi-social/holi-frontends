@@ -38,6 +38,7 @@ export enum RouteName {
   BottomTabs = 'BottomTabs',
   Home = 'Home',
   Spaces = 'Spaces',
+  SpacesHomeStack = 'SpacesHomeStack',
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',
