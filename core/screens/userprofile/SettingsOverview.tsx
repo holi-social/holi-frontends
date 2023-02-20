@@ -46,6 +46,7 @@ const SettingsOverview: React.VFC = () => {
               arrowRirght
               onPress={goTo('/profile/settings/account')}
               style={styles.settingsItem}
+              testID="btn-your-account"
             />
             <MoreOptionItem
               label={t('notifications.title')}

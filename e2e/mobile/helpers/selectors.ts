@@ -1,4 +1,5 @@
 import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
+import { delay } from './time'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -37,58 +38,92 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
   return element
 }
 
-export const checkIfElementWithTestIdExists = async (testId: string) => {
-  // https://webdriver.io/docs/api/browser/$
-  const element = await elementByTestId(testId)
+export const setImplicitTimeout = async (timeout: number) => {
+  Appium.options.currentImplicitTimeout = timeout
+  await Appium.setImplicitTimeout(timeout)
+}
 
-  // https://webdriver.io/docs/api/element/isExisting
-  return element.isExisting()
+export const resetImplicitTimeout = async () => {
+  await setImplicitTimeout(Appium.options.waitforTimeout)
+}
+
+export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<T>) => {
+  await setImplicitTimeout(timeout)
+  try {
+    return await fn()
+  } finally {
+    await resetImplicitTimeout()
+  }
+}
+
+export const checkIfElementWithTestIdExists = async (testId: string, timeout = 10) => {
+  // https://webdriver.io/docs/api/browser/$
+  const element = await withImplicitTimeout(timeout, async () => await elementByTestId(testId))
+  return element.elementId !== undefined
+}
+
+export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 10) => {
+  // https://webdriver.io/docs/api/browser/$
+  return withImplicitTimeout(timeout, async () => {
+    let found = false
+    let count = 0
+    const max = Appium.options.waitforTimeout / 1000
+    while (!found && count < max) {
+      const foundAll = await Promise.all(
+        testIds.map(async (testId): Promise<boolean> => (await elementByTestId(testId)).elementId !== undefined)
+      )
+      found = foundAll.some((e) => e)
+      count++
+      if (!found) {
+        delay(1)
+      }
+    }
+    return found
+  })
 }
 
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: ScrollDirection,
-  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
+  { timeout = 1000, maxAttempts = 7 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   let scrollCounter = 0
-  const implicitTimeout = Appium.options.waitforTimeout
-  await Appium.setImplicitTimeout(timeout)
-  while (scrollCounter < maxAttempts) {
-    // is the element in the viewport?
-    try {
-      const elem = await waitForElementWithTestId(testId, 100)
-      // reset the timeout before exiting the function
-      await Appium.setImplicitTimeout(implicitTimeout)
-      return elem
-    } catch (e) {
-      //console.log(
-      //  `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
-      //)
-    }
+  return withImplicitTimeout(timeout, async () => {
+    while (scrollCounter < maxAttempts) {
+      // if (await checkIfElementWithTestIdExists(testId, 500)) {
+      //   return
+      // }
 
-    /**
-     * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
-     * Hence the inverted directions below.
-     */
-    switch (direction) {
-      case 'down':
-        scrollDown()
-        break
-      case 'up':
-        scrollUp()
-        break
-      case 'left':
-        scrollLeft()
-        break
-      case 'right':
-        scrollRight()
-    }
+      // is the element in the viewport?
+      try {
+        return await waitForElementWithTestId(testId, 100)
+      } catch (e) {
+        // element was not found
+      }
 
-    scrollCounter++
-  }
-  await Appium.setImplicitTimeout(implicitTimeout)
-  // last try
-  return await waitForElementWithTestId(testId, 1)
+      /**
+       * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
+       * Hence the inverted directions below.
+       */
+      switch (direction) {
+        case 'down':
+          scrollDown()
+          break
+        case 'up':
+          scrollUp()
+          break
+        case 'left':
+          scrollLeft()
+          break
+        case 'right':
+          scrollRight()
+      }
+
+      scrollCounter++
+    }
+    // one last try
+    return await waitForElementWithTestId(testId, 1000)
+  })
 }
 
 const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {

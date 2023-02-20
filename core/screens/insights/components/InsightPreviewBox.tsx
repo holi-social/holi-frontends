@@ -32,7 +32,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <HoliImage source={{ uri: insight.headerImage }} label={insight.title} style={styles.mainImage} />
 
-        {insight.topic && (
+        {!!insight.topic && (
           <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
             {insight.topic.title}
           </HoliHeading>
@@ -42,13 +42,13 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           {insight.title}
         </HoliHeading>
 
-        {insight.creator && (
+        {!!insight.creator && (
           <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
             {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
           </HoliText>
         )}
 
-        {editors.length && (
+        {!!editors.length && (
           <HoliUserAvatarPile
             users={editors}
             usersToShow={3}
