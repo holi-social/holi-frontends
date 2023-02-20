@@ -1,7 +1,7 @@
 import partition from 'lodash.partition'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
@@ -30,12 +30,10 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
     () => partition(space.members.data, 'isAdministrator'),
     [space]
   )
-  const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-  const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   const openModal = useCallback(() => {
     setModalVisible(true)
@@ -44,7 +42,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-avatar" />
+      <SpaceAvatar space={space} />
       <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>

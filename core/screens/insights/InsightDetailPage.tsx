@@ -21,9 +21,9 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -123,7 +123,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 onPress={() => setShowCuratorModal(true)}
               >
                 <View style={styles.authorInfoInner}>
-                  <HoliUserAvatar
+                  <HoliAvatar
                     imageSrc={author.avatar}
                     label={author.fullName}
                     initials={author.avatarLabel || ''}

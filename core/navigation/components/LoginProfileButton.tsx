@@ -7,8 +7,8 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type LoginProfileButtonProps = {
   focused?: boolean
@@ -50,7 +50,7 @@ const LoginProfileButton = ({
       testID="btn-to-profile-view"
     >
       {hasUserData ? (
-        <HoliUserAvatar
+        <HoliAvatar
           imageSrc={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}

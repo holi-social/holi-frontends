@@ -1,46 +1,48 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { colors } from '@holi/ui/styles/globalVars'
+import { getInitials } from '@holi/core/helpers'
+import { Space } from '@holi/core/screens/spaces/types'
+import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type SpaceAvatarProps = {
-  label: string
-  imageSrc?: string
-  width?: number
+export interface SpaceAvatarProps {
+  space: Space
+  size?: AvatarProps['size']
+  style?: AvatarProps['style']
   testID?: string
-  style?: StyleProp<ViewStyle>
 }
 
-const SpaceAvatar = ({ label, imageSrc, width = 64, testID, style }: SpaceAvatarProps) => {
-  const styles = getStyles(width)
+const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
+  const initials = getInitials(space.title)
+  const { width: deviceWidth } = useWindowDimensions()
+
+  const defaultSize = deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'
 
   return (
-    <View style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
-      {!!imageSrc && <HoliImage label={label} source={{ uri: imageSrc }} style={styles.image} />}
-    </View>
+    <HoliAvatar
+      style={[styles.spaceAvatar, style]}
+      testID={testID || 'space-avatar'}
+      imageSrc={space.avatar}
+      label={space.title}
+      defaultColor={space.avatarDefaultColor}
+      initials={initials}
+      size={size || defaultSize}
+    />
   )
 }
 
 export default React.memo(SpaceAvatar)
 
-const getStyles = (width: number) =>
-  StyleSheet.create({
-    spaceAvatar: {
-      borderRadius: 8,
-      backgroundColor: colors.background20,
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden',
-      width,
-      height: width,
-      borderWidth: 2,
-      borderColor: colors.foreground30,
-      maxWidth: 128,
-      maxHeight: 128,
-    },
-    image: {
-      height: '100%',
-      width: '100%',
-    },
-  })
+const styles = StyleSheet.create({
+  spaceAvatar: {
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: colors.foreground30,
+    maxWidth: 128,
+    maxHeight: 128,
+  },
+})

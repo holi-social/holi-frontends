@@ -2,8 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -55,7 +55,7 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
               contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
               testID={'holi-rich-text-input-suggestions-item'}
             >
-              <HoliUserAvatar
+              <HoliAvatar
                 imageSrc={option.user.avatar}
                 label={option.user.fullName}
                 initials={option.user.avatarLabel}
