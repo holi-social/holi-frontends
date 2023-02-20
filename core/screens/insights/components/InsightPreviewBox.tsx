@@ -48,7 +48,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           </HoliText>
         )}
 
-        {editors.length && (
+        {!!editors.length && (
           <HoliUserAvatarPile
             users={editors}
             usersToShow={3}

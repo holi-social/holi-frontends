@@ -43,21 +43,21 @@ const SettingsOverview: React.VFC = () => {
             <MoreOptionItem
               label={t('profile.settings.account.title')}
               icon="account-circle"
-              arrowRirght
+              arrowRight
               onPress={goTo('/profile/settings/account')}
               style={styles.settingsItem}
             />
             <MoreOptionItem
               label={t('notifications.title')}
               icon="notification-2"
-              arrowRirght
+              arrowRight
               onPress={showFeatureNotImplementedToast}
               style={styles.settingsItem}
             />
             <MoreOptionItem
               label={t('help.title')}
               icon="help"
-              arrowRirght
+              arrowRight
               onPress={showFeatureNotImplementedToast}
               style={styles.settingsItem}
             />
