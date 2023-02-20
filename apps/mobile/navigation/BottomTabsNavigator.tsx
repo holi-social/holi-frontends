@@ -59,6 +59,7 @@ const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarLabel: 'Home',
           tabBarTestID: 'btn-to-home-view',
         }}
       />
@@ -85,6 +86,7 @@ const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarLabel: t('spaces.title'),
           tabBarTestID: 'btn-to-spaces',
         }}
       />
@@ -96,6 +98,7 @@ const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarLabel: 'Chat',
         }}
       />
       <BottomTabs.Screen
