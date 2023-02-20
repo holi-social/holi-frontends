@@ -51,7 +51,7 @@ export const resetImplicitTimeout = async () => {
 }
 
 export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<T>) => {
-  await setImplicitTimeout(10)
+  await setImplicitTimeout(timeout)
   try {
     return await fn()
   } finally {
@@ -68,9 +68,9 @@ export const checkIfElementWithTestIdExists = async (testId: string, timeout = 1
   return element.elementId !== undefined
 }
 
-export const waitForAnyElementWithTestId = async (testIds: string[]) => {
+export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 10) => {
   // https://webdriver.io/docs/api/browser/$
-  return withImplicitTimeout(10, async () => {
+  return withImplicitTimeout(timeout, async () => {
     let found = false
     let count = 0
     const max = Appium.options.waitforTimeout / 1000
