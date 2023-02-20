@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { expect, test } from '@playwright/test'
 
-import { clickElementByTestId, defaultAuthSteps, locateElementByTestId } from './helpers'
+import { clickElementByTestId, deleteAccount, locateElementByTestId, registerNewUser } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Comment', () => {
   test('creates a comment and displays it in the post page.', async ({ context, page }) => {
     // login
-    await defaultAuthSteps({ context, page })
+    await registerNewUser({ context, page })
 
     // go to home feed
     await clickElementByTestId(page, 'btn-to-home-view')
@@ -37,5 +37,7 @@ test.describe('@Comment', () => {
 
     // check if comment is present in the comments page
     await expect(page.getByText(comment)).toBeVisible()
+
+    await deleteAccount(page)
   })
 })

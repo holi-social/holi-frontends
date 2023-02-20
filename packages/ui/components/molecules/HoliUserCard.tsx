@@ -59,7 +59,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
             <HoliText style={styles.textStyle} bold>
               {fullName}
             </HoliText>
-            {category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
+            {!!category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
             <View style={styles.aboutMeContainer}>
               <HoliText style={styles.textStyleAboutMe}>{aboutMe}</HoliText>
             </View>

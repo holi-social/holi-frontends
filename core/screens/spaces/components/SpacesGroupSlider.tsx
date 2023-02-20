@@ -58,7 +58,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
-        {location && (
+        {!!location && (
           <SpacesFilterPill
             testID="spaces-location-title"
             label={location}

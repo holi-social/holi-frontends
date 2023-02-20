@@ -11,7 +11,7 @@ import { displayError, logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -35,7 +35,7 @@ export type VolunteeringEngagementDetailParams = {
 }
 const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 
-type VolunteeringEngagementDetailProps = NativeStackScreenProps<BottomTabsScreens>
+type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
 const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
@@ -125,7 +125,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <View style={{ marginTop: 10 }}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
         <View style={styles.organizerInfoRow}>
-          {(organizer.imageUrl && (
+          {(!!organizer.imageUrl && (
             <HoliImage source={{ uri: organizer.imageUrl }} style={styles.organizerLogo} label={organizer.name ?? ''} />
           )) || <></>}
           <HoliText>{organizer.name}</HoliText>

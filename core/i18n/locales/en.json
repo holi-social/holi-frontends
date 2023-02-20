@@ -232,7 +232,7 @@
   "spaces.edit.avatar": "Change logo",
   "spaces.edit.avatar.add": "Add logo",
   "spaces.edit.avatar.requirements": ".jpg or .png file up to 8 MB",
-  "spaces.edit.close": "Done",
+  "spaces.edit.close": "Finish editing",
   "spaces.edit.mainImage": "Change cover image",
   "spaces.edit.nameAndGoal": "Edit name and goal",
   "spaces.edit.success": "Successfully updated space",
