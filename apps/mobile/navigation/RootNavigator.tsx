@@ -5,13 +5,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
-import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
-import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
+import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -21,21 +19,15 @@ export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
-
-  [RouteName.InsightDetailPage]: InsightDetailPageParams
-  [RouteName.InsightPostDetailPage]: PostDetailPageParams
-  [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
-  [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.PostCommentInputPage]: CommentInputPageParams
-
-  [RouteName.DonationsApp]: undefined
-  [RouteName.GoodNewsApp]: undefined
-  [RouteName.VolunteeringApp]: undefined
+  [RouteName.Insights]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
-  [RouteName.Search]: undefined
+
+  [RouteName.DonationsApp]: undefined
+  [RouteName.GoodNewsApp]: undefined
+  [RouteName.VolunteeringApp]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -51,41 +43,9 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} />
-      <RootStack.Screen
-        name={RouteName.InsightDetailPage}
-        component={InsightDetailPage}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.InsightPostDetailPage}
-        component={PostDetailPage}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.PostDetailPage}
-        component={PostDetailPage}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.InsightPostCommentInputPage}
-        component={CommentInputPage}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.PostCommentInputPage}
-        component={CommentInputPage}
-        options={{
-          headerShown: true,
-        }}
-      />
+
+      {/* HomeFeed (InsightsHome) is in BottomTabs */}
+      <RootStack.Screen name={RouteName.Insights} component={InsightsNavigator} />
 
       {/* SpacesHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} />

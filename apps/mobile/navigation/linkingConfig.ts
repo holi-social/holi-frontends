@@ -14,6 +14,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             [RouteName.HomeFeed]: '',
             [RouteName.UserProfile]: 'profile/:userId',
+            [RouteName.Search]: 'search',
           },
         },
         [RouteName.SpacesHomeStack]: {
@@ -37,11 +38,15 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
-    [RouteName.InsightDetailPage]: 'insights/:insightId',
-    [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
-    [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
-    [RouteName.PostDetailPage]: 'posts/:postId',
-    [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+    [RouteName.Insights]: {
+      screens: {
+        [RouteName.InsightDetailPage]: 'insights/:insightId',
+        [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
+        [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+        [RouteName.PostDetailPage]: 'posts/:postId',
+        [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+      },
+    },
 
     [RouteName.Spaces]: {
       screens: {
@@ -53,7 +58,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
 
     // Modals
-    [RouteName.Search]: 'search',
     [RouteName.Notifications]: 'notifications',
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
