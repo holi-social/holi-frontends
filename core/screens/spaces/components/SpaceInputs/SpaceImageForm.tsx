@@ -114,7 +114,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>
-      {description && <HoliText style={styles.subTitle}>{description}</HoliText>}
+      {!!description && <HoliText style={styles.subTitle}>{description}</HoliText>}
       <ImageUploader />
     </View>
   )

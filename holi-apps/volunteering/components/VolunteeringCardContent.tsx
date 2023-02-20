@@ -38,7 +38,7 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
       <HoliText size={'default'} bold={true} style={styles.titleText}>
         {title}
       </HoliText>
-      {engagement.location && (
+      {!!engagement.location && (
         <View style={styles.locationContainer}>
           <HoliIcon icon="globe" size={14} color={colors.foreground20} style={styles.locationIcon} />
           <HoliText size={'small'} style={styles.locationText}>

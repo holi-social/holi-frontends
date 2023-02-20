@@ -42,7 +42,7 @@ const DonationProgress = ({
         <HoliText size="small" style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.count', { count: donationsCount })}
         </HoliText>
-        {category && (
+        {!!category && (
           <>
             <HoliText size="small" style={{ color: colors.brandColorB30 }}>
               {' ∙ '}

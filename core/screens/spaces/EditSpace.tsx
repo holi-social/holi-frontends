@@ -162,7 +162,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.NAME)}
               >
-                {space.description && <HoliText>{space.description}</HoliText>}
+                {!!space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
 
               <SpaceSection
@@ -186,7 +186,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               </SpaceSection>
 
               <SpaceSection title={t('spaces.spaceDetails.location')} editable>
-                {space.location && <HoliText>{space.location}</HoliText>}
+                {!!space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
 
               <SpaceSection
