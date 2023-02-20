@@ -12,7 +12,6 @@ import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type RootStackScreens = {
@@ -34,21 +33,14 @@ const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 const RootNavigator: React.VFC = () => {
   return (
-    <RootStack.Navigator
-      initialRouteName={RouteName.BottomTabs}
-      screenOptions={{
-        headerShown: false,
-        header: HeaderAnimated,
-        headerShadowVisible: false,
-      }}
-    >
-      <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} />
+    <RootStack.Navigator initialRouteName={RouteName.BottomTabs}>
+      <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} options={{ headerShown: false }} />
 
       {/* HomeFeed (InsightsHome) is in BottomTabs */}
-      <RootStack.Screen name={RouteName.Insights} component={InsightsNavigator} />
+      <RootStack.Screen name={RouteName.Insights} component={InsightsNavigator} options={{ headerShown: false }} />
 
       {/* SpacesHome is in BottomTabs */}
-      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} />
+      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
 
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen
