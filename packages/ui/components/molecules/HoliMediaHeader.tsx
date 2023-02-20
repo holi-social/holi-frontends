@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type MediaHeaderProps = {
@@ -30,7 +30,7 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
 
   return (
     <View style={[styles.row, style]} testID={testID}>
-      <HoliUserAvatar
+      <HoliAvatar
         imageSrc={author.avatar}
         label={authorName}
         initials={author.avatarLabel || ''}
