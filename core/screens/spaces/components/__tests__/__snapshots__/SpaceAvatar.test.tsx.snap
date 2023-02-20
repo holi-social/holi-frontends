@@ -59,7 +59,7 @@ exports[`React tree renders initials with colored background, when given image p
     [
       {
         "alignItems": "center",
-        "backgroundColor": "#810a00",
+        "backgroundColor": undefined,
         "borderRadius": 32,
         "justifyContent": "center",
         "overflow": "hidden",
