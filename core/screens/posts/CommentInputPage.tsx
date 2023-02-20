@@ -15,7 +15,7 @@ import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -31,7 +31,7 @@ export type CommentInputPageParams = {
   postId: string
 }
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()

@@ -8,7 +8,7 @@ import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/P
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
-export type SpacesScreens = {
+export type InsightsScreens = {
   [RouteName.InsightDetailPage]: InsightDetailPageParams
   [RouteName.InsightPostDetailPage]: PostDetailPageParams
   [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
@@ -16,7 +16,7 @@ export type SpacesScreens = {
   [RouteName.PostCommentInputPage]: CommentInputPageParams
 }
 
-const InsightsStack = createNativeStackNavigator<SpacesScreens>()
+const InsightsStack = createNativeStackNavigator<InsightsScreens>()
 
 const InsightsNavigator: React.VFC = () => {
   return (

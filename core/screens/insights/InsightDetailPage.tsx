@@ -16,7 +16,7 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -34,7 +34,7 @@ export type InsightDetailPageParams = {
 
 const { useParam } = createParam<InsightDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
