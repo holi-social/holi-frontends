@@ -46,6 +46,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         style={style}
         disabled={loading}
         onPress={() => setShowConfirmationModal(true)}
+        testID="btn-delete-account"
       >
         <HoliText style={[styles.text]}>{label}</HoliText>
       </HoliButton>

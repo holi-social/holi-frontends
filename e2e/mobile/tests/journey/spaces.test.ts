@@ -2,6 +2,7 @@ import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
+  scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
@@ -80,7 +81,7 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('btn-to-open-space-collaborators-modal')
 
-    await waitForElementWithTestId('space-description')
+    await scrollToElementWithTestId('space-description', 'down', { maxAttempts: 2 })
 
     // FIXME: not working anymore:
     // element ("//*[@resource-id='space-details-container']") still not displayed after 10000ms

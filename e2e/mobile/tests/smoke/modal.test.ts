@@ -6,7 +6,6 @@ describe('@HoliModal', () => {
     await waitForHomeScreen()
 
     // open editors modal
-    await waitForElementWithTestId('avatar-pile-open-modal-button')
     await tapOnElementWithTestId('avatar-pile-open-modal-button')
 
     // inspect modal content
@@ -18,7 +17,6 @@ describe('@HoliModal', () => {
     // await waitForElementWithTestId('insight-editors-modal-backdrop')
     // await tapOnElementWithTestId('insight-editors-modal-backdrop')
 
-    await waitForElementWithTestId('insight-editors-close-btn')
     await tapOnElementWithTestId('insight-editors-close-btn')
 
     // modal should be closed again
