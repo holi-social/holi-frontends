@@ -11,6 +11,8 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
@@ -46,8 +48,9 @@ const ChatHome: React.VFC<ScreenProps> = () => {
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
-          {title}
+          {' '}
         </HoliHeading>
+        <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
       </View>
     </DefaultLayout>
   )
