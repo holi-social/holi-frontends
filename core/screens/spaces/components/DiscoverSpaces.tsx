@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
@@ -24,6 +24,7 @@ type DiscoverSpacesProps = {
 
 const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   const { loadingTopics, topics = [] } = useContext(SpaceTermContext)
 

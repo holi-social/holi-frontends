@@ -14,7 +14,7 @@ import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -28,6 +28,7 @@ const Login: React.VFC<ScreenProps> = () => {
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
   const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
+  const { displayError } = useErrorHandling()
 
   useLayoutEffect(() => {
     setOptions({
@@ -48,7 +49,7 @@ const Login: React.VFC<ScreenProps> = () => {
         setFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t])
+  }, [t, displayError])
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()

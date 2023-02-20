@@ -12,7 +12,7 @@ import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistra
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -35,6 +35,7 @@ const Registration: React.VFC<ScreenProps> = () => {
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
   const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
+  const { displayError } = useErrorHandling()
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -45,7 +46,7 @@ const Registration: React.VFC<ScreenProps> = () => {
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t, isLoggedIn])
+  }, [safeSetFlow, t, isLoggedIn, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])

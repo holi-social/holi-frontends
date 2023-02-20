@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
 import {
@@ -31,11 +31,12 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
+  const { displayError } = useErrorHandling()
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const { userId } = useAuth()

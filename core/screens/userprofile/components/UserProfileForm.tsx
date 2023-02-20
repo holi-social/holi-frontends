@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -43,6 +43,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const scrollViewRef = useRef<ScrollView>()
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   const testID = props.testId || 'user-profile-edit-form'
 
@@ -79,7 +80,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   }
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const header = (

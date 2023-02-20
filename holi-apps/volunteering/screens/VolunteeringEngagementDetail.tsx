@@ -7,7 +7,8 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError, logError } from '@holi/core/errors/helpers'
+import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -47,6 +48,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
 
   const [fetchEngagementById, { loading, data, error }] =
     useLazyQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery)

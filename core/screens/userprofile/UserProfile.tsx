@@ -10,7 +10,8 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
-import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
+import { isNotFoundError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -39,6 +40,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
 
   const { isLoggedIn, userId: authenticatedUserId } = useAuth()
   const [userId = ''] = useParam('userId')
@@ -121,7 +123,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     if (isNotFoundError(error)) {
       return <NotFound />
     } else {
-      displayError(error, t('global.technicalError'))
+      displayError(error)
     }
   }
 

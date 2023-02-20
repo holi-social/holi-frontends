@@ -26,7 +26,7 @@ const SettingsOverview: React.VFC = () => {
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
   const goTo = useCallback(
-    (url) => () => {
+    (url: string) => () => {
       navigate(url)
     },
     [navigate]
