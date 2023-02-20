@@ -27,6 +27,7 @@ const SpaceFragment = gql`
     created
     avatar
     cover
+    avatarDefaultColor
     location
     connectionStatusToMyself
     links {
@@ -254,6 +255,7 @@ export const updateSpaceMutation = gql`
       description
       avatar
       cover
+      avatarDefaultColor
       topics {
         id
         title
