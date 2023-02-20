@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -130,10 +130,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     },
     [delayedScrollTo]
   )
-
-  useEffect(() => {
-    delayedScrollTo.run({ y: 0 }, 300)
-  }, [delayedScrollTo])
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 

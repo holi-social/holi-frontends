@@ -20,7 +20,7 @@ import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashb
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
@@ -30,7 +30,7 @@ export type SpaceDetailsParams = {
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')

@@ -20,7 +20,7 @@ import { ContentType } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { FeedStackScreens } from '@holi/mobile/navigation/FeedNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -34,7 +34,7 @@ export type UserProfileParams = {
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<FeedStackScreens>
 
 const UserProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()

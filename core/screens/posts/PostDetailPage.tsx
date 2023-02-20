@@ -27,7 +27,7 @@ import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -40,7 +40,7 @@ export type PostDetailPageParams = {
 
 const { useParam } = createParam<PostDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
