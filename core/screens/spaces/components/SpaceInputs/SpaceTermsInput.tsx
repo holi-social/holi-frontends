@@ -83,7 +83,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
         trailingIcon="search"
         style={styles.input}
       />
-      {hint && (
+      {!!hint && (
         <View style={styles.hintContainer}>
           <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
           <HoliText size="small" style={styles.hint}>

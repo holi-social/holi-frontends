@@ -26,7 +26,7 @@ const VolunteeringDetailHeader: React.VFC<VolunteeringDetailHeaderProps> = ({
         <HoliHeading level="1" size={'large'} style={{ fontWeight: '400' }}>
           {engagement.title}
         </HoliHeading>
-        {engagement.location && (
+        {!!engagement.location && (
           <LocationContainer
             locationName={engagement.location}
             iconColor={colors.foreground30}

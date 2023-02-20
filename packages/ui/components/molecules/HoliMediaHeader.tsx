@@ -40,7 +40,7 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
 
       <View style={[styles.titleContainer]}>
         <HoliText bold={boldTitle}>{title}</HoliText>
-        {formattedDate && (
+        {!!formattedDate && (
           <HoliText size="small" style={styles.date}>
             {formattedDate}
           </HoliText>
