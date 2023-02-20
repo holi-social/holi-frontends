@@ -63,21 +63,6 @@ const BottomTabsNavigator: React.VFC = () => {
           tabBarTestID: 'btn-to-home-view',
         }}
       />
-      {/*
-      // TODO: FIXME: HeaderAnimated causes too much recursion here
-      // needs to be in extra navigator ?!
-      <BottomTabs.Screen
-        name={RouteName.SpacesHome}
-        component={Spaces}
-        options={{
-          header: HeaderAnimated,
-          headerShadowVisible: false,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
-          tabBarTestID: 'btn-to-spaces',
-        }}
-      /> */}
       <BottomTabs.Screen
         name={RouteName.SpacesHomeStack}
         component={SpacesHomeNavigator}

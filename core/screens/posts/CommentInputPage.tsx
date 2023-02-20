@@ -1,7 +1,15 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -17,7 +25,6 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -136,7 +143,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <SafeArea style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea}>
         <HoliKeyboardSaveView onHeightChange={onHeightChange}>
           <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
             <View
@@ -195,7 +202,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
             </View>
           </View>
         </HoliKeyboardSaveView>
-      </SafeArea>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
