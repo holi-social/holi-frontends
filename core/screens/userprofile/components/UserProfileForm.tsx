@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -32,19 +32,33 @@ type UserProfileFormProps = {
 const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
 
 const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
-  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
-  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const scrollViewRef = useRef<ScrollView>()
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
+  const { handleGraphQLError } = useFieldErrors({
+    i18nPrefix: 'user.profile',
+    handledFieldErrors: ['firstName', 'lastName', 'aboutMe', 'pronouns', 'location'],
+  })
 
   const testID = props.testId || 'user-profile-edit-form'
+
+  const resetErrorsForField = useCallback(
+    (fieldName: string) =>
+      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [fieldName]: _, ...otherErrors } = currentErrors
+        return otherErrors
+      }),
+    []
+  )
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -61,11 +75,15 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       setFieldErrors(resultSchema.error.flatten().fieldErrors)
       return
     }
-    const result = await updateUser({ variables: { input } })
-
-    if (!error && result.data?.updateAuthenticatedUser && onSubmit) {
-      onSubmit(result.data.updateAuthenticatedUser)
-    }
+    await updateUser({
+      variables: { input },
+      onCompleted: (data) => {
+        if (onSubmit) {
+          onSubmit(data.updateAuthenticatedUser)
+        }
+      },
+      onError: (error) => setFieldErrors(handleGraphQLError(error)),
+    })
   }
 
   let notificationComponent: React.ReactNode | null = null
@@ -76,10 +94,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
-  }
-
-  if (error) {
-    displayError(error, t('global.technicalError'))
   }
 
   const header = (
@@ -100,6 +114,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           inline: true,
         }}
         onPickImage={setPickedAvatar}
+        maxFileSizeInMB={10}
       >
         <View style={styles.addImage}>
           <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
@@ -154,9 +169,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
-          onChange={(text) => {
+          onChange={(text: string) => {
             setFirstName(onlyAllowedCharacters(text))
-            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ firstName: undefined } }))
+            resetErrorsForField('firstName')
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
@@ -170,9 +185,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
-          onChange={(text) => {
+          onChange={(text: string) => {
             setLastName(onlyAllowedCharacters(text))
-            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ lastName: undefined } }))
+            resetErrorsForField('lastName')
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.lastName?.join()}
@@ -184,7 +199,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           inputLabel={t('user.profileForm.aboutMe')}
           accessibilityLabel={t('user.profileForm.aboutMe')}
           placeholder={t('user.profileForm.aboutMePlaceholder')}
-          onChange={(text) => setAboutMe(text)}
+          validationErrorText={fieldErrors?.aboutMe?.join()}
+          onChange={(text: string) => {
+            setAboutMe(text)
+            resetErrorsForField('aboutMe')
+          }}
           noOfVisibleLines={5}
           maxNoOfVisibleLines={10}
           maxNoOfCharacters={3000}
@@ -196,7 +215,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           inputLabel={t('user.profileForm.pronouns')}
           accessibilityLabel={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
-          onChange={(text) => setPronouns(text)}
+          validationErrorText={fieldErrors?.pronouns?.join()}
+          onChange={(text: string) => {
+            setPronouns(text)
+            resetErrorsForField('pronouns')
+          }}
           {...scrollToPropsFor('pronouns')}
           style={styles.input}
         />
@@ -205,7 +228,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           inputLabel={t('user.profileForm.location')}
           accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
-          onChange={(text) => setLocation(text)}
+          validationErrorText={fieldErrors?.location?.join()}
+          onChange={(text: string) => {
+            setLocation(text)
+            resetErrorsForField('location')
+          }}
           {...scrollToPropsFor('location')}
           style={styles.input}
         />

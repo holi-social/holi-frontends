@@ -335,6 +335,8 @@
   "user.engagementLevel.title.INTERESTED": "Interessiert",
   "user.interests.form.headline": "Themen, an denen ich interessiert bin",
   "user.interests.form.subline": "Deine Interessen erlauben es anderen Nutzenden, Dich besser kennenzulernen, und uns, unser Angebot auf Dich zuzuschneiden.",
+  "user.profile.validation.avatar.invalid_image": "Die hochgeladene Datei ist entweder kein valides Bild oder die Datei ist beschädigt.",
+  "user.profile.validation.avatar.max_upload_size": "Die hochgeladene Datei ist größer als {}MB",
   "user.profileForm.aboutMe": "Über mich",
   "user.profileForm.aboutMePlaceholder": "Erzähle ein wenig über Dich...",
   "user.profileForm.firstName": "Vorname",
