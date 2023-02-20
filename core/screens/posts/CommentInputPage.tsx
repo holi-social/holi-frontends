@@ -157,21 +157,22 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
               <View style={mixins.container}>
                 <VerticalLine style={styles.verticalLine} />
 
-              <View style={styles.inputContainer}>
-                <HoliAvatar
-                  imageSrc={user.avatar}
-                  label={user.fullName}
-                  initials={user.avatarLabel || ''}
-                  defaultColor={user.avatarDefaultColor || ''}
-                  size="small"
-                />
-                <HoliRichTextInput
-                  placeholder={t('insights.posts.comments.placeholder')}
-                  autofocus={true}
-                  onChange={setText}
-                  style={styles.textInput}
-                  testID="post-comment"
-                />
+                <View style={styles.inputContainer}>
+                  <HoliAvatar
+                    imageSrc={user.avatar}
+                    label={user.fullName}
+                    initials={user.avatarLabel || ''}
+                    defaultColor={user.avatarDefaultColor || ''}
+                    size="small"
+                  />
+                  <HoliRichTextInput
+                    placeholder={t('insights.posts.comments.placeholder')}
+                    autofocus={true}
+                    onChange={setText}
+                    style={styles.textInput}
+                    testID="post-comment"
+                  />
+                </View>
               </View>
             </View>
           </ScrollView>
