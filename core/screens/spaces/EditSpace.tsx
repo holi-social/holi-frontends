@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -58,7 +58,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
-  const { width: deviceWidth } = useWindowDimensions()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
@@ -117,11 +116,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
-            <SpaceAvatar
-              space={space}
-              size={deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'}
-              testID="space-edit-avatar"
-            />
+            <SpaceAvatar space={space} testID="space-edit-avatar" />
             <HoliButton
               label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"

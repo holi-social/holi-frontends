@@ -1,7 +1,7 @@
 import partition from 'lodash.partition'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceHeaderProps = {
   space: Space
@@ -30,7 +30,6 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
     () => partition(space.members.data, 'isAdministrator'),
     [space]
   )
-  const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
@@ -43,7 +42,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-      <SpaceAvatar space={space} size={deviceWidth > +vars.breakpointXl ? 'extralarge' : 'large'} />
+      <SpaceAvatar space={space} />
       <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>

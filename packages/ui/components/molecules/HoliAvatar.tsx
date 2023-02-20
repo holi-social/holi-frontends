@@ -40,7 +40,7 @@ const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, 
   }
 
   return (
-    <View {...props} style={[styles.HoliAvatar, style, styles[sizeClass]]}>
+    <View {...props} style={[styles.wrapper, style, styles[sizeClass]]}>
       {hasImage ? (
         <Image source={imageUri} style={styles.image} {...accessibilityProps} />
       ) : (
@@ -57,7 +57,7 @@ export default React.memo(HoliAvatar)
 const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolean) => {
   const initialsFontSize = (width / 10) * 4.5
   return StyleSheet.create({
-    HoliAvatar: {
+    wrapper: {
       borderRadius: width / 2,
       backgroundColor: imageIsAvailable ? colors.background20 : defaultColor,
       alignItems: 'center',

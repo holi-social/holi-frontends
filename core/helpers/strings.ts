@@ -8,10 +8,10 @@ export const createUUID = () => {
   return uuid
 }
 
-export const getInitials = (name: string, maxLength = 3) =>
-  name
+export const getInitials = (str: string, maxLength = 3) =>
+  str
     .split(' ')
-    .map((_) => _[0] || '')
+    .map((name) => name[0] || '')
     .join('')
     .substring(0, maxLength) // maxLength is the max number of characters in the initials string
 
