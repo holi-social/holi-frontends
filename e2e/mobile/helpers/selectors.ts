@@ -13,9 +13,6 @@ const elementBySelector = async (elementSelector: string) => await Appium.$(elem
 export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
 
 const waitForElement = async (elementSelector: string, timeout?: number) => {
-  console.log(
-    `waitForElement('${elementSelector}', ${timeout}) - implicitTimeout: ${Appium.options.currentImplicitTimeout}`
-  )
   // https://webdriver.io/docs/api/browser/$
   const element = await elementBySelector(elementSelector)
 
@@ -61,9 +58,6 @@ export const withImplicitTimeout = async <T>(timeout: number, fn: () => Promise<
 
 export const checkIfElementWithTestIdExists = async (testId: string, timeout = 10) => {
   // https://webdriver.io/docs/api/browser/$
-  console.log(
-    `checkIfElementWithTestIdExists('${testId}', ${timeout}) - implicitTimeout: ${Appium.options.currentImplicitTimeout}`
-  )
   const element = await withImplicitTimeout(timeout, async () => await elementByTestId(testId))
   return element.elementId !== undefined
 }
