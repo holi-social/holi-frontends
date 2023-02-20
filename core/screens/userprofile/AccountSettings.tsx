@@ -12,11 +12,11 @@ import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<AuthStackScreensList>
 
 const AccountSettings: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()

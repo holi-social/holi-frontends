@@ -448,7 +448,7 @@ It may be configured at different places, but over all it must be unique.
 
 ```tsx
 // e.g.
-<RootStack.Screen name="Spaces" component={SpacesNavigator} />
+<RootStack.Screen name="Spaces" component={SpacesHomeNavigator} />
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
@@ -542,7 +542,7 @@ const Quote: React.VFC<QuoteProps> = ({ ssr, ssrData }: QuoteProps) => {
 
   if (loading) return <HoliText>Loading...</HoliText>
   if (error) return <HoliText>Error...</HoliText>
-  
+
   const myData = ssr ? ssrData : data
   return <HoliText>My Data: {JSON.stringify(myData)}</HoliText>
 }

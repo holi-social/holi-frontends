@@ -25,7 +25,7 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/components/Space
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -49,7 +49,7 @@ export type EditSpaceParams = {
 
 const { useParam } = createParam<EditSpaceParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
