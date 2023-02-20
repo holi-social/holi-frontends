@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
