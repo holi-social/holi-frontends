@@ -33,7 +33,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
           </View>
         </SpaceSection>
       )}
-      {space.location && (
+      {!!space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
         </SpaceSection>

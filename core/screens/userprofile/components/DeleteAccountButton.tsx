@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import {
   DeleteAuthenticatedUserResponse,
@@ -24,6 +24,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { openToast } = useToast()
   const logout = useLogout()
+  const { displayError } = useErrorHandling()
 
   const [deleteAuthenticatedUser, { loading, error }] = useMutation<DeleteAuthenticatedUserResponse>(
     deleteAuthenticatedUserMutation,
@@ -46,6 +47,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         style={style}
         disabled={loading}
         onPress={() => setShowConfirmationModal(true)}
+        testID="btn-delete-account"
       >
         <HoliText style={[styles.text]}>{label}</HoliText>
       </HoliButton>

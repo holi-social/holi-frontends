@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -27,6 +27,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
     },
   })
+  const { displayError } = useErrorHandling()
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)

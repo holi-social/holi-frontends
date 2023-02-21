@@ -8,7 +8,7 @@ import {
 } from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePicker/useFileSizeValidation'
 
 export type HoliImagePickerOptions = ImagePickerOptions & { maxFileSizeInMB?: number }
@@ -17,6 +17,7 @@ export const useMediaLibraryImagePicker = () => {
   const [image, setImage] = useState<ImageInfo>()
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
   const isFileSizeValid = useFileSizeValidation()
+  const { displayError } = useErrorHandling()
 
   const verifyPermissions = useCallback(async () => {
     if (!mediaLibraryPermissionInfo) return false
@@ -33,7 +34,7 @@ export const useMediaLibraryImagePicker = () => {
     }
 
     return true
-  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission])
+  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError])
 
   const pickImage = useCallback(
     async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {

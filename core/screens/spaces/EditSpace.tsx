@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -25,7 +25,7 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/components/Space
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -52,7 +52,7 @@ export type EditSpaceParams = {
 
 const { useParam } = createParam<EditSpaceParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
@@ -61,11 +61,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
-  const { width: deviceWidth } = useWindowDimensions()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
-
-  const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
@@ -122,7 +119,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
-            <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-edit-avatar" />
+            <SpaceAvatar space={space} testID="space-edit-avatar" />
             <HoliButton
               label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"
@@ -165,7 +162,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.NAME)}
               >
-                {space.description && <HoliText>{space.description}</HoliText>}
+                {!!space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
 
               <SpaceSection

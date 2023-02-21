@@ -5,8 +5,8 @@ import { AccessibilityProps, Platform, StyleProp, StyleSheet, View, ViewStyle } 
 import { User } from '@holi/core/screens/userprofile/types'
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliUserCardVariant = 'small' | 'normal'
@@ -47,7 +47,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   return (
     <>
       <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
-        <HoliUserAvatar
+        <HoliAvatar
           imageSrc={avatar}
           label={fullName || t('user.profileView.anonymous')}
           initials={avatarLabel}
@@ -59,7 +59,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
             <HoliText style={styles.textStyle} bold>
               {fullName}
             </HoliText>
-            {category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
+            {!!category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
             <View style={styles.aboutMeContainer}>
               <HoliText style={styles.textStyleAboutMe}>{aboutMe}</HoliText>
             </View>

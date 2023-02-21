@@ -131,7 +131,7 @@ const HoliCheckbox = ({
         </Pressable>
         {children && <View style={styles.label}>{children}</View>}
       </View>
-      {errorMessage && (
+      {!!errorMessage && (
         <HoliText size="extrasmall" style={styles.errorMessage}>
           {errorMessage}
         </HoliText>
