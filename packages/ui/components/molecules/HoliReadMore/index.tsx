@@ -16,6 +16,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   style = {},
   fontStyle = {},
   buttonStyle = {},
+  testID,
   ...textProps
 }) => {
   const [truncatedText, setTruncatedText] = useState(children || '')
@@ -97,8 +98,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         if (buttonState === 'hidden') {
           setButtonState('readMore')
         }
-      } else {
-        setButtonState('hidden')
       }
 
       setTruncatedText(truncatedText)
@@ -111,7 +110,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   }, [])
 
   return (
-    <View style={style}>
+    <View style={style} testID={testID}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -132,6 +131,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
             accessible={true}
             accessibilityRole="button"
             size="small"
+            {...textProps}
             style={[styles.text, buttonStyle]}
           >
             {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
