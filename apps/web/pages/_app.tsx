@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
@@ -8,6 +8,7 @@ import { I18nextProvider } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
+import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import i18n, { initI18n } from '@holi/core/i18n'
 import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,12 +16,13 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import '@holi/web/styles/globals.scss'
 
-export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode
+export interface AppPropsWithLayout extends AppProps {
+  Component: NextPageWithLayout
+  pageProps: ApolloStateProps
 }
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
+export type NextPageWithLayout = NextPage<ApolloStateProps> & {
+  getLayout?: (page: ReactElement) => ReactNode
 }
 
 const styles = StyleSheet.create({
@@ -38,6 +40,7 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   const [translationsLoaded, setTranslationsLoaded] = useState(i18n.isInitialized)
+
   useEffect(() => {
     initI18n().then(() => {
       setTranslationsLoaded(true)
@@ -57,7 +60,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   return translationsLoaded ? (
     <I18nextProvider i18n={i18n}>
       <ScrollYProvider>
-        <RootProvider webPageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</RootProvider>
+        <RootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</RootProvider>
       </ScrollYProvider>
     </I18nextProvider>
   ) : (

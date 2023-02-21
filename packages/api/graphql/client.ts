@@ -122,21 +122,23 @@ interface ApolloCreateClientOptions {
 }
 
 const isServer = typeof window === 'undefined'
-// FIXME: remove static value for the link
+// FIXME: remove static value for the link!!!
 const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql' })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isServer ? from([errorLink, httpLink]) : link
+
   return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
 }
 
 // Web
-/** This `let` variable can only be mutated by the initializeApolloWebClient function. */
-let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
+/** This `let` variable can only be mutated by the initializeApolloSSRClient function. */
+let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 
-// TODO: include documentation comment
-export const initializeApolloWebClient = (initState = null) => {
-  const client = apolloWebClient ?? createApolloClient({ ssrMode: isServer })
+type SSRClientInitState = Record<string, unknown> | null
+
+export const initializeApolloSSRClient = (initState: SSRClientInitState = null) => {
+  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isServer })
 
   if (initState) {
     // TODO: merge state and cache props
@@ -145,7 +147,7 @@ export const initializeApolloWebClient = (initState = null) => {
   }
 
   if (typeof window === 'undefined') return client
-  if (!client) apolloWebClient = client
+  if (!client) apolloSSRClient = client
 
   return client
 }

@@ -6,7 +6,8 @@ import { Platform, StyleSheet } from 'react-native'
 import client from '@holi/api/graphql/client'
 import AuthContextProvider, { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import { useApolloWebClient } from '@holi/core/helpers/useApolloWebClient'
+import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
+import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
@@ -53,13 +54,11 @@ const Children = ({ children }: React.PropsWithChildren<unknown>) => {
 }
 
 interface RootProviderProps {
-  webPageProps?: unknown
+  pageProps: ApolloStateProps
 }
 
-const RootProvider = ({ children, webPageProps }: React.PropsWithChildren<RootProviderProps>) => {
-  // FIXME: provide right types
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apolloWebClient = useApolloWebClient(webPageProps ?? ({} as any))
+const RootProvider = ({ children, pageProps }: React.PropsWithChildren<RootProviderProps>) => {
+  const apolloWebClient = useApolloClient(pageProps)
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>

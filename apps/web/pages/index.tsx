@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
-import { initializeApolloWebClient } from '@holi/api/graphql/client'
-import { addApolloWebState } from '@holi/core/helpers/useApolloWebClient'
+import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { addApolloSSRState } from '@holi/core/helpers/useApolloSSRClient'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 
@@ -12,12 +12,14 @@ import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 const HomeFeedPage: NextPage = () => <HomeFeed />
 
 export const getServerSideProps = async () => {
-  const client = initializeApolloWebClient()
+  const client = initializeApolloSSRClient()
 
   // Include missing queries to be populated in the server
   await client.query({ query: lastInsightsQuery })
 
-  return addApolloWebState(client, {
+  // * The server passes the props to the component through the Apollo cache. We
+  // * can pass any other states not fetched from Apollo to the props prop.
+  return addApolloSSRState(client, {
     props: {},
   })
 }
