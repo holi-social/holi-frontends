@@ -72,7 +72,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
         </HoliLink>
 
         <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
-          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
+          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
         </HoliReadMore>
       </View>
 
