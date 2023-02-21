@@ -3,6 +3,7 @@ import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
+import { concat, mergeDeepWith } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
@@ -119,12 +120,12 @@ interface ApolloCreateClientOptions {
   readonly ssrMode: boolean
 }
 
-const isServer = typeof window === 'undefined'
+const isSSR = typeof window === 'undefined'
 // FIXME: remove static value for the link!!!
 const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql' })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = isServer ? from([errorLink, httpLink]) : link
+  const clientLink = isSSR ? from([errorLink, httpLink]) : link
 
   return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
 }
@@ -136,16 +137,17 @@ let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 type SSRClientInitState = Record<string, unknown> | null
 
 export const initializeApolloSSRClient = (initState: SSRClientInitState = null) => {
-  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isServer })
+  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
 
   if (initState) {
-    // TODO: merge state and cache props
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _ = client.extract()
+    const existingCache = client.extract()
+    const merge = mergeDeepWith(concat)
+
+    client.cache.restore(merge(existingCache, initState))
   }
 
-  if (typeof window === 'undefined') return client
-  if (!client) apolloSSRClient = client
+  if (isSSR) return client
+  if (!apolloSSRClient) apolloSSRClient = client
 
   return client
 }
