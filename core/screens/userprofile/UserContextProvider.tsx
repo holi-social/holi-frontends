@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
@@ -22,7 +21,7 @@ UserContext.displayName = 'UserContext'
 
 const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn, setUserLoggedOut } = useAuth()
-  const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !isLoggedIn,
@@ -30,7 +29,7 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
   })
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
     setUserLoggedOut()
   }
 

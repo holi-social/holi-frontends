@@ -12,8 +12,26 @@ const MOCKS = [
     request: {
       query: updateConnectionWithUserMutation,
       variables: {
-        userId: notificationConnectionRequest.options.user.id,
-        action: 'CONNECT',
+        input: {
+          userId: notificationConnectionRequest.options.user.id,
+          action: 'CONNECT',
+        },
+      },
+    },
+    result: {
+      data: {
+        updateConnectionWithUser: () => Promise.resolve({}),
+      },
+    },
+  },
+  {
+    request: {
+      query: updateConnectionWithUserMutation,
+      variables: {
+        input: {
+          userId: notificationConnectionRequest.options.user.id,
+          action: 'DISCONNECT',
+        },
       },
     },
     result: {
@@ -42,28 +60,30 @@ describe('NotificationConnectionItem.tsx', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders loader after buttons pressed', async () => {
-    const { getByRole, getByTestId } = render(
+  it('renders loader after ignoring a connection request', async () => {
+    const { getByTestId } = render(
       <MockedProvider mocks={MOCKS} addTypename={false}>
         <NotificationConnectionItem notification={notificationConnectionRequest} />
       </MockedProvider>
     )
 
-    await fireEvent(
-      getByRole('button', {
-        name: /notifications.connection.ignore/i,
-      }),
-      'click'
-    )
+    fireEvent(getByTestId('ignore-connection-request-button'), 'click')
+
+    expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
     await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
+  })
 
-    await fireEvent(
-      getByRole('button', {
-        name: /notifications.connection.accept/i,
-      }),
-      'click'
+  it('renders loader after accepting a connection request', async () => {
+    const { getByTestId } = render(
+      <MockedProvider mocks={MOCKS} addTypename={false}>
+        <NotificationConnectionItem notification={notificationConnectionRequest} />
+      </MockedProvider>
     )
+
+    fireEvent(getByTestId('accept-connection-request-button'), 'click')
+
+    expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
     await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
   })

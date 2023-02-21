@@ -33,12 +33,13 @@
     - [I18n (Internationalization)](#i18n-internationalization)
       - [Usage example](#usage-example)
       - [VS Code extension](#vs-code-extension)
+    - [Error handling and validation](#error-handling-and-validation)
   - [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
     - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
     - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
-      - [Configure the page/screen component to use SSR or SSG:](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
+      - [Configure the page/screen component to use SSR or SSG](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
         - [`core/screens/Quote.tsx`](#corescreensquotetsx)
-      - [In the web app, in the file corresponding to the page using SSR or SSG:](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
+      - [In the web app, in the file corresponding to the page using SSR or SSG](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
         - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
   - [Authentication](#authentication)
     - [Mobile](#mobile-1)
@@ -219,7 +220,7 @@ To give an overview, the project contains the following workspaces (npm packages
   - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
-  - `errors` - shared components and helpers for error handling
+  - `errors` - shared components, hooks and helpers for error handling
   - `i18n` - shared configuration for internationalization
     - `locales` - translations
   - `navigation` - shared components and helpers for navigation
@@ -448,7 +449,7 @@ It may be configured at different places, but over all it must be unique.
 
 ```tsx
 // e.g.
-<RootStack.Screen name="Spaces" component={SpacesNavigator} />
+<RootStack.Screen name="Spaces" component={SpacesHomeNavigator} />
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
@@ -506,6 +507,17 @@ See `holi-apps/donations/components/DonationProgress.tsx` for an example for num
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
+### Error handling and validation
+
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage.
+
+You can find several utils and hooks in `core/errors` to handle and display errors.
+
+- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage example)
+- and `useErrorHandling` provides a function to display error messages as toasts.
+
+For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
+
 ## Creating NextJS SSR and SSG pages
 
 ### Understanding NextJS data fetching strategies
@@ -516,7 +528,7 @@ NextJS supports client side rendering (CSR), server side rendering (SSR) and sta
 
 To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
 
-#### Configure the page/screen component to use SSR or SSG:
+#### Configure the page/screen component to use SSR or SSG
 
 Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
 
@@ -542,7 +554,7 @@ const Quote: React.VFC<QuoteProps> = ({ ssr, ssrData }: QuoteProps) => {
 
   if (loading) return <HoliText>Loading...</HoliText>
   if (error) return <HoliText>Error...</HoliText>
-  
+
   const myData = ssr ? ssrData : data
   return <HoliText>My Data: {JSON.stringify(myData)}</HoliText>
 }
@@ -556,7 +568,7 @@ export default Quote
 
 Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
 
-#### In the web app, in the file corresponding to the page using SSR or SSG:
+#### In the web app, in the file corresponding to the page using SSR or SSG
 
 ##### `apps/web/pages/quote.tsx`
 
@@ -715,4 +727,3 @@ In order to test the output of screen readers on the different platforms, you ca
   - [Installation on emulators](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
 - [VoiceOver](https://support.apple.com/en-us/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) on iOS
 - [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications, including our application running within the iOS simulator
-

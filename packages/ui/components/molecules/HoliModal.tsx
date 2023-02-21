@@ -211,7 +211,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
                   </HoliButton>
 
-                  {heading && (
+                  {!!heading && (
                     <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
                       {heading}
                     </HoliHeading>

@@ -93,7 +93,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
           headerBackgroundCustom
         ) : (
           <>
-            {headerBackgroundImageURI && (
+            {!!headerBackgroundImageURI && (
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && (

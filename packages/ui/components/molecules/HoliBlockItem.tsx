@@ -55,7 +55,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
         )}
       </View>
       <View style={styles.textContainer}>
-        {subtitle && (
+        {!!subtitle && (
           <HoliText size="extrasmall" style={styles.subtitle}>
             {subtitle}
           </HoliText>
@@ -63,7 +63,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
         <HoliText size={size === 'small' ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
           {title}
         </HoliText>
-        {description && (
+        {!!description && (
           <HoliText size="small" numberOfLines={2} style={styles.description}>
             {description}
           </HoliText>

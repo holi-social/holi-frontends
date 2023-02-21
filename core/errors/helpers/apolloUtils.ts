@@ -20,3 +20,5 @@ export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): F
     return undefined
   }
 }
+
+export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['NOT_FOUND'])

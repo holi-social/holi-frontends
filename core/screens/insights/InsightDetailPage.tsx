@@ -16,14 +16,14 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -34,7 +34,7 @@ export type InsightDetailPageParams = {
 
 const { useParam } = createParam<InsightDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
@@ -123,7 +123,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 onPress={() => setShowCuratorModal(true)}
               >
                 <View style={styles.authorInfoInner}>
-                  <HoliUserAvatar
+                  <HoliAvatar
                     imageSrc={author.avatar}
                     label={author.fullName}
                     initials={author.avatarLabel || ''}
@@ -167,7 +167,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
                   </HoliGridCell>
                 ))
               }

@@ -44,7 +44,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
       testID={`app-tile-${appData.id}`}
     >
       <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background20 }]}>
-        {appData.icon && (
+        {!!appData.icon && (
           <HoliIcon
             icon={appData.icon}
             size={30}

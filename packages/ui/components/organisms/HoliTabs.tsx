@@ -93,7 +93,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
                 accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
-                {tab.titleIcon && (
+                {!!tab.titleIcon && (
                   <HoliIcon
                     icon={tab.titleIcon}
                     size={22}

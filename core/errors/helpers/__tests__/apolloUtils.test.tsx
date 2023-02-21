@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { extractFieldErrors, isErrorOfType } from '@holi/core/errors/helpers'
+import { extractFieldErrors, isErrorOfType, isNotFoundError } from '@holi/core/errors/helpers'
 
 const createGraphQLError = (extensions = {}): GraphQLError => ({
   extensions,
@@ -15,14 +15,21 @@ const createGraphQLError = (extensions = {}): GraphQLError => ({
 })
 
 describe('apolloUtils', () => {
-  it('checks for given error type', () => {
-    const badUserInputError = createGraphQLError({ code: 'BAD_USER_INPUT' })
-    const notFoundError = createGraphQLError({ code: 'NOT_FOUND' })
+  const badUserInputError = createGraphQLError({ code: 'BAD_USER_INPUT' })
+  const notFoundError = createGraphQLError({ code: 'NOT_FOUND' })
 
+  it('checks for given error type', () => {
     expect(isErrorOfType({ graphQLErrors: [] }, ['BAD_USER_INPUT'])).toBeFalsy()
     expect(isErrorOfType({ graphQLErrors: [badUserInputError] }, ['BAD_USER_INPUT'])).toBeTruthy()
     expect(isErrorOfType({ graphQLErrors: [notFoundError] }, ['BAD_USER_INPUT'])).toBeFalsy()
     expect(isErrorOfType({ graphQLErrors: [notFoundError, badUserInputError] }, ['BAD_USER_INPUT'])).toBeTruthy()
+  })
+
+  it('checks for not found errors', () => {
+    expect(isNotFoundError({ graphQLErrors: [] })).toBeFalsy()
+    expect(isNotFoundError({ graphQLErrors: [badUserInputError] })).toBeFalsy()
+    expect(isNotFoundError({ graphQLErrors: [notFoundError] })).toBeTruthy()
+    expect(isNotFoundError({ graphQLErrors: [badUserInputError, notFoundError] })).toBeTruthy()
   })
 
   it('extracts field errors', () => {
