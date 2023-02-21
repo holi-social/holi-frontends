@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import {
@@ -31,11 +31,12 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
+  const { displayError } = useErrorHandling()
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const getI18Key = () => {

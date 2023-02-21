@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -41,6 +41,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [orderedTerms, setOrderedTerms] = useState<Term[]>([])
   const [filteredTerms, setFilteredTerms] = useState<Term[]>([])
   const [saved, setSaved] = useState(false)
+  const { displayError } = useErrorHandling()
 
   const { t } = useTranslation()
 
@@ -89,7 +90,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   }
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const updateValues = (term: Term) => {

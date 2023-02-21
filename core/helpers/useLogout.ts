@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import client from '@holi/api/graphql/client'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -13,9 +13,10 @@ export const useLogout = () => {
   const { navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
 
   return useCallback(
-    ({ message, skipLogoutFlow = false }) => {
+    ({ message, skipLogoutFlow = false }: { message?: string; skipLogoutFlow?: boolean } = {}) => {
       getSessionFromStorage()
         .then((session) => {
           if (!skipLogoutFlow) {
@@ -37,6 +38,6 @@ export const useLogout = () => {
         })
         .catch((error) => displayError(error, t('auth.logout.error')))
     },
-    [navigate, openToast, setUserLoggedOut, t]
+    [navigate, openToast, setUserLoggedOut, t, displayError]
   )
 }

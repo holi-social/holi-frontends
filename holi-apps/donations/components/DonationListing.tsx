@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -28,6 +28,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
+  const { displayError } = useErrorHandling()
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
