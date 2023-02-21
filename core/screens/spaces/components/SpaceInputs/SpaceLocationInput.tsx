@@ -1,0 +1,73 @@
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+
+import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
+
+export type SpaceLocationInputProps = {
+  title: string
+  description: string
+  onChange: (name: string) => void
+  location: string
+}
+
+const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
+  title,
+  description,
+  onChange,
+  location,
+}: SpaceLocationInputProps) => {
+  const { t } = useTranslation()
+  const { height: deviceHeight } = useWindowDimensions()
+
+  const updateLocation = (value: string) => {
+    onChange(value)
+  }
+
+  return (
+    <View style={[styles.container, { minHeight: deviceHeight }]}>
+      <HoliText size="extralarge" style={styles.title}>
+        {title}
+      </HoliText>
+      <HoliText style={styles.subTitle}>{description}</HoliText>
+      <PlacesAutocomplete
+        label={t('spaces.input.location.label')}
+        placeholder={t('spaces.input.location.placeholder')}
+        value={location}
+        id="spaces-input-location"
+        testID="spaces-input-location"
+        onChange={updateLocation}
+        onSubmit={updateLocation}
+        style={[styles.input, { zIndex: 2 }]}
+        inputProps={{ autoFocus: true }}
+        useMainTextOnly={true}
+      />
+    </View>
+  )
+}
+
+export default SpaceLocationInput
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingBottom: 132,
+    ...Platform.select({
+      native: {
+        maxWidth: '100%',
+      },
+    }),
+  },
+  title: {
+    marginTop: 40,
+  },
+  subTitle: {
+    marginBottom: 32,
+    marginTop: 16,
+    color: colors.foreground20,
+  },
+  input: {
+    marginBottom: 16,
+  },
+})
