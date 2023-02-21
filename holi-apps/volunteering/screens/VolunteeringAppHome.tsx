@@ -86,7 +86,13 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title, isFiltering])
 
   return (
-    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap testID={'volunteering-list-container'}>
+    <DefaultLayout
+      style={styles.defaultLayout}
+      scrollView={false}
+      headerOverlap
+      testID={'volunteering-list-container'}
+      keyboardShouldPersistTaps="handled"
+    >
       <HoliModal
         show={showFilterModal}
         onDismiss={closeModal}
