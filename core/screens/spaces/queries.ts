@@ -26,7 +26,8 @@ const SpaceFragment = gql`
     description
     created
     avatar
-    mainImage
+    cover
+    avatarDefaultColor
     location
     connectionStatusToMyself
     links {
@@ -72,7 +73,7 @@ const SpaceOverviewFragment = gql`
     title
     description
     created
-    mainImage
+    cover
     location
     members {
       ...FullSpaceMember
@@ -212,6 +213,29 @@ export type ValidateSpaceResponse = {
   }
 }
 
+export const CreateSpaceInputSchema = z.object({
+  title: z.string().trim().min(2).max(60),
+  description: z.string().trim().min(1).max(600),
+  topics: z.array(z.string() /* UUID */).min(1).max(6),
+  cover: z.instanceof(Object),
+})
+
+export type CreateSpaceInput = z.infer<typeof CreateSpaceInputSchema>
+
+export const createSpaceMutation = gql`
+  ${SpaceFragment}
+
+  mutation CreateSpace($input: CreateSpaceInput) {
+    createSpace(input: $input) {
+      ...FullSpace
+    }
+  }
+`
+
+export type CreateSpaceResponse = {
+  createSpace: Space
+}
+
 export const UpdateSpaceInputSchema = z.object({
   id: z.string(),
   title: z.string().trim().min(2).max(60).optional(),
@@ -230,6 +254,8 @@ export const updateSpaceMutation = gql`
       title
       description
       avatar
+      cover
+      avatarDefaultColor
       topics {
         id
         title

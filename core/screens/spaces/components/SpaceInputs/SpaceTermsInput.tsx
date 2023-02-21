@@ -8,7 +8,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceTermsInputProps = {
   title: string
@@ -35,7 +34,6 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
   const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
   const [filteredTerms, setFilteredTerms] = useState<SortedTerm[]>([])
   const { height: deviceHeight } = useWindowDimensions()
-  const mixins = useStyleMixins()
 
   useEffect(() => {
     /*
@@ -72,7 +70,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
   }
 
   return (
-    <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+    <View style={[styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>
@@ -85,7 +83,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
         trailingIcon="search"
         style={styles.input}
       />
-      {hint && (
+      {!!hint && (
         <View style={styles.hintContainer}>
           <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
           <HoliText size="small" style={styles.hint}>
@@ -123,12 +121,10 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 40,
-    width: '100%',
   },
   subTitle: {
-    marginBottom: 50,
+    marginBottom: 32,
     marginTop: 16,
-    width: '100%',
     color: colors.foreground20,
   },
   input: {

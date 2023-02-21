@@ -88,7 +88,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
           headerBackgroundCustom
         ) : (
           <>
-            {headerBackgroundImageURI && (
+            {!!headerBackgroundImageURI && (
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && <HeaderAnimatedGradienBackground />}

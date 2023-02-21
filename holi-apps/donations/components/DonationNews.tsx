@@ -95,7 +95,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                     <HoliText bold size="small" style={{ marginBottom: 6 }}>
                       {entry.title}
                     </HoliText>
-                    {entry.publishDate && (
+                    {!!entry.publishDate && (
                       <HoliText size="small" style={{ color: colors.foreground20 }}>
                         {t('donations:donationNews.publishTime', {
                           time: getRelativeDateString(entry.publishDate, i18n.language),
@@ -103,7 +103,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                       </HoliText>
                     )}
                   </View>
-                  {entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
+                  {!!entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
                 </View>
               </HoliButton>
             ))

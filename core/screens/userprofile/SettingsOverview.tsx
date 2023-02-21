@@ -26,7 +26,7 @@ const SettingsOverview: React.VFC = () => {
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
   const goTo = useCallback(
-    (url) => () => {
+    (url: string) => () => {
       navigate(url)
     },
     [navigate]
@@ -43,21 +43,22 @@ const SettingsOverview: React.VFC = () => {
             <MoreOptionItem
               label={t('profile.settings.account.title')}
               icon="account-circle"
-              arrowRirght
+              arrowRight
               onPress={goTo('/profile/settings/account')}
               style={styles.settingsItem}
+              testID="btn-your-account"
             />
             <MoreOptionItem
               label={t('notifications.title')}
               icon="notification-2"
-              arrowRirght
+              arrowRight
               onPress={showFeatureNotImplementedToast}
               style={styles.settingsItem}
             />
             <MoreOptionItem
               label={t('help.title')}
               icon="help"
-              arrowRirght
+              arrowRight
               onPress={showFeatureNotImplementedToast}
               style={styles.settingsItem}
             />

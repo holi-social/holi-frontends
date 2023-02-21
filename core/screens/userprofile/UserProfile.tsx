@@ -10,7 +10,8 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
-import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
+import { isNotFoundError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,7 +20,7 @@ import { ContentType } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { FeedStackScreens } from '@holi/mobile/navigation/FeedNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -33,12 +34,13 @@ export type UserProfileParams = {
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<FeedStackScreens>
 
 const UserProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
 
   const { isLoggedIn, userId: authenticatedUserId } = useAuth()
   const [userId = ''] = useParam('userId')
@@ -121,7 +123,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     if (isNotFoundError(error)) {
       return <NotFound />
     } else {
-      displayError(error, t('global.technicalError'))
+      displayError(error)
     }
   }
 

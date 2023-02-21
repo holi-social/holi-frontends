@@ -16,7 +16,7 @@ const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
   const { t } = useTranslation()
   return (
     <View style={style}>
-      <SpaceMainImage uri={space.mainImage} label={space.title} />
+      <SpaceMainImage uri={space.cover} label={space.title} />
       <HoliHeading level="2" style={styles.headline}>
         {t('spaces.spaceDetails.goal')}
       </HoliHeading>

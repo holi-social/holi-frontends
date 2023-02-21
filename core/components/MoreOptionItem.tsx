@@ -8,13 +8,13 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
-  arrowRirght?: boolean
+  arrowRight?: boolean
   tintColor?: string
 }
 
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
-  arrowRirght = false,
+  arrowRight = false,
   tintColor,
   label,
   disabled,
@@ -30,7 +30,7 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
       disabled={disabled}
       {...buttonProps}
     >
-      {icon && (
+      {!!icon && (
         <HoliIcon
           icon={icon}
           size={24}
@@ -42,7 +42,7 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
 
       <HoliText style={[{ color: tintColor }, disabled && styles.disabled]}>{label}</HoliText>
 
-      {arrowRirght && (
+      {arrowRight && (
         <HoliIcon
           icon="arrow-right-s"
           size={24}

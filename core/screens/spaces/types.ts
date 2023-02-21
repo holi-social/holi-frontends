@@ -30,10 +30,11 @@ export interface Space {
   description: string
   created: string
   creator: User
-  mainImage: string
+  cover: string
   location: string
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
+  avatarDefaultColor: string
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]

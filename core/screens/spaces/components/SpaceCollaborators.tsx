@@ -7,9 +7,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -85,7 +85,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   key={index}
                   testID={'spaces-collaborators-item'}
                 >
-                  <HoliUserAvatar
+                  <HoliAvatar
                     imageSrc={collaborator.avatar}
                     label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
                     initials={collaborator.avatarLabel}

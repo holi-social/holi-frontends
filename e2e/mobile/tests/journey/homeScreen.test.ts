@@ -34,7 +34,6 @@ const assertShowsInsights = async () => {
   await waitForElementWithTestId('home-feed-insights-heading')
 
   // go to insight screen
-  await waitForElementWithTestId('feed-insight-image-link')
   await tapOnElementWithTestId('feed-insight-image-link')
 
   await waitForElementWithTestId('insight-headline')
@@ -86,5 +85,5 @@ const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
 
   // scroll down to user suggestions element should be visible
-  await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+  await scrollToElementWithTestId('user-suggestions', 'down')
 }

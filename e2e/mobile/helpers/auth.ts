@@ -1,7 +1,11 @@
+import { faker } from '@faker-js/faker'
+
+import { navigateBackToHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
+  waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from './selectors'
 
@@ -10,6 +14,18 @@ type AuthMode = 'login' | 'registration'
 type DefaultAuthStepsProps = {
   email?: string
   password?: string
+}
+
+export const defaultPassword = 'TheSamePassword4A11E2eUsers'
+
+export const registerNewUser = async (): Promise<string> => {
+  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  await defaultAuthSteps({ email, password: defaultPassword }, 'registration')
+  return email
+}
+
+export const loginNewUser = async (email: string) => {
+  await defaultAuthSteps({ email, password: defaultPassword }, 'login')
 }
 
 export const defaultAuthSteps = async (
@@ -50,23 +66,50 @@ export const defaultAuthSteps = async (
 
 export const logout = async () => {
   // TODO: find quicker solution to check if logged in?
-  const profileButtonExists = await checkIfElementWithTestIdExists('btn-to-profile-view')
-  if (profileButtonExists) {
-    await tapOnElementWithTestId('btn-to-profile-view')
-  }
+  await gotoProfileSettingsOrLogin()
 
-  const settingsButtonExists = await checkIfElementWithTestIdExists('btn-to-settings')
-  if (settingsButtonExists) {
-    await tapOnElementWithTestId('btn-to-settings')
-  }
-
-  const logoutButtonExists = await checkIfElementWithTestIdExists('btn-to-logout')
-  if (logoutButtonExists) {
+  if (await checkIfElementWithTestIdExists('btn-to-logout')) {
     await tapOnElementWithTestId('btn-to-logout')
-    await waitForElementWithTestId('modal-logout-confirmation-confirm')
     await tapOnElementWithTestId('modal-logout-confirmation-confirm')
   }
 
-  await waitForElementWithTestId('btn-to-home-view')
   await tapOnElementWithTestId('btn-to-home-view')
+}
+
+export const deleteAccount = async () => {
+  await gotoProfileSettingsOrLogin()
+
+  await tapOnElementWithTestId('btn-your-account')
+  await tapOnElementWithTestId('btn-delete-account')
+  await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
+
+  await waitForElementWithTestId('btn-to-login-form')
+  await tapOnElementWithTestId('btn-to-home-view')
+}
+
+const gotoProfileSettingsOrLogin = async () => {
+  if (await checkIfElementWithTestIdExists('btn-to-logout')) {
+    return
+  }
+  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+    await tapOnElementWithTestId('btn-to-settings')
+    await waitForElementWithTestId('btn-to-logout')
+    return
+  }
+  if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
+    await tapOnElementWithTestId('btn-to-profile-view')
+    await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+    if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+      await tapOnElementWithTestId('btn-to-settings')
+      await waitForElementWithTestId('btn-to-logout')
+    }
+    return
+  }
+  await navigateBackToHomeScreen()
+  await tapOnElementWithTestId('btn-to-profile-view')
+  await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+  if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+    await tapOnElementWithTestId('btn-to-settings')
+    await waitForElementWithTestId('btn-to-logout')
+  }
 }

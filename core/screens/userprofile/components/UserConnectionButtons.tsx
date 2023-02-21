@@ -4,7 +4,7 @@ import { StyleSheet, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
@@ -23,9 +23,10 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
   const { openLoginDialog } = useLoginRedirect()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_CONNECTED

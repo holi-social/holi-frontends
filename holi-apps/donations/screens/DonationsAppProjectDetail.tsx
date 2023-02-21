@@ -6,11 +6,11 @@ import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { DonationsAppScreensList } from '@holi/mobile/navigation/DonationsAppNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -31,7 +31,7 @@ export type DonationsAppProjectDetailParams = {
 
 const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
-type DonationsAppProjectDetailProps = NativeStackScreenProps<BottomTabsScreens>
+type DonationsAppProjectDetailProps = NativeStackScreenProps<DonationsAppScreensList>
 
 const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () => {
   const [projectId] = useParam('projectId')
@@ -39,6 +39,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
+  const { displayError } = useErrorHandling()
 
   const mixins = useStyleMixins()
 

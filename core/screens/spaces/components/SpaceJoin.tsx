@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -30,6 +30,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
     },
   })
+  const { displayError } = useErrorHandling()
 
   if (error) {
     displayError(error, t('spaces.join.error'))

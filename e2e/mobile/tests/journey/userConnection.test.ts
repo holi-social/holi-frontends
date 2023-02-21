@@ -1,25 +1,20 @@
-import { faker } from '@faker-js/faker'
-
-import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
-  const password = 'TheSamePassword4A11E2eUsers'
-
   it('should request connection from another user profile page and then cancel it', async () => {
     // create a new user
-    await defaultAuthSteps({ email, password }, 'registration')
+    await registerNewUser()
 
     // go home
     await navigateBackToHomeScreen()
 
     // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('user-suggestions', 'down')
 
     // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // for the newly created user, the button state should be NOT_CONNECTED
@@ -38,7 +33,7 @@ describe('@UserConnection', () => {
     await waitForElementWithTestId('user-connection-button-NOT_CONNECTED')
 
     // clean up view
-    await logout()
+    await deleteAccount()
     await navigateBackToHomeScreen()
   })
 })
