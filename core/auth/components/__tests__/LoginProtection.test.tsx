@@ -9,7 +9,13 @@ describe('renders correctly', () => {
   it('renders protected content when logged in', () => {
     const { queryByText } = render(
       <AuthContext.Provider
-        value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
+        value={{
+          userId: 'abc',
+          isLoading: false,
+          isLoggedIn: true,
+          setUserLoggedIn: jest.fn(),
+          setUserLoggedOut: jest.fn(),
+        }}
       >
         <LoginProtection>
           <Text>Protected Content</Text>
@@ -18,26 +24,15 @@ describe('renders correctly', () => {
     )
 
     expect(queryByText('Protected Content')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.text')).toBeFalsy()
+    expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
     expect(queryByText('auth.loginProtection.login')).toBeFalsy()
   })
 
   it('renders fallback content when logged out and no other content was provided', () => {
     const { queryByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-    expect(queryByText('auth.loginProtection.text')).toBeTruthy()
+    expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.login')).toBeTruthy()
-    expect(queryByText('Protected Content')).toBeFalsy()
-  })
-
-  it('renders provided logged out content when logged out', () => {
-    const { queryByText } = render(
-      <LoginProtection loggedOutContent={<Text>Fallback content</Text>}>Protected Content</LoginProtection>
-    )
-
-    expect(queryByText('Fallback content')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.login')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.text')).toBeFalsy()
     expect(queryByText('Protected Content')).toBeFalsy()
   })
 })
