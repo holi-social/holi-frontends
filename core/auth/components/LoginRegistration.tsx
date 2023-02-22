@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     alignItems: 'center',
+    marginVertical: 20,
   },
   moodImage: {
     alignItems: 'center',
