@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
@@ -25,7 +24,6 @@ export type BottomTabsScreens = {
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
 const BottomTabsNavigator: React.VFC = () => {
-  const { options } = useUnifiedNavigation()
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
@@ -33,22 +31,16 @@ const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
-      screenOptions={() => {
-        return {
-          tabBarStyle: {
-            backgroundColor: colors.background10,
-            paddingHorizontal: 0,
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderTopColor: colors.foreground20,
-            ...(options.navigationCustomOptions?.footerShown === false ? { display: 'none', maxHeight: 0 } : {}),
-            tabBarShowLabel: true,
-            tabBarLabelStyle: {
-              color: 'black',
-            },
-          },
-          tabBarActiveTintColor: colors.foreground30,
-          tabBarInactiveTintColor: colors.foreground20,
-        }
+      screenOptions={{
+        tabBarShowLabel: true,
+        tabBarStyle: {
+          backgroundColor: colors.background10,
+          paddingHorizontal: 0,
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderTopColor: colors.foreground20,
+        },
+        tabBarActiveTintColor: colors.foreground30,
+        tabBarInactiveTintColor: colors.foreground20,
       }}
     >
       <BottomTabs.Screen

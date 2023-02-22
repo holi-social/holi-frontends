@@ -89,11 +89,11 @@ export type UserByNameResponse = {
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
-  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
-  lastName: z.string().optional(),
-  aboutMe: z.string().optional(),
-  pronouns: z.string().optional(),
-  location: z.string().optional(),
+  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).max(192).optional(),
+  lastName: z.string().max(192).optional(),
+  aboutMe: z.string().max(3000).optional(),
+  pronouns: z.string().max(192).optional(),
+  location: z.string().max(192).optional(),
   engagementLevel: z.string().optional(),
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),

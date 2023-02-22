@@ -372,6 +372,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     helperTextWrapper: {
       flex: 4,
+      marginTop: 6,
     },
     helperText: {
       color: colors.foreground20,
@@ -386,11 +387,11 @@ const getStyles = (theme: HoliTheme) =>
     },
     descriptionContainer: {
       flexDirection: 'row',
-      marginTop: 6,
     },
     charactorCountContainer: {
       flex: 1,
       alignItems: 'flex-end',
+      marginTop: 6,
     },
     charactorCountText: {
       color: colors.foreground20,
