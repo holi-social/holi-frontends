@@ -283,7 +283,6 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -1608,7 +1607,6 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -2860,7 +2858,6 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -3152,7 +3149,6 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -4453,7 +4449,6 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -5013,7 +5008,6 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -5297,7 +5291,6 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
@@ -5589,7 +5582,6 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         style={
           {
             "flexDirection": "row",
-            "marginTop": 6,
           }
         }
       />
