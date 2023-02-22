@@ -3,17 +3,13 @@ import type { AppProps } from 'next/app'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
-import { I18nextProvider } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import React, { ReactElement, ReactNode } from 'react'
 
-import RootProvider from '@holi/core/RootProvider'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
-import i18n, { initI18n } from '@holi/core/i18n'
-import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import { featureFlag } from '@holi/web/environment'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
+import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
+import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
 import '@holi/web/styles/globals.scss'
 
 export interface AppPropsWithLayout extends AppProps {
@@ -25,49 +21,22 @@ export type NextPageWithLayout = NextPage<ApolloStateProps> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
-const styles = StyleSheet.create({
-  loadingContainer: {
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
-    marginTop: 100,
-  },
-})
-
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const [translationsLoaded, setTranslationsLoaded] = useState(i18n.isInitialized)
-
-  useEffect(() => {
-    initI18n().then(() => {
-      setTranslationsLoaded(true)
-    })
-  }, [])
-
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
-
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  return translationsLoaded ? (
-    <I18nextProvider i18n={i18n}>
-      <ScrollYProvider>
-        <RootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</RootProvider>
-      </ScrollYProvider>
-    </I18nextProvider>
+  return featureFlag.enableSSR ? (
+    <SSRRootProvider pageProps={pageProps}>{getLayout(<Component {...pageProps} />)}</SSRRootProvider>
   ) : (
-    // FIXME: Use Suspence
-    <SafeArea style={styles.loadingContainer}>
-      <HoliText style={{ textAlign: 'center' }}>Loading translations...</HoliText>
-    </SafeArea>
+    <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
   )
 }
 
