@@ -83,10 +83,10 @@ const HoliWizard = ({
       <View style={[mixins.container, styles.buttonContainer]}>
         {isBackButtonAvailable && currentStep > 0 && (
           <HoliButton
-            label={t('global.next')}
+            label={t('global.back')}
             disabled={false}
             onPress={handleBackButtonPress}
-            testID="holi-wizard-next-btn"
+            testID="holi-wizard-back-btn"
             style={styles.backButton}
           >
             <HoliIcon icon={'arrow-left'} size={24} color={colors.foreground30} />

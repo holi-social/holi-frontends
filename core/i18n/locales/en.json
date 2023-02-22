@@ -66,6 +66,7 @@
   "error.errorBoundary.retry": "Try again?",
   "filePicker.error.maxFileSize": "The file you uploaded is bigger than {{size}}MB",
   "global.and": "and",
+  "global.back": "Back",
   "global.block": "Block",
   "global.comingSoon": "Coming soon",
   "global.decline": "Cancel",
