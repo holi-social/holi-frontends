@@ -240,6 +240,7 @@ export const UpdateSpaceInputSchema = z.object({
   id: z.string(),
   title: z.string().trim().min(2).max(60).optional(),
   description: z.string().trim().min(1).max(600).optional(),
+  location: z.string(),
   avatar: z.instanceof(Object).optional(),
   topics: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
