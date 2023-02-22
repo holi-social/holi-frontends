@@ -6,6 +6,7 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
@@ -27,6 +28,8 @@ export type RootStackScreens = {
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
+
+  [RouteName.Onboarding]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -98,6 +101,14 @@ const RootNavigator: React.VFC = () => {
       <RootStack.Screen
         name={RouteName.VolunteeringApp}
         component={VolunteeringAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.Onboarding}
+        component={Onboarding}
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,

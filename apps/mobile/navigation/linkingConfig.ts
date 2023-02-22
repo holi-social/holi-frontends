@@ -81,6 +81,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
       },
     },
+    [RouteName.Onboarding]: 'onboarding',
   },
 }
 
