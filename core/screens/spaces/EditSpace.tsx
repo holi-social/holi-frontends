@@ -62,7 +62,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
@@ -126,6 +126,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               inline
               style={[styles.editButton, styles.editAvatarButton]}
               onPress={() => openEditModal(EditFields.AVATAR)}
+              testID="btn-space-edit-avatar"
             >
               <HoliText style={styles.editButtonText}>{t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}</HoliText>
               <HoliIcon icon="edit-2" />
@@ -140,6 +141,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               inline
               style={[styles.editButton, styles.editTitleButton]}
               onPress={() => openEditModal(EditFields.NAME)}
+              testID="btn-space-edit-name"
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
               <HoliIcon icon="edit-2" />
@@ -161,6 +163,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 editable
                 style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.NAME)}
+                testID="space-edit-goal"
               >
                 {!!space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
@@ -169,6 +172,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.topics')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.TOPICS)}
+                testID="space-edit-topics"
               >
                 {!!space.topics?.length && (
                   <View style={styles.listContainer}>
@@ -179,6 +183,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                         label={topic.title}
                         disabled
                         style={styles.chip}
+                        testID="space-edit-topics-chip"
                       />
                     ))}
                   </View>
@@ -197,6 +202,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.sdgs')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.SDGS)}
+                testID="space-edit-sdgs"
               >
                 {!!space.sdgs?.length && (
                   <View style={styles.listContainer}>
@@ -207,6 +213,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                         label={`${sdg.number}. ${sdg.title}`}
                         disabled
                         style={styles.chip}
+                        testID="space-edit-sdgs-chip"
                       />
                     ))}
                   </View>
@@ -229,8 +236,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigate(`/spaces/${spaceId}`)}
+          onPress={() => navigateBack(`/spaces/${spaceId}`)}
           style={styles.overlayButton}
+          testID="space-edit-close"
         >
           {t('spaces.edit.close')}
         </HoliButton>
