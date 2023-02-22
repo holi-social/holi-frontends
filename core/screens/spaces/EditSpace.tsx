@@ -231,6 +231,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           label={t('spaces.edit.close')}
           onPress={() => navigate(`/spaces/${spaceId}`)}
           style={styles.overlayButton}
+          testID="space-edit-close"
         >
           {t('spaces.edit.close')}
         </HoliButton>
