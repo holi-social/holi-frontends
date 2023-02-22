@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
@@ -40,7 +41,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
-  useLayoutEffect(() => {
+  // TODO: Find out if we really need `useLayoutEffect` that fix a UI Error
+  useIsomorphicLayoutEffect(() => {
     setOptions({
       title: headerTitle,
       headerBackTitleVisible: true,
