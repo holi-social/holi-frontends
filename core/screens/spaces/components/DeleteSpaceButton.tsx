@@ -9,7 +9,7 @@ import { DeleteSpaceResponse, deleteSpaceMutation, mySpaceQuery } from '@holi/co
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type DeleteSpaceButtonProps = {
+export interface DeleteSpaceButtonProps {
   spaceId: string
   onDelete: () => void
   style?: StyleProp<ViewStyle>
