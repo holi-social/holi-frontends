@@ -31,7 +31,7 @@ const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, editable, 
               inline
               onPress={onPress}
               type="secondary"
-              testID="btn-edit-space-cover"
+              testID="btn-space-edit-cover"
             >
               {t('spaces.edit.mainImage')}
             </HoliButton>
