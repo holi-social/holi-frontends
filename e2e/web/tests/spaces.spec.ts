@@ -1,4 +1,4 @@
-import { Page, expect, test } from '@playwright/test'
+import { Locator, Page, expect, test } from '@playwright/test'
 
 import {
   byTestId,
@@ -104,52 +104,68 @@ test.describe('@Spaces', () => {
     await clickElementByTestId(page, 'btn-create-space')
 
     // create space - name and goal
+    const initialName = 'e2e space name'
+    const initialGoal = 'e2e space goal'
     await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
-    await inputSpaceNameAndGoal(page, 'e2e space name', 'e2e space goal')
+    await checkConfirmButtonIsDisabled(page)
+    await inputSpaceNameAndGoal(page, initialName, initialGoal)
     await clickElementByTestId(page, 'holi-wizard-next-btn')
 
     // create space - topics
     await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
-    await selectSomeItems(page)
+    await checkConfirmButtonIsDisabled(page)
+    await selectSomeTerms(page)
     await clickElementByTestId(page, 'holi-wizard-next-btn')
 
     // create space - cover image
     await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
+    await checkConfirmButtonIsDisabled(page)
     await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
     await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-    // edit space name
-    await clickElementByTestId(page, 'btn-edit-space-name')
-    await inputSpaceNameAndGoal(page, 'e2e edited space name', 'e2e edited space goal')
-    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+    // check if edit space page has correct information
+    let editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    let editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(initialName)
+    expect(editSpaceGoal).toContainText(initialGoal)
+
+    // // edit space name and goal
+    const editedName = 'e2e edited space name'
+    const editedGoal = 'e2e edited space goal'
+    await clickElementByTestId(page, 'btn-space-edit-name')
+    await inputSpaceNameAndGoal(page, editedName, editedGoal)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if space name and goal were updated
+    editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(editedName)
+    expect(editSpaceGoal).toContainText(editedGoal)
 
     // edit space avatar
-    await clickElementByTestId(page, 'btn-edit-space-avatar')
+    await clickElementByTestId(page, 'btn-space-edit-avatar')
     await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
     // edit space cover image
-    await clickElementByTestId(page, 'btn-edit-space-cover')
+    await clickElementByTestId(page, 'btn-space-edit-cover')
     await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
     // edit space topics
-    await clickElementByTestId(page, 'btn-edit-space-topics')
-    await selectSomeItems(page, 5)
-    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+    await clickElementByTestId(page, 'btn-space-edit-topics')
+    await selectSomeTerms(page, 5)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
     // edit space sdgs
-    await clickElementByTestId(page, 'btn-edit-space-sdgs')
-    await selectSomeItems(page, 2)
-    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+    await clickElementByTestId(page, 'btn-space-edit-sdgs')
+    await selectSomeTerms(page, 2)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
   })
 })
 
-const checkConfirmButtonIsDisabled = async (page: Page, testId: string) => {
-  const nextButton = await locateElementByTestId(page, testId)
+const checkConfirmButtonIsDisabled = async (page: Page) => {
+  const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
   await nextButton.isDisabled()
 }
 
@@ -161,10 +177,10 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
   await goalInput.fill(goal)
 }
 
-const selectSomeItems = async (page: Page, numberOfItemsToSelect = 3) => {
+const selectSomeTerms = async (page: Page, numberOfItemsToSelect = 3) => {
   for (let indexToSelect = 0; indexToSelect < numberOfItemsToSelect; indexToSelect++) {
     await page
-      .locator(`${byTestId('space-terms-list')} >> [role=checkbox]`)
+      .locator(`${byTestId('space-terms-list')} >> [aria-checked="false"]`)
       .nth(indexToSelect)
       .click()
   }
