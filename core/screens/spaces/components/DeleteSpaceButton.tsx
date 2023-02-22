@@ -37,6 +37,7 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
         tintColor={colors.error30}
         contentStyle={style}
         disabled={loading}
+        testID="space-delete-btn"
       />
       <HoliConfirmation
         show={showConfirmationModal}
@@ -47,7 +48,7 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.delete.confirmation.dismiss')}
         confirmText={t('spaces.delete.confirmation.confirm')}
-        testID="space-deletion-confirmation"
+        testID="space-delete"
         onConfirm={() => {
           setShowConfirmationModal(false)
           deleteSpace()

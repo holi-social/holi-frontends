@@ -92,7 +92,7 @@ exports[`SpaceSection renders correctly 1`] = `
           },
         ]
       }
-      testID="btn-edit-space-section"
+      testID="btn-space-section"
     >
       <View
         pointerEvents="none"
