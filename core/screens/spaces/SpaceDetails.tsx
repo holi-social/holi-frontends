@@ -70,6 +70,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           onPress={show}
           onModalDismiss={hide}
           tintColor={tintColor}
+          testID="space-options-btn"
         >
           {isAdmin && (
             <MoreOptionItem
