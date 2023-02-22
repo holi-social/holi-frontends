@@ -3,6 +3,7 @@ import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
+import fetch from 'cross-fetch'
 import { concat, mergeDeepWith } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -122,7 +123,7 @@ interface ApolloCreateClientOptions {
 
 const isSSR = typeof window === 'undefined'
 // FIXME: remove static value for the link!!!
-const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql' })
+const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql', fetch })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, httpLink]) : link

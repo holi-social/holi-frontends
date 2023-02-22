@@ -1,13 +1,12 @@
 import { ApolloProvider } from '@apollo/client'
+import type { PropsWithChildren } from 'react'
 import React, { Suspense, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import AuthContextProvider, { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
-import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
@@ -27,8 +26,6 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
 })
-
-const isWeb = Platform.OS === 'web'
 
 // need to put this into separate component so it is wrapped with
 // AuthContextProvider & UserContextProvider. it it's not wrapped
@@ -53,13 +50,7 @@ const Children = ({ children }: React.PropsWithChildren<unknown>) => {
   )
 }
 
-interface RootProviderProps {
-  pageProps: ApolloStateProps
-}
-
-const RootProvider = ({ children, pageProps }: React.PropsWithChildren<RootProviderProps>) => {
-  const apolloWebClient = useApolloClient(pageProps)
-
+const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       {/* Necessary for loading e.g. translations on mobile */}
@@ -72,7 +63,7 @@ const RootProvider = ({ children, pageProps }: React.PropsWithChildren<RootProvi
         }
       >
         <ErrorBoundary>
-          <ApolloProvider client={isWeb ? apolloWebClient : client}>
+          <ApolloProvider client={client}>
             <AuthContextProvider>
               <UserContextProvider>
                 <LoginRedirectProvider>
