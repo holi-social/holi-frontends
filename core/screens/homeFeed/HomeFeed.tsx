@@ -20,7 +20,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type HomeFeedProps = NativeStackScreenProps<BottomTabsScreens>
+export type HomeFeedProps = NativeStackScreenProps<BottomTabsScreens>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
