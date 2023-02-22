@@ -106,7 +106,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -115,6 +114,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -259,7 +259,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -268,6 +267,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -412,7 +412,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -421,6 +420,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -605,7 +605,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -614,6 +613,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "maxWidth": "100%",
@@ -877,7 +877,6 @@ exports[`HoliTextInput renders correctly with error 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -886,6 +885,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -1103,7 +1103,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -1112,6 +1111,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -1257,7 +1257,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -1266,6 +1265,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
@@ -1410,7 +1410,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
       style={
         {
           "flexDirection": "row",
-          "marginTop": 6,
         }
       }
     >
@@ -1419,6 +1418,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           [
             {
               "flex": 4,
+              "marginTop": 6,
             },
             {
               "alignSelf": "stretch",
