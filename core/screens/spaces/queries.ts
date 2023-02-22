@@ -296,7 +296,7 @@ export type MySpacesResponse = {
   mySpaces: SpaceSection[]
 }
 
-export type DeleteSpaceResponse = {
+export interface DeleteSpaceResponse {
   success: boolean
 }
 
