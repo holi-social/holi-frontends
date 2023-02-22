@@ -1,4 +1,4 @@
-import { Locator, Page, expect, test } from '@playwright/test'
+import { Page, expect, test } from '@playwright/test'
 
 import {
   byTestId,
@@ -100,7 +100,7 @@ test.describe('@Spaces', () => {
 
   test('should be able to create, edit and delete a space', async ({ page, context }) => {
     const numberOfInitialTerms = 3
-    const numberOfTermsToAdd = 2
+    const numberOfEditedTerms = 2
 
     await page.goto('/')
     await defaultAuthSteps({ page, context })
@@ -158,27 +158,32 @@ test.describe('@Spaces', () => {
 
     // edit space topics
     await clickElementByTestId(page, 'btn-space-edit-topics')
-    await selectSomeTerms(page, numberOfTermsToAdd)
+    await selectSomeTerms(page, numberOfEditedTerms)
     await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
     // check if the correct number of topics have been selected
     await delay(1)
     const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
-    expect(numberOfEditedTopics).toBe(numberOfInitialTerms + numberOfTermsToAdd)
+    expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
-    await selectSomeTerms(page, numberOfTermsToAdd)
+    await selectSomeTerms(page, numberOfEditedTerms)
     await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
     // check if the correct number of sdgs have been selected
     await delay(1)
     const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
-    expect(numberOfEditedSdgs).toBe(numberOfTermsToAdd)
+    expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
     // delete space
     await clickElementByTestId(page, 'space-edit-close')
     await clickElementByTestId(page, 'space-options-btn')
+    await clickElementByTestId(page, 'space-delete-btn')
+    await clickElementByTestId(page, 'space-delete-confirmation-confirm')
+
+    // check if after deletion we are at the spaces dashboard (mine/discover)
+    await waitForElementByTestId(page, 'spaces-tab-navigation')
   })
 })
 
@@ -195,13 +200,22 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
   await goalInput.fill(goal)
 }
 
-const selectSomeTerms = async (page: Page, numberOfItemsToSelect = 3) => {
-  const numberOfSelectedItems = await page
+const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
+  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+  const numberOfTotalTerms = await locator.count()
+  const numberOfSelectedTerms = await page
     .locator(`${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`)
     .count()
-  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
 
-  for (let indexToSelect = 0; indexToSelect < numberOfItemsToSelect; indexToSelect++) {
-    await locator.nth(numberOfSelectedItems + indexToSelect + 1).click()
+  // unselect all
+  for (let i = 0; i < numberOfSelectedTerms; i++) {
+    // the selected terms are always sorted as first, thus nth(0)
+    await locator.nth(0).click()
+  }
+
+  // select new terms
+  for (let i = 0; i < numberOfTermsToSelect; i++) {
+    // the selected terms are always sorted as first, so we select the last ones to avoid unselection
+    await locator.nth(numberOfTotalTerms - 1).click()
   }
 }
