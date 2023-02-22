@@ -98,7 +98,7 @@ test.describe('@Spaces', () => {
     expect(page.url()).toContain(spaceUrlPrefix)
   })
 
-  test('should be able to create a space', async ({ page, context }) => {
+  test('should be able to create, edit and delete a space', async ({ page, context }) => {
     const numberOfInitialTerms = 3
     const numberOfTermsToAdd = 2
 
@@ -175,6 +175,10 @@ test.describe('@Spaces', () => {
     await delay(1)
     const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
     expect(numberOfEditedSdgs).toBe(numberOfTermsToAdd)
+
+    // delete space
+    await clickElementByTestId(page, 'space-edit-close')
+    await clickElementByTestId(page, 'space-options-btn')
   })
 })
 
