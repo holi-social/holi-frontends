@@ -57,7 +57,7 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   }
 
   const seeMore = () => {
-    return loading ? (
+    return loading && Platform.OS !== 'web' ? (
       <View style={styles.loadingContainer}>
         <HoliIcon icon="loader-4" size={50} color={colors.foreground20} spinning />
       </View>
