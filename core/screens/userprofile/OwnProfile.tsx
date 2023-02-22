@@ -60,6 +60,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
     if (isLoggedIn) {
       setOptions({
         title,
+        headerShown: true,
         headerBackTitleVisible: true,
         headerBackVisible: true,
         headerTransparent: true,
