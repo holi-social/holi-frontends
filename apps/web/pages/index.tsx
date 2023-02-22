@@ -6,9 +6,12 @@ import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { featureFlag } from '@holi/web/environment'
 
-// import { projectsQuery } from '@holi-apps/donations/queries'
-// import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-// import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { projectsQuery } from '@holi-apps/donations/queries'
+import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+
+const PROJECT_PAGE_SIZE = 5
+const ENGAGEMENT_PAGE_SIZE = 5
 
 const HomeFeedPage: NextPage = () => <HomeFeed />
 
@@ -24,8 +27,28 @@ export const getServerSideProps = async () => {
 
   const client = initializeApolloSSRClient()
 
-  // Include missing queries to be populated in the server
+  // TODO: Query only what is necessary to render this page
   await client.query({ query: lastInsightsQuery })
+  await client.query({
+    query: projectsQuery,
+    variables: {
+      limit: PROJECT_PAGE_SIZE,
+      offset: 0,
+    },
+  })
+  await client.query({
+    query: GoodNewsArticlesQuery,
+    variables: {
+      lastDate: undefined,
+    },
+  })
+  await client.query({
+    query: VolunteeringEngagementsQuery,
+    variables: {
+      limit: ENGAGEMENT_PAGE_SIZE,
+      offset: 0,
+    },
+  })
 
   // * The server passes the props to the component through the Apollo cache. We
   // * can pass any other states not fetched from Apollo to the props prop.

@@ -124,8 +124,9 @@ interface ApolloCreateClientOptions {
 }
 
 const isSSR = typeof window === 'undefined'
-// FIXME: remove static value for the link!!!
-const httpLink = new HttpLink({ uri: 'http://localhost:3000/api/graphql', fetch })
+
+const API_URL = process.env.HOLI_API_URL
+const httpLink = new HttpLink({ uri: API_URL, fetch })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, httpLink]) : link
