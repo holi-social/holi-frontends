@@ -7,7 +7,7 @@ import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
-  fragment FullSpaceMember on PagedSpaceMemberList {
+  fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
       user {
@@ -200,7 +200,7 @@ export const ValidateSpaceInputSchema = z.object({
 export type ValidateSpaceInput = z.infer<typeof ValidateSpaceInputSchema>
 
 export const validateSpaceMutation = gql`
-  mutation ValidateSpace($input: ValidateSpaceInput) {
+  mutation ValidateSpace($input: ValidateSpaceInput!) {
     validateSpace(input: $input) {
       success
     }
@@ -225,7 +225,7 @@ export type CreateSpaceInput = z.infer<typeof CreateSpaceInputSchema>
 export const createSpaceMutation = gql`
   ${SpaceFragment}
 
-  mutation CreateSpace($input: CreateSpaceInput) {
+  mutation CreateSpace($input: CreateSpaceInput!) {
     createSpace(input: $input) {
       ...FullSpace
     }
