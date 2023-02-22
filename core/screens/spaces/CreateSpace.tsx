@@ -19,6 +19,7 @@ import {
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
 import { Term } from '@holi/core/screens/userprofile/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
@@ -53,7 +54,11 @@ const CreateSpace: React.VFC = () => {
     () =>
       setOptions({
         animation: 'slide_from_bottom',
-        title: t('spaces.create.title'),
+        headerTitle: () => (
+          <HoliHeading level="1" size="medium">
+            {t('spaces.create.title')}
+          </HoliHeading>
+        ),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="close" onPress={() => setShowConfirmationModal(true)} />,

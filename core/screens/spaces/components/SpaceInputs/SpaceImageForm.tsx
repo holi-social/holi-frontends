@@ -86,7 +86,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             <View style={styles.uploadButtonContainer}>
               <HoliButton
                 label={t('spaces.input.coverImage.upload.button.label')}
-                testID="create-space-upload-image-btn"
+                testID="space-upload-image-btn"
                 style={styles.imageUploadButton}
               >
                 <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>

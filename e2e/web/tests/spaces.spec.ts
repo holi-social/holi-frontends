@@ -1,6 +1,13 @@
-import { expect, test } from '@playwright/test'
+import { Page, expect, test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  defaultAuthSteps,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/spaces')
@@ -89,4 +96,76 @@ test.describe('@Spaces', () => {
     const spaceUrlPrefix = '/spaces/'
     expect(page.url()).toContain(spaceUrlPrefix)
   })
+
+  test('should be able to create a space', async ({ page, context }) => {
+    await page.goto('/')
+    await defaultAuthSteps({ page, context })
+    await clickElementByTestId(page, 'btn-to-spaces')
+    await clickElementByTestId(page, 'btn-create-space')
+
+    // create space - name and goal
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
+    await inputSpaceNameAndGoal(page, 'e2e space name', 'e2e space goal')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // create space - topics
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
+    await selectSomeItems(page)
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // create space - cover image
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page, 'holi-wizard-next-btn')
+    await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // edit space name
+    await clickElementByTestId(page, 'btn-edit-space-name')
+    await inputSpaceNameAndGoal(page, 'e2e edited space name', 'e2e edited space goal')
+    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+
+    // edit space avatar
+    await clickElementByTestId(page, 'btn-edit-space-avatar')
+    await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
+    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+
+    // edit space cover image
+    await clickElementByTestId(page, 'btn-edit-space-cover')
+    await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
+    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+
+    // edit space topics
+    await clickElementByTestId(page, 'btn-edit-space-topics')
+    await selectSomeItems(page, 5)
+    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+
+    // edit space sdgs
+    await clickElementByTestId(page, 'btn-edit-space-sdgs')
+    await selectSomeItems(page, 2)
+    await clickElementByTestId(page, 'edit-space-modal-save-btn')
+  })
 })
+
+const checkConfirmButtonIsDisabled = async (page: Page, testId: string) => {
+  const nextButton = await locateElementByTestId(page, testId)
+  await nextButton.isDisabled()
+}
+
+const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
+  const nameInput = await locateElementByTestId(page, 'space-name-input')
+  await nameInput.fill(name)
+
+  const goalInput = await locateElementByTestId(page, 'space-goal-input')
+  await goalInput.fill(goal)
+}
+
+const selectSomeItems = async (page: Page, numberOfItemsToSelect = 3) => {
+  for (let indexToSelect = 0; indexToSelect < numberOfItemsToSelect; indexToSelect++) {
+    await page
+      .locator(`${byTestId('space-terms-list')} >> [role=checkbox]`)
+      .nth(indexToSelect)
+      .click()
+  }
+}
