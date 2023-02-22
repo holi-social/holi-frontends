@@ -295,3 +295,15 @@ export type SpaceUserConnectionType = string
 export type MySpacesResponse = {
   mySpaces: SpaceSection[]
 }
+
+export type DeleteSpaceResponse = {
+  success: boolean
+}
+
+export const deleteSpaceMutation = gql`
+  mutation DeleteSpace($id: UUID) {
+    deleteSpace(id: $id) {
+      success
+    }
+  }
+`
