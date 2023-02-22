@@ -66,6 +66,7 @@
   "error.errorBoundary.retry": "Erneut versuchen?",
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",
   "global.and": "und",
+  "global.back": "Zurück",
   "global.block": "Blockieren",
   "global.comingSoon": "Coming soon",
   "global.decline": "Abbrechen",

@@ -1,6 +1,14 @@
-import { expect, test } from '@playwright/test'
+import { Locator, Page, expect, test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  defaultAuthSteps,
+  delay,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/spaces')
@@ -89,4 +97,107 @@ test.describe('@Spaces', () => {
     const spaceUrlPrefix = '/spaces/'
     expect(page.url()).toContain(spaceUrlPrefix)
   })
+
+  test('should be able to create a space', async ({ page, context }) => {
+    const numberOfInitialTerms = 3
+    const numberOfTermsToAdd = 2
+
+    await page.goto('/')
+    await defaultAuthSteps({ page, context })
+    await clickElementByTestId(page, 'btn-to-spaces')
+    await clickElementByTestId(page, 'btn-create-space')
+
+    // create space - name and goal
+    const initialName = 'e2e space name'
+    const initialGoal = 'e2e space goal'
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await inputSpaceNameAndGoal(page, initialName, initialGoal)
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // create space - topics
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await selectSomeTerms(page, numberOfInitialTerms)
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // create space - cover image
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+    // check if edit space page has correct information
+    let editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    let editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(initialName)
+    expect(editSpaceGoal).toContainText(initialGoal)
+
+    // // edit space name and goal
+    const editedName = 'e2e edited space name HELLO THERE'
+    const editedGoal = 'e2e edited space goal'
+    await clickElementByTestId(page, 'btn-space-edit-name')
+    await inputSpaceNameAndGoal(page, editedName, editedGoal)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if space name and goal were updated
+    editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(editedName)
+    expect(editSpaceGoal).toContainText(editedGoal)
+
+    // edit space avatar
+    await clickElementByTestId(page, 'btn-space-edit-avatar')
+    await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // edit space cover image
+    await clickElementByTestId(page, 'btn-space-edit-cover')
+    await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // edit space topics
+    await clickElementByTestId(page, 'btn-space-edit-topics')
+    await selectSomeTerms(page, numberOfTermsToAdd)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if the correct number of topics have been selected
+    await delay(1)
+    const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
+    expect(numberOfEditedTopics).toBe(numberOfInitialTerms + numberOfTermsToAdd)
+
+    // edit space sdgs
+    await clickElementByTestId(page, 'btn-space-edit-sdgs')
+    await selectSomeTerms(page, numberOfTermsToAdd)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if the correct number of sdgs have been selected
+    await delay(1)
+    const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
+    expect(numberOfEditedSdgs).toBe(numberOfTermsToAdd)
+  })
 })
+
+const checkConfirmButtonIsDisabled = async (page: Page) => {
+  const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
+  await nextButton.isDisabled()
+}
+
+const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => {
+  const nameInput = await locateElementByTestId(page, 'space-name-input')
+  await nameInput.fill(name)
+
+  const goalInput = await locateElementByTestId(page, 'space-goal-input')
+  await goalInput.fill(goal)
+}
+
+const selectSomeTerms = async (page: Page, numberOfItemsToSelect = 3) => {
+  const numberOfSelectedItems = await page
+    .locator(`${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`)
+    .count()
+  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+
+  for (let indexToSelect = 0; indexToSelect < numberOfItemsToSelect; indexToSelect++) {
+    await locator.nth(numberOfSelectedItems + indexToSelect + 1).click()
+  }
+}
