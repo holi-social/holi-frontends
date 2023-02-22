@@ -5,6 +5,7 @@ import {
   checkAccessibility,
   clickElementByTestId,
   defaultAuthSteps,
+  delay,
   locateElementByTestId,
   waitForElementByTestId,
 } from './helpers'
@@ -98,6 +99,9 @@ test.describe('@Spaces', () => {
   })
 
   test('should be able to create a space', async ({ page, context }) => {
+    const numberOfInitialTerms = 3
+    const numberOfTermsToAdd = 2
+
     await page.goto('/')
     await defaultAuthSteps({ page, context })
     await clickElementByTestId(page, 'btn-to-spaces')
@@ -114,7 +118,7 @@ test.describe('@Spaces', () => {
     // create space - topics
     await checkAccessibility(page)
     await checkConfirmButtonIsDisabled(page)
-    await selectSomeTerms(page)
+    await selectSomeTerms(page, numberOfInitialTerms)
     await clickElementByTestId(page, 'holi-wizard-next-btn')
 
     // create space - cover image
@@ -130,7 +134,7 @@ test.describe('@Spaces', () => {
     expect(editSpaceGoal).toContainText(initialGoal)
 
     // // edit space name and goal
-    const editedName = 'e2e edited space name'
+    const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
     await clickElementByTestId(page, 'btn-space-edit-name')
     await inputSpaceNameAndGoal(page, editedName, editedGoal)
@@ -154,13 +158,23 @@ test.describe('@Spaces', () => {
 
     // edit space topics
     await clickElementByTestId(page, 'btn-space-edit-topics')
-    await selectSomeTerms(page, 5)
+    await selectSomeTerms(page, numberOfTermsToAdd)
     await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if the correct number of topics have been selected
+    await delay(1)
+    const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
+    expect(numberOfEditedTopics).toBe(numberOfInitialTerms + numberOfTermsToAdd)
 
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
-    await selectSomeTerms(page, 2)
+    await selectSomeTerms(page, numberOfTermsToAdd)
     await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
+    // check if the correct number of sdgs have been selected
+    await delay(1)
+    const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
+    expect(numberOfEditedSdgs).toBe(numberOfTermsToAdd)
   })
 })
 
@@ -178,10 +192,12 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
 }
 
 const selectSomeTerms = async (page: Page, numberOfItemsToSelect = 3) => {
+  const numberOfSelectedItems = await page
+    .locator(`${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`)
+    .count()
+  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+
   for (let indexToSelect = 0; indexToSelect < numberOfItemsToSelect; indexToSelect++) {
-    await page
-      .locator(`${byTestId('space-terms-list')} >> [aria-checked="false"]`)
-      .nth(indexToSelect)
-      .click()
+    await locator.nth(numberOfSelectedItems + indexToSelect + 1).click()
   }
 }

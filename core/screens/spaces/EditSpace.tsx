@@ -180,6 +180,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                         label={topic.title}
                         disabled
                         style={styles.chip}
+                        testID="space-edit-topics-chip"
                       />
                     ))}
                   </View>
@@ -205,6 +206,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                         label={`${sdg.number}. ${sdg.title}`}
                         disabled
                         style={styles.chip}
+                        testID="space-edit-sdgs-chip"
                       />
                     ))}
                   </View>
