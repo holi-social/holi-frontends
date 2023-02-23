@@ -25,24 +25,40 @@ describe('renders correctly', () => {
 
     expect(queryByText('Protected Content')).toBeTruthy()
     expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
-    expect(queryByText('auth.loginProtection.login')).toBeFalsy()
+    expect(queryByText('auth.loginProtection.registration')).toBeFalsy()
   })
 
   it('renders fallback content when logged out and no other content was provided', () => {
     const { queryByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.login')).toBeTruthy()
+    expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
     expect(queryByText('Protected Content')).toBeFalsy()
   })
-})
 
-describe('allows user to log in', () => {
-  it('navigates to login', () => {
-    const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+  describe('navigates to', () => {
+    it('registration', () => {
+      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-    fireEvent.press(getByText('auth.loginProtection.login'))
+      fireEvent.press(getByText('auth.loginProtection.registration'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/login')
+      expect(mockNavigate).toHaveBeenCalledWith('/registration')
+    })
+
+    it('login', () => {
+      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+
+      fireEvent.press(getByText('auth.login'))
+
+      expect(mockNavigate).toHaveBeenCalledWith('/login')
+    })
+
+    it('home', () => {
+      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+
+      fireEvent.press(getByText('auth.loginProtection.continueAsGuest'))
+
+      expect(mockNavigate).toHaveBeenCalledWith('/')
+    })
   })
 })
