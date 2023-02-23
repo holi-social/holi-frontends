@@ -43,6 +43,7 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true }}
         useMainTextOnly={true}
+        suggestionsStyle={styles.suggestionsContainer}
       />
     </View>
   )
@@ -69,5 +70,8 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
+  },
+  suggestionsContainer: {
+    backgroundColor: colors.background10,
   },
 })
