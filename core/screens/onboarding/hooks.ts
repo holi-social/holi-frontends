@@ -1,18 +1,20 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { useCallback, useLayoutEffect, useState } from 'react'
+import { useCallback, useLayoutEffect } from 'react'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 
 export const ONBOARDING_STORAGE_NAME = 'onboarding_finished'
 
+// initial value of 'finished' must be true, otherwise React-Navigation won't have time for initialization on mobile
+const finished = makeVar(true)
+
 export const useOnboarding = () => {
-  // initial value of 'finished' must be true, otherwise React-Navigation won't have time for initialization
-  const [finished, setFinished] = useState(true)
   const { isLoggedIn } = useAuth()
 
   const onFinish = useCallback(() => {
+    finished(true)
     AsyncStore.setItem(ONBOARDING_STORAGE_NAME, 'true')
-    setFinished(true)
   }, [])
 
   useLayoutEffect(() => {
@@ -21,14 +23,14 @@ export const useOnboarding = () => {
     } else {
       AsyncStore.getItem(ONBOARDING_STORAGE_NAME).then((result) => {
         if (!result) {
-          setFinished(false)
+          finished(false)
           return
         }
 
         try {
-          setFinished(JSON.parse(result) as boolean)
+          finished(JSON.parse(result) as boolean)
         } catch (e) {
-          setFinished(false)
+          finished(false)
           return
         }
       })
@@ -36,7 +38,7 @@ export const useOnboarding = () => {
   }, [isLoggedIn, onFinish])
 
   return {
-    finished,
+    finished: useReactiveVar(finished),
     onFinish,
   }
 }

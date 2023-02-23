@@ -1,7 +1,8 @@
+// import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import type { NextPage } from 'next'
 
-import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
+import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 
-const HomeFeedPage: NextPage = () => <HomeFeed />
+const HomeFeedPage: NextPage = () => <HomeFeedOnboarding />
 
 export default HomeFeedPage
