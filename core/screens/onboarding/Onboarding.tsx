@@ -1,19 +1,12 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const ONBOARDING_STORAGE_NAME = 'onboarding_finished'
-
 const Onboarding = ({ children }: React.PropsWithChildren<unknown>) => {
-  const [finished, setFinished] = useState(false)
-
-  const onFinish = useCallback(() => {
-    AsyncStore.setItem(ONBOARDING_STORAGE_NAME, 'true')
-    setFinished(true)
-  }, [])
+  const { finished, onFinish } = useOnboarding()
 
   return finished ? (
     <>{children}</>
