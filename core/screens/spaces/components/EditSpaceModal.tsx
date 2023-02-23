@@ -5,6 +5,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -21,27 +22,41 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   saveButtonDisabled = false,
   children,
 }: EditSpaceModalProps) => {
+  const { keyboardIsOpen } = useKeyboard()
+  const { softkeyboardIsOpen } = useSoftKeyboard()
+  const showFooter = !keyboardIsOpen && !softkeyboardIsOpen
+
   const mixins = useStyleMixins()
 
   const { t } = useTranslation()
 
   return (
     <DefaultLayout headerOverlap={true} style={styles.layoutStyle} contentStyle={styles.contentStyle}>
-      <ScrollView style={[mixins.container, styles.scrollView]}>{children}</ScrollView>
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton label={t('global.dismiss')} type="secondary" inline style={styles.footerButton} onPress={onDismiss}>
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled}
-          label={saveButtonDisabled ? t('global.loading') : t('global.save')}
-          onPress={onSave}
-          testID="space-edit-modal-save-btn"
-          style={styles.footerButton}
-          icon={saveButtonDisabled ? 'loader-4' : undefined}
-          iconSpinning={saveButtonDisabled}
-        />
-      </View>
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps="always">
+        {children}
+      </ScrollView>
+      {showFooter && (
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={onDismiss}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled}
+            label={saveButtonDisabled ? t('global.loading') : t('global.save')}
+            onPress={onSave}
+            testID="edit-space-modal-save-btn"
+            style={styles.footerButton}
+            icon={saveButtonDisabled ? 'loader-4' : undefined}
+            iconSpinning={saveButtonDisabled}
+          />
+        </View>
+      )}
     </DefaultLayout>
   )
 }
