@@ -26,6 +26,7 @@ export type ChipProps = PressableProps & {
   style?: ViewStyle | ViewStyle[]
   fontStyle?: TextStyle
   numberOfLines?: number
+  testID?: string
 }
 
 const HoliChip: React.FunctionComponent<ChipProps> = ({
@@ -38,6 +39,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   style,
   fontStyle,
   numberOfLines,
+  testID,
 }: ChipProps) => {
   const styles = getStyles(checked)
 
@@ -55,7 +57,10 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   }
 
   return (
-    <View style={[styles.chipContent, styles.holiChip, style, checked && styles.checked]}>
+    <View
+      style={[styles.chipContent, styles.holiChip, style, checked && styles.checked]}
+      {...(testID ? { testID } : {})}
+    >
       <Pressable
         {...accessibilityProps}
         {...(disabled ? { disabled } : {})}
