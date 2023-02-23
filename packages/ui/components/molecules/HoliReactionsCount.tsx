@@ -64,11 +64,11 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       onMouseEnter={onNativeMouseEnter}
       onMouseOut={onNativeMouseOut}
       transparent
-      style={style}
+      style={[styles.outer, style]}
       contentStyle={styles.container}
       testID={testID}
     >
-      <HoliText selectable={false} style={styles.text}>
+      <HoliText selectable={false} style={[styles.text, (active || hovered) && { color: 'black' }]}>
         {count}
       </HoliText>
       {(active || hovered) && (
@@ -84,14 +84,16 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
 export default HoliReactionsCount
 
 const styles = StyleSheet.create({
+  outer: {
+    width: 'auto',
+  },
   container: {
-    display: 'inline-flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
     color: colors.foreground20,
     lineHeight: 24,
-    paddingTop: 2,
+    marginBottom: -2,
   },
 })
