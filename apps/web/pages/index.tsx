@@ -27,28 +27,31 @@ export const getServerSideProps = async () => {
 
   const client = initializeApolloSSRClient()
 
-  // TODO: Query only what is necessary to render this page
+  // TODO: investigate why lastInsightsQuery is not working for SSR with `Promise.allSettled`
   await client.query({ query: lastInsightsQuery })
-  await client.query({
-    query: projectsQuery,
-    variables: {
-      limit: PROJECT_PAGE_SIZE,
-      offset: 0,
-    },
-  })
-  await client.query({
-    query: GoodNewsArticlesQuery,
-    variables: {
-      lastDate: undefined,
-    },
-  })
-  await client.query({
-    query: VolunteeringEngagementsQuery,
-    variables: {
-      limit: ENGAGEMENT_PAGE_SIZE,
-      offset: 0,
-    },
-  })
+
+  Promise.allSettled([
+    client.query({
+      query: projectsQuery,
+      variables: {
+        limit: PROJECT_PAGE_SIZE,
+        offset: 0,
+      },
+    }),
+    client.query({
+      query: GoodNewsArticlesQuery,
+      variables: {
+        lastDate: undefined,
+      },
+    }),
+    client.query({
+      query: VolunteeringEngagementsQuery,
+      variables: {
+        limit: ENGAGEMENT_PAGE_SIZE,
+        offset: 0,
+      },
+    }),
+  ])
 
   // * The server passes the props to the component through the Apollo cache. We
   // * can pass any other states not fetched from Apollo to the props prop.
