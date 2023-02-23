@@ -31,7 +31,13 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   const onSave = () => updateSpace({ variables: { input: { id: space.id, location: location } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
+    <EditSpaceModal
+      onDismiss={onDismiss}
+      onSave={onSave}
+      saveButtonDisabled={loading}
+      scrollable={false}
+      keyboardShouldPersistTaps="always"
+    >
       <SpaceLocationInput
         title={t('spaces.input.location.title')}
         description={t('spaces.input.location.description')}

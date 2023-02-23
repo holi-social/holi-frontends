@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -13,6 +13,8 @@ type EditSpaceModalProps = {
   onSave: () => void
   children: ReactNode
   saveButtonDisabled?: boolean
+  scrollable?: boolean
+  keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -20,14 +22,23 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   onSave,
   saveButtonDisabled = false,
   children,
+  scrollable = true,
+  keyboardShouldPersistTaps,
 }: EditSpaceModalProps) => {
   const mixins = useStyleMixins()
 
   const { t } = useTranslation()
 
   return (
-    <DefaultLayout headerOverlap={true} style={styles.layoutStyle} contentStyle={styles.contentStyle}>
-      <ScrollView style={[mixins.container, styles.scrollView]}>{children}</ScrollView>
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
+      scrollable={scrollable}
+    >
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+        {children}
+      </ScrollView>
       <View style={[mixins.container, styles.footer]}>
         <HoliButton label={t('global.dismiss')} type="secondary" inline style={styles.footerButton} onPress={onDismiss}>
           {t('global.dismiss')}
