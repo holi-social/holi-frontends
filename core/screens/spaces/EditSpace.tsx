@@ -59,7 +59,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
@@ -229,7 +229,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigateBack(`/spaces/${spaceId}`)}
+          onPress={() => navigate(`/spaces/${spaceId}`)}
           style={styles.overlayButton}
           testID="space-edit-close"
         >
