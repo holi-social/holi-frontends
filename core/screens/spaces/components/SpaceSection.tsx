@@ -39,7 +39,7 @@ const SpaceSection = ({
             type="secondary"
             inline
             onPress={onPressEdit}
-            testID={`btn-edit-${testID}`}
+            testID={`btn-${testID}`}
           >
             <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
             <HoliIcon icon="edit-2" />
