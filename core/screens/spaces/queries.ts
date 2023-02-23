@@ -248,7 +248,7 @@ export const UpdateSpaceInputSchema = z.object({
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
 
 export const updateSpaceMutation = gql`
-  mutation UpdateSpace($input: UpdateSpaceInput) {
+  mutation UpdateSpace($input: UpdateSpaceInput!) {
     updateSpace(input: $input) {
       id
       title
