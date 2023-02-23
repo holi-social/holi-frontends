@@ -15,5 +15,5 @@ export const environmentId = (() => {
  * set this flag to true, and it should be disabled for production until we have
  * a solution for translations. */
 export const featureFlag = {
-  enableSSR: false && process.env.ENVIRONMENT_ID !== 'production',
+  enableSSR: true && process.env.ENVIRONMENT_ID !== 'production',
 }
