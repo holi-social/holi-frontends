@@ -20,9 +20,9 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
     try {
       const result = await Share.share({
         message: space.title,
-        url: /* Platform.OS === 'web' ? webPrefix : */ prefix,
+        title: space.title,
+        url: prefix,
         // url: 'https://www.theguardian.com/world/2023/feb/20/turkey-new-6-point-4-magnitude-earthquake-hatay',
-        // url: `https://staging.web.project-holi.org//spaces/${space.id}`,
       })
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -65,10 +65,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   shareIcon: {
-    marginRight: 10,
     color: colors.foreground20,
   },
   shareText: {
+    marginLeft: 10,
     color: colors.foreground20,
   },
 })

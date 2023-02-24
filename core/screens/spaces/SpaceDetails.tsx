@@ -18,6 +18,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { ContentType } from '@holi/core/queries'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
+import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -80,6 +81,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.editButton}
             />
           )}
+          {Platform.OS !== 'web' && <SpaceShare space={space} />}
+
           <ReportBlockOptionButton
             action="report"
             objectId={spaceId || ''}
@@ -98,7 +101,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, spaceId])
+  }, [hide, setOptions, show, t, visible, isAdmin, navigate, spaceId, space])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
