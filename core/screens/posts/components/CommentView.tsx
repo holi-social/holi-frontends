@@ -67,6 +67,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
         <View style={styles.commentContent}>
           <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
 
+          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <View style={styles.reactionsBar}>
             <HoliReactionsCount
               onPress={() => {

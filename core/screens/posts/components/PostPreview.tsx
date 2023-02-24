@@ -99,6 +99,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
             </HoliUserAvatarPile>
           </HoliLink>
 
+          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <HoliReactionsCount
             onPress={() => {
               console.log('click !!!!!')
