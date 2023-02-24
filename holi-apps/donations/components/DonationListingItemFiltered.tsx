@@ -52,7 +52,7 @@ export default DonationListingItemFiltered
 
 const styles = StyleSheet.create({
   mainImageContainer: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
     borderRadius: 20,
     marginBottom: 16,
   },

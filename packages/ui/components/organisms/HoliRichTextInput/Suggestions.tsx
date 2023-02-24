@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type HoliRichTextInputSuggestionsProps = {
   options?: User[]
@@ -34,7 +34,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
             onPress={() => onChooseSuggestion(item)}
             testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
           >
-            <HoliUserAvatar
+            <HoliAvatar
               imageSrc={item.avatar}
               label={item.fullName}
               initials={item.avatarLabel}
@@ -58,6 +58,7 @@ export default React.memo(HoliRichTextInputSuggestions, customComparator)
 const styles = StyleSheet.create({
   suggestionsContainer: {
     width: '100%',
+    marginBottom: 24,
   },
   suggestionItem: {
     display: 'flex',

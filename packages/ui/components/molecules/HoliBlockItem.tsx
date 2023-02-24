@@ -55,7 +55,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
         )}
       </View>
       <View style={styles.textContainer}>
-        {subtitle && (
+        {!!subtitle && (
           <HoliText size="extrasmall" style={styles.subtitle}>
             {subtitle}
           </HoliText>
@@ -63,7 +63,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
         <HoliText size={size === 'small' ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
           {title}
         </HoliText>
-        {description && (
+        {!!description && (
           <HoliText size="small" numberOfLines={2} style={styles.description}>
             {description}
           </HoliText>
@@ -108,7 +108,7 @@ const stylesSmall = StyleSheet.create({
     paddingRight: 8,
   },
   usersPileText: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   textContainer: {
     flex: 1,
@@ -149,7 +149,7 @@ const stylesLarge = StyleSheet.create({
     padding: 4,
     paddingRight: 8,
     borderRadius: 24,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
   usersPileText: {},
   textContainer: {
@@ -160,10 +160,10 @@ const stylesLarge = StyleSheet.create({
   },
   subtitle: {
     display: 'flex',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   description: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     marginTop: 4,
   },
 })

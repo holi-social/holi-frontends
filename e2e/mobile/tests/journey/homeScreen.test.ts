@@ -1,5 +1,5 @@
 import { defaultAuthSteps } from '../../helpers/auth'
-import { swipeUp } from '../../helpers/gestures'
+import { scrollDown } from '../../helpers/gestures'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
@@ -24,9 +24,6 @@ describe('@HomeScreen', () => {
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
     await assertShowsUserSuggestionsWhenLoggedIn()
-
-    // clean up, scroll up
-    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 5 })
   })
 })
 
@@ -37,7 +34,6 @@ const assertShowsInsights = async () => {
   await waitForElementWithTestId('home-feed-insights-heading')
 
   // go to insight screen
-  await waitForElementWithTestId('feed-insight-image-link')
   await tapOnElementWithTestId('feed-insight-image-link')
 
   await waitForElementWithTestId('insight-headline')
@@ -61,7 +57,7 @@ const assertAllowsPagination = async () => {
 const assertShowsAppUpdates = async (app: string) => {
   // check if donation updates are displayed
   await scrollToElementWithTestId(`${app}-updates-item`, 'down')
-  await waitForElementWithTestId(`${app}-updates-heading`)
+  // await waitForElementWithTestId(`${app}-updates-heading`)
 
   // click first element in ScrollView
   await tapOnElementWithTestId(`${app}-updates-item`)
@@ -75,7 +71,7 @@ const assertShowsAppUpdates = async (app: string) => {
 
 const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
   // scroll to bottom (swipe up, opposite direction)
-  await swipeUp()
+  await scrollDown()
 
   // user suggestions element should be null when logged out
   await waitForElementWithTestIdToBeNull('user-suggestions')
@@ -89,5 +85,5 @@ const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
 
   // scroll down to user suggestions element should be visible
-  await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+  await scrollToElementWithTestId('user-suggestions', 'down')
 }

@@ -15,7 +15,7 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -31,7 +31,7 @@ export type FilteredSpacesParams = {
 
 const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SPACES_PAGE_SIZE = 20
 
@@ -147,7 +147,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
       minHeight: deviceHeight,
     },
     grid: {

@@ -16,18 +16,19 @@ import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/co
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<AuthStackScreensList>
 
 const OwnProfile: React.VFC<ScreenProps> = () => {
   const [showModal, setShowModal] = useState(false)
@@ -64,7 +65,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             headerBackTitleVisible: true,
             headerBackVisible: true,
             headerTransparent: true,
-            headerStyle: { backgroundColor: colors.backgroundColorWhite },
+            headerStyle: { backgroundColor: colors.background10 },
             headerTitle: () => null,
             headerLeft: ({ tintColor }) => (
               <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
@@ -126,7 +127,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 // larger ones should have more space above for clicking the backdrop pane
                 relativeHeight={deviceHeight > 750 ? 0.85 : 1}
               >
-                <>
+                <HoliKeyboardSaveView>
                   {editMode === 'profile' && (
                     <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
                   )}
@@ -160,7 +161,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                       queryToUse={sdgsQuery}
                     />
                   )}
-                </>
+                </HoliKeyboardSaveView>
               </HoliModal>
             )}
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />

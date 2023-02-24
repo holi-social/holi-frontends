@@ -1,4 +1,5 @@
-import { Skill, User } from '@holi/core/screens/userprofile/types'
+import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -29,13 +30,16 @@ export interface Space {
   description: string
   created: string
   creator: User
-  mainImage: string
+  cover: string
   location: string
   connectionStatusToMyself: SpaceConnectionType[]
-  memberships: SpaceMember[]
+  members: Paged<SpaceMember>
+  avatarDefaultColor: string
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
+  topics?: Topic[]
+  sdgs?: SDG[]
 }
 
 export enum SpaceSectionType {
@@ -44,10 +48,11 @@ export enum SpaceSectionType {
   MEMBER = 'MEMBER',
   CREATOR = 'CREATOR',
 }
+
 export type SpaceSection = {
   section: string
   type: SpaceSectionType
-  spaces: { data: Space[] }
+  spaces: Paged<Space>
 }
 
 export interface Task {
@@ -67,6 +72,7 @@ export enum SpaceConnectionType {
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
   CREATOR = 'CREATOR',
+  ADMINISTRATOR = 'ADMINISTRATOR',
 }
 
 export enum SpaceConnectionAction {

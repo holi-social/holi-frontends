@@ -5,7 +5,7 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   accessibilityLabel="OTHER"
   accessibilityRole="link"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -22,9 +22,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -36,9 +36,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Object {
+        {
           "alignItems": "center",
           "flexDirection": "row",
         },
@@ -49,21 +49,21 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
       align="xMidYMid"
       bbHeight={24}
       bbWidth={24}
-      color={4285493377}
+      color={4286084983}
       focusable={false}
       meetOrSlice={0}
       minX={0}
       minY={0}
       style={
-        Array [
-          Object {
+        [
+          {
             "backgroundColor": "transparent",
             "borderWidth": 0,
           },
-          Object {
+          {
             "borderStyle": "solid",
             "borderWidth": 0,
-            "color": "#6f7081",
+            "color": "#787777",
             "display": "flex",
             "fill": "currentColor",
             "flexDirection": "row",
@@ -72,31 +72,31 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
             "stroke": "currentColor",
             "width": 24,
           },
-          Object {
+          {
             "flex": 0,
             "height": 24,
             "width": 24,
           },
         ]
       }
-      tintColor={4285493377}
+      tintColor={4286084983}
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          Array [
+          [
             2,
           ]
         }
         propList={
-          Array [
+          [
             "fill",
             "stroke",
           ]
         }
         stroke={
-          Array [
+          [
             2,
           ]
         }
@@ -110,21 +110,21 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 14,
             "lineHeight": 16.8,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "marginLeft": 8,
           },
         ]
@@ -141,7 +141,7 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   accessibilityLabel="FACEBOOK"
   accessibilityRole="link"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -158,9 +158,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "auto",
         },
       ],
@@ -172,9 +172,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
-        Object {
+        {
           "alignItems": "center",
           "flexDirection": "row",
         },
@@ -185,21 +185,21 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
       align="xMidYMid"
       bbHeight={24}
       bbWidth={24}
-      color={4285493377}
+      color={4286084983}
       focusable={false}
       meetOrSlice={0}
       minX={0}
       minY={0}
       style={
-        Array [
-          Object {
+        [
+          {
             "backgroundColor": "transparent",
             "borderWidth": 0,
           },
-          Object {
+          {
             "borderStyle": "solid",
             "borderWidth": 0,
-            "color": "#6f7081",
+            "color": "#787777",
             "display": "flex",
             "fill": "currentColor",
             "flexDirection": "row",
@@ -208,31 +208,31 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
             "stroke": "currentColor",
             "width": 24,
           },
-          Object {
+          {
             "flex": 0,
             "height": 24,
             "width": 24,
           },
         ]
       }
-      tintColor={4285493377}
+      tintColor={4286084983}
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          Array [
+          [
             2,
           ]
         }
         propList={
-          Array [
+          [
             "fill",
             "stroke",
           ]
         }
         stroke={
-          Array [
+          [
             2,
           ]
         }
@@ -246,21 +246,21 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 14,
             "lineHeight": 16.8,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "marginLeft": 8,
           },
         ]

@@ -7,16 +7,24 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliNoResultsProps = {
   firstText?: string
+  media?: JSX.Element
   secondText: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-const HoliNoResults: React.FC<HoliNoResultsProps> = ({ firstText, secondText, style, children }) => {
+const HoliNoResults = ({
+  firstText,
+  media,
+  secondText,
+  style,
+  children,
+}: React.PropsWithChildren<HoliNoResultsProps>) => {
   const { t } = useTranslation()
   const title = firstText || t('global.noResults')
 
   return (
     <View style={[styles.holiNoResults, style]}>
+      {media && <View style={styles.mediaContainer}>{media}</View>}
       <HoliText size="small">{title}</HoliText>
       <HoliText size="large" style={styles.secondText}>
         {secondText}
@@ -34,9 +42,13 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 40,
     paddingHorizontal: 24,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
+  },
+  mediaContainer: {
+    alignItems: 'center',
+    paddingBottom: 24,
   },
   secondText: {
     marginTop: 16,

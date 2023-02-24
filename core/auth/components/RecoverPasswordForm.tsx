@@ -7,7 +7,7 @@ import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -25,6 +25,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
   const { t } = useTranslation()
   const { navigateBack, navigate, replaceRoute } = useRouting()
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
 
   const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
 
@@ -37,7 +38,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
         safeSetFlow(flow)
       })
       .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t])
+  }, [safeSetFlow, t, displayError])
 
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
@@ -131,6 +132,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loginLinkText: {
-    color: colors.positivepurple,
+    color: colors.brandColorB30,
   },
 })

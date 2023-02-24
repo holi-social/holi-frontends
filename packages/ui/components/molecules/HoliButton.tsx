@@ -18,8 +18,8 @@ import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@type
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
-export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
+export type HoliButtonType = 'primary' | 'secondary' | 'warning' // for working code completion in vscode
+export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'warning'] // keep in sync with all possible HoliButtonType values
 type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
 export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
@@ -43,7 +43,7 @@ export interface HoliButtonProps {
   accessibilityState?: AccessibilityState
 }
 
-const HoliButton: React.FC<HoliButtonProps> = ({
+const HoliButton = ({
   inline = false,
   type = 'primary',
   variant = 'default',
@@ -54,8 +54,9 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
+  const isWarning = type === 'warning'
 
-  const styles = useMemo(() => getStyles(inline), [inline])
+  const styles = useMemo(() => getStyles(inline, isWarning), [inline, isWarning])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -68,7 +69,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        style={disabled ? styles.textDisabled : {}}
+        style={[styles.text, isWarning ? styles.textWarning : {}, disabled ? styles.textDisabled : {}]}
         size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
@@ -101,14 +102,18 @@ const HoliButton: React.FC<HoliButtonProps> = ({
           if (isSmall) {
             result.push(styles.small)
           }
+          if (isWarning) {
+            result.push(styles.warning)
+          }
           if (disabled) {
             result.push(styles.disabled)
             isPrimary && result.push(styles.primaryDisabled)
+            isWarning && result.push(styles.warningDisabled)
           } else {
             isPrimary && result.push(styles.primary)
             if (state.pressed) {
               isPrimary && result.push(styles.pressedPrimary)
-              !isPrimary && result.push(styles.pressedSecondary)
+              !isPrimary && !isWarning && result.push(styles.pressedSecondary)
             } else {
               state.focused && result.push(styles.focused)
               state.hovered && result.push(styles.hovered)
@@ -133,7 +138,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 
 export default HoliButton
 
-const getStyles = (inline: boolean) =>
+const getStyles = (inline: boolean, isWarning: boolean) =>
   StyleSheet.create({
     base: {
       ...Platform.select({
@@ -144,20 +149,25 @@ const getStyles = (inline: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: colors.borderColorBlack,
+      borderColor: colors.foreground30,
       borderWidth: 2,
       borderRadius: 28,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       paddingHorizontal: 32,
       paddingVertical: 13,
       elevation: 0,
       overflow: 'hidden',
+      justifyContent: 'center',
+      display: 'flex',
+    },
+    text: {
+      textAlign: 'center',
     },
     textDisabled: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     hovered: {
-      shadowColor: colors.shadowColorBlack,
+      shadowColor: isWarning ? colors.error30 : colors.foreground30,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -168,14 +178,14 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: colors.shadowColorBlack,
+      outlineColor: isWarning ? colors.error30 : colors.foreground30,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
-      backgroundColor: colors.backgroundColorYellowDark,
+      backgroundColor: colors.brandColorA30,
     },
     pressedSecondary: {
-      backgroundColor: colors.backgroundColorGreyDark,
+      backgroundColor: colors.background20,
     },
     small: {
       borderRadius: 16,
@@ -186,12 +196,22 @@ const getStyles = (inline: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      borderColor: colors.borderColorBlackDisabled,
+      borderColor: colors.background30,
     },
     primary: {
-      backgroundColor: colors.primaryColor,
+      backgroundColor: colors.brandColorA30,
     },
     primaryDisabled: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
+    },
+    warningDisabled: {
+      backgroundColor: colors.background20,
+    },
+    warning: {
+      backgroundColor: colors.error10,
+      borderColor: colors.error30,
+    },
+    textWarning: {
+      color: colors.error30,
     },
   })

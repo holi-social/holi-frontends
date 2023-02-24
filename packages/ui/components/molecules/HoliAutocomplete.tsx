@@ -31,6 +31,7 @@ export type HoliAutocompleteProps = {
   inputProps?: TextInputProps
   id: string
   onSubmit?: (value: string) => void
+  suggestionsStyle?: StyleProp<ViewStyle>
 }
 
 const HoliAutocomplete = ({
@@ -50,6 +51,7 @@ const HoliAutocomplete = ({
   id,
   testID,
   onSubmit,
+  suggestionsStyle = {},
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
@@ -92,7 +94,8 @@ const HoliAutocomplete = ({
   const clearFocusAndClose = useCallback(
     (focusId) => {
       // using setTimeout to make sure no other item was selected in the mean time
-      setTimeout(() => {
+
+      requestAnimationFrame(() => {
         setFocusedItem((id) => {
           if (id === focusId) {
             setIsOpened(false)
@@ -100,7 +103,7 @@ const HoliAutocomplete = ({
           }
           return id
         })
-      }, 0)
+      })
     },
     [setFocusedItem, setIsOpened]
   )
@@ -178,7 +181,7 @@ const HoliAutocomplete = ({
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
       />
-      <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
+      <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           isOpened ? suggestions.map(renderItem) : <></>
@@ -197,17 +200,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   textInputFocused: {
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
   },
   textInputLabelFocused: {
-    color: colors.secondaryColor,
+    color: colors.brandColorB30,
   },
   listItem: {
     height: 48,
     paddingHorizontal: 12,
     justifyContent: 'center',
     display: 'flex',
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },

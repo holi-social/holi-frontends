@@ -1,4 +1,4 @@
-import { swipeDown } from '../../helpers/gestures'
+import { scrollUp } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -86,6 +86,8 @@ const assertProjectDetails = async () => {
 }
 
 const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]) => {
+  // scroll to button and count elements in viewport
+  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 20 })
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item
@@ -96,8 +98,6 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
 }
 
 const assertDisplaysMultipleProjects = async () => {
-  // scroll to button and count elements in viewport
-  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 20 })
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
@@ -105,7 +105,7 @@ const assertDisplaysMultipleProjects = async () => {
 
 const assertResetFilterFromModal = async () => {
   // scroll up to make sure top menu shows up
-  await swipeDown()
+  await scrollUp()
 
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
@@ -135,7 +135,7 @@ const extractResultCount = async (testId: string): Promise<number> => {
 
 const filterForLocation = async (location: string) => {
   // scroll up to make sure top menu shows up
-  await swipeDown()
+  await scrollUp()
 
   // open search modal
   await tapOnElementWithTestId('donations-search-button')

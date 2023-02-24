@@ -13,11 +13,13 @@ export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
   icon?: string
   style?: StyleProp<ViewStyle>
   testID?: string
+  onPress?: () => void
 }
 
 const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
-  tintColor = colors.fontColorBlack,
+  tintColor = colors.foreground30,
   icon = 'arrow-left',
+  onPress,
   ...props
 }) => {
   const { navigateBack } = useUnifiedNavigation()
@@ -28,7 +30,7 @@ const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
       label={t('navigation.headerLeft.back')}
       inline
       transparent
-      onPress={() => navigateBack()}
+      onPress={() => (onPress ? onPress() : navigateBack())}
       testID="nav-button-back"
       {...props}
     >

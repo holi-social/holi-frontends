@@ -1,15 +1,15 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
@@ -28,6 +28,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
+  const { displayError } = useErrorHandling()
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
@@ -89,7 +90,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
             onPress={resetSearch}
             testID="donations-list-search-reset"
           >
-            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+            <HoliText size="small" style={{ color: colors.foreground20 }}>
               {t('search.filter.reset')}
             </HoliText>
           </HoliButton>
@@ -147,10 +148,9 @@ const styles = StyleSheet.create({
   },
   searchHeading: {
     marginBottom: 14,
-    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
   },
   searchQuery: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   searchFilter: {
     flexDirection: 'row',

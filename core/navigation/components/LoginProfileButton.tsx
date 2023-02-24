@@ -7,8 +7,8 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type LoginProfileButtonProps = {
   focused?: boolean
@@ -16,7 +16,12 @@ export type LoginProfileButtonProps = {
   testID?: string
 }
 
-const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {
+const LoginProfileButton = ({
+  focused,
+  children,
+  style,
+  ...props
+}: React.PropsWithChildren<LoginProfileButtonProps>) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useAuth()
@@ -45,7 +50,7 @@ const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, childr
       testID="btn-to-profile-view"
     >
       {hasUserData ? (
-        <HoliUserAvatar
+        <HoliAvatar
           imageSrc={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
@@ -56,7 +61,7 @@ const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, childr
       ) : (
         <HoliIcon
           filled={focused}
-          color={focused ? colors.fontColorBlack : colors.fontColorGrey}
+          color={focused ? colors.foreground30 : colors.foreground20}
           icon="account-circle"
           size={24}
         />
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userAvatarHighlighted: {
-    borderColor: colors.backgroundColorBlack,
+    borderColor: colors.foreground30,
     borderWidth: 2,
   },
 })

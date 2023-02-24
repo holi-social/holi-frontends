@@ -66,7 +66,7 @@ export type LastInsightsResponse = {
 export const insightById = gql`
   ${InsightWithPostsFragment}
 
-  query InsightById($id: String!) {
+  query InsightById($id: UUID!) {
     insightById(id: $id) {
       ...InsightWithPosts
     }

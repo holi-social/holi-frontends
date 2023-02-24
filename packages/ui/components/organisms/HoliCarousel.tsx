@@ -26,7 +26,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   style,
   marginHorizontal = 0, // margin between slide and device screen
 }: HoliCarouselProps) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0)
+  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
   const { width: screenWidth } = useWindowDimensions()
@@ -44,11 +44,14 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
     horizontalScrollMinWidth
   )
 
-  const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent?.contentOffset) return
+  const handleOnScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
+    const contentOffset = nativeEvent?.contentOffset
+    if (!contentOffset) return
 
-    // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / scrollingOffset))
+    // Math round increases the current slider index by one when scrolling more
+    // than halfway through the slide.
+    const currentIndexPosition = Math.round(contentOffset.x / scrollingOffset)
+    setCurrentSlideIndex(currentIndexPosition)
   }
 
   const goToSlide = (slide: number) => {
@@ -58,7 +61,6 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
 
     const scrollPoint = slide * scrollingOffset
     carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
-    setCurrentSlide(slide)
   }
 
   return (
@@ -72,10 +74,14 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
           showsHorizontalScrollIndicator={false}
           snapToInterval={scrollingOffset}
           decelerationRate={0}
-          onMomentumScrollEnd={handleScrollEnd}
+          // The event loop syncs to the screen refresh rate; for iOS, the rate
+          // is at least 60 times per second. We want to throttle onScroll to
+          // avoid missing frames and call 15 fps (1000 / 15 = 66.6) on iOS.
+          scrollEventThrottle={66}
+          onScroll={handleOnScroll}
         >
           {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            /** FIXME: convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, i) => (
               <View
                 style={[
@@ -95,18 +101,18 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       {!isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            /** FIXME: convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, slideIndex) => (
               <HoliTabButton
                 label={slide.title || '' + (slideIndex + 1)}
                 style={styles.slideButton}
                 onPress={() => goToSlide(slideIndex)}
                 key={slideIndex}
-                accessibilitySelected={slideIndex === currentSlide}
+                accessibilitySelected={slideIndex === currentSlideIndex}
                 testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
               >
                 <View
-                  style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]}
+                  style={[styles.slideButtonIcon, slideIndex === currentSlideIndex && styles.activeSlideButtonIcon]}
                 />
               </HoliTabButton>
             ))
@@ -206,12 +212,12 @@ const getStyles = (
     slideButtonIcon: {
       width: 8,
       height: 8,
-      backgroundColor: colors.softblack,
+      backgroundColor: colors.foreground30,
       opacity: 0.3,
       borderRadius: 50,
     },
     activeSlideButtonIcon: {
-      backgroundColor: colors.fontColor,
+      backgroundColor: colors.foreground30,
       opacity: 1,
     },
   })

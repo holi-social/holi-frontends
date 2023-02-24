@@ -14,14 +14,12 @@ const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
   const { t } = useTranslation()
   const [imageSize, setImageSize] = useState(() => ({ width: 0, height: 0 }))
 
-  useEffect(
-    () =>
-      Image.getSize(uri, (width, height) => {
-        const multiplier = Math.min(Dimensions.get('window').width / width, Dimensions.get('window').height / height, 1)
-        setImageSize({ width: width * multiplier, height: height * multiplier })
-      }),
-    [uri]
-  )
+  useEffect(() => {
+    Image.getSize(uri, (width, height) => {
+      const multiplier = Math.min(Dimensions.get('window').width / width, Dimensions.get('window').height / height, 1)
+      setImageSize({ width: width * multiplier, height: height * multiplier })
+    })
+  }, [uri])
 
   return (
     <ImageZoom

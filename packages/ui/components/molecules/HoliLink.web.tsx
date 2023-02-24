@@ -8,7 +8,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import type { HoliLinkProps } from './HoliLink'
 import webStyles from './HoliLink.module.scss'
 
-const HoliLink: React.FC<HoliLinkProps> = ({
+const HoliLink = ({
   href,
   label,
   external = false,
@@ -17,10 +17,10 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   style,
   textStyle,
   testID = 'text-link',
-}) => {
+}: React.PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = React.useCallback(
     (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
-      const stopPropagation = onPress?.()
+      const stopPropagation = onPress?.(event)
       if (stopPropagation === false) {
         event?.preventDefault()
         event?.stopPropagation()
@@ -51,6 +51,6 @@ export default HoliLink
 
 const styles = StyleSheet.create({
   linkText: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
 })

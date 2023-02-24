@@ -40,14 +40,13 @@ export type useSoftKeyboardProps = {
 const defaultProps = {
   preventAutoScrolling: true,
   scrollDebounce: 50,
-  viewportDebounce: 300,
+  viewportDebounce: 30,
   active: isWebTouchDevice(),
 }
 
 export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const { preventAutoScrolling, scrollDebounce, viewportDebounce, active } = { ...defaultProps, ...props }
   const [lastViewPortHeight, setLastViewPortHeight] = useState(0)
-  const [lastWindowHeight, setLastWindowHeight] = useState(0)
   const [lastKeyboardHeight, setLastKeyboardHeight] = useState(0)
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
 
@@ -56,29 +55,16 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
     const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
     const viewPortPageTop = event ? event.target?.pageTop : window?.visualViewport?.pageTop
     const windowHeight = window?.innerHeight
-    let keyboardIsOpen = windowHeight > viewPortHeight
-    const stateHasChanged = keyboardIsOpen !== lastKeyboardOpen
-    const windowHeightHasChanged = windowHeight !== lastWindowHeight
+    const keyboardIsOpen = windowHeight > viewPortHeight
     const keyboarHeight = windowHeight - viewPortHeight
-
-    if (keyboardIsOpen) {
-      if (!stateHasChanged && windowHeightHasChanged && viewPortHeight !== windowHeight) {
-        keyboardIsOpen = false
-      }
-    } else if (!keyboardIsOpen) {
-      if (!stateHasChanged && windowHeightHasChanged) {
-        keyboardIsOpen = true
-      }
-    }
 
     if (viewPortOffset === viewPortPageTop) {
       // This is the first input focus.
       // Somehow it differs from the further ones.
     }
 
-    setLastWindowHeight(windowHeight)
     setLastKeyboardOpen(keyboardIsOpen)
-    setLastViewPortHeight(viewPortHeight - 10)
+    setLastViewPortHeight(viewPortHeight)
     setLastKeyboardHeight(keyboarHeight)
   }, viewportDebounce)
 

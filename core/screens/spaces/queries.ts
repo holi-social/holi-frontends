@@ -1,16 +1,20 @@
 import { gql } from '@apollo/client/core'
+import { z } from 'zod'
 
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
-  fragment FullSpaceMember on SpaceMember {
-    user {
-      ...UserAvatar
+  fragment FullSpaceMember on SpaceMemberPaged {
+    totalResults
+    data {
+      user {
+        ...UserAvatar
+      }
+      isAdministrator
     }
-    isAdministrator
   }
 `
 
@@ -22,14 +26,15 @@ const SpaceFragment = gql`
     description
     created
     avatar
-    mainImage
+    cover
+    avatarDefaultColor
     location
     connectionStatusToMyself
     links {
       type
       url
     }
-    memberships {
+    members {
       ...FullSpaceMember
     }
     tasks {
@@ -49,6 +54,30 @@ const SpaceFragment = gql`
         slug
       }
     }
+    topics {
+      id
+      title
+    }
+    sdgs {
+      id
+      title
+      number
+    }
+  }
+`
+
+const SpaceOverviewFragment = gql`
+  ${SpaceMemberFragment}
+  fragment OverviewSpace on Space {
+    id
+    title
+    description
+    created
+    cover
+    location
+    members {
+      ...FullSpaceMember
+    }
   }
 `
 
@@ -60,6 +89,18 @@ export const topicsQuery = gql`
         title
         isDiscoverSpacesDefault
         slug
+      }
+    }
+  }
+`
+
+export const sdgsQuery = gql`
+  query SDGs {
+    sdgs {
+      data {
+        id
+        title
+        number
       }
     }
   }
@@ -83,7 +124,7 @@ export type SpacesResponse = {
 }
 
 export const discoverSpacesQuery = gql`
-  ${SpaceFragment}
+  ${SpaceOverviewFragment}
 
   query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
     discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
@@ -93,7 +134,7 @@ export const discoverSpacesQuery = gql`
       spaces {
         totalResults
         data {
-          ...FullSpace
+          ...OverviewSpace
         }
       }
     }
@@ -149,8 +190,93 @@ export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space
 }
 
-export const mySpaceQuery = gql`
+export const ValidateSpaceInputSchema = z.object({
+  title: z.string().trim().min(2).max(60),
+  description: z.string().trim().min(1).max(600),
+  topics: z.array(z.string() /* UUID */).min(1).max(6).optional(),
+  cover: z.instanceof(Object).optional(),
+})
+
+export type ValidateSpaceInput = z.infer<typeof ValidateSpaceInputSchema>
+
+export const validateSpaceMutation = gql`
+  mutation ValidateSpace($input: ValidateSpaceInput!) {
+    validateSpace(input: $input) {
+      success
+    }
+  }
+`
+
+export type ValidateSpaceResponse = {
+  validateSpace: {
+    success: boolean
+  }
+}
+
+export const CreateSpaceInputSchema = z.object({
+  title: z.string().trim().min(2).max(60),
+  description: z.string().trim().min(1).max(600),
+  topics: z.array(z.string() /* UUID */).min(1).max(6),
+  cover: z.instanceof(Object),
+})
+
+export type CreateSpaceInput = z.infer<typeof CreateSpaceInputSchema>
+
+export const createSpaceMutation = gql`
   ${SpaceFragment}
+
+  mutation CreateSpace($input: CreateSpaceInput!) {
+    createSpace(input: $input) {
+      ...FullSpace
+    }
+  }
+`
+
+export type CreateSpaceResponse = {
+  createSpace: Space
+}
+
+export const UpdateSpaceInputSchema = z.object({
+  id: z.string(),
+  title: z.string().trim().min(2).max(60).optional(),
+  description: z.string().trim().min(1).max(600).optional(),
+  location: z.string().optional(),
+  avatar: z.instanceof(Object).optional(),
+  topics: z.array(z.string()).optional(),
+  sdgs: z.array(z.string()).optional(),
+})
+
+export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
+
+export const updateSpaceMutation = gql`
+  mutation UpdateSpace($input: UpdateSpaceInput!) {
+    updateSpace(input: $input) {
+      id
+      title
+      description
+      avatar
+      cover
+      location
+      avatarDefaultColor
+      topics {
+        id
+        title
+      }
+      sdgs {
+        id
+        title
+        number
+      }
+    }
+  }
+`
+
+export type UpdateSpaceResponse = {
+  updateSpace: Partial<Space>
+}
+
+export const mySpaceQuery = gql`
+  ${SpaceOverviewFragment}
 
   query MySpaces {
     mySpaces {
@@ -159,7 +285,7 @@ export const mySpaceQuery = gql`
       spaces {
         totalResults
         data {
-          ...FullSpace
+          ...OverviewSpace
         }
       }
     }
@@ -169,9 +295,17 @@ export const mySpaceQuery = gql`
 export type SpaceUserConnectionType = string
 
 export type MySpacesResponse = {
-  mySpaces: {
-    section: string
-    type: string
-    spaces: Paged<Space>
-  }[]
+  mySpaces: SpaceSection[]
 }
+
+export interface DeleteSpaceResponse {
+  success: boolean
+}
+
+export const deleteSpaceMutation = gql`
+  mutation DeleteSpace($id: UUID) {
+    deleteSpace(id: $id) {
+      success
+    }
+  }
+`

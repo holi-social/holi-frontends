@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -21,7 +21,13 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
-  const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
+  const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
+    // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
+  })
+  const { displayError } = useErrorHandling()
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -30,7 +36,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginDialog({
-        text: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
+        description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
     followSpace({

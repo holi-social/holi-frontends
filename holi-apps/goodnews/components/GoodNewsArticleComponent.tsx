@@ -34,14 +34,14 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-        {article.pictureCredit && (
+        {!!article.pictureCredit && (
           <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
             {article.pictureCredit}
           </HoliText>
         )}
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
-        {article.source && (
+        {!!article.source && (
           <HoliText size="small" style={styles.source}>
             {article.source}
           </HoliText>
@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: colors.borderColorBlack,
+    borderColor: colors.foreground30,
   },
   pictureCredit: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
     paddingBottom: 8,
     paddingRight: 16,
     alignSelf: 'flex-end',

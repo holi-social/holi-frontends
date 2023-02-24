@@ -14,7 +14,7 @@ export interface HeaderTitleProps extends Partial<HoliTextProps> {
 
 const HeaderTitle: React.FC<HeaderTitleProps> = ({
   children,
-  tintColor = colors.fontColorBlack,
+  tintColor = colors.foreground30,
   widthOfScreen,
   size,
   style,

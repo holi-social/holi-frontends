@@ -3,9 +3,9 @@
 exports[`SpaceTaskList renders correctly when there are no tasks within space 1`] = `
 <View
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "alignItems": "center",
         "paddingTop": 60,
       },
@@ -16,13 +16,13 @@ exports[`SpaceTaskList renders correctly when there are no tasks within space 1`
     accessible={false}
     selectable={true}
     style={
-      Array [
-        Object {
-          "color": "#222326",
+      [
+        {
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
-        Object {
+        {
           "fontSize": 16,
           "lineHeight": 19.2,
         },
@@ -42,13 +42,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     role="header"
     selectable={true}
     style={
-      Array [
-        Object {
-          "color": "#222326",
+      [
+        {
+          "color": "#262424",
           "fontFamily": "Circular Std Medium",
           "fontWeight": "500",
         },
-        Object {
+        {
           "fontSize": 21,
           "lineHeight": 25.2,
         },
@@ -60,22 +60,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
   </Text>
   <View
     style={
-      Object {
+      {
         "overflow": "hidden",
       }
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "paddingTop": 20,
           },
-          Object {
+          {
             "flexDirection": "row",
             "flexWrap": "wrap",
           },
-          Object {
+          {
             "margin": -12,
           },
         ]
@@ -83,9 +83,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     >
       <View
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "padding": 12,
               "width": "50%",
             },
@@ -94,13 +94,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flex": 1,
               },
-              Object {
+              {
                 "backgroundColor": "#fff",
-                "borderColor": "#eff0f1",
+                "borderColor": "#ebebeb",
                 "borderRadius": 16,
                 "borderWidth": 1,
                 "flexShrink": 1,
@@ -112,12 +112,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -127,13 +127,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               role="header"
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {
+                  {
                     "fontSize": 21,
                     "lineHeight": 25.2,
                   },
@@ -145,16 +145,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "backgroundColor": "#f7f6f3",
+                    "backgroundColor": "#f5f5f5",
                     "borderRadius": 12,
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
                   undefined,
-                  Object {
+                  {
                     "height": 24,
                     "width": 24,
                   },
@@ -166,12 +166,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 accessible={false}
                 source={
-                  Object {
+                  {
                     "uri": "https://www.example.com/avatar.jpg",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -181,12 +181,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -194,7 +194,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -205,21 +205,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -229,31 +229,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -267,19 +267,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -289,7 +289,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -300,21 +300,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -324,31 +324,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -362,19 +362,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -385,7 +385,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
                 "marginBottom": 12,
@@ -397,22 +397,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -429,22 +429,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -459,20 +459,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "marginBottom": 16,
               }
             }
           >
             <View
-              style={Object {}}
+              style={{}}
             >
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={3}
                 onTextLayout={[Function]}
                 style={
-                  Object {
+                  {
                     "alignContent": "flex-start",
                     "justifyContent": "center",
                   }
@@ -482,47 +482,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    Array [
-                      Object {
-                        "color": "#222326",
+                    [
+                      {
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                      {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
-                      Array [
-                        Object {
-                          "color": "#6f7081",
+                      [
+                        {
+                          "color": "#787777",
                         },
-                        Object {},
+                        {},
                       ],
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>
@@ -532,9 +512,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
       <View
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "padding": 12,
               "width": "50%",
             },
@@ -543,13 +523,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flex": 1,
               },
-              Object {
+              {
                 "backgroundColor": "#fff",
-                "borderColor": "#eff0f1",
+                "borderColor": "#ebebeb",
                 "borderRadius": 16,
                 "borderWidth": 1,
                 "flexShrink": 1,
@@ -561,12 +541,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -576,13 +556,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               role="header"
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {
+                  {
                     "fontSize": 21,
                     "lineHeight": 25.2,
                   },
@@ -594,16 +574,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "backgroundColor": "#f7f6f3",
+                    "backgroundColor": "#f5f5f5",
                     "borderRadius": 12,
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
                   undefined,
-                  Object {
+                  {
                     "height": 24,
                     "width": 24,
                   },
@@ -615,12 +595,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 accessible={false}
                 source={
-                  Object {
+                  {
                     "uri": "https://www.example.com/avatar.jpg",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -630,12 +610,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -643,7 +623,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -654,21 +634,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -678,31 +658,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -716,19 +696,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -738,7 +718,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -749,21 +729,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -773,31 +753,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -811,19 +791,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -834,7 +814,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
                 "marginBottom": 12,
@@ -846,22 +826,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -878,22 +858,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -908,20 +888,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "marginBottom": 16,
               }
             }
           >
             <View
-              style={Object {}}
+              style={{}}
             >
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={3}
                 onTextLayout={[Function]}
                 style={
-                  Object {
+                  {
                     "alignContent": "flex-start",
                     "justifyContent": "center",
                   }
@@ -931,47 +911,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    Array [
-                      Object {
-                        "color": "#222326",
+                    [
+                      {
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                      {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
-                      Array [
-                        Object {
-                          "color": "#6f7081",
+                      [
+                        {
+                          "color": "#787777",
                         },
-                        Object {},
+                        {},
                       ],
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>
@@ -981,9 +941,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       </View>
       <View
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "padding": 12,
               "width": "50%",
             },
@@ -992,13 +952,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flex": 1,
               },
-              Object {
+              {
                 "backgroundColor": "#fff",
-                "borderColor": "#eff0f1",
+                "borderColor": "#ebebeb",
                 "borderRadius": 16,
                 "borderWidth": 1,
                 "flexShrink": 1,
@@ -1010,12 +970,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -1025,13 +985,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               role="header"
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {
+                  {
                     "fontSize": 21,
                     "lineHeight": 25.2,
                   },
@@ -1043,16 +1003,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "backgroundColor": "#f7f6f3",
+                    "backgroundColor": "#f5f5f5",
                     "borderRadius": 12,
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
                   undefined,
-                  Object {
+                  {
                     "height": 24,
                     "width": 24,
                   },
@@ -1064,12 +1024,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 accessible={false}
                 source={
-                  Object {
+                  {
                     "uri": "https://www.example.com/avatar.jpg",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -1079,12 +1039,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                 },
-                Object {
+                {
                   "marginBottom": 16,
                 },
               ]
@@ -1092,7 +1052,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -1103,21 +1063,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -1127,31 +1087,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -1165,19 +1125,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -1187,7 +1147,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "marginRight": 8,
@@ -1198,21 +1158,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 align="xMidYMid"
                 bbHeight={12}
                 bbWidth={12}
-                color={4285493377}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
-                      "color": "#6f7081",
+                      "color": "#787777",
                       "display": "flex",
                       "fill": "currentColor",
                       "flexDirection": "row",
@@ -1222,31 +1182,31 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "stroke": "currentColor",
                       "width": 12,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 12,
                       "width": 12,
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -1260,19 +1220,19 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  Array [
-                    Object {
-                      "color": "#222326",
+                  [
+                    {
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
-                    Object {
+                    {
                       "fontSize": 12,
                       "lineHeight": 14.399999999999999,
                     },
                     false,
-                    Object {
-                      "color": "#6f7081",
+                    {
+                      "color": "#787777",
                     },
                   ]
                 }
@@ -1283,7 +1243,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
                 "marginBottom": 12,
@@ -1295,22 +1255,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -1327,22 +1287,22 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 14,
                     "lineHeight": 16.8,
                   },
                   false,
-                  Object {
-                    "borderColor": "#eff0f1",
+                  {
+                    "borderColor": "#ebebeb",
                     "borderRadius": 16,
                     "borderWidth": 1,
-                    "color": "#6f7081",
+                    "color": "#787777",
                     "height": 33,
                     "marginBottom": 4,
                     "marginRight": 4,
@@ -1357,20 +1317,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           </View>
           <View
             style={
-              Object {
+              {
                 "marginBottom": 16,
               }
             }
           >
             <View
-              style={Object {}}
+              style={{}}
             >
               <Text
                 ellipsizeMode="tail"
                 numberOfLines={3}
                 onTextLayout={[Function]}
                 style={
-                  Object {
+                  {
                     "alignContent": "flex-start",
                     "justifyContent": "center",
                   }
@@ -1380,47 +1340,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    Array [
-                      Object {
-                        "color": "#222326",
+                    [
+                      {
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                      {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
-                      Array [
-                        Object {
-                          "color": "#6f7081",
+                      [
+                        {
+                          "color": "#787777",
                         },
-                        Object {},
+                        {},
                       ],
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>

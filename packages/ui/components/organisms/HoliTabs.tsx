@@ -23,25 +23,31 @@ export type HoliTabsProps = {
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
   testID?: string
+  scrollEnabled?: boolean
+  tabBarWidth?: number
+  tabBarStyle?: StyleProp<ViewStyle>
 }
 
 const isWeb = Platform.OS === 'web'
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
+const HoliTabs: React.FC<HoliTabsProps> = ({
   id,
   tabs,
   centeredButtons,
   onChangeTab = () => null,
   style,
+  scrollEnabled = true,
   testID = 'tabs-module',
+  tabBarWidth,
+  tabBarStyle,
 }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
   const { width: screenWidth } = useWindowDimensions()
-
+  const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
   const mixins = useStyleMixins()
-  const styles = getStyles(screenWidth, centeredButtons)
+  const styles = getStyles(tabScreenWidth, centeredButtons)
 
   useEffect(() => {
     onChangeTab(currentSlide)
@@ -53,7 +59,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
     }
 
     // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / screenWidth))
+    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / tabScreenWidth))
   }
 
   const goToIndex = (index: number) => {
@@ -65,7 +71,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
       return
     }
 
-    const scrollPoint = index * screenWidth
+    const scrollPoint = index * tabScreenWidth
     carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
     setCurrentSlide(index)
   }
@@ -73,7 +79,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   return (
     <View style={[styles.container, style]} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[mixins.container, styles.tabButtonsContainer]}>
+        <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
           {tabs.map((tab, index) => {
             const isActive = currentSlide === index
             return (
@@ -87,11 +93,11 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
                 accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
-                {tab.titleIcon && (
+                {!!tab.titleIcon && (
                   <HoliIcon
                     icon={tab.titleIcon}
                     size={22}
-                    color={isActive ? colors.fontColor : colors.fontColorGrey}
+                    color={isActive ? colors.foreground30 : colors.foreground20}
                     style={styles.tabButtonIcon}
                     filled={isActive}
                   />
@@ -110,6 +116,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleScrollEnd}
+          scrollEnabled={scrollEnabled}
         >
           <View style={styles.tabContainer}>
             {tabs.map((tab, i) => (
@@ -158,7 +165,7 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
     },
     headerContainer: {
       width: '100%',
-      borderBottomColor: colors.borderColorGrey,
+      borderBottomColor: colors.background30,
       borderBottomWidth: 2,
     },
     tabButtonsContainer: {
@@ -180,13 +187,13 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
     },
     tabButtonText: {
       fontSize: 16,
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     activeTabButton: {
-      borderBottomColor: colors.fontColor,
+      borderBottomColor: colors.foreground30,
     },
     activeTabButtonText: {
-      color: colors.fontColor,
+      color: colors.foreground30,
       fontWeight: '500',
     },
     tabContainer: {

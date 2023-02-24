@@ -3,14 +3,19 @@ import * as webdriverio from 'webdriverio'
 import appiumConfig, { target } from './appiumConfig'
 import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
+import { resetImplicitTimeout } from './helpers/selectors'
 
 global.platform = appiumConfig.platform
 global.target = target
 
 beforeEach(async () => {
   // make test name visible in BrowserStack
-  appiumConfig.capabilities.name = expect.getState().currentTestName
+  if (target === 'browserstack') {
+    appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
+  }
   global.Appium = await webdriverio.remote(appiumConfig)
+  // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
+  await resetImplicitTimeout()
   if (appiumConfig.capabilities.app) {
     let numAttempts = 5
     let appRunning = false
@@ -31,8 +36,6 @@ beforeEach(async () => {
     await navigateBackToHomeScreen()
     await logout()
   }
-  // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
-  await global.Appium.setImplicitTimeout(10000)
 }, 900000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.
 
 jest.setTimeout(240000) // a normal test runs up to 2 minutes, but give some time to spare

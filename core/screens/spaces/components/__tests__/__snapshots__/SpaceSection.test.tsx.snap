@@ -1,0 +1,248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SpaceSection renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "borderTopColor": "#ebebeb",
+        "borderTopWidth": 1,
+        "paddingVertical": 32,
+      },
+      undefined,
+    ]
+  }
+  testID="space-section"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      role="header"
+      selectable={true}
+      style={
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          {
+            "flex": 1,
+            "fontWeight": "400",
+          },
+        ]
+      }
+    >
+      editable section
+    </Text>
+    <View
+      accessibilityLabel="global.edit"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          [
+            {
+              "width": "auto",
+            },
+            {
+              "backgroundColor": "#fff",
+              "borderColor": "#262424",
+              "borderRadius": 28,
+              "borderWidth": 2,
+              "display": "flex",
+              "elevation": 0,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "paddingHorizontal": 32,
+              "paddingVertical": 13,
+            },
+          ],
+          {
+            "marginLeft": 12,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          },
+        ]
+      }
+      testID="btn-space-section"
+    >
+      <View
+        pointerEvents="none"
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 16,
+                "lineHeight": 19.2,
+              },
+              false,
+              {
+                "marginRight": 6,
+              },
+            ]
+          }
+        >
+          global.edit
+        </Text>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight={24}
+          bbWidth={24}
+          color={4280689700}
+          focusable={false}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "borderStyle": "solid",
+                "borderWidth": 0,
+                "color": "#262424",
+                "display": "flex",
+                "fill": "currentColor",
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "height": 24,
+                "stroke": "currentColor",
+                "width": 24,
+              },
+              {
+                "flex": 0,
+                "height": 24,
+                "width": 24,
+              },
+            ]
+          }
+          tintColor={4280689700}
+          vbHeight={1024}
+          vbWidth={1024}
+        >
+          <RNSVGGroup
+            fill={
+              [
+                2,
+              ]
+            }
+            propList={
+              [
+                "fill",
+                "stroke",
+              ]
+            }
+            stroke={
+              [
+                2,
+              ]
+            }
+          >
+            <RNSVGPath
+              d="M213.333 810.671h60.331l397.397-397.398-60.331-60.331-397.397 397.398v60.331zM896 896.004h-768v-181.035l573.227-573.228c8-7.999 18.85-12.492 30.165-12.492s22.165 4.493 30.165 12.492l120.704 120.704c8 8.001 12.493 18.852 12.493 30.165s-4.493 22.164-12.493 30.165l-487.893 487.894h501.632v85.333zM671.061 292.611l60.331 60.331 60.331-60.331-60.331-60.331-60.331 60.331z"
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`SpaceSection renders correctly 2`] = `
+<View
+  style={
+    [
+      {
+        "borderTopColor": "#ebebeb",
+        "borderTopWidth": 1,
+        "paddingVertical": 32,
+      },
+      undefined,
+    ]
+  }
+  testID="space-section"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      role="header"
+      selectable={true}
+      style={
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          {
+            "flex": 1,
+            "fontWeight": "400",
+          },
+        ]
+      }
+    >
+      not editable section
+    </Text>
+  </View>
+</View>
+`;

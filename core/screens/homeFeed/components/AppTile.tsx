@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -44,12 +43,12 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
       style={[styles.appTile, style]}
       testID={`app-tile-${appData.id}`}
     >
-      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.backgroundColorGreyLight }]}>
-        {appData.icon && (
+      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background20 }]}>
+        {!!appData.icon && (
           <HoliIcon
             icon={appData.icon}
             size={30}
-            color={isActive ? colors.fontColorBlack : colors.fontColorBlackDisabled}
+            color={isActive ? colors.foreground30 : colors.foreground10}
             filled={appData.iconFilled}
           />
         )}
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 13,
-    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+    borderColor: colors.background30,
     borderWidth: 2,
     width: tileWidth,
     height: tileWidth,

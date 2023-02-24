@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { createUUID } from '@holi/core/helpers/strings'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -34,7 +34,7 @@ export interface ToastContextValue {
 
 export const ToastContext = createContext<ToastContextValue>({} as ToastContextValue)
 
-export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }) => {
+export const ToastProvider = ({ children }: React.PropsWithChildren<Partial<ToastContextValue>>) => {
   const [toasts, setToasts] = useState<Toast[]>([])
   const closeToast = useCallback(
     (id: string) => setToasts((currentToasts: Toast[]) => currentToasts.filter((toast) => toast.id !== id)),
@@ -50,8 +50,6 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const { width: deviceWidth } = useWindowDimensions()
   const firstToastType = toasts?.[0]?.type
   const styles = useMemo(() => createStyles(deviceWidth, firstToastType), [deviceWidth, firstToastType])
-
-  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
 
   return (
     <ToastContext.Provider value={contextValue}>
@@ -104,7 +102,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? 'user-smile' : 'emotion-unhappy-noeyes'}
           size={20}
-          color={colors.fontColorWhite}
+          color={colors.background10}
           style={styles.toastIcon}
         />
       </View>
@@ -123,7 +121,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       width: '100%',
       ...Platform.select({
         native: {
-          backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+          backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
         },
       }),
       ...(deviceWidth >= +vars.breakpointL
@@ -144,7 +142,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     toast: {
       padding: 20,
       flex: 1,
-      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+      backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
       ...(deviceWidth >= +vars.breakpointL
         ? {
             borderRadius: 10,
@@ -159,7 +157,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       justifyContent: 'center',
     },
     toastText: {
-      color: colors.fontColorWhite,
+      color: colors.background10,
       textAlign: 'center',
     },
     toastIcon: {

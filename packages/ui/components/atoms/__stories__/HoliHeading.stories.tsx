@@ -66,7 +66,7 @@ ByLevelAndSize.argTypes = {
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliHeading size="large" style={{ color: colors.positivepurple }}>
+    <HoliHeading size="large" style={{ color: colors.brandColorB30 }}>
       Positive purple
     </HoliHeading>
   </Fragment>

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -37,6 +37,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   const { height: deviceHeight } = useWindowDimensions()
   const buttonsContainerHeight = buttonsRelativeHeight * deviceHeight
@@ -64,7 +65,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   }
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const ActiveButtonIcon = (
@@ -79,6 +80,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       onActionButtonPress={submit}
       headlineText={t('user.engagementLevel.form.question')}
       prependChildren={notificationComponent}
+      hideFooterWhenKeyboardIsOpen={true}
       loading={loading}
       style={styles.wrapper}
     >
@@ -159,7 +161,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       justifyContent: 'center',
       marginHorizontal: 16,
       zIndex: 10,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     buttonsContainer: {
       marginTop: 60,
@@ -173,7 +175,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       flex: 1,
     },
     activeButton: {
-      backgroundColor: colors.backgroundColorYellow,
+      backgroundColor: colors.brandColorA30,
     },
     button: {
       borderWidth: 2,
@@ -191,7 +193,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       height: 50,
       borderWidth: 2,
       borderRadius: 100,
-      backgroundColor: colors.backgroundColorYellow,
+      backgroundColor: colors.brandColorA30,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',

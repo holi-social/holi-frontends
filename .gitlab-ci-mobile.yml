@@ -21,9 +21,25 @@
     BUILD_PROFILE: preview
     BUILD_PLATFORM: changeme
     KEEP_ARTIFACTS: 'false'
+    CHECK_VERSION_RELEASED: 'false'
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
+    - >
+      if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
+        export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
+        export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
+        if [[ "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
+          echo "iOS app version \"$CURRENT_VERSION_IOS\" was already built (and most likely released). Did you forget to increment app versions?"
+          exit 1
+        fi
+        if [[ "$LAST_VERSION_ANDROID" == "$CURRENT_VERSION_ANDROID" ]]; then
+          echo "Android app version \"$CURRENT_VERSION_ANDROID\" was already built (and most likely released). Did you forget to increment app versions?"
+          exit 1
+        fi
+      fi
     - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE --non-interactive'
     - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
@@ -81,6 +97,7 @@ mobile_review_publish:
     auto_stop_in: 2 weeks
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -105,6 +122,7 @@ mobile_review_destroy:
   allow_failure: false
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   interruptible: false
@@ -116,6 +134,7 @@ mobile_review_build_android:
     BUILD_PLATFORM: android
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -128,6 +147,7 @@ mobile_review_build_ios:
     BUILD_PLATFORM: ios
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -140,16 +160,18 @@ mobile_review_e2e_android:
     TEST_SUITES: (smoke|journey)
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
+  needs: ['mobile_review_build_ios']
   variables:
     TEST_SUITES: (smoke|journey)
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
 
@@ -199,7 +221,7 @@ mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android']
   variables:
-    TEST_SUITES: smoke
+    TEST_SUITES: (smoke|journey)
   only:
     - main
 
@@ -215,8 +237,7 @@ mobile_staging_e2e_ios:
 
 mobile_production_publish:
   extends: .mobile_publish
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   environment:
     name: mobile-production
@@ -227,51 +248,62 @@ mobile_production_publish:
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
     KRATOS_BASE_URL: https://auth.project-holi.org
   only:
-    - main
+    - production
 
 mobile_production_build_android:
   extends: .mobile_build
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'android'
+    CHECK_VERSION_RELEASED: 'true'
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
     expire_in: 1 week
   only:
-    - main
+    - production
 
 mobile_production_build_ios:
   extends: .mobile_build
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'ios'
+    CHECK_VERSION_RELEASED: 'true'
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
     expire_in: 1 week
   only:
-    - main
+    - production
 
-# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-mobile_production_submit_android:
-  needs: ['mobile_production_build_android'] # TODO add 'mobile_production_build_ios'
+.mobile_production_submit_android:
+  needs: ['mobile_production_build_android']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
-    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
-    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait # TODO add iOS, maybe add --auto-submit to production build for each android and ios
+    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
-    - main
+    - production
+  interruptible: false
+
+.mobile_production_submit_ios:
+  needs: ['mobile_production_build_ios']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
+  script:
+    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform ios --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
+  only:
+    - production
   interruptible: false

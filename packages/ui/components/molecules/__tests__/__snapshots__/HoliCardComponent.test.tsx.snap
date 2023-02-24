@@ -15,14 +15,14 @@ exports[`HoliCardComponent renders correctly 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#fff",
         "borderRadius": 16,
         "padding": 8,
         "paddingBottom": 16,
       },
-      Object {
+      {
         "height": 600,
         "width": 300,
       },
@@ -35,19 +35,19 @@ exports[`HoliCardComponent renders correctly 1`] = `
     accessibilityRole="image"
     accessible={false}
     source={
-      Object {
+      {
         "uri": "https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg",
       }
     }
     style={
-      Array [
-        Object {
+      [
+        {
           "aspectRatio": 1.5,
           "borderRadius": 8,
           "marginBottom": 8,
           "width": "100%",
         },
-        Object {
+        {
           "resizeMode": "cover",
         },
       ]
@@ -58,13 +58,13 @@ exports[`HoliCardComponent renders correctly 1`] = `
     accessible={false}
     selectable={true}
     style={
-      Array [
-        Object {
-          "color": "#222326",
+      [
+        {
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
-        Object {
+        {
           "fontSize": 16,
           "lineHeight": 19.2,
         },

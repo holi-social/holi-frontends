@@ -24,19 +24,16 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
   let firstRun = true
   while (!homeScreenReached) {
     try {
-      await waitForHomeScreen(firstRun ? 0 : 5000)
+      await waitForHomeScreen(firstRun ? 500 : 5000)
       homeScreenReached = true
     } catch (e) {
-      if (firstRun) {
-        firstRun = false
-      }
+      firstRun = false
       try {
         await tapOnElementWithTestId('btn-to-home-view', 0)
-        await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 5 })
       } catch (e) {
         await tapOnElementWithTestId('nav-button-back', 0)
-        await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 5 })
       }
+      await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 10 })
     }
   }
 }

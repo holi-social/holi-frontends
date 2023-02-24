@@ -7,9 +7,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -30,7 +30,10 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
   const mixins = useStyleMixins()
 
-  const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const [adminMemberships, regularMemberships] = useMemo(
+    () => partition(space.members.data, 'isAdministrator'),
+    [space]
+  )
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
@@ -38,7 +41,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
 
   const isAdmin = (collaborator: User) => {
-    const membership = space.memberships.find((membership) => membership.user.id === collaborator.id)
+    const membership = space.members.data.find((membership) => membership.user.id === collaborator.id)
     return membership?.isAdministrator
   }
 
@@ -82,7 +85,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   key={index}
                   testID={'spaces-collaborators-item'}
                 >
-                  <HoliUserAvatar
+                  <HoliAvatar
                     imageSrc={collaborator.avatar}
                     label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
                     initials={collaborator.avatarLabel}
@@ -112,7 +115,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
 const styles = StyleSheet.create({
   admin: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     paddingLeft: 8,
   },
   avatar: {

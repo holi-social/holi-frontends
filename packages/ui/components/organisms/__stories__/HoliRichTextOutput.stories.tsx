@@ -40,11 +40,11 @@ export default {
 export const Example: ComponentStory<typeof HoliRichTextOutput> = ({ ...args }) => (
   <>
     <View style={{ marginBottom: 20, flexDirection: 'row' }}>
-      <HoliText style={{ color: colors.fontColorGrey, marginRight: 10 }}>ORIG TEXT: </HoliText>
+      <HoliText style={{ color: colors.foreground20, marginRight: 10 }}>ORIG TEXT: </HoliText>
       <HoliText style={{}}>{DUMMY_COMMENT.text}</HoliText>
     </View>
 
-    <HoliText style={{ color: colors.fontColorGrey, marginRight: 10 }}>OUTPUT: </HoliText>
+    <HoliText style={{ color: colors.foreground20, marginRight: 10 }}>OUTPUT: </HoliText>
     <HoliRichTextOutput text={args.text} users={args.users} />
   </>
 )

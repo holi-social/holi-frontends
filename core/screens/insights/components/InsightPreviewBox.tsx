@@ -32,7 +32,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <HoliImage source={{ uri: insight.headerImage }} label={insight.title} style={styles.mainImage} />
 
-        {insight.topic && (
+        {!!insight.topic && (
           <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
             {insight.topic.title}
           </HoliHeading>
@@ -42,11 +42,13 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           {insight.title}
         </HoliHeading>
 
-        <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
-        </HoliText>
+        {!!insight.creator && (
+          <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
+            {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
+          </HoliText>
+        )}
 
-        {editors.length && (
+        {!!editors.length && (
           <HoliUserAvatarPile
             users={editors}
             usersToShow={3}
@@ -68,17 +70,17 @@ const styles = StyleSheet.create({
     aspectRatio: 327 / 206,
     borderRadius: 12,
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   cagetory: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
     marginTop: 16,
   },
   avatarPile: {
     marginTop: 12,
   },
   textGrey: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   spaceTop: {
     marginTop: 8,

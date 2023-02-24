@@ -11,4 +11,5 @@ export interface ImageInfo {
 export interface HoliImagePickerProps {
   buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
   onPickImage: (image: ImageInfo) => void
+  maxFileSizeInMB?: number
 }

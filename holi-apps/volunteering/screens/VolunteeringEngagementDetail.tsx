@@ -7,18 +7,19 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError, logError } from '@holi/core/errors/helpers'
+import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
@@ -35,7 +36,7 @@ export type VolunteeringEngagementDetailParams = {
 }
 const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 
-type VolunteeringEngagementDetailProps = NativeStackScreenProps<BottomTabsScreens>
+type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
 const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
@@ -47,6 +48,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
 
   const [fetchEngagementById, { loading, data, error }] =
     useLazyQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery)
@@ -75,9 +77,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   // TODO: replace with proper loading indicator
   if (!engagementId || loading) {
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('volunteering:listing.loading')}</HoliText>
-      </View>
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('volunteering:listing.loading')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
   if (error) {
@@ -111,7 +115,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <View style={{ flex: 3 }}>
               <HoliText>{source}</HoliText>
             </View>
-            <HoliIcon icon="share-box" size={15} color={colors.backgroundColorModalDark} />
+            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
           </View>
         </HoliButton>
       </View>
@@ -123,7 +127,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <View style={{ marginTop: 10 }}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
         <View style={styles.organizerInfoRow}>
-          {(organizer.imageUrl && (
+          {(!!organizer.imageUrl && (
             <HoliImage source={{ uri: organizer.imageUrl }} style={styles.organizerLogo} label={organizer.name ?? ''} />
           )) || <></>}
           <HoliText>{organizer.name}</HoliText>
@@ -147,7 +151,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
@@ -176,12 +180,12 @@ export default memo(VolunteeringEngagementDetail)
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: vars.topBarHeight + 50,
   },
   container: {
     alignItems: 'center',
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   wrapper: {
     paddingBottom: 132,

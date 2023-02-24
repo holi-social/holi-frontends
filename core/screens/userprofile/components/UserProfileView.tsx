@@ -1,15 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileViewProps = {
   user: User
@@ -25,7 +25,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
     <View style={styles.header}>
       <View style={styles.avatarName}>
         <View>
-          <HoliUserAvatar
+          <HoliAvatar
             imageSrc={user.avatar}
             label={fullName}
             initials={user.avatarLabel}
@@ -38,14 +38,14 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
             {fullName}
           </HoliHeading>
           {(user.pronouns || user.location) && (
-            <HoliText style={{ color: colors.fontColorGrey }}>
-              {user.pronouns && `(${user.pronouns}) `}
-              {user.location && `${user.location}`}
+            <HoliText style={{ color: colors.foreground20 }}>
+              {!!user.pronouns && `(${user.pronouns}) `}
+              {!!user.location && `${user.location}`}
             </HoliText>
           )}
         </View>
       </View>
-      {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
+      {!!user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
           <UserConnectionButtons style={styles.profileButton} user={user} />
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     minWidth: 250,
-    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
+    marginTop: 8,
   },
   avatarName: {
     flexDirection: 'row',

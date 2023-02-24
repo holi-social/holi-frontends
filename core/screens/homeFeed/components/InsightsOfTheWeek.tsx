@@ -10,7 +10,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -24,20 +24,18 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const [showEditorsModal, setShowEditorsModal] = useState(false)
+  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
   const numberOfInsights = 4
   const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { limit: numberOfInsights },
   })
   const [isFetchingMore, setIsFetchingMore] = useState(false)
-  const fetchingMoreButtonText = isFetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('homeFeed.insights.loadMoreText')
+  const fetchingMoreButtonText = isFetchingMore ? t('global.loading') : t('homeFeed.insights.loadMoreText')
 
   const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
   const canFetchMore = insights.length < totalResults || isFetchingMore
-  const insightsCreators = insights.map((insight) => insight.creator)
+  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
   const fetchMoreInsights = useCallback(() => {
     setIsFetchingMore(true)
@@ -75,7 +73,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         label={t('insights.editors.modal.title')}
         transparent
         style={styles.editorsButton}
-        onPress={() => setShowEditorsModal(true)}
+        onPress={showEditorsModal}
         testID="avatar-pile-open-modal-button"
         inline
       >
@@ -87,16 +85,11 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         </View>
       </HoliButton>
 
-      <HoliModal
-        label={t('insights.editors.modal.title')}
-        show={showEditorsModal}
-        onDismiss={() => setShowEditorsModal(false)}
-        testID="insight-editors-modal"
-      >
+      <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
         <HoliUserCardsModalContent
           title={t('insights.editors.modal.title')}
           users={insightsCreators}
-          onDismiss={() => setShowEditorsModal(false)}
+          onDismiss={hideEditorsModal}
           testID="insight-editors"
         />
       </HoliModal>
@@ -127,7 +120,7 @@ const styles = StyleSheet.create({
   insightsSubtitle: {
     marginTop: 8,
     fontWeight: '400',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   editorsButton: {
     marginTop: 8,

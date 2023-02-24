@@ -14,8 +14,8 @@ const navigationTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    notification: colors.secondaryColor,
-    background: colors.backgroundColorWhite,
+    notification: colors.brandColorB30,
+    background: colors.background10,
   },
   dark: defaultHoliTheme.dark,
 }
@@ -30,7 +30,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   config: linkingConfig,
 }
 
-const NavigationProvider: React.FC = ({ children }) => (
+const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => (
   <NavigationContainer ref={navigationRef} theme={navigationTheme} linking={rootLinkingConfig}>
     {children}
   </NavigationContainer>

@@ -6,8 +6,8 @@ import { Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskTileProps = {
@@ -23,7 +23,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
       <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
         <HoliHeading level="2">{task.name}</HoliHeading>
         {task.creator && (
-          <HoliUserAvatar
+          <HoliAvatar
             imageSrc={task.creator.avatar}
             label={task.creator.fullName || t('user.profileView.anonymous')}
             initials={task.creator.avatarLabel || ''}
@@ -34,13 +34,13 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
       </View>
       <View style={[styles.iconsContainer, styles.detailContainer]}>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="global" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliIcon icon="global" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {task.location}
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="time" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {t(`spaces.tasks.regularity.${task.regularity}`)}
           </HoliText>
@@ -61,8 +61,8 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         </View>
       )}
       <View style={styles.detailContainer}>
-        <HoliReadMore numberOfLines={3}>
-          <HoliText size="small">{task.description}</HoliText>
+        <HoliReadMore size="small" numberOfLines={3}>
+          {task.description}
         </HoliReadMore>
       </View>
       {/* TODO: reinsert when claiming is implemented */}
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
   taskItem: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColorWhite,
+    borderColor: colors.background30,
+    backgroundColor: colors.background10,
     padding: 24,
     flexShrink: 1,
   },
@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   iconGroupText: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   spotsClaimed: {
     textAlign: 'right',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   skillsContainer: {
     flexDirection: 'row',
@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
   skill: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     height: 33,
     marginRight: 4,
     marginBottom: 4,

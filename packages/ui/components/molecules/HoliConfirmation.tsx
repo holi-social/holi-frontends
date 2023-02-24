@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
@@ -14,20 +14,56 @@ import {
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
-export type HoliConfirmationProps = ModalProps & {
+export interface HoliConfirmationProps extends ModalProps {
   show: boolean
   label: string
   title: string
   description: string
-  onConfirm?: () => void
-  onDismiss?: () => void
+  confirmationButtonType?: HoliButtonType
+  onConfirm?: () => boolean | void
+  onDismiss?: () => boolean | void
   confirmText?: string
   dismissText?: string
   testID?: string
+}
+
+export const useConfirmationState = ({
+  show = false,
+  onConfirm,
+  onDismiss,
+}: Partial<Pick<HoliConfirmationProps, 'show' | 'onConfirm' | 'onDismiss'>> = {}) => {
+  const [visible, setVisible] = useState(show)
+  const { setModalIsOpen } = useTheme()
+
+  const confirmHandler = useCallback(() => {
+    const confirmPropagation = onConfirm?.()
+    if (confirmPropagation !== false) {
+      setVisible(false)
+      setModalIsOpen(false)
+    }
+  }, [onConfirm, setModalIsOpen])
+
+  const dismissHandler = useCallback(() => {
+    const confirmPropagation = onDismiss?.()
+    if (confirmPropagation !== false) {
+      setVisible(false)
+      setModalIsOpen(false)
+    }
+  }, [onDismiss, setModalIsOpen])
+
+  return {
+    show: visible,
+    setShow: setVisible,
+    props: {
+      show: visible,
+      onConfirm: confirmHandler,
+      onDismiss: dismissHandler,
+    },
+  }
 }
 
 const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
@@ -35,6 +71,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   label,
   title,
   description,
+  confirmationButtonType = 'primary',
   onConfirm,
   onDismiss,
   confirmText,
@@ -42,33 +79,21 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   testID,
 }) => {
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(show)
-  const { setModalIsOpen } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
+  const smallDeviceWidth = parseInt(vars.breakpointXs, 10) + 50
+  const isSmallDevice = screenWidth <= smallDeviceWidth
 
-  const setModalOpen = useCallback(
-    (isOpen: boolean) => {
-      setVisible(isOpen)
-      setModalIsOpen(isOpen)
-    },
-    [setVisible, setModalIsOpen]
-  )
-
-  useEffect(() => {
-    setModalOpen(show)
-  }, [show, setModalOpen])
+  const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
     accessibilityLabel: label,
   }
 
-  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
-
   return (
     <Modal
       {...accessibilityProps}
-      visible={visible}
+      visible={show}
       transparent
       animationType="fade"
       {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
@@ -85,7 +110,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
             {title}
           </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View style={[styles.buttonContainer, screenWidth <= smallDevice && styles.buttonContainerSmall]}>
+          <View style={[styles.buttonContainer, isSmallDevice && styles.buttonContainerSmall]}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -103,7 +128,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
+                type={confirmationButtonType}
+                style={styles.button}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
                 {confirmText || t('confirmation.confirm')}
@@ -118,46 +144,63 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 
 export default HoliConfirmation
 
-const styles = StyleSheet.create({
-  modalContainer: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  backdrop: {
-    opacity: 0.4,
-    backgroundColor: colors.backgroundColorBlack,
-    ...StyleSheet.absoluteFillObject,
-  },
-  modalView: {
-    maxWidth: 460,
-    padding: 24,
-    margin: 25,
-    alignSelf: 'center',
-    backgroundColor: colors.backgroundColor,
-    borderWidth: 2,
-    borderRadius: 24,
-    borderColor: colors.shadowColorBlack,
-    shadowColor: colors.shadowColorBlack,
-    shadowOffset: {
-      width: 0,
-      height: 4,
+const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean) =>
+  StyleSheet.create({
+    modalContainer: {
+      justifyContent: 'center',
+      flex: 1,
     },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  description: {
-    marginTop: 8,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  buttonContainerSmall: {
-    marginLeft: -14,
-    marginRight: -14,
-  },
-  button: {
-    marginTop: 24,
-  },
-})
+    backdrop: {
+      opacity: 0.4,
+      backgroundColor: colors.foreground30,
+      ...StyleSheet.absoluteFillObject,
+    },
+    modalView: {
+      maxWidth: 460,
+      padding: 24,
+      margin: 25,
+      alignSelf: 'center',
+      backgroundColor: colors.background10,
+      borderWidth: 2,
+      borderRadius: 24,
+      borderColor: colors.foreground30,
+      shadowColor: colors.foreground30,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      ...(isSmallDevice ? { minWidth: screenWidth * 0.9 } : { minWidth: smallDeviceWidth }),
+    },
+    description: {
+      marginTop: 8,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      marginTop: 24,
+      gap: 14, // TODO: remove this comment once upgraded to React-Native >= 0.71: (only works for web for versions below it)
+    },
+    buttonContainerSmall: {
+      // TODO: remove mobile button margins once upgraded to React-Native >= 0.71 (gap property should solve it)
+      margin: -7,
+      ...Platform.select({
+        web: {
+          margin: 0,
+        },
+      }),
+    },
+    button: {
+      margin: 7,
+      ...Platform.select({
+        web: {
+          margin: 0,
+        },
+      }),
+      flex: 1,
+      minWidth: 120,
+      paddingHorizontal: 14,
+    },
+  })

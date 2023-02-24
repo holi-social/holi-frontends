@@ -1,6 +1,15 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  Animated,
+  ModalProps,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -12,8 +21,9 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
+import { isWebTouchDevice } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
-import { vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
@@ -22,15 +32,45 @@ const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
  * "relativeHeight" with "autoHeight === true" works like "max-height"
  * "relativeHeight" with "autoHeight === false" works like fixed "height"
  */
-export type HoliModalProps = ModalProps & {
+export interface HoliModalProps extends ModalProps {
   show: boolean
   label: string
   onDismiss: () => void
   heading?: string
   relativeHeight?: number
   autoHeight?: boolean
+  headerStyle?: ViewStyle
   testID?: string
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
+}
+
+export const useModalState = ({
+  visible = false,
+  onDismiss,
+}: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
+  const [modalVisible, setModalVisible] = useState(visible)
+  const theme = useTheme()
+
+  const show = useCallback(() => setModalVisible(true), [])
+  const hide = useCallback(() => setModalVisible(false), [])
+
+  const dismissHandler = useCallback(() => {
+    setModalVisible(false)
+    onDismiss?.()
+  }, [onDismiss])
+
+  useEffect(() => {
+    theme.setModalIsOpen(modalVisible)
+  }, [theme, modalVisible])
+
+  return {
+    visible: modalVisible,
+    show,
+    hide,
+    props: {
+      show: modalVisible,
+      onDismiss: dismissHandler,
+    },
+  }
 }
 
 const HoliModal: React.FC<HoliModalProps> = ({
@@ -39,14 +79,14 @@ const HoliModal: React.FC<HoliModalProps> = ({
   onDismiss,
   heading,
   relativeHeight = 0.9,
-  testID,
   autoHeight = true,
+  headerStyle,
+  testID,
   children,
 }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const [isTouch, setIsTouch] = useState(true)
+  const { height: deviceHeight } = useWindowDimensions()
   const [contentHeight, setContentHeight] = useState(0)
 
   // value for appearance animation
@@ -99,12 +139,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
     }
   }, [show, animShift, gestureShift, setVisible])
 
-  useLayoutEffect(() => {
-    if (Platform.OS === 'web') {
-      navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
-    }
-  }, [])
-
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
     () => (relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD || contentHeight >= deviceHeight ? 100 : relativeHeight * 100),
@@ -112,6 +146,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 
   const isFullscreen = height === 100
+  const isMobile = Platform.OS !== 'web'
+  const isTouchDevice = isWebTouchDevice() || isMobile
 
   return (
     <>
@@ -147,8 +183,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
             }}
             testID={`${testID}-animatedview`}
           >
-            <SafeAreaView style={styles.headerContainer}>
-              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
+            <SafeAreaView style={[styles.headerContainer, headerStyle]}>
+              {/* not fullscreen modal on touch device */}
+              {!isFullscreen && isTouchDevice ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
                     <HoliButton
@@ -166,18 +203,15 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 <View style={styles.heading}>
                   <HoliButton
                     label={t('modal.backdrop')}
-                    style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
+                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
                     onPress={onDismiss}
                     transparent
                     testID={`btn-to-close-${testID}-modal`}
                   >
-                    <HoliIcon
-                      icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
-                      color={colors.fontColorBlack}
-                      size={25}
-                    />
+                    <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
                   </HoliButton>
-                  {heading && (
+
+                  {!!heading && (
                     <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
                       {heading}
                     </HoliHeading>
@@ -185,6 +219,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 </View>
               )}
             </SafeAreaView>
+
             {children}
           </Animated.View>
         </GestureHandlerRootView>
@@ -201,11 +236,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   root: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -221,7 +256,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 40,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
   },
   lineButton: {
@@ -231,14 +266,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
     opacity: 0.3,
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     opacity: 0.4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
   },
   dismissIcon: {
     alignSelf: 'flex-end',

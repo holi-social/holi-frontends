@@ -34,10 +34,7 @@ test.describe('@Notifications', () => {
   test.describe('CONNECTION_REQUEST', async () => {
     test('ignore CONNECTION_REQUEST from first user and accept it from the second one', async ({ context, page }) => {
       // login with your test user
-      await defaultAuthSteps(
-        { context, page, email: process.env.E2E_USER_USERNAME, password: process.env.E2E_USER_PASSWORD },
-        'login'
-      )
+      await defaultAuthSteps({ context, page }, 'login')
       await waitForElementByTestId(page, 'btn-to-settings')
 
       // go to notifications
@@ -85,10 +82,7 @@ test.describe('@Notifications', () => {
 
     test('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
       // login with your test user
-      await defaultAuthSteps(
-        { context, page, email: process.env.E2E_USER_USERNAME, password: process.env.E2E_USER_PASSWORD },
-        'login'
-      )
+      await defaultAuthSteps({ context, page }, 'login')
       await waitForElementByTestId(page, 'btn-to-settings')
 
       // go to notifications and click first one post-comment-mention-notification

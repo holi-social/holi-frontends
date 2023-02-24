@@ -2,7 +2,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 
 import { getSessionFromStorage, removeSessionFromStorage, setSessionInStorage } from './helpers/auth'
 import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
@@ -44,11 +44,12 @@ export const useAuth = () => {
 
 const kratosSdk = newKratosSdk()
 
-const AuthContextProvider: React.FC = ({ children }) => {
+const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
   const [state, setState] = useState<AuthContextInternalState>({ userId: null, isLoading: true, isLoggedIn: false })
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   // intended to be called from outside the context provider (e.g. login form)
   const setUserLoggedIn = useCallback((session: OrySessionContext): Promise<void> => {
@@ -140,7 +141,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
       .then(onSessionLoadedFromStorage)
       .catch((error) => displayError(error, t('auth.authContextProvider.error.sessionCreation')))
     // eslint-disable-next-line
-  }, [])
+    }, [])
 
   return (
     <AuthContext.Provider

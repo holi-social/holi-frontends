@@ -42,8 +42,8 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 title={space.title}
                 subtitle={space.location}
                 description={space.description}
-                imageSrc={space.mainImage}
-                users={space.memberships.map((membership) => membership.user)}
+                imageSrc={space.cover}
+                users={space.members.data.map((membership) => membership.user)}
                 href={`/spaces/${space.id}`}
                 size="small"
                 style={styles.spaceItem}
@@ -58,7 +58,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                   onPress={showFeatureNotImplementedToast}
                   style={styles.optionsButton}
                 >
-                  <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
+                  <HoliIcon icon="tools" size={20} color={colors.foreground20} />
                 </HoliButton>
               )}
             </View>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   optionsButton: {
     display: 'flex',
     marginRight: 4,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     padding: 6,
     borderRadius: 8,
   },

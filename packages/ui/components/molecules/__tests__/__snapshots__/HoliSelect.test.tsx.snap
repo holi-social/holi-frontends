@@ -3,32 +3,32 @@
 exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -37,11 +37,11 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -52,29 +52,29 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {
+                {
                   "color": "#6267e7",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -84,22 +84,22 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {
+            {
               "borderBottomLeftRadius": 0,
               "borderBottomRightRadius": 0,
               "borderColor": "#6267e7",
@@ -128,12 +128,12 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Label · 2"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -143,11 +143,11 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -157,7 +157,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -166,7 +166,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -176,7 +176,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -193,9 +193,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -207,7 +207,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -217,21 +217,21 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -240,31 +240,31 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -279,13 +279,20 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
     ListEmptyComponent={
       <View
         style={
-          Object {
+          {
             "display": "flex",
             "height": 48,
             "justifyContent": "center",
@@ -301,50 +308,50 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     accessibilityLabel="multiselect.options"
     accessibilityRole="menu"
     accessibilityState={
-      Object {
+      {
         "expanded": true,
       }
     }
     bounces={false}
     collapsable={false}
     data={
-      Array [
-        Object {
+      [
+        {
           "id": "1",
           "selected": false,
           "title": "Animal Welfare",
         },
-        Object {
+        {
           "id": "2",
           "selected": true,
           "title": "Children & Youth",
         },
-        Object {
+        {
           "id": "3",
           "selected": true,
           "title": "Climate Protection",
         },
-        Object {
+        {
           "id": "4",
           "selected": false,
           "title": "Corona",
         },
-        Object {
+        {
           "id": "5",
           "selected": false,
           "title": "Culture & History",
         },
-        Object {
+        {
           "id": "6",
           "selected": false,
           "title": "Development Cooperation",
         },
-        Object {
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
         },
-        Object {
+        {
           "id": "8",
           "selected": false,
           "title": "Disaster Protection",
@@ -353,6 +360,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={8}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -370,9 +379,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     renderItem={[Function]}
     renderScrollComponent={[Function]}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={[]}
     style={
-      Object {
+      {
         "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
@@ -385,7 +394,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         "width": "100%",
       }
     }
-    viewabilityConfigCallbackPairs={Array []}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
@@ -397,7 +406,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -415,13 +424,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -434,9 +443,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -448,13 +457,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -467,17 +476,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -496,7 +505,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": true,
               "disabled": false,
             }
@@ -514,13 +523,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -533,9 +542,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -547,13 +556,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -566,21 +575,21 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
-                  Object {
-                    "backgroundColor": "#222326",
+                  {
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -596,12 +605,12 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
                       "color": "#fff",
@@ -613,7 +622,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       "stroke": "currentColor",
                       "width": 20,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 20,
                       "width": 20,
@@ -626,18 +635,18 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -660,7 +669,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": true,
               "disabled": false,
             }
@@ -678,13 +687,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -697,9 +706,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -711,13 +720,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -730,21 +739,21 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
-                  Object {
-                    "backgroundColor": "#222326",
+                  {
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -760,12 +769,12 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
                       "color": "#fff",
@@ -777,7 +786,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       "stroke": "currentColor",
                       "width": 20,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 20,
                       "width": 20,
@@ -790,18 +799,18 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -824,7 +833,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -842,13 +851,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -861,9 +870,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -875,13 +884,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -894,17 +903,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -923,7 +932,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -941,13 +950,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -960,9 +969,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -974,13 +983,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -993,17 +1002,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -1022,7 +1031,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -1040,13 +1049,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -1059,9 +1068,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -1073,13 +1082,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -1092,17 +1101,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -1121,7 +1130,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -1139,13 +1148,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -1158,9 +1167,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -1172,13 +1181,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -1191,17 +1200,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -1220,7 +1229,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -1238,13 +1247,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -1257,9 +1266,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -1271,13 +1280,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -1290,17 +1299,17 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -1318,32 +1327,32 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
 exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -1352,11 +1361,11 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -1367,29 +1376,29 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {
+                {
                   "color": "#6267e7",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -1399,22 +1408,22 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {
+            {
               "borderBottomLeftRadius": 0,
               "borderBottomRightRadius": 0,
               "borderColor": "#6267e7",
@@ -1443,12 +1452,12 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Children & Youth"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -1458,11 +1467,11 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -1472,7 +1481,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -1481,7 +1490,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -1491,7 +1500,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -1508,9 +1517,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -1522,7 +1531,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -1532,21 +1541,21 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -1555,31 +1564,31 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -1594,13 +1603,20 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
     ListEmptyComponent={
       <View
         style={
-          Object {
+          {
             "display": "flex",
             "height": 48,
             "justifyContent": "center",
@@ -1616,50 +1632,50 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     accessibilityLabel="multiselect.options"
     accessibilityRole="menu"
     accessibilityState={
-      Object {
+      {
         "expanded": true,
       }
     }
     bounces={false}
     collapsable={false}
     data={
-      Array [
-        Object {
+      [
+        {
           "id": "1",
           "selected": false,
           "title": "Animal Welfare",
         },
-        Object {
+        {
           "id": "2",
           "selected": true,
           "title": "Children & Youth",
         },
-        Object {
+        {
           "id": "3",
           "selected": false,
           "title": "Climate Protection",
         },
-        Object {
+        {
           "id": "4",
           "selected": false,
           "title": "Corona",
         },
-        Object {
+        {
           "id": "5",
           "selected": false,
           "title": "Culture & History",
         },
-        Object {
+        {
           "id": "6",
           "selected": false,
           "title": "Development Cooperation",
         },
-        Object {
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
         },
-        Object {
+        {
           "id": "8",
           "selected": false,
           "title": "Disaster Protection",
@@ -1668,6 +1684,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={7}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -1685,9 +1703,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     renderItem={[Function]}
     renderScrollComponent={[Function]}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={[]}
     style={
-      Object {
+      {
         "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
@@ -1700,7 +1718,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         "width": "100%",
       }
     }
-    viewabilityConfigCallbackPairs={Array []}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
@@ -1712,7 +1730,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -1730,13 +1748,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -1749,9 +1767,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -1763,13 +1781,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -1782,17 +1800,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -1811,7 +1829,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": true,
               "disabled": false,
             }
@@ -1829,13 +1847,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -1848,9 +1866,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -1862,13 +1880,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -1881,21 +1899,21 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
-                  Object {
-                    "backgroundColor": "#222326",
+                  {
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -1911,12 +1929,12 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Object {
+                    {
                       "borderStyle": "solid",
                       "borderWidth": 0,
                       "color": "#fff",
@@ -1928,7 +1946,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                       "stroke": "currentColor",
                       "width": 20,
                     },
-                    Object {
+                    {
                       "flex": 0,
                       "height": 20,
                       "width": 20,
@@ -1941,18 +1959,18 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               >
                 <RNSVGGroup
                   fill={
-                    Array [
+                    [
                       2,
                     ]
                   }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
                   stroke={
-                    Array [
+                    [
                       2,
                     ]
                   }
@@ -1975,7 +1993,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -1993,13 +2011,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2012,9 +2030,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2026,13 +2044,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2045,17 +2063,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2074,7 +2092,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -2092,13 +2110,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2111,9 +2129,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2125,13 +2143,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2144,17 +2162,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2173,7 +2191,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -2191,13 +2209,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2210,9 +2228,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2224,13 +2242,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2243,17 +2261,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2272,7 +2290,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -2290,13 +2308,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2309,9 +2327,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2323,13 +2341,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2342,17 +2360,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2371,7 +2389,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -2389,13 +2407,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2408,9 +2426,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2422,13 +2440,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2441,17 +2459,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2470,7 +2488,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -2488,13 +2506,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -2507,9 +2525,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -2521,13 +2539,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -2540,17 +2558,17 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -2568,32 +2586,32 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
 exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -2602,11 +2620,11 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -2617,27 +2635,27 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {},
-                Object {},
-                Object {},
+                {},
+                {},
+                {},
               ],
             ]
           }
@@ -2647,22 +2665,22 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {},
+            {},
             undefined,
             false,
           ]
@@ -2686,12 +2704,12 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -2701,11 +2719,11 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -2715,7 +2733,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -2724,7 +2742,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -2734,7 +2752,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               accessibilityLabel="multiselect.open"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -2751,9 +2769,9 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -2764,7 +2782,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -2774,21 +2792,21 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -2797,31 +2815,31 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -2836,6 +2854,13 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -2844,32 +2869,32 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
 exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -2878,11 +2903,11 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -2893,29 +2918,29 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {
+                {
                   "color": "#6267e7",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -2925,22 +2950,22 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {
+            {
               "borderBottomLeftRadius": 0,
               "borderBottomRightRadius": 0,
               "borderColor": "#6267e7",
@@ -2969,12 +2994,12 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -2984,11 +3009,11 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -2998,7 +3023,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -3007,7 +3032,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -3017,7 +3042,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -3034,9 +3059,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -3048,7 +3073,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -3058,21 +3083,21 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -3081,31 +3106,31 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -3120,13 +3145,20 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
     ListEmptyComponent={
       <View
         style={
-          Object {
+          {
             "display": "flex",
             "height": 48,
             "justifyContent": "center",
@@ -3142,50 +3174,50 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     accessibilityLabel="multiselect.options"
     accessibilityRole="menu"
     accessibilityState={
-      Object {
+      {
         "expanded": true,
       }
     }
     bounces={false}
     collapsable={false}
     data={
-      Array [
-        Object {
+      [
+        {
           "id": "1",
           "selected": false,
           "title": "Animal Welfare",
         },
-        Object {
+        {
           "id": "2",
           "selected": false,
           "title": "Children & Youth",
         },
-        Object {
+        {
           "id": "3",
           "selected": false,
           "title": "Climate Protection",
         },
-        Object {
+        {
           "id": "4",
           "selected": false,
           "title": "Corona",
         },
-        Object {
+        {
           "id": "5",
           "selected": false,
           "title": "Culture & History",
         },
-        Object {
+        {
           "id": "6",
           "selected": false,
           "title": "Development Cooperation",
         },
-        Object {
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
         },
-        Object {
+        {
           "id": "8",
           "selected": false,
           "title": "Disaster Protection",
@@ -3194,6 +3226,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={6}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -3211,9 +3245,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     renderItem={[Function]}
     renderScrollComponent={[Function]}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={[]}
     style={
-      Object {
+      {
         "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
@@ -3226,7 +3260,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         "width": "100%",
       }
     }
-    viewabilityConfigCallbackPairs={Array []}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
@@ -3238,7 +3272,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3256,13 +3290,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3275,9 +3309,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3289,13 +3323,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3308,17 +3342,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3337,7 +3371,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3355,13 +3389,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3374,9 +3408,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3388,13 +3422,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3407,17 +3441,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3436,7 +3470,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3454,13 +3488,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3473,9 +3507,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3487,13 +3521,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3506,17 +3540,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3535,7 +3569,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3553,13 +3587,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3572,9 +3606,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3586,13 +3620,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3605,17 +3639,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3634,7 +3668,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3652,13 +3686,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3671,9 +3705,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3685,13 +3719,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3704,17 +3738,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3733,7 +3767,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3751,13 +3785,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3770,9 +3804,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3784,13 +3818,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3803,17 +3837,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3832,7 +3866,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3850,13 +3884,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3869,9 +3903,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3883,13 +3917,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -3902,17 +3936,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -3931,7 +3965,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -3949,13 +3983,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -3968,9 +4002,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -3982,13 +4016,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -4001,17 +4035,17 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
                     "justifyContent": "center",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "borderRadius": 4,
                   },
                   false,
@@ -4029,32 +4063,32 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
 exports[`HoliSelect SingleSelect correctly filters options 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -4063,11 +4097,11 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -4078,29 +4112,29 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {
+                {
                   "color": "#6267e7",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -4110,22 +4144,22 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {
+            {
               "borderBottomLeftRadius": 0,
               "borderBottomRightRadius": 0,
               "borderColor": "#6267e7",
@@ -4154,12 +4188,12 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -4169,11 +4203,11 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -4183,7 +4217,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -4192,7 +4226,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -4202,7 +4236,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               accessibilityLabel="multiselect.clear"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -4219,13 +4253,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "100%",
                     },
                   ],
-                  Object {
+                  {
                     "width": 22,
                   },
                 ]
@@ -4235,7 +4269,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -4245,21 +4279,21 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   align="xMidYMid"
                   bbHeight={16}
                   bbWidth={16}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4268,31 +4302,31 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                         "stroke": "currentColor",
                         "width": 16,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 16,
                         "width": 16,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -4308,7 +4342,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -4325,9 +4359,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -4339,7 +4373,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -4349,21 +4383,21 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4372,31 +4406,31 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -4411,13 +4445,20 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
     ListEmptyComponent={
       <View
         style={
-          Object {
+          {
             "display": "flex",
             "height": 48,
             "justifyContent": "center",
@@ -4433,20 +4474,20 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     accessibilityLabel="multiselect.options"
     accessibilityRole="menu"
     accessibilityState={
-      Object {
+      {
         "expanded": true,
       }
     }
     bounces={false}
     collapsable={false}
     data={
-      Array [
-        Object {
+      [
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
         },
-        Object {
+        {
           "id": "8",
           "selected": false,
           "title": "Disaster Protection",
@@ -4455,6 +4496,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={2}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="singleselect-options"
@@ -4472,9 +4515,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     renderItem={[Function]}
     renderScrollComponent={[Function]}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={[]}
     style={
-      Object {
+      {
         "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
@@ -4487,7 +4530,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         "width": "100%",
       }
     }
-    viewabilityConfigCallbackPairs={Array []}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
@@ -4499,7 +4542,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -4517,13 +4560,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -4536,9 +4579,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -4550,13 +4593,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -4569,10 +4612,10 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4596,7 +4639,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -4614,13 +4657,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -4633,9 +4676,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -4647,13 +4690,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -4666,10 +4709,10 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4692,32 +4735,32 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
 exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -4726,11 +4769,11 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -4741,27 +4784,27 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {},
-                Object {},
-                Object {},
+                {},
+                {},
+                {},
               ],
             ]
           }
@@ -4771,22 +4814,22 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {},
+            {},
             undefined,
             false,
           ]
@@ -4810,12 +4853,12 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Children & Youth"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -4825,11 +4868,11 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -4839,7 +4882,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -4848,7 +4891,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -4858,7 +4901,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               accessibilityLabel="multiselect.open"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -4875,9 +4918,9 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -4889,7 +4932,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -4899,21 +4942,21 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4922,31 +4965,31 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -4961,6 +5004,13 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -4969,32 +5019,32 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
 exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -5003,11 +5053,11 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -5018,27 +5068,27 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {},
-                Object {},
-                Object {},
+                {},
+                {},
+                {},
               ],
             ]
           }
@@ -5048,22 +5098,22 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {},
+            {},
             undefined,
             false,
           ]
@@ -5087,12 +5137,12 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -5102,11 +5152,11 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -5116,7 +5166,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -5125,7 +5175,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -5135,7 +5185,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               accessibilityLabel="multiselect.open"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -5152,9 +5202,9 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -5165,7 +5215,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -5175,21 +5225,21 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -5198,31 +5248,31 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -5237,6 +5287,13 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -5245,32 +5302,32 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
 exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
 <View
   onLayout={[Function]}
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -5279,11 +5336,11 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -5294,29 +5351,29 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
-                  "color": "#222326",
+              [
+                {
+                  "color": "#262424",
                 },
-                Object {
+                {
                   "color": "#6267e7",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -5326,22 +5383,22 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Object {
+            {
               "borderBottomLeftRadius": 0,
               "borderBottomRightRadius": 0,
               "borderColor": "#6267e7",
@@ -5370,12 +5427,12 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -5385,11 +5442,11 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -5399,7 +5456,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -5408,7 +5465,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
               }
@@ -5418,7 +5475,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
               accessibilityState={
-                Object {
+                {
                   "disabled": false,
                 }
               }
@@ -5435,9 +5492,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Array [
-                    Object {
+                [
+                  [
+                    {
                       "width": "auto",
                     },
                   ],
@@ -5449,7 +5506,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               <View
                 pointerEvents="none"
                 style={
-                  Array [
+                  [
                     false,
                     undefined,
                   ]
@@ -5459,21 +5516,21 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
                   minY={0}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "backgroundColor": "transparent",
                         "borderWidth": 0,
                       },
-                      Object {
+                      {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -5482,31 +5539,31 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                         "stroke": "currentColor",
                         "width": 22,
                       },
-                      Object {
+                      {
                         "flex": 0,
                         "height": 22,
                         "width": 22,
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
+                      [
                         2,
                       ]
                     }
                     propList={
-                      Array [
+                      [
                         "fill",
                         "stroke",
                       ]
                     }
                     stroke={
-                      Array [
+                      [
                         2,
                       ]
                     }
@@ -5521,13 +5578,20 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
     ListEmptyComponent={
       <View
         style={
-          Object {
+          {
             "display": "flex",
             "height": 48,
             "justifyContent": "center",
@@ -5543,50 +5607,50 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     accessibilityLabel="multiselect.options"
     accessibilityRole="menu"
     accessibilityState={
-      Object {
+      {
         "expanded": true,
       }
     }
     bounces={false}
     collapsable={false}
     data={
-      Array [
-        Object {
+      [
+        {
           "id": "1",
           "selected": false,
           "title": "Animal Welfare",
         },
-        Object {
+        {
           "id": "2",
           "selected": false,
           "title": "Children & Youth",
         },
-        Object {
+        {
           "id": "3",
           "selected": false,
           "title": "Climate Protection",
         },
-        Object {
+        {
           "id": "4",
           "selected": false,
           "title": "Corona",
         },
-        Object {
+        {
           "id": "5",
           "selected": false,
           "title": "Culture & History",
         },
-        Object {
+        {
           "id": "6",
           "selected": false,
           "title": "Development Cooperation",
         },
-        Object {
+        {
           "id": "7",
           "selected": false,
           "title": "Digitalization",
         },
-        Object {
+        {
           "id": "8",
           "selected": false,
           "title": "Disaster Protection",
@@ -5595,6 +5659,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="singleselect-options"
@@ -5612,9 +5678,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     renderItem={[Function]}
     renderScrollComponent={[Function]}
     scrollEventThrottle={50}
-    stickyHeaderIndices={Array []}
+    stickyHeaderIndices={[]}
     style={
-      Object {
+      {
         "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
@@ -5627,7 +5693,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         "width": "100%",
       }
     }
-    viewabilityConfigCallbackPairs={Array []}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
@@ -5639,7 +5705,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Animal Welfare"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -5657,13 +5723,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -5676,9 +5742,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -5690,13 +5756,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -5709,10 +5775,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -5736,7 +5802,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Children & Youth"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -5754,13 +5820,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -5773,9 +5839,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -5787,13 +5853,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -5806,10 +5872,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -5833,7 +5899,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Climate Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -5851,13 +5917,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -5870,9 +5936,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -5884,13 +5950,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -5903,10 +5969,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -5930,7 +5996,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Corona"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -5948,13 +6014,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -5967,9 +6033,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -5981,13 +6047,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -6000,10 +6066,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6027,7 +6093,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Culture & History"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -6045,13 +6111,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -6064,9 +6130,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -6078,13 +6144,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -6097,10 +6163,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6124,7 +6190,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Development Cooperation"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -6142,13 +6208,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -6161,9 +6227,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -6175,13 +6241,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -6194,10 +6260,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6221,7 +6287,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Digitalization"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -6239,13 +6305,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -6258,9 +6324,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -6272,13 +6338,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -6291,10 +6357,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6318,7 +6384,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityLabel="Disaster Protection"
           accessibilityRole="menuitem"
           accessibilityState={
-            Object {
+            {
               "checked": false,
               "disabled": false,
             }
@@ -6336,13 +6402,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "display": "flex",
                 "height": 48,
                 "justifyContent": "center",
@@ -6355,9 +6421,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 },
@@ -6369,13 +6435,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                Array [
-                  Object {
-                    "color": "#222326",
+                [
+                  {
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -6388,10 +6454,10 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,

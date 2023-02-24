@@ -4,14 +4,12 @@ import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import SettingsItem from '@holi/core/screens/userprofile/components/SettingsItem'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -28,7 +26,7 @@ const SettingsOverview: React.VFC = () => {
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
   const goTo = useCallback(
-    (url) => () => {
+    (url: string) => () => {
       navigate(url)
     },
     [navigate]
@@ -42,31 +40,40 @@ const SettingsOverview: React.VFC = () => {
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
           <View style={[mixins.container, styles.settingsOverview]}>
-            <SettingsItem
+            <MoreOptionItem
               label={t('profile.settings.account.title')}
               icon="account-circle"
+              arrowRight
               onPress={goTo('/profile/settings/account')}
+              style={styles.settingsItem}
+              testID="btn-your-account"
             />
-            <SettingsItem
+            <MoreOptionItem
               label={t('notifications.title')}
               icon="notification-2"
+              arrowRight
               onPress={showFeatureNotImplementedToast}
+              style={styles.settingsItem}
             />
-            <SettingsItem label={t('help.title')} icon="help" onPress={showFeatureNotImplementedToast} />
+            <MoreOptionItem
+              label={t('help.title')}
+              icon="help"
+              arrowRight
+              onPress={showFeatureNotImplementedToast}
+              style={styles.settingsItem}
+            />
           </View>
 
           <View style={styles.separator} />
 
           <View style={mixins.container}>
-            <HoliButton
+            <MoreOptionItem
               label={t('profile.logout')}
-              inline
               onPress={() => setShowLogoutConfirmation(true)}
-              transparent
+              contentStyle={styles.logoutButton}
+              tintColor={colors.error30}
               testID="btn-to-logout"
-            >
-              <HoliText style={styles.logoutButton}>{t('profile.logout')}</HoliText>
-            </HoliButton>
+            />
 
             <HoliConfirmation
               show={showLogoutConfirmation}
@@ -92,16 +99,18 @@ const styles = StyleSheet.create({
   settingsOverview: {
     paddingHorizontal: 30,
   },
+  settingsItem: {
+    marginVertical: 24,
+  },
   separator: {
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: colors.borderColorGrey,
+    borderBottomColor: colors.background30,
     marginTop: -9,
     marginBottom: 14,
     height: 10,
   },
   logoutButton: {
     margin: 10,
-    color: colors.fontColorError,
   },
 })

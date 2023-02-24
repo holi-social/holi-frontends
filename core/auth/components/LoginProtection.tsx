@@ -7,12 +7,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type LoginProtectionProps = {
-  children?: React.ReactChild | React.ReactChildren
-  loggedOutContent?: React.ReactChild | React.ReactChildren
+interface LoginProtectionProps {
+  loggedOutContent?: React.ReactNode
 }
 
-const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }: LoginProtectionProps) => {
+const LoginProtection = ({ children, loggedOutContent }: React.PropsWithChildren<LoginProtectionProps>) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()

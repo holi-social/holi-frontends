@@ -21,6 +21,7 @@ type PlacesAutocompleteProps = {
   inputProps?: TextInputProps
   style?: StyleProp<ViewStyle>
   useMainTextOnly?: boolean
+  suggestionsStyle?: StyleProp<ViewStyle>
 }
 
 const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
@@ -34,6 +35,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   onChange,
   style,
   useMainTextOnly = false,
+  suggestionsStyle,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(value || '')
@@ -55,7 +57,8 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
 
   const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
-      input: locationInput,
+      text: locationInput,
+      limit: PLACE_SUGGESTION_MAX_COUNT,
     },
   })
 
@@ -88,11 +91,11 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     if (loading) {
       return
     }
-    const places = data?.geo_places || []
-    const newPlaces = places.map(({ description, mainText }) => ({
+    const places = data?.geo_placesAutocomplete || []
+    const newPlaces = places.map(({ name, city }) => ({
       // Introduced with HOLI-3069 as hotfix for alpha release, will be removed again later
-      id: useMainTextOnly ? mainText : description,
-      label: description,
+      id: useMainTextOnly && city ? city : name,
+      label: name,
     }))
     setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
   }, [loading, data, setPlaceSuggestions, useMainTextOnly])
@@ -122,6 +125,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       helperText={noResultsText}
       id={id}
       style={style}
+      suggestionsStyle={suggestionsStyle}
     />
   )
 }

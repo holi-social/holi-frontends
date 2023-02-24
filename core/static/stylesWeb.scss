@@ -1,0 +1,29 @@
+@import '@holi/ui/styles/globalVars/colors';
+
+.html-view {
+  h1 {
+    margin-bottom: 10px;
+    padding-bottom: 0;
+  }
+  h2 {
+    margin: 30px 0 0;
+  }
+  h3 {
+    margin: 30px 0 0;
+  }
+  p {
+    font-size: 16px;
+    line-height: 22.4px;
+    margin-top: 20px;
+  }
+  a {
+    color: $brandColorB30;
+  }
+  ul {
+    list-style-type: disc;
+    margin: 0 0 0 30px;
+  }
+  li {
+    list-style-type: disc;
+  }
+}

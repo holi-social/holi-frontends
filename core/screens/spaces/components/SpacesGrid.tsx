@@ -34,8 +34,8 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
                 title={space.title}
                 subtitle={space.location}
                 description={space.description}
-                imageSrc={space.mainImage}
-                users={space.memberships.map((membership) => membership.user)}
+                imageSrc={space.cover}
+                users={space.members.data.map((membership) => membership.user)}
                 href={`/spaces/${space.id}`}
                 size="large"
                 testID="space-link"
@@ -53,6 +53,6 @@ export default SpacesGrid
 
 const styles = StyleSheet.create({
   backgroundWhite: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
 })

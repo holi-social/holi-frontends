@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`React tree renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "#f5f5f5",
+        "borderRadius": 64,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      {
+        "borderColor": "#262424",
+        "borderWidth": 2,
+        "height": 128,
+        "width": 128,
+      },
+    ]
+  }
+>
+  <Image
+    accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
+    accessible={false}
+    source={
+      {
+        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+      }
+    }
+    style={
+      {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`React tree renders the users initials, when given image prop is empty 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "red",
+        "borderRadius": 64,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      {
+        "borderColor": "#262424",
+        "borderWidth": 2,
+        "height": 128,
+        "width": 128,
+      },
+    ]
+  }
+>
+  <Text
+    accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
+    accessible={false}
+    selectable={true}
+    style={
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        false,
+        {
+          "color": "#fff",
+          "fontSize": 57.6,
+          "fontWeight": "bold",
+          "lineHeight": 69.12,
+          "textTransform": "uppercase",
+        },
+      ]
+    }
+  >
+    UM
+  </Text>
+</View>
+`;

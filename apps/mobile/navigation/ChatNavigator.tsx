@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ChatHome from '@holi/core/screens/ChatHome'
-import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -20,7 +20,7 @@ const ChatStackNavigator: React.VFC = () => {
         header: HeaderAnimated,
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
+          backgroundColor: colors.background10,
         },
       }}
     >

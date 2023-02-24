@@ -80,7 +80,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
       <View
         style={[
           StyleSheet.absoluteFill,
-          { backgroundColor: headerTransparent ? 'transparent' : colors.backgroundColorWhite },
+          { backgroundColor: headerTransparent ? 'transparent' : colors.background10 },
           headerStyle,
         ]}
       >
@@ -88,7 +88,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
           headerBackgroundCustom
         ) : (
           <>
-            {headerBackgroundImageURI && (
+            {!!headerBackgroundImageURI && (
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && <HeaderAnimatedGradienBackground />}

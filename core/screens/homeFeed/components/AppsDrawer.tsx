@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-import tinycolor from 'tinycolor2'
 
+import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
@@ -13,37 +13,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const appSwiperApps: HoliApp[] = [
-  {
-    id: 'donations',
-    icon: 'hand-heart',
-    translationKey: 'donations:app.name',
-    path: '/apps/donations',
-    hasUpdates: false,
-  },
-  {
-    id: 'goodnews',
-    icon: 'newspaper',
-    translationKey: 'goodnews:app.name',
-    path: '/apps/goodnews',
-    hasUpdates: true,
-  },
-  {
-    id: 'volunteering',
-    icon: 'hearts',
-    translationKey: 'volunteering:app.name',
-    path: '/apps/volunteering',
-    hasUpdates: true,
-  },
-  {
-    id: 'coming-soon',
-    icon: 'apps-soon',
-    iconFilled: true,
-    translationKey: 'global.comingSoon',
-    hasUpdates: false,
-  },
-]
 
 const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
@@ -75,7 +44,7 @@ const AppsDrawer: React.FC = () => {
         <HoliText size="small" bold>
           {t('apps.drawer.open.btn.text')}
         </HoliText>
-        <HoliIcon icon="apps" size={16} color={colors.fontColorBlack} style={{ marginLeft: 3 }} />
+        <HoliIcon icon="apps" size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
       </HoliButton>
 
       {/* Apps modal (drawer) */}
@@ -90,7 +59,7 @@ const AppsDrawer: React.FC = () => {
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
             {
               /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              appSwiperApps.map((app, idx) => (
+              APP_SWIPER_APPS.map((app, idx) => (
                 <AppTile appData={app} key={app.id} onPress={onAppButtonClick} style={idx > 0 && { marginLeft: 15 }} />
               ))
             }
@@ -103,19 +72,16 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
-
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
     right: 16,
-    backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: borderGrey,
+    borderColor: colors.background30,
     borderWidth: 1,
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 2,
       height: 2,
@@ -139,6 +105,6 @@ const styles = StyleSheet.create({
     padding: 2,
     borderWidth: 2,
     borderRadius: 16,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
 })

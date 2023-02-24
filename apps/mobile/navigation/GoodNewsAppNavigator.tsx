@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi//mobile/navigation/HeaderAnimated'
+import HeaderAnimated from '@holi//mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -23,7 +23,7 @@ const GoodNewsAppNavigator: React.VFC = () => {
         headerShown: true,
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
+          backgroundColor: colors.background10,
         },
       }}
     >

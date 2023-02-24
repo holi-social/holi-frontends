@@ -1,3 +1,4 @@
+import { getInfoAsync } from 'expo-file-system'
 import {
   ImageInfo,
   ImagePickerOptions,
@@ -7,11 +8,16 @@ import {
 } from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePicker/useFileSizeValidation'
+
+export type HoliImagePickerOptions = ImagePickerOptions & { maxFileSizeInMB?: number }
 
 export const useMediaLibraryImagePicker = () => {
   const [image, setImage] = useState<ImageInfo>()
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
+  const isFileSizeValid = useFileSizeValidation()
+  const { displayError } = useErrorHandling()
 
   const verifyPermissions = useCallback(async () => {
     if (!mediaLibraryPermissionInfo) return false
@@ -23,28 +29,37 @@ export const useMediaLibraryImagePicker = () => {
 
     if (mediaLibraryPermissionInfo.status === PermissionStatus.DENIED) {
       // TODO: provide i18n message
-      displayError(new Error('Please, give access to your Fotos.'), 'Media Library permission denied')
+      displayError(new Error('Please, give access to your photos.'), 'Media Library permission denied')
       return false
     }
 
     return true
-  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission])
+  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError])
 
   const pickImage = useCallback(
-    async (pickerOptions: ImagePickerOptions) => {
+    async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {
       const hasPermission = await verifyPermissions()
 
       if (!hasPermission) return
 
       const image = await launchImageLibraryAsync(pickerOptions)
 
-      if (!image.cancelled) {
-        setImage(image)
-
-        return image
+      if (image.cancelled) {
+        return
       }
+
+      if (maxFileSizeInMB) {
+        const fileInfo = await getInfoAsync(image.uri)
+        if (!isFileSizeValid({ fileSize: fileInfo.size, maxFileSizeInMB })) {
+          return
+        }
+      }
+
+      setImage(image)
+
+      return image
     },
-    [verifyPermissions]
+    [verifyPermissions, isFileSizeValid]
   )
 
   return {

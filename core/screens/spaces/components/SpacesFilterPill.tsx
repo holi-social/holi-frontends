@@ -40,25 +40,25 @@ const SpacesFilterPill: React.VFC<SpacesFilterPillProps> = ({
         style={styles.filterIcon}
       />
     )}
-    <HoliText>{label}</HoliText>
+    <HoliText numberOfLines={1}>{label}</HoliText>
   </HoliButton>
 )
 
 const styles = StyleSheet.create({
   generic: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   location: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   skill: {
-    backgroundColor: colors.backgroundColorPillBlue,
+    backgroundColor: colors.brandColorD20,
   },
   topic: {
-    backgroundColor: colors.backgroundColorPillGreen,
+    backgroundColor: colors.brandColorC20,
   },
   buttonContent: {
-    borderColor: colors.borderColorBlack,
+    borderColor: colors.foreground30,
     borderRadius: 48,
     borderWidth: 1,
     paddingVertical: 4,

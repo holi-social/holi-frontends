@@ -33,7 +33,7 @@ const HoliButtonLoading: React.FC<HoliButtonLoadingProps & HoliButtonProps> = ({
       <HoliText bold={bold} style={disabled && styles.textDisabled}>
         {label}
       </HoliText>
-      {icon && (
+      {!!icon && (
         <View style={styles.icon}>
           <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />
         </View>
@@ -46,7 +46,7 @@ export default HoliButtonLoading
 
 const styles = StyleSheet.create({
   textDisabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   icon: {
     marginLeft: 6,

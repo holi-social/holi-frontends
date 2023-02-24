@@ -13,24 +13,16 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
-            [RouteName.InsightDetailPage]: 'insights/:insightId',
-            [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
-            [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
-            [RouteName.PostDetailPage]: 'posts/:postId',
-            [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
+            [RouteName.Search]: 'search',
           },
         },
-        [RouteName.Spaces]: {
-          initialRouteName: RouteName.SpacesHome,
+        [RouteName.SpacesHomeStack]: {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
-            [RouteName.SpaceDetails]: 'spaces/:spaceId',
-            [RouteName.FilteredSpaces]: 'spaces/filter',
           },
         },
         [RouteName.Chat]: {
-          initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
           },
@@ -45,9 +37,23 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         },
       },
     },
-    [RouteName.Search]: {
+
+    [RouteName.Insights]: {
       screens: {
-        [RouteName.Search]: 'search',
+        [RouteName.InsightDetailPage]: 'insights/:insightId',
+        [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
+        [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+        [RouteName.PostDetailPage]: 'posts/:postId',
+        [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
+      },
+    },
+
+    [RouteName.Spaces]: {
+      screens: {
+        [RouteName.SpaceDetails]: 'spaces/:spaceId',
+        [RouteName.FilteredSpaces]: 'spaces/filter',
+        [RouteName.CreateSpace]: 'spaces/create',
+        [RouteName.EditSpace]: 'spaces/:spaceId/edit',
       },
     },
 

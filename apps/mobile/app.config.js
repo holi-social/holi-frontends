@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.0.5', // user-facing value visible in stores
-  iosBuildNumber: '1.0.5', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 5, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.0.8', // user-facing value visible in stores
+  iosBuildNumber: '1.0.8', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 8, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -28,6 +28,11 @@ export default {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
       buildNumber: versions.iosBuildNumber,
+      config: {
+        // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
+        // and https://help.apple.com/app-store-connect/#/devc3f64248f
+        usesNonExemptEncryption: false,
+      },
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
       },
@@ -45,7 +50,7 @@ export default {
       [
         'expo-image-picker',
         {
-          photosPermission: 'The app accesses your photos to let you share them with your friends.',
+          photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
         },
       ],
     ],

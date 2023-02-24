@@ -3,8 +3,8 @@
 exports[`renders correctly renders correctly when there is a title, is editable and has children 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "paddingBottom": 0,
         "width": "100%",
       },
@@ -14,7 +14,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
 >
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-between",
@@ -26,13 +26,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 14,
             "lineHeight": 16.8,
           },
@@ -47,7 +47,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessibilityLabel="Edit Label"
       accessibilityRole="button"
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -64,13 +64,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Array [
-            Object {
+        [
+          [
+            {
               "width": "auto",
             },
           ],
-          Object {},
+          {},
         ]
       }
       testID="edit"
@@ -78,7 +78,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       <View
         pointerEvents="none"
         style={
-          Array [
+          [
             false,
             undefined,
           ]
@@ -88,22 +88,22 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           accessible={false}
           selectable={false}
           style={
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Object {
-                "color": "#6f7081",
+              {
+                "color": "#787777",
               },
             ]
           }
@@ -115,7 +115,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
   </View>
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "row",
         "flexShrink": 1,
@@ -128,13 +128,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
@@ -152,8 +152,8 @@ exports[`renders correctly renders correctly when there is a title, is editable 
 exports[`renders correctly renders correctly when there is no title, not editable and has no children 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "paddingBottom": 0,
         "width": "100%",
       },
@@ -163,7 +163,7 @@ exports[`renders correctly renders correctly when there is no title, not editabl
 >
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-between",
@@ -175,13 +175,13 @@ exports[`renders correctly renders correctly when there is no title, not editabl
       accessible={false}
       selectable={true}
       style={
-        Array [
-          Object {
-            "color": "#222326",
+        [
+          {
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 14,
             "lineHeight": 16.8,
           },
@@ -193,7 +193,7 @@ exports[`renders correctly renders correctly when there is no title, not editabl
   </View>
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "row",
         "flexShrink": 1,

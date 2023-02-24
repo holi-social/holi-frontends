@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -24,9 +23,6 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/registration', '/forgotPassword'].some(
     (path) => pathname.startsWith(path)
   )
-
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
     <View
@@ -85,9 +81,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           inline
           transparent
           onPress={() => {
-            // TODO: remove after implementing the feature
-            showFeatureNotImplementedToast()
-            // navigate('/chat')
+            navigate('/chat')
           }}
           contentStyle={styles.button}
         >
@@ -127,9 +121,9 @@ const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     fullWidthContainer: {
       alignItems: 'center',
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
       height: vars.bottomBarHeight,
       maxHeight: vars.bottomBarHeight,
@@ -149,11 +143,11 @@ const getStyles = (screenWidth: number) =>
       alignItems: 'center',
     },
     activeTintColor: {
-      color: colors.fontColorBlack,
+      color: colors.foreground30,
       fontWeight: '500',
     },
     inactiveTintColor: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     buttonLabel: {
       paddingTop: 8,

@@ -16,14 +16,14 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -34,7 +34,7 @@ export type InsightDetailPageParams = {
 
 const { useParam } = createParam<InsightDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
@@ -55,7 +55,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.insight.title', { title: insight?.title }),
         headerTransparent: true,
-        headerTintColor: colors.fontColorWhite,
+        headerTintColor: colors.background10,
         navigationCustomOptions: {
           headerBackgroundGradient: true,
           footerShown: false,
@@ -115,44 +115,48 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
-          <View style={styles.authorInfo}>
-            <HoliButton
-              transparent
+          {author && (
+            <View style={styles.authorInfo}>
+              <HoliButton
+                transparent
+                label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                onPress={() => setShowCuratorModal(true)}
+              >
+                <View style={styles.authorInfoInner}>
+                  <HoliAvatar
+                    imageSrc={author.avatar}
+                    label={author.fullName}
+                    initials={author.avatarLabel || ''}
+                    defaultColor={author.avatarDefaultColor || ''}
+                    size="small"
+                    style={styles.authorInfoAvatar}
+                  />
+
+                  <HoliText size="small" style={styles.authorInfoText}>
+                    <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                      <HoliText size="small" />
+                    </Trans>
+                  </HoliText>
+                </View>
+              </HoliButton>
+            </View>
+          )}
+
+          {author && (
+            <HoliModal
               label={t('user.cards.modal.showInfo', { name: author.fullName })}
-              onPress={() => setShowCuratorModal(true)}
-            >
-              <View style={styles.authorInfoInner}>
-                <HoliUserAvatar
-                  imageSrc={author.avatar}
-                  label={author.fullName}
-                  initials={author.avatarLabel || ''}
-                  defaultColor={author.avatarDefaultColor || ''}
-                  size="small"
-                  style={styles.authorInfoAvatar}
-                />
-
-                <HoliText size="small" style={styles.authorInfoText}>
-                  <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                    <HoliText size="small" />
-                  </Trans>
-                </HoliText>
-              </View>
-            </HoliButton>
-          </View>
-
-          <HoliModal
-            label={t('user.cards.modal.showInfo', { name: author.fullName })}
-            show={showCuratorModal}
-            onDismiss={() => setShowCuratorModal(false)}
-            testID="insight-curator-modal"
-          >
-            <HoliUserCardsModalContent
-              title={''} // don't show any headline in modal
-              users={[author as User]}
+              show={showCuratorModal}
               onDismiss={() => setShowCuratorModal(false)}
-              testID="insight-curator"
-            />
-          </HoliModal>
+              testID="insight-curator-modal"
+            >
+              <HoliUserCardsModalContent
+                title={''} // don't show any headline in modal
+                users={[author as User]}
+                onDismiss={() => setShowCuratorModal(false)}
+                testID="insight-curator"
+              />
+            </HoliModal>
+          )}
         </View>
 
         {/* Dummy list of posts */}
@@ -163,7 +167,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
                   </HoliGridCell>
                 ))
               }
@@ -177,7 +181,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.backgroundColorGreyDark,
+    backgroundColor: colors.background20,
     ...Platform.select({ web: { flex: 1 } }),
   },
   insightBackgroundImage: {
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { height: 'auto' } }),
   },
   insightView: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     paddingTop: 40,
@@ -202,13 +206,13 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
   categoryHeadline: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   insightHeadline: {
     marginTop: 8,
   },
   insightText: {
-    color: colors.grey,
+    color: colors.foreground20,
     marginTop: 24,
   },
   authorInfo: {
@@ -223,10 +227,10 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   authorInfoText: {
-    color: colors.grey,
+    color: colors.foreground20,
   },
   authorInfoName: {
-    color: colors.fontColorBlack,
+    color: colors.foreground30,
   },
   postList: {
     marginTop: 24,

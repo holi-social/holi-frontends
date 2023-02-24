@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
@@ -61,7 +61,7 @@ export type AuthenticatedUserResponse = {
 export const userByIdQuery = gql`
   ${userFragment}
 
-  query UserById($userId: String!) {
+  query UserById($userId: UUID!) {
     userById(id: $userId) {
       ...FullUser
     }
@@ -89,11 +89,11 @@ export type UserByNameResponse = {
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
-  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
-  lastName: z.string().optional(),
-  aboutMe: z.string().optional(),
-  pronouns: z.string().optional(),
-  location: z.string().optional(),
+  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).max(192).optional(),
+  lastName: z.string().max(192).optional(),
+  aboutMe: z.string().max(3000).optional(),
+  pronouns: z.string().max(192).optional(),
+  location: z.string().max(192).optional(),
   engagementLevel: z.string().optional(),
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),
@@ -177,3 +177,19 @@ export interface TopicsQueryResult {
 export interface SkillsQueryResult {
   skills: Paged<Skill>
 }
+
+export interface SdgsQueryResult {
+  sdgs: Paged<SDG>
+}
+
+export type DeleteAuthenticatedUserResponse = {
+  success: boolean
+}
+
+export const deleteAuthenticatedUserMutation = gql`
+  mutation DeleteAuthenticatedUser {
+    deleteAuthenticatedUser {
+      success
+    }
+  }
+`

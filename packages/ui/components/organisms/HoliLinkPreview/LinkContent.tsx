@@ -32,7 +32,7 @@ const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, o
           </HoliText>
         </View>
 
-        <HoliIcon icon="share-box" color={colors.fontColorGrey} size={18} style={styles.shareIcon} />
+        <HoliIcon icon="share-box" color={colors.foreground20} size={18} style={styles.shareIcon} />
       </View>
     </View>
   )
@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
   image: {
     aspectRatio: 295 / 151,
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   contentContainer: {
     paddingHorizontal: 16,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   fontColor: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })
 

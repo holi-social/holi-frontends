@@ -43,7 +43,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
             onPress={reset}
             testID="donations-search-form-reset"
           >
-            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+            <HoliText size="small" style={{ color: colors.foreground20 }}>
               {t('search.filter.reset')}
             </HoliText>
           </HoliButton>

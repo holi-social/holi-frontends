@@ -3,28 +3,28 @@
 exports[`HoliTextInput renders correctly when disabled 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -33,25 +33,25 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
-          Object {
-            "backgroundColor": "#f7f6f3",
-            "borderColor": "#eff0f1",
+          {},
+          {
+            "backgroundColor": "#f5f5f5",
+            "borderColor": "#ebebeb",
           },
           false,
         ]
@@ -75,12 +75,12 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -90,11 +90,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -104,44 +104,53 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -150,28 +159,28 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
 exports[`HoliTextInput renders correctly when multiline starting with more than one line 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -180,22 +189,22 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -208,7 +217,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
-        blurOnSubmit={true}
+        blurOnSubmit={false}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -219,12 +228,12 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -234,11 +243,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 74.8,
             },
           ]
@@ -248,44 +257,53 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -294,28 +312,28 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
 exports[`HoliTextInput renders correctly when multiline starting with one line 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -324,22 +342,22 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -352,7 +370,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
-        blurOnSubmit={true}
+        blurOnSubmit={false}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -363,12 +381,12 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -378,11 +396,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -392,44 +410,53 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -438,27 +465,27 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
 exports[`HoliTextInput renders correctly with default props 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "maxWidth": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "maxWidth": "100%",
         },
       ]
@@ -466,11 +493,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginBottom": 6,
           },
-          Object {
+          {
             "maxWidth": "100%",
           },
         ]
@@ -480,27 +507,27 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 14,
               "lineHeight": 16.8,
             },
-            Object {
+            {
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
               },
               undefined,
-              Object {},
-              Object {},
+              {},
+              {},
             ],
           ]
         }
@@ -510,21 +537,21 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "maxWidth": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -548,12 +575,12 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -563,10 +590,10 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "maxWidth": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -576,43 +603,52 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "maxWidth": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "maxWidth": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -621,28 +657,28 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
 exports[`HoliTextInput renders correctly with error 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -651,11 +687,11 @@ exports[`HoliTextInput renders correctly with error 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginBottom": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -666,28 +702,28 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 14,
               "lineHeight": 16.8,
             },
-            Object {
+            {
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Array [
-              Object {
-                "color": "#222326",
+            [
+              {
+                "color": "#262424",
               },
               undefined,
-              Object {},
-              Object {
-                "color": "#ee0004",
+              {},
+              {
+                "color": "#cc1820",
               },
             ],
           ]
@@ -698,25 +734,25 @@ exports[`HoliTextInput renders correctly with error 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
-          Object {
-            "borderColor": "#ee0004",
+          {
+            "borderColor": "#cc1820",
           },
         ]
       }
@@ -739,12 +775,12 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -754,11 +790,11 @@ exports[`HoliTextInput renders correctly with error 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -767,7 +803,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
       />
       <View
         style={
-          Object {
+          {
             "height": 22,
             "justifyContent": "center",
             "marginRight": 12,
@@ -778,21 +814,21 @@ exports[`HoliTextInput renders correctly with error 1`] = `
           align="xMidYMid"
           bbHeight={16}
           bbWidth={16}
-          color={4293787652}
+          color={4291565600}
           focusable={false}
           meetOrSlice={0}
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
-                "color": "#ee0004",
+                "color": "#cc1820",
                 "display": "flex",
                 "fill": "currentColor",
                 "flexDirection": "row",
@@ -801,31 +837,31 @@ exports[`HoliTextInput renders correctly with error 1`] = `
                 "stroke": "currentColor",
                 "width": 16,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 16,
                 "width": 16,
               },
             ]
           }
-          tintColor={4293787652}
+          tintColor={4291565600}
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              Array [
+              [
                 2,
               ]
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Array [
+              [
                 2,
               ]
             }
@@ -839,46 +875,55 @@ exports[`HoliTextInput renders correctly with error 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {
-                "color": "#ee0004",
-              },
-            ],
           ]
         }
-        testID="holi-text-input-error-message"
       >
-        Validation Error Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {
+                  "color": "#cc1820",
+                },
+              ],
+            ]
+          }
+          testID="holi-text-input-error-message"
+        >
+          Validation Error Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -887,28 +932,28 @@ exports[`HoliTextInput renders correctly with error 1`] = `
 exports[`HoliTextInput renders correctly with trailing icon 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -917,22 +962,22 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -956,12 +1001,12 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -971,11 +1016,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -984,7 +1029,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       />
       <View
         style={
-          Object {
+          {
             "height": 22,
             "justifyContent": "center",
             "marginRight": 12,
@@ -995,21 +1040,21 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           align="xMidYMid"
           bbHeight={22}
           bbWidth={22}
-          color={4293914865}
+          color={4293651435}
           focusable={false}
           meetOrSlice={0}
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
-                "color": "#eff0f1",
+                "color": "#ebebeb",
                 "display": "flex",
                 "fill": "currentColor",
                 "flexDirection": "row",
@@ -1018,31 +1063,31 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
                 "stroke": "currentColor",
                 "width": 22,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 22,
                 "width": 22,
               },
             ]
           }
-          tintColor={4293914865}
+          tintColor={4293651435}
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              Array [
+              [
                 2,
               ]
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Array [
+              [
                 2,
               ]
             }
@@ -1056,44 +1101,53 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -1102,28 +1156,28 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
 exports[`HoliTextInput renders correctly with type password 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -1132,22 +1186,22 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -1171,12 +1225,12 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={true}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -1186,11 +1240,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -1201,44 +1255,53 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -1247,28 +1310,28 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
 exports[`HoliTextInput renders correctly without label 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -1277,22 +1340,22 @@ exports[`HoliTextInput renders correctly without label 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
-            "borderColor": "#eff0f1",
+            "borderColor": "#ebebeb",
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -1316,12 +1379,12 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c0c1c9"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
-              "color": "#222326",
+          [
+            {
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -1331,11 +1394,11 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -1345,44 +1408,53 @@ exports[`HoliTextInput renders correctly without label 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+          [
+            {
+              "flex": 4,
+              "marginTop": 6,
             },
-            Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              [
+                {
+                  "color": "#787777",
+                },
+                {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>

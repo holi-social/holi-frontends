@@ -7,7 +7,7 @@ exports[`renders correctly for web passes aspect ratio 1`] = `
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
-    Object {
+    {
       "aspectRatio": "1.7777777777777777",
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -25,7 +25,7 @@ exports[`renders correctly for web passes sizes property 1`] = `
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -41,7 +41,7 @@ exports[`renders correctly for web renders image with single source correctly fo
   alt="alt text"
   src="http://placekitten.com/320/213"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -57,7 +57,7 @@ exports[`renders correctly for web renders image with single source correctly fo
   alt="alt text"
   src="http://placekitten.com/320/213"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -73,7 +73,7 @@ exports[`renders correctly for web renders image with single source correctly fo
   alt="alt text"
   src="http://placekitten.com/320/213"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -91,7 +91,7 @@ exports[`renders correctly for web renders responsive image correctly for resize
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -109,7 +109,7 @@ exports[`renders correctly for web renders responsive image correctly for resize
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,
@@ -127,7 +127,7 @@ exports[`renders correctly for web renders responsive image correctly for resize
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
-    Object {
+    {
       "aspectRatio": undefined,
       "borderStyle": "solid",
       "borderWidth": 0,

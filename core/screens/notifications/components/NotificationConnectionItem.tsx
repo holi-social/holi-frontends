@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
-import { displayError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import {
@@ -12,9 +11,9 @@ import {
   NotificationProps,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
@@ -27,23 +26,24 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 }) => {
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
-  // if 'connectionAccepted' is 'true' user accepted connection, else user ignored connection
+  // if 'connectionAccepted' is 'true', user accepted the connection
+  // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is ignored.
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
-  // if 'connectionHandeled' is 'true', user already has accepted or ignored connection
-  const [connectionHandeled, setConnectionHandeled] = useState(isNotificationConnectionAccepted(notification))
+  const { displayError } = useErrorHandling()
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
   if (error) {
-    displayError(error, t('global.technicalError'))
+    displayError(error)
   }
 
   const getI18Key = () => {
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
-    if (!connectionHandeled) return 'notifications.connection.message'
-    if (connectionAccepted) {
+    if (connectionAccepted === null) {
+      return 'notifications.connection.message'
+    } else if (connectionAccepted === true) {
       switch (notification.notificationType) {
         // 'CONNECTION_CONFIRMED' will be shown to a request sender user
         case NotificationType.CONNECTION_CONFIRMED:
@@ -67,12 +67,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       type="secondary"
       variant="small"
       label={t('notifications.connection.ignore')}
-      onPress={() =>
-        disconnect(userId).then(() => {
-          setConnectionAccepted(false)
-          setConnectionHandeled(true)
-        })
-      }
+      onPress={() => disconnect(userId).then(() => setConnectionAccepted(false))}
       disabled={loading}
       style={styles.button}
       testID="ignore-connection-request-button"
@@ -84,12 +79,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       type="primary"
       variant="small"
       label={t('notifications.connection.accept')}
-      onPress={() =>
-        connect(userId).then(() => {
-          setConnectionAccepted(true)
-          setConnectionHandeled(true)
-        })
-      }
+      onPress={() => connect(userId).then(() => setConnectionAccepted(true))}
       disabled={loading}
       style={styles.button}
       testID="accept-connection-request-button"
@@ -106,20 +96,14 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item`}
       >
-        {!connectionHandeled && (
+        {connectionAccepted === null && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
         )}
       </NotificationWithUserAvatar>
 
-      {loading && (
-        <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
-          <View style={styles.loader} testID="connection-notification-loader-indicator">
-            <HoliLottie animType="loader" />
-          </View>
-        </Animated.View>
-      )}
+      {loading && <HoliLoader testID="connection-notification-loader-indicator" />}
     </View>
   )
 }
@@ -133,17 +117,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12,
-  },
-  loaderContainer: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 2,
-    backgroundColor: 'transparent',
-  },
-  loader: {
-    height: 64,
-    width: 64,
   },
 })
 

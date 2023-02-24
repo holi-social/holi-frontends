@@ -6,7 +6,7 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
-const LoginRegistrationContainer: React.FC = ({ children }) => {
+const LoginRegistrationContainer = ({ children }: React.PropsWithChildren<unknown>) => {
   const { userId, isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -24,7 +24,10 @@ const LoginRegistrationContainer: React.FC = ({ children }) => {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    marginTop: 80,
+    marginTop: Platform.select({
+      native: 32,
+      web: 80,
+    }),
     alignSelf: 'center',
     maxWidth: 500,
     width: '100%',

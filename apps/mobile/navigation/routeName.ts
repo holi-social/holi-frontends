@@ -12,6 +12,8 @@ export enum RouteName {
   SpacesHome = 'SpacesHome',
   SpaceDetails = 'SpaceDetails',
   FilteredSpaces = 'FilteredSpaces',
+  CreateSpace = 'CreateSpace',
+  EditSpace = 'EditSpace',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -35,7 +37,9 @@ export enum RouteName {
   // separate Stacks
   BottomTabs = 'BottomTabs',
   Home = 'Home',
+  Insights = 'Insights',
   Spaces = 'Spaces',
+  SpacesHomeStack = 'SpacesHomeStack',
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',

@@ -6,5 +6,5 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-image: linear-gradient(to bottom, $background-color-black, transparentize($background-color-black, 0.4) 60%, transparentize($background-color-white, 1) 100%);
+  background-image: linear-gradient(to bottom, $foreground30, transparentize($foreground30, 0.4) 60%, transparentize($background10, 1) 100%);
 }
