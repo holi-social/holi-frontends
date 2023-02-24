@@ -89,10 +89,11 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   return (
     <DefaultLayout
       style={styles.defaultLayout}
-      scrollView={false}
+      scrollEnabled={false}
       headerOverlap
-      hasFooterTabBar={false}
       testID={'volunteering-list-container'}
+      keyboardShouldPersistTaps="handled"
+      hasFooterTabBar={false}
     >
       <HoliModal
         show={showFilterModal}

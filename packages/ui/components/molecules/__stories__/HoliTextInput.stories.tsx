@@ -73,7 +73,6 @@ export const Multiline = ({ ...args }) => (
     accessibilityLabel={'accessibility label'}
     placeholder={'Placeholder'}
     helperText={'Helper Text'}
-    multiline
     {...args}
   />
 )

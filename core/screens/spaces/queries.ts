@@ -7,7 +7,7 @@ import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
-  fragment FullSpaceMember on PagedSpaceMemberList {
+  fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
       user {
@@ -200,7 +200,7 @@ export const ValidateSpaceInputSchema = z.object({
 export type ValidateSpaceInput = z.infer<typeof ValidateSpaceInputSchema>
 
 export const validateSpaceMutation = gql`
-  mutation ValidateSpace($input: ValidateSpaceInput) {
+  mutation ValidateSpace($input: ValidateSpaceInput!) {
     validateSpace(input: $input) {
       success
     }
@@ -225,7 +225,7 @@ export type CreateSpaceInput = z.infer<typeof CreateSpaceInputSchema>
 export const createSpaceMutation = gql`
   ${SpaceFragment}
 
-  mutation CreateSpace($input: CreateSpaceInput) {
+  mutation CreateSpace($input: CreateSpaceInput!) {
     createSpace(input: $input) {
       ...FullSpace
     }
@@ -248,7 +248,7 @@ export const UpdateSpaceInputSchema = z.object({
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
 
 export const updateSpaceMutation = gql`
-  mutation UpdateSpace($input: UpdateSpaceInput) {
+  mutation UpdateSpace($input: UpdateSpaceInput!) {
     updateSpace(input: $input) {
       id
       title
@@ -295,3 +295,15 @@ export type SpaceUserConnectionType = string
 export type MySpacesResponse = {
   mySpaces: SpaceSection[]
 }
+
+export interface DeleteSpaceResponse {
+  success: boolean
+}
+
+export const deleteSpaceMutation = gql`
+  mutation DeleteSpace($id: UUID) {
+    deleteSpace(id: $id) {
+      success
+    }
+  }
+`

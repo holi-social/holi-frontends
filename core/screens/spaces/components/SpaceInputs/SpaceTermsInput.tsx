@@ -18,6 +18,7 @@ export type SpaceTermsInputProps = {
   onSelect: (items: SortedTerm[]) => void
   selected: SortedTerm[]
   terms: SortedTerm[]
+  testID?: string
 }
 
 const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
@@ -29,6 +30,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
   onSelect,
   selected,
   terms,
+  testID,
 }: SpaceTermsInputProps) => {
   const [filterString, setFilterString] = useState<string>('')
   const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
@@ -70,7 +72,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
   }
 
   return (
-    <View style={[styles.container, { minHeight: deviceHeight }]}>
+    <View style={[styles.container, { minHeight: deviceHeight }]} testID={testID || 'space-terms-list'}>
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>

@@ -9,13 +9,14 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
@@ -24,6 +25,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -38,7 +40,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -69,6 +71,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           onPress={show}
           onModalDismiss={hide}
           tintColor={tintColor}
+          testID="space-options-btn"
         >
           {isAdmin && (
             <MoreOptionItem
@@ -78,7 +81,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
                 navigate(`/spaces/${spaceId}/edit`)
                 hide()
               }}
-              contentStyle={styles.editButton}
+              contentStyle={styles.buttonWithIcon}
             />
           )}
           {Platform.OS !== 'web' && <SpaceShare space={space} />}
@@ -95,24 +98,39 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+          {isAdmin && (
+            <DeleteSpaceButton
+              spaceId={spaceId || ''}
+              onDelete={() => {
+                replaceRoute('/spaces/')
+                hide()
+              }}
+              style={styles.buttonWithIcon}
+            />
+          )}
         </MoreOptionsButtonWithModal>
       ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, spaceId, space])
+  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceId, space])
 
+  if ((error && isNotFoundError(error)) || (!loading && !space)) {
+    return (
+      <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
+        <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
+      </DefaultLayout>
+    )
+  }
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
+  if (loading || error || !space) {
     return <></>
   }
-
-  if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
   return (
     <>
@@ -155,13 +173,17 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  editButton: {
+  buttonWithIcon: {
     display: 'flex',
     justifyContent: 'center',
   },
   reportButton: {
     justifyContent: 'center',
     paddingVertical: 18,
+  },
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: vars.topBarHeight + 50,
   },
 })
 
