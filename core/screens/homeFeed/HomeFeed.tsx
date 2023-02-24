@@ -41,7 +41,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
-  // TODO: Find out if we really need `useLayoutEffect` that fix a UI Error
+  // TODO: when SSR is enabled we need to lazy load the header
+  // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     setOptions({
       title: headerTitle,

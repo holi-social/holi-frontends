@@ -141,7 +141,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
     }
   }, [show, animShift, gestureShift, setVisible])
 
-  // TODO: Find out if we really need `useLayoutEffect` that fix a UI Error
+  // TODO: when SSR is enabled we need to lazy load the header
+  // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     if (Platform.OS === 'web') {
       navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
