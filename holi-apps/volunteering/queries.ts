@@ -44,7 +44,7 @@ export const VolunteeringEngagementsQuery = gql`
 export const engagementByIdQuery = gql`
   ${FullEngagementFragment}
 
-  query EngagementById($id: UUID!) {
+  query EngagementById($id: String!) {
     appVolunteering_engagement(id: $id) {
       ...FullEngagement
     }
@@ -55,7 +55,7 @@ export type AppVolunteeringEngagementByIdResponse = {
 }
 
 export const trackEngagementViewMutation = gql`
-  mutation TrackEngagementView($id: UUID!) {
+  mutation TrackEngagementView($id: String!) {
     appVolunteering_trackEngagementView(id: $id) {
       id
     }
