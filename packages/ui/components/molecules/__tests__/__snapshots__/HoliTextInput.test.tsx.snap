@@ -217,7 +217,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
-        blurOnSubmit={true}
+        blurOnSubmit={false}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -370,7 +370,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect={false}
-        blurOnSubmit={true}
+        blurOnSubmit={false}
         editable={true}
         keyboardType="default"
         maxLength={5000}

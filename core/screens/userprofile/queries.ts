@@ -61,7 +61,7 @@ export type AuthenticatedUserResponse = {
 export const userByIdQuery = gql`
   ${userFragment}
 
-  query UserById($userId: String!) {
+  query UserById($userId: UUID!) {
     userById(id: $userId) {
       ...FullUser
     }
