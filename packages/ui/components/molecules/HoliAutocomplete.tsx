@@ -31,6 +31,7 @@ export type HoliAutocompleteProps = {
   inputProps?: TextInputProps
   id: string
   onSubmit?: (value: string) => void
+  suggestionsStyle?: StyleProp<ViewStyle>
 }
 
 const HoliAutocomplete = ({
@@ -50,6 +51,7 @@ const HoliAutocomplete = ({
   id,
   testID,
   onSubmit,
+  suggestionsStyle = {},
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
@@ -179,7 +181,7 @@ const HoliAutocomplete = ({
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
       />
-      <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
+      <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           isOpened ? suggestions.map(renderItem) : <></>
