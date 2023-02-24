@@ -22,7 +22,7 @@ export interface ReportContentResponse {
 
 // Block user query
 export const BlockUserMutation = gql`
-  mutation BlockUser($userId: UUID) {
+  mutation BlockUser($userId: UUID!) {
     blockUser(userId: $userId) {
       success
     }

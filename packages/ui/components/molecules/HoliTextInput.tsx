@@ -152,6 +152,8 @@ const HoliTextInput = (
     return colors.background30
   })()
 
+  const multiline = maxNoOfVisibleLines > 1
+
   return (
     <View
       ref={ref}
@@ -195,7 +197,7 @@ const HoliTextInput = (
               { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
             ]}
             numberOfLines={noOfVisibleLines}
-            multiline={maxNoOfVisibleLines > 1}
+            multiline={multiline}
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={props?.placeholder}
@@ -211,7 +213,7 @@ const HoliTextInput = (
             textContentType={textContentType}
             maxLength={maxNoOfCharacters}
             editable={!props?.disabled}
-            blurOnSubmit={Platform.OS !== 'web'}
+            blurOnSubmit={Platform.OS !== 'web' && !multiline}
             secureTextEntry={type === 'password'}
             autoComplete={autocomplete}
             autoCapitalize="none"

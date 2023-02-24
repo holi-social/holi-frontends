@@ -80,7 +80,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
       onActionButtonPress={() => onSubmit({ location, category })}
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
-      keyboardShouldPersistTaps="always"
+      keyboardShouldPersistTaps="handled"
       scrollable={false}
       loading={loading}
     >
