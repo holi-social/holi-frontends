@@ -28,8 +28,8 @@ const SpaceDashboardModal: React.VFC<SpaceDashboardModalParams> = ({ spaceId }: 
   const { navigate } = useRouting()
 
   const closeModal = () => {
-    navigate(`/spaces/${spaceId}/spaceCollaborators`)
     setShowModal(false)
+    navigate(`/spaces/${spaceId}/spaceCollaborators`)
   }
 
   let imageWidth = 271

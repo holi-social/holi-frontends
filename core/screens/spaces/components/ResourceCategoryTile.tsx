@@ -1,0 +1,93 @@
+import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
+
+export type ResourceCateogry = {
+  id: string
+  icon: string
+  iconFilled?: boolean
+  translationKey: string
+  path?: string
+}
+
+type ResourceCategoryTileProps = {
+  resourceCategoryData: ResourceCateogry
+  onPress?: (resourceCategoryData: ResourceCateogry) => void
+  style?: StyleProp<ViewStyle>
+}
+
+const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
+  resourceCategoryData,
+  onPress,
+  style,
+}: ResourceCategoryTileProps) => {
+  const { t } = useTranslation()
+  const name = t(resourceCategoryData.translationKey)
+  const isActive = !!resourceCategoryData.path
+
+  const onTilePress = useCallback(() => {
+    if (isActive) {
+      onPress?.(resourceCategoryData)
+    }
+  }, [onPress, isActive, resourceCategoryData])
+
+  return (
+    <HoliButton
+      label={name}
+      inline
+      transparent
+      onPress={onTilePress}
+      disabled={!isActive}
+      style={[styles.categoryTile, style]}
+      testID={`resource-category-tile-${resourceCategoryData.id}`}
+    >
+      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background10 }]}>
+        {!!resourceCategoryData.icon && (
+          <HoliIcon
+            icon={resourceCategoryData.icon}
+            size={30}
+            color={isActive ? colors.foreground30 : colors.foreground10}
+            filled={resourceCategoryData.iconFilled}
+          />
+        )}
+      </View>
+
+      <HoliText selectable={false} style={styles.categoryName} size={'extrasmall'}>
+        {name}
+      </HoliText>
+    </HoliButton>
+  )
+}
+
+export default ResourceCategoryTile
+
+const tileWidth = 72
+
+const styles = StyleSheet.create({
+  categoryTile: {
+    width: tileWidth,
+    overflow: 'hidden',
+    wordBreak: 'break-word',
+    padding: 0,
+  },
+  contentContainer: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 13,
+    borderColor: colors.foreground10,
+    borderWidth: 2,
+    width: tileWidth,
+    height: tileWidth,
+  },
+  categoryName: {
+    paddingTop: 4,
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+})
