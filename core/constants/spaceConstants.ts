@@ -9,7 +9,7 @@ export const SPACE_COLLABORATOR_TOOLS = {
   WALLET: 'wallet',
 }
 
-export const ADD_NEW_RESOURCES: ResourceCateogry[] = [
+export const RESOURCE_CATEGORIES_LIST: ResourceCateogry[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.DIGITAL_TOOL,
     icon: 'link-m',

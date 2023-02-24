@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
-import { ADD_NEW_RESOURCES, RESOURCES_COMING_SOON } from '@holi/core/constants/spaceConstants'
+import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
 import ResourceCategoryTile, { ResourceCateogry } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -46,7 +46,7 @@ const AddNewDrawer: React.FC = () => {
           <HoliHeading level="1">{t('addNew.drawer.headline')}</HoliHeading>
           <View style={styles.categoriesContainer}>
             <FlatList
-              data={ADD_NEW_RESOURCES}
+              data={RESOURCE_CATEGORIES_LIST}
               horizontal={true}
               renderItem={({ item, index }: { item: ResourceCateogry; index: number }) => {
                 return (
