@@ -1,5 +1,6 @@
 import * as Linking from 'expo-linking'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Alert, Share, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import type { Space } from '@holi/core/screens/spaces/types'
@@ -14,6 +15,7 @@ type SpaceShareProps = {
 }
 
 const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
+  const { t } = useTranslation()
   const prefix = Linking.createURL(`/spaces/${space.id}`)
 
   const onShare = async () => {
@@ -22,7 +24,6 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         message: space.title,
         title: space.title,
         url: prefix,
-        // url: 'https://www.theguardian.com/world/2023/feb/20/turkey-new-6-point-4-magnitude-earthquake-hatay',
       })
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -41,7 +42,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   return (
     <>
       <HoliButton
-        label={'label'}
+        label={t('spaces:spaces.share')}
         style={style}
         contentStyle={styles.buttonContent}
         transparent
@@ -49,7 +50,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         onPress={onShare}
       >
         <HoliIcon icon="share" size={24} style={styles.shareIcon} />
-        <HoliText style={styles.shareText}>Share</HoliText>
+        <HoliText style={styles.shareText}>{t('spaces:spaces.share')}</HoliText>
       </HoliButton>
     </>
   )

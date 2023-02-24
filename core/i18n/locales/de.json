@@ -300,6 +300,7 @@
   "spaces.members.member": "{{count}} Mitglied",
   "spaces.members.member_plural": "{{count}} Mitglieder",
   "spaces.seeMore": "Mehr sehen",
+  "spaces.share": "Teilen",
   "spaces.spaceDetails.creator": "Ersteller: {{name}}",
   "spaces.spaceDetails.goal": "Ziel",
   "spaces.spaceDetails.location": "Standort",

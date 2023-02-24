@@ -301,6 +301,7 @@
   "spaces.members.member": "{{count}} collaborator",
   "spaces.members.member_plural": "{{count}} collaborators",
   "spaces.seeMore": "See more",
+  "spaces.share": "Share",
   "spaces.spaceDetails.creator": "Creator: {{name}}",
   "spaces.spaceDetails.goal": "Goal",
   "spaces.spaceDetails.location": "Location",
