@@ -9,7 +9,6 @@ import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/he
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -37,57 +36,55 @@ const SettingsOverview: React.VFC = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <>
-          <View style={[mixins.container, styles.settingsOverview]}>
-            <MoreOptionItem
-              label={t('profile.settings.account.title')}
-              icon="account-circle"
-              arrowRight
-              onPress={goTo('/profile/settings/account')}
-              style={styles.settingsItem}
-              testID="btn-your-account"
-            />
-            <MoreOptionItem
-              label={t('notifications.title')}
-              icon="notification-2"
-              arrowRight
-              onPress={showFeatureNotImplementedToast}
-              style={styles.settingsItem}
-            />
-            <MoreOptionItem
-              label={t('help.title')}
-              icon="help"
-              arrowRight
-              onPress={showFeatureNotImplementedToast}
-              style={styles.settingsItem}
-            />
-          </View>
+      <LoginProtection>
+        <View style={[mixins.container, styles.settingsOverview]}>
+          <MoreOptionItem
+            label={t('profile.settings.account.title')}
+            icon="account-circle"
+            arrowRight
+            onPress={goTo('/profile/settings/account')}
+            style={styles.settingsItem}
+            testID="btn-your-account"
+          />
+          <MoreOptionItem
+            label={t('notifications.title')}
+            icon="notification-2"
+            arrowRight
+            onPress={showFeatureNotImplementedToast}
+            style={styles.settingsItem}
+          />
+          <MoreOptionItem
+            label={t('help.title')}
+            icon="help"
+            arrowRight
+            onPress={showFeatureNotImplementedToast}
+            style={styles.settingsItem}
+          />
+        </View>
 
-          <View style={styles.separator} />
+        <View style={styles.separator} />
 
-          <View style={mixins.container}>
-            <MoreOptionItem
-              label={t('profile.logout')}
-              onPress={() => setShowLogoutConfirmation(true)}
-              contentStyle={styles.logoutButton}
-              tintColor={colors.error30}
-              testID="btn-to-logout"
-            />
+        <View style={mixins.container}>
+          <MoreOptionItem
+            label={t('profile.logout')}
+            onPress={() => setShowLogoutConfirmation(true)}
+            contentStyle={styles.logoutButton}
+            tintColor={colors.error30}
+            testID="btn-to-logout"
+          />
 
-            <HoliConfirmation
-              show={showLogoutConfirmation}
-              label={t('auth.logout.button')}
-              title={t('auth.logout.button')}
-              description={t('auth.logout.heading')}
-              onDismiss={() => setShowLogoutConfirmation(false)}
-              dismissText={t('auth.logout.confirmation.dismiss')}
-              confirmText={t('auth.logout.confirmation.confirm')}
-              testID="modal-logout"
-              onConfirm={logout}
-            />
-          </View>
-        </>
+          <HoliConfirmation
+            show={showLogoutConfirmation}
+            label={t('auth.logout.button')}
+            title={t('auth.logout.button')}
+            description={t('auth.logout.heading')}
+            onDismiss={() => setShowLogoutConfirmation(false)}
+            dismissText={t('auth.logout.confirmation.dismiss')}
+            confirmText={t('auth.logout.confirmation.confirm')}
+            testID="modal-logout"
+            onConfirm={logout}
+          />
+        </View>
       </LoginProtection>
     </DefaultLayout>
   )
