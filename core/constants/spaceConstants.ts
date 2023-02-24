@@ -12,40 +12,34 @@ export const SPACE_COLLABORATOR_TOOLS = {
 export const ADD_NEW_RESOURCES: ResourceCateogry[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.DIGITAL_TOOL,
-    icon: 'image',
+    icon: 'link-m',
     translationKey: 'spaces.resources.category.digitalTool',
     path: 'digital-tool',
-  },
-  {
-    id: SPACE_COLLABORATOR_TOOLS.FILE,
-    icon: 'newspaper',
-    translationKey: 'spaces.resources.category.file',
-    path: 'file',
   },
 ]
 
 export const RESOURCES_COMING_SOON: ResourceCateogry[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
-    icon: 'image',
+    icon: 'calendar-event-line',
     translationKey: 'spaces.resources.category.event',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.DATE_PICKER,
-    icon: 'newspaper',
+    icon: 'timer-2-line',
     translationKey: 'spaces.resources.category.datePicker',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
-    icon: 'newspaper',
+    icon: 'group-line',
     translationKey: 'spaces.resources.category.videoCall',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.WALLET,
-    icon: 'newspaper',
+    icon: 'wallet-3-line',
     translationKey: 'spaces.resources.category.wallet',
     path: '',
   },
