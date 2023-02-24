@@ -17,17 +17,6 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
-const styles = StyleSheet.create({
-  loadingContainer: {
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
-    marginTop: 100,
-  },
-})
-
 interface RootProviderProps {
   pageProps: ApolloStateProps
 }
@@ -67,3 +56,14 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
 }
 
 export default SSRRootProvider
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    marginTop: 100,
+  },
+})

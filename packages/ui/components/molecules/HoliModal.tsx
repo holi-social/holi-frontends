@@ -17,7 +17,6 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -139,13 +138,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
       })
     }
   }, [show, animShift, gestureShift, setVisible])
-
-  // TODO: Find out if we really need `useLayoutEffect` that fix a UI Error
-  useIsomorphicLayoutEffect(() => {
-    if (Platform.OS === 'web') {
-      navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
-    }
-  }, [])
 
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
