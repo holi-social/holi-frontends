@@ -9,14 +9,16 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
+export type MouseEnterOutEvent = SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>
+
 export interface HoliReactionsCountProps {
   type: 'post' | 'comment'
   fullName?: string
   count?: number
   active?: boolean
   onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
-  onMouseEnter?: (event: SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>) => void
-  onMouseOut?: (event: SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>) => void
+  onMouseEnter?: (event: MouseEnterOutEvent) => void
+  onMouseOut?: (event: MouseEnterOutEvent) => void
   style?: ViewStyle
   testID?: string
 }
@@ -42,7 +44,7 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
   const labelText = active ? activeText : notActiveText
 
   const onNativeMouseEnter = useCallback(
-    (event: SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>) => {
+    (event: MouseEnterOutEvent) => {
       setHovered(true)
       onMouseEnter?.(event)
     },
@@ -50,7 +52,7 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
   )
 
   const onNativeMouseOut = useCallback(
-    (event: SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>) => {
+    (event: MouseEnterOutEvent) => {
       setHovered(false)
       onMouseOut?.(event)
     },
