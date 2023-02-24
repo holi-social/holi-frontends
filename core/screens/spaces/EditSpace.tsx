@@ -35,12 +35,15 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import EditSpaceLocation from './components/EditSpaceLocation'
+
 enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
   SDGS = 'SDGS',
   COVER_IMAGE = 'COVER_IMAGE',
   AVATAR = 'AVATAR',
+  LOCATION = 'LOCATION',
 }
 
 export type EditSpaceParams = {
@@ -59,7 +62,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
@@ -187,8 +190,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 )}
               </SpaceSection>
 
-              <SpaceSection title={t('spaces.spaceDetails.location')} editable>
-                {!!space.location && <HoliText>{space.location}</HoliText>}
+              <SpaceSection
+                title={t('spaces.spaceDetails.location')}
+                editable
+                onPressEdit={() => openEditModal(EditFields.LOCATION)}
+              >
+                {space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
 
               <SpaceSection
@@ -229,7 +236,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigateBack(`/spaces/${spaceId}`)}
+          onPress={() => navigate(`/spaces/${spaceId}`)}
           style={styles.overlayButton}
           testID="space-edit-close"
         >
@@ -249,6 +256,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
         {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
         {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
+        {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
       </HoliModal>
     </SpaceTermContextProvider>
   )

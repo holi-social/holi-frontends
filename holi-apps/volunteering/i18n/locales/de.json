@@ -11,7 +11,7 @@
   "filter.heading": "Projekte filtern",
   "filter.location.label": "Deutsche Städte",
   "filter.location.placeholder": "Stadt auswählen",
-  "filter.notFound.description": "Wir konnten keine Freiwilligenarbeit finden, die Deinen Filtern entspricht.",
+  "filter.notFound.description": "Wir konnten keine Freiwilligenarbeit finden, die deinen Filtern entspricht.",
   "filter.notFound.title": "Keine Ergebnisse gefunden",
   "filter.reset": "Filter löschen",
   "filter.result": "{{count}} Freiwilligenarbeit",

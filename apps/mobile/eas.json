@@ -16,18 +16,27 @@
       "distribution": "internal",
       "env": {
         "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
         "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
       }
     },
     "production": {
       "env": {
         "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql",
         "KRATOS_BASE_URL": "https://auth.project-holi.org"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
       }
     }
   },
@@ -35,6 +44,9 @@
     "production": {
       "android": {
         "track": "alpha"
+      },
+      "ios": {
+        "ascAppId": "1665346434",
       }
     }
   }
