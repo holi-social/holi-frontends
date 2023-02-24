@@ -27,7 +27,7 @@ const AddNewDrawer: React.FC = () => {
     <>
       {/* Floating apps button */}
       <HoliButton
-        label={t('addNew.drawer.headline')} // Replace
+        label={t('addNew.drawer.headline')}
         testID="space-resources-add-button"
         style={styles.overlayButton}
         onPress={() => setModalIsVisible(true)}
@@ -43,7 +43,7 @@ const AddNewDrawer: React.FC = () => {
         testID="add-new-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="2">{t('addNew.drawer.headline')}</HoliHeading>
+          <HoliHeading level="1">{t('addNew.drawer.headline')}</HoliHeading>
           <View style={styles.categoriesContainer}>
             <FlatList
               data={ADD_NEW_RESOURCES}
@@ -60,8 +60,7 @@ const AddNewDrawer: React.FC = () => {
               }}
             />
           </View>
-
-          <HoliHeading level="2">{t('addNew.drawer.comingSoon.headline')}</HoliHeading>
+          <HoliHeading level="3">{t('addNew.drawer.comingSoon.headline')}</HoliHeading>
           <View style={styles.categoriesContainer}>
             <FlatList
               data={RESOURCES_COMING_SOON}
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background20,
   },
-  modalHandle: { backgroundColor: colors.background20 },
   overlayButton: {
     width: 56,
     height: 56,
@@ -105,11 +103,10 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     paddingHorizontal: 10,
-    // backgroundColor: colors.background20,
   },
   categoriesContainer: {
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 24,
     marginTop: 20,
   },
 })

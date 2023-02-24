@@ -46,7 +46,12 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
       style={[styles.categoryTile, style]}
       testID={`resource-category-tile-${resourceCategoryData.id}`}
     >
-      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background10 }]}>
+      <View
+        style={[
+          styles.contentContainer,
+          isActive && { backgroundColor: colors.background10, borderColor: colors.foreground10 },
+        ]}
+      >
         {!!resourceCategoryData.icon && (
           <HoliIcon
             icon={resourceCategoryData.icon}
@@ -57,7 +62,11 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
         )}
       </View>
 
-      <HoliText selectable={false} style={styles.categoryName} size={'extrasmall'}>
+      <HoliText
+        selectable={false}
+        style={[styles.categoryName, isActive && { color: colors.foreground30 }]}
+        size={'extrasmall'}
+      >
         {name}
       </HoliText>
     </HoliButton>
@@ -80,8 +89,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 13,
-    borderColor: colors.foreground10,
-    borderWidth: 2,
+    borderColor: colors.background30,
+    borderWidth: 1,
     width: tileWidth,
     height: tileWidth,
   },
@@ -89,5 +98,6 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     alignSelf: 'center',
     textAlign: 'center',
+    color: colors.foreground20,
   },
 })
