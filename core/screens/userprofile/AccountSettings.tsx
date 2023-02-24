@@ -11,7 +11,6 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
-import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -31,21 +30,19 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <>
-          <View style={[mixins.container, styles.accountSettings]}>
-            <MoreOptionItem
-              label={t('profile.edit.changePassword')}
-              icon="key-2"
-              onPress={showFeatureNotImplementedToast}
-              style={styles.settingsItem}
-            />
-          </View>
-          <View style={styles.separator} />
-          <View style={[mixins.container, styles.accountSettings]}>
-            <DeleteAccountButton style={styles.settingsItem} />
-          </View>
-        </>
+      <LoginProtection>
+        <View style={[mixins.container, styles.accountSettings]}>
+          <MoreOptionItem
+            label={t('profile.edit.changePassword')}
+            icon="key-2"
+            onPress={showFeatureNotImplementedToast}
+            style={styles.settingsItem}
+          />
+        </View>
+        <View style={styles.separator} />
+        <View style={[mixins.container, styles.accountSettings]}>
+          <DeleteAccountButton style={styles.settingsItem} />
+        </View>
       </LoginProtection>
     </DefaultLayout>
   )

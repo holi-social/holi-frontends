@@ -65,10 +65,13 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
     headerTitle,
     headerLeft,
     headerRight,
+    headerShown,
     headerTransparent,
     headerTintColor,
     navigationCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
   } = options
+
+  if (headerShown === false) return null
 
   return (
     <Animated.View
