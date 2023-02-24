@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -14,7 +15,6 @@ type EditSpaceModalProps = {
   children: ReactNode
   saveButtonDisabled?: boolean
   scrollable?: boolean
-  keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -23,8 +23,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   saveButtonDisabled = false,
   children,
   scrollable = true,
-  keyboardShouldPersistTaps,
 }: EditSpaceModalProps) => {
+  const { keyboardIsOpen } = useKeyboard()
+  const { softkeyboardIsOpen } = useSoftKeyboard()
+  const showFooter = !keyboardIsOpen && !softkeyboardIsOpen
+
   const mixins = useStyleMixins()
 
   const { t } = useTranslation()
@@ -36,23 +39,31 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       contentStyle={styles.contentStyle}
       scrollable={scrollable}
     >
-      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps="always">
         {children}
       </ScrollView>
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton label={t('global.dismiss')} type="secondary" inline style={styles.footerButton} onPress={onDismiss}>
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled}
-          label={saveButtonDisabled ? t('global.loading') : t('global.save')}
-          onPress={onSave}
-          testID="space-edit-modal-save-btn"
-          style={styles.footerButton}
-          icon={saveButtonDisabled ? 'loader-4' : undefined}
-          iconSpinning={saveButtonDisabled}
-        />
-      </View>
+      {showFooter && (
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={onDismiss}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled}
+            label={saveButtonDisabled ? t('global.loading') : t('global.save')}
+            onPress={onSave}
+            testID="space-edit-modal-save-btn"
+            style={styles.footerButton}
+            icon={saveButtonDisabled ? 'loader-4' : undefined}
+            iconSpinning={saveButtonDisabled}
+          />
+        </View>
+      )}
     </DefaultLayout>
   )
 }

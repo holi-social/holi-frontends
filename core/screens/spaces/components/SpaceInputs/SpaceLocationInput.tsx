@@ -6,7 +6,7 @@ import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplet
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type SpaceLocationInputProps = {
+export interface SpaceLocationInputProps {
   title: string
   description: string
   onChange: (name: string) => void

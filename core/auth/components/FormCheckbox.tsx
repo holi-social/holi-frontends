@@ -5,7 +5,7 @@ import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
-import CodeOfConduct from '@holi/core/screens/codeOfConduct/components/CodeOfConduct'
+import CommunityGuidelines from '@holi/core/screens/communityGuidelines/components/CommunityGuidelines'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -69,7 +69,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
                 {/* TODO: The link href does not yet exist */}
                 <HoliLink
                   label=""
-                  href={'/codeOfConduct'}
+                  href={'/communityGuidelines'}
                   onPress={openModal}
                   textStyle={[styles.labelLink, { fontFamily: theme.fontFamily.default('Medium') }]}
                 />
@@ -83,8 +83,8 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           show={showModal}
           onDismiss={() => setShowModal(false)}
         >
-          <ScrollView style={styles.codeOfConduct} contentContainerStyle={{ maxWidth: '100%' }}>
-            <CodeOfConduct />
+          <ScrollView style={styles.communityGuidelines} contentContainerStyle={{ maxWidth: '100%' }}>
+            <CommunityGuidelines />
           </ScrollView>
         </HoliModal>
       </>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.foreground30,
   },
-  codeOfConduct: {
+  communityGuidelines: {
     paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 50,
