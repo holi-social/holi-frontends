@@ -55,7 +55,7 @@ export const createCache = () =>
           },
         },
       },
-      PagedInsightList: {
+      InsightPaged: {
         fields: {
           data: {
             merge: (existing, incoming) => (existing || []).concat(incoming),
@@ -81,7 +81,7 @@ export const createCache = () =>
           },
         },
       },
-      PagedSpaceList: {
+      SpacePaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
         },
