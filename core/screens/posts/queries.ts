@@ -16,6 +16,11 @@ export const PostCommentFragment = gql`
       id
       fullName
     }
+    myReaction
+    reactions {
+      type
+      count
+    }
   }
 `
 
@@ -71,6 +76,11 @@ export const PostFragment = gql`
       id
       fullName
     }
+    myReaction
+    reactions {
+      type
+      count
+    }
   }
 `
 
@@ -107,6 +117,11 @@ export const PostDetailsFragment = gql`
     mentions {
       id
       fullName
+    }
+    myReaction
+    reactions {
+      type
+      count
     }
   }
 `
@@ -149,4 +164,28 @@ export const CreatePostCommentMutation = gql`
 export type CreatePostCommentResponse = {
   postComment: Comment
   postById: Post
+}
+
+export const UpdatePostReactionMutation = gql`
+  mutation UpdatePostReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
+    updatePostReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
+      success
+    }
+  }
+`
+
+export interface UpdatePostReactionResponse {
+  success: boolean
+}
+
+export const UpdatePostCommentReactionMutation = gql`
+  mutation UpdatePostCommentReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
+    updatePostCommentReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
+      success
+    }
+  }
+`
+
+export interface UpdatePostCommentReactionResponse {
+  success: boolean
 }

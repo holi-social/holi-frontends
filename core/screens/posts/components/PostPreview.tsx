@@ -1,13 +1,17 @@
-import React from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
-import { Post } from '@holi/core/screens/posts/types'
+import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
+import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -26,10 +30,34 @@ export type PostPreviewProps = {
 
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useAuth()
+  const { openLoginDialog } = useLoginRedirect()
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
+
+  // currently only HEART-reactions are displayed
+  const heartReactions = post.reactions.filter((reaction) => reaction.type === ReactionType.HEART)[0]
+  const currentUserHasReacted = post.myReaction === ReactionType.HEART
+
+  const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
+    onCompleted: (response) => console.log('updateReaction done', response),
+    onError: (error) => console.log('updateReaction error', error),
+  })
+
+  const reactOnPost = useCallback(() => {
+    if (!isLoggedIn) {
+      return openLoginDialog()
+    }
+    updatePostReaction({
+      variables: {
+        id: post.id,
+        reactionType: ReactionType.HEART,
+        reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
+      },
+    })
+  }, [isLoggedIn, openLoginDialog, post.id, currentUserHasReacted, updatePostReaction])
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -99,14 +127,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
             </HoliUserAvatarPile>
           </HoliLink>
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <HoliReactionsCount
-            onPress={() => {
-              console.log('click !!!!!')
-            }}
+            onPress={reactOnPost}
             type="post"
-            count={0}
-            active={false}
+            count={heartReactions ? heartReactions.count : 0}
+            active={currentUserHasReacted}
             fullName={post.creator.fullName}
           />
         </View>

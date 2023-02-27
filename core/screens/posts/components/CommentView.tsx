@@ -1,12 +1,16 @@
-import React from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
-import { Comment } from '@holi/core/screens/posts/types'
+import { UpdatePostCommentReactionMutation, UpdatePostCommentReactionResponse } from '@holi/core/screens/posts/queries'
+import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -22,9 +26,36 @@ export interface CommentProps extends ViewProps {
 
 const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useAuth()
+  const { openLoginDialog } = useLoginRedirect()
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
+
+  // currently only HEART-reactions are displayed
+  const heartReactions = comment.reactions.filter((reaction) => reaction.type === ReactionType.HEART)[0]
+  const currentUserHasReacted = comment.myReaction === ReactionType.HEART
+
+  const [updatePostCommentReaction] = useMutation<UpdatePostCommentReactionResponse>(
+    UpdatePostCommentReactionMutation,
+    {
+      onCompleted: (response) => console.log('updateCommentReaction done', response),
+      onError: (error) => console.log('updateCommentReaction error', error),
+    }
+  )
+
+  const reactOnComment = useCallback(() => {
+    if (!isLoggedIn) {
+      return openLoginDialog()
+    }
+    updatePostCommentReaction({
+      variables: {
+        id: comment.id,
+        reactionType: ReactionType.HEART,
+        reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
+      },
+    })
+  }, [isLoggedIn, openLoginDialog, comment.id, currentUserHasReacted, updatePostCommentReaction])
 
   const { visible, show, hide } = useModalState()
 
@@ -67,15 +98,12 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
         <View style={styles.commentContent}>
           <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <View style={styles.reactionsBar}>
             <HoliReactionsCount
-              onPress={() => {
-                console.log('click !!!!!')
-              }}
+              onPress={reactOnComment}
               type="comment"
-              count={0}
-              active={false}
+              count={heartReactions ? heartReactions.count : 0}
+              active={currentUserHasReacted}
               fullName={name}
             />
           </View>
