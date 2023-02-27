@@ -20,6 +20,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpacesHomeStack]: {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
+            [RouteName.FilteredSpaces]: 'spaces/filter',
           },
         },
         [RouteName.Chat]: {
@@ -51,7 +52,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Spaces]: {
       screens: {
         [RouteName.SpaceDetails]: 'spaces/:spaceId',
-        [RouteName.FilteredSpaces]: 'spaces/filter',
         [RouteName.CreateSpace]: 'spaces/create',
         [RouteName.EditSpace]: 'spaces/:spaceId/edit',
         [RouteName.SpaceCollaborators]: 'spaces/:spaceId/spaceCollaborators',

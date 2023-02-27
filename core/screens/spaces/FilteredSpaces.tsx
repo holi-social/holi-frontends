@@ -3,8 +3,6 @@ import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -15,7 +13,6 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -31,11 +28,9 @@ export type FilteredSpacesParams = {
 
 const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
 const SPACES_PAGE_SIZE = 20
 
-const FilteredSpaces: React.VFC<ScreenProps> = () => {
+const FilteredSpaces: React.VFC = () => {
   const [topicSlug] = useParam('topic', singleParamConfig)
   const [location] = useParam('location', singleParamConfig)
   const [skillSlugs] = useParam('skill', arrayParamConfig)

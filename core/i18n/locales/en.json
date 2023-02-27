@@ -43,9 +43,10 @@
   "auth.login.message.4000006": "Wrong credentials! Check your input for spelling mistakes.",
   "auth.login.message.default": "Oops! A technical error occurred!",
   "auth.login.signUp.link.headline": "No account yet?",
+  "auth.loginProtection.continueAsGuest": "Continue as a guest",
   "auth.loginProtection.login": "Login",
   "auth.loginProtection.loginLabel": "Open signin form",
-  "auth.loginProtection.registration": "Create account",
+  "auth.loginProtection.registration": "Join holi",
   "auth.loginProtection.registrationLabel": "Open registration form",
   "auth.loginProtection.text": "You're not signed in",
   "auth.logout.button": "Sign out",
@@ -125,6 +126,17 @@
   "insights.posts.image": "Image for post {{title}}",
   "insights.posts.image.modal": "Fullscreen image for post {{title}}",
   "insights.posts.image.show": "Show fullscreen image for post {{title}}",
+
+
+  "insights.reactions.post.like": "Like post of {{name}}",
+  "insights.reactions.post.like.noUser": "Like post",
+  "insights.reactions.post.unlike": "Unlike this post",
+
+  "insights.reactions.comment.like": "Like comment of {{name}}",
+  "insights.reactions.comment.like.noUser": "Like comment",
+  "insights.reactions.comment.unlike": "Unlike this comment",
+
+
   "location.placesAutocomplete.error": "Fetching suggestions failed",
   "location.placesAutocomplete.noResults": "No suggestions found",
   "loginRedirect.btnConfirm": "Sign in",
@@ -179,7 +191,7 @@
   "profile.interests.edit": "Edit interests",
   "profile.interests.filter.empty": "We are sorry, no matching interests were found.",
   "profile.interests.filter.placeholder": "Search for an interest...",
-  "profile.loggedOut.heading": "Welcome to Holi, where ideas meet action",
+  "profile.loggedOut.heading": "Join Holi and start to co-create a better future",
   "profile.loggedOut.image": "Signed out illustration",
   "profile.logout": "Sign out",
   "profile.missingInfo": "This person has not shared much about themselves yet.",
@@ -314,6 +326,7 @@
   "spaces.resources.category.videoCall": "Videocall",
   "spaces.resources.category.wallet": "Wallet",
   "spaces.seeMore": "See more",
+  "spaces.share": "Share",
   "spaces.spaceDetails.creator": "Creator: {{name}}",
   "spaces.spaceDetails.goal": "Goal",
   "spaces.spaceDetails.location": "Location",

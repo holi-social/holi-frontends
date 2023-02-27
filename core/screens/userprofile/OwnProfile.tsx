@@ -11,7 +11,6 @@ import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/he
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
@@ -58,62 +57,60 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     const title = t('profile.title')
 
-    setOptions(
-      isLoggedIn
-        ? {
-            title,
-            headerBackTitleVisible: true,
-            headerBackVisible: true,
-            headerTransparent: true,
-            headerStyle: { backgroundColor: colors.background10 },
-            headerTitle: () => null,
-            headerLeft: ({ tintColor }) => (
-              <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
-                {title}
-              </HeaderTitle>
-            ),
-            headerRight: ({ tintColor }) => (
-              <HoliHorizontalRow>
-                <HoliButton
-                  label={t('profile.edit')}
-                  onPress={() => {
-                    toggleEditMode('profile')
-                  }}
-                  transparent
-                  inline
-                  testID="btn-open-profile-edit-view"
-                >
-                  <HoliIcon icon="edit-2" size={24} color={tintColor} />
-                </HoliButton>
+    if (isLoggedIn) {
+      setOptions({
+        title,
+        headerShown: true,
+        headerBackTitleVisible: true,
+        headerBackVisible: true,
+        headerTransparent: true,
+        headerStyle: { backgroundColor: colors.background10 },
+        headerTitle: () => null,
+        headerLeft: ({ tintColor }) => (
+          <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+            {title}
+          </HeaderTitle>
+        ),
+        headerRight: ({ tintColor }) => (
+          <HoliHorizontalRow>
+            <HoliButton
+              label={t('profile.edit')}
+              onPress={() => {
+                toggleEditMode('profile')
+              }}
+              transparent
+              inline
+              testID="btn-open-profile-edit-view"
+            >
+              <HoliIcon icon="edit-2" size={24} color={tintColor} />
+            </HoliButton>
 
-                <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
-                  <HoliIcon icon="share" size={24} color={tintColor} />
-                </HoliButton>
+            <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
+              <HoliIcon icon="share" size={24} color={tintColor} />
+            </HoliButton>
 
-                <HoliButton
-                  label={t('profile.settings.overview.title')}
-                  inline
-                  transparent
-                  onPress={() => navigate('/profile/settings')}
-                  testID="btn-to-settings"
-                >
-                  <HoliIcon icon="settings-3" size={24} color={tintColor} />
-                </HoliButton>
-              </HoliHorizontalRow>
-            ),
-          }
-        : {
-            title: '',
-            headerTitle: () => null,
-            headerLeft: () => null,
-            headerRight: () => null,
-          }
-    )
+            <HoliButton
+              label={t('profile.settings.overview.title')}
+              inline
+              transparent
+              onPress={() => navigate('/profile/settings')}
+              testID="btn-to-settings"
+            >
+              <HoliIcon icon="settings-3" size={24} color={tintColor} />
+            </HoliButton>
+          </HoliHorizontalRow>
+        ),
+      })
+    } else {
+      setOptions({
+        headerShown: false,
+      })
+    }
   }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
+    <LoginProtection>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         {user ? (
           <>
             {editMode && (
@@ -171,8 +168,8 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             <HoliText>{t('user.profileView.noUser')}</HoliText>
           </View>
         )}
-      </LoginProtection>
-    </DefaultLayout>
+      </DefaultLayout>
+    </LoginProtection>
   )
 }
 
