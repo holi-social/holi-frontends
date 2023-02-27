@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?ihnh1k');
-  src:  url('fonts/icomoon.eot?ihnh1k#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?ihnh1k') format('truetype'),
-    url('fonts/icomoon.woff?ihnh1k') format('woff'),
-    url('fonts/icomoon.svg?ihnh1k#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?67mdwp');
+  src:  url('fonts/icomoon.eot?67mdwp#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?67mdwp') format('truetype'),
+    url('fonts/icomoon.woff?67mdwp') format('woff'),
+    url('fonts/icomoon.svg?67mdwp#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,147 +25,159 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-up-s:before {
+.icon-account-circle:before {
   content: "\e900";
 }
-.icon-arrow-down-s:before {
+.icon-add-box:before {
   content: "\e901";
 }
 .icon-add:before {
   content: "\e902";
 }
-.icon-check:before {
+.icon-apps-soon:before {
   content: "\e903";
 }
-.icon-error-warning:before {
+.icon-apps:before {
   content: "\e904";
 }
-.icon-arrow-left-s:before {
+.icon-arrow-down-s:before {
   content: "\e905";
 }
-.icon-arrow-right-s:before {
+.icon-arrow-left-s:before {
   content: "\e906";
 }
-.icon-search-2:before {
+.icon-arrow-left:before {
   content: "\e907";
 }
-.icon-arrow-left:before {
+.icon-arrow-right-s:before {
   content: "\e908";
 }
-.icon-arrow-right:before {
+.icon-arrow-right-up:before {
   content: "\e909";
 }
-.icon-filter-3:before {
+.icon-arrow-right:before {
   content: "\e90a";
 }
-.icon-pushpin:before {
+.icon-arrow-up-s:before {
   content: "\e90b";
 }
-.icon-search:before {
+.icon-calendar-event:before {
   content: "\e90c";
 }
 .icon-chat-3:before {
   content: "\e90d";
 }
-.icon-notification-2:before {
+.icon-check:before {
   content: "\e90e";
 }
-.icon-arrow-right-up:before {
+.icon-close:before {
   content: "\e90f";
 }
-.icon-time:before {
+.icon-delete:before {
   content: "\e910";
 }
-.icon-information:before {
+.icon-edit-2:before {
   content: "\e911";
 }
-.icon-sun:before {
+.icon-emotion-unhappy-noeyes:before {
   content: "\e912";
 }
-.icon-heart:before {
+.icon-error-warning:before {
   content: "\e913";
 }
-.icon-delete:before {
+.icon-feedback:before {
   content: "\e914";
 }
-.icon-close:before {
+.icon-filter-3:before {
   content: "\e915";
 }
-.icon-more:before {
+.icon-global:before {
   content: "\e916";
 }
-.icon-feedback:before {
+.icon-globe:before {
   content: "\e917";
 }
-.icon-share-box:before {
+.icon-group:before {
   content: "\e918";
 }
-.icon-add-box:before {
+.icon-hand-heart:before {
   content: "\e919";
 }
-.icon-edit-2:before {
+.icon-heart:before {
   content: "\e91a";
 }
-.icon-user-smile:before {
+.icon-hearts:before {
   content: "\e91b";
 }
-.icon-account-circle:before {
+.icon-help:before {
   content: "\e91c";
 }
-.icon-emotion-unhappy-noeyes:before {
+.icon-home-smile-2:before {
   content: "\e91d";
 }
-.icon-apps-soon:before {
+.icon-image-add:before {
   content: "\e91e";
 }
-.icon-newspaper:before {
+.icon-image:before {
   content: "\e91f";
 }
-.icon-image:before {
+.icon-information:before {
   content: "\e920";
 }
-.icon-hearts:before {
+.icon-key-2:before {
   content: "\e921";
 }
-.icon-home-smile-2:before {
+.icon-loader-4:before {
   content: "\e922";
 }
-.icon-loader-4:before {
+.icon-loader:before {
   content: "\e923";
 }
-.icon-global:before {
+.icon-more:before {
   content: "\e924";
 }
-.icon-image-add:before {
+.icon-newspaper:before {
   content: "\e925";
 }
-.icon-key-2:before {
+.icon-notification-2:before {
   content: "\e926";
 }
-.icon-globe:before {
+.icon-pushpin:before {
   content: "\e927";
 }
-.icon-share:before {
+.icon-search-2:before {
   content: "\e928";
 }
-.icon-help:before {
+.icon-search:before {
   content: "\e929";
 }
-.icon-spaces:before {
+.icon-settings-3:before {
   content: "\e92a";
 }
-.icon-tools:before {
+.icon-share-box:before {
   content: "\e92b";
 }
-.icon-hand-heart:before {
+.icon-share:before {
   content: "\e92c";
 }
-.icon-apps:before {
+.icon-spaces:before {
   content: "\e92d";
 }
-.icon-settings-3:before {
+.icon-sun:before {
   content: "\e92e";
 }
-.icon-loader:before {
+.icon-time:before {
   content: "\e92f";
+}
+.icon-timer-2:before {
+  content: "\e930";
+}
+.icon-tools:before {
+  content: "\e931";
+}
+.icon-user-smile:before {
+  content: "\e932";
+}
+.icon-wallet-3:before {
+  content: "\e933";
 }
