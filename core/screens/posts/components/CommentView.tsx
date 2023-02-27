@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
+import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -25,6 +25,10 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
+
+  const onReactionChange = useCallback(() => {
+    // TODO: update post ?!
+  }, [])
 
   const { visible, show, hide } = useModalState()
 
@@ -67,17 +71,8 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
         <View style={styles.commentContent}>
           <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <View style={styles.reactionsBar}>
-            <HoliReactionsCount
-              onPress={() => {
-                console.log('click !!!!!')
-              }}
-              type="comment"
-              count={0}
-              active={false}
-              fullName={name}
-            />
+            <CommentReactions comment={comment} onChange={onReactionChange} />
           </View>
         </View>
       </View>

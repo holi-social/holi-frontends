@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,11 +7,11 @@ import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonW
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
+import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -30,6 +30,10 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
+
+  const onChangeReactions = useCallback(() => {
+    // TODO: update post ?!
+  }, [])
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -99,16 +103,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
             </HoliUserAvatarPile>
           </HoliLink>
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
-          <HoliReactionsCount
-            onPress={() => {
-              console.log('click !!!!!')
-            }}
-            type="post"
-            count={0}
-            active={false}
-            fullName={post.creator.fullName}
-          />
+          <PostReactions post={post} onChange={onChangeReactions} />
         </View>
       )}
     </View>
