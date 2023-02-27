@@ -5,6 +5,7 @@ import {
   ModalProps,
   Platform,
   SafeAreaView,
+  StyleProp,
   StyleSheet,
   View,
   ViewStyle,
@@ -40,6 +41,7 @@ export interface HoliModalProps extends ModalProps {
   relativeHeight?: number
   autoHeight?: boolean
   headerStyle?: ViewStyle
+  style?: StyleProp<ViewStyle>
   testID?: string
 }
 
@@ -81,8 +83,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
   relativeHeight = 0.9,
   autoHeight = true,
   headerStyle,
-  testID,
   children,
+  style,
+  testID,
 }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
@@ -173,6 +176,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 ...(!autoHeight && { height: `${height}%` }),
               },
               isFullscreen && styles.fullscreen,
+              style,
             ]}
             onLayout={(event) => {
               const { height: modalContentHeight } = event.nativeEvent.layout
