@@ -15896,6 +15896,15 @@ react-native-web@^0.18.12:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.2"
 
+react-native-webview-ssl-error-skip@^11.15.5:
+  version "11.15.5"
+  resolved "https://registry.yarnpkg.com/react-native-webview-ssl-error-skip/-/react-native-webview-ssl-error-skip-11.15.5.tgz#878c9a3f07993be94e35e2678104b7c0c979aade"
+  integrity sha512-yxSDC9Lgj+D2pu1yS5KPjXUxd88dXNTQQ8E11r+LfNT4VjmAKVKjuAafzeNe5Wcfzfz5s4LvWBWCkIRQCYdtcQ==
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
+    yarn "^1.22.17"
+
 react-native-webview@11.23.0:
   version "11.23.0"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.23.0.tgz#603a584236da2e993906e6a094f165dcac3a1fdb"
@@ -19574,6 +19583,11 @@ yargs@^17.3.1:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
+
+yarn@^1.22.17:
+  version "1.22.19"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.19.tgz#4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  integrity sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==
 
 yauzl@^2.10.0:
   version "2.10.0"

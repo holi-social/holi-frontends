@@ -54,6 +54,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.FilteredSpaces]: 'spaces/filter',
         [RouteName.CreateSpace]: 'spaces/create',
         [RouteName.EditSpace]: 'spaces/:spaceId/edit',
+        [RouteName.SpaceCloud]: 'spaces/:spaceId/cloud',
       },
     },
 

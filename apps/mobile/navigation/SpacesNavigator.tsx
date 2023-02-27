@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
 import FilteredSpaces from '@holi/core/screens/spaces/FilteredSpaces'
+import { SpaceCloudParams } from '@holi/core/screens/spaces/SpaceCloud'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -14,6 +15,7 @@ export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
   [RouteName.FilteredSpaces]: undefined
   [RouteName.CreateSpace]: undefined
+  [RouteName.SpaceCloud]: SpaceCloudParams
   [RouteName.EditSpace]: EditSpaceParams
 }
 

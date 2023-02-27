@@ -14,6 +14,7 @@ export enum RouteName {
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',
+  SpaceCloud = 'SpaceCloud',
 
   // Chat Stack
   ChatHome = 'ChatHome',
