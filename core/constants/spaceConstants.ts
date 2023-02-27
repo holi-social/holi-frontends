@@ -4,7 +4,7 @@ export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
   FILE: 'file',
   EVENT: 'event',
-  DATE_PICKER: 'date-picker',
+  POLL: 'poll',
   VIDEO_CALL: 'video-call',
   WALLET: 'wallet',
 }
@@ -26,9 +26,9 @@ export const RESOURCES_COMING_SOON: ResourceCategory[] = [
     path: '',
   },
   {
-    id: SPACE_COLLABORATOR_TOOLS.DATE_PICKER,
+    id: SPACE_COLLABORATOR_TOOLS.POLL,
     icon: 'timer-2-line',
-    translationKey: 'spaces.resources.category.datePicker',
+    translationKey: 'spaces.resources.category.poll',
     path: '',
   },
   {
