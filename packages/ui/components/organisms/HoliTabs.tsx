@@ -42,7 +42,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   tabBarStyle,
 }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
-  const carousel = React.useRef<ScrollView | null>(null)
+  const carousel = React.useRef<ScrollView>(null)
 
   const { width: screenWidth } = useWindowDimensions()
   const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
@@ -117,6 +117,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleScrollEnd}
           scrollEnabled={scrollEnabled}
+          bounces={false}
         >
           <View style={styles.tabContainer}>
             {tabs.map((tab, i) => (
