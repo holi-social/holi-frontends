@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -6,6 +6,7 @@ import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonW
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
+import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
@@ -25,6 +26,10 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
+
+  const onChangeReactions = useCallback(() => {
+    // TODO: update post ?!
+  }, [])
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -77,13 +82,15 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
         </View>
       )}
 
-      {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.commentsPile]}>
+      <View style={[styles.reactionsBar]}>
+        {post.numberOfComments > 0 && (
           <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
             {t('insights.post.response', { count: post.numberOfComments })}
           </HoliUserAvatarPile>
-        </View>
-      )}
+        )}
+
+        <PostReactions post={post} onChange={onChangeReactions} />
+      </View>
     </View>
   )
 }
@@ -119,8 +126,17 @@ const styles = StyleSheet.create({
     marginTop: 16,
     maxWidth: 320,
   },
-  commentsPile: {
-    marginTop: 20,
+  reactionsBar: {
+    marginTop: 21,
+    paddingLeft: 24,
+    paddingRight: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  reactionsLink: {
+    height: 'auto',
+    display: 'flex',
   },
 })
 
