@@ -1,7 +1,10 @@
-import { ApolloClient, InMemoryCache, from } from '@apollo/client'
+import type { NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
+import fetch from 'cross-fetch'
+import { concat, mergeDeepWith } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
@@ -13,6 +16,7 @@ import headerLink from './headerLink'
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+
 const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   // Do not log "not found" or "bad user input" errors
@@ -55,7 +59,7 @@ export const createCache = () =>
           },
         },
       },
-      PagedInsightList: {
+      InsightPaged: {
         fields: {
           data: {
             merge: (existing, incoming) => (existing || []).concat(incoming),
@@ -81,7 +85,7 @@ export const createCache = () =>
           },
         },
       },
-      PagedSpaceList: {
+      SpacePaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
         },
@@ -113,6 +117,45 @@ export const createCache = () =>
     },
   })
 
-export const client = new ApolloClient({ link, cache: createCache(), connectToDevTools: true })
+interface ApolloCreateClientOptions {
+  readonly ssrMode: boolean
+}
+
+const isSSR = typeof window === 'undefined'
+
+const API_URL = process.env.HOLI_API_URL
+const httpLink = new HttpLink({ uri: API_URL, fetch })
+
+const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
+  const clientLink = isSSR ? from([errorLink, httpLink]) : link
+
+  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
+}
+
+// Web
+/** This `let` variable can only be mutated by the initializeApolloSSRClient function. */
+let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
+
+type SSRClientInitState = Record<string, unknown> | null
+
+export const initializeApolloSSRClient = (initState: SSRClientInitState = null) => {
+  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
+
+  if (initState) {
+    const existingCache = client.extract()
+    const merge = mergeDeepWith(concat)
+
+    client.cache.restore(merge(existingCache, initState))
+  }
+
+  if (isSSR) return client
+  if (!apolloSSRClient) apolloSSRClient = client
+
+  return client
+}
+
+// Mobile
+// TODO: rename to recognize its only for client-side JS
+export const client = createApolloClient({ ssrMode: false })
 
 export default client

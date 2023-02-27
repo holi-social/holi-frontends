@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { MouseEvent, SyntheticEvent, useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
@@ -37,7 +37,8 @@ export interface HoliButtonProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  onMouseEnter?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onMouseEnter?: (event: SyntheticEvent<Element, MouseEvent>) => void
+  onMouseOut?: (event: SyntheticEvent<Element, MouseEvent>) => void
   accessibilityRole?: AccessibilityRole | AccessibilityRoleWeb
   accessibilityChecked?: boolean
   accessibilityState?: AccessibilityState
@@ -95,6 +96,8 @@ const HoliButton = ({
       onPress={onButtonPress}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
+      onHoverIn={props.onMouseEnter}
+      onHoverOut={props.onMouseOut}
       style={(state) => {
         const result: ViewStyle[] = [styles.base]
         if (!transparent) {

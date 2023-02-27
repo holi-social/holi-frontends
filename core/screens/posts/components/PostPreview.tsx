@@ -11,6 +11,7 @@ import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -87,12 +88,27 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
       )}
 
       {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.commentsPile]}>
-          <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
+        <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
+          <HoliLink
+            href={`${postUrl}?commentId=first`}
+            label={t('insights.posts.comments.link')}
+            style={styles.reactionsLink}
+          >
             <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
               {t('insights.post.response', { count: post.numberOfComments })}
             </HoliUserAvatarPile>
           </HoliLink>
+
+          {/* TODO: reactions functionality comes with HOLI-3478 */}
+          <HoliReactionsCount
+            onPress={() => {
+              console.log('click !!!!!')
+            }}
+            type="post"
+            count={0}
+            active={false}
+            fullName={post.creator.fullName}
+          />
         </View>
       )}
     </View>
@@ -137,8 +153,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     maxWidth: 320,
   },
-  commentsPile: {
-    marginTop: 20,
+  reactionsBar: {
+    marginTop: 21,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  reactionsLink: {
+    height: 'auto',
+    display: 'flex',
   },
 })
 

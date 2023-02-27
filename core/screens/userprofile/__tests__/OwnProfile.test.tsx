@@ -22,6 +22,7 @@ describe('OwnProfile', () => {
     const { queryByText } = render(<OwnProfile />)
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
-    expect(queryByText('auth.loginProtection.login')).toBeTruthy()
+    expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
+    expect(queryByText('auth.loginProtection.continueAsGuest')).toBeTruthy()
   })
 })

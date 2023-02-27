@@ -13,7 +13,7 @@ test.describe('@Accessibility', () => {
 
     const profileButton = await locateElementByTestId(page, 'btn-to-profile-view')
     await profileButton.click()
-    await waitForElementByTestId(page, 'user-profile-logged-out-heading')
+    await waitForElementByTestId(page, 'login-protection-heading')
     await checkAccessibility(page)
 
     const homeButton = await locateElementByTestId(page, 'btn-to-home-view')

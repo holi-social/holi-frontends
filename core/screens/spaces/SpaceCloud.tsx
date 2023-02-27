@@ -50,7 +50,7 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
       animation: 'slide_from_bottom',
       headerTransparent: false,
       // headerStyle: { backgroundColor: 'transparent' },
-      headerTitle: () => null,
+      headerTitle: 'Space Cloud',
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
       navigationCustomOptions: {
@@ -61,7 +61,7 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
+      <DefaultLayout>
         <HoliText>{t('spaces.spaceCloud.notFound', { spaceId })}</HoliText>
       </DefaultLayout>
     )
@@ -77,8 +77,8 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <WebView source={{ uri: 'https://expo.dev' }} style={{ height, width }} />
-      {/* <WebView source={{ uri: 'https://ocis.owncloud.test' }} style={{ height: 800, width: 320 }} /> */}
+      {/* <WebView source={{ uri: 'https://expo.dev' }} style={{ height, width }} /> */}
+      <WebView source={{ uri: 'https://ocis.owncloud.test' }} style={{ height, width }} />
     </>
   )
 }

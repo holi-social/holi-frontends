@@ -22,14 +22,14 @@ const AuthStackNavigator: React.VFC = () => {
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}
       screenOptions={{
-        header: HeaderAnimated,
+        header: (props) => <HeaderAnimated {...props} />,
         headerTransparent: true,
         headerStyle: {
           backgroundColor: colors.background10,
         },
       }}
     >
-      <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
+      <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} options={{ headerShown: false }} />
       <AuthStack.Screen
         name={RouteName.SettingsOverview}
         component={SettingsOverview}

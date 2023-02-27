@@ -14,6 +14,7 @@ type EditSpaceModalProps = {
   onSave: () => void
   children: ReactNode
   saveButtonDisabled?: boolean
+  scrollable?: boolean
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -21,6 +22,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   onSave,
   saveButtonDisabled = false,
   children,
+  scrollable = true,
 }: EditSpaceModalProps) => {
   const { keyboardIsOpen } = useKeyboard()
   const { softkeyboardIsOpen } = useSoftKeyboard()
@@ -31,7 +33,12 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   const { t } = useTranslation()
 
   return (
-    <DefaultLayout headerOverlap={true} style={styles.layoutStyle} contentStyle={styles.contentStyle}>
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
+      scrollable={scrollable}
+    >
       <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps="always">
         {children}
       </ScrollView>

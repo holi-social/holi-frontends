@@ -51,7 +51,6 @@
     "react-native-screens": "~3.15.0",
     "react-native-svg": "12.3.0",
     "react-native-webview": "11.23.0",
-    "react-native-webview-ssl-error-skip": "^11.15.5",
     "react-spring": "^8.0.27",
     "sentry-expo": "~5.0.0",
     "tinycolor2": "1.4.2"

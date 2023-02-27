@@ -35,7 +35,6 @@ export default {
       },
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
-        NSAllowsArbitraryLoads: true,
       },
     },
     android: {
