@@ -1,27 +1,31 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
-import ResourceCategoryTile, { ResourceCateogry } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
+import ResourceCategoryTile, { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const AddNewDrawer: React.FC = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [modalIsVisible, setModalIsVisible] = useState(false)
+  const { visible, show, hide } = useModalState()
 
-  const onCategoryButtonClick = useCallback(({ path }: ResourceCateogry) => {
-    if (path) {
-      setModalIsVisible(false)
-      //TODO: navigate(path)
-    }
-  }, [])
+  const onCategoryButtonClick = useCallback(
+    ({ path }: ResourceCategory) => {
+      if (path) {
+        hide()
+        //TODO: navigate(path)
+      }
+    },
+    [hide]
+  )
 
   return (
     <>
@@ -30,25 +34,20 @@ const AddNewDrawer: React.FC = () => {
         label={t('addNew.drawer.headline')}
         testID="space-resources-add-button"
         style={styles.overlayButton}
-        onPress={() => setModalIsVisible(true)}
+        onPress={show}
       >
         <HoliIcon icon="add" size={20} />
       </HoliButton>
 
       {/* Add new modal (drawer) */}
-      <HoliModal
-        label={t('addNew.drawer.headline')}
-        show={modalIsVisible}
-        onDismiss={() => setModalIsVisible(false)}
-        testID="add-new-drawer-modal"
-      >
+      <HoliModal label={t('addNew.drawer.headline')} show={visible} onDismiss={hide} testID="add-new-drawer-modal">
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('addNew.drawer.headline')}</HoliHeading>
           <View style={styles.categoriesContainer}>
             <FlatList
               data={RESOURCE_CATEGORIES_LIST}
               horizontal={true}
-              renderItem={({ item, index }: { item: ResourceCateogry; index: number }) => {
+              renderItem={({ item, index }: { item: ResourceCategory; index: number }) => {
                 return (
                   <ResourceCategoryTile
                     resourceCategoryData={item}
@@ -65,7 +64,7 @@ const AddNewDrawer: React.FC = () => {
             <FlatList
               data={RESOURCES_COMING_SOON}
               horizontal={true}
-              renderItem={({ item, index }: { item: ResourceCateogry; index: number }) => {
+              renderItem={({ item, index }: { item: ResourceCategory; index: number }) => {
                 return (
                   <ResourceCategoryTile
                     resourceCategoryData={item}
