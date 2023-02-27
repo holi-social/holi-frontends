@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
+import { WebView } from 'react-native-webview'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import InsightList from '@holi/core/screens/insights/InsightList'
@@ -67,6 +68,8 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       <HoliHeading level="3" size="small" style={styles.insightsSubtitle} testID="home-feed-insights-subtitle">
         {t('homeFeed.insights.subtitle')}
       </HoliHeading>
+
+      <WebView source={{ uri: 'https://expo.dev' }} style={{ height: 800, width: 320 }} />
 
       {/* Curators with popup */}
       <HoliButton
