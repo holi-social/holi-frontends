@@ -1,22 +1,22 @@
 {
-  "name": "@holi/e2e-mobile",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run jest --runInBand",
-    "test:ios:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run jest --testPathPattern=/smoke/ --runInBand",
-    "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --runInBand",
-    "test:android:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --testPathPattern=/smoke/ --runInBand",
-    "lint": "TIMING=1 eslint .",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
-    "clean": "rimraf output",
-    "clean:all": "yarn clean && rimraf node_modules",
-    "prepare:android": "./scripts/prepare_android.sh"
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0"
   },
   "devDependencies": {
     "webdriverio": "^7.30.1"
   },
-  "dependencies": {
-    "@faker-js/faker": "^7.6.0"
-  }
+  "name": "@holi/e2e-mobile",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf output",
+    "clean:all": "yarn clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
+    "lint": "TIMING=1 eslint .",
+    "prepare:android": "./scripts/prepare_android.sh",
+    "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --runInBand",
+    "test:android:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --testPathPattern=/smoke/ --runInBand",
+    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=C3D61197-A679-4B2A-8212-DC051F0560E1 yarn run jest --runInBand",
+    "test:ios:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run jest --testPathPattern=/smoke/ --runInBand"
+  },
+  "version": "0.1.0"
 }

@@ -103,6 +103,7 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
               text={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
               label={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
               style={styles.chip}
+              testID={`space-terms-list-item${selected.includes(term) ? '-checked' : ''}`}
             />
           ))}
       </View>
