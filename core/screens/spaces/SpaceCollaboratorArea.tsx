@@ -10,13 +10,13 @@ import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type SpaceCollaboratorsParams = {
+export interface SpaceCollaboratorAreaParams {
   spaceId: string
 }
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const SpaceCollaborators: React.VFC<ScreenProps> = () => {
+const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
 
@@ -42,7 +42,7 @@ const SpaceCollaborators: React.VFC<ScreenProps> = () => {
   )
 }
 
-export default SpaceCollaborators
+export default SpaceCollaboratorArea
 
 const styles = StyleSheet.create({
   wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background10 },

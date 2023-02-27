@@ -14,7 +14,7 @@ export enum RouteName {
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',
-  Collaborators = 'Collaborators',
+  CollaboratorArea = 'CollaboratorArea',
 
   // Chat Stack
   ChatHome = 'ChatHome',
