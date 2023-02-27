@@ -14,7 +14,7 @@ export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
   [RouteName.CreateSpace]: undefined
   [RouteName.EditSpace]: EditSpaceParams
-  [RouteName.SpaceCollaborators]: SpaceCollaboratorsParams
+  [RouteName.Collaborators]: SpaceCollaboratorsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -36,7 +36,7 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
       <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
-      <SpacesStack.Screen name={RouteName.SpaceCollaborators} component={SpaceCollaborators} />
+      <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaborators} />
     </SpacesStack.Navigator>
   )
 }

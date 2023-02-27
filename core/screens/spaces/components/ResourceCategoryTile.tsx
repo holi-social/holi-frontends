@@ -7,7 +7,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type ResourceCateogry = {
+export type ResourceCategory = {
   id: string
   icon: string
   iconFilled?: boolean
@@ -15,9 +15,9 @@ export type ResourceCateogry = {
   path?: string
 }
 
-type ResourceCategoryTileProps = {
-  resourceCategoryData: ResourceCateogry
-  onPress?: (resourceCategoryData: ResourceCateogry) => void
+interface ResourceCategoryTileProps {
+  resourceCategoryData: ResourceCategory
+  onPress?: (resourceCategoryData: ResourceCategory) => void
   style?: StyleProp<ViewStyle>
 }
 
