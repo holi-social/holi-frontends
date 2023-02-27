@@ -41,7 +41,6 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsCheckbox(node.attributes)) {
-    console.log('checkbox', node)
     return (
       <FormCheckbox
         node={node}
@@ -55,7 +54,6 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsInput(node.attributes)) {
-    console.log(node)
     return (
       <FormInputField
         {...props}
