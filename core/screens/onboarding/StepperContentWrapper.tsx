@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
   },
   inner: {
     justifyContent: 'center',
+    ...Platform.select({
+      web: { maxHeight: '100%' },
+    }),
   },
   scrollView: {
     overflow: 'visible',

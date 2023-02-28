@@ -31,7 +31,7 @@ const Onboarding: React.VFC = () => {
         scrollEnabled={false}
         bounces={false}
       >
-        {/* Login-Registration-Continue as a Guest Step */}
+        {/* Login-Registration-Continue as a Guest step */}
         <View style={styles.stepContainer}>
           <LoginRegistration
             onRegistration={goNext}
@@ -40,6 +40,7 @@ const Onboarding: React.VFC = () => {
           />
         </View>
 
+        {/* Privacy Policy step */}
         <View style={styles.stepContainer}>
           <DataConsent onBackPress={goBack} style={[styles.stepContent, { width: screenWidth }]} />
         </View>
