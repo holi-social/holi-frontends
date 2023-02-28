@@ -11,7 +11,9 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
-import HoliWizardNaviagtionButtons from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+import HoliWizardNaviagtionButtons, {
+  BUTTON_RECTS,
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
         position: 'fixed',
       },
     }),
-    paddingBottom: 28,
+    paddingBottom: BUTTON_RECTS.paddingBottom,
   },
   modal: {
     backgroundColor: colors.background30,

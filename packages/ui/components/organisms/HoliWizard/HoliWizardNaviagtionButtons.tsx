@@ -20,6 +20,12 @@ interface HoliWizardNaviagtionButtonsProps {
   testID?: string
 }
 
+export const BUTTON_RECTS = {
+  width: 56,
+  height: 56,
+  paddingBottom: 28,
+}
+
 const HoliWizardNaviagtionButtons = ({
   onNextPress,
   onBackPress,
@@ -67,15 +73,18 @@ export default HoliWizardNaviagtionButtons
 
 const styles = StyleSheet.create({
   backButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: BUTTON_RECTS.width,
+    height: BUTTON_RECTS.height,
+    borderRadius: BUTTON_RECTS.height / 2,
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
     backgroundColor: colors.background10,
   },
-  nextButton: { height: 56, width: '100%' },
+  nextButton: {
+    height: BUTTON_RECTS.height,
+    width: '100%',
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
