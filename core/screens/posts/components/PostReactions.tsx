@@ -9,7 +9,7 @@ import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/co
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
-export type PostReactionsProps = {
+export interface PostReactionsProps {
   post: Post
   onChange?: () => void
   style?: ViewStyle
@@ -46,7 +46,7 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
     <HoliReactionsCount
       onPress={reactOnPost}
       type="post"
-      count={heartReactions ? heartReactions.count : 0}
+      count={heartReactions.count}
       active={currentUserHasReacted}
       fullName={post.creator.fullName}
       style={style}

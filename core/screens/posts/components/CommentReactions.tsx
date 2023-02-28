@@ -9,7 +9,7 @@ import { UpdatePostCommentReactionMutation, UpdatePostCommentReactionResponse } 
 import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
-export type CommentReactionsProps = {
+export interface CommentReactionsProps {
   comment: Comment
   onChange?: () => void
   style?: ViewStyle
@@ -49,7 +49,7 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
     <HoliReactionsCount
       onPress={reactOnComment}
       type="comment"
-      count={heartReactions ? heartReactions.count : 0}
+      count={heartReactions.count}
       active={currentUserHasReacted}
       fullName={comment.creator.fullName}
       style={style}
