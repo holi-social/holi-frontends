@@ -7,6 +7,7 @@ import type { Space } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceShareProps = {
   space: Space
@@ -48,7 +49,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         inline
         onPress={onShare}
       >
-        <HoliIcon icon="share" size={24} />
+        <HoliIcon icon="share" size={24} color={colors.foreground20} />
         <HoliText style={styles.shareText}>{t('spaces:spaces.share')}</HoliText>
       </HoliButton>
     </>
@@ -62,9 +63,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
+    paddingVertical: 18,
   },
   shareText: {
     marginLeft: 11,
+    color: colors.foreground20,
   },
 })

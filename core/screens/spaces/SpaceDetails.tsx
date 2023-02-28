@@ -26,6 +26,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -77,6 +78,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             <MoreOptionItem
               icon="edit-2"
               label={t('global.edit')}
+              tintColor={colors.foreground20}
               onPress={() => {
                 navigate(`/spaces/${spaceId}/edit`)
                 hide()
@@ -91,6 +93,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             objectId={spaceId || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
+            tintColor={colors.foreground20}
             confirmationModalProps={{
               title: t('spaces.spaceDetails.report.confirmation.title'),
               description: t('spaces.spaceDetails.report.confirmation.description'),
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
   buttonWithIcon: {
     display: 'flex',
     justifyContent: 'center',
+    paddingVertical: 18,
   },
   reportButton: {
     justifyContent: 'center',
