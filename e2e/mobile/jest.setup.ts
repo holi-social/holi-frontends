@@ -42,7 +42,7 @@ jest.setTimeout(240000) // a normal test runs up to 2 minutes, but give some tim
 
 afterEach(async () => {
   if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {
-    global.sessionHolder.id = Appium.sessionId
+    if (global.sessionHolder) global.sessionHolder.id = Appium.sessionId
   }
   await global.Appium?.deleteSession()
 })

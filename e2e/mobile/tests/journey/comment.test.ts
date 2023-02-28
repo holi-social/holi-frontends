@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
+import { scrollDown, scrollUp } from '../../helpers/gestures'
 import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -48,6 +49,12 @@ describe('@Comment', () => {
 
     // clean up view
     await navigateBackToHomeScreenDeeper()
+
+    // scroll up to make sure top menu shows up
+    await scrollUp()
+    await scrollDown()
+    await scrollDown()
+
     await deleteAccount()
     await navigateBackToHomeScreenDeeper()
   })
