@@ -60,6 +60,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
 
     // Modals
     [RouteName.Notifications]: 'notifications',
+    [RouteName.Onboarding]: 'onboarding',
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',
