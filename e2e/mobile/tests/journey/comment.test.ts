@@ -51,9 +51,9 @@ describe('@Comment', () => {
     await navigateBackToHomeScreenDeeper()
 
     // scroll up to make sure top menu shows up
+    await scrollDown()
     await scrollUp()
-    await scrollDown()
-    await scrollDown()
+    await scrollUp()
 
     await deleteAccount()
     await navigateBackToHomeScreenDeeper()
