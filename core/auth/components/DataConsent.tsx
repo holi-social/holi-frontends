@@ -4,8 +4,8 @@ import { Trans } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
+import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import DataConsentDocument from '@holi/core/screens/dataConsent/DataConsentDocument'
-import StepperContentWrapper from '@holi/core/screens/onboarding/StepperContentWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -40,7 +40,7 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
   )
 
   return (
-    <StepperContentWrapper append={navButtons} style={style}>
+    <CenteredContentLayout append={navButtons} style={style}>
       <View style={styles.inner}>
         <View>
           <View style={styles.imageContainer}>
@@ -96,7 +96,7 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
           </ScrollView>
         </HoliModal>
       </View>
-    </StepperContentWrapper>
+    </CenteredContentLayout>
   )
 }
 

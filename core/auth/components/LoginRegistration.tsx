@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import StepperContentWrapper from '@holi/core/screens/onboarding/StepperContentWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -30,7 +30,7 @@ const LoginRegistration = ({
   headingText = headingText ?? t('profile.loggedOut.heading')
 
   return (
-    <StepperContentWrapper style={style}>
+    <CenteredContentLayout style={style}>
       <View>
         <View style={styles.imageContainer}>
           <HoliLocalImage
@@ -85,7 +85,7 @@ const LoginRegistration = ({
           </HoliText>
         </HoliButton>
       </HoliHeading>
-    </StepperContentWrapper>
+    </CenteredContentLayout>
   )
 }
 
