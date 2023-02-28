@@ -14,9 +14,15 @@ interface LoginRegistrationProps {
   headingText?: string
   onDismiss?: () => boolean | void
   style?: StyleProp<ViewStyle>
+  contentContainerStyle?: StyleProp<ViewStyle>
 }
 
-const LoginRegistration = ({ headingText, onDismiss, style }: React.PropsWithChildren<LoginRegistrationProps>) => {
+const LoginRegistration = ({
+  headingText,
+  onDismiss,
+  style,
+  contentContainerStyle,
+}: React.PropsWithChildren<LoginRegistrationProps>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -25,7 +31,7 @@ const LoginRegistration = ({ headingText, onDismiss, style }: React.PropsWithChi
   return (
     <SafeAreaView style={[styles.outer, style]}>
       <View style={styles.inner}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}>
           <View>
             <View style={styles.moodImage}>
               <HoliLocalImage
@@ -92,6 +98,7 @@ const styles = StyleSheet.create({
       native: { flex: 1 },
     }),
     backgroundColor: colors.background20,
+    minWidth: '100%',
     justifyContent: 'center',
   },
   inner: {
