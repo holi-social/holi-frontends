@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -30,10 +30,6 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
-
-  const onChangeReactions = useCallback(() => {
-    // TODO: update post ?!
-  }, [])
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -91,8 +87,8 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
         </View>
       )}
 
-      {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
+      <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
+        {post.numberOfComments > 0 && (
           <HoliLink
             href={`${postUrl}?commentId=first`}
             label={t('insights.posts.comments.link')}
@@ -102,10 +98,9 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               {t('insights.post.response', { count: post.numberOfComments })}
             </HoliUserAvatarPile>
           </HoliLink>
-
-          <PostReactions post={post} onChange={onChangeReactions} />
-        </View>
-      )}
+        )}
+        <PostReactions post={post} />
+      </View>
     </View>
   )
 }

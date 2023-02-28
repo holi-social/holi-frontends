@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
@@ -25,10 +25,6 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
-
-  const onReactionChange = useCallback(() => {
-    // TODO: update post ?!
-  }, [])
 
   const { visible, show, hide } = useModalState()
 
@@ -72,7 +68,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
 
           <View style={styles.reactionsBar}>
-            <CommentReactions comment={comment} onChange={onReactionChange} />
+            <CommentReactions comment={comment} />
           </View>
         </View>
       </View>

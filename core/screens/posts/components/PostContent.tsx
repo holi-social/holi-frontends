@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -26,10 +26,6 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
-
-  const onChangeReactions = useCallback(() => {
-    // TODO: update post ?!
-  }, [])
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -89,7 +85,7 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
           </HoliUserAvatarPile>
         )}
 
-        <PostReactions post={post} onChange={onChangeReactions} />
+        <PostReactions post={post} />
       </View>
     </View>
   )
