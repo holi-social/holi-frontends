@@ -21,6 +21,7 @@ export type RootStackScreens = {
   [RouteName.Spaces]: undefined
   [RouteName.Insights]: undefined
 
+  [RouteName.Onboarding]: undefined
   [RouteName.Login]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined

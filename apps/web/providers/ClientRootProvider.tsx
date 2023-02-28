@@ -1,0 +1,46 @@
+import type { PropsWithChildren } from 'react'
+import { useEffect, useState } from 'react'
+import { I18nextProvider } from 'react-i18next'
+import { StyleSheet } from 'react-native'
+
+import RootProvider from '@holi/core/RootProvider'
+import i18n, { initI18n } from '@holi/core/i18n'
+import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'relative',
+    marginTop: 100,
+  },
+})
+
+const ClientRootProvider = ({ children }: PropsWithChildren<unknown>) => {
+  const [translationsLoaded, setTranslationsLoaded] = useState(i18n.isInitialized)
+
+  useEffect(() => {
+    initI18n().then(() => {
+      setTranslationsLoaded(true)
+    })
+  }, [])
+
+  return translationsLoaded ? (
+    <I18nextProvider i18n={i18n}>
+      <ScrollYProvider>
+        <RootProvider>{children}</RootProvider>
+      </ScrollYProvider>
+    </I18nextProvider>
+  ) : (
+    // FIXME: Use Suspence
+    <SafeArea style={styles.loadingContainer}>
+      <HoliText style={{ textAlign: 'center' }}>Loading translations...</HoliText>
+    </SafeArea>
+  )
+}
+
+export default ClientRootProvider

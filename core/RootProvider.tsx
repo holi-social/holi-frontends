@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import type { PropsWithChildren } from 'react'
 import React, { Suspense, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -49,9 +50,7 @@ const Children = ({ children }: React.PropsWithChildren<unknown>) => {
   )
 }
 
-const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement | React.ReactNode }> = ({
-  children,
-}) => {
+const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       {/* Necessary for loading e.g. translations on mobile */}

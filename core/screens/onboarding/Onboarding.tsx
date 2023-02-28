@@ -30,6 +30,7 @@ const Onboarding: React.VFC = () => {
             key="privacy-policy"
           />,
         ]}
+        scrollEnabled={false}
       />
     </View>
   )

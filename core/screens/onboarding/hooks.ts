@@ -28,7 +28,8 @@ export const useOnboarding = () => {
         }
 
         try {
-          finished(JSON.parse(result) as boolean)
+          const storedValue = JSON.parse(result) as boolean
+          finished(storedValue)
         } catch (e) {
           finished(false)
           return

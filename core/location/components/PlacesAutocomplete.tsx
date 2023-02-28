@@ -21,6 +21,7 @@ type PlacesAutocompleteProps = {
   inputProps?: TextInputProps
   style?: StyleProp<ViewStyle>
   useMainTextOnly?: boolean
+  suggestionsStyle?: StyleProp<ViewStyle>
 }
 
 const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
@@ -34,6 +35,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   onChange,
   style,
   useMainTextOnly = false,
+  suggestionsStyle,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(value || '')
@@ -123,6 +125,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       helperText={noResultsText}
       id={id}
       style={style}
+      suggestionsStyle={suggestionsStyle}
     />
   )
 }

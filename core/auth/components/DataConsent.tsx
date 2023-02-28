@@ -40,7 +40,7 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
   )
 
   return (
-    <CenteredContentLayout append={navButtons} style={style}>
+    <CenteredContentLayout append={navButtons} style={style} contentContainerStyle={styles.outerContentContainerStyle}>
       <View style={styles.inner}>
         <View>
           <View style={styles.imageContainer}>
@@ -101,6 +101,9 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
 }
 
 const styles = StyleSheet.create({
+  outerContentContainerStyle: {
+    paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom,
+  },
   inner: {
     alignItems: 'center',
     maxWidth: vars.breakpointL,

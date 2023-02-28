@@ -57,11 +57,11 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
       pagingEnabled
       showsHorizontalScrollIndicator={false}
       bounces={false}
-      style={[styles.stepContainer, style]}
+      style={[styles.scrollView, style]}
       {...scrollViewProps}
     >
       {steps.map((step, idx) => (
-        <View style={stepContainerStyle} key={idx}>
+        <View style={[styles.tabWrapper, stepContainerStyle]} key={idx}>
           {step}
         </View>
       ))}
@@ -70,12 +70,7 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
 }
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    alignContent: 'flex-start',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  stepContainer: {
+  scrollView: {
     flex: 1,
     width: '100%',
     minHeight: '100%',
@@ -84,5 +79,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
       },
     }),
+  },
+  scrollViewContainer: {
+    alignContent: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  tabWrapper: {
+    flex: 1,
   },
 })
