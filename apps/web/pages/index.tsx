@@ -1,8 +1,9 @@
+// import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import type { NextPage } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { addApolloSSRState } from '@holi/core/helpers/useApolloSSRClient'
-import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
+import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { featureFlag } from '@holi/web/environment'
 
@@ -13,7 +14,7 @@ import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 const PROJECT_PAGE_SIZE = 5
 const ENGAGEMENT_PAGE_SIZE = 5
 
-const HomeFeedPage: NextPage = () => <HomeFeed />
+const HomeFeedPage: NextPage = () => <HomeFeedOnboarding />
 
 export const getServerSideProps = async () => {
   // TODO: We do an early return with empty page props. It still leads to
