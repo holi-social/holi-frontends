@@ -21,6 +21,7 @@ export type RootStackScreens = {
   [RouteName.Spaces]: undefined
   [RouteName.Insights]: undefined
 
+  [RouteName.Onboarding]: undefined
   [RouteName.Login]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -28,8 +29,6 @@ export type RootStackScreens = {
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
-
-  [RouteName.Onboarding]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
