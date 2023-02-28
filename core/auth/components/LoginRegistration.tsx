@@ -13,9 +13,14 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface LoginRegistrationProps {
   headingText?: string
   style?: StyleProp<ViewStyle>
+  contentContainerStyle?: StyleProp<ViewStyle>
 }
 
-const LoginRegistration = ({ headingText, style }: React.PropsWithChildren<LoginRegistrationProps>) => {
+const LoginRegistration = ({
+  headingText,
+  style,
+  contentContainerStyle,
+}: React.PropsWithChildren<LoginRegistrationProps>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -24,7 +29,7 @@ const LoginRegistration = ({ headingText, style }: React.PropsWithChildren<Login
   return (
     <SafeAreaView style={[styles.outer, style]}>
       <View style={styles.inner}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}>
           <View>
             <View style={styles.moodImage}>
               <HoliLocalImage
@@ -88,6 +93,8 @@ const styles = StyleSheet.create({
       web: { minHeight: '100%' },
       native: { flex: 1 },
     }),
+    backgroundColor: colors.background20,
+    minWidth: '100%',
     justifyContent: 'center',
   },
   inner: {
