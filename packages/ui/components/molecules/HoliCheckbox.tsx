@@ -187,8 +187,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginLeft: 12,
-    // maxWidth: '100%',
-    flex: 1,
+    flexShrink: 1,
   },
   labelDisabled: {
     opacity: 0.6,
