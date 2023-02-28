@@ -1,4 +1,6 @@
 {
+  "addNew.drawer.headline": "Add new",
+  "addNew.drawer.comingSoon.headline": "Coming soon",
   "apps.drawer.headline": "All Apps",
   "apps.drawer.open.btn.label": "Open apps overview",
   "apps.drawer.open.btn.text": "Apps",
@@ -125,7 +127,6 @@
   "insights.posts.image.modal": "Fullscreen image for post {{title}}",
   "insights.posts.image.show": "Show fullscreen image for post {{title}}",
 
-
   "insights.reactions.post.like": "Like post of {{name}}",
   "insights.reactions.post.like.noUser": "Like post",
   "insights.reactions.post.unlike": "Unlike this post",
@@ -133,7 +134,6 @@
   "insights.reactions.comment.like": "Like comment of {{name}}",
   "insights.reactions.comment.like.noUser": "Like comment",
   "insights.reactions.comment.unlike": "Unlike this comment",
-
 
   "location.placesAutocomplete.error": "Fetching suggestions failed",
   "location.placesAutocomplete.noResults": "No suggestions found",
@@ -317,6 +317,12 @@
   "spaces.links.heading": "Links",
   "spaces.members.member": "{{count}} collaborator",
   "spaces.members.member_plural": "{{count}} collaborators",
+  "spaces.resources.category.digitalTool": "Digital Tool",
+  "spaces.resources.category.poll": "Poll",
+  "spaces.resources.category.event": "Event",
+  "spaces.resources.category.file": "File",
+  "spaces.resources.category.videoCall": "Video call",
+  "spaces.resources.category.wallet": "Wallet",
   "spaces.seeMore": "See more",
   "spaces.share": "Share",
   "spaces.spaceDetails.creator": "Creator: {{name}}",

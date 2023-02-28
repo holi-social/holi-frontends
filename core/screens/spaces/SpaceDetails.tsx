@@ -142,7 +142,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       >
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultLayout>
-      {(isCreator || isMember) && <SpaceDashboardModal />}
+      {(isCreator || isMember) && <SpaceDashboardModal spaceId={spaceId} />}
     </>
   )
 }
