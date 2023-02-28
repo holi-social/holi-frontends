@@ -1,4 +1,6 @@
 {
+  "addNew.drawer.headline": "Neues hinzufügen",
+  "addNew.drawer.comingSoon.headline": "Demnächst",
   "apps.drawer.headline": "Alle Apps",
   "apps.drawer.open.btn.label": "App-Übersicht öffnen",
   "apps.drawer.open.btn.text": "Apps",
@@ -124,6 +126,15 @@
   "insights.posts.image": "Bild für den Beitrag {{title}}",
   "insights.posts.image.modal": "Vollbild für den Beitrag {{title}}",
   "insights.posts.image.show": "Vollbild für den Beitrag {{title}} anzeigen",
+
+  "insights.reactions.post.like": "Post von {{name}} mit „Gefällt mir“ markieren",
+  "insights.reactions.post.like.noUser": "Post mit „Gefällt mir“ markieren",
+  "insights.reactions.post.unlike": "„Gefällt mir“ von diesem Post entfernen",
+
+  "insights.reactions.comment.like": "Kommentar von {{name}} mit „Gefällt mir“ markieren",
+  "insights.reactions.comment.like.noUser": "Kommentar mit „Gefällt mir“ markieren",
+  "insights.reactions.comment.unlike": "„Gefällt mir“ von diesem Kommentar entfernen",
+
   "location.placesAutocomplete.error": "Laden der Vorschläge fehlgeschlagen",
   "location.placesAutocomplete.noResults": "Keine Vorschläge gefunden",
   "loginRedirect.btnConfirm": "Anmelden",
@@ -305,7 +316,14 @@
   "spaces.links.heading": "Links",
   "spaces.members.member": "{{count}} Mitglied",
   "spaces.members.member_plural": "{{count}} Mitglieder",
+  "spaces.resources.category.digitalTool": "Digital Tool",
+  "spaces.resources.category.poll": "Terminfinder",
+  "spaces.resources.category.event": "Event",
+  "spaces.resources.category.file": "Datei",
+  "spaces.resources.category.videoCall": "Virtuelle Meetings",
+  "spaces.resources.category.wallet": "Wallet",
   "spaces.seeMore": "Mehr sehen",
+  "spaces.share": "Teilen",
   "spaces.spaceDetails.creator": "Ersteller: {{name}}",
   "spaces.spaceDetails.goal": "Ziel",
   "spaces.spaceDetails.location": "Standort",

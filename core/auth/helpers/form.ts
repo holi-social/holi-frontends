@@ -9,6 +9,8 @@ import {
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
+const HIDDEN_FIELDS = ['traits.name']
+
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
 }
@@ -35,6 +37,10 @@ export const oryNodeIsButton = (pet: UiNodeAttributes): pet is UiNodeInputAttrib
 
 export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
+}
+
+export const oryNodeIsHiddenField = (pet: UiNodeAttributes & { name: string }): pet is UiNodeInputAttributes => {
+  return HIDDEN_FIELDS.includes(pet.name)
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
