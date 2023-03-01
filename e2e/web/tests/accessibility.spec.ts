@@ -1,6 +1,6 @@
 import { test } from '@playwright/test'
 
-import { checkAccessibility, locateElementByTestId, waitForElementByTestId } from './helpers'
+import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -8,17 +8,13 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('@Accessibility', () => {
   test('should work', async ({ page }) => {
+    await checkAccessibility(page)
+    await clickElementByTestId(page, 'btn-to-continue-as-guest')
     await waitForElementByTestId(page, 'home-feed-insights-heading')
     await checkAccessibility(page)
 
-    const profileButton = await locateElementByTestId(page, 'btn-to-profile-view')
-    await profileButton.click()
-    await waitForElementByTestId(page, 'user-profile-logged-out-heading')
-    await checkAccessibility(page)
-
-    const homeButton = await locateElementByTestId(page, 'btn-to-home-view')
-    await homeButton.click()
-    await waitForElementByTestId(page, 'home-feed-insights-heading') // this weeks insights
+    await clickElementByTestId(page, 'btn-to-profile-view')
+    await waitForElementByTestId(page, 'login-protection-heading')
     await checkAccessibility(page)
   })
 })

@@ -114,7 +114,7 @@ export const PostDetailsFragment = gql`
 export const PostById = gql`
   ${PostDetailsFragment}
 
-  query PostById($id: String!) {
+  query PostById($id: UUID!) {
     postById(id: $id) {
       ...PostFull
     }

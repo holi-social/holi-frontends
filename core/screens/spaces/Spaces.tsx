@@ -3,8 +3,6 @@ import React, { useCallback, useContext, useLayoutEffect, useRef, useState } fro
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -19,7 +17,6 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -27,9 +24,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
-
-const Spaces: React.VFC<ScreenProps> = () => {
+const Spaces: React.VFC = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()

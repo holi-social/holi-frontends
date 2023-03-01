@@ -48,7 +48,7 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
           size={24}
           filled={false}
           color={tintColor}
-          style={[styles.arrowRirght, disabled && styles.disabled]}
+          style={[styles.arrowRight, disabled && styles.disabled]}
         />
       )}
     </HoliButton>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 10,
   },
-  arrowRirght: {
+  arrowRight: {
     marginLeft: 'auto',
   },
   disabled: {
