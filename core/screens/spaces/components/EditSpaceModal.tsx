@@ -14,6 +14,7 @@ type EditSpaceModalProps = {
   onSave: () => void
   children: ReactNode
   saveButtonDisabled?: boolean
+  loading?: boolean
   scrollable?: boolean
 }
 
@@ -21,6 +22,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   onDismiss,
   onSave,
   saveButtonDisabled = false,
+  loading = false,
   children,
   scrollable = true,
 }: EditSpaceModalProps) => {
@@ -55,11 +57,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
           </HoliButton>
           <HoliButtonLoading
             disabled={saveButtonDisabled}
-            label={saveButtonDisabled ? t('global.loading') : t('global.save')}
+            label={loading ? t('global.loading') : t('global.save')}
             onPress={onSave}
             testID="space-edit-modal-save-btn"
             style={styles.footerButton}
-            icon={saveButtonDisabled ? 'loader-4' : undefined}
+            icon={loading ? 'loader-4' : undefined}
             iconSpinning={saveButtonDisabled}
           />
         </View>

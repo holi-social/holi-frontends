@@ -30,7 +30,6 @@ export type HoliAutocompleteProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
-  onlyAllowSelection?: boolean
   onSubmit?: (value: string) => void
   onSelect?: (value: Suggestion) => void
   suggestionsStyle?: StyleProp<ViewStyle>
@@ -62,7 +61,9 @@ const HoliAutocomplete = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
-    debounce((text: string) => onChange && onChange(text), debounceValue ?? 0),
+    debounce((text: string) => {
+      onChange && onChange(text)
+    }, debounceValue ?? 0),
     [debounceValue, onChange]
   )
   // Stop the invocation of the debounced function after unmounting
@@ -86,7 +87,7 @@ const HoliAutocomplete = ({
   const handleItemSelection = useCallback(
     (item: Suggestion) => {
       onSelect && onSelect(item)
-      onChangeText(item.id)
+      onChangeText(item.label)
       setIsOpened(false)
       Keyboard.dismiss()
     },
@@ -134,7 +135,7 @@ const HoliAutocomplete = ({
         <HoliButton
           inline
           transparent
-          key={item.label} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
+          key={item.id} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
           label={item.label}
           accessibilityRole="menuitem"
           onBlur={onBlur}
@@ -163,7 +164,7 @@ const HoliAutocomplete = ({
         inputLabel={inputLabel}
         value={searchText}
         placeholder={placeholder}
-        validationErrorText={validationErrorText}
+        validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
         helperText={isOpened && suggestions.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"

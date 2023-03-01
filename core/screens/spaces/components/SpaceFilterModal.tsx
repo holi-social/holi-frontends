@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -124,11 +124,10 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
-              value={location}
               id="spaces-filter-location"
               testID="spaces-filter-location"
-              onChange={setLocation}
-              onSubmit={setLocation}
+              onChange={(selected: GeolocationSuggestion) => setLocation(selected.value)}
+              onSubmit={(selected: GeolocationSuggestion) => setLocation(selected.value)}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
               useMainTextOnly={true}

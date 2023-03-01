@@ -27,6 +27,7 @@ interface PlacesAutocompleteProps {
   label: string
   placeholder: string
   inputProps?: TextInputProps
+  validationErrorText?: string
   style?: StyleProp<ViewStyle>
   useMainTextOnly?: boolean
   suggestionsStyle?: StyleProp<ViewStyle>
@@ -41,6 +42,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   label,
   placeholder,
   inputProps,
+  validationErrorText,
   onChange,
   style,
   useMainTextOnly = false,
@@ -137,7 +139,9 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       onSubmit={submit}
       onSelect={onChange}
       testID={testID}
-      validationErrorText={error?.message && t('location.placesAutocomplete.error')}
+      validationErrorText={
+        validationErrorText ? validationErrorText : error?.message && t('location.placesAutocomplete.error')
+      }
       helperText={noResultsText}
       id={id}
       style={style}

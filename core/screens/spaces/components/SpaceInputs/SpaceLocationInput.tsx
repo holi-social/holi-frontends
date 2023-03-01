@@ -9,6 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface SpaceLocationInputProps {
   title: string
   description: string
+  validationErrorText?: string
   onChange: (selected: GeolocationSuggestion) => void
   location?: GeolocationSuggestion
 }
@@ -16,6 +17,7 @@ export interface SpaceLocationInputProps {
 const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   title,
   description,
+  validationErrorText,
   onChange,
   location,
 }: SpaceLocationInputProps) => {
@@ -40,6 +42,7 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         onSubmit={updateLocation}
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true }}
+        validationErrorText={validationErrorText}
         useMainTextOnly={true}
         suggestionsStyle={styles.suggestionsContainer}
       />
