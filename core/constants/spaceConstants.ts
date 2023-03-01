@@ -14,7 +14,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.DIGITAL_TOOL,
     icon: 'link-m',
     translationKey: 'spaces.resources.category.digitalTool',
-    path: `/addDigitalTool`,
+    path: '/addDigitalTool',
   },
 ]
 
