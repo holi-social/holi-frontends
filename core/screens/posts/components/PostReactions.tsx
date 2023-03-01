@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -20,16 +20,15 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
   const { openLoginDialog } = useLoginRedirect()
   const { displayError } = useErrorHandling()
 
-  // currently only HEART-reactions are displayed
-  const heartReactions = post.reactions.filter((reaction) => reaction.type === ReactionType.HEART)[0]
-  const currentUserHasReacted = post.myReaction === ReactionType.HEART
+  const heartReactions = post.reactions.HEART
+  const currentUserHasReacted = !!post.myReaction.HEART
 
   const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) => displayError(error),
   })
 
-  const reactOnPost = useCallback(() => {
+  const reactOnPost = () => {
     if (!isLoggedIn) {
       return openLoginDialog()
     }
@@ -40,13 +39,13 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
       },
     })
-  }, [isLoggedIn, openLoginDialog, post.id, currentUserHasReacted, updatePostReaction])
+  }
 
   return (
     <HoliReactionsCount
       onPress={reactOnPost}
       type="post"
-      count={heartReactions.count}
+      count={heartReactions}
       active={currentUserHasReacted}
       fullName={post.creator.fullName}
       style={style}

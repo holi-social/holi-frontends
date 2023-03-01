@@ -10,9 +10,8 @@ export enum ReactionAction {
   'REMOVE' = 'REMOVE',
 }
 
-export interface Reaction {
-  type: ReactionType
-  count: number
+export interface ReactionCounts {
+  HEART: number
 }
 
 export interface Comment {
@@ -21,8 +20,8 @@ export interface Comment {
   creator: User
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   mentions?: User[]
-  myReaction: ReactionType
-  reactions: Reaction[]
+  myReaction: ReactionCounts
+  reactions: ReactionCounts
 }
 
 export interface PostImage {
@@ -65,6 +64,6 @@ export interface Post {
   mentions?: User[]
   numberOfComments: number
   commenters: Paged<User>
-  myReaction: ReactionType
-  reactions: Reaction[]
+  myReaction: ReactionCounts
+  reactions: ReactionCounts
 }

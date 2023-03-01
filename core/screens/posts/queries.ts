@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Post } from '@holi/core/screens/posts/types'
+import { Comment, Post } from '@holi/core/screens/posts/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PostCommentFragment = gql`
@@ -16,10 +16,11 @@ export const PostCommentFragment = gql`
       id
       fullName
     }
-    myReaction
+    myReaction {
+      HEART
+    }
     reactions {
-      type
-      count
+      HEART
     }
   }
 `
@@ -76,10 +77,11 @@ export const PostFragment = gql`
       id
       fullName
     }
-    myReaction
+    myReaction {
+      HEART
+    }
     reactions {
-      type
-      count
+      HEART
     }
   }
 `
@@ -118,10 +120,11 @@ export const PostDetailsFragment = gql`
       id
       fullName
     }
-    myReaction
+    myReaction {
+      HEART
+    }
     reactions {
-      type
-      count
+      HEART
     }
   }
 `
@@ -167,25 +170,29 @@ export type CreatePostCommentResponse = {
 }
 
 export const UpdatePostReactionMutation = gql`
+  ${PostDetailsFragment}
+
   mutation UpdatePostReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
     updatePostReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
-      success
+      ...PostFull
     }
   }
 `
 
 export interface UpdatePostReactionResponse {
-  success: boolean
+  post: Post
 }
 
 export const UpdatePostCommentReactionMutation = gql`
+  ${PostCommentFragment}
+
   mutation UpdatePostCommentReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
     updatePostCommentReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
-      success
+      ...PostCommentFull
     }
   }
 `
 
 export interface UpdatePostCommentReactionResponse {
-  success: boolean
+  postComment: Comment
 }
