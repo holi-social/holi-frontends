@@ -31,7 +31,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
-  const commentUrl = insightId ? `/insights/${insightId}/posts/${post.id}/comment` : `/posts/${post.id}/comment`
+  const commentUrl = `${postUrl}/comment`
 
   return (
     <View style={[styles.wrapper, style]}>
