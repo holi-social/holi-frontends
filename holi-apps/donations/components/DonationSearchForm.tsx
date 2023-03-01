@@ -49,11 +49,13 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           </HoliButton>
         </View>
         <PlacesAutocomplete
+          value={locationInput}
           label={t('donations:search.location.label')}
           placeholder={t('donations:search.location.placeholder')}
           inputProps={{ autoFocus: true }}
           testID="donations-search-location"
           id="donations-search-location"
+          onChangeText={(value) => setLocationInput(value)}
           onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.value)}
           onChange={(selected: GeolocationSuggestion) => selected.value && setLocationInput(selected.value)}
         />

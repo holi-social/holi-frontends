@@ -124,8 +124,10 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
+              value={location}
               id="spaces-filter-location"
               testID="spaces-filter-location"
+              onChangeText={setLocation}
               onChange={(selected: GeolocationSuggestion) => setLocation(selected.value)}
               onSubmit={(selected: GeolocationSuggestion) => setLocation(selected.value)}
               style={[styles.filterOption, { zIndex: 2 }]}

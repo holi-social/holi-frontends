@@ -20,6 +20,7 @@ export type GeolocationSuggestion = Suggestion & {
 
 interface PlacesAutocompleteProps {
   selected?: GeolocationSuggestion
+  onChangeText?: (text: string) => void
   onSubmit?: (selected: GeolocationSuggestion) => void
   onChange?: (selected: GeolocationSuggestion) => void
   testID?: string
@@ -32,11 +33,13 @@ interface PlacesAutocompleteProps {
   useMainTextOnly?: boolean
   suggestionsStyle?: StyleProp<ViewStyle>
   withCoordinates?: boolean
+  value?: string
 }
 
 const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   onSubmit,
   selected,
+  onChangeText,
   testID,
   id,
   label,
@@ -47,6 +50,8 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   style,
   useMainTextOnly = false,
   suggestionsStyle,
+  withCoordinates,
+  value,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(selected?.value || '')
@@ -85,13 +90,14 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       setLocationInput(value)
       const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
       onChange && selectedSuggestion && onChange(selectedSuggestion)
+      onChangeText && onChangeText(selectedSuggestion?.value || value)
       if (id) {
         fetchSuggestions()
       } else {
         setPlaceSuggestions([])
       }
     },
-    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, id, placeSuggestions]
+    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, id, placeSuggestions, onChangeText]
   )
 
   // Trigger loading suggestions for initial value
@@ -133,7 +139,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       inputLabel={label}
       accessibilityLabel={label}
       placeholder={placeholder}
-      value={selected?.value}
+      value={withCoordinates ? selected?.value : value}
       trailingIcon="search"
       inputProps={inputProps}
       onSubmit={submit}
