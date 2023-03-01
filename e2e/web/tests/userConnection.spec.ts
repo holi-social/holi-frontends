@@ -5,7 +5,6 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  createUserSendConnectionRequest,
   defaultAuthSteps,
   waitForAnimationEnd,
   waitForElementByTestId,
