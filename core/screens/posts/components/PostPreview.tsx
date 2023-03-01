@@ -9,6 +9,7 @@ import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
@@ -30,6 +31,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
+  const commentUrl = insightId ? `/insights/${insightId}/posts/${post.id}/comment` : `/posts/${post.id}/comment`
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -87,8 +89,8 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
         </View>
       )}
 
-      {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
+      <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
+        {post.numberOfComments > 0 && (
           <HoliLink
             href={`${postUrl}?commentId=first`}
             label={t('insights.posts.comments.link')}
@@ -98,19 +100,27 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               {t('insights.post.response', { count: post.numberOfComments })}
             </HoliUserAvatarPile>
           </HoliLink>
+        )}
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
-          <HoliReactionsCount
-            onPress={() => {
-              console.log('click !!!!!')
-            }}
-            type="post"
-            count={0}
-            active={false}
-            fullName={post.creator.fullName}
-          />
-        </View>
-      )}
+        {post.numberOfComments < 1 && (
+          <HoliLink href={commentUrl} label={t('insights.posts.comments.create_comment_button')}>
+            <HoliText size="small" style={{ color: colors.foreground20 }}>
+              {t('insights.post.no-comment-yet')}
+            </HoliText>
+          </HoliLink>
+        )}
+
+        {/* TODO: reactions functionality comes with HOLI-3478 */}
+        <HoliReactionsCount
+          onPress={() => {
+            console.log('click !!!!!')
+          }}
+          type="post"
+          count={0}
+          active={false}
+          fullName={post.creator.fullName}
+        />
+      </View>
     </View>
   )
 }
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
   },
   reactionsBar: {
     marginTop: 21,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
