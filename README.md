@@ -139,6 +139,25 @@ yarn test -t SpaceTaskTile
 yarn test -t 'SpaceTaskTile renders correctly'
 ```
 
+##### Local Execution
+You can also run some of the tests locally. Currently, only Core, but more is to come. 
+
+```sh
+# just navigate to the package, for example:
+cd core
+
+# and execute
+yarn test
+# or
+yarn test:watch myFileName
+# or
+yarn test:watchAll 
+```
+
+Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
+
+
+
 ##### Conventions
 
 We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
