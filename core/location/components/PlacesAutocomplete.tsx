@@ -30,7 +30,6 @@ interface PlacesAutocompleteProps {
   inputProps?: TextInputProps
   validationErrorText?: string
   style?: StyleProp<ViewStyle>
-  useMainTextOnly?: boolean
   suggestionsStyle?: StyleProp<ViewStyle>
   withCoordinates?: boolean
   value?: string
@@ -48,7 +47,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   validationErrorText,
   onChange,
   style,
-  useMainTextOnly = false,
   suggestionsStyle,
   withCoordinates,
   value,
@@ -114,14 +112,14 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     }
     const places = data?.geo_placesAutocomplete || []
 
-    const newPlaces = places.map(({ id, name, city, coordinates }) => ({
+    const newPlaces = places.map(({ id, name, coordinates }) => ({
       id,
-      value: useMainTextOnly && city ? city : name,
+      value: name,
       label: name,
       coordinates,
     }))
     setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
-  }, [loading, data, setPlaceSuggestions, useMainTextOnly])
+  }, [loading, data, setPlaceSuggestions])
 
   const noResultsText = useMemo(() => {
     return !loading && locationInput && !placeSuggestions.length

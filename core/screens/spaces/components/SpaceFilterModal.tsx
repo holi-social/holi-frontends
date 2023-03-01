@@ -132,7 +132,6 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               onSubmit={(selected: GeolocationSuggestion) => setLocation(selected.value)}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
-              useMainTextOnly={true}
             />
             <HoliSelect
               options={topicOptions}

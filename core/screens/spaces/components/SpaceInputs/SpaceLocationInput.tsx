@@ -43,7 +43,6 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true }}
         validationErrorText={validationErrorText}
-        useMainTextOnly={true}
         suggestionsStyle={styles.suggestionsContainer}
         withCoordinates
       />
