@@ -22,10 +22,8 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const updateLocation = (suggestion: GeolocationSuggestion) => {
-    console.log('updateLocation', suggestion)
-    onChange(suggestion)
-  }
+  const updateLocation = (suggestion: GeolocationSuggestion) => onChange(suggestion)
+
   return (
     <View style={[styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>

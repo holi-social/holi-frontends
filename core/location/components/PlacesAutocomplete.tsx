@@ -51,7 +51,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
   const submit = useCallback(
     (id: string) => {
-      console.log('PlacesAutoComplete.tsx onSubmit', id)
       if (onSubmit) {
         const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
         selectedSuggestion && onSubmit(selectedSuggestion)
@@ -62,7 +61,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
 
   // Handle reset from outside
   useEffect(() => {
-    console.log('PlacesAutoComplete.tsx useEffect', selected)
     if (!selected) {
       setLocationInput('')
       setPlaceSuggestions([])
@@ -84,7 +82,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     (value: string) => {
       setLocationInput(value)
       const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
-      console.log('PlacesAutoComplete.tsx getSuggestions', selectedSuggestion)
       onChange && selectedSuggestion && onChange(selectedSuggestion)
       if (id) {
         fetchSuggestions()
@@ -138,6 +135,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       trailingIcon="search"
       inputProps={inputProps}
       onSubmit={submit}
+      onSelect={onChange}
       testID={testID}
       validationErrorText={error?.message && t('location.placesAutocomplete.error')}
       helperText={noResultsText}

@@ -30,7 +30,9 @@ export type HoliAutocompleteProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
+  onlyAllowSelection?: boolean
   onSubmit?: (value: string) => void
+  onSelect?: (value: Suggestion) => void
   suggestionsStyle?: StyleProp<ViewStyle>
 }
 
@@ -51,6 +53,7 @@ const HoliAutocomplete = ({
   id,
   testID,
   onSubmit,
+  onSelect,
   suggestionsStyle = {},
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
@@ -59,9 +62,7 @@ const HoliAutocomplete = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
-    debounce((text: string) => {
-      return onChange && onChange(text)
-    }, debounceValue ?? 0),
+    debounce((text: string) => onChange && onChange(text), debounceValue ?? 0),
     [debounceValue, onChange]
   )
   // Stop the invocation of the debounced function after unmounting
@@ -83,17 +84,17 @@ const HoliAutocomplete = ({
   }, [value])
 
   const handleItemSelection = useCallback(
-    (item) => {
-      console.log('handleItemSelection', item)
-      onChangeText(item.value)
+    (item: Suggestion) => {
+      onSelect && onSelect(item)
+      onChangeText(item.id)
       setIsOpened(false)
       Keyboard.dismiss()
     },
-    [setIsOpened, onChangeText]
+    [setIsOpened, onChangeText, onSelect]
   )
 
   const clearFocusAndClose = useCallback(
-    (focusId) => {
+    (focusId: string) => {
       // using setTimeout to make sure no other item was selected in the mean time
 
       requestAnimationFrame(() => {
@@ -110,7 +111,7 @@ const HoliAutocomplete = ({
   )
 
   const setFocusAndOpen = useCallback(
-    (focusId) => {
+    (focusId: string) => {
       setIsOpened(true)
       setFocusedItem(focusId)
     },
@@ -118,7 +119,7 @@ const HoliAutocomplete = ({
   )
 
   const onBlur = useCallback(() => {
-    clearFocusAndClose(focusedItem)
+    clearFocusAndClose(focusedItem || '')
   }, [clearFocusAndClose, focusedItem])
 
   const onSubmitEditing = useCallback(() => {
@@ -127,7 +128,7 @@ const HoliAutocomplete = ({
   }, [onSubmit, setIsOpened, searchText])
 
   const renderItem = useCallback(
-    (item, index) => {
+    (item: Suggestion, index: number) => {
       const isLast = index === suggestions.length - 1
       return (
         <HoliButton
