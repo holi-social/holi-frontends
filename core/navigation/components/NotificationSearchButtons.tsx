@@ -36,6 +36,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
         <HoliButton
           label={t('notifications.title')}
           inline
+          testID="btn-to-notifications"
           transparent
           onPress={() => {
             navigate('/notifications')
