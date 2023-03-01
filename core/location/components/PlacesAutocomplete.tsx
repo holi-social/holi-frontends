@@ -10,10 +10,18 @@ import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/Holi
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
 
-type PlacesAutocompleteProps = {
+export type GeolocationSuggestion = Suggestion & {
   value?: string
-  onSubmit?: (locationQuery: string) => void
-  onChange?: (locationQuery: string) => void
+  coordinates?: {
+    latitude: number
+    longitude: number
+  }
+}
+
+interface PlacesAutocompleteProps {
+  selected?: GeolocationSuggestion
+  onSubmit?: (selected: GeolocationSuggestion) => void
+  onChange?: (selected: GeolocationSuggestion) => void
   testID?: string
   id: string
   label: string
@@ -22,11 +30,12 @@ type PlacesAutocompleteProps = {
   style?: StyleProp<ViewStyle>
   useMainTextOnly?: boolean
   suggestionsStyle?: StyleProp<ViewStyle>
+  withCoordinates?: boolean
 }
 
 const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   onSubmit,
-  value,
+  selected,
   testID,
   id,
   label,
@@ -38,22 +47,27 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   suggestionsStyle,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(value || '')
+  const [locationInput, setLocationInput] = useState(selected?.value || '')
+  const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
   const submit = useCallback(
-    (input) => {
-      onSubmit && onSubmit(input)
+    (id: string) => {
+      console.log('PlacesAutoComplete.tsx onSubmit', id)
+      if (onSubmit) {
+        const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
+        selectedSuggestion && onSubmit(selectedSuggestion)
+      }
     },
-    [onSubmit]
+    [onSubmit, placeSuggestions]
   )
-  const [placeSuggestions, setPlaceSuggestions] = useState<Suggestion[]>([])
 
   // Handle reset from outside
   useEffect(() => {
-    if (!value) {
+    console.log('PlacesAutoComplete.tsx useEffect', selected)
+    if (!selected) {
       setLocationInput('')
       setPlaceSuggestions([])
     }
-  }, [value])
+  }, [selected])
 
   const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
@@ -67,24 +81,26 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   }
 
   const getSuggestions = useCallback(
-    (input: string) => {
-      setLocationInput(input)
-      onChange && onChange(input)
-      if (input) {
+    (value: string) => {
+      setLocationInput(value)
+      const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
+      console.log('PlacesAutoComplete.tsx getSuggestions', selectedSuggestion)
+      onChange && selectedSuggestion && onChange(selectedSuggestion)
+      if (id) {
         fetchSuggestions()
       } else {
         setPlaceSuggestions([])
       }
     },
-    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange]
+    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, id, placeSuggestions]
   )
 
   // Trigger loading suggestions for initial value
   useEffect(() => {
-    if (value && !called) {
-      getSuggestions(value)
+    if (selected && !called) {
+      getSuggestions(selected?.value || '')
     }
-  }, [called, value, getSuggestions])
+  }, [called, selected, getSuggestions])
 
   useEffect(() => {
     // keep displaying previous suggestions while loading to prevent flickering
@@ -92,10 +108,12 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       return
     }
     const places = data?.geo_placesAutocomplete || []
-    const newPlaces = places.map(({ name, city }) => ({
-      // Introduced with HOLI-3069 as hotfix for alpha release, will be removed again later
-      id: useMainTextOnly && city ? city : name,
+
+    const newPlaces = places.map(({ id, name, city, coordinates }) => ({
+      id,
+      value: useMainTextOnly && city ? city : name,
       label: name,
+      coordinates,
     }))
     setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
   }, [loading, data, setPlaceSuggestions, useMainTextOnly])
@@ -116,7 +134,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       inputLabel={label}
       accessibilityLabel={label}
       placeholder={placeholder}
-      value={value}
+      value={selected?.value}
       trailingIcon="search"
       inputProps={inputProps}
       onSubmit={submit}

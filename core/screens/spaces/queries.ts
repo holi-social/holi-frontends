@@ -29,6 +29,10 @@ const SpaceFragment = gql`
     cover
     avatarDefaultColor
     location
+    geolocation {
+      latitude
+      longitude
+    }
     connectionStatusToMyself
     links {
       type

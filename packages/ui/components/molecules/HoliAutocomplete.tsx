@@ -84,7 +84,8 @@ const HoliAutocomplete = ({
 
   const handleItemSelection = useCallback(
     (item) => {
-      onChangeText(item.id)
+      console.log('handleItemSelection', item)
+      onChangeText(item.value)
       setIsOpened(false)
       Keyboard.dismiss()
     },

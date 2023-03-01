@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
@@ -15,7 +16,7 @@ interface EditSpaceLocationProps {
 
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { openToast } = useToast()
-  const [location, setLocation] = useState<string>('')
+  const [location, setLocation] = useState<GeolocationSuggestion>()
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -29,6 +30,10 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
 
   const { t } = useTranslation()
   const onSave = () => updateSpace({ variables: { input: { id: space.id, location: location } } })
+
+  useEffect(() => {
+    console.log('location EditSpaceLocaiton', location)
+  }, [location])
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} scrollable={false}>

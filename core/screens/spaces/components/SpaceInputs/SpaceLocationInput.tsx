@@ -2,15 +2,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface SpaceLocationInputProps {
   title: string
   description: string
-  onChange: (name: string) => void
-  location: string
+  onChange: (selected: GeolocationSuggestion) => void
+  location?: GeolocationSuggestion
 }
 
 const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
@@ -22,10 +22,10 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const updateLocation = (value: string) => {
-    onChange(value)
+  const updateLocation = (suggestion: GeolocationSuggestion) => {
+    console.log('updateLocation', suggestion)
+    onChange(suggestion)
   }
-
   return (
     <View style={[styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>
@@ -35,7 +35,7 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
       <PlacesAutocomplete
         label={t('spaces.input.location.label')}
         placeholder={t('spaces.input.location.placeholder')}
-        value={location}
+        selected={location}
         id="spaces-input-location"
         testID="spaces-input-location"
         onChange={updateLocation}
