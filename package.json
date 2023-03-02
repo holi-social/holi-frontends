@@ -8,7 +8,8 @@
       "packages/*",
       "core",
       "e2e/mobile"
-    ]
+    ],
+    "nohoist": ["**/jest-offline"]
   },
   "resolutions": {
     "**/ts-invariant": "0.10.3",
