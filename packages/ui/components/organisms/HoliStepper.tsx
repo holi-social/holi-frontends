@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import {
   Platform,
   ScrollView,
@@ -42,11 +42,25 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
 }) => {
   const carousel = React.useRef<ScrollView>(null)
   const { width: screenWidth } = useWindowDimensions()
+  const firstUpdate = useRef(true)
 
   // this useEffect reacts on `currenctStep` changes and adjusts `carousel` horizontal scroll position
   useEffect(() => {
+    let timeout = 0
+
+    // this workaround is for Web version. ScrollView has a bug and does not scroll correctly on initial rendering
+    // so in Web on initial rendering only when "currentStep > 0" we wait after 600ms for next Animation Frame and scroll the ScrollView
+    if (Platform.OS === 'web' && firstUpdate.current) {
+      firstUpdate.current = false
+      timeout = 600
+    }
+
     const scrollPoint = currentStep * screenWidth
-    carousel.current?.scrollTo({ x: scrollPoint, y: 0, animated: true })
+
+    setTimeout(
+      () => requestAnimationFrame(() => carousel.current?.scrollTo({ x: scrollPoint, y: 0, animated: true })),
+      timeout
+    )
   }, [currentStep, screenWidth])
 
   return (
