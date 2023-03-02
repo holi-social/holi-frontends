@@ -14,7 +14,7 @@ const ButtonToRegistration: React.VFC<Omit<HoliButtonProps, 'label'>> = (props) 
     <HoliButton
       onPress={() => {
         const path = finished ? '/profile' : '/'
-        replaceRoute(path + '?registrationStep=1')
+        replaceRoute(path + '?registrationStep=true')
       }}
       label={t('auth.loginProtection.registration')}
       type="secondary"
