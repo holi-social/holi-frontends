@@ -8,7 +8,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-// import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -45,6 +44,7 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   const { visible, show, hide } = useModalState()
 
+  // ? Test for injecting javascript into the WebView (e.g. for spikes regarding skipping login screen)
   // const runFirst = `
   //     document.body.style.backgroundColor = 'red';
   //     // setTimeout(function() { window.alert('hi') }, 2000);
@@ -85,12 +85,7 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <WebView
-        source={{ uri: 'https://staging.web.project-holi.org/profile' }}
-        style={{ height, width }}
-        // injectedJavaScript={runFirst}
-      />
-      {/* <WebView source={{ uri: 'https://ocis.owncloud.test' }} style={{ height, width }} /> */}
+      <WebView source={{ uri: 'https://staging.web.project-holi.org/profile' }} style={{ height, width }} />
     </>
   )
 }

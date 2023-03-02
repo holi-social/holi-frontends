@@ -81,6 +81,7 @@ const betterplaceTimeout = { timeout: 30_000 }
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
+    await clickElementByTestId(page, 'btn-to-continue-as-guest')
     await clickElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'app-tile-donations')
 

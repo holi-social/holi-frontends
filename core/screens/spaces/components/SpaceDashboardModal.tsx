@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -17,14 +18,18 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
  * should fit to the modal height.
  */
 const MAX_MODAL_HEIGHT = 0.93
-
-const SpaceDashboardModal: React.VFC = () => {
+export type SpaceDashboardModalParams = {
+  spaceId: string | undefined
+}
+const SpaceDashboardModal: React.VFC<SpaceDashboardModalParams> = ({ spaceId }: SpaceDashboardModalParams) => {
   const { t } = useTranslation()
   const { width: deviceWidth, height: deviceHeight } = useWindowDimensions()
   const [showModal, setShowModal] = useState(false)
+  const { navigate } = useRouting()
 
   const closeModal = () => {
     setShowModal(false)
+    navigate(`/spaces/${spaceId}/collaboratorArea`)
   }
 
   let imageWidth = 271

@@ -15,7 +15,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000,
+  timeout: 60000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI leads to us devs not fixing flaky tests, therefore deactivated */
-  retries: 1,
+  retries: 0,
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   // parallel tests cause flakiness
@@ -38,7 +38,8 @@ const config: PlaywrightTestConfig = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 0,
+    actionTimeout: 10000,
+    navigationTimeout: 10000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
 

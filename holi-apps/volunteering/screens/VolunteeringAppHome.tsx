@@ -89,7 +89,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   return (
     <DefaultLayout
       style={styles.defaultLayout}
-      scrollEnabled={false}
+      scrollable={false}
       headerOverlap
       testID={'volunteering-list-container'}
       keyboardShouldPersistTaps="handled"

@@ -36,14 +36,20 @@ const assertListItemExisting = async () => {
   await waitForElementWithTestId('btn-to-volunteering-engagement')
 }
 
-const assertFilteringWorks = async () => {
+const assertFilteringWorks = async ({ keepLocation = false }: { keepLocation?: boolean } = {}) => {
+  // swipe up to make header visible again
+  await scrollToElementWithTestId('btn-to-volunteering-filter', 'up', { maxAttempts: 5 })
+
+  // open filter modal
   await tapOnElementWithTestId('btn-to-volunteering-filter')
 
-  // open location dropdown
-  await tapOnElementWithTestId('volunteering-filter-location-input')
+  if (keepLocation) {
+    // open location dropdown
+    await tapOnElementWithTestId('volunteering-filter-location-input')
 
-  // click on first location in the list
-  await tapOnElementWithTestId('volunteering-filter-location-item')
+    // click on first location in the list
+    await tapOnElementWithTestId('volunteering-filter-location-item')
+  }
 
   // open topics dropdown
   await tapOnElementWithTestId('volunteering-filter-category-input')
@@ -79,6 +85,9 @@ const assertAllowsPagination = async () => {
 }
 
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
+  // remove filter except location to ensure results are shown
+  await assertFilteringWorks({ keepLocation: true })
+
   await navigateToDetailview()
   // expect filtered list
   await waitForElementWithTestId('volunteering-list-filtered')

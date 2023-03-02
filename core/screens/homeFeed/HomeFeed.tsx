@@ -21,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
+export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -68,7 +68,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
         {Platform.OS === 'web' && (
           <View style={[mixins.container, styles.testingBannerWrapper]}>
             <TestingBanner />
@@ -85,6 +85,9 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 }
 
 const styles = StyleSheet.create({
+  layout: {
+    paddingBottom: 80,
+  },
   testingBannerWrapper: {
     marginTop: 24,
   },
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   userSuggestionsContainer: {
-    marginTop: 88,
+    marginTop: 64,
   },
 })
 

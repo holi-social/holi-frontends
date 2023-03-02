@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { BrowserContext, Locator, Page } from '@playwright/test'
+import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
@@ -35,7 +35,7 @@ export const clickElement = async (element: Locator) => {
 
 export const clickElementByTestId = async (page: Page, testId: string) => {
   const button = await locateElementByTestId(page, testId)
-  return clickElement(button)
+  await clickElement(button)
 }
 
 export const waitForAnimationEnd = async (locator: Locator) => {
@@ -59,6 +59,12 @@ interface DefaultAuthStepsProps extends PageContext {
   password?: string
 }
 
+type BrowserAuthStepsProps = {
+  browser: Browser
+  email?: string
+  password?: string
+}
+
 export const defaultAuthSteps = async (
   {
     page,
@@ -72,8 +78,7 @@ export const defaultAuthSteps = async (
 
   await context.clearCookies()
 
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-profile-view')
+  await page.goto('/profile')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
   const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
@@ -87,7 +92,7 @@ export const defaultAuthSteps = async (
     await acceptConsentCheckbox.click()
   }
 
-  return await clickElementByTestId(page, 'ory-submit-method')
+  await clickElementByTestId(page, 'ory-submit-method')
 }
 
 export const deleteAccount = async (page: Page) => {
@@ -113,12 +118,11 @@ export const checkAccessibility = async (page: Page) => {
   await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
 }
 
-export const createUserSendConnectionRequest = async ({ context, page, email, password }: DefaultAuthStepsProps) => {
-  await defaultAuthSteps({ context, page, email, password }, 'registration')
-  await waitForElementByTestId(page, 'btn-to-settings')
-
+export const sendConnectionRequest = async (page: Page) => {
   // visit another user's profile page via url
-  const userId = process.env.E2E_USER_ID || 'empty'
+  const userId = process.env.E2E_USER_ID
+  // test won't work if userId is not defined
+  expect(userId?.length).toBe(36)
   await page.goto('/profile/' + userId)
   await waitForElementByTestId(page, 'user-profile-full-name')
 
@@ -127,4 +131,39 @@ export const createUserSendConnectionRequest = async ({ context, page, email, pa
 
   // after clicked, the button state should change to REQUESTED
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
+}
+
+const newUserEmail = () => {
+  return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+}
+const newUserPassword = 'TheSamePassword4A11E2eUsers'
+
+export const withRandomUserSession = async (
+  browser: Browser,
+  actions: (page: Page) => Promise<void>
+): Promise<() => Promise<void>> => {
+  const context = await browser.newContext()
+  const page = await context.newPage()
+  const email = newUserEmail()
+  const password = newUserPassword
+
+  await page.goto('/')
+  await defaultAuthSteps({ context, page, email, password }, 'registration')
+  // wait for login to complete
+  await page.waitForSelector(byTestId('btn-to-settings'))
+  await actions(page)
+  return async () => {
+    await deleteUser(page)
+    await context.close()
+  }
+}
+
+const deleteUser = async (page: Page) => {
+  await page.goto('/profile')
+  await waitForElementByTestId(page, 'user-profile-full-name')
+  await clickElementByTestId(page, 'btn-to-settings')
+  await clickElementByTestId(page, 'btn-your-account')
+  await clickElementByTestId(page, 'btn-delete-account')
+  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
+  await waitForElementByTestId(page, 'login-protection-heading')
 }

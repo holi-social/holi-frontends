@@ -55,11 +55,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateSpace]: 'spaces/create',
         [RouteName.EditSpace]: 'spaces/:spaceId/edit',
         [RouteName.SpaceCloud]: 'spaces/:spaceId/cloud',
+        [RouteName.CollaboratorArea]: 'spaces/:spaceId/collaboratorArea',
       },
     },
 
     // Modals
     [RouteName.Notifications]: 'notifications',
+    [RouteName.Onboarding]: 'onboarding',
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',

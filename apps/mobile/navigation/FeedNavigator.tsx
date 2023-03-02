@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Search from '@holi/core/screens/Search'
-import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
+import HomeFeedOnboarding from '@holi/core/screens/homeFeed/HomeFeedOnboarding'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -26,7 +26,7 @@ const FeedNavigator: React.VFC = () => {
         headerTransparent: true,
       }}
     >
-      <FeedStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
+      <FeedStack.Screen name={RouteName.HomeFeed} component={HomeFeedOnboarding} />
       <FeedStack.Screen name={RouteName.Search} component={Search} />
       <FeedStack.Screen name={RouteName.UserProfile} component={UserProfile} />
     </FeedStack.Navigator>

@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Node.tsx
-import { UiNode } from '@ory/kratos-client'
+import { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
@@ -10,6 +10,7 @@ import {
   getNodeId,
   getNodeTitle,
   oryNodeIsCheckbox,
+  oryNodeIsHiddenField,
   oryNodeIsInput,
   oryNodeIsSubmit,
   oryNodeIsText,
@@ -28,6 +29,10 @@ interface Props extends InputProps {
 const FormNode = (props: Props) => {
   const { t } = useTranslation()
   const { node } = props
+
+  if (oryNodeIsHiddenField(node.attributes as UiNodeAttributes & { name: string })) {
+    return <></>
+  }
 
   if (oryNodeIsText(node.attributes)) {
     const metaText = props.node.meta.label?.text ? `${props.node.meta.label?.text} ` : ''
