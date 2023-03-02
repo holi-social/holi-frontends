@@ -2,14 +2,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface LoginRegistrationProps {
   headingText?: string
@@ -26,7 +24,6 @@ const LoginRegistration = ({
 }: React.PropsWithChildren<LoginRegistrationProps>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
   headingText = headingText ?? t('profile.loggedOut.heading')
 
   return (
@@ -69,22 +66,7 @@ const LoginRegistration = ({
         {t('auth.loginProtection.continueAsGuest')}
       </HoliButton>
 
-      <HoliHeading level="2" size="xSmall" style={styles.loginHeadline}>
-        {t('auth.registration.alreadyHasAccount')}{' '}
-        <HoliButton
-          transparent
-          inline
-          variant="small"
-          label={t('auth.login')}
-          style={mixins.inlineButtonFixSmall}
-          onPress={() => navigate('/login')}
-          testID="btn-to-login-form"
-        >
-          <HoliText size="small" style={styles.loginLinkText}>
-            {t('auth.login')}
-          </HoliText>
-        </HoliButton>
-      </HoliHeading>
+      <AlreadyHaveAccountText style={styles.loginHeadline} />
     </CenteredContentLayout>
   )
 }
@@ -110,9 +92,6 @@ const styles = StyleSheet.create({
   loginHeadline: {
     marginTop: 16,
     textAlign: 'center',
-  },
-  loginLinkText: {
-    color: colors.brandColorB30,
   },
 })
 
