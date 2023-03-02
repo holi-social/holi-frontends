@@ -6,6 +6,7 @@ import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,20 +33,20 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       </HoliButton>
       {/* TODO end: remove after Alpha */}
 
-      {isLoggedIn ? (
-        <HoliButton
-          label={t('notifications.title')}
-          inline
-          testID="btn-to-notifications"
-          transparent
-          onPress={() => {
-            navigate('/notifications')
-          }}
-        >
-          <HoliIcon icon="notification-2" size={24} color={tintColor} />
-        </HoliButton>
-      ) : (
-        [] // The && form rendered a div with margins leading to undesired spacing
+      {!!isLoggedIn && (
+        <NotificationBadge visible={true}>
+          <HoliButton
+            label={t('notifications.title')}
+            inline
+            testID="btn-to-notifications"
+            transparent
+            onPress={() => {
+              navigate('/notifications')
+            }}
+          >
+            <HoliIcon icon="notification-2" size={24} color={tintColor} />
+          </HoliButton>
+        </NotificationBadge>
       )}
 
       <HoliButton

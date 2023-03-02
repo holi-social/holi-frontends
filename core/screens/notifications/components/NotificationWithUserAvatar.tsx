@@ -3,6 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { Notification, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -58,7 +59,7 @@ const NotificationWithUserAvatar = ({
             )}
           </View>
 
-          {!read && <View style={styles.readStatus} />}
+          <NotificationBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
         </View>
       </HoliLink>
 
@@ -85,11 +86,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   readStatus: {
-    backgroundColor: colors.brandColorB30,
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-    marginTop: 4,
     marginLeft: 12,
   },
 })
