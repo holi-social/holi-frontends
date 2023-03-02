@@ -11,6 +11,7 @@ import {
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
+  await clickElementByTestId(page, 'btn-to-continue-as-guest')
 })
 
 const insightLoadMoreTimeout = { timeout: 30_000 }

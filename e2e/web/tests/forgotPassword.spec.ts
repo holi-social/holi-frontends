@@ -17,7 +17,6 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('@ForgotPassword', () => {
   test('form validation', async ({ page }) => {
-    await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
@@ -41,7 +40,6 @@ test.describe('@ForgotPassword', () => {
   })
 
   test('successful form submission', async ({ page }) => {
-    await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 

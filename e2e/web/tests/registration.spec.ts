@@ -8,6 +8,7 @@ require('dotenv').config({ path: '.envrc' })
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
+  await clickElementByTestId(page, 'btn-to-continue-as-guest')
 })
 
 test.describe('@Registration', () => {
