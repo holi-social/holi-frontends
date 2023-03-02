@@ -1,14 +1,12 @@
 import React from 'react'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn } = useAuth()
-  const mixins = useStyleMixins()
 
-  return isLoggedIn ? <>{children}</> : <LoginRegistration style={mixins.container} />
+  return isLoggedIn ? <>{children}</> : <Onboarding />
 }
 
 export default LoginProtection
