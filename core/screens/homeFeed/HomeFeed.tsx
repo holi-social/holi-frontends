@@ -68,7 +68,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
         {Platform.OS === 'web' && (
           <View style={[mixins.container, styles.testingBannerWrapper]}>
             <TestingBanner />
@@ -85,6 +85,9 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 }
 
 const styles = StyleSheet.create({
+  layout: {
+    paddingBottom: 80,
+  },
   testingBannerWrapper: {
     marginTop: 24,
   },
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   userSuggestionsContainer: {
-    marginTop: 88,
+    marginTop: 64,
   },
 })
 
