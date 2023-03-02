@@ -12,7 +12,6 @@ type KeyArgs = FieldPolicy<any>['keyArgs']
  * This implementation works by "remembering" individual items offsets and assuming a cache miss if any item requested
  * (any item within the range [offset, offset+limit]) is not present.
  */
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<T[]> {
   return {
     keyArgs,

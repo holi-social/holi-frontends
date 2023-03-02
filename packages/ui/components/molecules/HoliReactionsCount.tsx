@@ -73,12 +73,23 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       <HoliText selectable={false} style={[styles.text, (active || hovered) && { color: 'black' }]}>
         {count}
       </HoliText>
-      {(active || hovered) && (
-        <HoliLocalImage imageSource={HeartFilled} width={24} height={24} label={labelText} isSvg />
-      )}
-      {!(active || hovered) && (
-        <HoliLocalImage imageSource={HeartOutlined} width={24} height={24} label={labelText} isSvg />
-      )}
+      <HoliLocalImage
+        imageSource={HeartFilled}
+        width={24}
+        height={24}
+        label={labelText}
+        isSvg
+        style={!(active || hovered) && { display: 'none' }}
+      />
+
+      <HoliLocalImage
+        imageSource={HeartOutlined}
+        width={24}
+        height={24}
+        label={labelText}
+        isSvg
+        style={(active || hovered) && { display: 'none' }}
+      />
     </HoliButton>
   )
 }
