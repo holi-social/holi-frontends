@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import ButtonToRegistration from '@holi/core/auth/components/ButtonToRegistration'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
@@ -71,7 +72,7 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer>
+      <LoginRegistrationContainer style={{ paddingHorizontal: 24 }}>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
 
         <HoliButton
@@ -97,22 +98,7 @@ const Login: React.VFC<ScreenProps> = () => {
           {t('auth.login.signUp.link.headline')}
         </HoliHeading>
 
-        <HoliButton
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/registration')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          label={t('auth.loginProtection.registration')}
-          type="secondary"
-          style={styles.button}
-          testID="btn-to-registration-form"
-        >
-          {t('auth.loginProtection.registration')}
-        </HoliButton>
+        <ButtonToRegistration style={styles.button} />
       </LoginRegistrationContainer>
     </DefaultLayout>
   )

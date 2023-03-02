@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     alignItems: 'center',
-    margin: 20,
+    margin: 24,
   },
 })
 
