@@ -46,8 +46,6 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   // ? Test for injecting javascript into the WebView (e.g. for spikes regarding skipping login screen)
   // const runFirst = `
-  //     document.body.style.backgroundColor = 'red';
-  //     // setTimeout(function() { window.alert('hi') }, 2000);
   //     localStorage.setItem('session', 'my-token');
   //     window.alert('Session: ' + localStorage.getItem('session'));
   //     true; // note: this is required, or you'll sometimes get silent failures
