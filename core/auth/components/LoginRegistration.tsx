@@ -12,10 +12,17 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface LoginRegistrationProps {
   headingText?: string
+  onDismiss?: () => boolean | void
   style?: StyleProp<ViewStyle>
+  contentContainerStyle?: StyleProp<ViewStyle>
 }
 
-const LoginRegistration = ({ headingText, style }: React.PropsWithChildren<LoginRegistrationProps>) => {
+const LoginRegistration = ({
+  headingText,
+  onDismiss,
+  style,
+  contentContainerStyle,
+}: React.PropsWithChildren<LoginRegistrationProps>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -24,7 +31,7 @@ const LoginRegistration = ({ headingText, style }: React.PropsWithChildren<Login
   return (
     <SafeAreaView style={[styles.outer, style]}>
       <View style={styles.inner}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}>
           <View>
             <View style={styles.moodImage}>
               <HoliLocalImage
@@ -52,7 +59,9 @@ const LoginRegistration = ({ headingText, style }: React.PropsWithChildren<Login
 
           <HoliButton
             label={t('auth.loginProtection.continueAsGuest')}
-            onPress={() => navigate('/')}
+            onPress={() => {
+              onDismiss?.() !== false && navigate('/')
+            }}
             style={[styles.button, styles.secondButton]}
             type="secondary"
             testID="btn-to-continue-as-guest"
@@ -88,6 +97,8 @@ const styles = StyleSheet.create({
       web: { minHeight: '100%' },
       native: { flex: 1 },
     }),
+    backgroundColor: colors.background20,
+    minWidth: '100%',
     justifyContent: 'center',
   },
   inner: {
