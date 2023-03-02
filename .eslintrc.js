@@ -18,7 +18,7 @@ module.exports = {
     ecmaVersion: '6',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint', 'prefer-arrow', 'prettier'],
+  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
@@ -27,14 +27,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-explicit-any': ['error'],
-    'prefer-arrow/prefer-arrow-functions': [
-      'error',
-      {
-        disallowPrototype: true,
-        singleReturnOnly: false,
-        classPropertiesAllowed: false,
-      },
-    ],
     'no-restricted-imports': [
       'error',
       {
