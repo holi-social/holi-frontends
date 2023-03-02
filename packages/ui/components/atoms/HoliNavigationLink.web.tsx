@@ -6,14 +6,16 @@ import type { HoliNavigationLinkProps } from '@holi/ui/components/atoms/HoliNavi
 
 import styles from './HoliLink.module.scss'
 
+type HoliNavigationLinkWeb = Omit<HoliNavigationLinkProps, 'mobileNavigateBackFirst'>
+
 const HoliNavigationLink = ({
   href,
   label,
-  external = false,
+  external,
   onPress,
   children,
   testID = 'text-link',
-}: PropsWithChildren<HoliNavigationLinkProps>) => {
+}: PropsWithChildren<HoliNavigationLinkWeb>) => {
   const onLinkPress = (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
     const stopPropagation = onPress?.(event)
     if (stopPropagation === false) {

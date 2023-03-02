@@ -9,6 +9,7 @@ export interface HoliNavigationLinkProps {
   label: string
   external?: boolean
   onPress?: CallableFunction
+  /** Use this prop in Modal Screens to first close the modal and then navigate */
   mobileNavigateBackFirst?: boolean
   testID?: string
 }
