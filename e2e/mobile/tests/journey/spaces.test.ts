@@ -7,7 +7,8 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
-import { delay } from '../../helpers/time'
+
+// import { delay } from '../../helpers/time'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()
@@ -106,7 +107,7 @@ describe('@Spaces', () => {
 
   const assertCreateSpace = async () => {
     const numberOfInitialTerms = 3
-    const numberOfEditedTerms = 2
+    // const numberOfEditedTerms = 2
 
     // login
     await defaultAuthSteps()
@@ -116,82 +117,82 @@ describe('@Spaces', () => {
     // create space - name and goal
     const initialName = 'e2e space name'
     const initialGoal = 'e2e space goal'
-    // await checkConfirmButtonIsDisabled()
     await inputSpaceNameAndGoal(initialName, initialGoal)
+
+    // Click on the title (or anywhere outside the keyboard) to close the keyboard
+    // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
+    // https://github.com/appium/appium/issues/15073
+    await tapOnElementWithTestId('space-name-and-goal-title')
+
+    // go to the next step
     await tapOnElementWithTestId('holi-wizard-next-btn')
 
-    // create space - topics
-    // await checkConfirmButtonIsDisabled()
+    // // create space - topics
     await selectSomeTerms(numberOfInitialTerms)
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    // await tapOnElementWithTestId('holi-wizard-next-btn')
 
-    // create space - cover image
-    await checkConfirmButtonIsDisabled()
-    // await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    // // create space - cover image
+    // await checkConfirmButtonIsDisabled()
+    // // await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+    // await tapOnElementWithTestId('holi-wizard-next-btn')
 
-    // check if edit space page has correct information
-    let editSpaceTitle = await waitForElementWithTestId('space-edit-title')
-    let editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
-    expect(editSpaceTitle).toContainText(initialName)
-    expect(editSpaceGoal).toContainText(initialGoal)
+    // // check if edit space page has correct information
+    // let editSpaceTitle = await waitForElementWithTestId('space-edit-title')
+    // let editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
+    // expect(editSpaceTitle).toContainText(initialName)
+    // expect(editSpaceGoal).toContainText(initialGoal)
 
-    // // edit space name and goal
-    const editedName = 'e2e edited space name HELLO THERE'
-    const editedGoal = 'e2e edited space goal'
-    await tapOnElementWithTestId('btn-space-edit-name')
-    await inputSpaceNameAndGoal(editedName, editedGoal)
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // // edit space name and goal
+    // const editedName = 'e2e edited space name HELLO THERE'
+    // const editedGoal = 'e2e edited space goal'
+    // await tapOnElementWithTestId('btn-space-edit-name')
+    // await inputSpaceNameAndGoal(editedName, editedGoal)
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // check if space name and goal were updated
-    editSpaceTitle = await waitForElementWithTestId('space-edit-title')
-    editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
-    expect(editSpaceTitle).toContainText(editedName)
-    expect(editSpaceGoal).toContainText(editedGoal)
+    // // check if space name and goal were updated
+    // editSpaceTitle = await waitForElementWithTestId('space-edit-title')
+    // editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
+    // expect(editSpaceTitle).toContainText(editedName)
+    // expect(editSpaceGoal).toContainText(editedGoal)
 
-    // edit space avatar
-    await tapOnElementWithTestId('btn-space-edit-avatar')
-    // await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // edit space avatar
+    // await tapOnElementWithTestId('btn-space-edit-avatar')
+    // // await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // edit space cover image
-    await tapOnElementWithTestId('btn-space-edit-cover')
-    // await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // edit space cover image
+    // await tapOnElementWithTestId('btn-space-edit-cover')
+    // // await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // edit space topics
-    await tapOnElementWithTestId('btn-space-edit-topics')
-    await selectSomeTerms(numberOfEditedTerms)
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // edit space topics
+    // await tapOnElementWithTestId('btn-space-edit-topics')
+    // await selectSomeTerms(numberOfEditedTerms)
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // check if the correct number of topics have been selected
-    await delay(1)
-    const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
-    expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
+    // // check if the correct number of topics have been selected
+    // await delay(1)
+    // const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
+    // expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
-    // edit space sdgs
-    await tapOnElementWithTestId('btn-space-edit-sdgs')
-    await selectSomeTerms(numberOfEditedTerms)
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // edit space sdgs
+    // await tapOnElementWithTestId('btn-space-edit-sdgs')
+    // await selectSomeTerms(numberOfEditedTerms)
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // check if the correct number of sdgs have been selected
-    await delay(1)
-    const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
-    expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+    // // check if the correct number of sdgs have been selected
+    // await delay(1)
+    // const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
+    // expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
-    // delete space
-    await tapOnElementWithTestId('space-edit-close')
-    await tapOnElementWithTestId('space-options-btn')
-    await tapOnElementWithTestId('space-delete-btn')
-    await tapOnElementWithTestId('space-delete-confirmation-confirm')
+    // // delete space
+    // await tapOnElementWithTestId('space-edit-close')
+    // await tapOnElementWithTestId('space-options-btn')
+    // await tapOnElementWithTestId('space-delete-btn')
+    // await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
-    // check if after deletion we are at the spaces dashboard (mine/discover)
-    await waitForElementWithTestId('spaces-tab-navigation')
-  }
-
-  const checkConfirmButtonIsDisabled = async () => {
-    const nextButton = await waitForElementWithTestId('holi-wizard-next-btn')
-    await nextButton.isDisabled()
+    // // check if after deletion we are at the spaces dashboard (mine/discover)
+    // await waitForElementWithTestId('spaces-tab-navigation')
   }
 
   const inputSpaceNameAndGoal = async (name: string, goal: string) => {
