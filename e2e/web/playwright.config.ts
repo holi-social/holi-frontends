@@ -15,7 +15,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000,
+  timeout: 60000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -38,7 +38,8 @@ const config: PlaywrightTestConfig = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 0,
+    actionTimeout: 10000,
+    navigationTimeout: 10000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
 

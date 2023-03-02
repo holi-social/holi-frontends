@@ -78,7 +78,7 @@ export const defaultAuthSteps = async (
 
   await context.clearCookies()
 
-  await page.goto('/')
+  await page.goto('/profile')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
   const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
@@ -93,7 +93,6 @@ export const defaultAuthSteps = async (
   }
 
   await clickElementByTestId(page, 'ory-submit-method')
-  await waitForElementByTestId(page, 'btn-to-settings')
 }
 
 export const deleteAccount = async (page: Page) => {
@@ -150,25 +149,14 @@ export const withRandomUserSession = async (
 
   await page.goto('/')
   await defaultAuthSteps({ context, page, email, password }, 'registration')
+  // wait for login to complete
+  await page.waitForSelector(byTestId('btn-to-settings'))
   await actions(page)
   return async () => {
     await deleteUser(page)
     await context.close()
   }
 }
-
-/*export const getAnyUserCredentials = async (
-  browser: Browser,
-  credentials: UserCredentials[]
-): Promise<UserCredentials> => {
-  if (credentials.length > 0) {
-    console.log('returning existing user', credentials[0].email)
-    return credentials[0]
-  } else {
-    const newUserCredentials = await createNewUser(browser, credentials)
-    return newUserCredentials
-  }
-}*/
 
 const deleteUser = async (page: Page) => {
   await page.goto('/profile')
@@ -179,14 +167,3 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
   await waitForElementByTestId(page, 'login-protection-heading')
 }
-
-/*
-export const cleanupUsers = async (browser: Browser) => {
-  console.log('cleaning up users', allCreatedUserCredentials)
-  await Promise.all(
-    allCreatedUserCredentials.map(async (credentials) => {
-      await deleteUser(browser, credentials)
-    })
-  )
-}
-*/
