@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
@@ -103,7 +103,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
         )}
 
         {post.numberOfComments < 1 && (
-          <HoliLink href={commentUrl} label={t('insights.posts.comments.create_comment_button')}>
+          <HoliLink
+            href={commentUrl}
+            label={t('insights.posts.comments.create_comment_button')}
+            style={styles.noCommentsYetMessage}
+          >
             <HoliText size="small" style={{ color: colors.foreground20 }}>
               {t('insights.post.no-comment-yet')}
             </HoliText>
@@ -172,6 +176,11 @@ const styles = StyleSheet.create({
   reactionsLink: {
     height: 'auto',
     display: 'flex',
+  },
+  noCommentsYetMessage: {
+    paddingRight: 24,
+    flex: 1,
+    marginTop: Platform.OS === 'web' ? 0 : 4,
   },
 })
 
