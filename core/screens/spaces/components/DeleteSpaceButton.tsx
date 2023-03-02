@@ -13,16 +13,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface DeleteSpaceButtonProps {
   spaceId: string
   onDelete: () => void
-  bold?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = ({
-  spaceId,
-  onDelete,
-  style,
-  bold = false,
-}) => {
+const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = ({ spaceId, onDelete, style }) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { displayError } = useErrorHandling()
@@ -48,7 +42,6 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
         tintColor={colors.error20}
         contentStyle={style}
         disabled={loading}
-        bold={bold}
         testID="space-delete-btn"
       />
       <HoliConfirmation
