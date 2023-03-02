@@ -11,10 +11,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceShareProps = {
   space: Space
+  bold?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
+const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style, bold = false }: SpaceShareProps) => {
   const { t } = useTranslation()
   const prefix = Linking.createURL(`/spaces/${space.id}`)
 
@@ -50,7 +51,9 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         onPress={onShare}
       >
         <HoliIcon icon="share" size={24} color={colors.foreground20} />
-        <HoliText style={styles.shareText}>{t('spaces:spaces.share')}</HoliText>
+        <HoliText bold={bold} style={styles.shareText}>
+          {t('spaces:spaces.share')}
+        </HoliText>
       </HoliButton>
     </>
   )

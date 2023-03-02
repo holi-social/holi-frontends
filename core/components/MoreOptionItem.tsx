@@ -10,6 +10,7 @@ export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
   arrowRight?: boolean
   tintColor?: string
+  bold?: boolean
 }
 
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
@@ -19,6 +20,7 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   label,
   disabled,
   contentStyle,
+  bold = false,
   ...buttonProps
 }) => {
   return (
@@ -40,7 +42,9 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
         />
       )}
 
-      <HoliText style={[{ color: tintColor }, disabled && styles.disabled]}>{label}</HoliText>
+      <HoliText bold={bold} style={[{ color: tintColor }, disabled && styles.disabled]}>
+        {label}
+      </HoliText>
 
       {arrowRight && (
         <HoliIcon

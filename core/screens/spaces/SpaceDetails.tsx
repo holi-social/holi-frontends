@@ -79,6 +79,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               icon="edit-2"
               label={t('global.edit')}
               tintColor={colors.foreground20}
+              bold
               onPress={() => {
                 navigate(`/spaces/${spaceId}/edit`)
                 hide()
@@ -86,10 +87,11 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.buttonWithIcon}
             />
           )}
-          {Platform.OS !== 'web' && <SpaceShare space={space} />}
+          {Platform.OS !== 'web' && <SpaceShare space={space} bold />}
 
           <ReportBlockOptionButton
             action="report"
+            bold
             objectId={spaceId || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
@@ -104,6 +106,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           {isAdmin && (
             <DeleteSpaceButton
               spaceId={spaceId || ''}
+              bold
               onDelete={() => {
                 replaceRoute('/spaces/')
                 hide()
