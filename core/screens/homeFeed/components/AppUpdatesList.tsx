@@ -1,22 +1,11 @@
 import React from 'react'
-import {
-  FlatList,
-  GestureResponderEvent,
-  ListRenderItem,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -47,42 +36,11 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   style,
   testID,
 }: AppUpdatesListProps) => {
-  const { width: screenWidth } = useWindowDimensions()
   const { navigate } = useRouting()
-  const cardImageSize = Platform.OS === 'web' ? 160 : screenWidth / 2 - 26
 
   const handleHeaderTitlePress = () => {
     const navigationPath = HOLI_APPS_NAVIGATION_PATHS[appName].path
     navigate(navigationPath)
-  }
-
-  const seeMore = () => {
-    return loading && Platform.OS !== 'web' ? (
-      <View style={styles.loadingContainer}>
-        <HoliIcon icon="loader-4" size={50} color={colors.foreground20} spinning />
-      </View>
-    ) : (
-      <HoliButton
-        label={labelSeeMore}
-        style={[styles.buttonContainer, styles.lastButtonContainer]}
-        onPress={onPressSeeMore}
-        transparent
-        inline
-        testID={`${appName}-updates-load-more-button`}
-      >
-        <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
-          width={cardImageSize}
-          height={cardImageSize}
-          label=""
-        />
-        <View style={styles.seeMoreContainer}>
-          <HoliText style={styles.seeMoreText} size="small" bold>
-            {labelSeeMore}
-          </HoliText>
-        </View>
-      </HoliButton>
-    )
   }
 
   return (
@@ -103,7 +61,15 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
         style={styles.itemsContainer}
         data={data}
         renderItem={renderItem}
-        ListFooterComponent={seeMore}
+        ListFooterComponent={
+          <SeeMore
+            label={labelSeeMore}
+            loading={loading}
+            onPress={onPressSeeMore}
+            style={styles.buttonContainer}
+            testID={`${appName}-updates-load-more-button`}
+          />
+        }
         testID={`${appName}-updates-container`}
       />
     </View>
@@ -125,10 +91,6 @@ const styles = StyleSheet.create({
     borderColor: colors.foreground10,
     backgroundColor: colors.background20,
   },
-  listingItem: {
-    height: 'auto',
-    width: 160,
-  },
   itemsContainer: {
     paddingVertical: 24,
     marginHorizontal: -20,
@@ -140,28 +102,5 @@ const styles = StyleSheet.create({
   listHeader: {
     paddingTop: vars.topBarHeight + 24,
     paddingBottom: 32,
-  },
-  loadingContainer: {
-    width: 160,
-    height: 160,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background20,
-  },
-  lastButtonContainer: {
-    marginRight: Platform.OS === 'web' ? 24 : 48,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  seeMoreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  seeMoreText: {
-    color: colors.brandColorB30,
-    textAlign: 'center',
-    marginTop: 16,
   },
 })
