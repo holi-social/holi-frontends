@@ -307,7 +307,7 @@ export interface DeleteSpaceResponse {
 }
 
 export const deleteSpaceMutation = gql`
-  mutation DeleteSpace($id: UUID) {
+  mutation DeleteSpace($id: UUID!) {
     deleteSpace(id: $id) {
       success
     }
