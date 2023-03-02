@@ -30,14 +30,14 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
       disabled={disabled}
       {...buttonProps}
     >
-      {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={[styles.icon]} />}
+      {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={styles.icon} />}
 
-      <HoliText bold style={[{ color: tintColor }]}>
+      <HoliText bold style={{ color: tintColor }}>
         {label}
       </HoliText>
 
       {arrowRight && (
-        <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={[styles.arrowRight]} />
+        <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.arrowRight} />
       )}
     </HoliButton>
   )
