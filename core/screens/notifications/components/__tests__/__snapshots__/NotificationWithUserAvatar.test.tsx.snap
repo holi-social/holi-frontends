@@ -6,7 +6,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
 >
   <View
     accessibilityLabel="Some User"
-    accessibilityRole="button"
+    accessibilityRole="link"
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -19,15 +19,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "color": "#6267e7",
-        },
-        undefined,
-        undefined,
-      ]
-    }
     testID="text-link"
   >
     <View

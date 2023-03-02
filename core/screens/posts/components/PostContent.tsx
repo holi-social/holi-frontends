@@ -8,7 +8,7 @@ import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
@@ -56,13 +56,13 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
           </MoreOptionsButtonWithModal>
         </View>
 
-        <HoliLink
+        <HoliNavigationLink
           href={`/profile/${post.creator.id}`}
           label={post.creator.fullName}
           testID="btn-to-post-creator-profile"
         >
           <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
-        </HoliLink>
+        </HoliNavigationLink>
 
         <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} style={styles.description} />
       </View>

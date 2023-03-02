@@ -4,8 +4,8 @@ import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'rea
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -39,44 +39,42 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
   const styles = size === 'small' ? stylesSmall : stylesLarge
 
   return (
-    <HoliLink
-      label={label}
-      href={href}
-      style={[styles.holiBlockItem, style]}
-      textStyle={styles.holiBlockItemInner}
-      testID={testID}
-    >
-      <View style={[styles.imageContainer]}>
-        <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
-        {size === 'large' && (
-          <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-            <HoliText>{users.length}</HoliText>
-          </HoliUserAvatarPile>
-        )}
-      </View>
-      <View style={styles.textContainer}>
-        {!!subtitle && (
-          <HoliText size="extrasmall" style={styles.subtitle}>
-            {subtitle}
-          </HoliText>
-        )}
-        <HoliText size={size === 'small' ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
-          {title}
-        </HoliText>
-        {!!description && (
-          <HoliText size="small" numberOfLines={2} style={styles.description}>
-            {description}
-          </HoliText>
-        )}
-        {size === 'small' && (
-          <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-            <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
-              {t('spaces.members.member', { count: users.length })}
+    <View style={[styles.holiBlockItem, style]}>
+      <HoliNavigationLink label={label} href={href} testID={testID}>
+        <View style={styles.holiBlockItemInner}>
+          <View style={[styles.imageContainer]}>
+            <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+            {size === 'large' && (
+              <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                <HoliText>{users.length}</HoliText>
+              </HoliUserAvatarPile>
+            )}
+          </View>
+          <View style={styles.textContainer}>
+            {!!subtitle && (
+              <HoliText size="extrasmall" style={styles.subtitle}>
+                {subtitle}
+              </HoliText>
+            )}
+            <HoliText size={size === 'small' ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
+              {title}
             </HoliText>
-          </HoliUserAvatarPile>
-        )}
-      </View>
-    </HoliLink>
+            {!!description && (
+              <HoliText size="small" numberOfLines={2} style={styles.description}>
+                {description}
+              </HoliText>
+            )}
+            {size === 'small' && (
+              <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
+                  {t('spaces.members.member', { count: users.length })}
+                </HoliText>
+              </HoliUserAvatarPile>
+            )}
+          </View>
+        </View>
+      </HoliNavigationLink>
+    </View>
   )
 }
 
