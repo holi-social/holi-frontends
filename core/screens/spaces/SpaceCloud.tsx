@@ -45,13 +45,13 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   const { visible, show, hide } = useModalState()
 
-  const runFirst = `
-      document.body.style.backgroundColor = 'red';
-      // setTimeout(function() { window.alert('hi') }, 2000);
-      localStorage.setItem('session', 'my-token');
-      window.alert('Session: ' + localStorage.getItem('session'));
-      true; // note: this is required, or you'll sometimes get silent failures
-    `
+  // const runFirst = `
+  //     document.body.style.backgroundColor = 'red';
+  //     // setTimeout(function() { window.alert('hi') }, 2000);
+  //     localStorage.setItem('session', 'my-token');
+  //     window.alert('Session: ' + localStorage.getItem('session'));
+  //     true; // note: this is required, or you'll sometimes get silent failures
+  //   `
 
   useLayoutEffect(() => {
     setOptions({
@@ -85,7 +85,11 @@ const SpaceCloud: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <WebView source={{ uri: 'https://expo.dev' }} style={{ height, width }} injectedJavaScript={runFirst} />
+      <WebView
+        source={{ uri: 'https://staging.web.project-holi.org/profile' }}
+        style={{ height, width }}
+        // injectedJavaScript={runFirst}
+      />
       {/* <WebView source={{ uri: 'https://ocis.owncloud.test' }} style={{ height, width }} /> */}
     </>
   )
