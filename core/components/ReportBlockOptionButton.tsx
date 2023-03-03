@@ -30,7 +30,6 @@ interface BaseProps {
   successMessage: string
   style?: StyleProp<ViewStyle>
   testID?: string
-  bold?: boolean
 }
 
 interface ReportOptionButtonProps extends BaseProps {
@@ -47,7 +46,6 @@ export type ReportBlockOptionButtonProps = ReportOptionButtonProps | BlockOption
 const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   objectId,
   action,
-  bold = false,
   contentType,
   label,
   icon = 'flag',
@@ -99,7 +97,6 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
         contentStyle={style}
         testID={testID}
-        bold={bold}
       />
 
       <LoginGuardModal {...loginGuardModalProps} />
