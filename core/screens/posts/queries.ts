@@ -170,11 +170,11 @@ export type CreatePostCommentResponse = {
 }
 
 export const UpdatePostReactionMutation = gql`
-  ${PostDetailsFragment}
+  ${PostFragment}
 
   mutation UpdatePostReaction($id: UUID!, $reactionType: ReactionType!, $reactionAction: ReactionAction!) {
     updatePostReaction(id: $id, reactionType: $reactionType, reactionAction: $reactionAction) {
-      ...PostFull
+      ...PostFragment
     }
   }
 `
