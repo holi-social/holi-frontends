@@ -10,7 +10,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { HasNotifcationQuery, HasNotifcationResponse } from '@holi/core/screens/notifications/queries'
+import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -20,15 +20,15 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useAuth()
 
-  const { error: HasNotificationError, data } = useQuery<HasNotifcationResponse>(HasNotifcationQuery, {
+  const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     pollInterval: 20000,
   })
 
-  if (HasNotificationError) {
-    logError(HasNotificationError, `[NotificationSearchButtons.tsx] ${HasNotificationError.message}`)
+  if (HasNewNotificationsError) {
+    logError(HasNewNotificationsError, `[NotificationSearchButtons.tsx] ${HasNewNotificationsError.message}`)
   }
 
-  const hasNotification = !!data?.hasNewNotifications?.result
+  const hasNewNotifications = !!data?.hasNewNotifications?.result
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -47,7 +47,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       {/* TODO end: remove after Alpha */}
 
       {!!isLoggedIn && (
-        <NotificationBadge visible={hasNotification}>
+        <NotificationBadge visible={hasNewNotifications}>
           <HoliButton
             label={t('notifications.title')}
             inline

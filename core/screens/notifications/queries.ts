@@ -48,7 +48,7 @@ export type NotificationsResponse = {
   notifications: Paged<Notification>
 }
 
-export const HasNotifcationQuery = gql`
+export const HasNewNotifcationsQuery = gql`
   query hasNewNotifications {
     hasNewNotifications {
       result
@@ -56,7 +56,7 @@ export const HasNotifcationQuery = gql`
   }
 `
 
-export type HasNotifcationResponse = {
+export type HasNewNotifcationsResponse = {
   hasNewNotifications: {
     result: boolean
   }
