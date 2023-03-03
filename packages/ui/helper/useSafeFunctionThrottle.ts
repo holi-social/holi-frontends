@@ -22,7 +22,8 @@ import { useCallback, useEffect, useRef } from 'react'
  * is called.
  */
 
-type T = (props?: unknown) => boolean
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type T = (props?: any) => boolean | void
 export const useSafeFunctionThrottle = (fn: T) => {
   const animationFrameRef = useRef(0)
   const startTimeRef = useRef(0)

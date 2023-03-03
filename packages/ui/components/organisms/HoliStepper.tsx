@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Platform,
   ScrollView,
@@ -9,6 +9,8 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from 'react-native'
+
+import { useSafeFunctionThrottle } from '@holi/ui/helper'
 
 export const useStepper = (initialStep = 0) => {
   const [currentStep, setCurrentStep] = React.useState(initialStep)
@@ -38,14 +40,24 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
   style,
   contentContainerStyle,
   stepContainerStyle,
+  scrollEnabled,
   ...scrollViewProps
 }) => {
   const carousel = React.useRef<ScrollView>(null)
   const { width: screenWidth } = useWindowDimensions()
   const firstUpdate = useRef(true)
+  const [previousStep, setPreviousStep] = useState(currentStep)
+  const { run: scrollToStep } = useSafeFunctionThrottle((position: number) => {
+    carousel.current?.scrollTo({ x: position, y: 0, animated: true })
+    // reset previousStep after scroll animation
+    setTimeout(() => setPreviousStep(currentStep), 500)
+  })
+  const isCurrentOrPrevStep = (stepIdx: number) => stepIdx === currentStep || stepIdx === previousStep
 
   // this useEffect reacts on `currenctStep` changes and adjusts `carousel` horizontal scroll position
   useEffect(() => {
+    if (!firstUpdate.current && currentStep === previousStep) return
+
     let timeout = 0
 
     // this workaround is for Web version. ScrollView has a bug and does not scroll correctly on initial rendering
@@ -54,29 +66,26 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
       firstUpdate.current = false
       timeout = 600
     }
-
     const scrollPoint = currentStep * screenWidth
-
-    setTimeout(
-      () => requestAnimationFrame(() => carousel.current?.scrollTo({ x: scrollPoint, y: 0, animated: true })),
-      timeout
-    )
-  }, [currentStep, screenWidth])
+    scrollToStep(scrollPoint, timeout)
+  }, [currentStep, previousStep, screenWidth, scrollToStep])
 
   return (
     <ScrollView
       ref={carousel}
+      style={[styles.scrollView, style]}
       contentContainerStyle={[styles.scrollViewContainer, contentContainerStyle]}
       horizontal
       pagingEnabled
       showsHorizontalScrollIndicator={false}
       bounces={false}
-      style={[styles.scrollView, style]}
+      // 'scrollEnabled' must be 'true' for scroll animation on Safari
+      scrollEnabled={currentStep !== previousStep || scrollEnabled}
       {...scrollViewProps}
     >
       {steps.map((step, idx) => (
-        <View style={[styles.tabWrapper, stepContainerStyle]} key={idx}>
-          {step}
+        <View style={[styles.tabWrapper, stepContainerStyle]} key={idx} testID="stepper-step">
+          {isCurrentOrPrevStep(idx) && step}
         </View>
       ))}
     </ScrollView>
