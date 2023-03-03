@@ -9,12 +9,12 @@ import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButt
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
+import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -113,7 +113,6 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
             </HoliUserAvatarPile>
           </HoliLink>
         )}
-
         {post.numberOfComments < 1 && (
           <HoliLink
             href={commentUrl}
@@ -127,16 +126,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
           </HoliLink>
         )}
 
-        {/* TODO: reactions functionality comes with HOLI-3478 */}
-        <HoliReactionsCount
-          onPress={() => {
-            console.log('click !!!!!')
-          }}
-          type="post"
-          count={0}
-          active={false}
-          fullName={post.creator.fullName}
-        />
+        <PostReactions post={post} />
       </View>
     </View>
   )
