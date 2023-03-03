@@ -52,7 +52,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   value,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(selected?.value || '')
+  const [locationInput, setLocationInput] = useState(selected?.value || value)
   const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
   const submit = useCallback(
     (id: string) => {
@@ -66,11 +66,11 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
 
   // Handle reset from outside
   useEffect(() => {
-    if (!selected) {
+    if (!selected || !value) {
       setLocationInput('')
       setPlaceSuggestions([])
     }
-  }, [selected])
+  }, [selected, value])
 
   const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
