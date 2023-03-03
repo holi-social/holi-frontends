@@ -95,7 +95,7 @@ const HoliAutocomplete = ({
   )
 
   const clearFocusAndClose = useCallback(
-    (focusId: string) => {
+    (focusId: string | null) => {
       // using setTimeout to make sure no other item was selected in the mean time
 
       requestAnimationFrame(() => {
@@ -120,7 +120,7 @@ const HoliAutocomplete = ({
   )
 
   const onBlur = useCallback(() => {
-    clearFocusAndClose(focusedItem || '')
+    clearFocusAndClose(focusedItem)
   }, [clearFocusAndClose, focusedItem])
 
   const onSubmitEditing = useCallback(() => {
@@ -135,7 +135,7 @@ const HoliAutocomplete = ({
         <HoliButton
           inline
           transparent
-          key={item.id} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
+          key={item.id}
           label={item.label}
           accessibilityRole="menuitem"
           onBlur={onBlur}

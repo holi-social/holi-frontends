@@ -19,7 +19,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
   locationQuery,
 }: DonationSearchFormProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(locationQuery || '')
+  const [locationInput, setLocationInput] = useState(locationQuery)
 
   const reset = useCallback(() => {
     setLocationInput('')
@@ -57,7 +57,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           id="donations-search-location"
           onChangeText={(value) => setLocationInput(value)}
           onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.value)}
-          onChange={(selected: GeolocationSuggestion) => selected.value && setLocationInput(selected.value)}
+          onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.value)}
         />
       </View>
     </HoliModalContentWrapper>

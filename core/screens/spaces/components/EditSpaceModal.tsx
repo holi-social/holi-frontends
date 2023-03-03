@@ -56,7 +56,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
             {t('global.dismiss')}
           </HoliButton>
           <HoliButtonLoading
-            disabled={saveButtonDisabled}
+            disabled={loading || saveButtonDisabled}
             label={loading ? t('global.loading') : t('global.save')}
             onPress={onSave}
             testID="space-edit-modal-save-btn"
