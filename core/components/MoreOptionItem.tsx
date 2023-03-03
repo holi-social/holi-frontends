@@ -15,7 +15,7 @@ export interface MoreOptionItemProps extends HoliButtonProps {
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
   arrowRight = false,
-  tintColor,
+  tintColor = colors.foreground20,
   label,
   disabled,
   contentStyle,
@@ -30,26 +30,14 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
       disabled={disabled}
       {...buttonProps}
     >
-      {!!icon && (
-        <HoliIcon
-          icon={icon}
-          size={24}
-          filled={false}
-          color={tintColor}
-          style={[styles.icon, disabled && styles.disabled]}
-        />
-      )}
+      {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={styles.icon} />}
 
-      <HoliText style={[{ color: tintColor }, disabled && styles.disabled]}>{label}</HoliText>
+      <HoliText bold style={{ color: tintColor }}>
+        {label}
+      </HoliText>
 
       {arrowRight && (
-        <HoliIcon
-          icon="arrow-right-s"
-          size={24}
-          filled={false}
-          color={tintColor}
-          style={[styles.arrowRight, disabled && styles.disabled]}
-        />
+        <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.arrowRight} />
       )}
     </HoliButton>
   )
@@ -67,8 +55,5 @@ const styles = StyleSheet.create({
   },
   arrowRight: {
     marginLeft: 'auto',
-  },
-  disabled: {
-    color: colors.foreground20,
   },
 })
