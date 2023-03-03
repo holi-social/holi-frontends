@@ -10,7 +10,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
+import { HasNewNotifcationsResponse, hasNewNotifcationsQuery } from '@holi/core/screens/notifications/queries'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -20,15 +20,15 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useAuth()
 
-  const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
-    pollInterval: 20000,
+  const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(hasNewNotifcationsQuery, {
+    pollInterval: 5000,
   })
 
   if (HasNewNotificationsError) {
     logError(HasNewNotificationsError, `[NotificationSearchButtons.tsx] ${HasNewNotificationsError.message}`)
   }
 
-  const hasNewNotifications = !!data?.hasNewNotifications?.result
+  const hasNewNotifications = !!data?.hasNewNotifications?.status
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
