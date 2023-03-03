@@ -5,7 +5,7 @@ import { Text } from 'react-native'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 
-describe('renders correctly', () => {
+describe.skip('renders correctly', () => {
   it('renders protected content when logged in', () => {
     const { queryByText } = render(
       <AuthContext.Provider

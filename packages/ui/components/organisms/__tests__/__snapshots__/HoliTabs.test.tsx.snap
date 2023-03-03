@@ -186,27 +186,43 @@ exports[`renders correctly renders correctly when open 1`] = `
     </View>
   </View>
   <RCTScrollView
+    bounces={false}
     contentContainerStyle={
-      {
-        "alignContent": "flex-start",
-        "alignItems": "flex-start",
-        "justifyContent": "flex-start",
-      }
+      [
+        {
+          "alignContent": "flex-start",
+          "alignItems": "flex-start",
+          "justifyContent": "flex-start",
+        },
+        undefined,
+      ]
     }
     horizontal={true}
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     scrollEnabled={true}
     showsHorizontalScrollIndicator={false}
+    style={
+      [
+        {
+          "flex": 1,
+          "flexDirection": "row",
+          "minHeight": "100%",
+          "width": "100%",
+        },
+        undefined,
+      ]
+    }
   >
     <View>
       <View
         style={
-          {
-            "flex": 1,
-            "flexDirection": "row",
-            "width": "100%",
-          }
+          [
+            {
+              "flex": 1,
+            },
+            undefined,
+          ]
         }
       >
         <View
@@ -247,6 +263,17 @@ exports[`renders correctly renders correctly when open 1`] = `
             </Text>
           </View>
         </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flex": 1,
+            },
+            undefined,
+          ]
+        }
+      >
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
