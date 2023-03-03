@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
@@ -13,7 +14,9 @@ const ButtonToRegistration: React.VFC<Omit<HoliButtonProps, 'label'>> = (props) 
   return (
     <HoliButton
       onPress={() => {
-        const path = finished ? '/profile' : '/'
+        const profilePath = '/profile'
+        const onboardingPath = Platform.OS === 'web' ? '/' : '/onboarding'
+        const path = finished ? profilePath : onboardingPath
         replaceRoute(path + '?registrationStep=true')
       }}
       label={t('auth.loginProtection.registration')}
