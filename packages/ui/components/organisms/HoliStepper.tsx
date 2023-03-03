@@ -29,6 +29,7 @@ export const useStepper = (initialStep = 0) => {
 export interface HoliStepperProps extends ScrollViewProps {
   steps: React.ReactNode[]
   currentStep: number
+  lazy?: boolean
   style?: StyleProp<ViewStyle>
   contentContainerStyle?: StyleProp<ViewStyle>
   stepContainerStyle?: StyleProp<ViewStyle>
@@ -37,10 +38,11 @@ export interface HoliStepperProps extends ScrollViewProps {
 export const HoliStepper: React.VFC<HoliStepperProps> = ({
   steps,
   currentStep = 0,
+  lazy = false,
   style,
   contentContainerStyle,
   stepContainerStyle,
-  scrollEnabled,
+  scrollEnabled = false,
   ...scrollViewProps
 }) => {
   const carousel = React.useRef<ScrollView>(null)
@@ -52,7 +54,10 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
     // reset previousStep after scroll animation
     setTimeout(() => setPreviousStep(currentStep), 500)
   })
-  const isCurrentOrPrevStep = (stepIdx: number) => stepIdx === currentStep || stepIdx === previousStep
+  const mustStepBeRendered = (stepIdx: number) => {
+    if (!lazy) return true
+    return stepIdx === currentStep || stepIdx === previousStep
+  }
 
   // this useEffect reacts on `currenctStep` changes and adjusts `carousel` horizontal scroll position
   useEffect(() => {
@@ -84,8 +89,8 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
       {...scrollViewProps}
     >
       {steps.map((step, idx) => (
-        <View style={[styles.tabWrapper, stepContainerStyle]} key={idx} testID="stepper-step">
-          {isCurrentOrPrevStep(idx) && step}
+        <View style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]} key={idx} testID="stepper-step">
+          {mustStepBeRendered(idx) && step}
         </View>
       ))}
     </ScrollView>

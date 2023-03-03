@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
@@ -24,7 +24,6 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
   const { onFinish } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
   const { currentStep, goNext, goBack } = useStepper(toRegistration ? RegistrationStep.PRIVACY_POLICY : 0)
-  const { width: screenWidth } = useWindowDimensions()
 
   return (
     <View style={[styles.container, style]}>
@@ -43,7 +42,6 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           // Create Account step
           <Registration style={[styles.stepContent]} key="registration" />,
         ]}
-        stepContainerStyle={{ width: screenWidth }}
         scrollEnabled={false}
       />
     </View>

@@ -35,7 +35,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
   const mixins = useStyleMixins()
-  const styles = getStyles(tabScreenWidth, centeredButtons)
+  const styles = getStyles(centeredButtons)
 
   useEffect(() => {
     onChangeTab(currentStep)
@@ -87,7 +87,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
         currentStep={currentStep}
         steps={tabs.map((tab, i) => (
           <View
-            style={[styles.tab, tab.style]}
+            style={tab.style}
             accessibilityLabelledBy={`${id}-tab-${i}`}
             nativeID={`${id}-panel-${i}`}
             testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
@@ -105,7 +105,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
 
 export default HoliTabs
 
-const getStyles = (screenWidth: number, centeredButtons = false) =>
+const getStyles = (centeredButtons = false) =>
   StyleSheet.create({
     container: {
       justifyContent: 'center',
@@ -144,8 +144,5 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
     activeTabButtonText: {
       color: colors.foreground30,
       fontWeight: '500',
-    },
-    tab: {
-      width: screenWidth,
     },
   })
