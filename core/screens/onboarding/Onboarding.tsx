@@ -35,20 +35,16 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           <LoginRegistration
             onRegistration={goNext}
             onDismiss={onFinish}
-            style={[styles.stepContent, { width: screenWidth }]}
+            style={[styles.stepContent]}
             key="pre-login-registration"
           />,
           // Privacy Policy step
-          <DataConsent
-            onNextPress={goNext}
-            onBackPress={goBack}
-            style={[styles.stepContent, { width: screenWidth }]}
-            key="privacy-policy"
-          />,
+          <DataConsent onNextPress={goNext} onBackPress={goBack} style={[styles.stepContent]} key="privacy-policy" />,
           // Create Account step
-          <Registration style={[styles.stepContent, { width: screenWidth }]} key="registration" />,
+          <Registration style={[styles.stepContent]} key="registration" />,
         ]}
-        scrollEnabled={true}
+        stepContainerStyle={{ width: screenWidth }}
+        scrollEnabled={false}
       />
     </View>
   )
