@@ -52,9 +52,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   standAlone: {
-    // position: 'relative',
-    // alignSelf: 'center',
-    // margin: 'auto',
     top: 4,
   },
 })

@@ -32,7 +32,7 @@ const NotificationWithUserAvatar = ({
   const userFullName = fullName || t('user.profileView.anonymous')
 
   return (
-    <View style={style} testID={testID}>
+    <View style={[style, { borderWidth: 1, borderColor: 'green' }]} testID={testID}>
       <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliAvatar
