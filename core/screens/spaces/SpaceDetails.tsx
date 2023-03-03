@@ -84,7 +84,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.buttonWithIcon}
             />
           )}
-          {Platform.OS !== 'web' && <SpaceShare space={space} bold />}
+          <SpaceShare space={space} bold />
 
           <ReportBlockOptionButton
             action="report"
