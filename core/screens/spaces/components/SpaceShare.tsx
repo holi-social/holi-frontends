@@ -16,15 +16,15 @@ type SpaceShareProps = {
 
 const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
   const { t } = useTranslation()
-  const mobilePrefix = Linking.createURL(`/spaces/${space.id}`)
-  const webPrefix = `https://staging.web.project-holi.org/spaces/${space.id}`
+  const prefix = Linking.createURL(`/spaces/${space.id}`)
+  // const webPrefix = `https://staging.web.project-holi.org/spaces/${space.id}`
 
   const onShareMobile = async () => {
     try {
       const result = await Share.share({
         message: space.title,
         title: space.title,
-        url: mobilePrefix,
+        url: prefix,
       })
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -45,7 +45,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
       await navigator.share({
         title: space.title,
         text: space.description,
-        url: webPrefix,
+        url: prefix,
       })
     } catch (error) {
       Alert.alert(error.message)
