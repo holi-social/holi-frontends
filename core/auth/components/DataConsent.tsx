@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     marginTop: 24,
+    maxWidth: '100%',
   },
   labelLink: {
     fontSize: 14,
