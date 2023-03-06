@@ -20,6 +20,8 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useAuth()
 
+  // TODO: don't call if not logged in !!!!!!!!!!!!
+  // TODO: Antwort-Objekt hat sich geändert -> ist das gleiche wie HaveSeenMutation()
   const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     pollInterval: 20000,
   })
