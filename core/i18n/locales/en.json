@@ -242,6 +242,8 @@
   "spaces.delete.label": "Delete",
   "spaces.delete.success": "Successfully deleted space",
   "spaces.digitalTool.open.button.label": "open",
+  "spaces.digitalToolKit.noData.discription.title": "No collaboration essentials yet",
+  "spaces.digitalToolKit.noData.discription": "Tap here to add links and tools",
   "spaces.digitalToolKit.title": "Toolkit",
   "spaces.digitalToolKit.seeAll.button.label": "See all tools",
   "spaces.discover.description": "Spaces are rooms for collaboration. Find what fits or start your own.",

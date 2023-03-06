@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
   },
   headerContainer: {
-    paddingVertical: 11,
-    paddingHorizontal: 11,
+    padding: 10,
     width: '100%',
     flex: 1,
     flexDirection: 'row',
@@ -66,6 +65,7 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flex: 4,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   moreButton: {
     alignSelf: 'flex-start',

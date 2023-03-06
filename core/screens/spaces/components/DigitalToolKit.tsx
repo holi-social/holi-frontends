@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Linking, StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -40,6 +40,17 @@ const DigitalToolKit: React.VFC = () => {
     Linking.openURL(url)
   }
 
+  const NoToolsAvailable = () => {
+    return (
+      <View style={styles.noToolsDescriptionContainer}>
+        <HoliText size="small">{t('spaces.digitalToolKit.noData.discription.title')}</HoliText>
+        <HoliText size="extrasmall" style={styles.descriptionText}>
+          {t('spaces.digitalToolKit.noData.discription')}
+        </HoliText>
+      </View>
+    )
+  }
+
   const DigitalTool = ({ tool }: { tool: Tool }) => {
     return (
       <View style={styles.toolContainer}>
@@ -68,7 +79,10 @@ const DigitalToolKit: React.VFC = () => {
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
       <View style={styles.toolKitContainer}>
-        <FlatList data={displayToolList} renderItem={({ item }) => <DigitalTool tool={item} />} />
+        {(displayToolList.length > 0 &&
+          displayToolList.map((item) => {
+            return <DigitalTool key={item.id} tool={item} />
+          })) || <NoToolsAvailable />}
         {toolList.length > 3 && displayToolList.length !== toolList.length && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
@@ -130,5 +144,13 @@ const styles = StyleSheet.create({
   },
   seeAllButton: {
     backgroundColor: colors.background10,
+  },
+  noToolsDescriptionContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginTop: 70,
+  },
+  descriptionText: {
+    color: colors.foreground20,
   },
 })
