@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
@@ -5,8 +6,11 @@ import { Linking } from 'react-native'
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { HasNewNotifcationsResponse, hasNewNotifcationsQuery } from '@holi/core/screens/notifications/queries'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -15,6 +19,16 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useAuth()
+
+  const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(hasNewNotifcationsQuery, {
+    pollInterval: 5000,
+  })
+
+  if (HasNewNotificationsError) {
+    logError(HasNewNotificationsError, `[NotificationSearchButtons.tsx] ${HasNewNotificationsError.message}`)
+  }
+
+  const hasNewNotifications = !!data?.hasNewNotifications?.status
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -32,20 +46,20 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       </HoliButton>
       {/* TODO end: remove after Alpha */}
 
-      {isLoggedIn ? (
-        <HoliButton
-          label={t('notifications.title')}
-          inline
-          testID="btn-to-notifications"
-          transparent
-          onPress={() => {
-            navigate('/notifications')
-          }}
-        >
-          <HoliIcon icon="notification-2" size={24} color={tintColor} />
-        </HoliButton>
-      ) : (
-        [] // The && form rendered a div with margins leading to undesired spacing
+      {!!isLoggedIn && (
+        <NotificationBadge visible={hasNewNotifications}>
+          <HoliButton
+            label={t('notifications.title')}
+            inline
+            testID="btn-to-notifications"
+            transparent
+            onPress={() => {
+              navigate('/notifications')
+            }}
+          >
+            <HoliIcon icon="notification-2" size={24} color={tintColor} />
+          </HoliButton>
+        </NotificationBadge>
       )}
 
       <HoliButton
