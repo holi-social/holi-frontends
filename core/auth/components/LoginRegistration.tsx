@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontWeight: 400,
+    fontWeight: '400',
     textAlign: 'center',
     marginTop: 74,
   },

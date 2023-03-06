@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headline: {
-    fontWeight: 400,
+    fontWeight: '400',
     textAlign: 'center',
     marginTop: 74,
   },
