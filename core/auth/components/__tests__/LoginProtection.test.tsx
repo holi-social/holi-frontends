@@ -49,7 +49,7 @@ describe('renders correctly', () => {
     it('login', () => {
       const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-      fireEvent.press(getByTestId('login-link'))
+      fireEvent.press(getByTestId('btn-to-login-form'))
 
       expect(mockNavigate).toHaveBeenCalledWith('/login')
     })
