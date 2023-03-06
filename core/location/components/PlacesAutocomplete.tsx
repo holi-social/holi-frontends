@@ -11,7 +11,6 @@ const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
-  value?: string
   coordinates?: {
     latitude: number
     longitude: number
@@ -54,7 +53,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   value,
 }: PlacesAutocompleteProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(selected?.value || value)
+  const [locationInput, setLocationInput] = useState(selected?.label || value)
   const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
   const submit = useCallback(
     (id: string) => {
@@ -94,7 +93,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
 
   // Trigger loading suggestions for initial value
   useEffect(() => {
-    if (!called && (value || selected?.value)) {
+    if (!called && (value || selected?.label)) {
       getSuggestions(value || '')
     }
   }, [called, selected, getSuggestions, value])
@@ -131,7 +130,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       inputLabel={label}
       accessibilityLabel={label}
       placeholder={placeholder}
-      value={withCoordinates ? selected?.value : value}
+      value={withCoordinates ? selected?.label : value}
       trailingIcon="search"
       inputProps={inputProps}
       onSubmit={submit}

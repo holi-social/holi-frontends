@@ -17,7 +17,7 @@ interface EditSpaceLocationProps {
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { openToast } = useToast()
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    space.location ? { value: space.location, id: '', label: '', coordinates: space.geolocation } : undefined
+    space.location ? { label: space.location, id: '', coordinates: space.geolocation } : undefined
   )
   const [validationErrorText, setValidationErrorText] = useState('')
 
@@ -45,7 +45,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
       variables: {
         input: {
           id: space.id,
-          location: location?.value,
+          location: location?.label,
           geolocation: {
             latitude: location?.coordinates?.latitude,
             longitude: location?.coordinates?.longitude,
