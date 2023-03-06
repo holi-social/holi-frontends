@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 // Code based on https://jake.tl/notes/2021-04-04-nextjs-preload-hack

@@ -39,7 +39,7 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
         icon="delete"
         label={t('spaces.delete.label')}
         onPress={() => setShowConfirmationModal(true)}
-        tintColor={colors.error30}
+        tintColor={colors.error20}
         contentStyle={style}
         disabled={loading}
         testID="space-delete-btn"

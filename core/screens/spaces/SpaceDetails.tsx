@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
   buttonWithIcon: {
     display: 'flex',
     justifyContent: 'center',
+    paddingVertical: 18,
   },
   reportButton: {
     justifyContent: 'center',
