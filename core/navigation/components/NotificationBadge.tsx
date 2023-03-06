@@ -36,19 +36,21 @@ const NotificationBadge = ({
 
 export default NotificationBadge
 
+const BADGE_SIZE = 12
+
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    minWidth: 12,
+    minWidth: BADGE_SIZE,
   },
   badge: {
     position: 'absolute',
-    width: 12,
-    height: 12,
+    width: BADGE_SIZE,
+    height: BADGE_SIZE,
     top: 0,
     right: 0,
     backgroundColor: colors.brandColorB30,
-    borderRadius: 6,
+    borderRadius: BADGE_SIZE / 2,
     borderWidth: 2,
   },
   standAlone: {

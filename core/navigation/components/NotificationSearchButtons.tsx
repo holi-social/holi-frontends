@@ -20,7 +20,6 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useAuth()
 
-  // TODO: don't call if not logged in !!!!!!!!!!!!
   const { error: hasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     skip: !isLoggedIn,
     fetchPolicy: 'network-only',
