@@ -21,16 +21,17 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { isLoggedIn } = useAuth()
 
   // TODO: don't call if not logged in !!!!!!!!!!!!
-  // TODO: Antwort-Objekt hat sich geändert -> ist das gleiche wie HaveSeenMutation()
-  const { error: HasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
+  const { error: hasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
+    skip: !isLoggedIn,
+    fetchPolicy: 'network-only',
     pollInterval: 20000,
   })
 
-  if (HasNewNotificationsError) {
-    logError(HasNewNotificationsError, `[NotificationSearchButtons.tsx] ${HasNewNotificationsError.message}`)
+  if (hasNewNotificationsError) {
+    logError(hasNewNotificationsError, `[NotificationSearchButtons.tsx] ${hasNewNotificationsError.message}`)
   }
 
-  const hasNewNotifications = !!data?.hasNewNotifications?.result
+  const hasNewNotifications = !!data?.hasNewNotifications?.status
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
