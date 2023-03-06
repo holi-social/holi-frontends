@@ -13,8 +13,11 @@ interface CollaboratorAreaCardProps {
   title?: string
   children?: ReactNode
 }
-const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({ icon, title, children }) => {
-  //const { setOptions } = useUnifiedNavigation()
+const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
+  icon,
+  title,
+  children,
+}: CollaboratorAreaCardProps) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
   const Header = () => {
@@ -38,7 +41,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({ icon, titl
   return (
     <View style={styles.wrapper}>
       <Header />
-      {children && children}
+      <View style={styles.contentContainer}>{children && children}</View>
     </View>
   )
 }
@@ -47,7 +50,6 @@ export default CollaboratorAreaCard
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center',
     flex: 1,
     backgroundColor: colors.background10,
     borderRadius: 16,
@@ -66,11 +68,11 @@ const styles = StyleSheet.create({
     flex: 4,
     flexDirection: 'row',
   },
-  headerMoreButton: {
-    flex: 1,
-  },
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
+  },
+  contentContainer: {
+    flex: 1,
   },
 })
