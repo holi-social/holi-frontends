@@ -29,6 +29,7 @@ interface PlacesAutocompleteProps {
   placeholder: string
   inputProps?: TextInputProps
   validationErrorText?: string
+  helperText?: string
   style?: StyleProp<ViewStyle>
   suggestionsStyle?: StyleProp<ViewStyle>
   withCoordinates?: boolean
@@ -45,6 +46,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   placeholder,
   inputProps,
   validationErrorText,
+  helperText,
   onChange,
   style,
   suggestionsStyle,
@@ -64,14 +66,6 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     [onSubmit, placeSuggestions]
   )
 
-  // Handle reset from outside
-  useEffect(() => {
-    if (!selected || !value) {
-      setLocationInput('')
-      setPlaceSuggestions([])
-    }
-  }, [selected, value])
-
   const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
       text: locationInput,
@@ -86,24 +80,24 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   const getSuggestions = useCallback(
     (value: string) => {
       setLocationInput(value)
-      const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
+      const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === value)
       onChange && selectedSuggestion && onChange(selectedSuggestion)
-      onChangeText && onChangeText(selectedSuggestion?.value || value)
-      if (id) {
+      onChangeText && onChangeText(value)
+      if (value) {
         fetchSuggestions()
       } else {
         setPlaceSuggestions([])
       }
     },
-    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, id, placeSuggestions, onChangeText]
+    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, placeSuggestions, onChangeText]
   )
 
   // Trigger loading suggestions for initial value
   useEffect(() => {
-    if (selected && !called) {
-      getSuggestions(selected?.value || '')
+    if (!called && (value || selected?.value)) {
+      getSuggestions(value || '')
     }
-  }, [called, selected, getSuggestions])
+  }, [called, selected, getSuggestions, value])
 
   useEffect(() => {
     // keep displaying previous suggestions while loading to prevent flickering
@@ -146,7 +140,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       validationErrorText={
         validationErrorText ? validationErrorText : error?.message && t('location.placesAutocomplete.error')
       }
-      helperText={noResultsText}
+      helperText={noResultsText || helperText}
       id={id}
       style={style}
       suggestionsStyle={suggestionsStyle}

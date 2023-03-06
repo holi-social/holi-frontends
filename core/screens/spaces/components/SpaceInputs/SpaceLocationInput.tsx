@@ -36,6 +36,7 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         label={t('spaces.input.location.label')}
         placeholder={t('spaces.input.location.placeholder')}
         selected={location}
+        value={location?.value}
         id="spaces-input-location"
         testID="spaces-input-location"
         onChange={updateLocation}
@@ -43,6 +44,7 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true }}
         validationErrorText={validationErrorText}
+        helperText={location ? undefined : t('spaces.input.location.validation.helper')}
         suggestionsStyle={styles.suggestionsContainer}
         withCoordinates
       />

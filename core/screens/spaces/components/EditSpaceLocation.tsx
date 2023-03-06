@@ -16,7 +16,9 @@ interface EditSpaceLocationProps {
 
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { openToast } = useToast()
-  const [location, setLocation] = useState<GeolocationSuggestion>()
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    space.location ? { value: space.location, id: '', label: '', coordinates: space.geolocation } : undefined
+  )
   const [validationErrorText, setValidationErrorText] = useState('')
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
@@ -36,7 +38,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   const { t } = useTranslation()
   const onSave = () => {
     if (!location) {
-      setValidationErrorText(t('spaces.input.location.validation.error'))
+      setValidationErrorText(t('spaces.input.location.validation.helper'))
       return
     }
     updateSpace({
@@ -54,7 +56,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   }
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} scrollable={false}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading || !location} scrollable={false}>
       <SpaceLocationInput
         title={t('spaces.input.location.title')}
         description={t('spaces.input.location.description')}

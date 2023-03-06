@@ -288,7 +288,7 @@
   "spaces.input.location.placeholder": "Gib eine Adresse, einen Bezirk, eine Stadt oder ein Land ein",
   "spaces.input.location.preferences.label": "Location and remote preferences",
   "spaces.input.location.title": "Standort",
-  "spaces.input.location.validation.error": "Wähle im Dropdown einen gültigen Standort aus",
+  "spaces.input.location.validation.helper": "Wähle im Dropdown einen gültigen Standort aus",
   "spaces.input.name.description": "Der Name sollte kurz, klar und prägnant sein",
   "spaces.input.name.label": "Name des Spaces",
   "spaces.input.name.placeholder": "Unser Name ist...",
