@@ -18,10 +18,10 @@ type Tool = {
   thumbnail?: string
 }
 const toolList: Tool[] = [
-  { id: '0', name: 'Mirro', title: 'Ideas whiteboard', url: 'https://miro.com/' },
-  { id: '1', name: 'Rocket Chat', title: 'Team chat', url: 'https://de.rocket.chat/' },
-  { id: '2', name: 'Jitsi Meet', title: 'Monthly meetup room', url: 'https://meet.jit.si/' },
-  { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de' },
+  { id: '0', name: 'Mirro', title: 'Ideas whiteboard', url: 'https://miro.com/', thumbnail: undefined },
+  { id: '1', name: 'Rocket Chat', title: 'Team chat', url: 'https://de.rocket.chat/', thumbnail: undefined },
+  { id: '2', name: 'Jitsi Meet', title: 'Monthly meetup room', url: 'https://meet.jit.si/', thumbnail: undefined },
+  { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de', thumbnail: undefined },
 ]
 
 const DigitalToolKit: React.VFC = () => {
@@ -45,7 +45,7 @@ const DigitalToolKit: React.VFC = () => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          <HoliImage source={{ uri: tool.url }} label={tool.name} />
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.name} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>

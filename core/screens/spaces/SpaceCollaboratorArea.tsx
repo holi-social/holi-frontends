@@ -71,12 +71,13 @@ export default SpaceCollaboratorArea
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center',
+    width: '100%',
     flex: 1,
     backgroundColor: colors.background10,
   },
   defaultLayout: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   contentStyle: {
     padding: 24,
