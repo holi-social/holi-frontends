@@ -111,7 +111,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
       >
-        <View style={[styles.container, { minHeight: deviceHeight }]}>
+        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <HoliText size="large">{t('spaces.digitalTool.add.title')}</HoliText>
           <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
           <DigitalToolInputForm
@@ -128,7 +128,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
           />
         </View>
       </DefaultLayout>
-      <Footer />
+      <View>
+        <Footer />
+      </View>
+
       <HoliConfirmation
         show={showConfirmationModal}
         label={exitConfirmationTitle}
@@ -152,7 +155,6 @@ export default AddDigitalTool
 const styles = StyleSheet.create({
   defaultLayout: {
     padding: 24,
-    paddingTop: 32,
     backgroundColor: colors.background20,
   },
   contentStyle: {
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   footer: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     margin: -7,
     ...Platform.select({
       web: {
-        margin: 0,
+        alignSelf: 'center',
       },
     }),
   },

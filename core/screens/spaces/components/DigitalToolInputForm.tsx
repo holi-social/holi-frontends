@@ -198,9 +198,10 @@ const styles = StyleSheet.create({
   },
   imageUploadButton: {
     backgroundColor: colors.background10,
+    borderWidth: 1,
   },
   instructionsContainer: {
-    marginTop: 8,
+    marginTop: 16,
     justifyContent: 'center',
   },
   instructions: {
