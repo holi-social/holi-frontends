@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, Linking, StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -25,6 +26,7 @@ const toolList: Tool[] = [
 
 const DigitalToolKit: React.VFC = () => {
   const [displayToolList, setDisplayToolList] = useState<Array<Tool>>([])
+  const { t } = useTranslation()
 
   useEffect(() => {
     const subArray = toolList.slice(0, 3)
@@ -52,7 +54,11 @@ const DigitalToolKit: React.VFC = () => {
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
         <View style={styles.shareButtonContainer}>
-          <HoliButton label={''} transparent onPress={() => handleShareButtonPress(tool.url)}>
+          <HoliButton
+            label={t('spaces.digitalTool.open.button.label')}
+            transparent
+            onPress={() => handleShareButtonPress(tool.url)}
+          >
             <HoliIcon icon={'share-box'} size={15} />
           </HoliButton>
         </View>
@@ -61,13 +67,17 @@ const DigitalToolKit: React.VFC = () => {
   }
 
   return (
-    <CollaboratorAreaCard icon="tools" title={'ToolKit'}>
+    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
       <View style={styles.toolKitContainer}>
         <FlatList data={displayToolList} renderItem={({ item }) => <DigitalTool tool={item} />} />
         {toolList.length > 3 && displayToolList.length !== toolList.length && (
           <View style={styles.seeAllButtonContainer}>
-            <HoliButton label={''} style={styles.seeAllButton} onPress={handleSeeAllButtonPress}>
-              <HoliText>See all tools</HoliText>
+            <HoliButton
+              label={t('spaces.digitalToolKit.seeAll.button.label')}
+              style={styles.seeAllButton}
+              onPress={handleSeeAllButtonPress}
+            >
+              <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
             </HoliButton>
           </View>
         )}
