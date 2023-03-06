@@ -29,8 +29,6 @@ export type RootStackScreens = {
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
-
-  [RouteName.Onboarding]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
