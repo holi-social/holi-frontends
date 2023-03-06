@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
   },
   headerContainer: {
-    display: 'flex',
     paddingVertical: 11,
     paddingHorizontal: 11,
     width: '100%',

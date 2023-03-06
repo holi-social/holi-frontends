@@ -15,6 +15,7 @@ import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorAreaParams = {
   spaceId: string
@@ -29,6 +30,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const [spaceId] = useParam('spaceId')
   const onScreenScroll = useScrollYHandler()
+  const mixins = useStyleMixins()
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
@@ -58,7 +60,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
       >
-        <View style={styles.wrapper}>
+        <View style={[mixins.container, styles.wrapper]}>
           <DigitalToolKit />
         </View>
       </DefaultLayout>
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   contentStyle: {
-    padding: 24,
     paddingBottom: 0,
   },
 })

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Linking, StyleSheet, View } from 'react-native'
 
+import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import CollaboratorAreaCard from './CollaborationAreaCard'
 
 type Tool = {
   id: string
@@ -18,7 +17,7 @@ type Tool = {
   thumbnail?: string
 }
 const toolList: Tool[] = [
-  { id: '0', name: 'Mirro', title: 'Ideas whiteboard', url: 'https://miro.com/', thumbnail: undefined },
+  { id: '0', name: 'Miro', title: 'Ideas whiteboard', url: 'https://miro.com/', thumbnail: undefined },
   { id: '1', name: 'Rocket Chat', title: 'Team chat', url: 'https://de.rocket.chat/', thumbnail: undefined },
   { id: '2', name: 'Jitsi Meet', title: 'Monthly meetup room', url: 'https://meet.jit.si/', thumbnail: undefined },
   { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de', thumbnail: undefined },
@@ -90,7 +89,6 @@ export default DigitalToolKit
 
 const styles = StyleSheet.create({
   toolKitContainer: {
-    display: 'flex',
     flex: 1,
     width: '100%',
     padding: 8,
