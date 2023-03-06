@@ -65,6 +65,7 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
           checked={accepted}
           onSelect={() => setAccepted((value) => !value)}
           style={styles.checkbox}
+          testID="privicy-policy-checkbox"
         >
           <View>
             <HoliText size="small">

@@ -40,7 +40,7 @@ const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ withRe
               : undefined
           }
           textStyle={[styles.link, { fontFamily: theme.fontFamily.default('Medium') }]}
-          testID="login-link"
+          testID="btn-to-login-form"
         />
       </Trans>
     </HoliText>

@@ -20,7 +20,8 @@ test.describe('@Registration', () => {
 
     // go to registration
     await clickElementByTestId(page, 'btn-to-registration-form')
-    await page.waitForURL('**/registration')
+    await clickElementByTestId(page, 'privicy-policy-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
 
     // switch to login
     await clickElementByTestId(page, 'btn-to-login-form')
@@ -28,7 +29,7 @@ test.describe('@Registration', () => {
 
     // switch to registration again
     await clickElementByTestId(page, 'btn-to-registration-form')
-    await page.waitForURL('**/registration')
+    await waitForElementByTestId(page, 'privicy-policy-checkbox')
   })
 
   test('validate Email and password fields', async ({ context, page }) => {
@@ -102,9 +103,6 @@ test.describe('@Registration', () => {
     await waitForElementByTestId(page, 'btn-to-settings')
 
     // try to go to registration or login page with logged in user
-    await page.goto('/registration')
-    await waitForElementByTestId(page, 'btn-to-settings')
-
     await page.goto('/login')
     await waitForElementByTestId(page, 'btn-to-settings')
 

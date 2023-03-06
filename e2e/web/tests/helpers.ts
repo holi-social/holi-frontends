@@ -81,6 +81,11 @@ export const defaultAuthSteps = async (
   await page.goto('/profile')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
+  if (!isLogin) {
+    await clickElementByTestId(page, 'privicy-policy-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+  }
+
   const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
   await emailInput.fill(email)
 
