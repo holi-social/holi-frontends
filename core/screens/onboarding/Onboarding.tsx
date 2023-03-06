@@ -43,6 +43,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           <Registration style={[styles.stepContent]} key="registration" />,
         ]}
         scrollEnabled={false}
+        lazy
       />
     </View>
   )

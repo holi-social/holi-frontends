@@ -221,21 +221,17 @@ exports[`renders correctly renders correctly when open 1`] = `
             {
               "flex": 1,
             },
+            {
+              "width": 750,
+            },
             undefined,
           ]
         }
+        testID="stepper-step"
       >
         <View
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-0-active"
         >
           <View>
@@ -270,21 +266,17 @@ exports[`renders correctly renders correctly when open 1`] = `
             {
               "flex": 1,
             },
+            {
+              "width": 750,
+            },
             undefined,
           ]
         }
+        testID="stepper-step"
       >
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-1-inactive"
         >
           <View>

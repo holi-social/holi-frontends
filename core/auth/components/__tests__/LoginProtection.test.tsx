@@ -5,7 +5,7 @@ import { Text } from 'react-native'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 
-describe.skip('renders correctly', () => {
+describe('renders correctly', () => {
   it('renders protected content when logged in', () => {
     const { queryByText } = render(
       <AuthContext.Provider
@@ -42,13 +42,14 @@ describe.skip('renders correctly', () => {
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/registration')
+      // goes to Privicy Policy step
+      expect(getByText('onboarding.dataconsent.heading')).not.toBeNull()
     })
 
     it('login', () => {
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-      fireEvent.press(getByText('auth.login'))
+      fireEvent.press(getByTestId('login-link'))
 
       expect(mockNavigate).toHaveBeenCalledWith('/login')
     })
