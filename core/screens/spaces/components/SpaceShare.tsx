@@ -107,7 +107,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
                 </View>
                 <HoliText style={styles.description}>{prefix}</HoliText>
                 <View style={styles.buttonContainer}>
-                  <HoliButton label={t('spaces:spaces.share')} style={style} onPress={copyToClipboard}>
+                  <HoliButton label={t('spaces:spaces.share.copy.link')} style={style} onPress={copyToClipboard}>
                     <HoliText bold>{t('spaces:spaces.share.copy.link')}</HoliText>
                   </HoliButton>
                 </View>
