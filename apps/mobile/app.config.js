@@ -1,3 +1,5 @@
+import { colors } from '@holi/ui/styles/globalVars'
+
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
@@ -18,7 +20,7 @@ export default {
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#F5F5F5',
+      backgroundColor: colors.background20,
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -40,7 +42,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background20,
       },
       package: 'foundation.holistic.projectholi',
       versionCode: versions.androidVersionCode,
