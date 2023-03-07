@@ -32,13 +32,12 @@ const containsNotifications = (notifications?: Notification[]) => {
   })
 }
 
-const sortNotificationsByDate = (notifications?: Notification[]) => {
+const groupByDate = (notifications?: Notification[]) => {
   if (!notifications) return []
   return notifications
     .reduce(
       (acc, notification) => {
         const { created } = notification
-
         if (isThisWeek(notification.created)) {
           acc[0].data.push(notification)
         } else if (isLastWeek(created)) {
@@ -96,8 +95,8 @@ const NotificationsOverview: React.VFC = () => {
 
   useEffect(() => {
     if (containsNotifications(data?.notifications?.data)) {
-      const lastNotification = sortNotificationsByDate(data?.notifications?.data)[0]?.data[0]
-      reportLastSeenNotification({ variables: { notificationId: lastNotification.id } })
+      const lastNotification = data?.notifications?.data[0]
+      reportLastSeenNotification({ variables: { notificationId: lastNotification?.id } })
     }
   }, [data, reportLastSeenNotification])
 
@@ -144,11 +143,11 @@ const NotificationsOverview: React.VFC = () => {
       />
     )
 
-  const sortedNotificationsByDate = sortNotificationsByDate(data?.notifications?.data)
+  const groupedNotifications = groupByDate(data?.notifications?.data)
 
   return (
     <SectionList
-      sections={sortedNotificationsByDate}
+      sections={groupedNotifications}
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
       renderSectionHeader={({ section }) => (
@@ -157,7 +156,7 @@ const NotificationsOverview: React.VFC = () => {
         </HoliHeading>
       )}
       renderSectionFooter={({ section }) =>
-        section === sortedNotificationsByDate[sortedNotificationsByDate.length - 1] ? (
+        section === groupedNotifications[groupedNotifications.length - 1] ? (
           <View style={styles.lastSectionFooter} />
         ) : null
       }

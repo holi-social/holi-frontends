@@ -15,6 +15,10 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 
+const NOTIFICATION_POLLING_INTERVAL = process.env.NOTIFICATION_POLLING_INTERVAL
+  ? parseInt(process.env.NOTIFICATION_POLLING_INTERVAL, 10)
+  : 5000
+
 const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
@@ -23,7 +27,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { error: hasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     skip: !isLoggedIn,
     fetchPolicy: 'network-only',
-    pollInterval: 20000,
+    pollInterval: NOTIFICATION_POLLING_INTERVAL,
   })
 
   if (hasNewNotificationsError) {
