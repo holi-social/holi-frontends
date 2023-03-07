@@ -2,20 +2,20 @@ import Link from 'next/link'
 import React, { SyntheticEvent } from 'react'
 import type { PropsWithChildren } from 'react'
 
-import type { HoliNavigationLinkProps } from '@holi/ui/components/atoms/HoliNavigationLink'
+import type { HoliLinkProps } from '@holi/ui/components/atoms/HoliLink'
 
 import styles from './HoliLink.module.scss'
 
-type HoliNavigationLinkWeb = Omit<HoliNavigationLinkProps, 'mobileNavigateBackFirst'>
+type HoliLinkWeb = Omit<HoliLinkProps, 'mobileNavigateBackFirst'>
 
-const HoliNavigationLink = ({
+const HoliLink = ({
   href,
   label,
   external,
   onPress,
   children,
   testID = 'text-link',
-}: PropsWithChildren<HoliNavigationLinkWeb>) => {
+}: PropsWithChildren<HoliLinkWeb>) => {
   const onLinkPress = (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
     const stopPropagation = onPress?.(event)
     if (stopPropagation === false) {
@@ -41,4 +41,4 @@ const HoliNavigationLink = ({
   )
 }
 
-export default HoliNavigationLink
+export default HoliLink

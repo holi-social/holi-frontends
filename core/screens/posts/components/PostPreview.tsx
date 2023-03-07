@@ -11,7 +11,7 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -50,13 +50,13 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
       <View style={styles.paddingHorizontal}>
         <View style={styles.header}>
           <View style={styles.mediaHeaderLink}>
-            <HoliNavigationLink
+            <HoliLink
               href={`/profile/${post.creator.id}`}
               label={post.creator.fullName}
               testID="btn-to-post-creator-profile"
             >
               <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
-            </HoliNavigationLink>
+            </HoliLink>
           </View>
           <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
@@ -81,11 +81,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
         </View>
 
         <View style={styles.postTitleLink}>
-          <HoliNavigationLink href={postUrl} label={post.title} testID="btn-to-post">
+          <HoliLink href={postUrl} label={post.title} testID="btn-to-post">
             <HoliHeading size="small" style={styles.postTitle}>
               {post.title}
             </HoliHeading>
-          </HoliNavigationLink>
+          </HoliLink>
         </View>
 
         <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
@@ -106,16 +106,16 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
       <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
         {post.numberOfComments > 0 && (
           <View style={styles.reactionsLink}>
-            <HoliNavigationLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
+            <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
               <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
                 {t('insights.post.response', { count: post.numberOfComments })}
               </HoliUserAvatarPile>
-            </HoliNavigationLink>
+            </HoliLink>
           </View>
         )}
         {post.numberOfComments < 1 && (
           <View style={styles.noCommentsYetMessage}>
-            <HoliNavigationLink
+            <HoliLink
               href={commentUrl}
               label={t('insights.posts.comments.create_comment_button')}
               onPress={onPressCommentLink}
@@ -123,7 +123,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               <HoliText size="small" style={{ color: colors.foreground20 }}>
                 {t('insights.post.no-comment-yet')}
               </HoliText>
-            </HoliNavigationLink>
+            </HoliLink>
           </View>
         )}
 

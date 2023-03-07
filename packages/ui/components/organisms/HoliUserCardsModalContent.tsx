@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -44,13 +44,13 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         slides={uniqueUsers.map((user) => ({
           children: (
             <View style={styles.link}>
-              <HoliNavigationLink
+              <HoliLink
                 href={`/profile/${user.id}`}
                 label={t('user.visitProfile', { name: user.fullName })}
                 onPress={onDismiss}
               >
                 <HoliUserCard user={user} category={category} disableFocusability />
-              </HoliNavigationLink>
+              </HoliLink>
             </View>
           ),
         }))}

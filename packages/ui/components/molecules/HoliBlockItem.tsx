@@ -4,7 +4,7 @@ import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'rea
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -40,7 +40,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
 
   return (
     <View style={[styles.holiBlockItem, style]}>
-      <HoliNavigationLink label={label} href={href} testID={testID}>
+      <HoliLink label={label} href={href} testID={testID}>
         <View style={styles.holiBlockItemInner}>
           <View style={[styles.imageContainer]}>
             <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
@@ -73,7 +73,7 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
             )}
           </View>
         </View>
-      </HoliNavigationLink>
+      </HoliLink>
     </View>
   )
 }

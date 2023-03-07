@@ -4,7 +4,7 @@ import { GestureResponderEvent, Linking, Pressable } from 'react-native'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 
-export interface HoliNavigationLinkProps {
+export interface HoliLinkProps {
   href: string
   label: string
   external?: boolean
@@ -14,7 +14,7 @@ export interface HoliNavigationLinkProps {
   testID?: string
 }
 
-const HoliNavigationLink = ({
+const HoliLink = ({
   href,
   label,
   external,
@@ -22,7 +22,7 @@ const HoliNavigationLink = ({
   children,
   mobileNavigateBackFirst,
   testID = 'text-link',
-}: PropsWithChildren<HoliNavigationLinkProps>) => {
+}: PropsWithChildren<HoliLinkProps>) => {
   const { navigate, navigateBack } = useUnifiedNavigation()
 
   const onLinkPress = (event: GestureResponderEvent) => {
@@ -50,4 +50,4 @@ const HoliNavigationLink = ({
   )
 }
 
-export default HoliNavigationLink
+export default HoliLink

@@ -2,13 +2,13 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
-import type { HoliNavigationLinkProps } from '@holi/ui/components/atoms/HoliNavigationLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import type { HoliLinkProps } from '@holi/ui/components/atoms/HoliLink'
 import type { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliTextLinkProps extends HoliNavigationLinkProps {
+export interface HoliTextLinkProps extends HoliLinkProps {
   size?: HoliLinkSize
   variant?: HoliLinkVariant
 }
@@ -28,7 +28,7 @@ const HoliTextLink = ({
   testID = 'text-link',
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
-    <HoliNavigationLink
+    <HoliLink
       external={external}
       href={href}
       label={label}
@@ -39,7 +39,7 @@ const HoliTextLink = ({
       <HoliText size={size} style={styles[variant]} bold>
         {children}
       </HoliText>
-    </HoliNavigationLink>
+    </HoliLink>
   )
 }
 

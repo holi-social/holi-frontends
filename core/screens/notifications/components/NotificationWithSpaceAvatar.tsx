@@ -5,7 +5,7 @@ import { ImageSourcePropType, StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -33,7 +33,7 @@ const NotificationWithSpaceAvatar = ({
 
   return (
     <View style={style} testID={testID}>
-      <HoliNavigationLink href={href} label={title} mobileNavigateBackFirst>
+      <HoliLink href={href} label={title} mobileNavigateBackFirst>
         <View style={styles.link}>
           <View style={styles.imageContainer}>
             <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
@@ -56,7 +56,7 @@ const NotificationWithSpaceAvatar = ({
 
           {!read && <View style={styles.readStatus} />}
         </View>
-      </HoliNavigationLink>
+      </HoliLink>
 
       {children}
     </View>
