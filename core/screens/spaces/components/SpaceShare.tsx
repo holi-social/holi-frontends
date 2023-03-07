@@ -31,7 +31,6 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const prefix = Linking.createURL(`/spaces/${space.id}`)
   const [show, setShow] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
-  // const webPrefix = `https://staging.web.project-holi.org/spaces/${space.id}`
 
   const onShareMobile = async () => {
     try {
@@ -54,24 +53,12 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
     }
   }
 
-  // const onShareWeb = async () => {
-  //   try {
-  //     await navigator.share({
-  //       title: space.title,
-  //       text: space.description,
-  //       url: prefix,
-  //     })
-  //   } catch (error) {
-  //     Alert.alert(error.message)
-  //   }
-  // }
-
   const copyToClipboard = () => {
     Clipboard.setString(prefix)
     setIsCopied(true)
     setTimeout(() => {
       setShow(false)
-    }, 1000)
+    }, 1500)
   }
 
   const ShareWebPrompt = () => {
