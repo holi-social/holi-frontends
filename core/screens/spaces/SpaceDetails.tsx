@@ -84,6 +84,17 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.buttonWithIcon}
             />
           )}
+
+          <MoreOptionItem
+            icon="smiley"
+            label={'Cloud'}
+            onPress={() => {
+              navigate(`/spaces/${spaceId}/cloud`)
+              hide()
+            }}
+            contentStyle={styles.buttonWithIcon}
+          />
+
           {Platform.OS !== 'web' && <SpaceShare space={space} />}
 
           <ReportBlockOptionButton
