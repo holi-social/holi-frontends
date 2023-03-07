@@ -24,8 +24,6 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const updateLocation = (suggestion: GeolocationSuggestion) => onChange(suggestion)
-
   return (
     <View style={[styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>
@@ -39,8 +37,8 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         value={location?.label}
         id="spaces-input-location"
         testID="spaces-input-location"
-        onChange={updateLocation}
-        onSubmit={updateLocation}
+        onChange={onChange}
+        onSubmit={onChange}
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true }}
         validationErrorText={validationErrorText}
