@@ -29,6 +29,10 @@ const SpaceFragment = gql`
     cover
     avatarDefaultColor
     location
+    geolocation {
+      latitude
+      longitude
+    }
     connectionStatusToMyself
     links {
       type
@@ -258,6 +262,10 @@ export const updateSpaceMutation = gql`
       cover
       location
       avatarDefaultColor
+      geolocation {
+        latitude
+        longitude
+      }
       topics {
         id
         title
