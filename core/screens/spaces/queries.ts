@@ -262,6 +262,10 @@ export const updateSpaceMutation = gql`
       cover
       location
       avatarDefaultColor
+      geolocation {
+        latitude
+        longitude
+      }
       topics {
         id
         title
