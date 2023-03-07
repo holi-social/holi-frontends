@@ -55,6 +55,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateSpace]: 'spaces/create',
         [RouteName.EditSpace]: 'spaces/:spaceId/edit',
         [RouteName.CollaboratorArea]: 'spaces/:spaceId/collaboratorArea',
+        [RouteName.AddDigitalTool]: 'spaces/:spaceId/addDigitalTool',
       },
     },
 

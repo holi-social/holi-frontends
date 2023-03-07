@@ -48,7 +48,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
 
   return (
     <View style={styles.wrapper}>
-      <AddNewDrawer />
+      <AddNewDrawer spaceId={spaceId} />
     </View>
   )
 }
