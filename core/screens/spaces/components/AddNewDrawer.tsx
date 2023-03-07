@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ResourceCategoryTile, { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -12,19 +13,24 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const AddNewDrawer: React.FC = () => {
+interface AddNewDrawerProps {
+  spaceId: string | undefined
+}
+
+const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceId }: AddNewDrawerProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { visible, show, hide } = useModalState()
+  const { navigate } = useRouting()
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {
       if (path) {
         hide()
-        //TODO: navigate(path)
+        navigate(`/spaces/${spaceId}${path}`)
       }
     },
-    [hide]
+    [hide, navigate, spaceId]
   )
 
   return (
