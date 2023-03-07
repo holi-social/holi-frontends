@@ -168,16 +168,41 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
       </View>
       <View
         style={
-          {
-            "backgroundColor": "#6267e7",
-            "borderRadius": 4,
-            "height": 8,
-            "marginLeft": 12,
-            "marginTop": 4,
-            "width": 8,
-          }
+          [
+            {
+              "minWidth": 12,
+              "position": "relative",
+            },
+            {
+              "marginLeft": 12,
+            },
+          ]
         }
-      />
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#6267e7",
+                "borderRadius": 6,
+                "borderWidth": 2,
+                "height": 12,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+                "width": 12,
+              },
+              {
+                "top": 4,
+              },
+              {
+                "borderColor": "#ebebeb",
+              },
+              {},
+            ]
+          }
+        />
+      </View>
     </View>
   </View>
 </View>
