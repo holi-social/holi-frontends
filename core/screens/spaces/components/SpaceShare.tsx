@@ -90,36 +90,31 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         animationType="fade"
         transparent
         visible={show}
+        accessibilityLabel={t('spaces:spaces.share')}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.')
         }}
       >
         <View style={styles.modalContainer}>
           <Pressable onPress={() => setShow(false)} style={styles.backdrop} />
-
           <View style={styles.modalView}>
             {!isCopied ? (
               <>
                 <View style={{ flexDirection: 'row' }}>
                   <HoliHeading level="4" size="small">
-                    Teilen
+                    {t('spaces:spaces.share')}
                   </HoliHeading>
                 </View>
                 <HoliText style={styles.description}>{prefix}</HoliText>
                 <View style={styles.buttonContainer}>
-                  <HoliButton
-                    label={t('spaces:spaces.share')}
-                    style={style}
-                    // onPress copy to clipboard
-                    onPress={copyToClipboard}
-                  >
-                    <HoliText bold>Link kopieren</HoliText>
+                  <HoliButton label={t('spaces:spaces.share')} style={style} onPress={copyToClipboard}>
+                    <HoliText bold>{t('spaces:spaces.share.copy.link')}</HoliText>
                   </HoliButton>
                 </View>
               </>
             ) : (
               <HoliText bold style={styles.copiedText}>
-                Link kopiert!
+                {t('spaces:spaces.share.copied')}
               </HoliText>
             )}
           </View>
