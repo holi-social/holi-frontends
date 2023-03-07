@@ -8,7 +8,7 @@ import { ContentType } from '@holi/core/queries'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -31,14 +31,11 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   return (
     <View style={[styles.wrapper, style]} {...props}>
       <View style={styles.header}>
-        <HoliLink
-          href={`/profile/${creator.id}`}
-          label={name}
-          testID="btn-to-commenter-profile"
-          style={styles.mediaHeaderLink}
-        >
-          <HoliMediaHeader title={name} author={creator} date={comment.created} />
-        </HoliLink>
+        <View style={styles.mediaHeaderLink}>
+          <HoliNavigationLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
+            <HoliMediaHeader title={name} author={creator} date={comment.created} />
+          </HoliNavigationLink>
+        </View>
 
         <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}

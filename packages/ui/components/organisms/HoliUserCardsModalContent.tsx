@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliNavigationLink from '@holi/ui/components/atoms/HoliNavigationLink'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -43,15 +43,15 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         marginHorizontal={20}
         slides={uniqueUsers.map((user) => ({
           children: (
-            <HoliLink
-              href={`/profile/${user.id}`}
-              label={t('user.visitProfile', { name: user.fullName })}
-              onPress={onDismiss}
-              textStyle={styles.link} // used for WEB
-              style={styles.link}
-            >
-              <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
-            </HoliLink>
+            <View style={styles.link}>
+              <HoliNavigationLink
+                href={`/profile/${user.id}`}
+                label={t('user.visitProfile', { name: user.fullName })}
+                onPress={onDismiss}
+              >
+                <HoliUserCard user={user} category={category} disableFocusability />
+              </HoliNavigationLink>
+            </View>
           ),
         }))}
       />
