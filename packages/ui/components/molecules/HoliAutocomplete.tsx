@@ -31,6 +31,7 @@ export type HoliAutocompleteProps = {
   inputProps?: TextInputProps
   id: string
   onSubmit?: (value: string) => void
+  onSelect?: (value: Suggestion) => void
   suggestionsStyle?: StyleProp<ViewStyle>
 }
 
@@ -51,6 +52,7 @@ const HoliAutocomplete = ({
   id,
   testID,
   onSubmit,
+  onSelect,
   suggestionsStyle = {},
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
@@ -60,7 +62,7 @@ const HoliAutocomplete = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
     debounce((text: string) => {
-      return onChange && onChange(text)
+      onChange && onChange(text)
     }, debounceValue ?? 0),
     [debounceValue, onChange]
   )
@@ -83,16 +85,17 @@ const HoliAutocomplete = ({
   }, [value])
 
   const handleItemSelection = useCallback(
-    (item) => {
-      onChangeText(item.id)
+    (item: Suggestion) => {
+      onSelect && onSelect(item)
+      onChangeText(item.label)
       setIsOpened(false)
       Keyboard.dismiss()
     },
-    [setIsOpened, onChangeText]
+    [setIsOpened, onChangeText, onSelect]
   )
 
   const clearFocusAndClose = useCallback(
-    (focusId) => {
+    (focusId: string | null) => {
       // using setTimeout to make sure no other item was selected in the mean time
 
       requestAnimationFrame(() => {
@@ -109,7 +112,7 @@ const HoliAutocomplete = ({
   )
 
   const setFocusAndOpen = useCallback(
-    (focusId) => {
+    (focusId: string) => {
       setIsOpened(true)
       setFocusedItem(focusId)
     },
@@ -126,13 +129,13 @@ const HoliAutocomplete = ({
   }, [onSubmit, setIsOpened, searchText])
 
   const renderItem = useCallback(
-    (item, index) => {
+    (item: Suggestion, index: number) => {
       const isLast = index === suggestions.length - 1
       return (
         <HoliButton
           inline
           transparent
-          key={item.label} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
+          key={item.id}
           label={item.label}
           accessibilityRole="menuitem"
           onBlur={onBlur}
@@ -161,7 +164,7 @@ const HoliAutocomplete = ({
         inputLabel={inputLabel}
         value={searchText}
         placeholder={placeholder}
-        validationErrorText={validationErrorText}
+        validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
         helperText={isOpened && suggestions.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"
