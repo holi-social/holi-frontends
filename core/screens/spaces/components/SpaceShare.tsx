@@ -61,7 +61,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
     }, 1500)
   }
 
-  const ShareWebPrompt = () => {
+  const onShareWeb = () => {
     setShow(true)
   }
 
@@ -79,7 +79,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         contentStyle={styles.buttonContent}
         transparent
         inline
-        onPress={Platform.OS !== 'web' ? onShareMobile : ShareWebPrompt}
+        onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
       >
         <HoliIcon icon="share" size={24} color={colors.foreground20} />
         <HoliText bold style={styles.shareText}>
