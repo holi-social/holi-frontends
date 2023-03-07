@@ -8,6 +8,7 @@ import {
   StyleProp,
   StyleSheet,
   TargetedEvent,
+  Text,
   TextInput,
   TextInputContentSizeChangeEventData,
   TextInputIOSProps,
@@ -52,6 +53,7 @@ export type HoliTextInputProps = {
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
   showCharacterCount?: boolean
+  isRequired?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -70,6 +72,7 @@ const HoliTextInput = (
     onFocus,
     onBlur,
     showCharacterCount = false,
+    isRequired = false,
     ...props
   }: HoliTextInputProps,
   ref: React.ForwardedRef<View>
@@ -176,6 +179,7 @@ const HoliTextInput = (
             >
               {inputLabel}
             </HoliText>
+            {isRequired && <Text> *</Text>}
           </View>
         )}
         <View
@@ -362,6 +366,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     labelWrapper: {
       marginBottom: 6,
+      flexDirection: 'row',
     },
     label: {
       color: colors.foreground30,
