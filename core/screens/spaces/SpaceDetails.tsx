@@ -84,11 +84,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.buttonWithIcon}
             />
           )}
-          <SpaceShare space={space} bold />
+          <SpaceShare space={space} />
 
           <ReportBlockOptionButton
             action="report"
-            bold
             objectId={spaceId || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
