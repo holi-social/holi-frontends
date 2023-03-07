@@ -5,6 +5,7 @@ import {
   byTestId,
   clickElementByTestId,
   defaultAuthSteps,
+  ignoreOnboarding,
   locateElementByTestId,
   sendConnectionRequest,
   waitForAnimationEnd,
@@ -21,13 +22,15 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test.describe('@Notifications', () => {
+test.describe('@Notifications', async () => {
   test.describe('CONNECTION_REQUEST', async () => {
     test('ignore CONNECTION_REQUEST from first user and accept it from the second one', async ({
       context,
       page,
       browser,
     }) => {
+      await ignoreOnboarding(page)
+
       // create two connection requests from two separate users in parallel
       const cleanupHooks = await Promise.all([
         withRandomUserSession(browser, async (page) => {

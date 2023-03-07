@@ -3,18 +3,18 @@ import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
-export const byTestId = (testId: string) => `[data-testid=${testId}]`
+export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
-export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
-  const selector = byTestId(testId)
+export const waitForElementByTestId = async (page: Page, testId: string, nth?: number): Promise<string> => {
+  const selector = byTestId(testId, nth)
   await page.waitForSelector(selector) // default timeout: 30s
   return selector
 }
 
-export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
-  const selector = await waitForElementByTestId(page, testId)
+export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
+  const selector = await waitForElementByTestId(page, testId, nth)
   return page.locator(selector)
 }
 
@@ -33,8 +33,8 @@ export const clickElement = async (element: Locator) => {
   await element.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string) => {
-  const button = await locateElementByTestId(page, testId)
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number) => {
+  const button = await locateElementByTestId(page, testId, nth)
   await clickElement(button)
 }
 
@@ -171,4 +171,12 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-delete-account')
   await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
   await waitForElementByTestId(page, 'login-protection-heading')
+}
+
+export const ignoreOnboarding = async (page: Page) => {
+  try {
+    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+  } catch (e) {
+    null
+  }
 }
