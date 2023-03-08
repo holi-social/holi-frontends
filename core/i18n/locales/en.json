@@ -55,7 +55,7 @@
   "auth.logout.error": "Signout failed",
   "auth.logout.heading": "Do you really want to sign out?",
   "auth.logout.success": "Successfully signed out",
-  "auth.register": "Join Holi",
+  "auth.register": "Join holi",
   "auth.registration.alreadyHasAccount": "Already got an account?",
   "auth.registration.error.initialization": "Oops! A technical error occurred!",
   "auth.registration.error.registration": "Oops! A technical error occurred!",
