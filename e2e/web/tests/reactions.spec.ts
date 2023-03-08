@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Reactions', () => {
-  test('React to a post with HEART.', async ({ context, page }) => {
+  test('React to a post and a comment with HEART.', async ({ context, page }) => {
     // login
     await registerNewUser({ page, context })
     // go to home feed
