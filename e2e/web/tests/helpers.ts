@@ -39,7 +39,11 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
 }
 
 export const waitForAnimationEnd = async (locator: Locator) => {
-  return locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
+  const result = await locator.evaluate((element) =>
+    Promise.all(element.getAnimations().map((animation) => animation.finished))
+  )
+  await delay(0.5)
+  return result
 }
 
 const defaultPassword = 'TheSamePassword4A11E2eUsers'

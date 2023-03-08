@@ -51,7 +51,7 @@ default:
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
-    - holi-big
+    - holi-huge
 
 # end job templates
 
