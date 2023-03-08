@@ -18,7 +18,7 @@ export default {
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#F5F5F5',
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -40,7 +40,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F5F5F5',
       },
       package: 'foundation.holistic.projectholi',
       versionCode: versions.androidVersionCode,
