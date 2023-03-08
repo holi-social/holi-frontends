@@ -57,6 +57,7 @@ const FormNode = (props: Props) => {
     return (
       <FormInputField
         {...props}
+        disabled={node.attributes.disabled}
         attributes={node.attributes}
         onEnterPress={props.onSubmitPress}
         style={[props.style || {}, { marginTop: 10 }]}

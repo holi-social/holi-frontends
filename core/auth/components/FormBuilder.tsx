@@ -130,6 +130,8 @@ const FormBuilder = <
 
   return (
     <View style={style}>
+      {/* TODO: add loading spinner */}
+
       {flow &&
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
@@ -142,7 +144,7 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={isEmailField(name)}
+              autofocus={isEmailField(name) && !node.attributes.disabled}
               style={{ marginTop: 30 }}
             />
           )

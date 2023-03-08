@@ -10,11 +10,11 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
-import { initLoginFlow } from '@holi/core/auth/helpers/auth'
+import { initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -26,6 +26,7 @@ type ScreenProps = NativeStackScreenProps<RootStackScreens>
 const Login: React.VFC<ScreenProps> = () => {
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
+  const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
   const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
@@ -46,10 +47,10 @@ const Login: React.VFC<ScreenProps> = () => {
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
-        setFlow(flow)
+        safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t, displayError])
+  }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()
@@ -57,14 +58,13 @@ const Login: React.VFC<ScreenProps> = () => {
 
   const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
     if (flow)
-      return newKratosSdk()
-        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+      return submitLoginFlow(flow.id, payload, undefined)
         .then(({ data }) =>
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
           })
         )
-        .catch(handleFormSubmitError(setFlow, initializeFlow))
+        .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
         .catch((error) => displayError(error, t('auth.login.error.login')))
     return Promise.resolve()
   }

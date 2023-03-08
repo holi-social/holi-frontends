@@ -1,5 +1,12 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import { SelfServiceLoginFlow, SelfServiceRecoveryFlow, SelfServiceRegistrationFlow } from '@ory/kratos-client'
+import {
+  SelfServiceLoginFlow,
+  SelfServiceRecoveryFlow,
+  SelfServiceRegistrationFlow,
+  SelfServiceSettingsFlow,
+  SubmitSelfServiceLoginFlowBody,
+  SubmitSelfServiceSettingsFlowBody,
+} from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
 
@@ -32,6 +39,9 @@ export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
   return newKratosSdk().initializeSelfServiceLoginFlowForBrowsers(true)
 }
 
+export const submitLoginFlow = (flowId: string, payload: SubmitSelfServiceLoginFlowBody, sessionToken?: string) =>
+  newKratosSdk().submitSelfServiceLoginFlow(flowId, sessionToken, payload, { withCredentials: true })
+
 // Logout
 export const submitLogoutFlow = (/*payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody*/) => {
   return newKratosSdk()
@@ -47,3 +57,13 @@ export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow
 // Forgot Password
 export const initPasswordRecoveryFlow = (): AxiosPromise<SelfServiceRecoveryFlow> =>
   newKratosSdk().initializeSelfServiceRecoveryFlowForBrowsers()
+
+// Change Password
+// https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
+export const initSettingsFlow = (): AxiosPromise<SelfServiceSettingsFlow> =>
+  newKratosSdk().initializeSelfServiceSettingsFlowForBrowsers()
+
+export const submitSettingsFlow = (flowId: string, payload: SubmitSelfServiceSettingsFlowBody, sessionToken?: string) =>
+  newKratosSdk().submitSelfServiceSettingsFlow(flowId, sessionToken, payload, {
+    withCredentials: true,
+  })
