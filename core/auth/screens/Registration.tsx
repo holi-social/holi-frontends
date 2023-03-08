@@ -29,7 +29,7 @@ const Registration: React.VFC<RegistrationProps> = ({ style }) => {
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  const { setOptions } = useUnifiedNavigation()
+  // const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
   const initializeFlow = useCallback(() => {
@@ -45,18 +45,6 @@ const Registration: React.VFC<RegistrationProps> = ({ style }) => {
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
-
-  useLayoutEffect(() => {
-    setOptions({
-      headerTitle: () => (
-        <HoliHeading level="1" size="small">
-          {t('auth.register')}
-        </HoliHeading>
-      ),
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
-    })
-  }, [setOptions, t])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
