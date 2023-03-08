@@ -16,11 +16,9 @@ const Template: ComponentStory<typeof HoliBlockItem> = ({ ...args }) => {
   return (
     <div style={{ backgroundColor: colors.background20, padding: 20 }}>
       <div style={{ display: 'flex', width: 300 }}>
-        <HoliBlockItem
-          {...args}
-          label=""
-          style={args.size === 'large' ? { backgroundColor: colors.background10 } : {}}
-        />
+        <div style={args.size === 'large' ? { backgroundColor: colors.background10 } : {}}>
+          <HoliBlockItem {...args} label="" />
+        </div>
       </div>
     </div>
   )
