@@ -3,14 +3,13 @@ import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import CommunityGuidelines from '@holi/core/screens/communityGuidelines/components/CommunityGuidelines'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type FormCheckboxProps = {
   node: UiNode
@@ -32,7 +31,6 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const fieldLabel = getNodeTitle(node)
-  const { theme } = useTheme()
 
   // TODO: toast message in case of error auth.login.checkbox.toast-Consent
 
@@ -67,11 +65,12 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
             <HoliText size="small">
               <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
                 {/* TODO: The link href does not yet exist */}
-                <HoliLink
+                <HoliTextLink
                   label=""
                   href={'/communityGuidelines'}
                   onPress={openModal}
-                  textStyle={[styles.labelLink, { fontFamily: theme.fontFamily.default('Medium') }]}
+                  variant="secondary"
+                  size="small"
                 />
               </Trans>
             </HoliText>
