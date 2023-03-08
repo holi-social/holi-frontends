@@ -152,6 +152,14 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
   }
 }
 
+export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {
+  const element = await waitForElementWithTestId(selector)
+  const { width, height } = (await element.getSize()) as { width: number; height: number }
+  const { x, y } = (await element.getLocation()) as { x: number; y: number }
+
+  await Appium.touchAction({ action: 'tap', x: x + width - 20, y: y + height / 2 })
+}
+
 export const fillFieldByTestId = async (testId: string, value: string) => {
   try {
     const element = await tapOnElementWithTestId(testId)

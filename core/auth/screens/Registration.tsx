@@ -13,9 +13,6 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 const isWeb = Platform.OS === 'web'
 

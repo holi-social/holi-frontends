@@ -20,7 +20,7 @@ const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ withRe
   const { navigate, navigateBack, replaceRoute } = useRouting()
 
   return (
-    <HoliText size="small" style={style}>
+    <HoliText size="small" style={style} testID="already-have-account-text">
       <Trans t={t} i18nKey={'auth.registration.alreadyHasAccount'}>
         <HoliLink
           label={t('auth.login')}

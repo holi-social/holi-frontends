@@ -52,7 +52,7 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
   const { run: scrollToStep } = useSafeFunctionThrottle((position: number) => {
     carousel.current?.scrollTo({ x: position, y: 0, animated: true })
     // reset previousStep after scroll animation
-    setTimeout(() => setPreviousStep(currentStep), 500)
+    setTimeout(() => setPreviousStep(currentStep), 700)
   })
   const mustStepBeRendered = (stepIdx: number) => {
     if (!lazy) return true
