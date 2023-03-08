@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import { PropsWithChildren, useCallback } from 'react'
 import React from 'react'
 import { GestureResponderEvent, Linking, Pressable } from 'react-native'
 
@@ -25,23 +25,26 @@ const HoliLink = ({
 }: PropsWithChildren<HoliLinkProps>) => {
   const { navigate, navigateBack } = useUnifiedNavigation()
 
-  const onLinkPress = (event: GestureResponderEvent) => {
-    const stopPropagation = onPress?.(event)
+  const onLinkPress = useCallback(
+    (event: GestureResponderEvent) => {
+      const stopPropagation = onPress?.(event)
 
-    if (stopPropagation === false) return
+      if (stopPropagation === false) return
 
-    if (external) {
-      Linking.openURL(href)
-      return
-    }
+      if (external) {
+        Linking.openURL(href)
+        return
+      }
 
-    if (mobileNavigateBackFirst) {
-      navigateBack()
-      setTimeout(() => navigate(href), 300)
-    } else {
-      navigate(href)
-    }
-  }
+      if (mobileNavigateBackFirst) {
+        navigateBack()
+        setTimeout(() => navigate(href), 300)
+      } else {
+        navigate(href)
+      }
+    },
+    [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress]
+  )
 
   return (
     <Pressable accessibilityRole={'link'} accessibilityLabel={label} accessible onPress={onLinkPress} testID={testID}>

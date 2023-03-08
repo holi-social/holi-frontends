@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import React, { SyntheticEvent } from 'react'
+import type { SyntheticEvent } from 'react'
+import React, { useCallback } from 'react'
 import type { PropsWithChildren } from 'react'
 
 import type { HoliLinkProps } from '@holi/ui/components/atoms/HoliLink'
@@ -16,14 +17,17 @@ const HoliLink = ({
   children,
   testID = 'text-link',
 }: PropsWithChildren<HoliLinkWeb>) => {
-  const onLinkPress = (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
-    const stopPropagation = onPress?.(event)
-    if (stopPropagation === false) {
-      event?.preventDefault()
-      event?.stopPropagation()
-      return false
-    }
-  }
+  const onLinkPress = useCallback(
+    (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
+      const stopPropagation = onPress?.(event)
+      if (stopPropagation === false) {
+        event?.preventDefault()
+        event?.stopPropagation()
+        return false
+      }
+    },
+    [onPress]
+  )
 
   return (
     <Link href={href}>

@@ -8,13 +8,12 @@ import type { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
+type HoliLinkSize = Exclude<HoliTextSize, 'extralarge' | 'large'>
+type HoliLinkVariant = 'primary' | 'secondary'
 export interface HoliTextLinkProps extends HoliLinkProps {
   size?: HoliLinkSize
   variant?: HoliLinkVariant
 }
-
-type HoliLinkSize = Exclude<HoliTextSize, 'extralarge' | 'large'>
-type HoliLinkVariant = 'primary' | 'secondary'
 
 const HoliTextLink = ({
   href,
