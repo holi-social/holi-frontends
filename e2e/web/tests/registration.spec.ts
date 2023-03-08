@@ -32,13 +32,12 @@ const canRegisterUser = async (browser: Browser, page: Page) => {
   await (
     await withRandomUserSession(browser, async (page) => {
       await waitForElementByTestId(page, 'user-profile-full-name')
-      await waitForElementByTestId(page, 'btn-to-settings')
       // try to go to registration or login page with logged in user
       await page.goto('/registration')
-      await waitForElementByTestId(page, 'btn-to-settings')
+      await waitForElementByTestId(page, 'user-profile-full-name')
 
       await page.goto('/login')
-      await waitForElementByTestId(page, 'btn-to-settings')
+      await waitForElementByTestId(page, 'user-profile-full-name')
     })
   )()
 }

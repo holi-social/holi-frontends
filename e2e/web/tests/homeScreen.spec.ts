@@ -117,7 +117,7 @@ const testInsightsSection = async (page: Page) => {
   // has feed insight headline
   await waitForElementByTestId(page, 'home-feed-insights-heading')
 
-  // has feed insight items and clicking them leads to overview page
+  // has feed insight items and clicking them leads to insight detail page
   await clickElementByTestId(page, 'feed-insight-image-link')
   await page.waitForURL('**/insights/**')
   await page.goto('/')
