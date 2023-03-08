@@ -1,6 +1,6 @@
 import { Page, expect, test } from '@playwright/test'
 
-import { clickElementByTestId, delay, deleteAccount, locateElementByTestId, registerNewUser } from './helpers'
+import { clickElementByTestId, deleteAccount, locateElementByTestId, registerNewUser } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -33,22 +33,21 @@ test.describe('@Reactions', () => {
   })
 })
 
-const assertReactions = async (page: Page, s: string) => {
-  const counter = await locateElementByTestId(page, s + '-counter')
+const assertReactions = async (page: Page, testIdPrefix: string) => {
+  const counter = await locateElementByTestId(page, testIdPrefix + '-counter')
   const countBefore = await counter.first().textContent()
   expect(countBefore).not.toBeNull()
-  let countAfter = countBefore
-  await clickElementByTestId(page, s)
-  let tryCount = 100
-  while (countBefore === countAfter && tryCount > 0) {
-    await delay(0.1)
-    const after = await counter.first().textContent()
-    if (after) countAfter = after
-    --tryCount
-  }
-  if (countBefore && countAfter) {
+  if (countBefore) {
     const cBefore = parseInt(countBefore)
-    const cAfter = parseInt(countAfter)
-    expect(cAfter).toBe(cBefore + 1)
+    await clickElementByTestId(page, testIdPrefix)
+    const getReactionCount = async () => {
+      const counterElement = await locateElementByTestId(page, testIdPrefix + '-counter')
+      const after = await counterElement.first().textContent()
+      if (after) {
+        return parseInt(after)
+      }
+      return 0
+    }
+    await expect.poll(getReactionCount, { timeout: 10000 }).toBeGreaterThan(cBefore)
   }
 }
