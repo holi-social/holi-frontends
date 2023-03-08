@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -32,7 +32,12 @@ export const useGrid = () => {
   return context
 }
 
-const HoliGridWrapper: React.FC<Partial<HoliGridWrapperProps>> = ({ children, gap = 24, itemsInRow = 2, style }) => {
+const HoliGridWrapper = ({
+  children,
+  gap = 24,
+  itemsInRow = 2,
+  style,
+}: PropsWithChildren<Partial<HoliGridWrapperProps>>) => {
   return (
     <View style={styles.outer}>
       <View style={[style, styles.wrapper, { margin: -gap / 2 }]}>
