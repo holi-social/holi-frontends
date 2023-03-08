@@ -12,7 +12,6 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('@Reactions', () => {
   test('React to a post and a comment with HEART.', async ({ browser }) => {
-    // login
     await (
       await withRandomUserSession(browser, async (page) => {
         // go to home feed
