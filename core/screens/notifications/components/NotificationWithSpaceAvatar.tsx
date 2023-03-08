@@ -6,8 +6,8 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationWithSpaceAvatarProps<T = NotificationSpaceConnection> extends NotificationProps<T> {
