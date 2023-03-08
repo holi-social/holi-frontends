@@ -1,5 +1,7 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
 import {
+  SelfServiceRecoveryFlow,
+  SelfServiceSettingsFlow,
   UiNode,
   UiNodeAnchorAttributes,
   UiNodeAttributes,
@@ -77,6 +79,10 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
+export const getNodeById = (nodeName: string, flow: SelfServiceSettingsFlow | SelfServiceRecoveryFlow) => {
+  return flow.ui.nodes.filter((node: UiNode) => getNodeId(node) === nodeName)
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
   return (err: AxiosError) => {
@@ -88,10 +94,16 @@ export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow:
           }
 
           console.info('[auth/helpers/form.ts] Form validation failed.')
-          // The error response data contains a flow with the error messages.
-          // This is data is here set to be the new flow.
+          // The error response data contains a flow with error messages.
+          // With this data, the view can display the errors.
           setFlow(err.response.data)
           return
+        // case 403:
+        //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
+        //   if (err.response.data.error.id === 'session_refresh_required') {
+        //     // so something
+        //   }
+        //   return
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.

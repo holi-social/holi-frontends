@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,7 +8,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useScrollYHandler } from '@holi/core/helpers'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
@@ -23,10 +23,16 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
 
+  const { navigate } = useRouting()
+
   useLayoutEffect(() => setOptions({ title: t('profile.settings.account.title') }), [setOptions, t])
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const goTo = useCallback(
+    (url: string) => () => {
+      navigate(url)
+    },
+    [navigate]
+  )
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
@@ -35,7 +41,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
           <MoreOptionItem
             label={t('profile.edit.changePassword')}
             icon="key-2"
-            onPress={showFeatureNotImplementedToast}
+            onPress={goTo('/profile/settings/changePassword')}
             style={styles.settingsItem}
           />
         </View>

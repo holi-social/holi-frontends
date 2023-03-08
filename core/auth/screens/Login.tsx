@@ -58,7 +58,7 @@ const Login: React.VFC<ScreenProps> = () => {
   const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
     if (flow)
       return newKratosSdk()
-        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+        .submitSelfServiceLoginFlow(flow.id, undefined, payload, { withCredentials: Platform.OS === 'web' })
         .then(({ data }) =>
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
