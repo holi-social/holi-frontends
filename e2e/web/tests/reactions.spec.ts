@@ -1,6 +1,7 @@
-import { Page, expect, test } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
-import { clickElementByTestId, locateElementByTestId, withRandomUserSession } from './helpers'
+import { clickElementByTestId, locateElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -11,25 +12,23 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Reactions', () => {
-  test('React to a post and a comment with HEART.', async ({ browser }) => {
-    await (
-      await withRandomUserSession(browser, async (page) => {
-        // go to home feed
-        await clickElementByTestId(page, 'btn-to-home-view')
+  test('React to a post and a comment with HEART.', async ({ userHandler }) => {
+    await userHandler.withRandomUserSession(async (page) => {
+      // go to home feed
+      await clickElementByTestId(page, 'btn-to-home-view')
 
-        // click first insight image link
-        await clickElementByTestId(page, 'feed-insight-image-link')
+      // click first insight image link
+      await clickElementByTestId(page, 'feed-insight-image-link')
 
-        // check reactions on first post
-        await assertReactions(page, 'btn-react-to-post-HEART')
+      // check reactions on first post
+      await assertReactions(page, 'btn-react-to-post-HEART')
 
-        // open first post
-        await clickElementByTestId(page, 'btn-to-post')
+      // open first post
+      await clickElementByTestId(page, 'btn-to-post')
 
-        // check reactions on first comment
-        await assertReactions(page, 'btn-react-to-comment-HEART')
-      })
-    )()
+      // check reactions on first comment
+      await assertReactions(page, 'btn-react-to-comment-HEART')
+    })
   })
 })
 
