@@ -28,7 +28,7 @@ type SpaceShareProps = {
 
 const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
   const { t } = useTranslation()
-  const prefix = Linking.createURL(`/spaces/${space.id}`)
+  const prefix = Linking.createURL(`/spaces/${space.name}`)
   const [show, setShow] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
 

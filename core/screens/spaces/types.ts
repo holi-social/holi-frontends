@@ -35,6 +35,7 @@ export interface Space {
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
+  name: string
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]

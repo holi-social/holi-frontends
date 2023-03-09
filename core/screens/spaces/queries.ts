@@ -27,6 +27,7 @@ const SpaceFragment = gql`
     created
     avatar
     cover
+    name
     avatarDefaultColor
     location
     connectionStatusToMyself
@@ -75,6 +76,7 @@ const SpaceOverviewFragment = gql`
     created
     cover
     location
+    name
     members {
       ...FullSpaceMember
     }
@@ -155,8 +157,8 @@ export type DiscoverSpacesResponse = {
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
-  query SpaceById($id: UUID!) {
-    spaceById(id: $id) {
+  query SpaceById($id: UUID, $name: String) {
+    spaceById(id: $id, name: $name) {
       ...FullSpace
     }
   }
@@ -258,6 +260,7 @@ export const updateSpaceMutation = gql`
       cover
       location
       avatarDefaultColor
+      name
       topics {
         id
         title
