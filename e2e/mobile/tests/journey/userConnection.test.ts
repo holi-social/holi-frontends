@@ -32,6 +32,8 @@ describe('@UserConnection', () => {
     // the connection button state should be back to NOT_CONNECTED
     await waitForElementWithTestId('user-connection-button-NOT_CONNECTED')
 
+    await navigateBackToHomeScreen()
+
     // clean up view
     await deleteAccount()
     await navigateBackToHomeScreen()
