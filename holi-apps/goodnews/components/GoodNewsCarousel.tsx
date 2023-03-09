@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -38,6 +39,9 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => getStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
+  const { i18n } = useTranslation()
+  const dateFormat = new Intl.DateTimeFormat(i18n.language)
+
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
     {
@@ -64,11 +68,13 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [paramArticleId] = useParam('articleId', singleParamConfig)
 
+  const activeArticleFormattedDate =
+    articles[activeArticleIndex] && dateFormat.format(Date.parse(articles[activeArticleIndex].date))
+
   useEffect(() => {
     setOptions({
       headerTitle: ({ tintColor }) => {
-        const activeArticle = articles.length > activeArticleIndex ? articles[activeArticleIndex] : undefined
-        return <GoodNewsHeader tintColor={tintColor} article={activeArticle} />
+        return <GoodNewsHeader tintColor={tintColor} formattedDate={activeArticleFormattedDate} />
       },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
@@ -79,7 +85,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
-  }, [setOptions, articles, activeArticleIndex])
+  }, [setOptions, activeArticleFormattedDate])
 
   useEffect(() => {
     if (paramArticleId) {

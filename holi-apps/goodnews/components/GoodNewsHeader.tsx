@@ -5,27 +5,26 @@ import { View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
-import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 export type GoodNewsHeaderProps = {
   tintColor?: string
-  article?: GoodNewsArticle | undefined
+  formattedDate?: string | undefined
 }
 
-const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ article = undefined, ...props }) => {
-  const { t, i18n } = useTranslation()
+const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ formattedDate = undefined, ...props }) => {
+  const { t } = useTranslation()
   const title = t('goodnews:app.name')
-  const dateFormat = new Intl.DateTimeFormat(i18n.language)
+
   return (
     <View>
       <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>{title}</HoliText>
-      {article && (
+      {formattedDate && (
         <HoliText
           size="extrasmall"
           style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}
           testID="goodnews-header-date"
         >
-          {dateFormat.format(Date.parse(article.date))}
+          {formattedDate}
         </HoliText>
       )}
     </View>
