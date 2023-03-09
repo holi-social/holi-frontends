@@ -1,6 +1,6 @@
 import { SelfServiceSettingsFlow, SubmitSelfServiceSettingsFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -9,18 +9,21 @@ import { getSessionFromStorage, initSettingsFlow, submitSettingsFlow } from '@ho
 import { getNodeById, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout, useSafeDispatch } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChangePassword: React.VFC = () => {
   const { isLoggedIn } = useAuth()
   const logout = useLogout()
-  const { navigate } = useRouting()
+  const { setOptions, navigate } = useUnifiedNavigation()
   const { openLoginDialog } = useLoginRedirect()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
+  const mixins = useStyleMixins()
 
   const [flow, setFlow] = useState<SelfServiceSettingsFlow>()
   const [sessionToken, setSessionToken] = useState<string>()
@@ -50,9 +53,17 @@ const ChangePassword: React.VFC = () => {
     }
   }, [setCustomFlow, isLoggedIn, displayError])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    setOptions({
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          Change Password
+        </HoliHeading>
+      ),
+    })
+
     initForm()
-  }, [initForm])
+  }, [setOptions, initForm])
 
   const performPasswordChange = (flowBody: SubmitSelfServiceSettingsFlowBody): Promise<void> => {
     if (flow)
@@ -83,9 +94,8 @@ const ChangePassword: React.VFC = () => {
   }
 
   return (
-    <DefaultLayout>
-      <View style={styles.formContainer}>
-        <HoliText size="extralarge">Change Password page</HoliText>
+    <DefaultLayout style={styles.layout}>
+      <View style={[mixins.container, styles.formContainer]}>
         <FormBuilder flow={flow} onSubmit={performPasswordChange} style={styles.loginForm} />
       </View>
     </DefaultLayout>
@@ -95,8 +105,13 @@ const ChangePassword: React.VFC = () => {
 export default ChangePassword
 
 const styles = StyleSheet.create({
+  layout: {
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    paddingTop: vars.topBarHeight,
+    justifyContent: 'center',
+  },
   formContainer: {
-    marginTop: 80,
+    maxWidth: vars.maxButtonWidth,
   },
   loginForm: {
     // reserves space for inputs plus submit until ory flow is done
