@@ -1,6 +1,7 @@
-import React from 'react'
+import type { PropsWithChildren } from 'react'
+import React, { Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -12,15 +13,16 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-// these constants are lower case, because they are used as translation keys
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
-export type OwnProfileViewProps = {
+interface Props {
   toggleEditMode: (editModeState: EditModeState) => void
   user: User
 }
 
-const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }: OwnProfileViewProps) => {
+const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
+
+const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
 
   const mixins = useStyleMixins()
@@ -102,6 +104,16 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
                   {t('profile.tabs.insight.empty')}
                 </HoliText>
               </View>
+            ),
+          },
+          {
+            title: 'Spaces',
+            children: (
+              /** TODO: Suspence currently only works on web. To make it work for
+               * mobile we need to move to the new React Native architecture */
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <SpacesTab memberId={user.id} />
+              </Suspense>
             ),
           },
         ]}
