@@ -1,6 +1,6 @@
 import { test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import { checkAccessibility, clickElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')

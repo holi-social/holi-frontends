@@ -146,6 +146,7 @@ const filterForLocation = async (location: string) => {
   // submit form
   // Not using suggestions here, as they can not be easily identified and selected
   await pressEnter('donations-search-location-input')
+  await tapOnElementWithTestId('donations-search-modal-close-btn')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')

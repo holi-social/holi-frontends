@@ -1,7 +1,7 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -19,6 +19,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
@@ -73,25 +74,18 @@ const Login: React.VFC<ScreenProps> = () => {
     <DefaultLayout headerOverlap={true}>
       <LoginRegistrationContainer>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
-
-        <HoliButton
-          transparent
-          inline
-          label={t('auth.login.link.forgotPassword')}
-          variant="small"
-          style={styles.button}
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/forgotPassword')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/forgotPassword'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          testID="btn-to-forgot-password-form"
-        >
-          {t('auth.login.link.forgotPassword')}
-        </HoliButton>
+        <View style={styles.formItemContainer}>
+          <HoliTextLink
+            label={t('auth.login.link.forgotPassword')}
+            href="/forgotPassword"
+            size="small"
+            variant="secondary"
+            mobileNavigateBackFirst
+            testID="btn-to-forgot-password-form"
+          >
+            {t('auth.login.link.forgotPassword')}
+          </HoliTextLink>
+        </View>
 
         <HoliHeading level="2" style={styles.headline2}>
           {t('auth.login.signUp.link.headline')}
@@ -108,7 +102,7 @@ const Login: React.VFC<ScreenProps> = () => {
           }}
           label={t('auth.loginProtection.registration')}
           type="secondary"
-          style={styles.button}
+          style={styles.formItemContainer}
           testID="btn-to-registration-form"
         >
           {t('auth.loginProtection.registration')}
@@ -126,7 +120,7 @@ const styles = StyleSheet.create({
     minHeight: 235,
     width: '100%',
   },
-  button: {
+  formItemContainer: {
     marginTop: 20,
   },
   headline2: {

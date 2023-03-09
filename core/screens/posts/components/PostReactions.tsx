@@ -49,6 +49,7 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
       active={currentUserHasReacted}
       fullName={post.creator.fullName}
       style={style}
+      testID="btn-react-to-post-HEART"
     />
   )
 }
