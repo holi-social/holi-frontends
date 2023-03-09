@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
 
 describe('renders correctly', () => {
   it('renders protected content when logged in', () => {

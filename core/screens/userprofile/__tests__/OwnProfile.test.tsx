@@ -4,6 +4,8 @@ import React from 'react'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
+jest.mock('@holi/core/auth/components/LoginProtection', () => require('@holi/core/auth/components/LoginProtection.web'))
+
 describe('OwnProfile', () => {
   it('renders profile when logged in', () => {
     const { queryByText } = render(

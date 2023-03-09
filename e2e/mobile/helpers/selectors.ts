@@ -162,9 +162,9 @@ export const tapOnLoginLinkInText = async (selector = 'already-have-account-text
 
 export const fillFieldByTestId = async (testId: string, value: string) => {
   try {
-    const element = await tapOnElementWithTestId(testId)
+    const element = await waitForElementWithTestId(testId)
     // https://webdriver.io/docs/api/element/setValue
-    await element.setValue(value)
+    await element.addValue(value)
     return element
   } catch (err) {
     throw new Error("Couldn't fill field with testID: " + testId)
