@@ -3,9 +3,11 @@ import { Page, expect, test } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
+  clickElement,
   clickElementByTestId,
   defaultAuthSteps,
   delay,
+  locateElementBySelector,
   locateElementByTestId,
   waitForElementByTestId,
 } from './helpers'
@@ -167,6 +169,16 @@ test.describe('@Spaces', () => {
     const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
     expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
+    // edit space - update location
+    const editedLocation = 'Berlin'
+    await clickElementByTestId(page, 'btn-space-edit-location')
+    await inputSpaceLocation(page, editedLocation)
+
+    // expect suggestions
+    const element = await locateElementBySelector(page, '[role="menuitem"]')
+    await clickElement(element)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
     await selectSomeTerms(page, numberOfEditedTerms)
@@ -219,4 +231,9 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
     await locator.nth(numberOfTotalTerms - 1).click()
   }
+}
+
+const inputSpaceLocation = async (page: Page, location: string) => {
+  const locationInput = await locateElementByTestId(page, 'spaces-location-input')
+  await locationInput.fill(location)
 }
