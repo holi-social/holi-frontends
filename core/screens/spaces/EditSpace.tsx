@@ -14,6 +14,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import EditSpaceAvatar from '@holi/core/screens/spaces/components/EditSpaceAvatar'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/components/EditSpaceCoverImage'
+import EditSpaceLocation from '@holi/core/screens/spaces/components/EditSpaceLocation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
@@ -34,8 +35,6 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import EditSpaceLocation from './components/EditSpaceLocation'
 
 enum EditFields {
   NAME = 'NAME',

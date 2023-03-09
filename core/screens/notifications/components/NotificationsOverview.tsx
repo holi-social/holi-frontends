@@ -1,15 +1,18 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, View } from 'react-native'
+import { string } from 'zod'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek, useScrollYHandler } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
+import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@holi/core/screens/notifications/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -29,13 +32,12 @@ const containsNotifications = (notifications?: Notification[]) => {
   })
 }
 
-const sortNotificationsByDate = (notifications?: Notification[]) => {
+const groupByDate = (notifications?: Notification[]) => {
   if (!notifications) return []
   return notifications
     .reduce(
       (acc, notification) => {
         const { created } = notification
-
         if (isThisWeek(notification.created)) {
           acc[0].data.push(notification)
         } else if (isLastWeek(created)) {
@@ -70,10 +72,20 @@ const NotificationsOverview: React.VFC = () => {
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
 
-  const [getNotifications, { data, error, loading }] = useLazyQuery<NotificationsResponse>(notificationsQuery, {
-    variables: { offset: 0, limit: 100 },
-    fetchPolicy: 'network-only',
-    pollInterval: 10000,
+  const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
+    notificationsQuery,
+    {
+      variables: { offset: 0, limit: 100 },
+      fetchPolicy: 'network-only',
+      pollInterval: 10000,
+    }
+  )
+
+  const [reportLastSeenNotification] = useMutation<lastSeenNotificationResponse>(LastSeenNotificationMutation, {
+    variables: { notificationId: string },
+    onError: (mutationError) => {
+      logError(mutationError, `[NotificationsOverview.tsx] ${mutationError.message}`)
+    },
   })
 
   // Fetch notifications only if user is logged in
@@ -81,7 +93,14 @@ const NotificationsOverview: React.VFC = () => {
     isLoggedIn && getNotifications()
   }, [getNotifications, isLoggedIn])
 
-  if (loading || error) return <HoliText>{t('global.loading')}</HoliText>
+  useEffect(() => {
+    if (containsNotifications(data?.notifications?.data)) {
+      const lastNotification = data?.notifications?.data[0]
+      reportLastSeenNotification({ variables: { notificationId: lastNotification?.id } })
+    }
+  }, [data, reportLastSeenNotification])
+
+  if (loading || notificationsQueryError) return <HoliText>{t('global.loading')}</HoliText>
 
   if (!isLoggedIn) {
     return (
@@ -124,11 +143,11 @@ const NotificationsOverview: React.VFC = () => {
       />
     )
 
-  const sortedNotificationsByDate = sortNotificationsByDate(data?.notifications?.data)
+  const groupedNotifications = groupByDate(data?.notifications?.data)
 
   return (
     <SectionList
-      sections={sortedNotificationsByDate}
+      sections={groupedNotifications}
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
       renderSectionHeader={({ section }) => (
@@ -137,7 +156,7 @@ const NotificationsOverview: React.VFC = () => {
         </HoliHeading>
       )}
       renderSectionFooter={({ section }) =>
-        section === sortedNotificationsByDate[sortedNotificationsByDate.length - 1] ? (
+        section === groupedNotifications[groupedNotifications.length - 1] ? (
           <View style={styles.lastSectionFooter} />
         ) : null
       }
