@@ -46,7 +46,6 @@ const LoginRegistration = ({
 
       <HoliButton
         label={t('auth.loginProtection.registrationLabel')}
-        // onPress={() => navigate('/registration')}
         onPress={onRegistration}
         style={[styles.button, styles.fistButton]}
         testID="btn-to-registration-form"

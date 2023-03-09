@@ -46,25 +46,12 @@ export const waitForAnimationEnd = async (locator: Locator) => {
   return result
 }
 
-const defaultPassword = 'TheSamePassword4A11E2eUsers'
-
-export const registerNewUser = async ({ page, context }: PageContext) => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
-  await defaultAuthSteps({ page, context, email, password: defaultPassword }, 'registration')
-}
-
 interface PageContext {
   page: Page
   context: BrowserContext
 }
 
 interface DefaultAuthStepsProps extends PageContext {
-  email?: string
-  password?: string
-}
-
-type BrowserAuthStepsProps = {
-  browser: Browser
   email?: string
   password?: string
 }
@@ -102,18 +89,6 @@ export const defaultAuthSteps = async (
   }
 
   await clickElementByTestId(page, 'ory-submit-method')
-}
-
-export const deleteAccount = async (page: Page) => {
-  await page.goto('/profile')
-
-  await clickElementByTestId(page, 'btn-to-settings')
-  await clickElementByTestId(page, 'btn-your-account')
-  await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
-
-  await waitForElementByTestId(page, 'btn-to-login-form')
-  await clickElementByTestId(page, 'btn-to-home-view')
 }
 
 export const checkAccessibility = async (page: Page) => {

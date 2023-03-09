@@ -9,14 +9,13 @@ import DataConsentDocument from '@holi/core/screens/dataConsent/DataConsentDocum
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliWizardNaviagtionButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 interface DataConsentProps {
   onNextPress?: () => void
@@ -28,7 +27,6 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
   const { t } = useTranslation()
   const [accepted, setAccepted] = useState(false)
   const { show: showModal, props: modalProps } = useModalState()
-  const { theme } = useTheme()
 
   const navButtons = (
     <HoliWizardNaviagtionButtons
@@ -70,14 +68,14 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
           <View>
             <HoliText size="small">
               <Trans t={t} i18nKey={'onboarding.dataconsent.checkboxLabel'}>
-                <HoliLink
+                <HoliTextLink
                   label=""
                   href={'/communityGuidelines'}
+                  size="small"
                   onPress={() => {
                     showModal()
                     return false
                   }}
-                  textStyle={[styles.labelLink, { fontFamily: theme.fontFamily.default('Medium') }]}
                 />
               </Trans>
             </HoliText>

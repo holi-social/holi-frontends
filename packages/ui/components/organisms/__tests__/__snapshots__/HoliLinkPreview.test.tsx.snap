@@ -4,7 +4,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
-    accessibilityRole="button"
+    accessibilityRole="link"
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -17,15 +17,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "color": "#6267e7",
-        },
-        undefined,
-        undefined,
-      ]
-    }
     testID="text-link"
   >
     <View
