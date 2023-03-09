@@ -52,6 +52,7 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
       active={currentUserHasReacted}
       fullName={comment.creator.fullName}
       style={style}
+      testID="btn-react-to-comment-HEART"
     />
   )
 }
