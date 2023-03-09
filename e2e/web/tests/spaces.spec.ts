@@ -219,4 +219,20 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
     await locator.nth(numberOfTotalTerms - 1).click()
   }
+
+  const shareLinkToSpace = async (page: Page) => {
+    await clickElementByTestId(page, 'btn-to-share-space')
+    await clickElementByTestId(page, 'share-space-modal-copy-btn')
+    await clickElementByTestId(page, 'share-space-modal-close-btn')
+
+    // check if the share link is in the clipboard
+    const clipboard = await page.evaluate(() => navigator.clipboard.readText())
+    expect(clipboard).toContain('https://holi.dev/s/')
+
+    // check if the share link is in the share space modal
+    await clickElementByTestId(page, 'btn-to-share-space')
+    const shareSpaceModalLink = await locateElementByTestId(page, 'share-space-modal-link')
+    expect(shareSpaceModalLink).toContainText(clipboard)
+    await clickElementByTestId(page, 'share-space-modal-close-btn')
+  }
 }

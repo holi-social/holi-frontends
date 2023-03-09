@@ -30,6 +30,8 @@ describe('@Spaces', () => {
     await assertSpaceDetails()
 
     await assertFilteringWorks()
+
+    await shareLinkToSpace()
   })
 
   const assertMultipleGroupsDisplayed = async () => {
@@ -98,5 +100,20 @@ describe('@Spaces', () => {
 
     // close space details page
     await tapOnElementWithTestId('nav-button-back')
+  }
+
+  const shareLinkToSpace = async () => {
+    // click first element on page
+    await tapOnElementWithTestId('space-link')
+
+    await waitForElementWithTestId('space-details-container')
+
+    await waitForElementWithTestId('space-share')
+
+    await tapOnElementWithTestId('space-share')
+
+    await waitForElementWithTestId('share-space-modal')
+
+    await waitForElementWithTestId('space-url')
   }
 })

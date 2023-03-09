@@ -80,6 +80,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         transparent
         inline
         onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
+        testID="share-space"
       >
         <HoliIcon icon="share" size={24} color={colors.foreground20} />
         <HoliText bold style={styles.shareText}>
@@ -94,6 +95,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         onRequestClose={() => {
           Alert.alert('Modal has been closed.')
         }}
+        testID="share-space-modal"
       >
         <View style={styles.modalContainer}>
           <Pressable onPress={() => setShow(false)} style={styles.backdrop} />
@@ -105,7 +107,9 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
                     {t('spaces:spaces.share')}
                   </HoliHeading>
                 </View>
-                <HoliText style={styles.description}>{prefix}</HoliText>
+                <HoliText style={styles.description} testID="space-url">
+                  {prefix}
+                </HoliText>
                 <View style={styles.buttonContainer}>
                   <HoliButton label={t('spaces:spaces.share.copy.link')} style={style} onPress={copyToClipboard}>
                     <HoliText bold>{t('spaces:spaces.share.copy.link')}</HoliText>
