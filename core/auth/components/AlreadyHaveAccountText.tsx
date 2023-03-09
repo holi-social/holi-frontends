@@ -21,6 +21,7 @@ const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ mobile
           label={t('auth.login')}
           href="/login"
           size="small"
+          variant="secondary"
           mobileNavigateBackFirst={mobileNavigateBackFirst}
           testID="btn-to-login-form"
         />

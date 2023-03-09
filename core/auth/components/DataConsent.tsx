@@ -72,6 +72,7 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
                   label=""
                   href={'/communityGuidelines'}
                   size="small"
+                  variant="secondary"
                   onPress={() => {
                     showModal()
                     return false
