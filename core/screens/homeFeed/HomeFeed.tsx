@@ -74,8 +74,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
             <TestingBanner />
           </View>
         )}
+
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
       {/* AppsDrawer needs to be outside of the Layout */}
