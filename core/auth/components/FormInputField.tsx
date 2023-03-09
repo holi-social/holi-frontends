@@ -130,6 +130,7 @@ const FormInputField = ({
   const inputProps: TextInputProps = {
     onKeyPress: handleKeyDown,
     autoFocus: autofocus,
+    ...(node.attributes.autocomplete ? { autoComplete: node.attributes.autocomplete } : {}),
   }
 
   return (

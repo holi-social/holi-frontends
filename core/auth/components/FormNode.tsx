@@ -71,6 +71,7 @@ const FormNode = (props: Props) => {
     return (
       <HoliButton
         label={fieldLabel}
+        disabled={node.attributes.disabled}
         style={props.style || {}}
         onPress={props.onSubmitPress}
         testID={`ory-submit-${fieldName}`}

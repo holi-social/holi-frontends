@@ -46,13 +46,10 @@ export const oryNodeIsHiddenField = (pet: UiNodeAttributes & { name: string }): 
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
-  if (
-    oryNodeIsInput(attributes) ||
-    oryNodeIsSubmit(attributes) ||
-    oryNodeIsButton(attributes) ||
-    oryNodeIsCheckbox(attributes)
-  ) {
+  if (oryNodeIsInput(attributes) || oryNodeIsButton(attributes) || oryNodeIsCheckbox(attributes)) {
     return attributes.name
+  } else if (oryNodeIsSubmit(attributes)) {
+    return attributes.value
   } else {
     return attributes.id
   }
@@ -81,6 +78,13 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
 
 export const getNodeById = (nodeName: string, flow: SelfServiceSettingsFlow | SelfServiceRecoveryFlow) => {
   return flow.ui.nodes.filter((node: UiNode) => getNodeId(node) === nodeName)
+}
+
+export const getButtonNodeById = (nodeName: string, flow: SelfServiceSettingsFlow | SelfServiceRecoveryFlow) => {
+  return flow.ui.nodes.filter(
+    (node: UiNode) =>
+      (oryNodeIsSubmit(node.attributes) || oryNodeIsButton(node.attributes)) && getNodeId(node) === nodeName
+  )
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

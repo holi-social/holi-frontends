@@ -19,11 +19,14 @@ import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/help
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
+type NodeId = string
+
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow | SelfServiceRecoveryFlow
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  autofocusField?: NodeId
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
@@ -40,6 +43,7 @@ const FormBuilder = <
   onSubmit,
   only,
   textInputOverride,
+  autofocusField,
   style,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
@@ -52,6 +56,11 @@ const FormBuilder = <
   })
 
   const isEmailField = (name: string) => name === 'identifier' || name === 'traits.email' || name === 'email'
+  const hasAutofocus = (node: UiNode) => {
+    const name = getNodeId(node)
+    const hasFocus = autofocusField === name || isEmailField(name)
+    return hasFocus && !node.attributes.disabled
+  }
 
   useEffect(() => {
     if (!flow) {
@@ -145,7 +154,7 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={isEmailField(name) && !node.attributes.disabled}
+              autofocus={hasAutofocus(node)}
               style={{ marginTop: 30 }}
             />
           )

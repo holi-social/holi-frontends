@@ -6,7 +6,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { getSessionFromStorage, initSettingsFlow, submitSettingsFlow } from '@holi/core/auth/helpers/auth'
-import { getNodeById, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { getButtonNodeById, getNodeById, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout, useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -30,12 +30,17 @@ const ChangePassword: React.VFC = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const setCustomFlow = useCallback(
     (flow: SelfServiceSettingsFlow) => {
-      // TODO: disable (hide) email field
+      // TODO: Change password input label
+      // TODO: hide email field
       const emailNode = getNodeById('traits.email', flow)[0]
       if (emailNode) {
         emailNode.attributes.disabled = true
       }
       // TODO: hide email-change-button (ideally in ory config)
+      const emailSaveButton = getButtonNodeById('profile', flow)[0]
+      if (emailSaveButton) {
+        emailSaveButton.attributes.disabled = true
+      }
       safeSetFlow(flow)
     },
     [safeSetFlow]
@@ -96,7 +101,7 @@ const ChangePassword: React.VFC = () => {
   return (
     <DefaultLayout style={styles.layout}>
       <View style={[mixins.container, styles.formContainer]}>
-        <FormBuilder flow={flow} onSubmit={performPasswordChange} style={styles.loginForm} />
+        <FormBuilder flow={flow} autofocusField="password" onSubmit={performPasswordChange} style={styles.loginForm} />
       </View>
     </DefaultLayout>
   )
