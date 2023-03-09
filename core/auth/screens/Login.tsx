@@ -16,15 +16,24 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+
+export type LoginParams = {
+  login_challenge?: string
+}
+
+const { useParam } = createParam<LoginParams>()
 
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
+  const [login_challenge] = useParam('login_challenge', singleParamConfig)
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -62,7 +71,12 @@ const Login: React.VFC<ScreenProps> = () => {
         .submitSelfServiceLoginFlow(flow.id, undefined, payload)
         .then(({ data }) =>
           client.clearStore().then(() => {
-            setUserLoggedIn(data as OrySessionContext)
+            // Quick hack for owncloud integration:
+            if (Platform.OS === 'web' && flow?.return_to) {
+              window.location.href = flow?.return_to
+            } else {
+              setUserLoggedIn(data as OrySessionContext)
+            }
           })
         )
         .catch(handleFormSubmitError(setFlow, initializeFlow))
@@ -73,6 +87,7 @@ const Login: React.VFC<ScreenProps> = () => {
   return (
     <DefaultLayout headerOverlap={true}>
       <LoginRegistrationContainer>
+        <HoliText>{login_challenge}</HoliText>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
         <View style={styles.formItemContainer}>
           <HoliTextLink
