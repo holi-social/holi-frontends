@@ -16,6 +16,7 @@ import { View, ViewStyle } from 'react-native'
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 interface Props<T> {
@@ -130,9 +131,9 @@ const FormBuilder = <
 
   return (
     <View style={style}>
-      {/* TODO: add loading spinner */}
+      {!flow && <HoliLoader />}
 
-      {flow &&
+      {!!flow &&
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
