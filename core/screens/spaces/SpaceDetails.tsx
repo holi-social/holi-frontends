@@ -45,7 +45,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { name: spaceId },
+    variables: { idOrName: spaceId },
   })
 
   const space = data?.spaceById

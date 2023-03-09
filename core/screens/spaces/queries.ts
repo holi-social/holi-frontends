@@ -161,8 +161,8 @@ export type DiscoverSpacesResponse = {
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
-  query SpaceById($id: UUID, $name: String) {
-    spaceById(id: $id, name: $name) {
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
       ...FullSpace
     }
   }
