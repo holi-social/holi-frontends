@@ -15,7 +15,7 @@ class UserHandler {
   }
 
   public async cleanup() {
-    await Promise.all(this.sessions.map((fn) => fn()))
+    await Promise.allSettled(this.sessions.map((fn) => fn()))
   }
 }
 
