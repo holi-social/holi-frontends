@@ -320,3 +320,27 @@ export const deleteSpaceMutation = gql`
     }
   }
 `
+
+export interface SpacesByMemberIdResponse {
+  spaces: Paged<Pick<Space, 'id' | 'title' | 'cover' | 'members'>>
+}
+
+export const spacesByMemberIdQuery = gql`
+  query SpacesByMember($memberId: UUID) {
+    spaces(memberId: $memberId) {
+      data {
+        id
+        title
+        cover
+        members(limit: 10) {
+          data {
+            user {
+              avatar
+            }
+          }
+        }
+      }
+      totalResults
+    }
+  }
+`
