@@ -70,7 +70,11 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       contentStyle={styles.container}
       testID={testID}
     >
-      <HoliText selectable={false} style={[styles.text, (active || hovered) && { color: 'black' }]}>
+      <HoliText
+        selectable={false}
+        style={[styles.text, (active || hovered) && { color: 'black' }]}
+        testID={`${testID}-counter`}
+      >
         {count}
       </HoliText>
       <HoliLocalImage

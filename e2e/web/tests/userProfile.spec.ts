@@ -9,98 +9,72 @@ import {
   delay,
   waitForAnimationEnd,
   waitForElementByTestId,
+  withRandomUserSession,
 } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
+test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
-  const password = 'TheSamePassword4A11E2eUsers'
-  let page: Page
-
   test.describe('own profile journey', () => {
-    test.beforeAll(async ({ browser }) => {
-      // create page + context to reuse for the following tests
-      // see https://playwright.dev/docs/test-retries#reuse-single-page-between-tests
-      page = await browser.newPage()
-      const context = page.context()
-
-      // create a new user
-      await defaultAuthSteps({ context, page, email, password }, 'registration')
+    test('profile journey', async ({ browser, page, context }) => {
+      // fill the interests, skills and sdgs for visiting the profile later
+      await defaultAuthSteps({ page, context }, 'login')
       await waitForElementByTestId(page, 'btn-to-settings')
-    })
 
-    test.afterAll(async () => {
-      await page.close()
-    })
-
-    test.beforeEach(async () => {
-      // visit own profile page via url
       await page.goto('/profile')
-    })
-
-    test('view profile', async () => {
-      await waitForElementByTestId(page, 'user-profile-full-name')
-
-      await waitForElementByTestId(page, 'user-profile-interests')
-      await waitForElementByTestId(page, 'user-profile-sdgs')
-      await waitForElementByTestId(page, 'user-profile-skills')
-
-      await checkAccessibility(page)
-    })
-
-    test('edit profile', async () => {
-      // go to profile edit modal
-      await clickElementByTestId(page, 'btn-open-profile-edit-view')
-      await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-      await checkAccessibility(page)
-
-      // validation should block save
-      await page.locator(byTestId('first-name-input')).fill('a')
-      await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-      await page.locator(byTestId('first-name-input-error-message')).waitFor()
-      await checkAccessibility(page)
-
-      // edit firstName should work
-      const firstNameEdited = faker.name.firstName()
-      const lastNameEdited = faker.name.lastName()
-      await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
-      await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
-      await delay(0.5)
-      await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-      await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
-
-      await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-      await delay(0.5)
-      await expect
-        .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
-        .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
-
-      // edit interests, skills + sdgs should work
-      await delay(2)
       await checkChipsSelection(page, 'interests')
       await checkChipsSelection(page, 'skills')
       await checkChipsSelection(page, 'sdgs')
+
+      // now test with a generated user for not messing too much with the profile of the E2E user
+      await (
+        await withRandomUserSession(browser, async (page) => {
+          await waitForElementByTestId(page, 'user-profile-full-name')
+
+          await waitForElementByTestId(page, 'user-profile-interests')
+          await waitForElementByTestId(page, 'user-profile-sdgs')
+          await waitForElementByTestId(page, 'user-profile-skills')
+
+          await checkAccessibility(page)
+          await clickElementByTestId(page, 'btn-open-profile-edit-view')
+          await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+          await checkAccessibility(page)
+
+          // validation should block save
+          await page.locator(byTestId('first-name-input')).fill('a')
+          await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
+          await page.locator(byTestId('first-name-input-error-message')).waitFor()
+          await checkAccessibility(page)
+
+          // edit firstName should work
+          const firstNameEdited = faker.name.firstName()
+          const lastNameEdited = faker.name.lastName()
+          await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
+          await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
+          await delay(0.5)
+          await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
+          await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
+
+          await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+          await expect
+            .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
+            .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
+
+          // visiting another user's profile should show the correct information
+          const userId = process.env.E2E_USER_ID || 'empty'
+          await page.goto('/profile/' + userId)
+          await waitForElementByTestId(page, 'user-profile-full-name')
+          await waitForElementByTestId(page, 'user-profile-interests')
+          await waitForElementByTestId(page, 'user-profile-sdgs')
+          await waitForElementByTestId(page, 'user-profile-skills')
+
+          await checkAccessibility(page)
+        })
+      )()
     })
-  })
-
-  test('other user profile journey', async ({ page }) => {
-    // visit another user's profile page via url
-    const userId = process.env.E2E_USER_ID || 'empty'
-    console.log('Visiting User with id: ' + userId)
-    await page.goto('/profile/' + userId)
-    await waitForElementByTestId(page, 'user-profile-full-name')
-
-    await waitForElementByTestId(page, 'user-profile-interests')
-    await waitForElementByTestId(page, 'user-profile-sdgs')
-    await waitForElementByTestId(page, 'user-profile-skills')
-
-    await checkAccessibility(page)
   })
 })
 
@@ -148,7 +122,6 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await clickElementByTestId(page, `user-profile-${what}-edit`)
-  await delay(0.5)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
   const expectedNoOfSelectedChips = 3
@@ -182,5 +155,5 @@ const saveAndCloseChipform = async (page: Page) => {
   await clickElementByTestId(page, 'user-profile-chipform-close-btn')
   await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  await delay(2)
+  await waitForElementByTestId(page, 'user-profile-full-name')
 }

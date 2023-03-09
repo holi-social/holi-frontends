@@ -9,7 +9,7 @@ export const delay = (time: number) => new Promise((resolve) => setTimeout(resol
 
 export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
   const selector = byTestId(testId)
-  await page.waitForSelector(selector) // default timeout: 30s
+  await page.waitForSelector(selector)
   return selector
 }
 
@@ -39,14 +39,11 @@ export const clickElementByTestId = async (page: Page, testId: string) => {
 }
 
 export const waitForAnimationEnd = async (locator: Locator) => {
-  return locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
-}
-
-const defaultPassword = 'TheSamePassword4A11E2eUsers'
-
-export const registerNewUser = async ({ page, context }: PageContext) => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
-  await defaultAuthSteps({ page, context, email, password: defaultPassword }, 'registration')
+  const result = await locator.evaluate((element) =>
+    Promise.all(element.getAnimations().map((animation) => animation.finished))
+  )
+  await delay(0.5)
+  return result
 }
 
 interface PageContext {
@@ -55,12 +52,6 @@ interface PageContext {
 }
 
 interface DefaultAuthStepsProps extends PageContext {
-  email?: string
-  password?: string
-}
-
-type BrowserAuthStepsProps = {
-  browser: Browser
   email?: string
   password?: string
 }
@@ -93,18 +84,6 @@ export const defaultAuthSteps = async (
   }
 
   await clickElementByTestId(page, 'ory-submit-method')
-}
-
-export const deleteAccount = async (page: Page) => {
-  await page.goto('/profile')
-
-  await clickElementByTestId(page, 'btn-to-settings')
-  await clickElementByTestId(page, 'btn-your-account')
-  await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
-
-  await waitForElementByTestId(page, 'btn-to-login-form')
-  await clickElementByTestId(page, 'btn-to-home-view')
 }
 
 export const checkAccessibility = async (page: Page) => {

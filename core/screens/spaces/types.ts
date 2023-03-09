@@ -24,6 +24,11 @@ export interface SpaceLink {
   type: SpaceLinkType
 }
 
+export interface Point {
+  latitude: number
+  longitude: number
+}
+
 export interface Space {
   id: string
   title: string
@@ -32,6 +37,7 @@ export interface Space {
   creator: User
   cover: string
   location: string
+  geolocation?: Point
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
