@@ -57,7 +57,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
     <View style={[styles.viewContainer, props.style]}>
       <FormBuilder flow={flow} onSubmit={requestPasswordRecovery} style={styles.recoverPasswordForm} />
 
-      <AlreadyHaveAccountText withReplacing style={styles.loginHeadline} />
+      <AlreadyHaveAccountText mobileNavigateBackFirst style={styles.loginHeadline} />
 
       <HoliHeading level="2" style={styles.headline2}>
         {t('auth.login.signUp.link.headline')}

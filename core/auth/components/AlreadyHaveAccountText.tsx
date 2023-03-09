@@ -7,11 +7,11 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 
 export interface AlreadyHaveAccountTextProps {
-  withReplacing?: boolean
+  mobileNavigateBackFirst?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ withReplacing = false, style }) => {
+const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ mobileNavigateBackFirst = false, style }) => {
   const { t } = useTranslation()
 
   return (
@@ -21,11 +21,9 @@ const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ withRe
           label={t('auth.login')}
           href="/login"
           size="small"
-          mobileNavigateBackFirst={withReplacing}
+          mobileNavigateBackFirst={mobileNavigateBackFirst}
           testID="btn-to-login-form"
-        >
-          {t('auth.login')}
-        </HoliTextLink>
+        />
       </Trans>
     </HoliText>
   )
