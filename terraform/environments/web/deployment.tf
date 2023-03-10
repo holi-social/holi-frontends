@@ -53,10 +53,10 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name  = "KRATOS_BASE_URL"
+          name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
-
         }
+        # TODO(SF) add ORY_ADMIN_ACCESS_TOKEN
 
         resources {
           limits = {

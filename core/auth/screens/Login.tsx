@@ -20,12 +20,11 @@ import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useP
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type LoginParams = {
-  login_challenge?: string
+  return_to?: string
 }
 
 const { useParam } = createParam<LoginParams>()
@@ -33,7 +32,7 @@ const { useParam } = createParam<LoginParams>()
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
-  const [login_challenge] = useParam('login_challenge', singleParamConfig)
+  const [return_to] = useParam('return_to', singleParamConfig)
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -53,13 +52,20 @@ const Login: React.VFC<ScreenProps> = () => {
   }, [setOptions, t])
 
   const initializeFlow = useCallback(() => {
-    initLoginFlow()
+    initLoginFlow() // TODO(SF) return_to forbidden?
       .then((response) => {
         const { data: flow } = response
         setFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }, [t, displayError])
+
+  const onLoggedIn = useCallback(() => {
+    console.log('is logged in, redirect to', return_to)
+    if (Platform.OS === 'web' && return_to) {
+      window.location.href = return_to
+    }
+  }, [return_to])
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()
@@ -71,12 +77,12 @@ const Login: React.VFC<ScreenProps> = () => {
         .submitSelfServiceLoginFlow(flow.id, undefined, payload)
         .then(({ data }) =>
           client.clearStore().then(() => {
-            // Quick hack for owncloud integration:
-            if (Platform.OS === 'web' && flow?.return_to) {
-              window.location.href = flow?.return_to
-            } else {
-              setUserLoggedIn(data as OrySessionContext)
-            }
+            setUserLoggedIn(data as OrySessionContext)
+            console.log('logged in, would redirect to', flow?.return_to)
+            // Browser redirect for OAuth2 flow TODO(SF) still necessary?
+            // if (Platform.OS === 'web' && flow?.return_to) {
+            //   window.location.href = flow?.return_to
+            // }
           })
         )
         .catch(handleFormSubmitError(setFlow, initializeFlow))
@@ -86,8 +92,7 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer>
-        <HoliText>{login_challenge}</HoliText>
+      <LoginRegistrationContainer onLoggedIn={onLoggedIn}>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
         <View style={styles.formItemContainer}>
           <HoliTextLink

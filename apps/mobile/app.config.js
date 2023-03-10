@@ -67,8 +67,8 @@ export default {
       ],
     },
     extra: {
-      kratos: {
-        url: process.env.KRATOS_BASE_URL || 'https://dev-auth.project-holi.org',
+      ory: {
+        url: process.env.ORY_BASE_URL || 'https://dev-auth.project-holi.org',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
