@@ -86,3 +86,5 @@ export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
 }
+
+export type MemberSpaces = Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'members'>>
