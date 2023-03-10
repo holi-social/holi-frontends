@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
+import React, { Suspense, lazy, useEffect } from 'react'
 import type { PropsWithChildren } from 'react'
-import React, { Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
@@ -27,12 +27,16 @@ interface Props {
 const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
-  const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+  const [fetchSpaces, { loading, error, data }] = useLazyQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId: user.id },
   })
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  useEffect(() => {
+    if (!loading) fetchSpaces()
+  }, [fetchSpaces, loading])
 
   if (error) {
     logError(error, `[OwnProfileView.tsx] ${error.message}`)
