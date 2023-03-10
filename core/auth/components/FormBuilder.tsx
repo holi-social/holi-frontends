@@ -1,13 +1,13 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/SelfServiceFlow.tsx
 import {
-  SelfServiceLoginFlow,
-  SelfServiceRecoveryFlow,
-  SelfServiceRegistrationFlow,
-  SelfServiceSettingsFlow,
-  SubmitSelfServiceLoginFlowBody,
-  SubmitSelfServiceRegistrationFlowBody,
-  SubmitSelfServiceSettingsFlowBody,
+  LoginFlow,
+  RecoveryFlow,
+  RegistrationFlow,
+  SettingsFlow,
   UiNode,
+  UpdateLoginFlowBody,
+  UpdateRegistrationFlowBody,
+  UpdateSettingsFlowBody,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,12 +22,12 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 type NodeId = string
 
 interface Props<T> {
-  flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow | SelfServiceRecoveryFlow
+  flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   autofocusField?: NodeId
-  translationPrefix: string
+  translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
@@ -37,9 +37,7 @@ interface FlowData<T> {
   submitType: Record<string, unknown>
 }
 
-const FormBuilder = <
-  T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
->({
+const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody>({
   flow,
   onSubmit,
   only,

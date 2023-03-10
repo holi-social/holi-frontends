@@ -1,4 +1,4 @@
-import { SelfServiceSettingsFlow, SubmitSelfServiceSettingsFlowBody } from '@ory/kratos-client'
+import { SettingsFlow, UpdateSettingsFlowBody } from '@ory/kratos-client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -25,7 +25,7 @@ const ChangePassword: React.VFC = () => {
   const { openToast } = useToast()
   const mixins = useStyleMixins()
 
-  const [flow, setFlow] = useState<SelfServiceSettingsFlow>()
+  const [flow, setFlow] = useState<SettingsFlow>()
   const [sessionToken, setSessionToken] = useState<string>()
   const safeSetFlow = useSafeDispatch(setFlow)
 
@@ -53,7 +53,7 @@ const ChangePassword: React.VFC = () => {
     initForm()
   }, [setOptions, initForm])
 
-  const performPasswordChange = (flowBody: SubmitSelfServiceSettingsFlowBody): Promise<void> => {
+  const performPasswordChange = (flowBody: UpdateSettingsFlowBody): Promise<void> => {
     if (flow)
       return submitSettingsFlow(flow.id, flowBody, sessionToken)
         .then(() => {

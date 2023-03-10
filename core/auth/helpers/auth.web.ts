@@ -1,11 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
 import {
-  SelfServiceLoginFlow,
-  SelfServiceRecoveryFlow,
-  SelfServiceRegistrationFlow,
-  SelfServiceSettingsFlow,
-  SubmitSelfServiceLoginFlowBody,
-  SubmitSelfServiceSettingsFlowBody,
+  LoginFlow,
+  RecoveryFlow,
+  RegistrationFlow,
+  SettingsFlow,
+  UpdateLoginFlowBody,
+  UpdateSettingsFlowBody,
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
@@ -35,35 +35,37 @@ export const removeSessionFromStorage = () => {
 }
 
 // Login
-export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
-  return newKratosSdk().initializeSelfServiceLoginFlowForBrowsers(true)
+export const initLoginFlow = (): AxiosPromise<LoginFlow> => {
+  return newKratosSdk().createBrowserLoginFlow({ refresh: true })
 }
 
-export const submitLoginFlow = (flowId: string, payload: SubmitSelfServiceLoginFlowBody, sessionToken?: string) =>
-  newKratosSdk().submitSelfServiceLoginFlow(flowId, sessionToken, payload, { withCredentials: true })
+export const submitLoginFlow = (flowId: string, payload: UpdateLoginFlowBody, sessionToken?: string) =>
+  newKratosSdk().updateLoginFlow(
+    { flow: flowId, xSessionToken: sessionToken, updateLoginFlowBody: payload },
+    { withCredentials: true }
+  )
 
 // Logout
-export const submitLogoutFlow = (/*payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody*/) => {
+export const submitLogoutFlow = async (/*payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody*/) => {
   return newKratosSdk()
-    .createSelfServiceLogoutFlowUrlForBrowsers('')
-    .then(({ data }) => newKratosSdk().submitSelfServiceLogoutFlow(data.logout_token))
+    .createBrowserLogoutFlow()
+    .then(({ data }) => newKratosSdk().updateLogoutFlow({ token: data.logout_token }))
 }
 
 // Registration
-export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
-  return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
+export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> => {
+  return newKratosSdk().createBrowserRegistrationFlow()
 }
 
 // Forgot Password
-export const initPasswordRecoveryFlow = (): AxiosPromise<SelfServiceRecoveryFlow> =>
-  newKratosSdk().initializeSelfServiceRecoveryFlowForBrowsers()
+export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> => newKratosSdk().createBrowserRecoveryFlow()
 
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
-export const initSettingsFlow = (): AxiosPromise<SelfServiceSettingsFlow> =>
-  newKratosSdk().initializeSelfServiceSettingsFlowForBrowsers()
+export const initSettingsFlow = (): AxiosPromise<SettingsFlow> => newKratosSdk().createBrowserSettingsFlow()
 
-export const submitSettingsFlow = (flowId: string, payload: SubmitSelfServiceSettingsFlowBody, sessionToken?: string) =>
-  newKratosSdk().submitSelfServiceSettingsFlow(flowId, sessionToken, payload, {
-    withCredentials: true,
-  })
+export const submitSettingsFlow = (flowId: string, payload: UpdateSettingsFlowBody, sessionToken?: string) =>
+  newKratosSdk().updateSettingsFlow(
+    { flow: flowId, xSessionToken: sessionToken, updateSettingsFlowBody: payload },
+    { withCredentials: true }
+  )

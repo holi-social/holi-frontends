@@ -1,4 +1,4 @@
-import { SelfServiceRecoveryFlow, SubmitSelfServiceRecoveryFlowWithLinkMethodBody } from '@ory/kratos-client'
+import { SelfServiceRecoveryFlow, SubmitSelfServiceRecoveryFlowWithLinkMethodBody } from '@ory/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'

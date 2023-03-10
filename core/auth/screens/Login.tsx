@@ -1,4 +1,4 @@
-import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
+import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -26,7 +26,7 @@ type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
   const { isLoggedIn, setUserLoggedIn } = useAuth()
-  const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
   const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
@@ -57,7 +57,7 @@ const Login: React.VFC<ScreenProps> = () => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
 
-  const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
+  const performLogin = (payload: UpdateLoginFlowBody): Promise<void> => {
     if (flow)
       return submitLoginFlow(flow.id, payload, undefined)
         .then(({ data }) =>
