@@ -86,15 +86,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
           {t('spaces:spaces.share')}
         </HoliText>
       </HoliButton>
-      <Modal
-        animationType="fade"
-        transparent
-        visible={show}
-        accessibilityLabel={t('spaces:spaces.share')}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.')
-        }}
-      >
+      <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
         <View style={styles.modalContainer}>
           <Pressable onPress={() => setShow(false)} style={styles.backdrop} />
           <View style={styles.modalView}>
