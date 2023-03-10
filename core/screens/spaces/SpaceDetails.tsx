@@ -6,11 +6,11 @@ import { Platform, StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -39,7 +39,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId') // spaceId can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { navigate, replaceRoute } = useRouting()
 
   const { setOptions } = useUnifiedNavigation()
@@ -134,14 +133,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       {(isCreator || isMember) && <SpaceDashboardModal spaceId={spaceId} />}
     </>
   )

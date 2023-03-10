@@ -5,9 +5,8 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -58,7 +57,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [editField, setEditField] = useState<EditFields | null>(null)
 
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
@@ -109,12 +107,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
@@ -231,7 +224,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             </View>
           </View>
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}

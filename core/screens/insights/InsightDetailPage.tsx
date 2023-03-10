@@ -6,10 +6,9 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -42,7 +41,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -87,13 +85,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout
-        bounces={false}
-        style={styles.wrapper}
-        headerOverlap
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-      >
+      <DefaultScrollHeaderLayout bounces={false} style={styles.wrapper} headerOverlap>
         {/* Image section */}
         <ImageBackground
           source={{ uri: insight?.headerImage }}
@@ -174,7 +166,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
             </HoliGridWrapper>
           </View>
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
     </>
   )
 }
