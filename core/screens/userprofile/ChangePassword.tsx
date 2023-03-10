@@ -6,7 +6,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { getSessionFromStorage, initSettingsFlow, submitSettingsFlow } from '@holi/core/auth/helpers/auth'
-import { getButtonNodeById, getNodeById, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout, useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -30,21 +30,11 @@ const ChangePassword: React.VFC = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const setCustomFlow = useCallback(
     (flow: SelfServiceSettingsFlow) => {
-      // Hide email input and submit button
-      const adjustedFlow = { ...flow }
-      const emailNode = getNodeById('traits.email', adjustedFlow)[0]
-      if (emailNode) {
-        emailNode.attributes.disabled = true
-      }
-      const emailSaveButton = getButtonNodeById('profile', adjustedFlow)[0]
-      if (emailSaveButton) {
-        emailSaveButton.attributes.disabled = true
-      }
-      // The documented way, but causes 403 - security_csrf_violation
+      // Hide email input and email-change button
       // https://www.ory.sh/nextjs-authentication-spa-custom-flows-open-source/#rendering-the-account-settings-page
-      // const NODE_GROUP_TO_SHOW = 'password'
-      // const filteredNodes = flow.ui.nodes.filter(({ group }) => group === NODE_GROUP_TO_SHOW)
-      // const adjustedFlow = { ...flow, ui: { ...flow.ui, nodes: filteredNodes } }
+      const NODE_GROUP_TO_HIDE = 'profile'
+      const filteredNodes = flow.ui.nodes.filter(({ group }) => group !== NODE_GROUP_TO_HIDE)
+      const adjustedFlow = { ...flow, ui: { ...flow.ui, nodes: filteredNodes } }
 
       // TODO: Change password input label
 
@@ -99,9 +89,6 @@ const ChangePassword: React.VFC = () => {
             return
           }
 
-          // 403 - security_csrf_violation
-          // (happens, when email input is not sent, because is filtered out of the flow)
-
           // technical error
           displayError(error, '## Change password ##')
         })
@@ -130,7 +117,7 @@ const styles = StyleSheet.create({
     paddingBottom: vars.topBarHeight,
   },
   loginForm: {
-    // reserves space for inputs plus submit until ory flow is done
+    // reserves space for the form until ory flow is done
     minHeight: 235,
     width: '100%',
   },
