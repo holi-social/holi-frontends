@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -10,12 +11,14 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm from '@holi/core/screens/spaces/components/DigitalToolInputForm'
+import { CreateSpaceExternalLinkResponse, createSpaceExternalLinkMutation } from '@holi/core/screens/spaces/queries'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -43,6 +46,19 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+
+  const { openToast } = useToast()
+
+  const [addExternalLink] = useMutation<CreateSpaceExternalLinkResponse>(createSpaceExternalLinkMutation, {
+    onCompleted: () => navigateBack(),
+    onError: (error) => openToast(error.message, HoliToastType.ERROR),
+  })
+
+  const onSave = () => {
+    addExternalLink({
+      variables: { input: { url, communityId: spaceId, title, description, visibility: 'private', type: 'other' } },
+    })
+  }
 
   useLayoutEffect(() => {
     setOptions({
@@ -73,11 +89,6 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const onChangeDescription = (description: string) => {
     setDescription(description)
-  }
-
-  const onSave = () => {
-    //TODO implement api integration
-    console.log('Space id -->', spaceId)
   }
 
   const Footer = () => {
@@ -142,6 +153,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
+          addExternalLink()
           setShowConfirmationModal(false)
           navigateBack()
         }}

@@ -35,8 +35,12 @@ const SpaceFragment = gql`
     }
     connectionStatusToMyself
     links {
+      id
       type
       url
+      visibility
+      description
+      title
     }
     members {
       ...FullSpaceMember
@@ -235,6 +239,31 @@ export const createSpaceMutation = gql`
     }
   }
 `
+
+export const CreateSpaceExternalLinkInputSchema = z.object({
+  url: z.string().url().max(500),
+  title: z.string().trim().min(2).max(128),
+  description: z.string().trim().min(1).max(256).optional(),
+  visibility: z.string().trim().min(1).max(256),
+  type: z.string().trim().min(1).max(256),
+  communityId: z.string() /* UUID */,
+})
+
+export type CreateSpaceExternalLinkInput = z.infer<typeof CreateSpaceExternalLinkInputSchema>
+
+export const createSpaceExternalLinkMutation = gql`
+  ${SpaceFragment}
+
+  mutation CreateSpaceExternalLink($input: CreateSpaceExternalLinkInput!) {
+    createSpaceExternalLink(input: $input) {
+      ...FullSpace
+    }
+  }
+`
+
+export type CreateSpaceExternalLinkResponse = {
+  createSpaceExternalLink: Space
+}
 
 export type CreateSpaceResponse = {
   createSpace: Space

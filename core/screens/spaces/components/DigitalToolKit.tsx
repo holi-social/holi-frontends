@@ -3,37 +3,30 @@ import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
+import { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type Tool = {
-  id: string
-  name: string
-  title: string
-  url: string
-  thumbnail?: string
+interface DigitalToolKitProps {
+  space: Space
 }
-const toolList: Tool[] = [
-  { id: '0', name: 'Miro', title: 'Ideas whiteboard', url: 'https://miro.com/', thumbnail: undefined },
-  { id: '1', name: 'Rocket Chat', title: 'Team chat', url: 'https://de.rocket.chat/', thumbnail: undefined },
-  { id: '2', name: 'Jitsi Meet', title: 'Monthly meetup room', url: 'https://meet.jit.si/', thumbnail: undefined },
-  { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de', thumbnail: undefined },
-]
 
-const DigitalToolKit: React.VFC = () => {
-  const [displayToolList, setDisplayToolList] = useState<Array<Tool>>([])
+const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
+  const [displayToolList, setDisplayToolList] = useState<Array<SpaceLink>>([])
   const { t } = useTranslation()
 
+  const { links = [] } = space
+
   useEffect(() => {
-    const subArray = toolList.slice(0, 3)
+    const subArray = links.slice(0, 3)
     setDisplayToolList(subArray)
-  }, [])
+  }, [links])
 
   const handleSeeAllButtonPress = () => {
-    setDisplayToolList(toolList)
+    setDisplayToolList(links)
   }
 
   const handleShareButtonPress = (url: string) => {
@@ -51,15 +44,15 @@ const DigitalToolKit: React.VFC = () => {
     )
   }
 
-  const DigitalTool = ({ tool }: { tool: Tool }) => {
+  const DigitalTool = ({ tool }: { tool: SpaceLink }) => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.name} />}
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={t(`spaces.link.${tool.type}`)} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {tool.name}
+            {t(`spaces.link.${tool.type}`)}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
@@ -79,11 +72,11 @@ const DigitalToolKit: React.VFC = () => {
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
       <View style={styles.toolKitContainer}>
-        {(displayToolList.length > 0 &&
+        {(links.length > 0 &&
           displayToolList.map((item) => {
             return <DigitalTool key={item.id} tool={item} />
           })) || <NoToolsAvailable />}
-        {toolList.length > 3 && displayToolList.length !== toolList.length && (
+        {links.length > 3 && displayToolList.length !== links.length && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}
