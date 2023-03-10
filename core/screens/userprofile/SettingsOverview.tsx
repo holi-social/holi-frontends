@@ -51,6 +51,7 @@ const SettingsOverview: React.VFC = () => {
             icon="notification-2"
             arrowRight
             onPress={showFeatureNotImplementedToast}
+            tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
           <MoreOptionItem
@@ -58,6 +59,7 @@ const SettingsOverview: React.VFC = () => {
             icon="help"
             arrowRight
             onPress={showFeatureNotImplementedToast}
+            tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
         </View>
