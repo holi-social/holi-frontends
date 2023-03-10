@@ -5,6 +5,7 @@ import { Platform, SafeAreaView, ScrollView, StyleProp, StyleSheet, View, ViewSt
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -66,13 +67,20 @@ const LoginRegistration = ({
           >
             {t('auth.loginProtection.continueAsGuest')}
           </HoliButton>
-
-          <HoliHeading level="2" size="xSmall" style={styles.loginLeadline}>
-            {t('auth.registration.alreadyHasAccount')}{' '}
-            <HoliTextLink label={t('auth.login')} href="/login" size="small" testID="btn-to-login-form">
-              {t('auth.login')}
-            </HoliTextLink>
-          </HoliHeading>
+          <View style={styles.loginContainer}>
+            <HoliText>{t('auth.registration.alreadyHasAccount')}</HoliText>
+            <View style={styles.loginLinkContainer}>
+              <HoliTextLink
+                label={t('auth.login')}
+                href="/login"
+                size="small"
+                variant="secondary"
+                testID="btn-to-login-form"
+              >
+                {t('auth.login')}
+              </HoliTextLink>
+            </View>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -115,12 +123,14 @@ const styles = StyleSheet.create({
   secondButton: {
     marginTop: 16,
   },
-  loginLeadline: {
-    marginTop: 16,
-    textAlign: 'center',
+  loginContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingTop: 16,
   },
-  loginLinkText: {
-    color: colors.brandColorB30,
+  loginLinkContainer: {
+    paddingLeft: 4,
   },
 })
 
