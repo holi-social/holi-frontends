@@ -30,18 +30,25 @@ const ChangePassword: React.VFC = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const setCustomFlow = useCallback(
     (flow: SelfServiceSettingsFlow) => {
-      // TODO: Change password input label
-      // TODO: hide email field
-      const emailNode = getNodeById('traits.email', flow)[0]
+      // Hide email input and submit button
+      const adjustedFlow = { ...flow }
+      const emailNode = getNodeById('traits.email', adjustedFlow)[0]
       if (emailNode) {
         emailNode.attributes.disabled = true
       }
-      // TODO: hide email-change-button (ideally in ory config)
-      const emailSaveButton = getButtonNodeById('profile', flow)[0]
+      const emailSaveButton = getButtonNodeById('profile', adjustedFlow)[0]
       if (emailSaveButton) {
         emailSaveButton.attributes.disabled = true
       }
-      safeSetFlow(flow)
+      // The documented way, but causes 403 - security_csrf_violation
+      // https://www.ory.sh/nextjs-authentication-spa-custom-flows-open-source/#rendering-the-account-settings-page
+      // const NODE_GROUP_TO_SHOW = 'password'
+      // const filteredNodes = flow.ui.nodes.filter(({ group }) => group === NODE_GROUP_TO_SHOW)
+      // const adjustedFlow = { ...flow, ui: { ...flow.ui, nodes: filteredNodes } }
+
+      // TODO: Change password input label
+
+      safeSetFlow(adjustedFlow)
     },
     [safeSetFlow]
   )
@@ -53,7 +60,7 @@ const ChangePassword: React.VFC = () => {
         setSessionToken(session.session_token)
         initSettingsFlow(session)
           .then(({ data: flow }) => setCustomFlow(flow))
-          .catch((error: Error) => displayError(error, '## Error on retrieving the settings flow ##'))
+          .catch((error: Error) => displayError(error, '## Retrieve flow ##'))
       }
     }
   }, [setCustomFlow, isLoggedIn, displayError])
@@ -92,8 +99,11 @@ const ChangePassword: React.VFC = () => {
             return
           }
 
+          // 403 - security_csrf_violation
+          // (happens, when email input is not sent, because is filtered out of the flow)
+
           // technical error
-          displayError(error, '## Error on submitting password change ##')
+          displayError(error, '## Change password ##')
         })
     return Promise.resolve()
   }
