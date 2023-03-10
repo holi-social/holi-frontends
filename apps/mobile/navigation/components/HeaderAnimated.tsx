@@ -31,7 +31,7 @@ const useHeaderHideAnimation = (headerHeight: number) => {
 
   // on scroll change
   useEffect(() => {
-    const shouldShowHeader = scrollY < height / 3 || scrollY < prevScrollY.current
+    const shouldShowHeader = scrollY < height * 0.5 || scrollY < prevScrollY.current
 
     if (isHeaderShown.current !== shouldShowHeader) {
       Animated.timing(headerSlideAnimation, {
