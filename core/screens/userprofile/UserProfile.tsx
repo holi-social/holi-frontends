@@ -1,9 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { Suspense, lazy, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
-
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -19,8 +17,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { ContentType } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { FeedStackScreens } from '@holi/mobile/navigation/FeedNavigator'
+import { UserbyIdWithSpacesResponse, userByIdWithSpacesQuery } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -29,14 +26,14 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
+
 export type UserProfileParams = {
   userId: string
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<FeedStackScreens>
-
-const UserProfile: React.VFC<ScreenProps> = () => {
+const UserProfile = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
@@ -51,7 +48,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const [fetchUser, { loading, error, data }] = useLazyQuery<UserbyIdWithSpacesResponse>(userByIdWithSpacesQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
   })
@@ -113,7 +110,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   // TODO: workaround for params always being undefined on initial page load
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (userId && !loading && !user) {
       fetchUser()
     }
@@ -205,6 +202,20 @@ const UserProfile: React.VFC<ScreenProps> = () => {
               <View style={styles.infoContainer}>
                 <HoliText style={styles.infoText}>{t('profile.tabs.insight.empty')}</HoliText>
               </View>
+            ),
+          },
+          {
+            title: t('profile.tabs.spaces'),
+            children: (
+              /** TODO: Suspence currently only works on web. To make it work for
+               * mobile we need to move to the new React Native architecture */
+              <>
+                {data?.spaces && !!data.spaces.totalResults ? (
+                  <Suspense fallback={<Text>Loading...</Text>}>
+                    <SpacesTab spaces={data?.spaces} />
+                  </Suspense>
+                ) : null}
+              </>
             ),
           },
         ]}
