@@ -91,24 +91,21 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
           ) : undefined
         }
       >
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          spacesData.map((space) => (
-            <HoliBlockItem
-              key={space.id}
-              label={space.title}
-              title={space.title}
-              subtitle={space.location}
-              description={space.description}
-              imageSrc={space.cover}
-              users={space.members.data.map((membership) => membership.user)}
-              href={`/spaces/${space.id}`}
-              size="large"
-              style={styles.backgroundWhite}
-              testID="space-link"
-            />
-          ))
-        }
+        {spacesData.map((space) => (
+          <HoliBlockItem
+            key={space.id}
+            label={space.title}
+            title={space.title}
+            subtitle={space.location}
+            description={space.description}
+            imageSrc={space.cover}
+            users={space.members.data.map((membership) => membership.user)}
+            href={`/spaces/${space.name}`}
+            size="large"
+            style={styles.backgroundWhite}
+            testID="space-link"
+          />
+        ))}
       </SpacesHorizontalSlider>
     </View>
   )

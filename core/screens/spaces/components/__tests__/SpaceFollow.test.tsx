@@ -58,7 +58,7 @@ const spaceByIdRequest = {
   request: {
     query: spaceByIdQuery,
     variables: {
-      id: SPACE_ID,
+      idOrName: SPACE_ID,
     },
   },
   result: {

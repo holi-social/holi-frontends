@@ -344,6 +344,8 @@
   "spaces.resources.category.wallet": "Wallet",
   "spaces.seeMore": "See more",
   "spaces.share": "Share",
+  "spaces.share.copied": "Copied to clipboard!",
+  "spaces.share.copy.link": "Copy link",
   "spaces.spaceDetails.creator": "Creator: {{name}}",
   "spaces.spaceDetails.goal": "Goal",
   "spaces.spaceDetails.location": "Location",

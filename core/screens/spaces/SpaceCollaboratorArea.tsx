@@ -33,7 +33,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
+    variables: { idOrName: spaceId },
   })
   const space = data?.spaceById
 

@@ -75,7 +75,7 @@ const HoliModalContentWrapper = (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
 
-      {loading && <HoliLoader style={styles.saveLoaderContainer} />}
+      {loading && <HoliLoader style={styles.saveLoaderContainer} testID={`${testID}-loader`} />}
 
       {scrollable ? (
         <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
