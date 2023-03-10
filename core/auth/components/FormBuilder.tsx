@@ -27,6 +27,7 @@ interface Props<T> {
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   autofocusField?: NodeId
+  translationPrefix: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
@@ -44,6 +45,7 @@ const FormBuilder = <
   only,
   textInputOverride,
   autofocusField,
+  translationPrefix = 'auth.login.',
   style,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
@@ -150,6 +152,7 @@ const FormBuilder = <
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}
               textInputOverride={textInputOverride}
+              translationPrefix={translationPrefix}
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}

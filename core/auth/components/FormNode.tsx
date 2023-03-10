@@ -21,6 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
+  translationPrefix: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: () => void
   style?: ViewStyle | Record<string, unknown>
@@ -47,6 +48,7 @@ const FormNode = (props: Props) => {
         value={props.value}
         onChange={props.onChange}
         autofocus={props.autofocus}
+        translationPrefix={props.translationPrefix}
         style={props.style}
         testID={`ory-checkbox-${getNodeId(node).replace('.', '_')}`}
       />
@@ -59,6 +61,7 @@ const FormNode = (props: Props) => {
         {...props}
         disabled={node.attributes.disabled}
         attributes={node.attributes}
+        translationPrefix={props.translationPrefix}
         onEnterPress={props.onSubmitPress}
         style={[props.style || {}, { marginTop: 10 }]}
       />
@@ -67,7 +70,7 @@ const FormNode = (props: Props) => {
 
   if (oryNodeIsSubmit(node.attributes)) {
     const fieldName = getNodeId(node)
-    const fieldLabel = t(`auth.login.input.label-${getNodeTitle(node)}`)
+    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTitle(node)}`)
     return (
       <HoliButton
         label={fieldLabel}

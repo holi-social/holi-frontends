@@ -88,6 +88,7 @@ const ChangePassword: React.VFC = () => {
           flow={flow}
           autofocusField="password"
           only="password"
+          translationPrefix="auth.changePassword."
           onSubmit={performPasswordChange}
           style={styles.loginForm}
         />
