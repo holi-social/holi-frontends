@@ -11,8 +11,7 @@ export const waitForElementByTestId = async (
   page: Page,
   testId: string
 ): Promise<ElementHandle<SVGElement | HTMLElement>> => {
-  const element = await page.waitForSelector(byTestId(testId))
-  return element
+  return await page.waitForSelector(byTestId(testId))
 }
 
 export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
