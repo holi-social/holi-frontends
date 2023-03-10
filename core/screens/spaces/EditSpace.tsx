@@ -64,7 +64,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { navigate } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
+    variables: { idOrName: spaceId },
   })
 
   const space = data?.spaceById

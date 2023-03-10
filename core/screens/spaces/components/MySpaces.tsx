@@ -36,7 +36,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
           </HoliHeading>
 
           {section.data.map((space) => (
-            <View key={`${sectionIndex}-${space.id}`} style={styles.spaceItemContainer}>
+            <View key={`${sectionIndex}-${space.name}`} style={styles.spaceItemContainer}>
               <HoliBlockItem
                 label={space.title}
                 title={space.title}
@@ -44,7 +44,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 description={space.description}
                 imageSrc={space.cover}
                 users={space.members.data.map((membership) => membership.user)}
-                href={`/spaces/${space.id}`}
+                href={decodeURI(`/spaces/${space.name}`)}
                 size="small"
                 style={styles.spaceItem}
                 testID="space-link"

@@ -58,7 +58,7 @@ export const defaultAuthSteps = async (
 
   if (!isLogin) {
     const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
-    consentCheckbox.click()
+    await consentCheckbox.click()
   }
 
   await tapOnElementWithTestId('ory-submit-method')

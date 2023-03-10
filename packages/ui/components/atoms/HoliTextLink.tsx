@@ -1,18 +1,22 @@
-import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
-import type { HoliLinkProps } from '@holi/ui/components/atoms/HoliLink'
+import useLink from '@holi/core/navigation/hooks/useLink'
+import type { UseLinkProps } from '@holi/core/navigation/hooks/useLink'
 import type { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliLinkSize = Exclude<HoliTextSize, 'extralarge' | 'large'>
 type HoliLinkVariant = 'primary' | 'secondary'
-export interface HoliTextLinkProps extends HoliLinkProps {
+
+export interface HoliTextLinkProps extends UseLinkProps {
+  /** Children are optional when using it in combination with the <Trans> component. */
+  children?: string
+  label?: string
   size?: HoliLinkSize
   variant?: HoliLinkVariant
+  testID?: string
 }
 
 const HoliTextLink = ({
@@ -25,20 +29,21 @@ const HoliTextLink = ({
   size = 'default',
   variant = 'primary',
   testID = 'text-link',
-}: PropsWithChildren<HoliTextLinkProps>) => {
+}: HoliTextLinkProps) => {
+  const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
+
   return (
-    <HoliLink
-      external={external}
-      href={href}
-      label={label}
-      onPress={onPress}
+    <HoliText
+      accessibilityRole="link"
+      accessibilityLabel={label}
+      onPress={handleLinkPress}
+      size={size}
+      style={styles[variant]}
       testID={testID}
-      mobileNavigateBackFirst={mobileNavigateBackFirst}
+      bold
     >
-      <HoliText size={size} style={styles[variant]} bold>
-        {children}
-      </HoliText>
-    </HoliLink>
+      {children}
+    </HoliText>
   )
 }
 

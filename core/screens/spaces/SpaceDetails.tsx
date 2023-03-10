@@ -36,7 +36,7 @@ const { useParam } = createParam<SpaceDetailsParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceId] = useParam('spaceId') // spaceId can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
@@ -45,7 +45,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
+    variables: { idOrName: spaceId },
   })
 
   const space = data?.spaceById
@@ -84,7 +84,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               contentStyle={styles.buttonWithIcon}
             />
           )}
-          <SpaceShare space={space} />
+          {space && <SpaceShare space={space} />}
 
           <ReportBlockOptionButton
             action="report"
