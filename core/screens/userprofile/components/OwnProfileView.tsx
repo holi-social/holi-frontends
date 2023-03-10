@@ -1,11 +1,15 @@
+import { useQuery } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
+import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
+import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { User } from '@holi/core/screens/userprofile/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -23,9 +27,16 @@ interface Props {
 const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
-  const { t } = useTranslation()
+  const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+    variables: { memberId: user.id },
+  })
 
+  const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  if (error) {
+    logError(error, `[OwnProfileView.tsx] ${error.message}`)
+  }
 
   return (
     <>
@@ -107,13 +118,17 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
             ),
           },
           {
-            title: 'Spaces',
+            title: t('profile.tabs.spaces'),
             children: (
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
-              <Suspense fallback={<Text>Loading...</Text>}>
-                <SpacesTab memberId={user.id} />
-              </Suspense>
+              <>
+                {data?.spaces && !!data.spaces.totalResults ? (
+                  <Suspense fallback={<Text>Loading...</Text>}>
+                    <SpacesTab spaces={data?.spaces} />
+                  </Suspense>
+                ) : null}
+              </>
             ),
           },
         ]}

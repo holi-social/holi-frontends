@@ -215,6 +215,7 @@
   "profile.tabs.insight": "Insights",
   "profile.tabs.insight.empty": "This person has not created any insights yet.",
   "profile.tabs.profile": "Profile",
+  "profile.tabs.spaces": "Spaces",
   "profile.title": "Profile",
   "rootProvider.loading.login": "Starting transformation...",
   "rootProvider.loading.profile": "Scaling impact...",
