@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import type { FlexAlignType } from 'react-native'
 
 type BoxSpace = number | [number, number] | [number, number, number, number]
 
@@ -45,8 +46,24 @@ function createBoxPadding(padding: number | number[]): StyleSheet.NamedStyles<Na
   return StyleSheet.create({ boxPadding: { padding: padding } })
 }
 
+export interface BoxLayoutProps {
+  display?: 'none' | 'flex' | undefined
+  alignItems?: FlexAlignType
+  alignSelf?: 'auto' | FlexAlignType | undefined
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | undefined
+  maxWidth?: number | string | undefined
+  width?: number | string | undefined
+}
+
+function generateStyles(padding: number | number[], layout?: BoxLayoutProps) {
+  const boxStyles = createBoxPadding(padding)
+  const layoutStyles = StyleSheet.create({ boxLayout: { ...layout } })
+  return StyleSheet.flatten([boxStyles.boxPadding, layoutStyles.boxLayout])
+}
+
 interface Props {
   padding: number | number[]
+  layout?: BoxLayoutProps
   testID?: string
 }
 
@@ -58,14 +75,10 @@ left`.
 
 Ideally, we use the future pre-defined space atoms instead of passing any
 possible padding value. */
-const HoliBox = ({ children, padding, testID }: PropsWithChildren<Props>) => {
-  const styles = createBoxPadding(padding)
-
-  return (
-    <View style={styles.boxPadding} testID={testID}>
-      {children}
-    </View>
-  )
-}
+const HoliBox = ({ children, layout, padding, testID }: PropsWithChildren<Props>) => (
+  <View style={generateStyles(padding, layout)} testID={testID}>
+    {children}
+  </View>
+)
 
 export default HoliBox
