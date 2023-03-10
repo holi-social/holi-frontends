@@ -6,7 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 
 interface Props {
-  spaces: Paged<Pick<Space, 'id' | 'title' | 'cover' | 'members'>>
+  spaces: Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'members'>>
 }
 
 const SpacesTab = ({ spaces }: Props) => {
@@ -19,7 +19,7 @@ const SpacesTab = ({ spaces }: Props) => {
             title={space.title}
             imageSrc={space.cover}
             users={space.members.data.map((membership) => membership.user)}
-            href={`/spaces/${space.id}`}
+            href={`/spaces/${space.name}`}
             testID="space-tab"
           />
         </HoliBox>

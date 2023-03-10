@@ -322,7 +322,7 @@ export const deleteSpaceMutation = gql`
 `
 
 export interface SpacesByMemberIdResponse {
-  spaces: Paged<Pick<Space, 'id' | 'title' | 'cover' | 'members'>>
+  spaces: Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'members'>>
 }
 
 export const spacesByMemberIdQuery = gql`
@@ -332,6 +332,7 @@ export const spacesByMemberIdQuery = gql`
         id
         title
         cover
+        name
         members(limit: 10) {
           data {
             user {
