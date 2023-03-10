@@ -25,7 +25,7 @@ test.describe('@HomeScreen', () => {
 
     await testInsightsEditors(page)
 
-    await testAbleToVisitDonationsApp(page)
+    await testAppUpdatesVisible(page, 'donations')
 
     await testAbleToVisitGoodnewsApp(page)
 
@@ -48,27 +48,8 @@ const testAllowPaginationForInsightList = async (page: Page) => {
   await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
 }
 
-const testAbleToVisitDonationsApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'donations')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'donations-updates-item')
-
-  // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to donations app
-  await clickElementByTestId(page, 'donations-updates-load-more-button')
-  await waitForElementByTestId(page, 'donations-list-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-}
-
 const testAbleToVisitGoodnewsApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'goodnews')
+  await testAppUpdatesVisible(page, 'goodnews')
   // click first element in ScrollView
   await clickElementByTestId(page, 'goodnews-updates-item')
 
@@ -88,7 +69,7 @@ const testAbleToVisitGoodnewsApp = async (page: Page) => {
 }
 
 const testAbleToVisitVolunteeringApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'volunteering')
+  await testAppUpdatesVisible(page, 'volunteering')
   // click first element in ScrollView
   await clickElementByTestId(page, 'volunteering-updates-item')
 
@@ -107,7 +88,7 @@ const testAbleToVisitVolunteeringApp = async (page: Page) => {
   await clickElementByTestId(page, 'nav-button-back')
 }
 
-const assertAppUpdatesVisible = async (page: Page, app: string) => {
+const testAppUpdatesVisible = async (page: Page, app: string) => {
   await waitForElementByTestId(page, `${app}-updates-heading`)
   await waitForElementByTestId(page, `${app}-updates-container`)
   await waitForElementByTestId(page, `${app}-updates-item`)
