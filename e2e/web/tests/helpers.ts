@@ -84,7 +84,7 @@ export const defaultAuthSteps = async (
     await acceptConsentCheckbox.click()
   }
 
-  await clickElementByTestId(page, 'ory-submit-method')
+  await clickElementByTestId(page, 'ory-submit-password')
 }
 
 export const checkAccessibility = async (page: Page) => {

@@ -7,26 +7,26 @@ import {
 } from '../../helpers/selectors'
 
 const submitForm = async () => {
-  await waitForElementWithTestId('ory-submit-method')
+  await waitForElementWithTestId('ory-submit-password')
   // workaround: click submit button twice:
   // the 1st one closes the keyboard
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
   // the 2nd one submits the form.
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 }
 
 describe('@ForgotPassword', () => {
-  // fails on ios: Couldn't tap on element with testID: ory-submit-method
+  // fails on ios: Couldn't tap on element with testID: ory-submit-password
   it('validates and submits the form', async () => {
     await tapOnElementWithTestId('btn-to-profile-view', 10000)
     await checkIfElementWithTestIdExists('btn-to-login-form')
     await tapOnElementWithTestId('btn-to-login-form')
-    await tapOnElementWithTestId('ory-submit-method') // close keyboard
+    await tapOnElementWithTestId('ory-submit-password') // close keyboard
     await waitForElementWithTestId('btn-to-forgot-password-form')
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 
     // shows also login and registration link
-    await tapOnElementWithTestId('ory-submit-method') // close keyboard
+    await tapOnElementWithTestId('ory-submit-password') // close keyboard
     await checkIfElementWithTestIdExists('btn-to-login-form')
     await checkIfElementWithTestIdExists('btn-to-registration-form')
 

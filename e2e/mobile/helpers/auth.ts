@@ -54,14 +54,14 @@ export const defaultAuthSteps = async (
   await fillFieldByTestId('ory-password-input', password)
 
   // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 
   if (!isLogin) {
     const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
     await consentCheckbox.click()
   }
 
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 }
 
 export const logout = async () => {
