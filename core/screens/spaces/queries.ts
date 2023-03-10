@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { MemberSpaces, Space, SpaceSection } from '@holi/core/screens/spaces/types'
-import { memberSpacesFragment, userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { Paged } from '@holi/core/types'
+import { memberSpacesFragment } from '@holi/core/queries'
+import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}

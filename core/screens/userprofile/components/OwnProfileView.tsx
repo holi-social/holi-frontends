@@ -24,7 +24,7 @@ interface Props {
   user: User
 }
 
-const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
+const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const [fetchSpaces, { loading, error, data }] = useLazyQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {

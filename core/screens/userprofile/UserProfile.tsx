@@ -26,7 +26,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const SpacesTab = lazy(() => import('@holi/core/screens/userprofile/components/SpacesTab'))
+const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
 
 export type UserProfileParams = {
   userId: string
