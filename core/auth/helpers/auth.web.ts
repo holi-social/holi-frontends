@@ -46,10 +46,9 @@ export const submitLoginFlow = (flowId: string, payload: UpdateLoginFlowBody, se
   )
 
 // Logout
-export const submitLogoutFlow = async (/*payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody*/) => {
-  return newKratosSdk()
-    .createBrowserLogoutFlow()
-    .then(({ data }) => newKratosSdk().updateLogoutFlow({ token: data.logout_token }))
+export const submitLogoutFlow = async () => {
+  const { data } = await newKratosSdk().createBrowserLogoutFlow()
+  return await newKratosSdk().updateLogoutFlow({ token: data.logout_token })
 }
 
 // Registration
