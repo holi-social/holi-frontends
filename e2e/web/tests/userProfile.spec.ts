@@ -124,7 +124,7 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   const heading = await waitForElementByTestId(page, 'user-profile-chipform-heading')
   // wait for the loading screen to disappear - otherwise the test is flaky
-  expect(page.locator(byTestId('user-profile-chipform-loader'))).not.toBeVisible()
+  expect(page.locator(byTestId('user-profile-chipform-loader'))).not.toBeVisible({ timeout: 10000 })
 
   const expectedNoOfSelectedChips = 3
 

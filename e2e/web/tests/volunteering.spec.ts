@@ -30,6 +30,7 @@ test.describe('@Volunteering', () => {
 
   test('should allow pagination', async ({ page }) => {
     await waitForElementByTestId(page, 'volunteering-list-container')
+    await waitForElementByTestId(page, 'btn-to-volunteering-engagement')
     const countListItems = async () => {
       const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
       return await listItems.count()
