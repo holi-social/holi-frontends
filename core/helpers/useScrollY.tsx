@@ -1,23 +1,16 @@
-import { useContext } from 'react'
+import { makeVar, useReactiveVar } from '@apollo/client'
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
-import { ScrollYHandlerContext, ScrollYValueContext } from '@holi/core/provider/ScrollYProvider'
+const scrollYVar = makeVar(0)
 
-export const useScrollYValue = () => {
-  const scrollY = useContext(ScrollYValueContext)
-
-  if (scrollY == undefined) {
-    throw new Error('useScrollYValue() must be used within a ScrollYProvider')
-  }
-
-  return scrollY
+export const onScreenScrollY = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const newScrollY = event.nativeEvent?.contentOffset?.y
+  scrollYVar(newScrollY ?? 0)
 }
 
-export const useScrollYHandler = () => {
-  const onScroll = useContext(ScrollYHandlerContext)
+export const setScreenScrollY = scrollYVar
 
-  if (onScroll == undefined) {
-    throw new Error('useScrollYSetter() must be used within a ScrollYProvider')
-  }
-
-  return onScroll
+export const useScreenScrollY = () => {
+  const scrollY = useReactiveVar(scrollYVar)
+  return scrollY
 }
