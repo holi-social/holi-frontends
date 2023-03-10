@@ -2,7 +2,8 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliBox, { BoxLayoutProps } from '@holi/ui/components/atoms/HoliBox'
+import { vars } from '@holi/ui/styles/globalVars'
 
 describe('HoliBox', () => {
   it('should style using the padding shorthand', () => {
@@ -14,7 +15,6 @@ describe('HoliBox', () => {
       </HoliBox>
     )
     const box = getByTestId(testID)
-
     expect(box.props.style.padding).toBe(paddingValue)
   })
 
@@ -62,5 +62,25 @@ describe('HoliBox', () => {
     const box = getByTestId(testID)
 
     expect(box.props.style.padding).toBe(0)
+  })
+
+  it('should accept some box layout properties', () => {
+    const testID = 'holibox'
+    const paddingValue = [10, 20, 5]
+    const layoutValue: BoxLayoutProps = {
+      alignSelf: 'flex-start',
+      width: '100%',
+      maxWidth: vars.maxScreenWidth,
+    }
+    const { getByTestId } = render(
+      <HoliBox padding={paddingValue} layout={layoutValue} testID={testID}>
+        <Text>Box with spacing/padding shorthand</Text>
+      </HoliBox>
+    )
+    const box = getByTestId(testID)
+
+    expect(box.props.style.alignSelf).toBe('flex-start')
+    expect(box.props.style.width).toBe('100%')
+    expect(box.props.style.maxWidth).toBe(vars.maxScreenWidth)
   })
 })
