@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
@@ -7,15 +7,17 @@ export const byTestId = (testId: string) => `[data-testid=${testId}]`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
-export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
-  const selector = byTestId(testId)
-  await page.waitForSelector(selector)
-  return selector
+export const waitForElementByTestId = async (
+  page: Page,
+  testId: string
+): Promise<ElementHandle<SVGElement | HTMLElement>> => {
+  const element = await page.waitForSelector(byTestId(testId))
+  return element
 }
 
 export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
-  const selector = await waitForElementByTestId(page, testId)
-  return page.locator(selector)
+  await waitForElementByTestId(page, testId)
+  return page.locator(byTestId(testId))
 }
 
 export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
