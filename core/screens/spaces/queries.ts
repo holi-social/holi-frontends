@@ -333,10 +333,13 @@ export const spacesByMemberIdQuery = gql`
         title
         cover
         name
-        members(limit: 10) {
+        members {
           data {
             user {
+              id
               avatar
+              avatarLabel
+              avatarDefaultColor
             }
           }
         }
