@@ -11,12 +11,9 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
-
 test.describe('@ForgotPassword', () => {
-  test('form validation', async ({ page }) => {
+  test('user journey', async ({ page }) => {
+    await page.goto('/')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
@@ -37,22 +34,8 @@ test.describe('@ForgotPassword', () => {
     await emailInput.fill('an-invalid-email')
     await clickElementByTestId(page, 'ory-submit-method')
     await waitForElementByTestId(page, 'ory-email-input-error-message')
-  })
-
-  test('successful form submission', async ({ page }) => {
-    await clickElementByTestId(page, 'btn-to-login-form')
-    await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
     await checkAccessibility(page)
-
-    // shows also login link
-    await waitForElementByTestId(page, 'btn-to-login-form')
-
-    // shows also registration link
-    await waitForElementByTestId(page, 'btn-to-registration-form')
-
-    // form validation ...
-    const emailInput = await locateElementByTestId(page, 'ory-email-input')
 
     // successful form submission
     await emailInput.fill('valid@mail.de')
