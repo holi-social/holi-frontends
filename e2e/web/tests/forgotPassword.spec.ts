@@ -27,19 +27,19 @@ test.describe('@ForgotPassword', () => {
     const emailInput = await locateElementByTestId(page, 'ory-email-input')
 
     // required field message
-    await clickElementByTestId(page, 'ory-submit-password')
+    await clickElementByTestId(page, 'ory-submit-link')
     await waitForElementByTestId(page, 'ory-email-input-error-message')
 
     // invalid email message
     await emailInput.fill('an-invalid-email')
-    await clickElementByTestId(page, 'ory-submit-password')
+    await clickElementByTestId(page, 'ory-submit-link')
     await waitForElementByTestId(page, 'ory-email-input-error-message')
 
     await checkAccessibility(page)
 
     // successful form submission
     await emailInput.fill('valid@mail.de')
-    await clickElementByTestId(page, 'ory-submit-password')
+    await clickElementByTestId(page, 'ory-submit-link')
 
     // success view is shown
     await waitForElementByTestId(page, 'form-sent-headline')

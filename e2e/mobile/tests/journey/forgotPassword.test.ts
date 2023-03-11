@@ -7,12 +7,11 @@ import {
 } from '../../helpers/selectors'
 
 const submitForm = async () => {
-  await waitForElementWithTestId('ory-submit-password')
   // workaround: click submit button twice:
   // the 1st one closes the keyboard
-  await tapOnElementWithTestId('ory-submit-password')
+  await tapOnElementWithTestId('ory-submit-link')
   // the 2nd one submits the form.
-  await tapOnElementWithTestId('ory-submit-password')
+  await tapOnElementWithTestId('ory-submit-link')
 }
 
 describe('@ForgotPassword', () => {
@@ -22,11 +21,10 @@ describe('@ForgotPassword', () => {
     await checkIfElementWithTestIdExists('btn-to-login-form')
     await tapOnElementWithTestId('btn-to-login-form')
     await tapOnElementWithTestId('ory-submit-password') // close keyboard
-    await waitForElementWithTestId('btn-to-forgot-password-form')
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 
     // shows also login and registration link
-    await tapOnElementWithTestId('ory-submit-password') // close keyboard
+    await tapOnElementWithTestId('ory-submit-link') // close keyboard
     await checkIfElementWithTestIdExists('btn-to-login-form')
     await checkIfElementWithTestIdExists('btn-to-registration-form')
 
