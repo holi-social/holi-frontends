@@ -11,7 +11,9 @@ const submitForm = async () => {
   // the 1st one closes the keyboard
   await tapOnElementWithTestId('ory-submit-link')
   // the 2nd one submits the form.
-  await tapOnElementWithTestId('ory-submit-link')
+  if (await checkIfElementWithTestIdExists('ory-submit-link', 1000)) {
+    await tapOnElementWithTestId('ory-submit-link')
+  }
 }
 
 describe('@ForgotPassword', () => {
