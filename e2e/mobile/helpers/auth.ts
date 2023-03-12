@@ -99,7 +99,16 @@ const gotoProfileSettingsOrLogin = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
     await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+    if (await checkIfElementWithTestIdExists('btn-to-login-form')) {
+      return
+    }
     if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+      await tapOnElementWithTestId('btn-to-settings')
+      await waitForElementWithTestId('btn-to-logout')
+    } else {
+      // TODO remove once the header is fixed https://holi.atlassian.net/browse/HOLI-3642
+      await tapOnElementWithTestId('btn-to-home-view')
+      await tapOnElementWithTestId('btn-to-profile-view')
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
     }
