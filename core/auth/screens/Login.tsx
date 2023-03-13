@@ -61,7 +61,6 @@ const Login: React.VFC<ScreenProps> = () => {
   }, [t, displayError])
 
   const onLoggedIn = useCallback(() => {
-    console.log('is logged in, redirect to', return_to)
     if (Platform.OS === 'web' && return_to) {
       window.location.href = return_to
     }
@@ -78,11 +77,6 @@ const Login: React.VFC<ScreenProps> = () => {
         .then(({ data }) =>
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
-            console.log('logged in, would redirect to', flow?.return_to)
-            // Browser redirect for OAuth2 flow TODO(SF) still necessary?
-            // if (Platform.OS === 'web' && flow?.return_to) {
-            //   window.location.href = flow?.return_to
-            // }
           })
         )
         .catch(handleFormSubmitError(setFlow, initializeFlow))
@@ -113,6 +107,7 @@ const Login: React.VFC<ScreenProps> = () => {
 
         <HoliButton
           onPress={() => {
+            // TODO(SF) pass query param?
             if (Platform.OS === 'web') {
               replaceRoute('/registration')
             } else {
