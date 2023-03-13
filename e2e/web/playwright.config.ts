@@ -13,7 +13,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
  * We need retries due to flakyness caused by unknown reasons.
  * If you edit retries, make sure that the use.trace, use.screenshot and use.video settings match accordingly.
  */
-const envOrDefault = (value: string | undefined, defaultValue: number): number => {
+const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): number => {
   if (!!value) {
     try {
       return parseInt(value)
@@ -23,7 +23,7 @@ const envOrDefault = (value: string | undefined, defaultValue: number): number =
   }
   return defaultValue
 }
-const retries = envOrDefault(process.env.E2E_WEB_RETRIES, 0)
+const retries = intFromEnvOrDefault(process.env.E2E_WEB_RETRIES, 0)
 
 const possibleBrowsers = [
   {
