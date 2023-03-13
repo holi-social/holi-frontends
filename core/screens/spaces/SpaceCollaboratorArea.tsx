@@ -61,7 +61,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
         contentStyle={styles.contentStyle}
       >
         <View style={[mixins.container, styles.wrapper]}>
-          <DigitalToolKit />
+          <DigitalToolKit spaceId={spaceId} />
         </View>
       </DefaultLayout>
       <AddNewDrawer spaceId={spaceId} />

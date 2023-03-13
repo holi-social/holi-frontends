@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -12,21 +13,25 @@ interface CollaboratorAreaCardProps {
   icon: string
   title?: string
   children?: ReactNode
+  onPress?: () => void
 }
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   icon,
   title,
   children,
+  onPress,
 }: CollaboratorAreaCardProps) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
-        <View style={styles.headerTitleContainer}>
-          <HoliIcon icon={icon} size={18} color={colors.foreground20} style={{ marginRight: 6 }} />
-          <HoliText size="small">{title}</HoliText>
-        </View>
+        <HoliButton transparent style={styles.headerTitleContainer} label={title ? title : ''} onPress={onPress}>
+          <View style={styles.headerTitle}>
+            <HoliIcon icon={icon} size={18} color={colors.foreground20} style={{ marginRight: 6 }} />
+            <HoliText size="small">{title}</HoliText>
+          </View>
+        </HoliButton>
         <MoreOptionsButtonWithModal
           label={t('global.moreOptions')}
           showOptions={visible}
@@ -64,8 +69,10 @@ const styles = StyleSheet.create({
   },
   headerTitleContainer: {
     flex: 4,
-    flexDirection: 'row',
     alignItems: 'center',
+  },
+  headerTitle: {
+    flexDirection: 'row',
   },
   moreButton: {
     alignSelf: 'flex-start',
