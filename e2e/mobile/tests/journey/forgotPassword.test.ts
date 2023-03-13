@@ -43,7 +43,7 @@ describe('@ForgotPassword', () => {
     // success view
     await waitForElementWithTestId('form-sent-headline')
     await waitForElementWithTestId('back-to-home-btn')
-    await waitForElementWithTestIdToBeNull('ory-email-input')
+    await waitForElementWithTestIdToBeNull('ory-email-input', 3000)
 
     // go back home
     await tapOnElementWithTestId('back-to-home-btn')
