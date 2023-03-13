@@ -88,7 +88,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
           <ReportBlockOptionButton
             action="report"
-            objectId={spaceId || ''}
+            objectId={space?.id || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
             confirmationModalProps={{
@@ -100,7 +100,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           />
           {isAdmin && (
             <DeleteSpaceButton
-              spaceId={spaceId || ''}
+              spaceId={space?.id || ''}
               onDelete={() => {
                 replaceRoute('/spaces/')
                 hide()
@@ -142,7 +142,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       >
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultLayout>
-      {(isCreator || isMember) && <SpaceDashboardModal spaceId={spaceId} />}
+      {(isCreator || isMember) && <SpaceDashboardModal spaceId={space?.id} />}
     </>
   )
 }
