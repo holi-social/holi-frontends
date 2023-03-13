@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -12,7 +12,6 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
   space: Space
@@ -71,7 +70,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
           inline
           label={t('spaces.join.btnRequest')}
           onPress={submitJoinRequest}
-          style={[styles.actionButtonJoin, props.style]}
+          style={props.style}
           disabled={loading}
         >
           <HoliText>{t('spaces.join.btnRequest')}</HoliText>
@@ -106,9 +105,3 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 }
 
 export default SpaceJoin
-
-const styles = StyleSheet.create({
-  pending: {
-    color: colors.foreground10,
-  },
-})
