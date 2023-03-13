@@ -33,20 +33,18 @@ const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
 
   // on scrollY change
   useEffect(() => {
-    requestAnimationFrame(() => {
-      const shouldShowHeader = scrollY < height / 3 || scrollY < prevScrollY.current
-      prevScrollY.current = scrollY
+    const shouldShowHeader = scrollY < height / 3 || scrollY < prevScrollY.current
+    prevScrollY.current = scrollY
 
-      if (isHeaderShown.current !== shouldShowHeader) {
-        Animated.timing(headerSlideAnimation.current, {
-          toValue: shouldShowHeader ? 0 : 1,
-          duration: 300,
-          useNativeDriver: false,
-        }).start()
+    if (isHeaderShown.current !== shouldShowHeader) {
+      Animated.timing(headerSlideAnimation.current, {
+        toValue: shouldShowHeader ? 0 : 1,
+        duration: 300,
+        useNativeDriver: false,
+      }).start()
 
-        isHeaderShown.current = shouldShowHeader
-      }
-    })
+      isHeaderShown.current = shouldShowHeader
+    }
   }, [height, scrollY])
 
   // reset header on screen change (navigation from one screen to another)
