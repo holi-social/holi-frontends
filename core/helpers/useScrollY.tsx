@@ -10,7 +10,4 @@ export const onScreenScrollY = (event: NativeSyntheticEvent<NativeScrollEvent>) 
 
 export const setScreenScrollY = scrollYVar
 
-export const useScreenScrollY = () => {
-  const scrollY = useReactiveVar(scrollYVar)
-  return scrollY
-}
+export const useScreenScrollY = () => useReactiveVar(scrollYVar)

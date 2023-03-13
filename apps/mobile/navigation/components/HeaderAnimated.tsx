@@ -22,7 +22,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const HEADER_HEIGHT = 44
 
-const useHeaderHideAnimation = (headerHeight: number = HEADER_HEIGHT) => {
+const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
   const scrollY = useScreenScrollY()
   const prevScrollY = useRef(scrollY)
   const isHeaderShown = useRef(true)
