@@ -18,7 +18,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorAreaParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<SpaceCollaboratorAreaParams>()
@@ -28,12 +28,12 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const onScreenScroll = useScrollYHandler()
   const mixins = useStyleMixins()
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceId },
+    variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
 
@@ -64,7 +64,7 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
           <DigitalToolKit />
         </View>
       </DefaultLayout>
-      <AddNewDrawer spaceId={spaceId} />
+      <AddNewDrawer spaceIdOrName={spaceIdOrName} />
     </>
   )
 }
