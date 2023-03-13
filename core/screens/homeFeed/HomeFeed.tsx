@@ -54,11 +54,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
       headerLeft: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_alpha.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
             isSvg
             width={82}
             height={24}
-            label="Holi"
+            label={t('navigation.title')}
           />
         </HoliButton>
       ),
