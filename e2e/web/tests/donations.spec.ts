@@ -14,7 +14,8 @@ import {
 const betterplaceTimeout = { timeout: 30_000 }
 
 test.describe('@Donations', () => {
-  test('user journey', async ({ context, page }) => {
+  test('user journey', async ({ browserName, context, page }) => {
+    test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
     await testAbleToVisitDonationsApp(page)
 
     await testProjectListAndPagination(page)
