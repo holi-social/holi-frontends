@@ -17,7 +17,8 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { ContentType } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserbyIdWithSpacesResponse, userByIdWithSpacesQuery } from '@holi/core/screens/userprofile/queries'
+import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
+import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -48,7 +49,7 @@ const UserProfile = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data }] = useLazyQuery<UserbyIdWithSpacesResponse>(userByIdWithSpacesQuery, {
+  const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
   })
@@ -209,13 +210,9 @@ const UserProfile = () => {
             children: (
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
-              <>
-                {data?.spaces && !!data.spaces.totalResults ? (
-                  <Suspense fallback={<Text>Loading...</Text>}>
-                    <SpacesTab spaces={data?.spaces} />
-                  </Suspense>
-                ) : null}
-              </>
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <SpacesTab memberId={user.id} />
+              </Suspense>
             ),
           },
         ]}

@@ -1,12 +1,8 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { Suspense, lazy, useEffect } from 'react'
+import React, { Suspense, lazy } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
-import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
-import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -27,20 +23,8 @@ interface Props {
 const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
-  const [fetchSpaces, { loading, error, data }] = useLazyQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
-    variables: { memberId: user.id },
-  })
-
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-
-  useEffect(() => {
-    if (!loading) fetchSpaces()
-  }, [fetchSpaces, loading])
-
-  if (error) {
-    logError(error, `[OwnProfileView.tsx] ${error.message}`)
-  }
 
   return (
     <>
@@ -126,13 +110,9 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
             children: (
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
-              <>
-                {data?.spaces && !!data.spaces.totalResults ? (
-                  <Suspense fallback={<Text>Loading...</Text>}>
-                    <SpacesTab spaces={data?.spaces} />
-                  </Suspense>
-                ) : null}
-              </>
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <SpacesTab memberId={user.id} />
+              </Suspense>
             ),
           },
         ]}

@@ -1,18 +1,32 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 
-import type { MemberSpaces } from '@holi/core/types'
+import { logError } from '@holi/core/errors/helpers'
+import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
+import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { vars } from '@holi/ui/styles/globalVars'
 
 interface Props {
-  spaces: MemberSpaces
+  memberId: string
 }
 
-const SpacesTab = ({ spaces }: Props) => {
+const SpacesTab = ({ memberId }: Props) => {
+  const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+    variables: { memberId },
+    fetchPolicy: 'network-only',
+  })
+
+  if (error) {
+    logError(error, `[OwnProfileView.tsx] ${error.message}`)
+  }
+
+  if (!data) return null
+
   return (
     <HoliBox padding={24}>
-      {spaces.data.map((space) => (
+      {data.spaces.data.map((space) => (
         <HoliBox
           key={space.id}
           padding={[0, 0, 32, 0]}
