@@ -25,10 +25,10 @@ const toolList: Tool[] = [
 ]
 
 interface DigitalToolKitProps {
-  spaceId: string | undefined
+  spaceIdOrName: string | undefined
 }
 
-const DigitalToolKit: React.FC<DigitalToolKitProps> = ({ spaceId }: DigitalToolKitProps) => {
+const DigitalToolKit: React.FC<DigitalToolKitProps> = ({ spaceIdOrName }: DigitalToolKitProps) => {
   const [displayToolList, setDisplayToolList] = useState<Array<Tool>>([])
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -47,7 +47,7 @@ const DigitalToolKit: React.FC<DigitalToolKitProps> = ({ spaceId }: DigitalToolK
   }
 
   const navigateToToolkitPage = () => {
-    navigate(`/spaces/${spaceId}/toolKit`)
+    navigate(`/spaces/${spaceIdOrName}/toolKit`)
   }
 
   const NoToolsAvailable = () => {
