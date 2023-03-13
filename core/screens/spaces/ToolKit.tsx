@@ -61,7 +61,7 @@ const ToolKit: React.VFC<ScreenProps> = () => {
         contentStyle={styles.contentStyle}
       >
         <HoliTabs
-          id="upload-image-tabs"
+          id="toolKit-tabs"
           centeredButtons
           style={{ flex: 1 }}
           tabs={[
