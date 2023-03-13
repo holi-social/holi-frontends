@@ -4,10 +4,10 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -44,7 +44,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
 
   const { setOptions, navigate } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
 
   const toggleEditMode = useCallback((editMode: EditModeState) => {
     setEditMode(editMode)
@@ -110,7 +109,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
 
   return (
     <LoginProtection>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultScrollHeaderLayout>
         {user ? (
           <>
             {editMode && (
@@ -168,7 +167,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             <HoliText>{t('user.profileView.noUser')}</HoliText>
           </View>
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
     </LoginProtection>
   )
 }

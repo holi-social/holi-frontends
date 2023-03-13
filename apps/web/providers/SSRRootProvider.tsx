@@ -10,7 +10,6 @@ import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
@@ -33,23 +32,21 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           </SafeArea>
         }
       >
-        <ScrollYProvider>
-          <ErrorBoundary>
-            <ApolloProvider client={apolloWebClient}>
-              <AuthContextProvider>
-                <UserContextProvider>
-                  <LoginRedirectProvider>
-                    <PortalProvider>
-                      <ToastProvider>
-                        <NavigationContextProvider>{children}</NavigationContextProvider>
-                      </ToastProvider>
-                    </PortalProvider>
-                  </LoginRedirectProvider>
-                </UserContextProvider>
-              </AuthContextProvider>
-            </ApolloProvider>
-          </ErrorBoundary>
-        </ScrollYProvider>
+        <ErrorBoundary>
+          <ApolloProvider client={apolloWebClient}>
+            <AuthContextProvider>
+              <UserContextProvider>
+                <LoginRedirectProvider>
+                  <PortalProvider>
+                    <ToastProvider>
+                      <NavigationContextProvider>{children}</NavigationContextProvider>
+                    </ToastProvider>
+                  </PortalProvider>
+                </LoginRedirectProvider>
+              </UserContextProvider>
+            </AuthContextProvider>
+          </ApolloProvider>
+        </ErrorBoundary>
       </Suspense>
     </ThemeProvider>
   )
