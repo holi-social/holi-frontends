@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Linking, Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -106,6 +106,21 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
                 hide()
               }}
               style={styles.buttonWithIcon}
+            />
+          )}
+          {isAdmin && (
+            <MoreOptionItem
+              icon="sun"
+              label="Storage"
+              onPress={() => {
+                if (Platform.OS === 'web') {
+                  Linking.openURL('https://dev.cloud.project-holi.org')
+                } else {
+                  navigate(`/spaces/${spaceIdOrName}/storage`)
+                  hide()
+                }
+              }}
+              contentStyle={styles.buttonWithIcon}
             />
           )}
         </MoreOptionsButtonWithModal>
