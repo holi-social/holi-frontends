@@ -28,7 +28,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
@@ -36,7 +36,7 @@ const { useParam } = createParam<SpaceDetailsParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId') // spaceId can either be space.id or space.name (slug)
+  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
@@ -45,7 +45,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceId },
+    variables: { idOrName: spaceIdOrName },
   })
 
   const space = data?.spaceById
@@ -78,7 +78,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               icon="edit-2"
               label={t('global.edit')}
               onPress={() => {
-                navigate(`/spaces/${spaceId}/edit`)
+                navigate(`/spaces/${spaceIdOrName}/edit`)
                 hide()
               }}
               contentStyle={styles.buttonWithIcon}
@@ -88,7 +88,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
           <ReportBlockOptionButton
             action="report"
-            objectId={spaceId || ''}
+            objectId={space?.id || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
             confirmationModalProps={{
@@ -100,7 +100,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           />
           {isAdmin && (
             <DeleteSpaceButton
-              spaceId={spaceId || ''}
+              spaceId={space?.id || ''}
               onDelete={() => {
                 replaceRoute('/spaces/')
                 hide()
@@ -114,12 +114,12 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceId, space])
+  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
       <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
+        <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
   }
@@ -142,7 +142,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       >
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultLayout>
-      {(isCreator || isMember) && <SpaceDashboardModal spaceId={spaceId} />}
+      {(isCreator || isMember) && <SpaceDashboardModal spaceIdOrName={spaceIdOrName} />}
     </>
   )
 }
