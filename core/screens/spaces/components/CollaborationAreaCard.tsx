@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   headerTitleContainer: {
     flex: 4,
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerTitle: {
     flexDirection: 'row',
