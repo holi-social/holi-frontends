@@ -22,6 +22,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'goodnews-list-container')
 
   // click first element in ScrollView
   await clickElementByTestId(page, 'goodnews-updates-item')
@@ -32,6 +33,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'goodnews-list-container')
 
   // click on "see more" / navigate to good news app
   await clickElementByTestId(page, 'goodnews-updates-load-more-button')

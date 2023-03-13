@@ -24,6 +24,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   await waitForElementByTestId(page, 'volunteering-list-container')
   expect(page.url()).toContain('/apps/volunteering')
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'volunteering-updates-item')
 
   // click first element in ScrollView
   await clickElementByTestId(page, 'volunteering-updates-item')
@@ -34,6 +35,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'volunteering-updates-item')
 
   // click on "see more" / navigate to volunteering app
   await clickElementByTestId(page, 'volunteering-updates-load-more-button')
@@ -77,11 +79,10 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'volunteering-list-container')
 }
 
 const testFilteringByLocation = async (page: Page) => {
-  await waitForElementByTestId(page, 'volunteering-list-container')
-
   await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
   // open location dropdown
@@ -108,7 +109,6 @@ const testDisplaysFilterResults = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-
   // expect filtered list
   await waitForElementByTestId(page, 'volunteering-list-filtered')
 
