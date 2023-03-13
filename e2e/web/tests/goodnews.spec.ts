@@ -43,6 +43,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
 const testAllowsPagination = async (page: Page) => {
   await waitForElementByTestId(page, 'goodnews-app-home')
+  await waitForElementByTestId(page, 'btn-to-article-external')
   const countListItems = async () => {
     const listItems = await locateElementByTestId(page, 'goodnews-detailview-container')
     return await listItems.count()
