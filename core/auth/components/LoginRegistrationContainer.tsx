@@ -20,7 +20,6 @@ const LoginRegistrationContainer = ({
 
   useLayoutEffect(() => {
     if (isLoggedIn) {
-      console.log('is logged in, would redirect')
       if (onLoggedIn) {
         onLoggedIn()
       } else {
