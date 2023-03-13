@@ -45,7 +45,7 @@ enum EditFields {
 }
 
 export type EditSpaceParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<EditSpaceParams>()
@@ -53,7 +53,7 @@ const { useParam } = createParam<EditSpaceParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditSpace: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [editField, setEditField] = useState<EditFields | null>(null)
 
   const { t } = useTranslation()
@@ -62,7 +62,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { navigate } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceId },
+    variables: { idOrName: spaceIdOrName },
   })
 
   const space = data?.spaceById
@@ -70,7 +70,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   if (!loading && !isAdmin) {
-    navigate(`/spaces/${spaceId}`)
+    navigate(`/spaces/${spaceIdOrName}`)
   }
 
   const { visible, show, hide } = useModalState()
@@ -229,7 +229,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigate(`/spaces/${spaceId}`)}
+          onPress={() => navigate(`/spaces/${spaceIdOrName}`)}
           style={styles.overlayButton}
           testID="space-edit-close"
         >

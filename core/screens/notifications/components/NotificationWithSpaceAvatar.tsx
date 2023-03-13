@@ -28,8 +28,8 @@ const NotificationWithSpaceAvatar = ({
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { fullName } = notification.options.user
-  const { id: spaceId, title, avatar } = notification.options.space
-  href = href || `/spaces/${spaceId}`
+  const { name: spaceIdOrName, title, avatar } = notification.options.space
+  href = href || `/spaces/${spaceIdOrName}`
   const imageUri: ImageSourcePropType = { uri: avatar }
 
   return (
