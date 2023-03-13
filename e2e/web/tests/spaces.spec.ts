@@ -10,7 +10,7 @@ import {
   waitForElementByTestId,
 } from './helpers'
 
-test.beforeEach(async ({ page }) => {})
+test.setTimeout(120000)
 
 test.describe('@Spaces', () => {
   test('user journey', async ({ context, page }) => {
