@@ -5,7 +5,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -29,7 +29,6 @@ const Spaces: React.VFC = () => {
   const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
   const { user } = useContext(UserContext)
@@ -121,7 +120,7 @@ const Spaces: React.VFC = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={pageViewRef} style={styles.layout}>
+      <DefaultScrollHeaderLayout ref={pageViewRef} style={styles.layout}>
         {/* User has NO spaces => show discover view */}
         {!hasOwnSpaces && (
           <View style={[mixins.container, styles.discoverSpacesContainer]}>
@@ -159,7 +158,8 @@ const Spaces: React.VFC = () => {
             scrollEnabled={Platform.OS !== 'android'}
           />
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>
   )

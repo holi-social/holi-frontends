@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, NativeScrollEvent, StyleSheet, View } from 'react-native'
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -22,7 +22,7 @@ import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/voluntee
 type VolunteeringListingProps = {
   clearFilters: () => void
   filters: VolunteeringFilters
-  onScroll: (event: { nativeEvent: NativeScrollEvent }) => void
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10

@@ -6,7 +6,7 @@ import { string } from 'zod'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { logError } from '@holi/core/errors/helpers'
-import { isLastWeek, isThisWeek, useScrollYHandler } from '@holi/core/helpers'
+import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
@@ -68,7 +68,6 @@ const groupByDate = (notifications?: Notification[]) => {
 
 const NotificationsOverview: React.VFC = () => {
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { isLoggedIn } = useAuth()
   const { navigate } = useRouting()
 
@@ -160,7 +159,7 @@ const NotificationsOverview: React.VFC = () => {
           <View style={styles.lastSectionFooter} />
         ) : null
       }
-      onScroll={onScreenScroll}
+      onScroll={onScreenScrollY}
       scrollEventThrottle={200}
       stickySectionHeadersEnabled={false}
       style={styles.sectionList}
