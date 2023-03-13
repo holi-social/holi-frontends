@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import { Space, SpaceLink } from '@holi/core/screens/spaces/types'
+import { Space, SpaceLink, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -14,6 +14,10 @@ interface DigitalToolKitProps {
   space: Space
 }
 
+const INITIAL_NUMBER_OF_ITEMS = 3
+
+const filterPrivateLinks = (link: SpaceLink) => link.visibility === SpaceLinkVisibility.PRIVATE
+
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [displayToolList, setDisplayToolList] = useState<Array<SpaceLink>>([])
   const { t } = useTranslation()
@@ -21,12 +25,13 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const { links = [] } = space
 
   useEffect(() => {
-    const subArray = links.slice(0, 3)
+    const privateLinks = links?.filter(filterPrivateLinks) || []
+    const subArray = privateLinks.slice(0, INITIAL_NUMBER_OF_ITEMS)
     setDisplayToolList(subArray)
   }, [links])
 
   const handleSeeAllButtonPress = () => {
-    setDisplayToolList(links)
+    setDisplayToolList(links.filter(filterPrivateLinks))
   }
 
   const handleShareButtonPress = (url: string) => {
@@ -72,11 +77,10 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
       <View style={styles.toolKitContainer}>
-        {(links.length > 0 &&
-          displayToolList.map((item) => {
-            return <DigitalTool key={item.id} tool={item} />
-          })) || <NoToolsAvailable />}
-        {links.length > 3 && displayToolList.length !== links.length && (
+        {(displayToolList.length > 0 && displayToolList.map((item) => <DigitalTool key={item.id} tool={item} />)) || (
+          <NoToolsAvailable />
+        )}
+        {displayToolList.length < links.filter(filterPrivateLinks).length && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}

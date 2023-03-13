@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -20,6 +20,8 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
   const { t } = useTranslation()
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
+
+  const links = space.links?.filter((link) => link.visibility === SpaceLinkVisibility.PUBLIC) || []
 
   return (
     <View style={style}>
@@ -53,10 +55,10 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
           </View>
         </SpaceSection>
       )}
-      {!!space.links?.length && (
+      {!!links.length && (
         <SpaceSection title={t('spaces.links.heading')}>
           <View style={styles.listContainer}>
-            {space.links.map((link, index) => (
+            {links.map((link, index) => (
               <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
             ))}
           </View>

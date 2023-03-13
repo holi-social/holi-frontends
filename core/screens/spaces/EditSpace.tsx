@@ -24,7 +24,7 @@ import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -222,9 +222,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
-                    {space.links.map((link, index) => (
-                      <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
-                    ))}
+                    {space.links
+                      .filter((link) => link.visibility === SpaceLinkVisibility.PUBLIC)
+                      .map((link, index) => (
+                        <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+                      ))}
                   </View>
                 )}
               </SpaceSection>

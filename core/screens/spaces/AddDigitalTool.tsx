@@ -23,6 +23,8 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import { SpaceLinkVisibility } from './types'
+
 export type AddDigitalToolParams = {
   spaceId: string
 }
@@ -56,7 +58,16 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const onSave = () => {
     addExternalLink({
-      variables: { input: { url, communityId: spaceId, title, description, visibility: 'private', type: 'other' } },
+      variables: {
+        input: {
+          url,
+          communityId: spaceId,
+          title,
+          description,
+          visibility: SpaceLinkVisibility.PRIVATE,
+          type: 'other',
+        },
+      },
     })
   }
 

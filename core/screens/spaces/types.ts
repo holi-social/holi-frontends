@@ -19,7 +19,7 @@ export enum SpaceLinkType {
   WHATSAPP = 'WHATSAPP',
 }
 
-export enum SpaceLinkVisbility {
+export enum SpaceLinkVisibility {
   PRIVATE = 'PRIVATE',
   PUBLIC = 'PUBLIC',
 }
@@ -29,7 +29,7 @@ export interface SpaceLink {
   url: string
   type: SpaceLinkType
   title: string
-  visibility: SpaceLinkVisbility
+  visibility: SpaceLinkVisibility
   description?: string
   thumbnail?: string
 }
