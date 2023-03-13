@@ -58,7 +58,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
             isSvg
             width={82}
             height={24}
-            label="Holi"
+            label={t('navigation.title')}
           />
         </HoliButton>
       ),
