@@ -19,9 +19,9 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
  */
 const MAX_MODAL_HEIGHT = 0.93
 export type SpaceDashboardModalParams = {
-  spaceId: string | undefined
+  spaceIdOrName: string | undefined
 }
-const SpaceDashboardModal: React.VFC<SpaceDashboardModalParams> = ({ spaceId }: SpaceDashboardModalParams) => {
+const SpaceDashboardModal: React.VFC<SpaceDashboardModalParams> = ({ spaceIdOrName }: SpaceDashboardModalParams) => {
   const { t } = useTranslation()
   const { width: deviceWidth, height: deviceHeight } = useWindowDimensions()
   const [showModal, setShowModal] = useState(false)
@@ -29,7 +29,7 @@ const SpaceDashboardModal: React.VFC<SpaceDashboardModalParams> = ({ spaceId }: 
 
   const closeModal = () => {
     setShowModal(false)
-    navigate(`/spaces/${spaceId}/collaboratorArea`)
+    navigate(`/spaces/${spaceIdOrName}/collaboratorArea`)
   }
 
   let imageWidth = 271
