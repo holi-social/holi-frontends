@@ -6,7 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,12 +23,15 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
-  const [joinSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
-    // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-    update: (cache) => {
-      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-    },
-  })
+  const [updateSpaceUserConnection, { loading, error }] = useMutation<UpdateSpaceUserConnectionResponse>(
+    updateSpaceUserConnectionMutation,
+    {
+      // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+      update: (cache) => {
+        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+      },
+    }
+  )
   const { displayError } = useErrorHandling()
 
   if (error) {
@@ -41,25 +44,25 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         description: t('spaces.join.loginRedirect.text'),
       })
     }
-    joinSpace({
+    updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginDialog, t, joinSpace, space.id])
+  }, [isLoggedIn, openLoginDialog, t, updateSpaceUserConnection, space.id])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
-    joinSpace({
+    updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
         spaceId: space.id,
       },
     })
-  }, [joinSpace, space.id])
+  }, [updateSpaceUserConnection, space.id])
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
