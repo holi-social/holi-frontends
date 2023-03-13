@@ -21,7 +21,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type AddDigitalToolParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<AddDigitalToolParams>()
@@ -29,7 +29,7 @@ const { useParam } = createParam<AddDigitalToolParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const AddDigitalTool: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
@@ -77,7 +77,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const onSave = () => {
     //TODO implement api integration
-    console.log('Space id -->', spaceId)
+    console.log('Space id -->', spaceIdOrName)
   }
 
   const Footer = () => {

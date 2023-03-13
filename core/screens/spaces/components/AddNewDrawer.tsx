@@ -14,10 +14,10 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
-  spaceId: string | undefined
+  spaceIdOrName: string | undefined
 }
 
-const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceId }: AddNewDrawerProps) => {
+const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDrawerProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { visible, show, hide } = useModalState()
@@ -27,10 +27,10 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceId }: AddNewDrawerProp
     ({ path }: ResourceCategory) => {
       if (path) {
         hide()
-        navigate(`/spaces/${spaceId}${path}`)
+        navigate(`/spaces/${spaceIdOrName}${path}`)
       }
     },
-    [hide, navigate, spaceId]
+    [hide, navigate, spaceIdOrName]
   )
 
   return (
