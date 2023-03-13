@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { onScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -26,7 +26,6 @@ const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
-  const onScreenScroll = useScrollYHandler()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -40,8 +39,8 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [])
 
   const submit = useCallback(
-    (filters) => {
-      updateParams({ location: filters.location, category: filters.category })
+    (filters?: VolunteeringFilters) => {
+      updateParams({ location: filters?.location, category: filters?.category })
       closeModal()
     },
     [updateParams, closeModal]
@@ -107,7 +106,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       </HoliModal>
 
       <SafeArea style={{ backgroundColor: colors.background10 }}>
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScroll} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
       </SafeArea>
     </DefaultLayout>
   )

@@ -5,8 +5,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -29,7 +28,6 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const onScreenScroll = useScrollYHandler()
   const mixins = useStyleMixins()
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
@@ -58,16 +56,12 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={[mixins.container, styles.wrapper]}>
           <DigitalToolKit space={space} />
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <AddNewDrawer spaceIdOrName={spaceIdOrName} />
     </>
   )
