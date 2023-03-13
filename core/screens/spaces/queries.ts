@@ -247,7 +247,6 @@ export const CreateSpaceExternalLinkInputSchema = z.object({
   title: z.string().trim().min(2).max(128),
   description: z.string().trim().min(1).max(256).optional(),
   visibility: z.string().trim().min(1).max(256),
-  type: z.string().trim().min(1).max(256),
   communityId: z.string() /* UUID */,
 })
 

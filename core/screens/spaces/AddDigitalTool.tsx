@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -6,12 +6,19 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm from '@holi/core/screens/spaces/components/DigitalToolInputForm'
-import { CreateSpaceExternalLinkResponse, createSpaceExternalLinkMutation } from '@holi/core/screens/spaces/queries'
+import {
+  CreateSpaceExternalLinkResponse,
+  SpaceByIdResponse,
+  createSpaceExternalLinkMutation,
+  spaceByIdQuery,
+} from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -23,10 +30,8 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { SpaceLinkVisibility } from './types'
-
 export type AddDigitalToolParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<AddDigitalToolParams>()
@@ -34,7 +39,7 @@ const { useParam } = createParam<AddDigitalToolParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const AddDigitalTool: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
@@ -51,6 +56,18 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const { openToast } = useToast()
 
+  const {
+    data,
+    error: errorSpace,
+    loading: loadingSpace,
+  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  const space = data?.spaceById
+
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
   const [addExternalLink] = useMutation<CreateSpaceExternalLinkResponse>(createSpaceExternalLinkMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => openToast(error.message, HoliToastType.ERROR),
@@ -61,11 +78,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
       variables: {
         input: {
           url,
-          communityId: spaceId,
+          communityId: space?.id,
           title,
           description,
           visibility: SpaceLinkVisibility.PRIVATE,
-          type: 'other',
         },
       },
     })
@@ -100,6 +116,15 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const onChangeDescription = (description: string) => {
     setDescription(description)
+  }
+
+  if (errorSpace) {
+    logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loadingSpace || errorSpace || !space || !isAdmin) {
+    return <></>
   }
 
   const Footer = () => {
