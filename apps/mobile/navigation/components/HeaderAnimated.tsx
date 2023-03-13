@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Animated,
   ImageBackground,
@@ -15,26 +15,29 @@ import { Header, getHeaderTitle } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 
-import { useScrollYValue } from '@holi/core/helpers'
+import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const useHeaderHideAnimation = (headerHeight: number) => {
-  const scrollY = useScrollYValue()
+const HEADER_HEIGHT = 44
+
+const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
+  const scrollY = useScreenScrollY()
   const prevScrollY = useRef(scrollY)
   const isHeaderShown = useRef(true)
   const navigation = useNavigation()
   const { height } = useWindowDimensions()
 
-  const headerSlideAnimation = useRef(new Animated.Value(scrollY)).current
+  const headerSlideAnimation = useRef(new Animated.Value(scrollY))
 
-  // on scroll change
+  // on scrollY change
   useEffect(() => {
     const shouldShowHeader = scrollY < height / 3 || scrollY < prevScrollY.current
+    prevScrollY.current = scrollY
 
     if (isHeaderShown.current !== shouldShowHeader) {
-      Animated.timing(headerSlideAnimation, {
+      Animated.timing(headerSlideAnimation.current, {
         toValue: shouldShowHeader ? 0 : 1,
         duration: 300,
         useNativeDriver: false,
@@ -42,19 +45,18 @@ const useHeaderHideAnimation = (headerHeight: number) => {
 
       isHeaderShown.current = shouldShowHeader
     }
-
-    prevScrollY.current = scrollY
-  }, [height, scrollY, headerSlideAnimation])
+  }, [height, scrollY])
 
   // reset header on screen change (navigation from one screen to another)
   useEffect(() => {
     const unsubscribe = navigation.addListener('state', () => {
-      headerSlideAnimation.setValue(0)
+      setScreenScrollY(0)
+      headerSlideAnimation.current.setValue(0)
     })
     return unsubscribe
-  }, [navigation, headerSlideAnimation])
+  }, [navigation])
 
-  return headerSlideAnimation.interpolate({
+  return headerSlideAnimation.current.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -headerHeight * 1.2],
   })
@@ -75,16 +77,14 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     ...restOptions
   } = options as NavigationCustomOptions
 
-  const [headerHeight, setHeaderHeight] = useState(0)
-
-  const headerSlideAnimation = useHeaderHideAnimation(headerHeight)
+  const headerSlideAnimation = useHeaderHideAnimation()
 
   const canGoBack = back !== undefined
 
   if (headerShown === false) return null
 
   return (
-    <Animated.View style={[styles.header, headerStyle, { top: headerSlideAnimation }]}>
+    <Animated.View style={[styles.header, headerStyle, { transform: [{ translateY: headerSlideAnimation }] }]}>
       <View
         pointerEvents="box-none"
         style={[StyleSheet.absoluteFill, { backgroundColor: headerTransparent ? 'transparent' : colors.background10 }]}
@@ -108,7 +108,6 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
           style={{
             top: headerSlideAnimation,
           }}
-          onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
         >
           <Header
             title={getHeaderTitle(options, route.name)}

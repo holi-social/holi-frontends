@@ -7,12 +7,12 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -60,8 +60,8 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
 
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   const { visible, show, hide } = useModalState()
+
   useLayoutEffect(
     () =>
       setOptions({
@@ -154,7 +154,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -209,7 +209,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
           },
         ]}
       />
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 
