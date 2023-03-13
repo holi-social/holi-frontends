@@ -140,9 +140,9 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
 
   return (
     <View style={style}>
-      {!flow && <HoliLoader />}
-
-      {!!flow &&
+      {!flow ? (
+        <HoliLoader />
+      ) : (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
@@ -159,7 +159,8 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
               style={{ marginTop: 30 }}
             />
           )
-        })}
+        })
+      )}
     </View>
   )
 }
