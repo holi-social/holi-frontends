@@ -36,9 +36,6 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   // click on "see more" / navigate to good news app
   await clickElementByTestId(page, 'goodnews-updates-load-more-button')
   await waitForElementByTestId(page, 'goodnews-detailview-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
 }
 
 const testAllowsPagination = async (page: Page) => {
