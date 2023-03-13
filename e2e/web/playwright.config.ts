@@ -13,7 +13,63 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
  * We need retries due to flakyness caused by unknown reasons.
  * If you edit retries, make sure that the use.trace, use.screenshot and use.video settings match accordingly.
  */
-const retries = 2
+const envOrDefault = (value: string | undefined, defaultValue: number): number => {
+  if (!!value) {
+    try {
+      return parseInt(value)
+    } catch (e) {
+      console.error(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`)
+    }
+  }
+  return defaultValue
+}
+const retries = envOrDefault(process.env.E2E_WEB_RETRIES, 0)
+
+const possibleBrowsers = [
+  {
+    name: 'Desktop_Firefox',
+    use: devices['Desktop Firefox'],
+    runAsDefault: true,
+  },
+  /* Test against mobile viewports. */
+  /**
+   * Mobile Safari maybe still has an issue when running on Playwright's official docker image and
+   * is leading to flakiness, with a problem debugging/tracing it:
+   * https://github.com/microsoft/playwright/issues/11812
+   */
+  {
+    name: 'Mobile_WebKit',
+    use: {
+      ...devices['iPhone 12'],
+      // fix for the above issue, see https://github.com/microsoft/playwright/issues/11812#issuecomment-1466163509
+      viewport: {
+        width: 390,
+        height: 844,
+      },
+    },
+    runAsDefault: true,
+  },
+  {
+    name: 'Mobile_Chrome',
+    use: devices['Pixel 5'],
+    runAsDefault: true,
+  },
+]
+
+const browsersFromEnv = (value: string | undefined): Object[] => {
+  if (!!value) {
+    return value.split(',').map((name) => {
+      const match = possibleBrowsers.find((browser) => browser.name === name)
+      if (match) {
+        return match
+      } else {
+        throw new Error(`Browser ${name} not defined.`)
+      }
+    })
+  }
+  return possibleBrowsers.filter((browser) => browser.runAsDefault)
+}
+const browsers = browsersFromEnv(process.env.E2E_WEB_BROWSERS)
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -56,30 +112,7 @@ const config: PlaywrightTestConfig = {
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    /* Test against desktop viewports. */
-    {
-      name: 'Desktop_Firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    /* Test against mobile viewports. */
-    /**
-     * Mobile Safari maybe still has an issue when running on Playwright's official docker image and
-     * is leading to flakiness, with a problem debugging/tracing it:
-     * https://github.com/microsoft/playwright/issues/11812
-     */
-    {
-      name: 'Mobile_WebKit',
-      use: devices['iPhone 12'],
-    },
-    {
-      name: 'Mobile_Chrome',
-      use: devices['Pixel 5'],
-    },
-  ],
+  projects: browsers,
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
