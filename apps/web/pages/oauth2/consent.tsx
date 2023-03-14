@@ -83,8 +83,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     const session = await createSession(consentRequest.subject)
 
-    // TODO HOLI-3500: redirect to UI for user to consent if consentRequest.skip is not set > pass challenge as query parameter, maybe more? (see consentRequest fields)
-
     return acceptConsentRequest(consentChallenge, session, consentRequest)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
