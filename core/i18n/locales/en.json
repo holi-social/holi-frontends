@@ -219,6 +219,7 @@
   "profile.tabs.spaces.empty": "You are not member of any Space yet. Find the right one now!",
   "profile.tabs.spaces.empty.callToAction": "Discover Spaces",
   "profile.title": "Profile",
+  "profile.userprofile.tabs.spaces.empty": "{{fullName}} is not a member of any Space yet.",
   "rootProvider.loading.login": "Starting transformation...",
   "rootProvider.loading.profile": "Scaling impact...",
   "search.filter.reset": "Clear filter",
