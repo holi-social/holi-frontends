@@ -220,6 +220,7 @@
   "profile.tabs.spaces.empty": "Du bist noch kein Mitglied in einem Space. Finde jetzt den Passenden!",
   "profile.tabs.spaces.empty.callToAction": "Entdecke Spaces",
   "profile.title": "Profil",
+  "profile.userprofile.tabs.spaces.empty": "{{fullName}} ist bisher in keinem Space Mitglied.",
   "rootProvider.loading.login": "Starte Transformation...",
   "rootProvider.loading.profile": "Skaliere Impact...",
   "search.filter.reset": "Filter löschen",
