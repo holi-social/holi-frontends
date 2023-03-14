@@ -172,9 +172,8 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
   // check if the correct number of topics have been selected
-  await delay(1)
-  const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
-  expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
+  const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
+  expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
   // edit space sdgs
   await clickElementByTestId(page, 'btn-space-edit-sdgs')
@@ -182,9 +181,8 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
   // check if the correct number of sdgs have been selected
-  await delay(1)
-  const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
-  expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+  const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
+  expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
   // delete space
   await clickElementByTestId(page, 'space-edit-close')
