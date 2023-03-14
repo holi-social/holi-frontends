@@ -54,6 +54,7 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
     // reset previousStep after scroll animation
     setTimeout(() => setPreviousStep(currentStep), 700)
   })
+
   const mustStepBeRendered = (stepIdx: number) => {
     if (!lazy) return true
     return stepIdx === currentStep || stepIdx === previousStep

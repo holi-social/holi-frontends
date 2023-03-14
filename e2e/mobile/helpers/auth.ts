@@ -45,7 +45,6 @@ export const defaultAuthSteps = async (
   const buttonId = isLogin ? 'already-have-account-text' : 'btn-to-registration-form'
   const buttonExists = await checkIfElementWithTestIdExists(buttonId)
   if (buttonExists) {
-    // isLogin ? await tapOnLoginLinkInText() : tapOnElementWithTestId(buttonId)
     if (isLogin) {
       await tapOnLoginLinkInText()
     } else {
