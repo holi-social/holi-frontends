@@ -52,7 +52,7 @@ const Login: React.VFC<ScreenProps> = () => {
   }, [setOptions, t])
 
   const initializeFlow = useCallback(() => {
-    initLoginFlow() // TODO(SF) return_to forbidden?
+    initLoginFlow()
       .then((response) => {
         const { data: flow } = response
         setFlow(flow)
@@ -107,7 +107,6 @@ const Login: React.VFC<ScreenProps> = () => {
 
         <HoliButton
           onPress={() => {
-            // TODO(SF) pass query param?
             if (Platform.OS === 'web') {
               replaceRoute('/registration')
             } else {

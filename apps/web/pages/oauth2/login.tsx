@@ -4,22 +4,13 @@ import { FrontendApi, OAuth2Api } from '@ory/client'
 import { GetServerSideProps, NextPage } from 'next'
 import { NextApiRequestCookies } from 'next/dist/server/api-utils'
 
+import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
 
-type OAuth2LoginPageProps = {
-  error?: string
-}
-
-const OAuth2LoginPage: NextPage<OAuth2LoginPageProps> = (props) => {
-  // TODO(SF): create proper component
-  if (props.error) {
-    return <div>Error handling login request: {props.error}</div>
-  }
-  return <div>Redirecting...</div>
-}
+const OAuth2LoginPage: NextPage = () => <OAuth2Redirect />
 
 const getSubjectIdIfLoggedIn = async (cookies: NextApiRequestCookies) => {
   const cookie = Object.entries(cookies)
@@ -44,7 +35,7 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
       subject: subjectId,
       // This tells hydra to remember the browser and automatically authenticate the user in future requests. This will
       // set the "skip" parameter in the other route to true on subsequent requests!
-      remember: true, //Boolean(req.body.remember),
+      remember: true,
       // When the session expires, in seconds. Set this to 0 so it will never expire.
       remember_for: 3600,
       context: {
@@ -92,7 +83,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    const message = error?.message || error || 'Unknown error' // TODO(SF) i18n
+    // Reject login request in case an error occurs
+    const message = error?.message || error || 'Unknown error'
     const { data: rejectResponse } = await oauth2Api.rejectOAuth2LoginRequest({
       loginChallenge,
       rejectOAuth2Request: {

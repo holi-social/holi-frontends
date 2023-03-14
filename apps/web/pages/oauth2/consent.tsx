@@ -2,22 +2,13 @@
 import { AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, OAuth2ConsentRequest } from '@ory/client'
 import { GetServerSideProps, NextPage } from 'next'
 
+import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const identityApi = new IdentityApi(oryConfiguration)
 
-type OAuth2ConsentPageProps = {
-  error?: string
-}
-
-const OAuth2ConsentPage: NextPage<OAuth2ConsentPageProps> = (props) => {
-  // TODO(SF): create proper component
-  if (props.error) {
-    return <div>Error handling consent request: {props.error}</div>
-  }
-  return <div>Redirecting...</div>
-}
+const OAuth2ConsentPage: NextPage = () => <OAuth2Redirect />
 
 const createSession = async (subject: string): Promise<AcceptOAuth2ConsentRequestSession> => {
   const { data: identity } = await identityApi.getIdentity({ id: subject })
@@ -58,7 +49,7 @@ const acceptConsentRequest = async (
 
       // This tells hydra to remember this consent request and allow the same client to request the same
       // scopes from the same user, without showing the UI, in the future.
-      remember: true, // TODO(SF) Boolean(req.body.remember),
+      remember: true,
 
       // When this "remember" sesion expires, in seconds. Set this to 0 so it will never expire.
       remember_for: 3600,
@@ -92,12 +83,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     const session = await createSession(consentRequest.subject)
 
-    // TODO(SF): redirect to UI for user to consent if consentRequest.skip is not set > pass challenge as query parameter, maybe more? (see consentRequest fields)
+    // TODO HOLI-3500: redirect to UI for user to consent if consentRequest.skip is not set > pass challenge as query parameter, maybe more? (see consentRequest fields)
 
     return acceptConsentRequest(consentChallenge, session, consentRequest)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    const message = error?.message || error || 'Unknown error' // TODO(SF) i18n
+    // Reject consent request in case an error occurs
+    const message = error?.message || error || 'Unknown error'
     const { data: rejectResponse } = await oauth2Api.rejectOAuth2ConsentRequest({
       consentChallenge,
       rejectOAuth2Request: {

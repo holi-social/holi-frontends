@@ -15,7 +15,7 @@ export const serverSideRedirect = (destination: string) => {
   return {
     redirect: {
       permanent: false,
-      destination, // TODO(SF) fallback?
+      destination,
     },
   }
 }
