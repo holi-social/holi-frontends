@@ -64,28 +64,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -163,28 +149,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -254,28 +226,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -350,28 +308,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -445,30 +389,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -547,30 +475,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -643,28 +555,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -742,28 +640,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -833,28 +717,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -929,28 +799,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1024,30 +880,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1126,30 +966,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1225,30 +1049,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1329,30 +1137,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1425,30 +1217,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1526,30 +1302,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1629,32 +1389,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1739,32 +1481,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1840,30 +1564,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -1944,30 +1652,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2040,30 +1732,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2141,30 +1817,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2244,32 +1904,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2354,32 +1996,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2452,28 +2076,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2551,28 +2161,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2642,28 +2238,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2738,28 +2320,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2833,30 +2401,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -2935,30 +2487,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3031,28 +2567,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3130,28 +2652,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3221,28 +2729,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3317,28 +2811,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3412,30 +2892,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3514,30 +2978,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {},
-          ],
-        ]
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3613,30 +3061,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3717,30 +3149,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3813,30 +3229,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -3914,30 +3314,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4017,32 +3401,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4127,32 +3493,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4228,30 +3576,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4332,30 +3664,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4428,30 +3744,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4529,30 +3829,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {},
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4632,32 +3916,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+          "textAlign": "center",
+        }
       }
     >
       Test
@@ -4742,32 +4008,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          [
-            {
-              "textAlign": "center",
-            },
-            {
-              "color": "#cc1820",
-            },
-            {
-              "color": "#787777",
-            },
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
       }
     >
       Test
