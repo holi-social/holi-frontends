@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
+import { memberSpacesFragment } from '@holi/core/queries'
 import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
   fragment UserAvatar on User {
@@ -58,6 +59,10 @@ export type AuthenticatedUserResponse = {
   authenticatedUser: User
 }
 
+export interface UserByIdResponse {
+  userById: User
+}
+
 export const userByIdQuery = gql`
   ${userFragment}
 
@@ -68,9 +73,24 @@ export const userByIdQuery = gql`
   }
 `
 
-export type UserByIdResponse = {
+export interface UserbyIdWithSpacesResponse {
   userById: User
+  spaces: MemberSpaces
 }
+
+export const userByIdWithSpacesQuery = gql`
+  ${userFragment}
+  ${memberSpacesFragment}
+
+  query UserByIdWithSpaces($userId: UUID!) {
+    userById(id: $userId) {
+      ...FullUser
+    }
+    spaces(memberId: $userId) {
+      ...MemberSpaces
+    }
+  }
+`
 
 export const userByNameQuery = gql`
   ${userAvatarFragment}
