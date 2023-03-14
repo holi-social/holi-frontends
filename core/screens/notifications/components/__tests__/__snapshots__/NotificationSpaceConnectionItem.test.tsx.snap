@@ -1,0 +1,419 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
+<View>
+  <View
+    style={
+      [
+        undefined,
+        false,
+      ]
+    }
+    testID="notification-item_null_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+  >
+    <View
+      accessibilityLabel="Foo"
+      accessibilityRole="link"
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      testID="text-link"
+    >
+      <View
+        style={
+          {
+            "display": "flex",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 40,
+              "position": "relative",
+              "width": 40,
+            }
+          }
+        >
+          <Image
+            accessibilityLabel=""
+            accessibilityRole="image"
+            accessible={false}
+            source={
+              {
+                "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg",
+              }
+            }
+            style={
+              [
+                {
+                  "borderRadius": 8,
+                  "height": "100%",
+                },
+                {
+                  "resizeMode": "cover",
+                },
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            {
+              "flexBasis": "100%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                {
+                  "fontSize": 14,
+                  "lineHeight": 16.8,
+                },
+                false,
+                {
+                  "color": "#787777",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  false,
+                  undefined,
+                ]
+              }
+            />
+          </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                {
+                  "fontSize": 12,
+                  "lineHeight": 14.399999999999999,
+                },
+                false,
+                [
+                  {
+                    "color": "#787777",
+                  },
+                  {
+                    "marginTop": 4,
+                  },
+                ],
+              ]
+            }
+          >
+            2 weeks ago
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "minWidth": 12,
+                "position": "relative",
+              },
+              {
+                "marginLeft": 12,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#6267e7",
+                  "borderRadius": 6,
+                  "borderWidth": 2,
+                  "height": 12,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 12,
+                },
+                {
+                  "top": 4,
+                },
+                {
+                  "borderColor": "#ebebeb",
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "paddingLeft": 48,
+          },
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          },
+          {
+            "marginHorizontal": -4,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.ignore"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+              ],
+              {
+                "marginTop": 12,
+              },
+            ]
+          }
+          testID="ignore-connection-request-button"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  {
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  [
+                    {
+                      "textAlign": "center",
+                    },
+                    {},
+                    {},
+                  ],
+                ]
+              }
+            >
+              notifications.connection.ignore
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.accept"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+                {
+                  "backgroundColor": "#f5ef3f",
+                },
+              ],
+              {
+                "marginTop": 12,
+              },
+            ]
+          }
+          testID="accept-connection-request-button"
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  {
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  [
+                    {
+                      "textAlign": "center",
+                    },
+                    {},
+                    {},
+                  ],
+                ]
+              }
+            >
+              notifications.connection.accept
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

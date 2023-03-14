@@ -1,10 +1,10 @@
+import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useUserConnection } from '@holi/core/helpers'
 import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
 import {
   Notification,
@@ -12,6 +12,8 @@ import {
   NotificationSpaceConnection,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
+import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -24,7 +26,6 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   style,
   testID,
 }) => {
-  const { id: spaceUserId } = notification.options.user
   const { t } = useTranslation()
   // if 'connectionAccepted' is 'true', user accepted the connection
   // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is ignored.
@@ -33,7 +34,33 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   )
   const { displayError } = useErrorHandling()
 
-  const { connect, disconnect, error, loading } = useUserConnection()
+  const [updateSpaceUserConnection, { loading, error }] = useMutation<UpdateSpaceUserConnectionResponse>(
+    updateSpaceUserConnectionMutation,
+    {
+      variables: {
+        spaceId: notification.options.space.id,
+        userId: notification.options.user.id,
+      },
+    }
+  )
+
+  const approveConnectionRequest = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.CONNECT,
+        connectionType: SpaceConnectionType.MEMBER,
+      },
+    }).then(() => setConnectionAccepted(true))
+  }
+
+  const rejectConnectionRequest = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.DISCONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+      },
+    }).then(() => setConnectionAccepted(false))
+  }
 
   if (error) {
     displayError(error)
@@ -65,11 +92,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       type="secondary"
       variant="small"
       label={t('notifications.connection.ignore')}
-      onPress={() =>
-        disconnect(spaceUserId).then(() => {
-          setConnectionAccepted(false)
-        })
-      }
+      onPress={rejectConnectionRequest}
       disabled={loading}
       style={styles.button}
       testID="ignore-connection-request-button"
@@ -81,11 +104,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       type="primary"
       variant="small"
       label={t('notifications.connection.accept')}
-      onPress={() =>
-        connect(spaceUserId).then(() => {
-          setConnectionAccepted(true)
-        })
-      }
+      onPress={approveConnectionRequest}
       disabled={loading}
       style={styles.button}
       testID="accept-connection-request-button"
