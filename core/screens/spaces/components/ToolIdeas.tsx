@@ -75,7 +75,7 @@ const ToolIdeas: React.FC = () => {
             transparent
             onPress={() => handleShareButtonPress(tool.url)}
           >
-            <HoliIcon icon={'share-box'} size={15} />
+            <HoliIcon icon={'share-box'} size={15} color={colors.foreground20} />
           </HoliButton>
         </View>
       </View>
