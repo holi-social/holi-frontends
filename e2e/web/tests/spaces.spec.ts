@@ -69,7 +69,7 @@ const testFiltering = async (page: Page) => {
 
   // click filter confirmation button and check if we are in the correct page with the filter queries
   await Promise.all([
-    await clickElementByTestId(page, 'holi-modal-content-close-btn'),
+    clickElementByTestId(page, 'holi-modal-content-close-btn'),
     page.waitForNavigation({ url: '**/spaces/**' }),
   ])
 
