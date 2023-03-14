@@ -19,7 +19,7 @@ require('dotenv').config({ path: '.envrc' })
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('profile journey', async ({ browser, page, context }) => {
+  test('user journey', async ({ browser, page, context }) => {
     // fill the interests, skills and sdgs for visiting the profile later
     await defaultAuthSteps({ page, context }, 'login')
     await waitForElementByTestId(page, 'btn-to-settings')
