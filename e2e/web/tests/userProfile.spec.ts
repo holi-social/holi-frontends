@@ -110,11 +110,11 @@ const deselectAll = async (page: Page, what: string) => {
 
   // only edit button is visible
   const editButtonCount = () => getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
-  expect.poll(editButtonCount).toBe(1)
+  await expect.poll(editButtonCount).toBe(1)
 
   // no chips should be shown
   const shownChips = () => getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
-  expect.poll(shownChips).toBe(0)
+  await expect.poll(shownChips).toBe(0)
 }
 
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {

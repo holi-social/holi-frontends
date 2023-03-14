@@ -198,7 +198,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
   // check if the correct number of topics have been selected
   const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
-  expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
+  await expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
   // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
   // it somehow completely breaks the filter button (does not work in any way)
@@ -211,7 +211,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
   // check if the correct number of sdgs have been selected
   const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
-  expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+  await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
   // delete space
   await clickElementByTestId(page, 'space-edit-close')
