@@ -32,3 +32,25 @@ export const BlockUserMutation = gql`
 export interface BlockUserResponse {
   success: boolean
 }
+
+export const memberSpacesFragment = gql`
+  fragment MemberSpaces on SpacePaged {
+    data {
+      id
+      title
+      cover
+      name
+      members {
+        data {
+          user {
+            id
+            avatar
+            avatarLabel
+            avatarDefaultColor
+          }
+        }
+      }
+    }
+    totalResults
+  }
+`
