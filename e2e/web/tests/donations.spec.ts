@@ -4,6 +4,7 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
+  delay,
   locateElementBySelector,
   locateElementByTestId,
   waitForElementByTestId,
@@ -195,6 +196,10 @@ const filterForLocation = async (
   location: string,
   { assertAccessibility = false, useSuggestion = false } = {}
 ) => {
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // open search modal
   await clickElementByTestId(page, 'donations-search-button')
 
