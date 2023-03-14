@@ -4,35 +4,50 @@ import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type HoliTextSize = 'extralarge' | 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
-export const HoliTextSizes: HoliTextSize[] = ['large', 'default', 'small', 'extrasmall'] // keep in sync with all possible HoliTextSize values
+export type HoliTextSize = (typeof HoliTextSizes)[number]
+export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
 
+// TODO: remove the style prop from the interface as it break design and
+// introduce bugs.
 export interface HoliTextProps extends TextProps {
-  size?: HoliTextSize
+  align?: TextStyle['textAlign']
+  color?: 'black300' | 'gray200' | 'gray300'
   bold?: boolean
-  style?: StyleProp<TextStyle>
+  size?: HoliTextSize
   selectable?: boolean
+  style?: StyleProp<TextStyle>
   testID?: string
   numberOfLines?: number
 }
 
 const HoliText = ({
   children,
-  size = 'default',
-  bold = false,
+  bold,
+  testID,
+  align,
+  color = 'black300',
   selectable = true,
+  size = 'default',
   ...props
 }: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
+  const alignStyles = getAlignStyles(align)
 
   return (
     <Text
       accessible={false}
-      {...props}
       selectable={selectable}
-      testID={props?.testID}
-      style={[styles.base, styles[size as keyof typeof styles], bold && styles.bold, props.style]}
+      testID={testID}
+      {...props}
+      style={StyleSheet.flatten([
+        styles.base,
+        styles[size],
+        styles[color],
+        !!align && alignStyles.align,
+        !!bold && styles.bold,
+        props.style,
+      ])}
     >
       {children}
     </Text>
@@ -68,8 +83,25 @@ const getStyles = (theme: HoliTheme) =>
       fontSize: 12,
       lineHeight: 12 * 1.2,
     },
+    black300: {
+      color: colors.foreground30,
+    },
+    gray300: {
+      color: colors.foreground20,
+    },
+    gray200: {
+      color: colors.foreground10,
+    },
     bold: {
       fontWeight: '500',
       fontFamily: theme.fontFamily.default('Medium'),
     },
   })
+
+function getAlignStyles(alignPosition: TextStyle['textAlign']) {
+  return StyleSheet.create({
+    align: {
+      textAlign: alignPosition,
+    },
+  })
+}
