@@ -173,7 +173,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const joinSpaceMutation = gql`
+export const updateSpaceUserConnectionMutation = gql`
   ${SpaceFragment}
 
   mutation UpdateSpaceUserConnection(
@@ -193,7 +193,7 @@ export const joinSpaceMutation = gql`
   }
 `
 
-export type JoinSpaceResponse = {
+export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
