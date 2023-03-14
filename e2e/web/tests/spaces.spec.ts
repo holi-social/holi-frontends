@@ -99,6 +99,26 @@ test.describe('@Spaces', () => {
     expect(page.url()).toContain(spaceUrlPrefix)
   })
 
+  test('should be able to share a space', async ({ page }) => {
+    // go to space details
+    await clickElementByTestId(page, 'space-link')
+    await waitForElementByTestId(page, 'space-details-container')
+
+    // open space share modal
+    await clickElementByTestId(page, 'space-options-btn')
+    await clickElementByTestId(page, 'space-share-btn')
+
+    //check if shared link is correct
+    const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
+    const spaceShareLinkText = await spaceShareLink.innerText()
+    expect(spaceShareLinkText).toBe(page.url())
+
+    // copy link and close modal / options
+    await clickElementByTestId(page, 'space-share-url-btn')
+    await waitForElementByTestId(page, 'space-options-btn')
+    await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
+  })
+
   test('should be able to create, edit and delete a space', async ({ page, context }) => {
     const numberOfInitialTerms = 3
     const numberOfEditedTerms = 2
@@ -218,21 +238,5 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
   for (let i = 0; i < numberOfTermsToSelect; i++) {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
     await locator.nth(numberOfTotalTerms - 1).click()
-  }
-
-  const shareLinkToSpace = async (page: Page) => {
-    await clickElementByTestId(page, 'btn-to-share-space')
-    await clickElementByTestId(page, 'share-space-modal-copy-btn')
-    await clickElementByTestId(page, 'share-space-modal-close-btn')
-
-    // check if the share link is in the clipboard
-    const clipboard = await page.evaluate(() => navigator.clipboard.readText())
-    expect(clipboard).toContain('https://holi.dev/s/')
-
-    // check if the share link is in the share space modal
-    await clickElementByTestId(page, 'btn-to-share-space')
-    const shareSpaceModalLink = await locateElementByTestId(page, 'share-space-modal-link')
-    expect(shareSpaceModalLink).toContainText(clipboard)
-    await clickElementByTestId(page, 'share-space-modal-close-btn')
   }
 }
