@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 
+import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
 import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
@@ -10,9 +11,11 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 interface Props {
   memberId: string
+  emptyText: string
+  emptyCallToAction?: string
 }
 
-const SpacesTab = ({ memberId }: Props) => {
+const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: Props) => {
   const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId },
     fetchPolicy: 'network-only',
@@ -23,10 +26,11 @@ const SpacesTab = ({ memberId }: Props) => {
   }
 
   if (!data) return null
+  const spaces = data.spaces
 
-  return (
+  return spaces.totalResults > 0 ? (
     <HoliBox padding={24}>
-      {data.spaces.data.map((space) => (
+      {spaces.data.map((space) => (
         <HoliBox
           key={space.id}
           padding={[0, 0, 32, 0]}
@@ -43,6 +47,8 @@ const SpacesTab = ({ memberId }: Props) => {
         </HoliBox>
       ))}
     </HoliBox>
+  ) : (
+    <EmptyTab text={emptyText} callToAction={emptyCallToAction} />
   )
 }
 
