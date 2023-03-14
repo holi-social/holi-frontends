@@ -1,15 +1,20 @@
+import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ImageSourcePropType, StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/screens/userprofile/types'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { SpaceSectionType } from '@holi/core/screens/spaces/types'
+import type { User } from '@holi/core/screens/userprofile/types'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliBlockItemProps = {
+export interface HoliBlockItemProps {
   title: string
   subtitle?: string
   description?: string
@@ -18,11 +23,11 @@ export type HoliBlockItemProps = {
   href: string
   label: string
   size?: 'small' | 'large'
-  style?: StyleProp<ViewStyle>
   testID?: string
+  type?: SpaceSectionType
 }
 
-const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
+const HoliBlockItem = ({
   title,
   subtitle,
   description,
@@ -30,50 +35,68 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
   imageSrc,
   href,
   label,
-  size = 'small',
-  style,
   testID,
-}) => {
+  type,
+  size = 'small',
+}: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const imageUri: ImageSourcePropType = { uri: imageSrc }
-  const styles = size === 'small' ? stylesSmall : stylesLarge
+  const isSmall = size === 'small'
+  const styles = isSmall ? stylesSmall : stylesLarge
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const isEditable = type === SpaceSectionType.MEMBER || type === SpaceSectionType.CREATOR
 
   return (
-    <View style={[styles.holiBlockItem, style]}>
-      <HoliLink label={label} href={href} testID={testID}>
-        <View style={styles.holiBlockItemInner}>
-          <View style={[styles.imageContainer]}>
-            <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
-            {size === 'large' && (
-              <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-                <HoliText>{users.length}</HoliText>
-              </HoliUserAvatarPile>
-            )}
-          </View>
-          <View style={styles.textContainer}>
-            {!!subtitle && (
-              <HoliText size="extrasmall" style={styles.subtitle}>
-                {subtitle}
-              </HoliText>
-            )}
-            <HoliText size={size === 'small' ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
-              {title}
-            </HoliText>
-            {!!description && (
-              <HoliText size="small" numberOfLines={2} style={styles.description}>
-                {description}
-              </HoliText>
-            )}
-            {size === 'small' && (
-              <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-                <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
-                  {t('spaces.members.member', { count: users.length })}
+    <View style={styles.container} testID={testID}>
+      <View style={styles.mainSection}>
+        <HoliLink label={label} href={href}>
+          <View style={styles.blockItemInner}>
+            <View style={styles.imageContainer}>
+              <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+              {size === 'large' && (
+                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                  <HoliText>{users.length}</HoliText>
+                </HoliUserAvatarPile>
+              )}
+            </View>
+            <View style={styles.textContainer}>
+              {!!subtitle && (
+                <HoliText size="extrasmall" style={styles.subtitle}>
+                  {subtitle}
                 </HoliText>
-              </HoliUserAvatarPile>
-            )}
+              )}
+              <HoliText size={isSmall ? 'default' : 'small'} numberOfLines={1} style={styles.title}>
+                {title}
+              </HoliText>
+              {!!description && (
+                <HoliText size="small" numberOfLines={2} style={styles.description}>
+                  {description}
+                </HoliText>
+              )}
+              {isSmall && (
+                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                  <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
+                    {t('spaces.members.member', { count: users.length })}
+                  </HoliText>
+                </HoliUserAvatarPile>
+              )}
+            </View>
           </View>
-        </View>
-      </HoliLink>
+        </HoliLink>
+      </View>
+      {isSmall && isEditable && (
+        <HoliButton
+          label={t('global.notAvailable')}
+          inline
+          transparent
+          onPress={showFeatureNotImplementedToast}
+          style={styles.optionsButton}
+        >
+          <HoliIcon icon="tools" size={20} color={colors.foreground20} />
+        </HoliButton>
+      )}
     </View>
   )
 }
@@ -81,12 +104,18 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
 export default HoliBlockItem
 
 const stylesSmall = StyleSheet.create({
-  holiBlockItem: {
+  container: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexGrow: 1,
   },
-  holiBlockItemInner: {
+  mainSection: {
+    flexGrow: 2,
+    marginRight: 4,
+  },
+  blockItemInner: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'nowrap',
@@ -121,15 +150,26 @@ const stylesSmall = StyleSheet.create({
   description: {
     display: 'none',
   },
+  optionsButton: {
+    display: 'flex',
+    padding: 8,
+    borderRadius: 8,
+    maxHeight: 36,
+    backgroundColor: colors.background10,
+  },
 })
 
 const stylesLarge = StyleSheet.create({
-  holiBlockItem: {
+  container: {
     padding: 8,
     paddingBottom: 16,
     borderRadius: 18,
+    backgroundColor: colors.background10,
   },
-  holiBlockItemInner: {},
+  mainSection: {
+    flexGrow: 1,
+  },
+  blockItemInner: {},
   imageContainer: {
     position: 'relative',
     width: '100%',
@@ -164,4 +204,5 @@ const stylesLarge = StyleSheet.create({
     color: colors.foreground20,
     marginTop: 4,
   },
+  optionsButton: {},
 })
