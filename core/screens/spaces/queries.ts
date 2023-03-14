@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import { memberSpacesFragment } from '@holi/core/queries'
+import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
@@ -317,6 +318,19 @@ export const deleteSpaceMutation = gql`
   mutation DeleteSpace($id: UUID!) {
     deleteSpace(id: $id) {
       success
+    }
+  }
+`
+
+export interface SpacesByMemberIdResponse {
+  spaces: MemberSpaces
+}
+
+export const spacesByMemberIdQuery = gql`
+  ${memberSpacesFragment}
+  query SpacesByMember($memberId: UUID) {
+    spaces(memberId: $memberId) {
+      ...MemberSpaces
     }
   }
 `
