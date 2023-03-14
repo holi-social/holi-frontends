@@ -12,7 +12,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const navigation = useNavigation()
   const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
 
-  // user randome key to reset regisration onboarding when user goes to another app's path
+  // user random key to reset registration onboarding when user goes to another app's path
   useEffect(() => {
     if (isLoggedIn) return
 

@@ -6,7 +6,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
-const ButtonToRegistration: React.VFC<Omit<HoliButtonProps, 'label'>> = (props) => {
+const RegistrationButton = (props: Omit<HoliButtonProps, 'label'>) => {
   const { t } = useTranslation()
   const { replaceRoute } = useUnifiedNavigation()
   const { finished } = useOnboarding()
@@ -29,4 +29,4 @@ const ButtonToRegistration: React.VFC<Omit<HoliButtonProps, 'label'>> = (props) 
   )
 }
 
-export default ButtonToRegistration
+export default RegistrationButton

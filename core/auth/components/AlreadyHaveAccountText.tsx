@@ -11,7 +11,7 @@ export interface AlreadyHaveAccountTextProps {
   style?: StyleProp<ViewStyle>
 }
 
-const AlreadyHaveAccountText: React.VFC<AlreadyHaveAccountTextProps> = ({ mobileNavigateBackFirst = false, style }) => {
+const AlreadyHaveAccountText = ({ mobileNavigateBackFirst = false, style }: AlreadyHaveAccountTextProps) => {
   const { t } = useTranslation()
 
   return (

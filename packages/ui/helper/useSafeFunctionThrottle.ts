@@ -22,15 +22,13 @@ import { useCallback, useEffect, useRef } from 'react'
  * is called.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type T = (props?: any) => boolean | void
-export const useSafeFunctionThrottle = (fn: T) => {
+export const useSafeFunctionThrottle = (fn: CallableFunction) => {
   const animationFrameRef = useRef(0)
   const startTimeRef = useRef(0)
   const delayRef = useRef(0)
   const propsRef = useRef<unknown>(0)
 
-  const funcRef = useRef<T | null>(null)
+  const funcRef = useRef<CallableFunction | null>(null)
   funcRef.current = fn
 
   const recursiveFunc = useCallback((time: DOMHighResTimeStamp) => {

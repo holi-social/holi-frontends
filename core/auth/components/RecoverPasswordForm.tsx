@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
-import ButtonToRegistration from '@holi/core/auth/components/ButtonToRegistration'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -63,7 +63,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
         {t('auth.login.signUp.link.headline')}
       </HoliHeading>
 
-      <ButtonToRegistration style={styles.button} />
+      <RegistrationButton style={styles.button} />
     </View>
   )
 }

@@ -6,18 +6,16 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface CenteredContentLayoutProps {
   // `append` is ReactNode that we can position (absolute/fixed) over main content in `children`
   append?: React.ReactNode
-  style?: StyleProp<ViewStyle>
   contentContainerStyle?: StyleProp<ViewStyle>
 }
 
 const CenteredContentLayout = ({
   append,
   children,
-  style,
   contentContainerStyle,
 }: React.PropsWithChildren<CenteredContentLayoutProps>) => {
   return (
-    <SafeAreaView style={[styles.outer, style]}>
+    <SafeAreaView style={[styles.outer]}>
       <View style={styles.inner}>
         <ScrollView style={styles.scrollView} contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}>
           {children}
@@ -33,10 +31,10 @@ const styles = StyleSheet.create({
   outer: {
     ...Platform.select({
       web: { minHeight: '100%' },
-      native: { flex: 1 },
     }),
     backgroundColor: colors.background20,
     justifyContent: 'center',
+    flex: 1,
   },
   inner: {
     justifyContent: 'center',

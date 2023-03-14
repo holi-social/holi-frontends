@@ -8,9 +8,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import ButtonToRegistration from '@holi/core/auth/components/ButtonToRegistration'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -91,7 +91,7 @@ const Login: React.VFC<ScreenProps> = () => {
           {t('auth.login.signUp.link.headline')}
         </HoliHeading>
 
-        <ButtonToRegistration style={styles.formItemContainer} />
+        <RegistrationButton style={styles.formItemContainer} />
       </LoginRegistrationContainer>
     </DefaultLayout>
   )

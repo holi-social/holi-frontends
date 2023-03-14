@@ -11,7 +11,7 @@ import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepp
 const { useParam } = createParam()
 
 export enum RegistrationStep {
-  'PRE_REGISTATION_LOGIN',
+  'PRE_REGISTRATION_LOGIN',
   'PRIVACY_POLICY',
   'CREATE_ACCOUNT',
 }
@@ -31,16 +31,11 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         currentStep={currentStep}
         steps={[
           // Login-Registration-Continue as a Guest step
-          <LoginRegistration
-            onRegistration={goNext}
-            onDismiss={onFinish}
-            style={[styles.stepContent]}
-            key="pre-login-registration"
-          />,
+          <LoginRegistration onRegistration={goNext} onDismiss={onFinish} key="pre-login-registration" />,
           // Privacy Policy step
-          <DataConsent onNextPress={goNext} onBackPress={goBack} style={[styles.stepContent]} key="privacy-policy" />,
+          <DataConsent onNextPress={goNext} onBackPress={goBack} key="privacy-policy" />,
           // Create Account step
-          <Registration style={[styles.stepContent]} key="registration" />,
+          <Registration key="registration" />,
         ]}
         scrollEnabled={false}
         lazy
@@ -51,9 +46,6 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  stepContent: {
     flex: 1,
   },
 })

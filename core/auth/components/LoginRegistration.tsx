@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -13,21 +13,19 @@ interface LoginRegistrationProps {
   headingText?: string
   onRegistration?: () => void
   onDismiss?: () => boolean | void
-  style?: StyleProp<ViewStyle>
 }
 
 const LoginRegistration = ({
   headingText,
   onRegistration,
   onDismiss,
-  style,
 }: React.PropsWithChildren<LoginRegistrationProps>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   headingText = headingText ?? t('profile.loggedOut.heading')
 
   return (
-    <CenteredContentLayout style={style}>
+    <CenteredContentLayout>
       <View>
         <View style={styles.imageContainer}>
           <HoliLocalImage

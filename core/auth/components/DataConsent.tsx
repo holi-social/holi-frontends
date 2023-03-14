@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -20,10 +20,9 @@ import { vars } from '@holi/ui/styles/globalVars'
 interface DataConsentProps {
   onNextPress?: () => void
   onBackPress?: () => void
-  style?: StyleProp<ViewStyle>
 }
 
-const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildren<DataConsentProps>) => {
+const DataConsent = ({ onNextPress, onBackPress }: React.PropsWithChildren<DataConsentProps>) => {
   const { t } = useTranslation()
   const [accepted, setAccepted] = useState(false)
   const { show: showModal, props: modalProps } = useModalState()
@@ -38,64 +37,62 @@ const DataConsent = ({ onNextPress, onBackPress, style }: React.PropsWithChildre
   )
 
   return (
-    <CenteredContentLayout append={navButtons} style={style} contentContainerStyle={styles.outerContentContainerStyle}>
+    <CenteredContentLayout append={navButtons} contentContainerStyle={styles.outerContentContainerStyle}>
       <View style={styles.inner}>
-        <View>
-          <View style={styles.imageContainer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/onboarding_consent_data.svg')}
-              isSvg
-              width={251}
-              height={181}
-              label={t('profile.loggedOut.image')}
-            />
-          </View>
-
-          <HoliHeading level="1" size="medium" style={styles.headline} testID="login-protection-heading">
-            {t('onboarding.dataconsent.heading')}
-          </HoliHeading>
-
-          <HoliText style={styles.description}>{t('onboarding.dataconsent.describtion')}</HoliText>
+        <View style={styles.imageContainer}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/onboarding_consent_data.svg')}
+            isSvg
+            width={251}
+            height={181}
+            label={t('profile.loggedOut.image')}
+          />
         </View>
 
-        <HoliCheckbox
-          autofocus={false}
-          checked={accepted}
-          onSelect={() => setAccepted((value) => !value)}
-          style={styles.checkbox}
-          testID="privicy-policy-checkbox"
-        >
-          <View>
-            <HoliText size="small">
-              <Trans t={t} i18nKey={'onboarding.dataconsent.checkboxLabel'}>
-                <HoliTextLink
-                  label=""
-                  href={'/communityGuidelines'}
-                  size="small"
-                  variant="secondary"
-                  onPress={() => {
-                    showModal()
-                    return false
-                  }}
-                />
-              </Trans>
-            </HoliText>
-          </View>
-        </HoliCheckbox>
+        <HoliHeading level="1" size="medium" style={styles.headline} testID="login-protection-heading">
+          {t('onboarding.dataconsent.heading')}
+        </HoliHeading>
 
-        {/* TODO: use correct label */}
-        <HoliModal
-          label={t('auth.login.checkbox.label-Consent')}
-          {...modalProps}
-          autoHeight={false}
-          relativeHeight={1}
-          style={styles.modal}
-        >
-          <ScrollView style={styles.modalContent} contentContainerStyle={{ maxWidth: '100%' }}>
-            <DataConsentDocument />
-          </ScrollView>
-        </HoliModal>
+        <HoliText style={styles.description}>{t('onboarding.dataconsent.describtion')}</HoliText>
       </View>
+
+      <HoliCheckbox
+        autofocus={false}
+        checked={accepted}
+        onSelect={() => setAccepted((value) => !value)}
+        style={styles.checkbox}
+        testID="privicy-policy-checkbox"
+      >
+        <View>
+          <HoliText size="small">
+            <Trans t={t} i18nKey={'onboarding.dataconsent.checkboxLabel'}>
+              <HoliTextLink
+                label=""
+                href={'/communityGuidelines'}
+                size="small"
+                variant="secondary"
+                onPress={() => {
+                  showModal()
+                  return false
+                }}
+              />
+            </Trans>
+          </HoliText>
+        </View>
+      </HoliCheckbox>
+
+      {/* TODO: use correct label */}
+      <HoliModal
+        label={t('auth.login.checkbox.label-Consent')}
+        {...modalProps}
+        autoHeight={false}
+        relativeHeight={1}
+        style={styles.modal}
+      >
+        <ScrollView style={styles.modalContent} contentContainerStyle={{ maxWidth: '100%' }}>
+          <DataConsentDocument />
+        </ScrollView>
+      </HoliModal>
     </CenteredContentLayout>
   )
 }

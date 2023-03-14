@@ -1,7 +1,7 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
@@ -16,17 +16,12 @@ import { useSafeDispatch } from '@holi/core/helpers'
 
 const isWeb = Platform.OS === 'web'
 
-interface RegistrationProps {
-  style?: StyleProp<ViewStyle>
-}
-
-const Registration: React.VFC<RegistrationProps> = ({ style }) => {
+const Registration: React.VFC = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  // const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
   const initializeFlow = useCallback(() => {
@@ -69,7 +64,7 @@ const Registration: React.VFC<RegistrationProps> = ({ style }) => {
       : Promise.resolve()
 
   return (
-    <CenteredContentLayout style={style}>
+    <CenteredContentLayout>
       <LoginRegistrationContainer>
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
