@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { Suspense, lazy, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -22,6 +22,7 @@ import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -210,7 +211,7 @@ const UserProfile = () => {
             children: (
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
-              <Suspense fallback={<Text>Loading...</Text>}>
+              <Suspense fallback={<HoliLoader />}>
                 <SpacesTab memberId={user.id} />
               </Suspense>
             ),
