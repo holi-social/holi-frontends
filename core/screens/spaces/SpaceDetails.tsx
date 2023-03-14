@@ -20,6 +20,7 @@ import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceB
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
+import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -98,6 +99,22 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+          {/* TODO: integrate on collaborators screen */}
+          {isMember && (
+            <MoreOptionItem
+              icon="sun"
+              label="Storage"
+              onPress={() => {
+                if (Platform.OS === 'web') {
+                  Linking.openURL(owncloudUrl)
+                } else {
+                  navigate(`/spaces/${spaceIdOrName}/storage`)
+                }
+                hide()
+              }}
+              contentStyle={styles.buttonWithIcon}
+            />
+          )}
           {isAdmin && (
             <DeleteSpaceButton
               spaceId={space?.id || ''}
@@ -108,28 +125,13 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               style={styles.buttonWithIcon}
             />
           )}
-          {isAdmin && (
-            <MoreOptionItem
-              icon="sun"
-              label="Storage"
-              onPress={() => {
-                if (Platform.OS === 'web') {
-                  Linking.openURL('https://dev.cloud.project-holi.org')
-                } else {
-                  navigate(`/spaces/${spaceIdOrName}/storage`)
-                  hide()
-                }
-              }}
-              contentStyle={styles.buttonWithIcon}
-            />
-          )}
         </MoreOptionsButtonWithModal>
       ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
+  }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
