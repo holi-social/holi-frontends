@@ -4,6 +4,7 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
+  delay,
   locateElementBySelector,
   locateElementByTestId,
   waitForElementByTestId,
@@ -43,6 +44,7 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'donations-updates-item')
 
   // click on "see more" / navigate to donations app
   await clickElementByTestId(page, 'donations-updates-load-more-button')
@@ -100,13 +102,12 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'donations-list-container')
 }
 
 const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
   const countSpotlightNews = async () => await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
   const countOtherNews = async () => await (await page.locator('data-testid=donations-news-other-item')).count()
-
-  await waitForElementByTestId(page, 'donations-list-container')
 
   // open first donation opportunity
   await clickElementByTestId(page, 'donations-list-item')
@@ -127,6 +128,7 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'donations-list-container')
 }
 
 const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
@@ -182,6 +184,7 @@ const testDisplayDetailsOfFilterResults = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
+  await waitForElementByTestId(page, 'donations-list-container')
 
   // expect filtered list
   heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -193,6 +196,10 @@ const filterForLocation = async (
   location: string,
   { assertAccessibility = false, useSuggestion = false } = {}
 ) => {
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // open search modal
   await clickElementByTestId(page, 'donations-search-button')
 

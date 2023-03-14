@@ -39,7 +39,13 @@ const AppsDrawer: React.FC = () => {
         testID="home-apps-button"
         inline
         style={styles.overlayButton}
-        onPress={() => setModalIsVisible(true)}
+        onPress={() => {
+          // if pressed too soon, the state is set to true, but the modal is not shown.
+          // crude mechanism to recover from this state.
+          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+          modalIsVisible && setModalIsVisible(false)
+          setModalIsVisible(true)
+        }}
       >
         <HoliText size="small" bold>
           {t('apps.drawer.open.btn.text')}

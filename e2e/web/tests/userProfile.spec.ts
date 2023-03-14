@@ -19,7 +19,7 @@ require('dotenv').config({ path: '.envrc' })
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('profile journey', async ({ browser, page, context }) => {
+  test('user journey', async ({ browser, page, context }) => {
     // fill the interests, skills and sdgs for visiting the profile later
     await defaultAuthSteps({ page, context }, 'login')
     await waitForElementByTestId(page, 'btn-to-settings')
@@ -109,12 +109,12 @@ const deselectAll = async (page: Page, what: string) => {
   await saveAndCloseChipform(page)
 
   // only edit button is visible
-  const editButtonCount = await getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
-  expect(editButtonCount).toBe(1)
+  const editButtonCount = () => getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
+  expect.poll(editButtonCount).toBe(1)
 
   // no chips should be shown
-  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
-  expect(shownChips).toBe(0)
+  const shownChips = () => getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  expect.poll(shownChips).toBe(0)
 }
 
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
@@ -124,7 +124,7 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   const heading = await waitForElementByTestId(page, 'user-profile-chipform-heading')
   // wait for the loading screen to disappear - otherwise the test is flaky
-  expect(page.locator(byTestId('user-profile-chipform-loader'))).not.toBeVisible({ timeout: 10000 })
+  await expect(page.locator(byTestId('user-profile-chipform-loader'))).not.toBeVisible({ timeout: 10000 })
 
   const expectedNoOfSelectedChips = 3
 
@@ -157,5 +157,6 @@ const saveAndCloseChipform = async (page: Page) => {
   await clickElementByTestId(page, 'user-profile-chipform-close-btn')
   await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+  await page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' })
   await waitForElementByTestId(page, 'user-profile-full-name')
 }

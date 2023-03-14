@@ -54,7 +54,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
             isSvg
-            width={82}
+            width={78}
             height={24}
             label={t('navigation.title')}
           />
