@@ -217,6 +217,8 @@
   "profile.tabs.insight.empty": "Diese Person hat noch keine Einblicke erstellt.",
   "profile.tabs.profile": "Profil",
   "profile.tabs.spaces": "Spaces",
+  "profile.tabs.spaces.empty": "Du bist noch kein Mitglied in einem Space. Finde jetzt den Passenden!",
+  "profile.tabs.spaces.empty.callToAction": "Entdecke Spaces",
   "profile.title": "Profil",
   "rootProvider.loading.login": "Starte Transformation...",
   "rootProvider.loading.profile": "Skaliere Impact...",

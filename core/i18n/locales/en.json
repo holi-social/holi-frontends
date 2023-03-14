@@ -217,6 +217,8 @@
   "profile.tabs.insight.empty": "This person has not created any insights yet.",
   "profile.tabs.profile": "Profile",
   "profile.tabs.spaces": "Spaces",
+  "profile.tabs.spaces.empty": "You are not member of any Space yet. Find the right one now!",
+  "profile.tabs.spaces.empty.callToAction": "Discover Spaces",
   "profile.title": "Profile",
   "rootProvider.loading.login": "Starting transformation...",
   "rootProvider.loading.profile": "Scaling impact...",
