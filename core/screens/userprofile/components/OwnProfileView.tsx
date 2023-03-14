@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -9,6 +9,7 @@ import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -110,7 +111,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
             children: (
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
-              <Suspense fallback={<Text>Loading...</Text>}>
+              <Suspense fallback={<HoliLoader />}>
                 <SpacesTab memberId={user.id} />
               </Suspense>
             ),
