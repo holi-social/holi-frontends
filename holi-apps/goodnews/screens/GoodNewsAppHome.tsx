@@ -3,8 +3,7 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -16,7 +15,6 @@ type GoodNewsAppHomeProps = Record<string, never>
 
 const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
 
   useLayoutEffect(
@@ -39,17 +37,15 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
     <View testID={'goodnews-app-home'}>
       <StatusBar style="light" animated />
 
-      <DefaultLayout
+      <DefaultScrollHeaderLayout
         bounces={false}
         headerOverlap
         hasFooterTabBar={false}
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
         style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.background30 }}
         contentStyle={{ height: '100%' }}
       >
         <GoodNewsCarousel />
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
     </View>
   )
 }

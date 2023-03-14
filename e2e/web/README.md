@@ -10,6 +10,24 @@ You need to have Docker installed, because Playwright only supports Ubuntu.
 
 The test for the login require working credentials. Please provide them in the `.envrc.local` file. The variable names are already there.
 
+## Testing selective browsers
+
+You can test selective browsers from the command line by specifying an environment variable:
+
+```sh
+E2E_WEB_BROWSERS=Desktop_WebKit,Mobile_WebKit yarn test
+```
+
+Take a look in `playwright.config.ts` for valid browser names.
+
+## Testing with retries
+
+By default, local tests run without retries, but CI test runs use retries. Therefore, flaky tests can fail locally, but succeed in CI. If you want to test with retries locally, you can enable them via an environment variable:
+
+```sh
+E2E_WEB_RETRIES=2 yarn test
+```
+
 ## Testing locally
 
 For testing the web app locally, start the local dev environment from the root of the project with
@@ -57,6 +75,7 @@ yarn test:localhost --grep @Profile
 ```
 
 Or invert selective tests `--grep-invert @...`
+
 
 ### Troubleshooting
 

@@ -45,7 +45,7 @@ const CreateSpace: React.VFC = () => {
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
   })
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
-    onCompleted: (data) => replaceRoute(`/spaces/${data.createSpace.id}/edit`),
+    onCompleted: (data) => replaceRoute(`/spaces/${data.createSpace.name}/edit`),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],
   })

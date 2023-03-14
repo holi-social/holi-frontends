@@ -5,7 +5,6 @@ import { StyleSheet } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
-import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
@@ -31,9 +30,7 @@ const ClientRootProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   return translationsLoaded ? (
     <I18nextProvider i18n={i18n}>
-      <ScrollYProvider>
-        <RootProvider>{children}</RootProvider>
-      </ScrollYProvider>
+      <RootProvider>{children}</RootProvider>
     </I18nextProvider>
   ) : (
     // FIXME: Use Suspence

@@ -4,8 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -21,7 +20,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type AddDigitalToolParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<AddDigitalToolParams>()
@@ -29,11 +28,10 @@ const { useParam } = createParam<AddDigitalToolParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const AddDigitalTool: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
   const [url, setUrl] = useState<string>('')
@@ -77,7 +75,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const onSave = () => {
     //TODO implement api integration
-    console.log('Space id -->', spaceId)
+    console.log('Space id -->', spaceIdOrName)
   }
 
   const Footer = () => {
@@ -105,12 +103,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <HoliText size="large">{t('spaces.digitalTool.add.title')}</HoliText>
           <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
@@ -127,7 +120,8 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
             thumbnail={thumbnail}
           />
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View>
         <Footer />
       </View>
