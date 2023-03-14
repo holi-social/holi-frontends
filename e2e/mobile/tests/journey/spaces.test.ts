@@ -29,9 +29,9 @@ describe('@Spaces', () => {
 
     await assertSpaceDetails()
 
-    await assertFilteringWorks()
-
     await shareLinkToSpace()
+
+    await assertFilteringWorks()
   })
 
   const assertMultipleGroupsDisplayed = async () => {
@@ -97,23 +97,19 @@ describe('@Spaces', () => {
 
     // // wait until space details are displayed again
     // await waitForElementWithTestId('space-details-container')
-
-    // close space details page
-    await tapOnElementWithTestId('nav-button-back')
   }
 
   const shareLinkToSpace = async () => {
-    // click first element on page
-    await tapOnElementWithTestId('space-link')
+    // open options menu
+    await tapOnElementWithTestId('space-options-btn')
 
-    await waitForElementWithTestId('space-details-container')
+    // check if share button is displayed
+    await waitForElementWithTestId('space-share-btn')
 
-    await waitForElementWithTestId('space-share')
+    // close options menu
+    await tapOnElementWithTestId('btn-to-close-more-options-modal-modal')
 
-    await tapOnElementWithTestId('space-share')
-
-    await waitForElementWithTestId('share-space-modal')
-
-    await waitForElementWithTestId('space-url')
+    // close space details page
+    await tapOnElementWithTestId('nav-button-back')
   }
 })
