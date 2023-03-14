@@ -67,7 +67,13 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}
           showOptions={visible}
-          onPress={show}
+          onPress={() => {
+            // if pressed too soon, the state is set to true, but the modal is not shown.
+            // crude mechanism to recover from this state.
+            // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+            visible && hide()
+            show()
+          }}
           onModalDismiss={hide}
           tintColor={tintColor}
           testID="space-options-btn"

@@ -3,9 +3,11 @@ import { BrowserContext, Page, expect, test } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
+  clickElement,
   clickElementByTestId,
   defaultAuthSteps,
   delay,
+  locateElementBySelector,
   locateElementByTestId,
   waitForElementByTestId,
 } from './helpers'
@@ -49,6 +51,10 @@ const testFiltering = async (page: Page) => {
 
   const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
   await locationInput.fill('Berlin')
+
+  // expect suggestions
+  const element = await locateElementBySelector(page, '[role="menuitem"]')
+  await clickElement(element)
 
   // open topics dropdown
   await clickElementByTestId(page, 'spaces-filter-interests-input')
@@ -114,6 +120,9 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   const numberOfEditedTerms = 2
 
   await defaultAuthSteps({ page, context })
+  // wait for profile - login succeeded
+  await waitForElementByTestId(page, 'btn-to-settings')
+
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
 
@@ -146,6 +155,10 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   // // edit space name and goal
   const editedName = 'e2e edited space name HELLO THERE'
   const editedGoal = 'e2e edited space goal'
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   await clickElementByTestId(page, 'btn-space-edit-name')
   await inputSpaceNameAndGoal(page, editedName, editedGoal)
   await clickElementByTestId(page, 'space-edit-modal-save-btn')
@@ -156,16 +169,28 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   expect(editSpaceTitle).toContainText(editedName)
   expect(editSpaceGoal).toContainText(editedGoal)
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // edit space avatar
   await clickElementByTestId(page, 'btn-space-edit-avatar')
   await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
   await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // edit space cover image
   await clickElementByTestId(page, 'btn-space-edit-cover')
   await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
   await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // edit space topics
   await clickElementByTestId(page, 'btn-space-edit-topics')
   await selectSomeTerms(page, numberOfEditedTerms)
@@ -175,6 +200,10 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
   expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   // edit space sdgs
   await clickElementByTestId(page, 'btn-space-edit-sdgs')
   await selectSomeTerms(page, numberOfEditedTerms)
@@ -186,6 +215,10 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
   // delete space
   await clickElementByTestId(page, 'space-edit-close')
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   await clickElementByTestId(page, 'space-options-btn')
   await clickElementByTestId(page, 'space-delete-btn')
   await clickElementByTestId(page, 'space-delete-confirmation-confirm')
