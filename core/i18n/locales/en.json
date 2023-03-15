@@ -171,6 +171,7 @@
   "notifications.space.connection.message": "You requested to join the space {{space}}",
   "notifications.space.connection.requested.message": "<0>{{user}}</0> requested to join the space {{space}}",
   "notifications.title": "Notifications",
+  "oauth2.redirecting": "Redirecting...",
   "photosPermission": "The app accesses your photos to let you post them.",
   "profile.avatar.add": "Add a profile image",
   "profile.block": "Block {{name}}",
