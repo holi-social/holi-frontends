@@ -57,7 +57,8 @@ const testProjectListAndPagination = async (page: Page) => {
     const listItems = await locateElementByTestId(page, 'donations-list-item')
     return await listItems.count()
   }
-  await expect.poll(countListItems).toBeGreaterThan(0)
+  // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
+  await expect.poll(countListItems, { timeout: 20000 }).toBeGreaterThan(0)
   const listItemCountBefore = await countListItems()
   await clickElementByTestId(page, 'btn-donation-list-load-more')
   await expect.poll(countListItems, betterplaceTimeout).toBeGreaterThan(listItemCountBefore)
@@ -136,6 +137,8 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   await filterForLocation(page, 'Germany', { assertAccessibility: true })
 
   // assert results
+  // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
+  await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: 20000 })
   let heading = await locateElementByTestId(page, 'donations-list-search-heading')
   await expect(heading).toContainText('Germany')
   let summary = await locateElementByTestId(page, 'donations-list-search-summary')
