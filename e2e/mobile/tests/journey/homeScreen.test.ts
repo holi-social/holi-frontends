@@ -9,7 +9,7 @@ import {
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
 
-describe('@HomeScreen', () => {
+describe('@HomeScreen_journey', () => {
   it('should support the user journey', async () => {
     await assertShowsInsights()
 
@@ -48,7 +48,7 @@ const assertAllowsPagination = async () => {
   await scrollToElementWithTestId('btn-insights-list-load-more', 'down')
   await tapOnElementWithTestId('btn-insights-list-load-more')
   // wait until "load more" button has been replaced by next list item
-  await waitForElementWithTestIdToBeNull('btn-insights-list-load-more')
+  await waitForElementWithTestIdToBeNull('btn-insights-list-load-more-processing')
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('feed-insight-image-link')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)

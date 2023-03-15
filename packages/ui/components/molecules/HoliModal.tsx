@@ -5,6 +5,7 @@ import {
   ModalProps,
   Platform,
   SafeAreaView,
+  StyleProp,
   StyleSheet,
   View,
   ViewStyle,
@@ -23,7 +24,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
@@ -40,6 +40,7 @@ export interface HoliModalProps extends ModalProps {
   relativeHeight?: number
   autoHeight?: boolean
   headerStyle?: ViewStyle
+  style?: StyleProp<ViewStyle>
   testID?: string
 }
 
@@ -48,7 +49,6 @@ export const useModalState = ({
   onDismiss,
 }: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
   const [modalVisible, setModalVisible] = useState(visible)
-  const theme = useTheme()
 
   const show = useCallback(() => setModalVisible(true), [])
   const hide = useCallback(() => setModalVisible(false), [])
@@ -57,10 +57,6 @@ export const useModalState = ({
     setModalVisible(false)
     onDismiss?.()
   }, [onDismiss])
-
-  useEffect(() => {
-    theme.setModalIsOpen(modalVisible)
-  }, [theme, modalVisible])
 
   return {
     visible: modalVisible,
@@ -81,8 +77,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
   relativeHeight = 0.9,
   autoHeight = true,
   headerStyle,
-  testID,
   children,
+  style,
+  testID,
 }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
@@ -173,6 +170,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 ...(!autoHeight && { height: `${height}%` }),
               },
               isFullscreen && styles.fullscreen,
+              style,
             ]}
             onLayout={(event) => {
               const { height: modalContentHeight } = event.nativeEvent.layout

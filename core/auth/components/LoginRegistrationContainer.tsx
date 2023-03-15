@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     maxWidth: 500,
     width: '100%',
-    paddingHorizontal: 32,
     alignItems: 'center',
     ...Platform.select({
       native: {

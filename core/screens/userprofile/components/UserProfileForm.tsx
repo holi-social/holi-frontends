@@ -19,7 +19,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, usePositions } from '@holi/ui/helper'
-import { useSafeFunctionThrottle } from '@holi/ui/helper/'
+import { useSafeFunctionThrottle } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {

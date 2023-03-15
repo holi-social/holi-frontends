@@ -3,38 +3,25 @@ import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const isWeb = Platform.OS === 'web'
 
-type ScreenProps = NativeStackScreenProps<RootStackScreens>
-
-const Registration: React.VFC<ScreenProps> = () => {
+const Registration: React.VFC = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
   const initializeFlow = useCallback(() => {
@@ -50,18 +37,6 @@ const Registration: React.VFC<ScreenProps> = () => {
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
-
-  useLayoutEffect(() => {
-    setOptions({
-      headerTitle: () => (
-        <HoliHeading level="1" size="small">
-          {t('auth.register')}
-        </HoliHeading>
-      ),
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
-    })
-  }, [setOptions, t])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
@@ -89,35 +64,13 @@ const Registration: React.VFC<ScreenProps> = () => {
       : Promise.resolve()
 
   return (
-    <DefaultLayout headerOverlap={true}>
+    <CenteredContentLayout>
       <LoginRegistrationContainer>
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
-        <HoliHeading level="3" size="xSmall" style={styles.headline3}>
-          {t('auth.registration.alreadyHasAccount')}{' '}
-          <HoliButton
-            transparent
-            inline
-            variant="small"
-            label={t('auth.login')}
-            style={mixins.inlineButtonFixSmall}
-            onPress={() => {
-              if (Platform.OS === 'web') {
-                replaceRoute('/login')
-              } else {
-                navigateBack()
-                setTimeout(() => navigate('/login'), 300) // use timeout to open new modal after previous was closed
-              }
-            }}
-            testID="btn-to-login-form"
-          >
-            <HoliText size="small" style={styles.loginLinkText}>
-              {t('auth.login')}
-            </HoliText>
-          </HoliButton>
-        </HoliHeading>
+        <AlreadyHaveAccountText style={styles.loginHeadline} />
       </LoginRegistrationContainer>
-    </DefaultLayout>
+    </CenteredContentLayout>
   )
 }
 
@@ -132,7 +85,8 @@ const styles = StyleSheet.create({
   headline3: {
     marginTop: 16,
   },
-  loginLinkText: {
-    color: colors.brandColorB30,
+  loginHeadline: {
+    marginTop: 16,
+    textAlign: 'center',
   },
 })

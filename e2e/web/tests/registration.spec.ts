@@ -27,7 +27,7 @@ test.describe('@Registration', () => {
 const password = 'JwoXk17wQSDCCEkl'
 const email = 'foobar@barbaz.de'
 
-const canRegisterUser = async (browser: Browser, page: Page) => {
+const canRegisterUser = async (browser: Browser) => {
   await (
     await withRandomUserSession(browser, async (page) => {
       await waitForElementByTestId(page, 'user-profile-full-name')
@@ -49,7 +49,9 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await page.waitForURL('**/registration')
+  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await waitForElementByTestId(page, 'ory-traits-email-input')
 
   // switch to login
   await clickElementByTestId(page, 'btn-to-login-form')
@@ -57,7 +59,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await page.waitForURL('**/registration')
+  await waitForElementByTestId(page, 'privicy-policy-checkbox')
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {

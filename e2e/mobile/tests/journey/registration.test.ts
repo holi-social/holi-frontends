@@ -2,10 +2,9 @@ import { faker } from '@faker-js/faker'
 
 import { defaultAuthSteps } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import { waitForElementWithTestId } from '../../helpers/selectors'
 
 const goFromRegistrationToHome = async () => {
-  await tapOnElementWithTestId('nav-button-back')
   await navigateBackToHomeScreen('btn-to-home-view')
 }
 
