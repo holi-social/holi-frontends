@@ -4,7 +4,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
-import FormCheckbox from '@holi/core/auth/components/FormCheckbox'
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
@@ -41,16 +40,7 @@ const FormNode = (props: Props) => {
 
   // TODO: remove after removing this checkbox from Ory flow
   if (oryNodeIsCheckbox(node.attributes)) {
-    return (
-      <FormCheckbox
-        node={node}
-        value={props.value}
-        onChange={props.onChange}
-        autofocus={props.autofocus}
-        style={props.style}
-        testID={`ory-checkbox-${getNodeId(node).replace('.', '_')}`}
-      />
-    )
+    return null
   }
 
   if (oryNodeIsInput(node.attributes)) {
