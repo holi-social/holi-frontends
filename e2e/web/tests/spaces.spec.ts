@@ -30,7 +30,7 @@ test.describe('@Spaces', () => {
 const testAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-spaces')
 
-  await waitForElementByTestId(page, 'spaces-container')
+  await expect(page.getByTestId('spaces-container')).toBeVisible({ timeout: 20000 })
   expect(page.url()).toContain('/spaces')
 }
 

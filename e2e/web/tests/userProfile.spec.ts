@@ -54,7 +54,6 @@ test.describe('@Profile', () => {
         const lastNameEdited = faker.name.lastName()
         await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
         await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
-        await delay(0.5)
         await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
         await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
 
