@@ -8,11 +8,11 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type Oauth2RedirectParams = {
+export interface Oauth2RedirectProps {
   error?: string
 }
 
-const OAuth2Redirect: React.VFC<Oauth2RedirectParams> = ({ error }) => {
+const OAuth2Redirect: React.VFC<Oauth2RedirectProps> = ({ error }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()

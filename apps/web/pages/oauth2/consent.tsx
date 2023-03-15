@@ -13,15 +13,8 @@ const OAuth2ConsentPage: NextPage = () => <OAuth2Redirect />
 const createSession = async (subject: string): Promise<AcceptOAuth2ConsentRequestSession> => {
   const { data: identity } = await identityApi.getIdentity({ id: subject })
 
-  // The session allows us to set session data for id and access tokens
   return {
-    // This data will be available when introspecting the token. Try to avoid sensitive information here,
-    // unless you limit who can introspect tokens.
-    access_token: {
-      // foo: 'bar'
-    },
-
-    // This data will be available in the ID token.
+    access_token: {},
     id_token: {
       name: identity.id,
       email: `${identity.id}@holi.team`,
@@ -38,21 +31,16 @@ const acceptConsentRequest = async (
   const { data: acceptResponse } = await oauth2Api.acceptOAuth2ConsentRequest({
     consentChallenge,
     acceptOAuth2ConsentRequest: {
-      // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
-      // are requested accidentally.
       grant_scope: consentRequest.requested_scope,
 
       session,
 
-      // ORY Hydra checks if requested audiences are allowed by the client, so we can simply echo this.
       grant_access_token_audience: consentRequest.requested_access_token_audience,
 
-      // This tells hydra to remember this consent request and allow the same client to request the same
-      // scopes from the same user, without showing the UI, in the future.
+      // This will set the "skip" parameter in subsequent requests
       remember: true,
 
-      // When this "remember" sesion expires, in seconds. Set this to 0 so it will never expire.
-      remember_for: 3600,
+      remember_for: 3600, // seconds
     },
   })
 

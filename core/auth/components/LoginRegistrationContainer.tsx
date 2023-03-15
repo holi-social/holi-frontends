@@ -6,7 +6,7 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
-type LoginRegistrationContainerProps = {
+interface LoginRegistrationContainerProps {
   onLoggedIn?: () => void
 }
 
@@ -19,12 +19,15 @@ const LoginRegistrationContainer = ({
   const { navigate } = useRouting()
 
   useLayoutEffect(() => {
-    if (isLoggedIn) {
-      if (onLoggedIn) {
-        onLoggedIn()
-      } else {
-        navigate('/profile')
-      }
+    console.log(isLoggedIn, onLoggedIn)
+    if (!isLoggedIn) {
+      return
+    }
+
+    if (onLoggedIn) {
+      onLoggedIn()
+    } else {
+      navigate('/profile')
     }
   }, [isLoggedIn, navigate, onLoggedIn])
 

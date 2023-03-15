@@ -60,11 +60,12 @@ const Login: React.VFC<ScreenProps> = () => {
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }, [t, displayError])
 
-  const onLoggedIn = useCallback(() => {
-    if (Platform.OS === 'web' && return_to) {
+  const handleRedirectAfterLogin = Platform.OS === 'web' && return_to
+  const redirectAfterLogin = () => {
+    if (handleRedirectAfterLogin) {
       window.location.href = return_to
     }
-  }, [return_to])
+  }
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()
@@ -86,7 +87,7 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer onLoggedIn={onLoggedIn}>
+      <LoginRegistrationContainer onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
         <View style={styles.formItemContainer}>
           <HoliTextLink
