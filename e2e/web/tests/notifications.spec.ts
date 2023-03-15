@@ -52,12 +52,24 @@ const testIgnoringAndAcceptingConnectionRequests = async (browser: Browser, cont
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
-  await clickElementByTestId(page, 'ignore-connection-request-button')
-  await waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator')))
+  // run the following actions in parallel
+  await Promise.all([
+    // wait for ignoring the connection request
+    page.waitForResponse('/api/graphql'),
+    waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
+    // ignore the connection request
+    clickElementByTestId(page, 'ignore-connection-request-button'),
+  ])
 
   // accept second CONNECTION_REQUEST
-  await clickElementByTestId(page, 'accept-connection-request-button')
-  await waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator')))
+  // run the following actions in parallel
+  await Promise.all([
+    // Waits for accepting the connection request
+    page.waitForResponse('/api/graphql'),
+    waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
+    // accept the connection request
+    clickElementByTestId(page, 'accept-connection-request-button'),
+  ])
 
   await Promise.all(cleanupHooks.map((fn) => fn())) // clean up random users and wait for it
 }
@@ -78,6 +90,9 @@ const testUserMentionInPostComment = async (browser: Browser, context: BrowserCo
     await clickElementByTestId(page, 'btn-to-home-view')
     await clickElementByTestId(page, 'feed-insight-image-link')
     await clickElementByTestId(page, 'btn-to-post')
+    // after clicking on notification we should go to post detail page and scroll to the comment
+    // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
+    await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
     await clickElementByTestId(page, 'post-detail-footer')
     await clickElementByTestId(page, 'post-comment')
     const input = await locateElementByTestId(page, 'post-comment-input')
@@ -98,11 +113,13 @@ const testUserMentionInPostComment = async (browser: Browser, context: BrowserCo
 
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
-  //await page.goto('/notifications')
+  // FIXME: notifications take a long time to load when there is a lot of them
+  await expect(page.getByTestId('notifications-overview')).toBeVisible({ timeout: 60000 })
   await clickElementByTestId(page, 'post-comment-mention')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
-  await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 30000 })
+  // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
+  await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 60000 })
 
   await cleanupHookCreateCommentSession()
 }

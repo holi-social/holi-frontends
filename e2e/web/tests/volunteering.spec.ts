@@ -24,6 +24,10 @@ test.describe('@Volunteering', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   await clickElementByTestId(page, 'home-apps-button')
   await clickElementByTestId(page, 'app-tile-volunteering')
 
@@ -91,7 +95,7 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 const testFilteringByLocation = async (page: Page) => {
   // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
   // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
+  // FIXME delay is needed because of wrong implementation of component. Remove when https://holi.atlassian.net/browse/HOLI-3665 is done.
   await delay(2)
   await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
@@ -122,7 +126,9 @@ const testDisplaysFilterResults = async (page: Page) => {
   // expect filtered list
   await waitForElementByTestId(page, 'volunteering-list-filtered')
 
-  // FIXME delay is needed because of wrong implementation of component.
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component. Remove when https://holi.atlassian.net/browse/HOLI-3665 is done.
   await delay(2)
   await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
