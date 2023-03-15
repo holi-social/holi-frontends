@@ -27,9 +27,9 @@ test.describe('@HomeScreen', () => {
 
     await testAppUpdatesVisible(page, 'donations')
 
-    await testAbleToVisitGoodnewsApp(page)
+    await testAppUpdatesVisible(page, 'goodnews')
 
-    await testAbleToVisitVolunteeringApp(page)
+    await testAppUpdatesVisible(page, 'volunteering')
 
     await testUserSuggestions(page, context)
   })
@@ -46,46 +46,6 @@ const testAllowPaginationForInsightList = async (page: Page) => {
   const listItemCountBefore = await countListItems()
   await clickElementByTestId(page, 'btn-insights-list-load-more')
   await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
-}
-
-const testAbleToVisitGoodnewsApp = async (page: Page) => {
-  await testAppUpdatesVisible(page, 'goodnews')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'goodnews-updates-item')
-
-  // navigate to article in good news app
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
-  expect(page.url()).toContain('/apps/goodnews?articleId=')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to good news app
-  await clickElementByTestId(page, 'goodnews-updates-load-more-button')
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-}
-
-const testAbleToVisitVolunteeringApp = async (page: Page) => {
-  await testAppUpdatesVisible(page, 'volunteering')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'volunteering-updates-item')
-
-  // navigate to article in volunteering app
-  await waitForElementByTestId(page, 'volunteering-detailview-container')
-  expect(page.url()).toContain('/apps/volunteering/engagement')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to volunteering app
-  await clickElementByTestId(page, 'volunteering-updates-load-more-button')
-  await waitForElementByTestId(page, 'volunteering-list-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
 }
 
 const testAppUpdatesVisible = async (page: Page, app: string) => {

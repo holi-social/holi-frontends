@@ -57,6 +57,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CollaboratorArea]: 'spaces/:spaceIdOrName/collaboratorArea',
         [RouteName.AddDigitalTool]: 'spaces/:spaceIdOrName/addDigitalTool',
         [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
+        [RouteName.ToolKit]: 'spaces/:spaceIdOrName/toolKit',
       },
     },
 

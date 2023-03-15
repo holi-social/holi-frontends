@@ -31,19 +31,10 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
   const { data: acceptResponse } = await oauth2Api.acceptOAuth2LoginRequest({
     loginChallenge,
     acceptOAuth2LoginRequest: {
-      // Subject is an alias for user ID. A subject can be a random string, a UUID, an email address, ....
       subject: subjectId,
-      // This tells hydra to remember the browser and automatically authenticate the user in future requests. This will
-      // set the "skip" parameter in the other route to true on subsequent requests!
+      // This will set the "skip" parameter in subsequent requests
       remember: true,
-      // When the session expires, in seconds. Set this to 0 so it will never expire.
-      remember_for: 3600,
-      context: {
-        // You can add any context that you want to be available to the consent endpoint.
-      },
-      // Sets which "level" (e.g. 2-factor authentication) of authentication the user has. The value is really arbitrary
-      // and optional. In the context of OpenID Connect, a value of 0 indicates the lowest authorization level.
-      // acr: '0',
+      remember_for: 3600, // seconds
     },
   })
 
