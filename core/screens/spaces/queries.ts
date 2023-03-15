@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceLink, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -254,17 +254,15 @@ export const CreateSpaceExternalLinkInputSchema = z.object({
 export type CreateSpaceExternalLinkInput = z.infer<typeof CreateSpaceExternalLinkInputSchema>
 
 export const createSpaceExternalLinkMutation = gql`
-  ${SpaceFragment}
-
   mutation CreateSpaceExternalLink($input: CreateSpaceExternalLinkInput!) {
     createSpaceExternalLink(input: $input) {
-      ...FullSpace
+      id
     }
   }
 `
 
 export type CreateSpaceExternalLinkResponse = {
-  createSpaceExternalLink: Space
+  createSpaceExternalLink: SpaceLink
 }
 
 export type CreateSpaceResponse = {

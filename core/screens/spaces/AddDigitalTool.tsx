@@ -69,6 +69,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [addExternalLink] = useMutation<CreateSpaceExternalLinkResponse>(createSpaceExternalLinkMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => openToast(error.message, HoliToastType.ERROR),
+    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
   const onSave = () => {
