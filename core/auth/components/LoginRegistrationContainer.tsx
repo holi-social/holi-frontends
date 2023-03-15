@@ -1,28 +1,40 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 interface LoginRegistrationContainerProps {
-  style?: StyleProp<ViewStyle>
+  onLoggedIn?: () => void
 }
 
-const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
-  const { userId, isLoggedIn } = useAuth()
+const LoginRegistrationContainer = ({
+  onLoggedIn,
+  children,
+}: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
+  const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate('/profile')
-  }, [isLoggedIn, navigate, userId])
+    console.log(isLoggedIn, onLoggedIn)
+    if (!isLoggedIn) {
+      return
+    }
+
+    if (onLoggedIn) {
+      onLoggedIn()
+    } else {
+      navigate('/profile')
+    }
+  }, [isLoggedIn, navigate, onLoggedIn])
 
   return isLoggedIn ? (
     <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
   ) : (
-    <View style={[styles.viewContainer, style]}>{children}</View>
+    <View style={styles.viewContainer}>{children}</View>
   )
 }
 

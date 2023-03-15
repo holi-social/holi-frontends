@@ -44,6 +44,8 @@ const canRegisterUser = async (browser: Browser) => {
 const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page) => {
   // redirects from Registration to Login and back to Registration
   await clickElementByTestId(page, 'btn-to-profile-view')
+  // make sure we are on the login protection page before proceeding
+  await waitForElementByTestId(page, 'login-protection-heading')
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
