@@ -7,8 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -40,13 +39,12 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   }, [])
   const [locationQuery, setLocationQuery] = useParam('location')
   const submitSearch = useCallback(
-    (location) => {
+    (location?: string) => {
       setLocationQuery(location)
       closeModal()
     },
     [setLocationQuery, closeModal]
   )
-  const onScreenScroll = useScrollYHandler()
   const resetSearch = useCallback(() => {
     setLocationQuery(undefined)
     closeModal()
@@ -82,7 +80,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout keyboardShouldPersistTaps="always" onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout keyboardShouldPersistTaps="always">
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
@@ -98,7 +96,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
         <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
       </View>
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import { memberSpacesFragment } from '@holi/core/queries'
+import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
@@ -27,6 +28,7 @@ const SpaceFragment = gql`
     created
     avatar
     cover
+    name
     avatarDefaultColor
     location
     geolocation {
@@ -79,6 +81,7 @@ const SpaceOverviewFragment = gql`
     created
     cover
     location
+    name
     members {
       ...FullSpaceMember
     }
@@ -159,8 +162,8 @@ export type DiscoverSpacesResponse = {
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
-  query SpaceById($id: UUID!) {
-    spaceById(id: $id) {
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
       ...FullSpace
     }
   }
@@ -170,7 +173,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const joinSpaceMutation = gql`
+export const updateSpaceUserConnectionMutation = gql`
   ${SpaceFragment}
 
   mutation UpdateSpaceUserConnection(
@@ -190,7 +193,7 @@ export const joinSpaceMutation = gql`
   }
 `
 
-export type JoinSpaceResponse = {
+export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
@@ -262,6 +265,7 @@ export const updateSpaceMutation = gql`
       cover
       location
       avatarDefaultColor
+      name
       geolocation {
         latitude
         longitude
@@ -314,6 +318,19 @@ export const deleteSpaceMutation = gql`
   mutation DeleteSpace($id: UUID!) {
     deleteSpace(id: $id) {
       success
+    }
+  }
+`
+
+export interface SpacesByMemberIdResponse {
+  spaces: MemberSpaces
+}
+
+export const spacesByMemberIdQuery = gql`
+  ${memberSpacesFragment}
+  query SpacesByMember($memberId: UUID) {
+    spaces(memberId: $memberId) {
+      ...MemberSpaces
     }
   }
 `

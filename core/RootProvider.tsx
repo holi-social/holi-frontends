@@ -64,17 +64,17 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
       >
         <ErrorBoundary>
           <ApolloProvider client={client}>
-            <AuthContextProvider>
-              <UserContextProvider>
-                <LoginRedirectProvider>
-                  <PortalProvider>
-                    <ToastProvider>
+            <ToastProvider>
+              <AuthContextProvider>
+                <UserContextProvider>
+                  <LoginRedirectProvider>
+                    <PortalProvider>
                       <Children>{children}</Children>
-                    </ToastProvider>
-                  </PortalProvider>
-                </LoginRedirectProvider>
-              </UserContextProvider>
-            </AuthContextProvider>
+                    </PortalProvider>
+                  </LoginRedirectProvider>
+                </UserContextProvider>
+              </AuthContextProvider>
+            </ToastProvider>
           </ApolloProvider>
         </ErrorBoundary>
       </Suspense>

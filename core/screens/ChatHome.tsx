@@ -4,8 +4,8 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -23,7 +23,6 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
 
   const { setOptions, navigate } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
 
   // TODO: remove after implementing the feature
   useToastForNotAvailableFeature(true)
@@ -45,14 +44,14 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {' '}
         </HoliHeading>
         <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
       </View>
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

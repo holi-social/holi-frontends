@@ -6,13 +6,13 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import SpaceDetails from '@holi/core/screens/spaces/SpaceDetails'
 import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
-import { joinSpaceMutation, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
 const SPACE_ID = '1'
 const followSpaceMutation = {
   request: {
-    query: joinSpaceMutation,
+    query: updateSpaceUserConnectionMutation,
     variables: {
       connectAction: SpaceConnectionAction.CONNECT,
       connectionType: SpaceConnectionType.FOLLOWER,
@@ -34,7 +34,7 @@ const followSpaceMutation = {
 
 const unfollowSpaceMutation = {
   request: {
-    query: joinSpaceMutation,
+    query: updateSpaceUserConnectionMutation,
     variables: {
       connectAction: SpaceConnectionAction.DISCONNECT,
       connectionType: SpaceConnectionType.FOLLOWER,
@@ -58,7 +58,7 @@ const spaceByIdRequest = {
   request: {
     query: spaceByIdQuery,
     variables: {
-      id: SPACE_ID,
+      idOrName: SPACE_ID,
     },
   },
   result: {

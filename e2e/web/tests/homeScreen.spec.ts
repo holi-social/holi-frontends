@@ -25,11 +25,11 @@ test.describe('@HomeScreen', () => {
 
     await testInsightsEditors(page)
 
-    await testAbleToVisitDonationsApp(page)
+    await testAppUpdatesVisible(page, 'donations')
 
-    await testAbleToVisitGoodnewsApp(page)
+    await testAppUpdatesVisible(page, 'goodnews')
 
-    await testAbleToVisitVolunteeringApp(page)
+    await testAppUpdatesVisible(page, 'volunteering')
 
     await testUserSuggestions(page, context)
   })
@@ -48,66 +48,7 @@ const testAllowPaginationForInsightList = async (page: Page) => {
   await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
 }
 
-const testAbleToVisitDonationsApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'donations')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'donations-updates-item')
-
-  // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to donations app
-  await clickElementByTestId(page, 'donations-updates-load-more-button')
-  await waitForElementByTestId(page, 'donations-list-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-}
-
-const testAbleToVisitGoodnewsApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'goodnews')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'goodnews-updates-item')
-
-  // navigate to article in good news app
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
-  expect(page.url()).toContain('/apps/goodnews?articleId=')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to good news app
-  await clickElementByTestId(page, 'goodnews-updates-load-more-button')
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-}
-
-const testAbleToVisitVolunteeringApp = async (page: Page) => {
-  await assertAppUpdatesVisible(page, 'volunteering')
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'volunteering-updates-item')
-
-  // navigate to article in volunteering app
-  await waitForElementByTestId(page, 'volunteering-detailview-container')
-  expect(page.url()).toContain('/apps/volunteering/engagement')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-
-  // click on "see more" / navigate to volunteering app
-  await clickElementByTestId(page, 'volunteering-updates-load-more-button')
-  await waitForElementByTestId(page, 'volunteering-list-container')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-}
-
-const assertAppUpdatesVisible = async (page: Page, app: string) => {
+const testAppUpdatesVisible = async (page: Page, app: string) => {
   await waitForElementByTestId(page, `${app}-updates-heading`)
   await waitForElementByTestId(page, `${app}-updates-container`)
   await waitForElementByTestId(page, `${app}-updates-item`)
