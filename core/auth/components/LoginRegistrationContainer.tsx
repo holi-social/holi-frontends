@@ -21,7 +21,6 @@ const LoginRegistrationContainer = ({
   const { navigate } = useRouting()
 
   useLayoutEffect(() => {
-    console.log(isLoggedIn, onLoggedIn)
     if (!isLoggedIn) {
       return
     }
