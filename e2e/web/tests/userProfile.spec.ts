@@ -85,8 +85,15 @@ const checkChipsSelection = async (page: Page, what: string) => {
 const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+  // first make sure the modal dialog is fully loaded
+  const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
+  await expect.poll(countOfChips).toBeGreaterThan(0)
 
   const countOfSelectedChips: number = await getCountOf(
     page,
@@ -120,11 +127,15 @@ const deselectAll = async (page: Page, what: string) => {
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  const heading = await waitForElementByTestId(page, 'user-profile-chipform-heading')
-  // wait for the loading screen to disappear - otherwise the test is flaky
-  await expect(page.locator(byTestId('user-profile-chipform-loader'))).not.toBeVisible({ timeout: 10000 })
+  // first make sure the modal dialog is fully loaded
+  const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
+  await expect.poll(countOfChips).toBeGreaterThan(0)
 
   const expectedNoOfSelectedChips = 3
 
@@ -144,8 +155,8 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await saveAndCloseChipform(page)
 
   // all selected chips should be shown
-  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
-  expect(shownChips).toBe(expectedNoOfSelectedChips)
+  const shownChips = () => getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  await expect.poll(shownChips).toBe(expectedNoOfSelectedChips)
 }
 
 const getCountOf = async (page: Page, selector: string) => {
