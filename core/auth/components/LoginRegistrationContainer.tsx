@@ -8,16 +8,29 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 interface LoginRegistrationContainerProps {
   style?: StyleProp<ViewStyle>
+  onLoggedIn?: () => void
 }
 
-const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
-  const { userId, isLoggedIn } = useAuth()
+const LoginRegistrationContainer = ({
+  children,
+  onLoggedIn,
+  style,
+}: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
+  const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate('/profile')
-  }, [isLoggedIn, navigate, userId])
+    if (!isLoggedIn) {
+      return
+    }
+
+    if (onLoggedIn) {
+      onLoggedIn()
+    } else {
+      navigate('/profile')
+    }
+  }, [isLoggedIn, navigate, onLoggedIn])
 
   return isLoggedIn ? (
     <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>

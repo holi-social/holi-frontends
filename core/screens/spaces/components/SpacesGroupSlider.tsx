@@ -102,7 +102,6 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             users={space.members.data.map((membership) => membership.user)}
             href={`/spaces/${space.name}`}
             size="large"
-            style={styles.backgroundWhite}
             testID="space-link"
           />
         ))}

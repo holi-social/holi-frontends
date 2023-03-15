@@ -17,14 +17,22 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 
+export type LoginParams = {
+  return_to?: string
+}
+
+const { useParam } = createParam<LoginParams>()
+
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
+  const [return_to] = useParam('return_to', singleParamConfig)
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -52,6 +60,13 @@ const Login: React.VFC<ScreenProps> = () => {
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }, [t, displayError])
 
+  const handleRedirectAfterLogin = Platform.OS === 'web' && return_to
+  const redirectAfterLogin = () => {
+    if (handleRedirectAfterLogin) {
+      window.location.href = return_to
+    }
+  }
+
   useEffect(() => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
@@ -72,7 +87,10 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer style={{ paddingHorizontal: 24 }}>
+      <LoginRegistrationContainer
+        onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}
+        style={{ paddingHorizontal: 24 }}
+      >
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
         <View style={styles.formItemContainer}>
           <HoliTextLink
