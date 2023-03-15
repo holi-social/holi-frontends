@@ -43,7 +43,7 @@ describe('renders correctly', () => {
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
       // goes to Privicy Policy step
-      expect(getByText('onboarding.dataconsent.heading')).not.toBeNull()
+      expect(getByText('registration.communityGuidelines.heading')).not.toBeNull()
     })
 
     it('login', () => {

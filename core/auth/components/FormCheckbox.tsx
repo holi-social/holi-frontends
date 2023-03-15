@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
-import CommunityGuidelines from '@holi/core/screens/communityGuidelines/components/CommunityGuidelines'
+import CommunityGuidelinesDocument from '@holi/core/screens/communityGuidelines/CommunityGuidelinesDocument'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -81,7 +81,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           onDismiss={() => setShowModal(false)}
         >
           <ScrollView style={styles.communityGuidelines} contentContainerStyle={{ maxWidth: '100%' }}>
-            <CommunityGuidelines />
+            <CommunityGuidelinesDocument />
           </ScrollView>
         </HoliModal>
       </>

@@ -49,6 +49,8 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
+  await clickElementByTestId(page, 'community-guidelines-checkbox')
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
   await clickElementByTestId(page, 'privicy-policy-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
   await waitForElementByTestId(page, 'ory-traits-email-input')
@@ -59,7 +61,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForElementByTestId(page, 'privicy-policy-checkbox')
+  await waitForElementByTestId(page, 'community-guidelines-checkbox')
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {
