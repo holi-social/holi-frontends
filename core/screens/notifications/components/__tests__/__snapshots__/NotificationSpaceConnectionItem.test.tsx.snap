@@ -81,40 +81,26 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 14,
-                  "lineHeight": 16.8,
-                },
-                false,
-                {
-                  "color": "#787777",
-                },
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 16.8,
+              }
             }
           >
             <Text
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 16.8,
+                }
               }
             />
           </Text>
@@ -122,26 +108,14 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 12,
-                  "lineHeight": 14.399999999999999,
-                },
-                false,
-                [
-                  {
-                    "color": "#787777",
-                  },
-                  {
-                    "marginTop": 4,
-                  },
-                ],
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 14.399999999999999,
+                "marginTop": 4,
+              }
             }
           >
             2 weeks ago
@@ -277,28 +251,14 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
               accessible={false}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  {
-                    "fontFamily": "Circular Std Medium",
-                    "fontWeight": "500",
-                  },
-                  [
-                    {
-                      "textAlign": "center",
-                    },
-                    {},
-                    {},
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 16.8,
+                  "textAlign": "center",
+                }
               }
             >
               notifications.connection.ignore
@@ -384,28 +344,14 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
               accessible={false}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  {
-                    "fontFamily": "Circular Std Medium",
-                    "fontWeight": "500",
-                  },
-                  [
-                    {
-                      "textAlign": "center",
-                    },
-                    {},
-                    {},
-                  ],
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 16.8,
+                  "textAlign": "center",
+                }
               }
             >
               notifications.connection.accept

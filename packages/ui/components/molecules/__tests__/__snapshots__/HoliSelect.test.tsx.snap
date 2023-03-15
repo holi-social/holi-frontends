@@ -53,31 +53,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -421,19 +403,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -522,19 +498,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -647,19 +617,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -772,19 +736,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -873,19 +831,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -974,19 +926,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -1075,19 +1021,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -1176,19 +1116,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -1273,31 +1207,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -1641,19 +1557,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -1742,19 +1652,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -1867,19 +1771,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -1968,19 +1866,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -2069,19 +1961,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -2170,19 +2056,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -2271,19 +2151,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -2372,19 +2246,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -2469,29 +2337,13 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -2714,31 +2566,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -3082,19 +2916,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -3183,19 +3011,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -3284,19 +3106,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -3385,19 +3201,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -3486,19 +3296,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -3587,19 +3391,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -3688,19 +3486,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -3789,19 +3581,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -3886,31 +3672,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -4290,19 +4058,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -4389,19 +4151,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -4484,29 +4240,13 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -4730,29 +4470,13 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -4975,31 +4699,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": null,
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -5343,19 +5049,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -5442,19 +5142,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -5541,19 +5235,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -5640,19 +5328,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -5739,19 +5421,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -5838,19 +5514,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -5937,19 +5607,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -6036,19 +5700,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": null,
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection

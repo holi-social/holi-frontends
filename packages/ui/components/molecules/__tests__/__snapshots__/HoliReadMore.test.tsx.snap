@@ -20,24 +20,13 @@ exports[`renders correctly renders correctly with long text 1`] = `
         accessible={false}
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            false,
-            [
-              {
-                "color": "#787777",
-              },
-              {},
-            ],
-          ]
+          {
+            "color": "#787777",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 16.8,
+          }
         }
       >
         I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This text cannot exceed three lines or else. This text cannot exceed.
@@ -68,24 +57,13 @@ exports[`renders correctly renders correctly with short text 1`] = `
         accessible={false}
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            false,
-            [
-              {
-                "color": "#787777",
-              },
-              {},
-            ],
-          ]
+          {
+            "color": "#787777",
+            "fontFamily": "Circular Std Book",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 16.8,
+          }
         }
       >
         I enjoy working on community projects.
