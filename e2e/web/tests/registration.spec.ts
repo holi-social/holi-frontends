@@ -1,12 +1,7 @@
-import { Browser, BrowserContext, Page, test } from '@playwright/test'
+import { BrowserContext, Page } from '@playwright/test'
 
-import {
-  checkAccessibility,
-  clickElementByTestId,
-  defaultAuthSteps,
-  waitForElementByTestId,
-  withRandomUserSession,
-} from './helpers'
+import { checkAccessibility, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
+import { UserHandler, test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -17,28 +12,26 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Registration', () => {
-  test('user journey', async ({ browser, context, page }) => {
+  test('user journey', async ({ context, page, userHandler }) => {
     await redirectsFromRegistrationToLoginAndBackToRegistration(page)
     await validatesEmailAndPasswordFields(context, page)
-    await canRegisterUser(browser, page)
+    await canRegisterUser(userHandler)
   })
 })
 
 const password = 'JwoXk17wQSDCCEkl'
 const email = 'foobar@barbaz.de'
 
-const canRegisterUser = async (browser: Browser, page: Page) => {
-  await (
-    await withRandomUserSession(browser, async (page) => {
-      await waitForElementByTestId(page, 'user-profile-full-name')
-      // try to go to registration or login page with logged in user
-      await page.goto('/registration')
-      await waitForElementByTestId(page, 'user-profile-full-name')
+const canRegisterUser = async (userHandler: UserHandler) => {
+  await userHandler.withRandomUserSession(async (page) => {
+    await waitForElementByTestId(page, 'user-profile-full-name')
+    // try to go to registration or login page with logged in user
+    await page.goto('/registration')
+    await waitForElementByTestId(page, 'user-profile-full-name')
 
-      await page.goto('/login')
-      await waitForElementByTestId(page, 'user-profile-full-name')
-    })
-  )()
+    await page.goto('/login')
+    await waitForElementByTestId(page, 'user-profile-full-name')
+  })
 }
 
 const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page) => {

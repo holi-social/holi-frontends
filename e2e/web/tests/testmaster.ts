@@ -2,7 +2,7 @@ import { Browser, Page, test as baseTest } from '@playwright/test'
 
 import { withRandomUserSession } from './helpers'
 
-class UserHandler {
+export class UserHandler {
   private browser
   private sessions: (() => Promise<void>)[] = []
 

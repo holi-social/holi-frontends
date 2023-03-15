@@ -2,7 +2,6 @@ import { BrowserContext, Page, expect, test } from '@playwright/test'
 
 import {
   byTestId,
-  checkAccessibility,
   clickElementByTestId,
   defaultAuthSteps,
   locateElementByTestId,
