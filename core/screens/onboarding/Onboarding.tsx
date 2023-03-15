@@ -1,15 +1,45 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import Registration from '@holi/core/auth/screens/Registration'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
-const Onboarding: React.VFC = () => {
+const { useParam } = createParam()
+
+export enum RegistrationStep {
+  'PRE_REGISTRATION_LOGIN',
+  'PRIVACY_POLICY',
+  'CREATE_ACCOUNT',
+}
+
+export interface OnboardingProps {
+  style?: StyleProp<ViewStyle>
+}
+
+const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
   const { onFinish } = useOnboarding()
+  const [toRegistration] = useParam('registrationStep')
+  const { currentStep, goNext, goBack } = useStepper(toRegistration ? RegistrationStep.PRIVACY_POLICY : 0)
 
   return (
-    <View style={styles.container}>
-      <LoginRegistration onDismiss={onFinish} />
+    <View style={[styles.container, style]}>
+      <HoliStepper
+        currentStep={currentStep}
+        steps={[
+          // Login-Registration-Continue as a Guest step
+          <LoginRegistration onRegistration={goNext} onDismiss={onFinish} key="pre-login-registration" />,
+          // Privacy Policy step
+          <DataConsent onNextPress={goNext} onBackPress={goBack} key="privacy-policy" />,
+          // Create Account step
+          <Registration key="registration" />,
+        ]}
+        scrollEnabled={false}
+        lazy
+      />
     </View>
   )
 }

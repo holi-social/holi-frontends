@@ -4,6 +4,11 @@ import React from 'react'
 import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
 import { MultiSelect, SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
 
+jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+  OS: 'web',
+  select: () => null,
+}))
+
 describe('HoliSelect', () => {
   describe('SingleSelect', () => {
     it('renders correctly when closed', () => {

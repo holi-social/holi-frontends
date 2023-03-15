@@ -80,3 +80,9 @@ li {
 [role=checkbox]:focus > div {
   border: solid 1px $brandColorB30 !important;
 }
+
+// React native 'ScrollView' specific style
+// when 'pagingEnabled' is enabled, set unreachable 'r-scrollSnapAlign-***' div and makes it fill the parent height
+[class*=scrollSnapAlign] {
+  height: 100%;
+}

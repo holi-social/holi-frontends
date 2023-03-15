@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliButtonLoadingProps = {
+export interface HoliButtonLoadingProps {
   icon?: string
   iconSpinning?: boolean
   label: string
@@ -17,25 +17,31 @@ export type HoliButtonLoadingProps = {
   testID?: string
 }
 
-const HoliButtonLoading: React.FC<HoliButtonLoadingProps & HoliButtonProps> = ({
+const HoliButtonLoading = ({
   iconSpinning = false,
   disabled = false,
   label,
   onPress,
-  testID,
+  testID = 'loader-btn',
   bold,
   icon,
   style,
   ...props
-}) => {
+}: React.PropsWithChildren<HoliButtonLoadingProps & HoliButtonProps>) => {
   return (
     <HoliButton label={label} disabled={disabled} onPress={onPress} testID={testID} style={style} {...props}>
       <HoliText bold={bold} style={disabled && styles.textDisabled}>
         {label}
       </HoliText>
+
       {!!icon && (
         <View style={styles.icon}>
-          <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />
+          <HoliIcon
+            spinning={!!icon && iconSpinning}
+            icon={icon}
+            size={16}
+            testID={testID + (iconSpinning ? '-processing' : '-idle')}
+          />
         </View>
       )}
     </HoliButton>
