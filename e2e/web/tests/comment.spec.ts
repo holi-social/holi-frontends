@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { expect, test } from '@playwright/test'
 
-import { clickElementByTestId, locateElementByTestId, withRandomUserSession } from './helpers'
+import { clickElementByTestId, locateElementByTestId, waitForElementByTestId, withRandomUserSession } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -29,6 +29,8 @@ test.describe('@Comment', () => {
 
         // submit comment
         await clickElementByTestId(page, 'btn-submit-comment')
+        // wait until submit succeeded
+        await waitForElementByTestId(page, 'btn-to-commenter-profile')
 
         // check if comment is present in the comments page
         await expect(page.getByText(comment)).toBeVisible()

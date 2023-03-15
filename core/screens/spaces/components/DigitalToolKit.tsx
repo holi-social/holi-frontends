@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -23,9 +24,14 @@ const toolList: Tool[] = [
   { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de', thumbnail: undefined },
 ]
 
-const DigitalToolKit: React.VFC = () => {
+interface DigitalToolKitProps {
+  spaceIdOrName: string | undefined
+}
+
+const DigitalToolKit: React.FC<DigitalToolKitProps> = ({ spaceIdOrName }: DigitalToolKitProps) => {
   const [displayToolList, setDisplayToolList] = useState<Array<Tool>>([])
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   useEffect(() => {
     const subArray = toolList.slice(0, 3)
@@ -38,6 +44,10 @@ const DigitalToolKit: React.VFC = () => {
 
   const handleShareButtonPress = (url: string) => {
     Linking.openURL(url)
+  }
+
+  const navigateToToolkitPage = () => {
+    navigate(`/spaces/${spaceIdOrName}/toolKit`)
   }
 
   const NoToolsAvailable = () => {
@@ -77,7 +87,7 @@ const DigitalToolKit: React.VFC = () => {
   }
 
   return (
-    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
+    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
       <View style={styles.toolKitContainer}>
         {(displayToolList.length > 0 &&
           displayToolList.map((item) => {

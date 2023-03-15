@@ -65,7 +65,13 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         label={t('volunteering:filter.heading')}
         inline
         transparent
-        onPress={() => setShowFilterModal(true)}
+        onPress={() => {
+          // if pressed too soon, the state is set to true, but the modal is not shown.
+          // crude mechanism to recover from this state.
+          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+          showFilterModal && setShowFilterModal(false)
+          setShowFilterModal(true)
+        }}
         testID="btn-to-volunteering-filter"
       >
         <HoliIcon icon="filter-3" size={24} />
@@ -83,7 +89,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [setOptions, navigate, t, title, isFiltering])
+  }, [setOptions, navigate, t, title, isFiltering, showFilterModal])
 
   return (
     <DefaultLayout
