@@ -18,13 +18,13 @@ const EmptyTab = ({ callToAction, text }: Props) => {
       <HoliText align="center" color="gray300">
         {text}
       </HoliText>
-      {callToAction ? (
+      {callToAction !== undefined && (
         <HoliBox padding={[24, 0]} layout={{ maxWidth: 300 }}>
           <HoliButton label={callToAction} onPress={() => navigate('/spaces')}>
             {callToAction}
           </HoliButton>
         </HoliBox>
-      ) : null}
+      )}
     </HoliBox>
   )
 }
