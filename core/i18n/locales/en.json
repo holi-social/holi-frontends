@@ -226,6 +226,8 @@
   "registration.dataconsent.describtion": "To create the best Holi experience for you, we will ask you for some personal information. This personal data won't be shared or sold to any third-party providers. Neither now, nor in the future.",
   "registration.dataconsent.heading": "Your data, yours only",
   "registration.dataconsent.imageLabel": "Privacy Policy illustration",
+  "registration.signUp.describtion": "Create an account in less than two minutes to engage in initiatives driving social and sustainable impact in a collaborative and rewarding way.",
+  "registration.signUp.heading": "Your journey starts here",
   "rootProvider.loading.login": "Starting transformation...",
   "rootProvider.loading.profile": "Scaling impact...",
   "search.filter.reset": "Clear filter",
