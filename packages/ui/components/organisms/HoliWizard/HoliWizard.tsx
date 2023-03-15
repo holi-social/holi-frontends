@@ -2,12 +2,10 @@ import React, { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
+import HoliWizardNaviagtionButtons from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -78,37 +76,6 @@ const HoliWizard = ({
     )
   }
 
-  const NavigationButtons = () => {
-    return (
-      <View style={[mixins.container, styles.buttonContainer]}>
-        {isBackButtonAvailable && currentStep > 0 && (
-          <HoliButton
-            label={t('global.back')}
-            disabled={false}
-            onPress={handleBackButtonPress}
-            testID="holi-wizard-back-btn"
-            style={styles.backButton}
-          >
-            <HoliIcon icon={'arrow-left'} size={24} color={colors.foreground30} />
-          </HoliButton>
-        )}
-        <View style={{ flex: 1 }}>
-          <HoliButtonLoading
-            disabled={!isNextButtonEnabled || isLoading}
-            label={
-              isLoading ? t('global.loading') : currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')
-            }
-            onPress={handleNextButtonPress}
-            testID="holi-wizard-next-btn"
-            style={styles.nextButton}
-            icon={isLoading ? 'loader-4' : undefined}
-            iconSpinning={isLoading}
-          />
-        </View>
-      </View>
-    )
-  }
-
   return (
     <HoliWizardContext.Provider value={wizardContext}>
       <View testID={testID} style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
@@ -116,8 +83,19 @@ const HoliWizard = ({
           <HoliProgressBar progress={progress} />
           <StepCount />
         </View>
+
         <ScrollView style={styles.content}>{arrayChildren && arrayChildren[currentStep]}</ScrollView>
-        <NavigationButtons />
+
+        <HoliWizardNaviagtionButtons
+          onNextPress={handleNextButtonPress}
+          onBackPress={handleBackButtonPress}
+          submitButtonLabel={submitButtonLabel}
+          isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
+          isNextButtonEnabled={isNextButtonEnabled}
+          isLastStep={currentStep === stepCount - 1}
+          isLoading={isLoading}
+          style={styles.buttonContainer}
+        />
       </View>
     </HoliWizardContext.Provider>
   )
@@ -151,16 +129,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 16,
   },
-  backButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    backgroundColor: colors.background10,
-  },
-  nextButton: { height: 56, width: '100%' },
   buttonContainer: {
     bottom: Platform.OS === 'web' ? 0 : vars.topBarHeight,
     paddingHorizontal: Platform.OS === 'web' ? 24 : 0,

@@ -1,7 +1,7 @@
 import { UiNode } from '@ory/kratos-client'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import CommunityGuidelines from '@holi/core/screens/communityGuidelines/components/CommunityGuidelines'
@@ -61,20 +61,18 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           style={style}
           testID={testID}
         >
-          <View style={{ maxWidth: 300 }}>
-            <HoliText size="small">
-              <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
-                {/* TODO: The link href does not yet exist */}
-                <HoliTextLink
-                  label=""
-                  href={'/communityGuidelines'}
-                  onPress={openModal}
-                  variant="secondary"
-                  size="small"
-                />
-              </Trans>
-            </HoliText>
-          </View>
+          <HoliText size="small">
+            <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
+              {/* TODO: The link href does not yet exist */}
+              <HoliTextLink
+                label=""
+                href={'/communityGuidelines'}
+                onPress={openModal}
+                variant="secondary"
+                size="small"
+              />
+            </Trans>
+          </HoliText>
         </HoliCheckbox>
         <HoliModal
           label={t('auth.login.checkbox.label-Consent')}

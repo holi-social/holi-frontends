@@ -107,6 +107,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             false,
           ]
         }
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -152,7 +153,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID=""
           value=""
         />
         <View
@@ -355,6 +356,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             },
           ]
         }
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -400,7 +402,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID=""
           value=""
         />
         <View
@@ -495,6 +497,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
             ]
           }
+          testID="holi-text-input-error-message"
         >
           <Text
             accessible={false}
@@ -521,7 +524,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 ],
               ]
             }
-            testID="holi-text-input-error-message"
+            testID=""
           >
             Error retrieving suggestions
           </Text>

@@ -58,6 +58,8 @@ export type HoliTextInputProps = {
   [x: string]: any
 }
 
+const isIOS = Platform.OS === 'ios'
+
 const HoliTextInput = (
   {
     noOfVisibleLines = 1,
@@ -192,6 +194,7 @@ const HoliTextInput = (
             props?.disabled && styles.inputWrapperDisabled,
             hasValidationErrors && styles.inputWrapperHasValidationErrors,
           ]}
+          testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
         >
           <TextInput
             value={value}
@@ -224,7 +227,7 @@ const HoliTextInput = (
             autoCorrect={false}
             {...accessibilityProps}
             {...props?.inputProps}
-            testID={`${props?.testID || 'holi-text'}-input`}
+            testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
           />
           {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
             <View style={styles.trailingIconWrapper}>
@@ -253,11 +256,14 @@ const HoliTextInput = (
         </View>
         <View style={styles.descriptionContainer}>
           {(props?.validationErrorText || props?.helperText) && (
-            <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
+            <View
+              style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}
+              testID={isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
+            >
               <HoliText
                 size="extrasmall"
                 style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-                testID={`${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message`}
+                testID={!isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
               >
                 {props?.validationErrorText || props?.helperText}
               </HoliText>

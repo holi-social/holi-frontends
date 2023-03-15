@@ -10,6 +10,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -21,7 +22,6 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type LoginParams = {
   return_to?: string
@@ -36,7 +36,7 @@ const Login: React.VFC<ScreenProps> = () => {
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
-  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
+  const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
   useLayoutEffect(() => {
@@ -106,22 +106,7 @@ const Login: React.VFC<ScreenProps> = () => {
           {t('auth.login.signUp.link.headline')}
         </HoliHeading>
 
-        <HoliButton
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/registration')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          label={t('auth.loginProtection.registration')}
-          type="secondary"
-          style={styles.formItemContainer}
-          testID="btn-to-registration-form"
-        >
-          {t('auth.loginProtection.registration')}
-        </HoliButton>
+        <RegistrationButton style={styles.formItemContainer} />
       </LoginRegistrationContainer>
     </DefaultLayout>
   )
