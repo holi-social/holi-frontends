@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import type { Space, SpaceLink, SpaceSection } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -37,10 +37,13 @@ const SpaceFragment = gql`
     }
     connectionStatusToMyself
     links {
-      id
       type
       url
-      visibility
+    }
+    collaborationTools {
+      id
+      domain
+      url
       description
       title
     }
@@ -177,7 +180,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const joinSpaceMutation = gql`
+export const updateSpaceUserConnectionMutation = gql`
   ${SpaceFragment}
 
   mutation UpdateSpaceUserConnection(
@@ -197,7 +200,7 @@ export const joinSpaceMutation = gql`
   }
 `
 
-export type JoinSpaceResponse = {
+export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
@@ -243,26 +246,26 @@ export const createSpaceMutation = gql`
   }
 `
 
-export const CreateSpaceExternalLinkInputSchema = z.object({
+export const AddCollaborationToolSchema = z.object({
   url: z.string().url().max(500),
   title: z.string().trim().min(2).max(128),
   description: z.string().trim().min(1).max(256).optional(),
   visibility: z.string().trim().min(1).max(256),
-  communityId: z.string() /* UUID */,
+  spaceId: z.string() /* UUID */,
 })
 
-export type CreateSpaceExternalLinkInput = z.infer<typeof CreateSpaceExternalLinkInputSchema>
+export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
 
-export const createSpaceExternalLinkMutation = gql`
-  mutation CreateSpaceExternalLink($input: CreateSpaceExternalLinkInput!) {
-    createSpaceExternalLink(input: $input) {
+export const addCollaborationToolMutation = gql`
+  mutation AddCollaborationTool($input: AddCollaborationToolInput!) {
+    addCollaborationTool(input: $input) {
       id
     }
   }
 `
 
-export type CreateSpaceExternalLinkResponse = {
-  createSpaceExternalLink: SpaceLink
+export type AddCollaborationToolResponse = {
+  addCollaborationTool: SpaceCollaborationTool
 }
 
 export type CreateSpaceResponse = {

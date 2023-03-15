@@ -75,7 +75,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
       found = foundAll.some((e) => e)
       count++
       if (!found) {
-        delay(1)
+        await delay(1)
       }
     }
     return found

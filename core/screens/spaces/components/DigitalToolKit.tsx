@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import { Space, SpaceLink, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
+import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -16,26 +17,28 @@ interface DigitalToolKitProps {
 
 const INITIAL_NUMBER_OF_ITEMS = 3
 
-const filterPrivateLinks = (link: SpaceLink) => link.visibility === SpaceLinkVisibility.PRIVATE
-
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
-  const [displayToolList, setDisplayToolList] = useState<Array<SpaceLink>>([])
+  const [displayToolList, setDisplayToolList] = useState<Array<SpaceCollaborationTool>>([])
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
-  const { links = [] } = space
+  const { collaborationTools = [] } = space
 
   useEffect(() => {
-    const privateLinks = links?.filter(filterPrivateLinks) || []
-    const subArray = privateLinks.slice(0, INITIAL_NUMBER_OF_ITEMS)
+    const subArray = collaborationTools.slice(0, INITIAL_NUMBER_OF_ITEMS)
     setDisplayToolList(subArray)
-  }, [links])
+  }, [collaborationTools])
 
   const handleSeeAllButtonPress = () => {
-    setDisplayToolList(links.filter(filterPrivateLinks))
+    setDisplayToolList(collaborationTools)
   }
 
   const handleShareButtonPress = (url: string) => {
     Linking.openURL(url)
+  }
+
+  const navigateToToolkitPage = () => {
+    navigate(`/spaces/${space.name}/toolKit`)
   }
 
   const NoToolsAvailable = () => {
@@ -49,15 +52,15 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     )
   }
 
-  const DigitalTool = ({ tool }: { tool: SpaceLink }) => {
+  const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={t(`spaces.link.${tool.type}`)} />}
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={t(`spaces.link.${tool.domain}`)} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {t(`spaces.link.${tool.type}`)}
+            {t(`spaces.link.${tool.domain}`)}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
@@ -75,12 +78,12 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   }
 
   return (
-    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
+    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
       <View style={styles.toolKitContainer}>
         {(displayToolList.length > 0 && displayToolList.map((item) => <DigitalTool key={item.id} tool={item} />)) || (
           <NoToolsAvailable />
         )}
-        {displayToolList.length < links.filter(filterPrivateLinks).length && (
+        {displayToolList.length < collaborationTools.length && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}

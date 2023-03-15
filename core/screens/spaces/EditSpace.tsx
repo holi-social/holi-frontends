@@ -23,7 +23,7 @@ import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -77,10 +77,14 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const openEditModal = useCallback(
     (type: EditFields) => {
+      // if pressed too soon, the state is set to non null, but the modal is not shown.
+      // crude mechanism to recover from this state.
+      // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+      editField && setEditField(null)
       setEditField(type)
       show()
     },
-    [setEditField, show]
+    [editField, setEditField, show]
   )
 
   useLayoutEffect(() => {
@@ -186,6 +190,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.location')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.LOCATION)}
+                testID="space-edit-location"
               >
                 {space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
@@ -215,11 +220,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
-                    {space.links
-                      .filter((link) => link.visibility === SpaceLinkVisibility.PUBLIC)
-                      .map((link, index) => (
-                        <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
-                      ))}
+                    {space.links.map((link, index) => (
+                      <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+                    ))}
                   </View>
                 )}
               </SpaceSection>

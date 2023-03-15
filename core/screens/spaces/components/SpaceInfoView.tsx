@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
-import { Space, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
+import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -21,7 +21,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
-  const links = space.links?.filter((link) => link.visibility === SpaceLinkVisibility.PUBLIC) || []
+  const links = space.links || []
 
   return (
     <View style={style}>

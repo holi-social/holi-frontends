@@ -19,17 +19,16 @@ export enum SpaceLinkType {
   WHATSAPP = 'WHATSAPP',
 }
 
-export enum SpaceLinkVisibility {
-  PRIVATE = 'PRIVATE',
-  PUBLIC = 'PUBLIC',
-}
-
 export interface SpaceLink {
-  id: string
   url: string
   type: SpaceLinkType
+}
+
+export interface SpaceCollaborationTool {
+  id: string
+  url: string
+  domain: string
   title: string
-  visibility: SpaceLinkVisibility
   description?: string
   thumbnail?: string
 }
@@ -57,6 +56,7 @@ export interface Space {
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
+  collaborationTools?: SpaceCollaborationTool[]
 }
 
 export enum SpaceSectionType {

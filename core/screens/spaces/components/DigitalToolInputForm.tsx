@@ -12,14 +12,14 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const COLLECTION_OPTIONS: HoliSelectOption[] = [
+const COLLECTION_TYPES: HoliSelectOption[] = [
   {
-    id: '0',
+    id: 'COLLABORATION',
     title: 'Collaboration',
     selected: false,
   },
   {
-    id: '1',
+    id: 'COMMUNICATION',
     title: 'Communication',
     selected: false,
   },
@@ -50,7 +50,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   selectedCollection,
   thumbnail,
 }: DigitalToolInputFormProps) => {
-  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_OPTIONS)
+  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -144,6 +144,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         placeholder={t('spaces.input.digitalTool.collection.placeholder')}
         style={[styles.collectionOption, { zIndex: 1 }]}
         onChange={onSelectCollection}
+        isRequired={true}
         id="digital-tool-collection"
         testID="digital-tool-collection"
       />

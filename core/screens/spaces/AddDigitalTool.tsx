@@ -12,12 +12,12 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm from '@holi/core/screens/spaces/components/DigitalToolInputForm'
 import {
-  CreateSpaceExternalLinkResponse,
+  AddCollaborationToolResponse,
   SpaceByIdResponse,
-  createSpaceExternalLinkMutation,
+  addCollaborationToolMutation,
   spaceByIdQuery,
 } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType, SpaceLinkVisibility } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -44,10 +44,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
-  const [url, setUrl] = useState<string>('')
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState<boolean>(true)
+  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
@@ -66,25 +66,24 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const [addExternalLink] = useMutation<CreateSpaceExternalLinkResponse>(createSpaceExternalLinkMutation, {
+  const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => openToast(error.message, HoliToastType.ERROR),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
-  const onSave = () => {
-    addExternalLink({
+  const onSave = () =>
+    addCollaborationTool({
       variables: {
         input: {
           url,
-          communityId: space?.id,
+          spaceId: space?.id,
           title,
           description,
-          visibility: SpaceLinkVisibility.PRIVATE,
+          collectionType: selectedCollection?.id,
         },
       },
     })
-  }
 
   useLayoutEffect(() => {
     setOptions({
@@ -100,10 +99,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   }, [setOptions, t])
 
   useEffect(() => {
-    if (url.length > 0 && title.length > 0) {
+    if (url.length > 0 && title.length > 0 && !!selectedCollection) {
       setSaveButtonDisabled(false)
     }
-  }, [url, title])
+  }, [url, title, selectedCollection])
 
   const onChangeUrl = (url: string) => {
     setUrl(url)
@@ -160,11 +159,11 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
             onChangeTitle={onChangeTitle}
             onChangeDescription={onChangeDescription}
             onSelectCollection={setSelectedCollection}
+            selectedCollection={selectedCollection}
             onChangeThumbnail={setThumbnail}
             url={url}
             title={title}
             description={description}
-            selectedCollection={selectedCollection}
             thumbnail={thumbnail}
           />
         </View>
@@ -184,7 +183,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
-          addExternalLink()
+          addCollaborationTool()
           setShowConfirmationModal(false)
           navigateBack()
         }}
