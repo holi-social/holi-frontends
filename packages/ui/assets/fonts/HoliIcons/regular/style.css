@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?7i05g7');
-  src:  url('fonts/icomoon.eot?7i05g7#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?7i05g7') format('truetype'),
-    url('fonts/icomoon.woff?7i05g7') format('woff'),
-    url('fonts/icomoon.svg?7i05g7#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?p78nat');
+  src:  url('fonts/icomoon.eot?p78nat#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?p78nat') format('truetype'),
+    url('fonts/icomoon.woff?p78nat') format('woff'),
+    url('fonts/icomoon.svg?p78nat#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -67,150 +67,156 @@
 .icon-chat-3:before {
   content: "\e90d";
 }
-.icon-check:before {
+.icon-chat-poll:before {
   content: "\e90e";
 }
-.icon-close:before {
+.icon-chat-smile-2:before {
   content: "\e90f";
 }
-.icon-delete:before {
+.icon-check:before {
   content: "\e910";
 }
-.icon-discord:before {
+.icon-close:before {
   content: "\e911";
 }
-.icon-edit-2:before {
+.icon-delete:before {
   content: "\e912";
 }
-.icon-emotion-unhappy-noeyes:before {
+.icon-discord:before {
   content: "\e913";
 }
-.icon-error-warning:before {
+.icon-edit-2:before {
   content: "\e914";
 }
-.icon-facebook:before {
+.icon-emotion-unhappy-noeyes:before {
   content: "\e915";
 }
-.icon-feedback:before {
+.icon-error-warning:before {
   content: "\e916";
 }
-.icon-filter-3:before {
+.icon-facebook:before {
   content: "\e917";
 }
-.icon-flag-2:before {
+.icon-feedback:before {
   content: "\e918";
 }
-.icon-flag:before {
+.icon-filter-3:before {
   content: "\e919";
 }
-.icon-global:before {
+.icon-flag-2:before {
   content: "\e91a";
 }
-.icon-globe:before {
+.icon-flag:before {
   content: "\e91b";
 }
-.icon-group-line:before {
+.icon-global:before {
   content: "\e91c";
 }
-.icon-hand-heart:before {
+.icon-globe:before {
   content: "\e91d";
 }
-.icon-heart:before {
+.icon-group-line:before {
   content: "\e91e";
 }
-.icon-hearts:before {
+.icon-hand-heart:before {
   content: "\e91f";
 }
-.icon-help:before {
+.icon-heart:before {
   content: "\e920";
 }
-.icon-home-smile-2:before {
+.icon-hearts:before {
   content: "\e921";
 }
-.icon-image-add:before {
+.icon-help:before {
   content: "\e922";
 }
-.icon-image:before {
+.icon-home-smile-2:before {
   content: "\e923";
 }
-.icon-information:before {
+.icon-image-add:before {
   content: "\e924";
 }
-.icon-instagram:before {
+.icon-image:before {
   content: "\e925";
 }
-.icon-key-2:before {
+.icon-information:before {
   content: "\e926";
 }
-.icon-link-m:before {
+.icon-instagram:before {
   content: "\e927";
 }
-.icon-linkedin:before {
+.icon-key-2:before {
   content: "\e928";
 }
-.icon-links:before {
+.icon-link-m:before {
   content: "\e929";
 }
-.icon-loader-4:before {
+.icon-linkedin:before {
   content: "\e92a";
 }
-.icon-loader:before {
+.icon-links:before {
   content: "\e92b";
 }
-.icon-more:before {
+.icon-loader-4:before {
   content: "\e92c";
 }
-.icon-newspaper:before {
+.icon-loader:before {
   content: "\e92d";
 }
-.icon-notification-2:before {
+.icon-more:before {
   content: "\e92e";
 }
-.icon-pushpin:before {
+.icon-newspaper:before {
   content: "\e92f";
 }
-.icon-search-2:before {
+.icon-notification-2:before {
   content: "\e930";
 }
-.icon-search:before {
+.icon-pushpin:before {
   content: "\e931";
 }
-.icon-settings-3:before {
+.icon-search-2:before {
   content: "\e932";
 }
-.icon-share-box:before {
+.icon-search:before {
   content: "\e933";
 }
-.icon-share:before {
+.icon-settings-3:before {
   content: "\e934";
 }
-.icon-smiley:before {
+.icon-share-box:before {
   content: "\e935";
 }
-.icon-spaces:before {
+.icon-share:before {
   content: "\e936";
 }
-.icon-sun:before {
+.icon-smiley:before {
   content: "\e937";
 }
-.icon-time:before {
+.icon-spaces:before {
   content: "\e938";
 }
-.icon-timer-2-line:before {
+.icon-sun:before {
   content: "\e939";
 }
-.icon-tools:before {
+.icon-time:before {
   content: "\e93a";
 }
-.icon-twitter:before {
+.icon-timer-2-line:before {
   content: "\e93b";
 }
-.icon-user-smile:before {
+.icon-tools:before {
   content: "\e93c";
 }
-.icon-wallet-3-line:before {
+.icon-twitter:before {
   content: "\e93d";
 }
-.icon-whatsapp:before {
+.icon-user-smile:before {
   content: "\e93e";
+}
+.icon-wallet-3-line:before {
+  content: "\e93f";
+}
+.icon-whatsapp:before {
+  content: "\e940";
 }
