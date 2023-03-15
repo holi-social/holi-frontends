@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 
-export type HoliWebViewProps = {
+export interface HoliWebViewProps {
   uri: string
   style?: StyleProp<ViewStyle>
 }

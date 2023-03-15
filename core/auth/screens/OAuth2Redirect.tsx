@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type Oauth2RedirectParams = {
+export interface Oauth2RedirectParams {
   error?: string
 }
 

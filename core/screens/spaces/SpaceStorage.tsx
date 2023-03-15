@@ -5,7 +5,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 
-export type SpaceStorageParams = {
+export interface SpaceStorageParams {
   spaceIdOrName: string
 }
 
