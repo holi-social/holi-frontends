@@ -5,19 +5,13 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 19.2,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 16,
+      "fontWeight": "400",
+      "lineHeight": 19.2,
+    }
   }
 >
   Test
@@ -29,19 +23,13 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 19.2,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 16,
+      "fontWeight": "400",
+      "lineHeight": 19.2,
+    }
   }
 >
   Test
@@ -53,22 +41,13 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 19.2,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 19.2,
+    }
   }
 >
   Test
@@ -80,22 +59,85 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 16,
-        "lineHeight": 19.2,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 16,
+      "fontWeight": "500",
+      "lineHeight": 19.2,
+    }
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extralarge', bold is 'false', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 28,
+      "fontWeight": "400",
+      "lineHeight": 33.6,
+    }
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extralarge', bold is 'false', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 28,
+      "fontWeight": "400",
+      "lineHeight": 33.6,
+    }
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extralarge', bold is 'true', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 33.6,
+    }
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extralarge', bold is 'true', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 28,
+      "fontWeight": "500",
+      "lineHeight": 33.6,
+    }
   }
 >
   Test
@@ -107,19 +149,13 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 12,
-        "lineHeight": 14.399999999999999,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 12,
+      "fontWeight": "400",
+      "lineHeight": 14.399999999999999,
+    }
   }
 >
   Test
@@ -131,19 +167,13 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 12,
-        "lineHeight": 14.399999999999999,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 12,
+      "fontWeight": "400",
+      "lineHeight": 14.399999999999999,
+    }
   }
 >
   Test
@@ -155,22 +185,13 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 12,
-        "lineHeight": 14.399999999999999,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 12,
+      "fontWeight": "500",
+      "lineHeight": 14.399999999999999,
+    }
   }
 >
   Test
@@ -182,22 +203,13 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 12,
-        "lineHeight": 14.399999999999999,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 12,
+      "fontWeight": "500",
+      "lineHeight": 14.399999999999999,
+    }
   }
 >
   Test
@@ -209,19 +221,13 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 21,
+      "fontWeight": "400",
+      "lineHeight": 25.2,
+    }
   }
 >
   Test
@@ -233,19 +239,13 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 21,
+      "fontWeight": "400",
+      "lineHeight": 25.2,
+    }
   }
 >
   Test
@@ -257,22 +257,13 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 25.2,
+    }
   }
 >
   Test
@@ -284,22 +275,13 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 21,
-        "lineHeight": 25.2,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 21,
+      "fontWeight": "500",
+      "lineHeight": 25.2,
+    }
   }
 >
   Test
@@ -311,19 +293,13 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 14,
-        "lineHeight": 16.8,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 14,
+      "fontWeight": "400",
+      "lineHeight": 16.8,
+    }
   }
 >
   Test
@@ -335,19 +311,13 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 14,
-        "lineHeight": 16.8,
-      },
-      false,
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Book",
+      "fontSize": 14,
+      "fontWeight": "400",
+      "lineHeight": 16.8,
+    }
   }
 >
   Test
@@ -359,22 +329,13 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   accessible={false}
   selectable={false}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 14,
-        "lineHeight": 16.8,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 14,
+      "fontWeight": "500",
+      "lineHeight": 16.8,
+    }
   }
 >
   Test
@@ -386,22 +347,13 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   accessible={false}
   selectable={true}
   style={
-    [
-      {
-        "color": "#262424",
-        "fontFamily": "Circular Std Book",
-        "fontWeight": "400",
-      },
-      {
-        "fontSize": 14,
-        "lineHeight": 16.8,
-      },
-      {
-        "fontFamily": "Circular Std Medium",
-        "fontWeight": "500",
-      },
-      undefined,
-    ]
+    {
+      "color": "#262424",
+      "fontFamily": "Circular Std Medium",
+      "fontSize": 14,
+      "fontWeight": "500",
+      "lineHeight": 16.8,
+    }
   }
 >
   Test

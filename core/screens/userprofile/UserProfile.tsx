@@ -212,7 +212,10 @@ const UserProfile = () => {
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
               <Suspense fallback={<HoliLoader />}>
-                <SpacesTab memberId={user.id} />
+                <SpacesTab
+                  emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
+                  memberId={user.id}
+                />
               </Suspense>
             ),
           },
