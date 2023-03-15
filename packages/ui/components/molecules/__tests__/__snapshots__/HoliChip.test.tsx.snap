@@ -62,28 +62,13 @@ exports[`renders correctly renders correctly when checked 1`] = `
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          [
-            {
-              "color": "#fff",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 24,
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#fff",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 24,
+        }
       }
     >
       Test
@@ -219,28 +204,13 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          [
-            {
-              "color": "#787777",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 24,
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 24,
+        }
       }
     >
       Test
@@ -308,28 +278,13 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       accessible={false}
       selectable={false}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          [
-            {
-              "color": "#787777",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 24,
-            },
-            {},
-            {},
-          ],
-        ]
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 24,
+        }
       }
     >
       Test
