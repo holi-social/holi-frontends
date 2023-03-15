@@ -37,6 +37,10 @@ export const oryNodeIsButton = (pet: UiNodeAttributes): pet is UiNodeInputAttrib
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'button'
 }
 
+export const oryNodeIsHidden = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).type === 'hidden'
+}
+
 export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
 }

@@ -34,7 +34,7 @@ export interface InputProps {
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
-const getValidationErrorText = (
+export const getValidationErrorText = (
   { messages, attributes }: UiNode,
   i18n: UseTranslationResponse<'translation', undefined>['i18n']
 ) => {

@@ -1,15 +1,9 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import {
-  LoginFlow,
-  RecoveryFlow,
-  RegistrationFlow,
-  SettingsFlow,
-  UpdateLoginFlowBody,
-  UpdateSettingsFlowBody,
-} from '@ory/kratos-client'
+import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
 
+import { extractValue } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
@@ -39,11 +33,25 @@ export const initLoginFlow = (): AxiosPromise<LoginFlow> => {
   return newKratosSdk().createBrowserLoginFlow({ refresh: true })
 }
 
-export const submitLoginFlow = (flowId: string, payload: UpdateLoginFlowBody, sessionToken?: string) =>
-  newKratosSdk().updateLoginFlow(
-    { flow: flowId, xSessionToken: sessionToken, updateLoginFlowBody: payload },
+export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
+  newKratosSdk().updateLoginFlow({ flow: flow.id, updateLoginFlowBody: payload }, { withCredentials: true })
+
+// Re-Auth
+export const initReauthFlow = (sessionToken?: string): AxiosPromise<LoginFlow> => {
+  return newKratosSdk().createBrowserLoginFlow({ refresh: true })
+}
+
+export const submitReauthFlow = (flow: LoginFlow, password: string, sessionToken?: string) => {
+  const identifier = extractValue(flow, 'identifier')
+  const csrf_token = extractValue(flow, 'csrf_token')
+  return newKratosSdk().updateLoginFlow(
+    {
+      flow: flow.id,
+      updateLoginFlowBody: { method: 'password', identifier, password, csrf_token },
+    },
     { withCredentials: true }
   )
+}
 
 // Logout
 export const submitLogoutFlow = async () => {
@@ -63,8 +71,10 @@ export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> => newKra
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
 export const initSettingsFlow = (): AxiosPromise<SettingsFlow> => newKratosSdk().createBrowserSettingsFlow()
 
-export const submitSettingsFlow = (flowId: string, payload: UpdateSettingsFlowBody, sessionToken?: string) =>
-  newKratosSdk().updateSettingsFlow(
-    { flow: flowId, xSessionToken: sessionToken, updateSettingsFlowBody: payload },
+export const submitSettingsFlow = (flow: SettingsFlow, password: string, sessionToken?: string) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  return newKratosSdk().updateSettingsFlow(
+    { flow: flow.id, updateSettingsFlowBody: { method: 'password', password, csrf_token } },
     { withCredentials: true }
   )
+}

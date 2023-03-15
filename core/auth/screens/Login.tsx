@@ -59,7 +59,7 @@ const Login: React.VFC<ScreenProps> = () => {
 
   const performLogin = (payload: UpdateLoginFlowBody): Promise<void> => {
     if (flow)
-      return submitLoginFlow(flow.id, payload, undefined)
+      return submitLoginFlow(flow, payload, undefined)
         .then(({ data }) =>
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
