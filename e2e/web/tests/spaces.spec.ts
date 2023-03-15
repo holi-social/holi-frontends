@@ -200,6 +200,16 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
   await expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
+  // edit space - update location
+  const editedLocation = 'Berlin'
+  await clickElementByTestId(page, 'btn-space-edit-location')
+  await inputSpaceLocation(page, editedLocation)
+
+  // expect suggestions
+  const element = await locateElementBySelector(page, '[role="menuitem"]')
+  await clickElement(element)
+  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+
   // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
   // it somehow completely breaks the filter button (does not work in any way)
   // FIXME delay is needed because of wrong implementation of component.
@@ -258,4 +268,9 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
     await locator.nth(numberOfTotalTerms - 1).click()
   }
+}
+
+const inputSpaceLocation = async (page: Page, location: string) => {
+  const locationInput = await locateElementByTestId(page, 'spaces-location-input')
+  await locationInput.fill(location)
 }
