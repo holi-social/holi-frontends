@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -18,20 +18,11 @@ interface DigitalToolKitProps {
 const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
-  const [displayToolList, setDisplayToolList] = useState<Array<SpaceCollaborationTool>>([])
+  const [showAll, setShowAll] = useState(false)
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   const { collaborationTools = [] } = space
-
-  useEffect(() => {
-    const subArray = collaborationTools.slice(0, INITIAL_NUMBER_OF_ITEMS)
-    setDisplayToolList(subArray)
-  }, [collaborationTools])
-
-  const handleSeeAllButtonPress = () => {
-    setDisplayToolList(collaborationTools)
-  }
 
   const handleShareButtonPress = (url: string) => {
     Linking.openURL(url)
@@ -80,15 +71,16 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
       <View style={styles.toolKitContainer}>
-        {(displayToolList.length > 0 && displayToolList.map((item) => <DigitalTool key={item.id} tool={item} />)) || (
-          <NoToolsAvailable />
-        )}
-        {displayToolList.length < collaborationTools.length && (
+        {(collaborationTools.length > 0 &&
+          collaborationTools
+            .slice(0, showAll ? collaborationTools.length : INITIAL_NUMBER_OF_ITEMS)
+            .map((item) => <DigitalTool key={item.id} tool={item} />)) || <NoToolsAvailable />}
+        {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && !showAll && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}
               style={styles.seeAllButton}
-              onPress={handleSeeAllButtonPress}
+              onPress={() => setShowAll(true)}
             >
               <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
             </HoliButton>

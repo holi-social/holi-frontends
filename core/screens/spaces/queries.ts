@@ -252,6 +252,7 @@ export const AddCollaborationToolSchema = z.object({
   description: z.string().trim().min(1).max(256).optional(),
   visibility: z.string().trim().min(1).max(256),
   spaceId: z.string() /* UUID */,
+  collectionType: z.string() /* UUID */,
 })
 
 export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
@@ -260,6 +261,11 @@ export const addCollaborationToolMutation = gql`
   mutation AddCollaborationTool($input: AddCollaborationToolInput!) {
     addCollaborationTool(input: $input) {
       id
+      url
+      title
+      domain
+      description
+      collectionType
     }
   }
 `

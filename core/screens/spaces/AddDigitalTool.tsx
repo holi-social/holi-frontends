@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -24,7 +25,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -40,7 +40,7 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
-  const { setOptions, navigateBack } = useUnifiedNavigation()
+  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
@@ -51,8 +51,6 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-
-  const { openToast } = useToast()
 
   const {
     data,
@@ -66,9 +64,11 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
+  const { displayError } = useErrorHandling()
+
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) => openToast(error.message, HoliToastType.ERROR),
+    onError: (error) => displayError(error, error.message),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
@@ -86,17 +86,19 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
     })
 
   useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      title: '',
-      headerStyle: { backgroundColor: colors.background20 },
-      headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-down-s" onPress={() => setShowConfirmationModal(true)} />,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [setOptions, t])
+    !loadingSpace &&
+      isAdmin &&
+      setOptions({
+        animation: 'slide_from_bottom',
+        title: '',
+        headerStyle: { backgroundColor: colors.background20 },
+        headerTransparent: true,
+        headerLeft: () => <HeaderBackButton icon="arrow-down-s" onPress={() => setShowConfirmationModal(true)} />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+  }, [setOptions, t, loadingSpace, isAdmin])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection) {
@@ -118,6 +120,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   if (errorSpace) {
     logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
+  }
+
+  if (!loadingSpace && !isAdmin) {
+    navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -183,8 +189,8 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
-          addCollaborationTool()
           setShowConfirmationModal(false)
+          addCollaborationTool()
           navigateBack()
         }}
       />
