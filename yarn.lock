@@ -2590,6 +2590,13 @@
   dependencies:
     axios "^0.21.4"
 
+"@ory/client@^1.1.21":
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/@ory/client/-/client-1.1.21.tgz#47ccf32ad6b2f886dcf6c4631e64108fc1d6db1d"
+  integrity sha512-prUGiGKfWvsMRNdGWZdXZTkK3wr+veAmO6TVUOu8b6kEMPCuIc0RMKNlbjA27CjJrW8iU9h64IuyMvwH5E72RQ==
+  dependencies:
+    axios "^0.21.4"
+
 "@ory/integrations@^0.2.6":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@ory/integrations/-/integrations-0.2.8.tgz#8931c295a87c841a336783cf69ae711584916aa4"

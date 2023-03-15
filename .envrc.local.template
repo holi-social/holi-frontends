@@ -21,8 +21,9 @@ export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
 export E2E_ANDROID_VIRTUAL_DEVICE_NAME="e2e_avd"
 case "$OSTYPE" in
-  darwin*)  export ANDROID_HOME="$HOME/Library/Android/sdk";;
-  *)        export ANDROID_HOME="$HOME/Android/Sdk";;
+darwin*) export ANDROID_HOME="$HOME/Library/Android/sdk" ;;
+*) export ANDROID_HOME="$HOME/Android/Sdk" ;;
 esac
 export SENTRY_AUTH_TOKEN=
 export EXPO_PROJECT_ID=
+export ORY_ADMIN_ACCESS_TOKEN=
