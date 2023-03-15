@@ -23,7 +23,7 @@ const DataConsent = ({ onNextPress, onBackPress }: DataConsentProps) => {
       checkboxLabelTranslation="registration.dataconsent.checkboxLabel"
       documentNavPath="/communityGuidelines"
       modalLabelText={t('registration.dataconsent')}
-      testID="data-consent"
+      testID="privicy-policy"
     >
       <DataConsentDocument />
     </AcceptDocumentLayout>
