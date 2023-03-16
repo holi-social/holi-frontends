@@ -1,11 +1,13 @@
 import { faker } from '@faker-js/faker'
-import test, { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
+
+import { test } from './testmaster'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
-export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
+export const delay = (time: number) => test.fail() // don't use delays, they are hiding test issues that we should fix directly
 
 export const waitForElementByTestId = async (
   page: Page,

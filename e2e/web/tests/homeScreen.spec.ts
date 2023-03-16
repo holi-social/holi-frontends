@@ -1,4 +1,4 @@
-import { BrowserContext, Page, expect, test } from '@playwright/test'
+import { BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -9,6 +9,7 @@ import {
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 test.setTimeout(120000)
 const insightLoadMoreTimeout = { timeout: 30000 }
