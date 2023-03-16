@@ -28,7 +28,7 @@ const ToolIdeas: React.FC = () => {
       name: t('spaces.toolKit.toolIdeas.tool.impactTools'),
       org: '[re]flecta network',
       url: 'https://www.reflecta.network/die-impact-tools',
-      icon: 'chat-smile-2',
+      icon: 'plant',
     },
     {
       id: '1',
