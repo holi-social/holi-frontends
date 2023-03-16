@@ -24,6 +24,7 @@ test.describe('@Spaces', () => {
     await testDisplaysMultipleGroups(page)
     await testFiltering(page)
     await testDisplaysSpaceDetails(page)
+    await testShareSpace(page)
     await testCreatingEditingDeletingASpace(context, page)
   })
 })
@@ -113,6 +114,22 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
   const spaceUrlPrefix = '/spaces/'
   expect(page.url()).toContain(spaceUrlPrefix)
+}
+
+const testShareSpace = async (page: Page) => {
+  // open space share modal
+  await clickElementByTestId(page, 'space-options-btn')
+  await clickElementByTestId(page, 'space-share-btn')
+
+  //check if shared link is correct
+  const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
+  const spaceShareLinkText = await spaceShareLink.innerText()
+  expect(spaceShareLinkText).toBe(page.url())
+
+  // copy link and close modal / options
+  await clickElementByTestId(page, 'space-share-url-btn')
+  await waitForElementByTestId(page, 'space-options-btn')
+  await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
 }
 
 const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page) => {
