@@ -86,17 +86,18 @@ const HoliModal: React.FC<HoliModalProps> = ({
   const [contentHeight, setContentHeight] = useState(0)
 
   // value for appearance animation
-  const animShift = useRef(new Animated.Value(0)).current
-  const animShiftInterpolated = animShift.interpolate({
+  const animShiftRef = useRef(new Animated.Value(0))
+  const animShiftInterpolated = animShiftRef.current.interpolate({
     inputRange: [0, 1],
     outputRange: ['0%', '-100%'],
   })
+
   // value for user gestures
-  const gestureShift = useRef(new Animated.Value(0)).current
+  const gestureShiftRef = useRef(new Animated.Value(0))
 
   const onGesture = (event: GestureEvent) => {
     if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 0) {
-      gestureShift.setValue(event.nativeEvent.translationY)
+      gestureShiftRef.current.setValue(event.nativeEvent.translationY)
     }
   }
 
@@ -105,7 +106,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
     if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 150) {
       onDismiss()
     } else {
-      Animated.timing(gestureShift, {
+      Animated.timing(gestureShiftRef.current, {
         toValue: 0,
         duration: 250,
         useNativeDriver: false,
@@ -115,7 +116,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
 
   useEffect(() => {
     if (show) {
-      Animated.timing(animShift, {
+      Animated.timing(animShiftRef.current, {
         toValue: 0,
         duration: 350,
         useNativeDriver: false,
@@ -124,15 +125,15 @@ const HoliModal: React.FC<HoliModalProps> = ({
       return
     }
 
-    Animated.timing(animShift, {
+    Animated.timing(animShiftRef.current, {
       toValue: 1,
       duration: 350,
       useNativeDriver: false,
     }).start(() => {
       // only dismiss the Modal once the animation is done
-      gestureShift.setValue(0)
+      gestureShiftRef.current.setValue(0)
     })
-  }, [show, animShift, gestureShift])
+  }, [show, animShiftRef, gestureShiftRef])
 
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
@@ -163,7 +164,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
               styles.root,
               {
                 bottom: animShiftInterpolated,
-                transform: [{ translateY: gestureShift }],
+                transform: [{ translateY: gestureShiftRef.current }],
                 maxHeight: `${height}%`,
                 ...(!autoHeight && { height: `${height}%` }),
               },
