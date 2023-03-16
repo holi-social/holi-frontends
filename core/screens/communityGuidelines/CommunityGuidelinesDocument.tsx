@@ -6,13 +6,13 @@ import htmlDe from '@holi/core/static/communityGuidelines_de'
 import htmlEn from '@holi/core/static/communityGuidelines_en'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 
-export type CommunityGuidelinesProps = {
+export type CommunityGuidelinesDocumentProps = {
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const CommunityGuidelines: React.VFC<CommunityGuidelinesProps> = ({ style, testID }) => {
+const CommunityGuidelinesDocument: React.VFC<CommunityGuidelinesDocumentProps> = ({ style, testID }) => {
   return <HoliHtmlView html={i18n.language === 'de' ? htmlDe : htmlEn} style={style} testID={testID} />
 }
 
-export default CommunityGuidelines
+export default CommunityGuidelinesDocument
