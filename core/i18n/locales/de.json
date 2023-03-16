@@ -229,6 +229,8 @@
   "registration.dataconsent.checkboxLabel": "Ich akzeptiere die <0>Datenschutzerklärung</0>. Mein Einverständnis kann ich jederzeit widerrufen.",
   "registration.dataconsent.describtion": "Um dir die beste holi Experience zu bieten, fragen wir dich nach ein paar persönlichen Infos. Diese persönlichen Daten werden nicht mit Dritten geteilt oder verkauft. Weder jetzt, noch in Zukunft.",
   "registration.dataconsent.heading": "Deine Daten, nur deine",
+  "registration.signUp.describtion": "Erstelle in weniger als zwei Minuten ein Konto, um dich auf kollaborative und bereichernde Weise an Initiativen zu beteiligen, die soziale und nachhaltige Wirkung haben.",
+  "registration.signUp.heading": "Deine Reise beginnt hier",
   "rootProvider.loading.login": "Starte Transformation...",
   "rootProvider.loading.profile": "Skaliere Impact...",
   "search.filter.reset": "Filter löschen",
