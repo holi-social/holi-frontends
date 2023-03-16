@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -25,12 +25,9 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.account.title') }), [setOptions, t])
 
-  const goTo = useCallback(
-    (url: string) => () => {
-      navigate(url)
-    },
-    [navigate]
-  )
+  const goTo = (url: string) => () => {
+    navigate(url)
+  }
 
   return (
     <DefaultScrollHeaderLayout>

@@ -11,7 +11,7 @@ import {
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
-const HIDDEN_FIELDS = ['traits.name']
+const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name']
 
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
