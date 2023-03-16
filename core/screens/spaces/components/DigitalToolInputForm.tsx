@@ -135,7 +135,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         testID="digital-tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
-        maxNoOfCharacters={128}
+        maxNoOfCharacters={50}
       />
       <HoliSelect
         options={collectionOptions}
@@ -158,7 +158,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}
         testID="digital-tool-title"
         style={{ marginTop: 16 }}
-        maxNoOfCharacters={256}
+        maxNoOfCharacters={100}
       />
       <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
       <ThumbnailUploader />
