@@ -14,7 +14,10 @@ interface Props {
 const EmptyTab = ({ callToAction, text }: Props) => {
   const { navigate } = useRouting()
   return (
-    <HoliBox padding={[72, 56]} layout={{ maxWidth: vars.maxScreenWidth, width: '100%', alignItems: 'center' }}>
+    <HoliBox
+      padding={[72, 56]}
+      layout={{ maxWidth: vars.maxScreenWidth, width: '100%', alignItems: 'center', alignSelf: 'center' }}
+    >
       <HoliText align="center" color="gray300">
         {text}
       </HoliText>
