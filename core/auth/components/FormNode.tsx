@@ -4,7 +4,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
-import FormCheckbox from '@holi/core/auth/components/FormCheckbox'
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
@@ -21,7 +20,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: () => void
   style?: ViewStyle | Record<string, unknown>
 }
@@ -40,17 +38,9 @@ const FormNode = (props: Props) => {
     return <HoliText style={[props.style || {}]}>{text}</HoliText>
   }
 
+  // TODO: remove after removing this checkbox from Ory flow
   if (oryNodeIsCheckbox(node.attributes)) {
-    return (
-      <FormCheckbox
-        node={node}
-        value={props.value}
-        onChange={props.onChange}
-        autofocus={props.autofocus}
-        style={props.style}
-        testID={`ory-checkbox-${getNodeId(node).replace('.', '_')}`}
-      />
-    )
+    return null
   }
 
   if (oryNodeIsInput(node.attributes)) {

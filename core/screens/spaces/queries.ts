@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -39,6 +39,13 @@ const SpaceFragment = gql`
     links {
       type
       url
+    }
+    collaborationTools {
+      id
+      domain
+      url
+      description
+      title
     }
     members {
       ...FullSpaceMember
@@ -238,6 +245,33 @@ export const createSpaceMutation = gql`
     }
   }
 `
+
+export const AddCollaborationToolSchema = z.object({
+  url: z.string().url().max(500),
+  title: z.string().trim().min(3).max(50),
+  description: z.string().trim().min(3).max(100).optional(),
+  spaceId: z.string() /* UUID */,
+  collectionType: z.string() /* UUID */,
+})
+
+export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
+
+export const addCollaborationToolMutation = gql`
+  mutation AddCollaborationTool($input: AddCollaborationToolInput!) {
+    addCollaborationTool(input: $input) {
+      id
+      url
+      title
+      domain
+      description
+      collectionType
+    }
+  }
+`
+
+export type AddCollaborationToolResponse = {
+  addCollaborationTool: SpaceCollaborationTool
+}
 
 export type CreateSpaceResponse = {
   createSpace: Space

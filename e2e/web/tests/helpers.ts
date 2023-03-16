@@ -69,6 +69,8 @@ export const defaultAuthSteps = async (
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
   if (!isLogin) {
+    await clickElementByTestId(page, 'community-guidelines-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
     await clickElementByTestId(page, 'privicy-policy-checkbox')
     await clickElementByTestId(page, 'holi-wizard-next-btn')
   }
@@ -78,11 +80,6 @@ export const defaultAuthSteps = async (
 
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
-
-  if (!isLogin) {
-    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits_consent')
-    await acceptConsentCheckbox.click()
-  }
 
   await clickElementByTestId(page, 'ory-submit-method')
 }

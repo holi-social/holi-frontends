@@ -49,6 +49,8 @@ export const defaultAuthSteps = async (
       await tapOnLoginLinkInText()
     } else {
       await tapOnElementWithTestId(buttonId)
+      await tapOnElementWithTestId('community-guidelines-checkbox')
+      await tapOnElementWithTestId('holi-wizard-next-btn')
       await tapOnElementWithTestId('privicy-policy-checkbox')
       await tapOnElementWithTestId('holi-wizard-next-btn')
     }
@@ -62,11 +64,7 @@ export const defaultAuthSteps = async (
   // close keyboard by touching the submit button (outside of the keyboad)
   await tapOnElementWithTestId('ory-submit-method')
 
-  if (!isLogin) {
-    const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
-    await consentCheckbox.click()
-  }
-
+  // Submit the form
   await tapOnElementWithTestId('ory-submit-method')
 }
 
