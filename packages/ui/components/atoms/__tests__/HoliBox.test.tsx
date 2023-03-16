@@ -51,7 +51,7 @@ describe('HoliBox', () => {
     expect(box.props.style.paddingLeft).toBe(paddingValue[3])
   })
 
-  it('should return a padding: 0 on wrong accepted input', () => {
+  it('should return undefined on wrong accepted input', () => {
     const testID = 'holibox'
     const paddingValue = [10, 20, 5]
     const { getByTestId } = render(
@@ -61,7 +61,7 @@ describe('HoliBox', () => {
     )
     const box = getByTestId(testID)
 
-    expect(box.props.style.padding).toBe(0)
+    expect(box.props.style.padding).toBeUndefined()
   })
 
   it('should accept some box layout properties', () => {
