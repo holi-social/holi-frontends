@@ -92,25 +92,14 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          {
-            "color": "#fff",
-            "fontSize": 10.799999999999999,
-            "fontWeight": "bold",
-            "lineHeight": 12.959999999999999,
-            "textTransform": "uppercase",
-          },
-        ]
+        {
+          "color": "#fff",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 10.799999999999999,
+          "fontWeight": "bold",
+          "lineHeight": 12.959999999999999,
+          "textTransform": "uppercase",
+        }
       }
     >
       M
@@ -195,25 +184,14 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          {
-            "color": "#262424",
-            "fontSize": 10.799999999999999,
-            "fontWeight": "bold",
-            "lineHeight": 12.959999999999999,
-            "textTransform": "uppercase",
-          },
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 10.799999999999999,
+          "fontWeight": "bold",
+          "lineHeight": 12.959999999999999,
+          "textTransform": "uppercase",
+        }
       }
     >
       S

@@ -129,24 +129,13 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -284,24 +273,13 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -439,24 +417,13 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -514,29 +481,13 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         accessible={false}
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": null,
-              "fontWeight": "400",
-            },
-            {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            {
-              "fontFamily": null,
-              "fontWeight": "500",
-            },
-            [
-              {
-                "color": "#262424",
-              },
-              undefined,
-              {},
-              {},
-            ],
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+          }
         }
       >
         Label
@@ -634,24 +585,13 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -712,31 +652,13 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         accessible={false}
         selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": null,
-              "fontWeight": "400",
-            },
-            {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            {
-              "fontFamily": null,
-              "fontWeight": "500",
-            },
-            [
-              {
-                "color": "#262424",
-              },
-              undefined,
-              {},
-              {
-                "color": "#cc1820",
-              },
-            ],
-          ]
+          {
+            "color": "#cc1820",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 16.8,
+          }
         }
       >
         Label
@@ -869,26 +791,13 @@ exports[`HoliTextInput renders correctly with error 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {
-                  "color": "#cc1820",
-                },
-              ],
-            ]
+            {
+              "color": "#cc1820",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-input-error-message"
         >
@@ -1056,24 +965,13 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -1212,24 +1110,13 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
@@ -1367,24 +1254,13 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": null,
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {},
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            }
           }
           testID="holi-text-inputfalse-message"
         >
