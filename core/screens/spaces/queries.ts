@@ -248,9 +248,8 @@ export const createSpaceMutation = gql`
 
 export const AddCollaborationToolSchema = z.object({
   url: z.string().url().max(500),
-  title: z.string().trim().min(2).max(128),
-  description: z.string().trim().min(1).max(256).optional(),
-  visibility: z.string().trim().min(1).max(256),
+  title: z.string().trim().min(3).max(50),
+  description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
   collectionType: z.string() /* UUID */,
 })
