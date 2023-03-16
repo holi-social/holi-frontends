@@ -47,11 +47,11 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={t(`spaces.link.${tool.domain}`)} />}
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {t(`spaces.link.${tool.domain}`)}
+            {tool.domain}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
