@@ -88,9 +88,15 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
       // 'scrollEnabled' must be 'true' for scroll animation on Safari
       scrollEnabled={currentStep !== previousStep || scrollEnabled}
       {...scrollViewProps}
+      dataSet={{ stepperWrapper: true }}
     >
       {steps.map((step, idx) => (
-        <View style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]} key={idx} testID="stepper-step">
+        <View
+          style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]}
+          key={idx}
+          testID="stepper-step"
+          dataSet={{ stepperStep: true }}
+        >
           {mustStepBeRendered(idx) && step}
         </View>
       ))}
