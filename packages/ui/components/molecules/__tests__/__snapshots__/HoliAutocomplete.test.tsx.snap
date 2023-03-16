@@ -52,31 +52,13 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                [
-                  {},
-                ],
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -107,6 +89,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             false,
           ]
         }
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -152,7 +135,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID=""
           value=""
         />
         <View
@@ -296,33 +279,13 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                [
-                  {},
-                ],
-                {},
-                {
-                  "color": "#cc1820",
-                },
-              ],
-            ]
+            {
+              "color": "#cc1820",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -355,6 +318,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             },
           ]
         }
+        testID="holi-text-input"
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -400,7 +364,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
             ]
           }
-          testID="holi-text-input"
+          testID=""
           value=""
         />
         <View
@@ -495,33 +459,21 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
             ]
           }
+          testID="holi-text-input-error-message"
         >
           <Text
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 12,
-                  "lineHeight": 14.399999999999999,
-                },
-                false,
-                [
-                  {
-                    "color": "#787777",
-                  },
-                  {
-                    "color": "#cc1820",
-                  },
-                ],
-              ]
+              {
+                "color": "#cc1820",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 14.399999999999999,
+              }
             }
-            testID="holi-text-input-error-message"
+            testID=""
           >
             Error retrieving suggestions
           </Text>

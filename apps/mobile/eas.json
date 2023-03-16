@@ -1,16 +1,5 @@
 {
-  "cli": {
-    "version": ">= 0.47.0"
-  },
   "build": {
-    "simulator": {
-      "ios": {
-        "simulator": true
-      },
-      "env": {
-        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
-      }
-    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
@@ -33,12 +22,24 @@
     "production": {
       "env": {
         "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql",
-        "KRATOS_BASE_URL": "https://auth.project-holi.org"
+        "ORY_BASE_URL": "https://auth.project-holi.org",
+        "OWNCLOUD_BASE_URL": "https://prod.cloud.project-holi.org"
       },
       "ios": {
         "resourceClass": "m1-medium"
       }
+    },
+    "simulator": {
+      "env": {
+        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+      },
+      "ios": {
+        "simulator": true
+      }
     }
+  },
+  "cli": {
+    "version": ">= 0.47.0"
   },
   "submit": {
     "production": {

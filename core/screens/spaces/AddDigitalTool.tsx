@@ -1,15 +1,24 @@
+import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm from '@holi/core/screens/spaces/components/DigitalToolInputForm'
+import {
+  AddCollaborationToolResponse,
+  SpaceByIdResponse,
+  addCollaborationToolMutation,
+  spaceByIdQuery,
+} from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -21,7 +30,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type AddDigitalToolParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<AddDigitalToolParams>()
@@ -29,39 +38,73 @@ const { useParam } = createParam<AddDigitalToolParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const AddDigitalTool: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
-  const { setOptions, navigateBack } = useUnifiedNavigation()
+  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
-  const [url, setUrl] = useState<string>('')
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState<boolean>(true)
+  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
-  useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      title: '',
-      headerStyle: { backgroundColor: colors.background20 },
-      headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-down-s" onPress={() => setShowConfirmationModal(true)} />,
-      navigationCustomOptions: {
-        footerShown: false,
+  const {
+    data,
+    error: errorSpace,
+    loading: loadingSpace,
+  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  const space = data?.spaceById
+
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const { displayError } = useErrorHandling()
+
+  const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
+    onCompleted: () => navigateBack(),
+    onError: (error) => displayError(error, error.message),
+    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+  })
+
+  const onSave = () =>
+    addCollaborationTool({
+      variables: {
+        input: {
+          url,
+          spaceId: space?.id,
+          title,
+          description,
+          collectionType: selectedCollection?.id,
+        },
       },
     })
-  }, [setOptions, t])
+
+  useLayoutEffect(() => {
+    !loadingSpace &&
+      isAdmin &&
+      setOptions({
+        animation: 'slide_from_bottom',
+        title: '',
+        headerStyle: { backgroundColor: colors.background20 },
+        headerTransparent: true,
+        headerLeft: () => <HeaderBackButton icon="arrow-down-s" onPress={() => setShowConfirmationModal(true)} />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+  }, [setOptions, t, loadingSpace, isAdmin])
 
   useEffect(() => {
-    if (url.length > 0 && title.length > 0) {
+    if (url.length > 0 && title.length > 0 && !!selectedCollection) {
       setSaveButtonDisabled(false)
     }
-  }, [url, title])
+  }, [url, title, selectedCollection])
 
   const onChangeUrl = (url: string) => {
     setUrl(url)
@@ -75,9 +118,17 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
     setDescription(description)
   }
 
-  const onSave = () => {
-    //TODO implement api integration
-    console.log('Space id -->', spaceId)
+  if (errorSpace) {
+    logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
+  }
+
+  if (!loadingSpace && !isAdmin) {
+    navigate(`/spaces/${spaceIdOrName}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loadingSpace || errorSpace || !space || !isAdmin) {
+    return <></>
   }
 
   const Footer = () => {
@@ -105,12 +156,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <HoliText size="large">{t('spaces.digitalTool.add.title')}</HoliText>
           <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
@@ -119,15 +165,16 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
             onChangeTitle={onChangeTitle}
             onChangeDescription={onChangeDescription}
             onSelectCollection={setSelectedCollection}
+            selectedCollection={selectedCollection}
             onChangeThumbnail={setThumbnail}
             url={url}
             title={title}
             description={description}
-            selectedCollection={selectedCollection}
             thumbnail={thumbnail}
           />
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View>
         <Footer />
       </View>
@@ -143,6 +190,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
+          addCollaborationTool()
           navigateBack()
         }}
       />

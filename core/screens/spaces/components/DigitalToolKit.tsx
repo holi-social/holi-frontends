@@ -1,43 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
+import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type Tool = {
-  id: string
-  name: string
-  title: string
-  url: string
-  thumbnail?: string
+interface DigitalToolKitProps {
+  space: Space
 }
-const toolList: Tool[] = [
-  { id: '0', name: 'Miro', title: 'Ideas whiteboard', url: 'https://miro.com/', thumbnail: undefined },
-  { id: '1', name: 'Rocket Chat', title: 'Team chat', url: 'https://de.rocket.chat/', thumbnail: undefined },
-  { id: '2', name: 'Jitsi Meet', title: 'Monthly meetup room', url: 'https://meet.jit.si/', thumbnail: undefined },
-  { id: '3', name: 'Slack', title: 'Team chat', url: 'https://slack.com/intl/de-de', thumbnail: undefined },
-]
 
-const DigitalToolKit: React.VFC = () => {
-  const [displayToolList, setDisplayToolList] = useState<Array<Tool>>([])
+const INITIAL_NUMBER_OF_ITEMS = 3
+
+const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
+  const [showAll, setShowAll] = useState(false)
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
-  useEffect(() => {
-    const subArray = toolList.slice(0, 3)
-    setDisplayToolList(subArray)
-  }, [])
-
-  const handleSeeAllButtonPress = () => {
-    setDisplayToolList(toolList)
-  }
+  const { collaborationTools = [] } = space
 
   const handleShareButtonPress = (url: string) => {
     Linking.openURL(url)
+  }
+
+  const navigateToToolkitPage = () => {
+    navigate(`/spaces/${space.name}/toolKit`)
   }
 
   const NoToolsAvailable = () => {
@@ -51,15 +43,15 @@ const DigitalToolKit: React.VFC = () => {
     )
   }
 
-  const DigitalTool = ({ tool }: { tool: Tool }) => {
+  const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.name} />}
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {tool.name}
+            {tool.domain}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
@@ -77,18 +69,18 @@ const DigitalToolKit: React.VFC = () => {
   }
 
   return (
-    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')}>
+    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
       <View style={styles.toolKitContainer}>
-        {(displayToolList.length > 0 &&
-          displayToolList.map((item) => {
-            return <DigitalTool key={item.id} tool={item} />
-          })) || <NoToolsAvailable />}
-        {toolList.length > 3 && displayToolList.length !== toolList.length && (
+        {(collaborationTools.length > 0 &&
+          collaborationTools
+            .slice(0, showAll ? collaborationTools.length : INITIAL_NUMBER_OF_ITEMS)
+            .map((item) => <DigitalTool key={item.id} tool={item} />)) || <NoToolsAvailable />}
+        {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && !showAll && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}
               style={styles.seeAllButton}
-              onPress={handleSeeAllButtonPress}
+              onPress={() => setShowAll(true)}
             >
               <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
             </HoliButton>

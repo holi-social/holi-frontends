@@ -24,6 +24,15 @@ export interface SpaceLink {
   type: SpaceLinkType
 }
 
+export interface SpaceCollaborationTool {
+  id: string
+  url: string
+  domain: string
+  title: string
+  description?: string
+  thumbnail?: string
+}
+
 export interface Point {
   latitude: number
   longitude: number
@@ -47,6 +56,7 @@ export interface Space {
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
+  collaborationTools?: SpaceCollaborationTool[]
 }
 
 export enum SpaceSectionType {

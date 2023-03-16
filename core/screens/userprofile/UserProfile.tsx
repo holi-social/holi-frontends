@@ -1,42 +1,41 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { Suspense, lazy, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { FeedStackScreens } from '@holi/mobile/navigation/FeedNavigator'
+import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
+import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
 
 export type UserProfileParams = {
   userId: string
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<FeedStackScreens>
-
-const UserProfile: React.VFC<ScreenProps> = () => {
+const UserProfile = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
@@ -60,8 +59,8 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
 
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   const { visible, show, hide } = useModalState()
+
   useLayoutEffect(
     () =>
       setOptions({
@@ -113,7 +112,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   // TODO: workaround for params always being undefined on initial page load
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (userId && !loading && !user) {
       fetchUser()
     }
@@ -154,7 +153,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -207,9 +206,22 @@ const UserProfile: React.VFC<ScreenProps> = () => {
               </View>
             ),
           },
+          {
+            title: t('profile.tabs.spaces'),
+            children: (
+              /** TODO: Suspence currently only works on web. To make it work for
+               * mobile we need to move to the new React Native architecture */
+              <Suspense fallback={<HoliLoader />}>
+                <SpacesTab
+                  emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
+                  memberId={user.id}
+                />
+              </Suspense>
+            ),
+          },
         ]}
       />
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

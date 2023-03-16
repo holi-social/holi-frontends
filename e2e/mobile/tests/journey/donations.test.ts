@@ -91,7 +91,7 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item
-  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more')
+  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing')
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)

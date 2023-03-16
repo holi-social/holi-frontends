@@ -3,11 +3,11 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliCardComponent, { HoliCardComponentProps } from '@holi/ui/components/molecules/HoliCardComponent'
+import HoliCard, { HoliCardProps } from '@holi/ui/components/molecules/HoliCard'
 
 const mockFn = jest.fn()
 
-const props: HoliCardComponentProps = {
+const props: HoliCardProps = {
   imageUrl: 'https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg',
   imageLabel: 'volunteering',
   testID: 'holiCard',
@@ -15,25 +15,25 @@ const props: HoliCardComponentProps = {
   onCardPress: mockFn,
 }
 
-describe('HoliCardComponent', () => {
+describe('HoliCard', () => {
   it('renders correctly', () => {
     const tree = renderer
       .create(
-        <HoliCardComponent {...props}>
+        <HoliCard {...props}>
           <HoliText>Holi card component</HoliText>
-        </HoliCardComponent>
+        </HoliCard>
       )
       .toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('renders the image', () => {
-    const { getByTestId } = render(<HoliCardComponent {...props} />)
+    const { getByTestId } = render(<HoliCard {...props} />)
     expect(getByTestId(`${props.testID}-cardImage`)).toBeTruthy
   })
 
   it('calls onCardPress prop when click on card', () => {
-    const { getByTestId } = render(<HoliCardComponent {...props} />)
+    const { getByTestId } = render(<HoliCard {...props} />)
     fireEvent.press(getByTestId('holiCard'))
     expect(mockFn).toBeCalledTimes(1)
   })

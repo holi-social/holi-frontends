@@ -75,7 +75,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
       found = foundAll.some((e) => e)
       count++
       if (!found) {
-        delay(1)
+        await delay(1)
       }
     }
     return found
@@ -150,6 +150,14 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
   } catch (err) {
     throw new Error("Couldn't tap on element with testID: " + testId)
   }
+}
+
+export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {
+  const element = await waitForElementWithTestId(selector)
+  const { width, height } = (await element.getSize()) as { width: number; height: number }
+  const { x, y } = (await element.getLocation()) as { x: number; y: number }
+
+  await Appium.touchAction({ action: 'tap', x: x + width - 20, y: y + height / 2 })
 }
 
 export const fillFieldByTestId = async (testId: string, value: string) => {

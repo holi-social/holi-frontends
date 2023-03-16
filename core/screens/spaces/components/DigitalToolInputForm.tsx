@@ -12,14 +12,14 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const COLLECTION_OPTIONS: HoliSelectOption[] = [
+const COLLECTION_TYPES: HoliSelectOption[] = [
   {
-    id: '0',
+    id: 'COLLABORATION',
     title: 'Collaboration',
     selected: false,
   },
   {
-    id: '1',
+    id: 'COMMUNICATION',
     title: 'Communication',
     selected: false,
   },
@@ -50,7 +50,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   selectedCollection,
   thumbnail,
 }: DigitalToolInputFormProps) => {
-  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_OPTIONS)
+  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -123,6 +123,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         accessibilityLabel={t('spaces.input.digitalTool.url.label')}
         testID="digital-tool-url"
         isRequired={true}
+        maxNoOfCharacters={500}
       />
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.title.placeholder')}
@@ -134,6 +135,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         testID="digital-tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
+        maxNoOfCharacters={50}
       />
       <HoliSelect
         options={collectionOptions}
@@ -142,6 +144,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         placeholder={t('spaces.input.digitalTool.collection.placeholder')}
         style={[styles.collectionOption, { zIndex: 1 }]}
         onChange={onSelectCollection}
+        isRequired={true}
         id="digital-tool-collection"
         testID="digital-tool-collection"
       />
@@ -155,6 +158,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}
         testID="digital-tool-title"
         style={{ marginTop: 16 }}
+        maxNoOfCharacters={100}
       />
       <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
       <ThumbnailUploader />

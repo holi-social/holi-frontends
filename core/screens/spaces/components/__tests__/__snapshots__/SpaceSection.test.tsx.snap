@@ -111,21 +111,14 @@ exports[`SpaceSection renders correctly 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 16,
-                "lineHeight": 19.2,
-              },
-              false,
-              {
-                "marginRight": 6,
-              },
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 19.2,
+              "marginRight": 6,
+            }
           }
         >
           global.edit

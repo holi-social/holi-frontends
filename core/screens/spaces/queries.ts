@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import { memberSpacesFragment } from '@holi/core/queries'
+import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
@@ -38,6 +39,13 @@ const SpaceFragment = gql`
     links {
       type
       url
+    }
+    collaborationTools {
+      id
+      domain
+      url
+      description
+      title
     }
     members {
       ...FullSpaceMember
@@ -172,7 +180,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const joinSpaceMutation = gql`
+export const updateSpaceUserConnectionMutation = gql`
   ${SpaceFragment}
 
   mutation UpdateSpaceUserConnection(
@@ -192,7 +200,7 @@ export const joinSpaceMutation = gql`
   }
 `
 
-export type JoinSpaceResponse = {
+export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
@@ -237,6 +245,33 @@ export const createSpaceMutation = gql`
     }
   }
 `
+
+export const AddCollaborationToolSchema = z.object({
+  url: z.string().url().max(500),
+  title: z.string().trim().min(3).max(50),
+  description: z.string().trim().min(3).max(100).optional(),
+  spaceId: z.string() /* UUID */,
+  collectionType: z.string() /* UUID */,
+})
+
+export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
+
+export const addCollaborationToolMutation = gql`
+  mutation AddCollaborationTool($input: AddCollaborationToolInput!) {
+    addCollaborationTool(input: $input) {
+      id
+      url
+      title
+      domain
+      description
+      collectionType
+    }
+  }
+`
+
+export type AddCollaborationToolResponse = {
+  addCollaborationTool: SpaceCollaborationTool
+}
 
 export type CreateSpaceResponse = {
   createSpace: Space
@@ -317,6 +352,19 @@ export const deleteSpaceMutation = gql`
   mutation DeleteSpace($id: UUID!) {
     deleteSpace(id: $id) {
       success
+    }
+  }
+`
+
+export interface SpacesByMemberIdResponse {
+  spaces: MemberSpaces
+}
+
+export const spacesByMemberIdQuery = gql`
+  ${memberSpacesFragment}
+  query SpacesByMember($memberId: UUID) {
+    spaces(memberId: $memberId) {
+      ...MemberSpaces
     }
   }
 `

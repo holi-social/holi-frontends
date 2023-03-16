@@ -1,5 +1,4 @@
-import { faker } from '@faker-js/faker'
-import { Browser, BrowserContext, Page, PlaywrightTestArgs, test } from '@playwright/test'
+import { Browser, BrowserContext, Page, test } from '@playwright/test'
 
 import {
   checkAccessibility,
@@ -28,7 +27,7 @@ test.describe('@Registration', () => {
 const password = 'JwoXk17wQSDCCEkl'
 const email = 'foobar@barbaz.de'
 
-const canRegisterUser = async (browser: Browser, page: Page) => {
+const canRegisterUser = async (browser: Browser) => {
   await (
     await withRandomUserSession(browser, async (page) => {
       await waitForElementByTestId(page, 'user-profile-full-name')
@@ -45,10 +44,16 @@ const canRegisterUser = async (browser: Browser, page: Page) => {
 const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page) => {
   // redirects from Registration to Login and back to Registration
   await clickElementByTestId(page, 'btn-to-profile-view')
+  // make sure we are on the login protection page before proceeding
+  await waitForElementByTestId(page, 'login-protection-heading')
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await page.waitForURL('**/registration')
+  await clickElementByTestId(page, 'community-guidelines-checkbox')
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await waitForElementByTestId(page, 'ory-traits-email-input')
 
   // switch to login
   await clickElementByTestId(page, 'btn-to-login-form')
@@ -56,7 +61,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await page.waitForURL('**/registration')
+  await waitForElementByTestId(page, 'community-guidelines-checkbox')
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {

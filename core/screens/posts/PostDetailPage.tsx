@@ -14,10 +14,9 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -67,8 +66,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     variables: { id: postId },
   })
 
-  const onScreenScroll = useScrollYHandler()
-
   const title = data?.postById?.title
 
   useLayoutEffect(
@@ -117,7 +114,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar animated />
 
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
+      <DefaultScrollHeaderLayout ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent post={post} style={styles.postContent} />
 
@@ -142,7 +139,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             </View>
           )}
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.postCommentWrapper}>

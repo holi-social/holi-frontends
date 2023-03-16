@@ -41,6 +41,7 @@ const FormNode = (props: Props) => {
     return <HoliText style={[props.style || {}]}>{text}</HoliText>
   }
 
+  // TODO: remove after removing this checkbox from Ory flow
   if (oryNodeIsCheckbox(node.attributes)) {
     return (
       <FormCheckbox

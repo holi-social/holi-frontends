@@ -67,8 +67,8 @@ export default {
       ],
     },
     extra: {
-      kratos: {
-        url: process.env.KRATOS_BASE_URL || 'https://dev-auth.project-holi.org',
+      ory: {
+        url: process.env.ORY_BASE_URL || 'https://dev-auth.project-holi.org',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
@@ -76,6 +76,9 @@ export default {
       environment: process.env.ENVIRONMENT_ID,
       sentry: {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
+      },
+      owncloud: {
+        url: process.env.OWNCLOUD_BASE_URL || 'https://dev.cloud.project-holi.org',
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID || '',

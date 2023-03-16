@@ -2,10 +2,10 @@ import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -18,7 +18,6 @@ const SettingsOverview: React.VFC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
   const logout = useLogout()
 
@@ -35,7 +34,7 @@ const SettingsOverview: React.VFC = () => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -88,7 +87,7 @@ const SettingsOverview: React.VFC = () => {
           />
         </View>
       </LoginProtection>
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

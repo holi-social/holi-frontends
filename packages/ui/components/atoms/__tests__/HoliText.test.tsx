@@ -3,11 +3,11 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliText, { HoliTextProps, HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
+import HoliText, { HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
 
 describe('renders correctly', () => {
   const booleanValues = [true, false]
-  const sizeValues: HoliTextProps['size'][] = HoliTextSizes
+  const sizeValues = HoliTextSizes
   booleanValues.forEach((selectable) => {
     booleanValues.forEach((bold) => {
       sizeValues.forEach((size) => {
@@ -29,7 +29,7 @@ describe('renders correctly', () => {
 describe('handles components as children', () => {
   it('renders the passed children', () => {
     const { getByTestId } = render(
-      <HoliText label="test" testID="Parent">
+      <HoliText testID="Parent">
         <HoliText testID="Child">foobarbaz</HoliText>
         <HoliIcon icon="home-smile-2" testID="Icon" />
       </HoliText>

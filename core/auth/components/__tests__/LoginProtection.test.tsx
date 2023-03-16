@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
 
 describe('renders correctly', () => {
   it('renders protected content when logged in', () => {
@@ -42,13 +42,14 @@ describe('renders correctly', () => {
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/registration')
+      // goes to Privicy Policy step
+      expect(getByText('registration.communityGuidelines.heading')).not.toBeNull()
     })
 
     it('login', () => {
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-      fireEvent.press(getByText('auth.login'))
+      fireEvent.press(getByTestId('btn-to-login-form'))
 
       expect(mockNavigate).toHaveBeenCalledWith('/login')
     })

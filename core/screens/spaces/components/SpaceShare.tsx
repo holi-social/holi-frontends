@@ -80,6 +80,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         transparent
         inline
         onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
+        testID="space-share-btn"
       >
         <HoliIcon icon="share" size={24} color={colors.foreground20} />
         <HoliText bold style={styles.shareText}>
@@ -88,7 +89,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
       </HoliButton>
       <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
         <View style={styles.modalContainer}>
-          <Pressable onPress={() => setShow(false)} style={styles.backdrop} />
+          <Pressable onPress={() => setShow(false)} style={styles.backdrop} testID="close-modal" />
           <View style={styles.modalView}>
             {!isCopied ? (
               <>
@@ -97,9 +98,16 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
                     {t('spaces:spaces.share')}
                   </HoliHeading>
                 </View>
-                <HoliText style={styles.description}>{prefix}</HoliText>
+                <HoliText style={styles.description} testID="space-share-link">
+                  {prefix}
+                </HoliText>
                 <View style={styles.buttonContainer}>
-                  <HoliButton label={t('spaces:spaces.share.copy.link')} style={style} onPress={copyToClipboard}>
+                  <HoliButton
+                    label={t('spaces:spaces.share.copy.link')}
+                    style={style}
+                    onPress={copyToClipboard}
+                    testID="space-share-url-btn"
+                  >
                     <HoliText bold>{t('spaces:spaces.share.copy.link')}</HoliText>
                   </HoliButton>
                 </View>

@@ -20,7 +20,7 @@ export const ThemeContext = React.createContext<{
   theme: HoliTheme
   toggleDarkMode: () => void
   modalIsOpen: boolean
-  setModalIsOpen: (value: boolean) => void
+  setModalIsOpen: (modalId: string, isOpen: boolean) => void
 }>({
   theme: defaultTheme,
   toggleDarkMode: () => null,
