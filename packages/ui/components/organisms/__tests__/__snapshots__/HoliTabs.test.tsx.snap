@@ -197,6 +197,11 @@ exports[`renders correctly renders correctly when open 1`] = `
         undefined,
       ]
     }
+    dataSet={
+      {
+        "stepperWrapper": true,
+      }
+    }
     horizontal={true}
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
@@ -216,6 +221,11 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View>
       <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
         style={
           [
             {
@@ -255,6 +265,11 @@ exports[`renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
         style={
           [
             {
