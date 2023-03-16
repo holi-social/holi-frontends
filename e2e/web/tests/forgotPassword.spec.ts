@@ -30,6 +30,8 @@ test.describe('@ForgotPassword', () => {
     await clickElementByTestId(page, 'ory-submit-method')
     await waitForElementByTestId(page, 'ory-email-input-error-message')
 
+    // reset form by reloading, so error message disappears
+    await page.goto('/forgotPassword')
     // invalid email message
     await emailInput.fill('an-invalid-email')
     await clickElementByTestId(page, 'ory-submit-method')

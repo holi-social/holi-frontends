@@ -77,10 +77,14 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const openEditModal = useCallback(
     (type: EditFields) => {
+      // if pressed too soon, the state is set to non null, but the modal is not shown.
+      // crude mechanism to recover from this state.
+      // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+      editField && setEditField(null)
       setEditField(type)
       show()
     },
-    [setEditField, show]
+    [editField, setEditField, show]
   )
 
   useLayoutEffect(() => {

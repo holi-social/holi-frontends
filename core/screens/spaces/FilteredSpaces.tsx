@@ -111,7 +111,12 @@ const FilteredSpaces: React.VFC = () => {
                 secondText={t('spaces.filter.notFound.description')}
                 style={styles.noResults}
               >
-                <HoliButton label={t('search.filter.reset')} onPress={() => navigate('/spaces')} inline>
+                <HoliButton
+                  label={t('search.filter.reset')}
+                  onPress={() => navigate('/spaces')}
+                  inline
+                  testID="spaces-filter-reset"
+                >
                   {t('search.filter.reset')}
                 </HoliButton>
               </HoliNoResults>
