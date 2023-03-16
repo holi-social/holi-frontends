@@ -21,6 +21,8 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
+  const links = space.links || []
+
   return (
     <View style={style}>
       <SpaceWelcome space={space} />
@@ -53,10 +55,10 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
           </View>
         </SpaceSection>
       )}
-      {!!space.links?.length && (
+      {!!links.length && (
         <SpaceSection title={t('spaces.links.heading')}>
           <View style={styles.listContainer}>
-            {space.links.map((link, index) => (
+            {links.map((link, index) => (
               <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
             ))}
           </View>
