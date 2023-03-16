@@ -142,7 +142,8 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={isEmailField(name)}
+              // autofocus={isEmailField(name)}
+              autofocus={false}
               style={{ marginTop: 30 }}
             />
           )

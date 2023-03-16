@@ -3,7 +3,7 @@ import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
-export const byTestId = (testId: string) => `[data-testid=${testId}]`
+export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
@@ -33,8 +33,8 @@ export const clickElement = async (locator: Locator) => {
   await locator.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string) => {
-  const button = await locateElementByTestId(page, testId)
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number) => {
+  const button = await locateElementByTestId(page, testId, nth)
   await clickElement(button)
 }
 
@@ -68,16 +68,18 @@ export const defaultAuthSteps = async (
   await page.goto('/profile')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
+  if (!isLogin) {
+    await clickElementByTestId(page, 'community-guidelines-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+    await clickElementByTestId(page, 'privicy-policy-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+  }
+
   const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
   await emailInput.fill(email)
 
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
-
-  if (!isLogin) {
-    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits_consent')
-    await acceptConsentCheckbox.click()
-  }
 
   await clickElementByTestId(page, 'ory-submit-method')
 }
@@ -141,4 +143,12 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-delete-account')
   await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
   await waitForElementByTestId(page, 'login-protection-heading')
+}
+
+export const ignoreOnboarding = async (page: Page) => {
+  try {
+    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+  } catch (e) {
+    null
+  }
 }

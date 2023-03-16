@@ -86,6 +86,7 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
   - _Note that the **Pixel 4 API 32** was throwing a permissions error in **macOS Ventura 13.1**. We corrected the error by installing a different device, for example, the **Pixel 5 API 31**._
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Add `<path-to-android-sdk>/platform-tools` to your `PATH` environment variable to access the `adb` command.
+- For Gnu Bash or Zsh run `export ANDROID_HOME ~/Library/Android/sdk` and `export PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools`
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
 - `yarn mobile:dev` > `a`

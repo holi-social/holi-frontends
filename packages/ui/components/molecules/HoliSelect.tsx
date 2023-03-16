@@ -16,7 +16,7 @@ export type HoliSelectOption = {
   selected?: boolean
 }
 
-export type HoliSelectProps = {
+export interface HoliSelectProps {
   inputLabel?: string
   accessibilityLabel: string
   placeholder?: string
@@ -30,6 +30,7 @@ export type HoliSelectProps = {
   id: string
   multiSelect?: boolean
   multiSelectionLabel?: string
+  isRequired?: boolean
 }
 
 const HoliSelect = ({
@@ -46,6 +47,7 @@ const HoliSelect = ({
   options,
   id,
   testID,
+  isRequired,
 }: HoliSelectProps) => {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
@@ -245,6 +247,7 @@ const HoliSelect = ({
         onChange={onChangeText}
         onBlur={() => clearFocus('input')}
         onFocus={() => setFocusAndOpen('input')}
+        isRequired={isRequired}
         testID={testID}
       />
       {isOpened && (

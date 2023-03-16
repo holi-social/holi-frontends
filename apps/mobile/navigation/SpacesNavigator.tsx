@@ -7,6 +7,7 @@ import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
 import SpaceCollaboratorArea, { SpaceCollaboratorAreaParams } from '@holi/core/screens/spaces/SpaceCollaboratorArea'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
+import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import ToolKit, { ToolKitParams } from '@holi/core/screens/spaces/ToolKit'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -18,6 +19,7 @@ export type SpacesScreens = {
   [RouteName.EditSpace]: EditSpaceParams
   [RouteName.CollaboratorArea]: SpaceCollaboratorAreaParams
   [RouteName.AddDigitalTool]: AddDigitalToolParams
+  [RouteName.SpaceStorage]: SpaceStorageParams
   [RouteName.ToolKit]: ToolKitParams
 }
 
@@ -42,6 +44,7 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CollaboratorArea} component={SpaceCollaboratorArea} />
       <SpacesStack.Screen name={RouteName.AddDigitalTool} component={AddDigitalTool} />
+      <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
       <SpacesStack.Screen name={RouteName.ToolKit} component={ToolKit} />
     </SpacesStack.Navigator>
   )

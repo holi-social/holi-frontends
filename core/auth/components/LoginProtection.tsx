@@ -1,26 +1,39 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Platform, StyleSheet } from 'react-native'
+
+import { useNavigation } from '@react-navigation/native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn } = useAuth()
-  const mixins = useStyleMixins()
+  const navigation = useNavigation()
+  const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
 
-  return isLoggedIn ? (
-    <>{children}</>
-  ) : (
-    <LoginRegistration style={mixins.container} contentContainerStyle={styles.loginContentContainerStyle} />
-  )
+  // user random key to reset registration onboarding when user goes to another app's path
+  useEffect(() => {
+    if (isLoggedIn) return
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      setOnboardingKey(Date.now().toString())
+    })
+    return unsubscribe
+  }, [navigation, isLoggedIn])
+
+  return isLoggedIn ? <>{children}</> : <Onboarding style={styles.onboarding} key={onboardingKey} />
 }
 
+export default LoginProtection
+
 const styles = StyleSheet.create({
-  loginContentContainerStyle: {
-    paddingBottom: vars.bottomBarHeight,
+  onboarding: {
+    ...Platform.select({
+      web: {
+        minHeight: '100%',
+        paddingBottom: vars.bottomBarHeight,
+      },
+    }),
   },
 })
-
-export default LoginProtection

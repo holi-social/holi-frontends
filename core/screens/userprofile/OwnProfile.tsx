@@ -69,7 +69,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
         headerShown: true,
         headerBackTitleVisible: true,
         headerBackVisible: true,
-        headerTransparent: true,
         headerStyle: { backgroundColor: colors.background10 },
         headerTitle: () => null,
         headerLeft: ({ tintColor }) => (

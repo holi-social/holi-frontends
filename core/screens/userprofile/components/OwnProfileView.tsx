@@ -112,7 +112,11 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               /** TODO: Suspence currently only works on web. To make it work for
                * mobile we need to move to the new React Native architecture */
               <Suspense fallback={<HoliLoader />}>
-                <SpacesTab memberId={user.id} />
+                <SpacesTab
+                  emptyText={t('profile.tabs.spaces.empty')}
+                  emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
+                  memberId={user.id}
+                />
               </Suspense>
             ),
           },

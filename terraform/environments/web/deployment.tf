@@ -65,6 +65,10 @@ resource "google_cloud_run_service" "mvp_web" {
             }
           }
         }
+        env {
+          name  = "OWNCLOUD_BASE_URL"
+          value = local.environment == "production" ? "https://prod.cloud.project-holi.org" : "https://dev.cloud.project-holi.org"
+        }
 
         resources {
           limits = {

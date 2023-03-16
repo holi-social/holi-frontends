@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { AccessibilityProps, Modal, ModalProps, Platform } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
@@ -6,17 +6,18 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 export type ModalBasicProps = ModalProps & {
   show: boolean
-  onDismiss: () => void
+  onDismiss?: () => void
   testID?: string
   label: string
 }
 
 const ModalBasic: React.FC<ModalBasicProps> = ({ show, onDismiss, testID, label, children, ...nativeModalProps }) => {
   const { setModalIsOpen } = useTheme()
+  const { current: modalId } = useRef(Math.random().toString())
 
   useEffect(() => {
-    setModalIsOpen(show)
-  }, [show, setModalIsOpen])
+    setModalIsOpen(modalId, show)
+  }, [show, setModalIsOpen, modalId])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),

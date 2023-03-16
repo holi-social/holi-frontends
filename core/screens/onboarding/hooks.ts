@@ -21,7 +21,7 @@ export const useOnboarding = () => {
     if (isLoggedIn) {
       onFinish()
     } else {
-      AsyncStore.getItem(ONBOARDING_STORAGE_NAME).then((result) => {
+      AsyncStore.getItem(ONBOARDING_STORAGE_NAME)?.then((result) => {
         if (!result) {
           finished(false)
           return
