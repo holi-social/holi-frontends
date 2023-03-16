@@ -130,12 +130,10 @@ const ChangePassword: React.VFC = () => {
               accessibilityLabel={t('auth.changePassword.input.label-OldPassword')}
               placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
               validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-              //validationErrorText={getValidationErrorText(i18n, oldMessage)}
               maxNoOfCharacters={200}
               onChange={setOldPwd}
               type="password"
-              //inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
-              style={styles.reauthForm}
+              style={styles.formField}
               testID={'input-old-pasword'}
             />
             <HoliTextInput
@@ -143,19 +141,17 @@ const ChangePassword: React.VFC = () => {
               accessibilityLabel={t('auth.changePassword.input.label-NewPassword')}
               placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
               validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
-              //validationErrorText={getValidationErrorText(i18n, newMessage)}
               maxNoOfCharacters={200}
               onChange={setNewPwd}
               type="password"
-              //inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
-              style={styles.reauthForm}
+              style={styles.formField}
               testID={'input-old-pasword'}
             />
             <HoliButton
               label={t('auth.changePassword.input.label-Save')}
-              //style={props.style || {}}
               onPress={performPasswordChange}
               testID={'submit-new-password'}
+              style={styles.formButton}
             >
               {t('auth.changePassword.input.label-Save')}
             </HoliButton>
@@ -178,14 +174,10 @@ const styles = StyleSheet.create({
     maxWidth: vars.maxButtonWidth,
     paddingBottom: vars.topBarHeight,
   },
-  reauthForm: {
-    // reserves space for the form until ory flow is done
-    // minHeight: 100,
-    width: '100%',
+  formField: {
+    marginTop: 10,
   },
-  settingsForm: {
-    // reserves space for the form until ory flow is done
-    // minHeight: 235,
-    width: '100%',
+  formButton: {
+    marginTop: 30,
   },
 })
