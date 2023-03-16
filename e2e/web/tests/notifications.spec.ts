@@ -4,10 +4,9 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   clickElementByTestId,
-  defaultAuthSteps,
   locateElementByTestId,
+  loginAsE2EUser,
   sendConnectionRequest,
-  waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
@@ -16,10 +15,6 @@ import { UserHandler, test } from './testmaster'
 require('dotenv').config({ path: '.envrc' })
 
 test.setTimeout(180000)
-
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
 
 test.describe('@Notifications', () => {
   test('user journey', async ({ context, page, userHandler }) => {
@@ -35,24 +30,21 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 ) => {
   // create two connection requests from two separate users in parallel
   await Promise.all([
-    userHandler.withRandomUserSession(async (page) => {
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
-    userHandler.withRandomUserSession(async (page) => {
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
   ])
 
-  // login with your test user
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications
   await clickElementByTestId(page, 'btn-to-home-view')
   await waitForElementByTestId(page, 'btn-to-notifications')
   await clickElementByTestId(page, 'btn-to-notifications')
 
-  // await page.goto('/notifications')
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
@@ -106,12 +98,11 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
     await expect(page.getByText(commentTextContent)).toBeVisible()
   }
 
-  await userHandler.withRandomUserSession(async (page) => {
+  await userHandler.asRandomUser(async (page) => {
     await createCommentWithE2EUserMention(page)
   })
 
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications and click first one post-comment-mention-notification
 

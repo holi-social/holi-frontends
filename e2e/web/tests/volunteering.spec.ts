@@ -5,6 +5,7 @@ import {
   clickElementByTestId,
   delay,
   locateElementByTestId,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 
@@ -12,8 +13,7 @@ test.describe('@Volunteering', () => {
   test('user journey', async ({ browserName, context, page }) => {
     test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
     //prepare
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+    await proceedAsGuest(page)
 
     await testIsAccessibleFromHomeScreen(page)
     await testAllowsPagination(page)

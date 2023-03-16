@@ -9,7 +9,7 @@ require('dotenv').config({ path: '.envrc' })
 
 test.describe('@Comment', () => {
   test('creates a comment and displays it in the post page.', async ({ userHandler }) => {
-    await userHandler.withRandomUserSession(async (page) => {
+    await userHandler.asRandomUser(async (page) => {
       // go to home feed
       await clickElementByTestId(page, 'btn-to-home-view')
 
