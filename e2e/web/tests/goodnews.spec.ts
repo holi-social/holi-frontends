@@ -5,14 +5,14 @@ import {
   clickElementByTestId,
   delay,
   locateElementByTestId,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 
 test.describe('@GoodNews', () => {
   test('user journey', async ({ page }) => {
     // prepare
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+    await proceedAsGuest(page)
 
     await testIsAccessibleFromHomeScreen(page)
     await testAllowsPagination(page)

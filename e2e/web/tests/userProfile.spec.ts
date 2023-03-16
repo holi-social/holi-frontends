@@ -5,8 +5,8 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  defaultAuthSteps,
   delay,
+  loginAsE2EUser,
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
@@ -20,7 +20,7 @@ test.setTimeout(120000)
 test.describe('@Profile', () => {
   test('user journey', async ({ page, context, userHandler }) => {
     // fill the interests, skills and sdgs for visiting the profile later
-    await defaultAuthSteps({ page, context }, 'login')
+    await loginAsE2EUser(context, page)
     await waitForElementByTestId(page, 'btn-to-settings')
 
     await page.goto('/profile')
@@ -29,7 +29,7 @@ test.describe('@Profile', () => {
     await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
-    await userHandler.withRandomUserSession(async (page) => {
+    await userHandler.asRandomUser(async (page) => {
       await waitForElementByTestId(page, 'user-profile-full-name')
 
       await waitForElementByTestId(page, 'user-profile-interests')
