@@ -10,25 +10,34 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+
+export type LoginParams = {
+  return_to?: string
+}
+
+const { useParam } = createParam<LoginParams>()
 
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
+  const [return_to] = useParam('return_to', singleParamConfig)
   const { isLoggedIn, setUserLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { t } = useTranslation()
-  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
+  const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
   useLayoutEffect(() => {
@@ -52,6 +61,13 @@ const Login: React.VFC<ScreenProps> = () => {
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }, [t, displayError])
 
+  const handleRedirectAfterLogin = Platform.OS === 'web' && return_to
+  const redirectAfterLogin = () => {
+    if (handleRedirectAfterLogin) {
+      window.location.href = return_to
+    }
+  }
+
   useEffect(() => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
@@ -72,42 +88,29 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer>
-        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
-        <View style={styles.formItemContainer}>
-          <HoliTextLink
-            label={t('auth.login.link.forgotPassword')}
-            href="/forgotPassword"
-            size="small"
-            variant="secondary"
-            mobileNavigateBackFirst
-            testID="btn-to-forgot-password-form"
-          >
-            {t('auth.login.link.forgotPassword')}
-          </HoliTextLink>
-        </View>
+      <HoliBox padding={[0, 24]}>
+        <LoginRegistrationContainer onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}>
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+          <View style={styles.formItemContainer}>
+            <HoliTextLink
+              label={t('auth.login.link.forgotPassword')}
+              href="/forgotPassword"
+              size="small"
+              variant="secondary"
+              mobileNavigateBackFirst
+              testID="btn-to-forgot-password-form"
+            >
+              {t('auth.login.link.forgotPassword')}
+            </HoliTextLink>
+          </View>
 
-        <HoliHeading level="2" style={styles.headline2}>
-          {t('auth.login.signUp.link.headline')}
-        </HoliHeading>
+          <HoliHeading level="2" style={styles.headline2}>
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
 
-        <HoliButton
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/registration')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          label={t('auth.loginProtection.registration')}
-          type="secondary"
-          style={styles.formItemContainer}
-          testID="btn-to-registration-form"
-        >
-          {t('auth.loginProtection.registration')}
-        </HoliButton>
-      </LoginRegistrationContainer>
+          <RegistrationButton style={styles.formItemContainer} />
+        </LoginRegistrationContainer>
+      </HoliBox>
     </DefaultLayout>
   )
 }

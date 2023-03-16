@@ -106,25 +106,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Dima Rosmait
@@ -141,21 +131,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -223,25 +206,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#fff",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#fff",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               M
@@ -251,25 +223,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Max Mustermann
@@ -286,21 +248,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -383,25 +338,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Thomas Mueller
@@ -418,21 +363,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -500,25 +438,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#262424",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               S
@@ -528,25 +455,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Sandra Kasandra
@@ -563,21 +480,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -660,25 +570,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Peter Pan
@@ -695,21 +595,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -777,25 +670,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#fff",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#fff",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               D
@@ -805,25 +687,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Donald Duck
@@ -840,21 +712,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -939,25 +804,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Lionel Messi
@@ -974,21 +829,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.

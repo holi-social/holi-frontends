@@ -3,7 +3,7 @@ import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
-export const byTestId = (testId: string) => `[data-testid=${testId}]`
+export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
@@ -28,23 +28,18 @@ export const locateElementBySelector = async (page: Page, selector: string): Pro
   return page.locator(selector)
 }
 
-export const clickElement = async (element: Locator) => {
-  await delay(0.5) // source of flakiness and delay. Why do we need this here? Component is there, but click does not work when done too early.
+export const clickElement = async (locator: Locator) => {
   // potentially there are multiple matches, so we ensure to only click the first element
-  await element.first().click()
+  await locator.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string) => {
-  const button = await locateElementByTestId(page, testId)
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number) => {
+  const button = await locateElementByTestId(page, testId, nth)
   await clickElement(button)
 }
 
-export const waitForAnimationEnd = async (locator: Locator) => {
-  const result = await locator.evaluate((element) =>
-    Promise.all(element.getAnimations().map((animation) => animation.finished))
-  )
-  await delay(0.5)
-  return result
+export const waitForAnimationEnd = async (locator: Locator): Promise<void> => {
+  await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
 
 interface PageContext {
@@ -73,16 +68,18 @@ export const defaultAuthSteps = async (
   await page.goto('/profile')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
+  if (!isLogin) {
+    await clickElementByTestId(page, 'community-guidelines-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+    await clickElementByTestId(page, 'privicy-policy-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
+  }
+
   const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
   await emailInput.fill(email)
 
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
-
-  if (!isLogin) {
-    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits_consent')
-    await acceptConsentCheckbox.click()
-  }
 
   await clickElementByTestId(page, 'ory-submit-method')
 }
@@ -146,4 +143,12 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-delete-account')
   await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
   await waitForElementByTestId(page, 'login-protection-heading')
+}
+
+export const ignoreOnboarding = async (page: Page) => {
+  try {
+    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+  } catch (e) {
+    null
+  }
 }

@@ -186,40 +186,52 @@ exports[`renders correctly renders correctly when open 1`] = `
     </View>
   </View>
   <RCTScrollView
+    bounces={false}
     contentContainerStyle={
-      {
-        "alignContent": "flex-start",
-        "alignItems": "flex-start",
-        "justifyContent": "flex-start",
-      }
+      [
+        {
+          "alignContent": "flex-start",
+          "alignItems": "flex-start",
+          "justifyContent": "flex-start",
+        },
+        undefined,
+      ]
     }
     horizontal={true}
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     scrollEnabled={true}
     showsHorizontalScrollIndicator={false}
+    style={
+      [
+        {
+          "flex": 1,
+          "flexDirection": "row",
+          "minHeight": "100%",
+          "width": "100%",
+        },
+        undefined,
+      ]
+    }
   >
     <View>
       <View
         style={
-          {
-            "flex": 1,
-            "flexDirection": "row",
-            "width": "100%",
-          }
+          [
+            {
+              "flex": 1,
+            },
+            {
+              "width": 750,
+            },
+            undefined,
+          ]
         }
+        testID="stepper-step"
       >
         <View
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-0-active"
         >
           <View>
@@ -227,19 +239,13 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
               testID="profileTab"
             >
@@ -247,17 +253,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             </Text>
           </View>
         </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flex": 1,
+            },
+            {
+              "width": 750,
+            },
+            undefined,
+          ]
+        }
+        testID="stepper-step"
+      >
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-1-inactive"
         >
           <View>
@@ -265,19 +278,13 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
               testID="InsightsTab"
             >

@@ -2,6 +2,7 @@ import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
+  tapOnLoginLinkInText,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
@@ -19,15 +20,14 @@ describe('@ForgotPassword', () => {
   // fails on ios: Couldn't tap on element with testID: ory-submit-method
   it('validates and submits the form', async () => {
     await tapOnElementWithTestId('btn-to-profile-view', 10000)
-    await checkIfElementWithTestIdExists('btn-to-login-form')
-    await tapOnElementWithTestId('btn-to-login-form')
+    await tapOnLoginLinkInText()
     await tapOnElementWithTestId('ory-submit-method') // close keyboard
     await waitForElementWithTestId('btn-to-forgot-password-form')
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 
     // shows also login and registration link
     await tapOnElementWithTestId('ory-submit-method') // close keyboard
-    await checkIfElementWithTestIdExists('btn-to-login-form')
+    await checkIfElementWithTestIdExists('already-have-account-text')
     await checkIfElementWithTestIdExists('btn-to-registration-form')
 
     // validation message on invalid form

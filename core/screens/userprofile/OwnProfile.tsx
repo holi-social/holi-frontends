@@ -45,10 +45,17 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
-  const toggleEditMode = useCallback((editMode: EditModeState) => {
-    setEditMode(editMode)
-    setShowModal(true)
-  }, [])
+  const toggleEditMode = useCallback(
+    (newEditMode: EditModeState) => {
+      setEditMode(newEditMode)
+      // if pressed too soon, the state is set to true, but the modal is not shown.
+      // crude mechanism to recover from this state.
+      // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+      showModal && setShowModal(false)
+      setShowModal(true)
+    },
+    [showModal]
+  )
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -62,7 +69,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
         headerShown: true,
         headerBackTitleVisible: true,
         headerBackVisible: true,
-        headerTransparent: true,
         headerStyle: { backgroundColor: colors.background10 },
         headerTitle: () => null,
         headerLeft: ({ tintColor }) => (

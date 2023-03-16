@@ -53,9 +53,21 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name  = "KRATOS_BASE_URL"
+          name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
-
+        }
+        env {
+          name = "ORY_ADMIN_ACCESS_TOKEN"
+          value_from {
+            secret_key_ref {
+              key  = "latest"
+              name = local.environment_name == "production" ? "ORY_ACCESS_TOKEN_PRODUCTION" : "ORY_ACCESS_TOKEN_DEVELOPMENT"
+            }
+          }
+        }
+        env {
+          name  = "OWNCLOUD_BASE_URL"
+          value = local.environment == "production" ? "https://prod.cloud.project-holi.org" : "https://dev.cloud.project-holi.org"
         }
 
         resources {

@@ -50,11 +50,15 @@ const SpaceCollaboratorArea: React.VFC<ScreenProps> = () => {
     [setOptions, t, space]
   )
 
+  if (!space) {
+    return <></>
+  }
+
   return (
     <>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={[mixins.container, styles.wrapper]}>
-          <DigitalToolKit />
+          <DigitalToolKit space={space} />
         </View>
       </DefaultScrollHeaderLayout>
 
