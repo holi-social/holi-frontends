@@ -1,7 +1,7 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
@@ -13,6 +13,9 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isWeb = Platform.OS === 'web'
 
@@ -66,6 +69,14 @@ const Registration: React.VFC = () => {
   return (
     <CenteredContentLayout>
       <LoginRegistrationContainer>
+        <View style={styles.inner}>
+          <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
+            {t('registration.signUp.heading')}
+          </HoliHeading>
+
+          <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+        </View>
+
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
         <AlreadyHaveAccountText style={styles.loginHeadline} />
@@ -77,8 +88,20 @@ const Registration: React.VFC = () => {
 export default memo(Registration)
 
 const styles = StyleSheet.create({
+  inner: {
+    maxWidth: vars.breakpointL,
+  },
+  headline: {
+    fontWeight: '400',
+    marginTop: 74,
+  },
+  description: {
+    color: colors.foreground20,
+    marginTop: 16,
+  },
   loginForm: {
     // reserves space for inputs plus submit until ory flow is done
+    marginTop: 32,
     minHeight: 235,
     width: '100%',
   },
