@@ -1,7 +1,7 @@
 import { UiNode } from '@ory/kratos-client'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import CommunityGuidelinesDocument from '@holi/core/screens/communityGuidelines/CommunityGuidelinesDocument'
