@@ -19,7 +19,6 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
     "@lexical/react": "^0.6.0",
-    "@ory/client": "^1.1.21",
     "@ory/integrations": "^0.2.6",
     "@sentry/nextjs": "^7.31.0",
     "babel-plugin-react-native-web": "^0.18.7",

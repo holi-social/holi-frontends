@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Linking, Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -20,6 +20,7 @@ import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceB
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
+import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -103,6 +104,22 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+          {/* TODO: integrate on collaborators screen */}
+          {isMember && (
+            <MoreOptionItem
+              icon="sun"
+              label="Storage"
+              onPress={() => {
+                if (Platform.OS === 'web') {
+                  Linking.openURL(owncloudUrl)
+                } else {
+                  navigate(`/spaces/${spaceIdOrName}/storage`)
+                }
+                hide()
+              }}
+              contentStyle={styles.buttonWithIcon}
+            />
+          )}
           {isAdmin && (
             <DeleteSpaceButton
               spaceId={space?.id || ''}
@@ -119,7 +136,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
+  }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
