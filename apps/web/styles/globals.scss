@@ -83,6 +83,7 @@ li {
 
 // React native 'ScrollView' specific style
 // when 'pagingEnabled' is enabled, set unreachable 'r-scrollSnapAlign-***' div and makes it fill the parent height
-[class*=scrollSnapAlign] {
-  height: 100%;
+// "data-stepper-wrapper" and "data-stepper-step" are our custom data-set attributes
+[data-stepper-wrapper="true"] *:not([data-stepper-step="true"] *) {
+  min-height: 100% !important;
 }

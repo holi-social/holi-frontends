@@ -40,6 +40,7 @@ declare module 'react-native' {
     accessibilityRole?: string
     accessibilityLabelledBy?: string
     accessibilityOrientation?: 'horizontal' | 'vertical'
+    dataSet?: { [key: string]: string | number | boolean }
   }
 
   interface TextInputProps {
