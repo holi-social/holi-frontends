@@ -82,7 +82,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
   testID,
 }) => {
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(show)
   const { height: deviceHeight } = useWindowDimensions()
   const [contentHeight, setContentHeight] = useState(0)
 
@@ -116,25 +115,24 @@ const HoliModal: React.FC<HoliModalProps> = ({
 
   useEffect(() => {
     if (show) {
-      setVisible(show)
       Animated.timing(animShift, {
         toValue: 0,
         duration: 350,
         useNativeDriver: false,
         delay: 300,
       }).start()
-    } else {
-      Animated.timing(animShift, {
-        toValue: 1,
-        duration: 350,
-        useNativeDriver: false,
-      }).start(() => {
-        // only dismiss the Modal once the animation is done
-        setVisible(false)
-        gestureShift.setValue(0)
-      })
+      return
     }
-  }, [show, animShift, gestureShift, setVisible])
+
+    Animated.timing(animShift, {
+      toValue: 1,
+      duration: 350,
+      useNativeDriver: false,
+    }).start(() => {
+      // only dismiss the Modal once the animation is done
+      gestureShift.setValue(0)
+    })
+  }, [show, animShift, gestureShift])
 
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
@@ -148,7 +146,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
 
   return (
     <>
-      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
+      <ModalBasic show={show} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
