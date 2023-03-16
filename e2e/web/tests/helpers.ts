@@ -69,6 +69,8 @@ export const defaultAuthSteps = async (
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
   if (!isLogin) {
+    await clickElementByTestId(page, 'community-guidelines-checkbox')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
     await clickElementByTestId(page, 'privicy-policy-checkbox')
     await clickElementByTestId(page, 'holi-wizard-next-btn')
   }

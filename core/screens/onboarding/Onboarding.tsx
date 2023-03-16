@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
 import Registration from '@holi/core/auth/screens/Registration'
@@ -32,6 +33,8 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration onRegistration={goNext} onDismiss={onFinish} key="pre-login-registration" />,
+          // Community Guidelines
+          <CommunityGuidelines onNextPress={goNext} onBackPress={goBack} key="community-guidelines" />,
           // Privacy Policy step
           <DataConsent onNextPress={goNext} onBackPress={goBack} key="privacy-policy" />,
           // Create Account step

@@ -20,6 +20,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 
@@ -87,27 +88,29 @@ const Login: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}>
-        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
-        <View style={styles.formItemContainer}>
-          <HoliTextLink
-            label={t('auth.login.link.forgotPassword')}
-            href="/forgotPassword"
-            size="small"
-            variant="secondary"
-            mobileNavigateBackFirst
-            testID="btn-to-forgot-password-form"
-          >
-            {t('auth.login.link.forgotPassword')}
-          </HoliTextLink>
-        </View>
+      <HoliBox padding={[0, 24]}>
+        <LoginRegistrationContainer onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}>
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+          <View style={styles.formItemContainer}>
+            <HoliTextLink
+              label={t('auth.login.link.forgotPassword')}
+              href="/forgotPassword"
+              size="small"
+              variant="secondary"
+              mobileNavigateBackFirst
+              testID="btn-to-forgot-password-form"
+            >
+              {t('auth.login.link.forgotPassword')}
+            </HoliTextLink>
+          </View>
 
-        <HoliHeading level="2" style={styles.headline2}>
-          {t('auth.login.signUp.link.headline')}
-        </HoliHeading>
+          <HoliHeading level="2" style={styles.headline2}>
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
 
-        <RegistrationButton style={styles.formItemContainer} />
-      </LoginRegistrationContainer>
+          <RegistrationButton style={styles.formItemContainer} />
+        </LoginRegistrationContainer>
+      </HoliBox>
     </DefaultLayout>
   )
 }
