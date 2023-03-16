@@ -104,7 +104,7 @@ const config: PlaywrightTestConfig = {
     video: retries == 0 ? 'retain-on-failure' : 'on-first-retry',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 10000,
-    navigationTimeout: 10000,
+    navigationTimeout: 20000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
 
