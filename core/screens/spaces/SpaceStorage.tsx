@@ -29,6 +29,7 @@ const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
       minHeight: deviceHeight,
+      marginTop: 44,
     },
   })
 
