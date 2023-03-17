@@ -69,6 +69,7 @@
     - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand
   allow_failure: false
   interruptible: true
+  timeout: 2 hours
   tags:
     - holi-big
 
