@@ -3,22 +3,10 @@ import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
-import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
+import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
-
-interface Props extends InputProps {
-  node: UiNode
-  attributes: UiNodeInputAttributes
-  autofocus: boolean
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-}
-
-enum OryErrorCode {
-  EMAIL_OR_PASSWORD_MISSING = 4000002,
-  INVALID_PASSWORD = 4000005,
-}
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,6 +17,18 @@ export interface InputProps {
   value: any
   disabled?: boolean
   textInputOverride?: TextInputOverride
+}
+
+interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | 'value'> {
+  node: UiNode
+  attributes: UiNodeInputAttributes
+  autofocus: boolean
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+}
+
+enum OryErrorCode {
+  EMAIL_OR_PASSWORD_MISSING = 4000002,
+  INVALID_PASSWORD = 4000005,
 }
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
@@ -89,67 +89,77 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 }
 
-const FormInputField = ({
-  node,
-  value,
-  onChange = () => null,
-  onEnterPress = () => null,
-  disabled,
-  textInputOverride,
-  autofocus,
-  style,
-}: Props) => {
-  const { t, i18n } = useTranslation()
+const FormInputField = React.forwardRef<View, Props>(
+  (
+    {
+      node,
+      value,
+      onChange = () => null,
+      onEnterPress = () => null,
+      disabled,
+      textInputOverride,
+      autofocus,
+      style,
+      ...restProps
+    },
+    ref
+  ) => {
+    const { t, i18n } = useTranslation()
 
-  const variant = guessVariant(node)
-  if (!variant) {
-    return null
-  }
-
-  const inputType = ((): HoliTextInputProps['type'] => {
-    switch (variant) {
-      case 'email':
-        return 'email'
-      case 'password':
-        return 'password'
-      default:
-        return 'text'
+    const variant = guessVariant(node)
+    if (!variant) {
+      return null
     }
-  })()
 
-  const fieldName = getNodeId(node)
-  const fieldLabel = getNodeTitle(node)
-  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
-    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
-    if (nativeElement.key === 'Enter') {
-      const element = event.target as TextInputProps
-      onChange(element.value)
-      onEnterPress(element.value)
+    const inputType = ((): HoliTextInputProps['type'] => {
+      switch (variant) {
+        case 'email':
+          return 'email'
+        case 'password':
+          return 'password'
+        default:
+          return 'text'
+      }
+    })()
+
+    const fieldName = getNodeId(node)
+    const fieldLabel = getNodeTitle(node)
+    const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
+      const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+      if (nativeElement.key === 'Enter') {
+        const element = event.target as TextInputProps
+        onChange(element.value)
+        onEnterPress(element.value)
+      }
     }
-  }
-  const inputProps: TextInputProps = {
-    onKeyPress: handleKeyDown,
-    autoFocus: autofocus,
-  }
+    const inputProps: TextInputProps = {
+      onKeyPress: handleKeyDown,
+      autoFocus: autofocus,
+    }
 
-  return (
-    <HoliTextInput
-      inputLabel={t(`auth.login.input.label-${fieldLabel}`)}
-      accessibilityLabel={t(`auth.login.input.label-${fieldLabel}`)}
-      placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
-      value={value ? String(value) : ''}
-      validationErrorText={getValidationErrorText(node, i18n)}
-      disabled={disabled}
-      noOfVisibleLines={1}
-      maxNoOfVisibleLines={1}
-      maxNoOfCharacters={200}
-      onChange={onChange}
-      type={inputType}
-      inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
-      style={style}
-      testID={`ory-${fieldName.replace(/\./gi, '-')}`}
-    />
-  )
-}
+    return (
+      <HoliTextInput
+        inputLabel={t(`auth.login.input.label-${fieldLabel}`)}
+        accessibilityLabel={t(`auth.login.input.label-${fieldLabel}`)}
+        placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
+        value={value ? String(value) : ''}
+        validationErrorText={getValidationErrorText(node, i18n)}
+        disabled={disabled}
+        noOfVisibleLines={1}
+        maxNoOfVisibleLines={1}
+        maxNoOfCharacters={200}
+        onChange={onChange}
+        type={inputType}
+        inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
+        style={style}
+        testID={`ory-${fieldName.replace(/\./gi, '-')}`}
+        {...restProps}
+        ref={ref}
+      />
+    )
+  }
+)
+
+FormInputField.displayName = 'FormInputField'
 
 export default FormInputField
