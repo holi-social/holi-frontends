@@ -18,10 +18,9 @@ test.setTimeout(120000)
 
 test.describe('@Profile', () => {
   test('user journey', async ({ page, context, userHandler }) => {
-    // fill the interests, skills and sdgs for visiting the profile later
     await loginAsE2EUser(context, page)
-    await waitForElementByTestId(page, 'btn-to-settings')
 
+    // fill the interests, skills and sdgs for visiting the profile later
     await page.goto('/profile')
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')

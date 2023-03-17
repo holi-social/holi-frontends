@@ -7,16 +7,15 @@ import {
   clickElementByTestId,
   locateElementBySelector,
   locateElementByTestId,
-  loginAsE2EUser,
   proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
-import { test } from './testmaster'
+import { UserHandler, test } from './testmaster'
 
 test.setTimeout(120000)
 
 test.describe('@Spaces', () => {
-  test('user journey', async ({ context, page }) => {
+  test('user journey', async ({ context, page, userHandler }) => {
     // prepare
     await proceedAsGuest(page)
 
@@ -25,7 +24,7 @@ test.describe('@Spaces', () => {
     await testFiltering(page)
     await testDisplaysSpaceDetails(page)
     await testShareSpace(page)
-    await testCreatingEditingDeletingASpace(context, page)
+    await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
 })
 const testAccessibleFromHomeScreen = async (page: Page) => {
@@ -131,102 +130,101 @@ const testShareSpace = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
 }
 
-const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page) => {
+const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
   const numberOfInitialTerms = 3
   const numberOfEditedTerms = 2
 
-  await loginAsE2EUser(context, page)
-  // wait for profile - login succeeded
-  await waitForElementByTestId(page, 'btn-to-settings')
+  // create the space as a random user, so it gets cleaned up together with the user after the test, even if it fails
+  await userHandler.asRandomUser(async (page) => {
+    await clickElementByTestId(page, 'btn-to-spaces')
+    await clickElementByTestId(page, 'btn-create-space')
 
-  await clickElementByTestId(page, 'btn-to-spaces')
-  await clickElementByTestId(page, 'btn-create-space')
+    // create space - name and goal
+    const initialName = 'e2e space name'
+    const initialGoal = 'e2e space goal'
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await inputSpaceNameAndGoal(page, initialName, initialGoal)
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  // create space - name and goal
-  const initialName = 'e2e space name'
-  const initialGoal = 'e2e space goal'
-  await checkAccessibility(page)
-  await checkConfirmButtonIsDisabled(page)
-  await inputSpaceNameAndGoal(page, initialName, initialGoal)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+    // create space - topics
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await selectSomeTerms(page, numberOfInitialTerms)
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  // create space - topics
-  await checkAccessibility(page)
-  await checkConfirmButtonIsDisabled(page)
-  await selectSomeTerms(page, numberOfInitialTerms)
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+    // create space - cover image
+    await checkAccessibility(page)
+    await checkConfirmButtonIsDisabled(page)
+    await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+    await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  // create space - cover image
-  await checkAccessibility(page)
-  await checkConfirmButtonIsDisabled(page)
-  await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+    // check if edit space page has correct information
+    let editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    let editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(initialName)
+    expect(editSpaceGoal).toContainText(initialGoal)
 
-  // check if edit space page has correct information
-  let editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
-  let editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
-  expect(editSpaceTitle).toContainText(initialName)
-  expect(editSpaceGoal).toContainText(initialGoal)
+    // // edit space name and goal
+    const editedName = 'e2e edited space name HELLO THERE'
+    const editedGoal = 'e2e edited space goal'
+    await clickElementByTestId(page, 'btn-space-edit-name')
+    await inputSpaceNameAndGoal(page, editedName, editedGoal)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // // edit space name and goal
-  const editedName = 'e2e edited space name HELLO THERE'
-  const editedGoal = 'e2e edited space goal'
-  await clickElementByTestId(page, 'btn-space-edit-name')
-  await inputSpaceNameAndGoal(page, editedName, editedGoal)
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // check if space name and goal were updated
+    editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
+    editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
+    expect(editSpaceTitle).toContainText(editedName)
+    expect(editSpaceGoal).toContainText(editedGoal)
 
-  // check if space name and goal were updated
-  editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
-  editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
-  expect(editSpaceTitle).toContainText(editedName)
-  expect(editSpaceGoal).toContainText(editedGoal)
+    // edit space avatar
+    await clickElementByTestId(page, 'btn-space-edit-avatar')
+    await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // edit space avatar
-  await clickElementByTestId(page, 'btn-space-edit-avatar')
-  await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // edit space cover image
+    await clickElementByTestId(page, 'btn-space-edit-cover')
+    await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // edit space cover image
-  await clickElementByTestId(page, 'btn-space-edit-cover')
-  await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // edit space topics
+    await clickElementByTestId(page, 'btn-space-edit-topics')
+    await selectSomeTerms(page, numberOfEditedTerms)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // edit space topics
-  await clickElementByTestId(page, 'btn-space-edit-topics')
-  await selectSomeTerms(page, numberOfEditedTerms)
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // check if the correct number of topics have been selected
+    const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
+    await expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
-  // check if the correct number of topics have been selected
-  const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
-  await expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
+    // edit space - update location
+    const editedLocation = 'Berlin'
+    await clickElementByTestId(page, 'btn-space-edit-location')
+    await inputSpaceLocation(page, editedLocation)
 
-  // edit space - update location
-  const editedLocation = 'Berlin'
-  await clickElementByTestId(page, 'btn-space-edit-location')
-  await inputSpaceLocation(page, editedLocation)
+    // expect suggestions
+    const element = await locateElementBySelector(page, '[role="menuitem"]')
+    await clickElement(element)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // expect suggestions
-  const element = await locateElementBySelector(page, '[role="menuitem"]')
-  await clickElement(element)
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // edit space sdgs
+    await clickElementByTestId(page, 'btn-space-edit-sdgs')
+    await selectSomeTerms(page, numberOfEditedTerms)
+    await clickElementByTestId(page, 'space-edit-modal-save-btn')
 
-  // edit space sdgs
-  await clickElementByTestId(page, 'btn-space-edit-sdgs')
-  await selectSomeTerms(page, numberOfEditedTerms)
-  await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    // check if the correct number of sdgs have been selected
+    const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
+    await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
-  // check if the correct number of sdgs have been selected
-  const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
-  await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+    // delete space
+    await clickElementByTestId(page, 'space-edit-close')
+    await clickElementByTestId(page, 'space-options-btn')
+    await clickElementByTestId(page, 'space-delete-btn')
+    await clickElementByTestId(page, 'space-delete-confirmation-confirm')
 
-  // delete space
-  await clickElementByTestId(page, 'space-edit-close')
-  await clickElementByTestId(page, 'space-options-btn')
-  await clickElementByTestId(page, 'space-delete-btn')
-  await clickElementByTestId(page, 'space-delete-confirmation-confirm')
-
-  // check if after deletion we are at the spaces dashboard (mine/discover)
-  await waitForElementByTestId(page, 'spaces-tab-navigation')
+    // check if after deletion we are at the spaces dashboard (mine/discover)
+    await waitForElementByTestId(page, 'btn-create-space')
+  })
 }
 
 const checkConfirmButtonIsDisabled = async (page: Page) => {
