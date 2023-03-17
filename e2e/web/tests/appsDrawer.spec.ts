@@ -1,6 +1,7 @@
-import { expect, test } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 import { byTestId, clickElementByTestId, proceedAsGuest, waitForAnimationEnd, waitForElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 test.describe('@AppsDrawer', () => {
   test('user journey', async ({ page }) => {

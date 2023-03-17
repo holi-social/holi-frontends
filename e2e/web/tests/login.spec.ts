@@ -1,5 +1,3 @@
-import { test } from '@playwright/test'
-
 import {
   checkAccessibility,
   clickElementByTestId,
@@ -7,6 +5,7 @@ import {
   loginAsE2EUser,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })

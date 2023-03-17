@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
+import { Browser, Page, test as baseTest } from '@playwright/test'
 
 import { withRandomUserSession } from './helpers'
 

@@ -5,7 +5,6 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  delay,
   loginAsE2EUser,
   waitForAnimationEnd,
   waitForElementByTestId,
@@ -81,10 +80,6 @@ const checkChipsSelection = async (page: Page, what: string) => {
 const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
@@ -123,10 +118,6 @@ const deselectAll = async (page: Page, what: string) => {
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
