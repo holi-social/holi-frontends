@@ -7,6 +7,7 @@ import {
   delay,
   locateElementBySelector,
   locateElementByTestId,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 
@@ -17,6 +18,9 @@ const betterplaceTimeout = { timeout: 30_000 }
 test.describe('@Donations', () => {
   test('user journey', async ({ browserName, context, page }) => {
     test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
+    // prepare
+    await proceedAsGuest(page)
+
     await testAbleToVisitDonationsApp(page)
 
     await testProjectListAndPagination(page)
@@ -32,10 +36,6 @@ test.describe('@Donations', () => {
 })
 
 const testAbleToVisitDonationsApp = async (page: Page) => {
-  // prepare
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
-
   // click first element in ScrollView
   await clickElementByTestId(page, 'donations-updates-item')
 

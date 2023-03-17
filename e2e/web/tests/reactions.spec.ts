@@ -6,14 +6,9 @@ import { test } from './testmaster'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
-})
-
 test.describe('@Reactions', () => {
-  test('React to a post and a comment with HEART.', async ({ userHandler }) => {
-    await userHandler.withRandomUserSession(async (page) => {
+  test('user story', async ({ userHandler }) => {
+    await userHandler.asRandomUser(async (page) => {
       // go to home feed
       await clickElementByTestId(page, 'btn-to-home-view')
 

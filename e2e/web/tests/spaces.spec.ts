@@ -5,10 +5,11 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
-  defaultAuthSteps,
   delay,
   locateElementBySelector,
   locateElementByTestId,
+  loginAsE2EUser,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 
@@ -17,8 +18,7 @@ test.setTimeout(120000)
 test.describe('@Spaces', () => {
   test('user journey', async ({ context, page }) => {
     // prepare
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+    await proceedAsGuest(page)
 
     await testAccessibleFromHomeScreen(page)
     await testDisplaysMultipleGroups(page)
@@ -103,7 +103,11 @@ const testDisplaysSpaceDetails = async (page: Page) => {
   await waitForElementByTestId(page, 'space-description')
 
   // check if collaborators are displayed
-  await clickElementByTestId(page, 'space-members')
+  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
+  // it somehow completely breaks the filter button (does not work in any way)
+  // FIXME delay is needed because of wrong implementation of component.
+  await delay(2)
+  await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
 
   // check if on click the user profile is displayed
   await waitForElementByTestId(page, 'spaces-collaborators-item')
@@ -136,7 +140,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
   const numberOfInitialTerms = 3
   const numberOfEditedTerms = 2
 
-  await defaultAuthSteps({ page, context })
+  await loginAsE2EUser(context, page)
   // wait for profile - login succeeded
   await waitForElementByTestId(page, 'btn-to-settings')
 
