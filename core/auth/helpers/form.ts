@@ -1,5 +1,6 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
 import {
+  LoginFlow,
   RecoveryFlow,
   SettingsFlow,
   UiNode,
@@ -82,6 +83,17 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
 
 export const getNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
   return flow.ui.nodes.filter((node: UiNode) => getNodeId(node) === nodeName)
+}
+
+export const findInputNodeByNameAndType = (
+  nodeName: string,
+  nodeType: string,
+  flow: LoginFlow | SettingsFlow | RecoveryFlow
+) => {
+  return flow.ui.nodes.find(
+    (node: UiNode) =>
+      oryNodeIsInput(node.attributes) && node.attributes.name === nodeName && node.attributes.type === nodeType
+  )
 }
 
 export const getButtonNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {

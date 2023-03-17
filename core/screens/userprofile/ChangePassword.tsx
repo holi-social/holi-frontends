@@ -13,7 +13,7 @@ import {
   submitReauthFlow,
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
-import { handleFormSubmitError, oryNodeIsInput } from '@holi/core/auth/helpers/form'
+import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -81,14 +81,9 @@ const ChangePassword: React.VFC = () => {
               navigate('/profile')
             })
             .catch(
-              handleFormSubmitError((data) => {
-                const foundNode = data.ui.nodes.find(
-                  (node: UiNode) =>
-                    oryNodeIsInput(node.attributes) &&
-                    node.attributes.name === 'password' &&
-                    node.attributes.type === 'password'
-                )
-                setNewPwdNode(foundNode)
+              handleFormSubmitError((flow) => {
+                const passwordNode = findInputNodeByNameAndType('password', 'password', flow)
+                setNewPwdNode(passwordNode)
               }, initForm)
             )
             .catch((error) => {
@@ -97,18 +92,13 @@ const ChangePassword: React.VFC = () => {
             })
         })
         .catch(
-          handleFormSubmitError((data) => {
-            const foundNode = data.ui.nodes.find(
-              (node: UiNode) =>
-                oryNodeIsInput(node.attributes) &&
-                node.attributes.name === 'password' &&
-                node.attributes.type === 'password'
-            )
+          handleFormSubmitError((flow) => {
+            const passwordNode = findInputNodeByNameAndType('password', 'password', flow)
             // sometimes messages are no attached to the node but are transfered generally, so we move them to the node
-            if (data.ui.messages && !foundNode?.messages?.length) {
-              foundNode.messages = data.ui.messages
+            if (passwordNode && flow.ui.messages && !passwordNode.messages?.length) {
+              passwordNode.messages = flow.ui.messages
             }
-            setOldPwdNode(foundNode)
+            setOldPwdNode(passwordNode)
           }, initForm)
         )
         .catch((error) => {
