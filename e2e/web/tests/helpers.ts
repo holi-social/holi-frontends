@@ -92,7 +92,7 @@ export const gotoFillAndSubmitRegistration = async (
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
 
-  await clickElementByTestId(page, 'ory-submit-method')
+  await clickElementByTestId(page, 'ory-submit-password')
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
