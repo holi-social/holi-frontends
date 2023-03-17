@@ -165,12 +165,19 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     expect(editSpaceTitle).toContainText(initialName)
     expect(editSpaceGoal).toContainText(initialGoal)
 
+    const saveAndWaitForModalClosed = async (page: Page) => {
+      await Promise.all([
+        page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' }),
+        clickElementByTestId(page, 'space-edit-modal-save-btn'),
+      ])
+    }
+
     // // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
     await clickElementByTestId(page, 'btn-space-edit-name')
     await inputSpaceNameAndGoal(page, editedName, editedGoal)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if space name and goal were updated
     editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
@@ -181,17 +188,17 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // edit space avatar
     await clickElementByTestId(page, 'btn-space-edit-avatar')
     await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // edit space cover image
     await clickElementByTestId(page, 'btn-space-edit-cover')
     await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // edit space topics
     await clickElementByTestId(page, 'btn-space-edit-topics')
     await selectSomeTerms(page, numberOfEditedTerms)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if the correct number of topics have been selected
     const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
@@ -205,12 +212,12 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // expect suggestions
     const element = await locateElementBySelector(page, '[role="menuitem"]')
     await clickElement(element)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
     await selectSomeTerms(page, numberOfEditedTerms)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if the correct number of sdgs have been selected
     const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
@@ -241,22 +248,26 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
-  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
-  const numberOfTotalTerms = await locator.count()
-  const numberOfSelectedTerms = await page
-    .locator(`${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`)
-    .count()
+  const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+  const locatorForSelectedTerms = page.locator(
+    `${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`
+  )
+  const numberOfTotalTerms = await locatorForAllTerms.count()
+  const numberOfInitiallySelectedTerms = await locatorForSelectedTerms.count()
 
   // unselect all
-  for (let i = 0; i < numberOfSelectedTerms; i++) {
-    // the selected terms are always sorted as first, thus nth(0)
-    await locator.nth(0).click()
+  for (let i = 1; i <= numberOfInitiallySelectedTerms; i++) {
+    await locatorForSelectedTerms.nth(0).click()
+    // wait until the click is handled
+    await expect.poll(() => locatorForSelectedTerms.count()).toBe(numberOfInitiallySelectedTerms - i)
   }
 
   // select new terms
-  for (let i = 0; i < numberOfTermsToSelect; i++) {
+  for (let i = 1; i <= numberOfTermsToSelect; i++) {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
-    await locator.nth(numberOfTotalTerms - 1).click()
+    await locatorForAllTerms.nth(numberOfTotalTerms - 1).click()
+    // wait until the click is handled
+    await expect.poll(() => locatorForSelectedTerms.count()).toBe(i)
   }
 }
 

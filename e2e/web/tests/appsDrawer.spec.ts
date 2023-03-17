@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, proceedAsGuest, waitForAnimationEnd, waitForElementByTestId } from './helpers'
+import { byTestId, clickElementByTestId, proceedAsGuest, waitForElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@AppsDrawer', () => {
@@ -11,7 +11,6 @@ test.describe('@AppsDrawer', () => {
     await clickElementByTestId(page, 'home-apps-button')
 
     // apps drawer is open and contain apps
-    await waitForAnimationEnd(page.locator(byTestId('apps-drawer-modal-animatedview')))
     await waitForElementByTestId(page, 'apps-drawer-modal')
     await waitForElementByTestId(page, 'app-tile-donations')
 
