@@ -69,13 +69,13 @@ const ChangePassword: React.VFC = () => {
     setOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="small">
-          Change Password
+          {t('auth.changePassword.heading')}
         </HoliHeading>
       ),
     })
 
     initForm()
-  }, [setOptions, initForm])
+  }, [setOptions, initForm, t])
 
   const performPasswordChange = () => {
     if (reauthFlow && settingsFlow) {
