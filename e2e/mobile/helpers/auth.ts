@@ -62,10 +62,10 @@ export const defaultAuthSteps = async (
   await fillFieldByTestId('ory-password-input', password)
 
   // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 
   // Submit the form
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 }
 
 export const logout = async () => {
@@ -103,7 +103,16 @@ const gotoProfileSettingsOrLogin = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
     await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
+    if (await checkIfElementWithTestIdExists('btn-to-login-form')) {
+      return
+    }
     if (await checkIfElementWithTestIdExists('btn-to-settings')) {
+      await tapOnElementWithTestId('btn-to-settings')
+      await waitForElementWithTestId('btn-to-logout')
+    } else {
+      // TODO remove once the header is fixed https://holi.atlassian.net/browse/HOLI-3642
+      await tapOnElementWithTestId('btn-to-home-view')
+      await tapOnElementWithTestId('btn-to-profile-view')
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
     }

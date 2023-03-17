@@ -1,4 +1,4 @@
-import { SelfServiceRecoveryFlow, SubmitSelfServiceRecoveryFlowWithLinkMethodBody } from '@ory/kratos-client'
+import { RecoveryFlow, UpdateRecoveryFlowWithLinkMethod } from '@ory/kratos-client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
@@ -22,7 +22,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
-  const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
+  const [flow, setFlow] = useState<RecoveryFlow>()
 
   const safeSetFlow = useSafeDispatch(setFlow)
 
@@ -37,10 +37,10 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
 
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
-  const requestPasswordRecovery = (payload: SubmitSelfServiceRecoveryFlowWithLinkMethodBody): Promise<void> => {
+  const requestPasswordRecovery = (payload: UpdateRecoveryFlowWithLinkMethod): Promise<void> => {
     if (flow)
       return newKratosSdk()
-        .submitSelfServiceRecoveryFlow(flow.id, undefined, payload)
+        .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: payload })
         .then(() => {
           initializeFlow()
           props.onSubmit?.(true)
