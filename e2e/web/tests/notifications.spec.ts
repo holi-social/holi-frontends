@@ -44,7 +44,7 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // notifications currently can take a while to load, therefore we're setting a long timeout here
-  await expect(page.getByTestId('connection-notification-item')).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 60000 })
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
