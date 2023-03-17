@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
+    borderWidth: 1,
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
