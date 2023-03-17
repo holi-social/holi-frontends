@@ -17,12 +17,14 @@ import type { TextInputOverride } from '@holi/core/auth/components/FormInputFiel
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow | SelfServiceRecoveryFlow
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  scrollToInputWithId?: (id: string) => ScrollToProps
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
@@ -39,6 +41,7 @@ const FormBuilder = <
   onSubmit,
   only,
   textInputOverride,
+  scrollToInputWithId,
   style,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
@@ -142,8 +145,8 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              // autofocus={isEmailField(name)}
               autofocus={false}
+              scrollToInputWithId={scrollToInputWithId}
               style={{ marginTop: 30 }}
             />
           )
