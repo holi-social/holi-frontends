@@ -1,13 +1,13 @@
-import { BrowserContext, Page, expect, test } from '@playwright/test'
+import { BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   checkAccessibility,
   clickElementByTestId,
-  delay,
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 test.describe('@Volunteering', () => {
   test('user journey', async ({ browserName, context, page }) => {
@@ -24,10 +24,6 @@ test.describe('@Volunteering', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, 'home-apps-button')
   await clickElementByTestId(page, 'app-tile-volunteering')
 
@@ -93,10 +89,6 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 }
 
 const testFilteringByLocation = async (page: Page) => {
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component. Remove when https://holi.atlassian.net/browse/HOLI-3665 is done.
-  await delay(2)
   await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
   // open location dropdown
@@ -126,10 +118,6 @@ const testDisplaysFilterResults = async (page: Page) => {
   // expect filtered list
   await waitForElementByTestId(page, 'volunteering-list-filtered')
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component. Remove when https://holi.atlassian.net/browse/HOLI-3665 is done.
-  await delay(2)
   await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
   // open topics dropdown

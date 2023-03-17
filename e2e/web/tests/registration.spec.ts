@@ -1,10 +1,8 @@
 import { BrowserContext, Page } from '@playwright/test'
-import { waitFor } from '@testing-library/react-native'
 
 import {
   checkAccessibility,
   clickElementByTestId,
-  gotoFillAndSubmitLogin,
   gotoFillAndSubmitRegistration,
   proceedAsGuest,
   waitForElementByTestId,

@@ -42,9 +42,9 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 
   // go to notifications
   await clickElementByTestId(page, 'btn-to-home-view')
-  await waitForElementByTestId(page, 'btn-to-notifications')
   await clickElementByTestId(page, 'btn-to-notifications')
-
+  // notifications currently can take a while to load, therefore we're setting a long timeout here
+  await expect(page.getByTestId('connection-notification-item')).toBeVisible({ timeout: 60000 })
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
@@ -87,7 +87,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
     await clickElementByTestId(page, 'feed-insight-image-link')
     await clickElementByTestId(page, 'btn-to-post')
     // after clicking on notification we should go to post detail page and scroll to the comment
-    // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
+    // notifications currently can take a while to load, therefore we're setting a long timeout here
     await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
     await clickElementByTestId(page, 'post-detail-footer')
     await clickElementByTestId(page, 'post-comment')
@@ -109,7 +109,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
-  await expect(page.getByTestId('notifications-overview')).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('post-comment-mention')).toBeVisible({ timeout: 60000 })
   await clickElementByTestId(page, 'post-comment-mention')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
