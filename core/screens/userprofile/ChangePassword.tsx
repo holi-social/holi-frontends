@@ -1,7 +1,14 @@
 import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import {
+  NativeSyntheticEvent,
+  Platform,
+  StyleSheet,
+  TextInputKeyPressEventData,
+  TextInputProps,
+  View,
+} from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -108,6 +115,13 @@ const ChangePassword: React.VFC = () => {
     }
   }
 
+  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
+    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+    if (nativeElement.key === 'Enter') {
+      performPasswordChange()
+    }
+  }
+
   return (
     <DefaultLayout style={styles.layout}>
       <View style={[mixins.container, styles.formContainer]}>
@@ -120,6 +134,7 @@ const ChangePassword: React.VFC = () => {
               accessibilityLabel={t('auth.changePassword.input.label-OldPassword')}
               placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
               validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+              inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
               maxNoOfCharacters={200}
               onChange={setOldPwd}
               type="password"
@@ -131,6 +146,7 @@ const ChangePassword: React.VFC = () => {
               accessibilityLabel={t('auth.changePassword.input.label-NewPassword')}
               placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
               validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
+              inputProps={{ onKeyPress: handleKeyDown }}
               maxNoOfCharacters={200}
               onChange={setNewPwd}
               type="password"
