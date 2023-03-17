@@ -146,7 +146,7 @@ const ChangePassword: React.VFC = () => {
               accessibilityLabel={t('auth.changePassword.input.label-NewPassword')}
               placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
               validationErrorText={newPwdNode && getValidationErrorText(newPwdNode, i18n)}
-              inputProps={{ onKeyPress: handleKeyDown }}
+              inputProps={{ onKeyPress: handleKeyDown, autocomplete: 'new-password' }}
               maxNoOfCharacters={200}
               onChange={setNewPwd}
               type="password"
