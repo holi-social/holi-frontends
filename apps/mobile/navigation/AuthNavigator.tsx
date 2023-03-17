@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
+import ChangePassword from '@holi/core/screens/userprofile/ChangePassword'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -13,6 +14,7 @@ export type AuthStackScreensList = {
   Profile: undefined
   SettingsOverview: undefined
   AccountSettings: undefined
+  ChangePassword: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
@@ -41,6 +43,14 @@ const AuthStackNavigator: React.VFC = () => {
       <AuthStack.Screen
         name={RouteName.AccountSettings}
         component={AccountSettings}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.ChangePassword}
+        component={ChangePassword}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

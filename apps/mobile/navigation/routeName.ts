@@ -26,6 +26,7 @@ export enum RouteName {
   Profile = 'Profile',
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
+  ChangePassword = 'ChangePassword',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

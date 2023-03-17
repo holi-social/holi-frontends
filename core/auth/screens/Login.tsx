@@ -1,4 +1,4 @@
-import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
+import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -11,11 +11,11 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
-import { initLoginFlow } from '@holi/core/auth/helpers/auth'
+import { initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -35,7 +35,8 @@ type ScreenProps = NativeStackScreenProps<RootStackScreens>
 const Login: React.VFC<ScreenProps> = () => {
   const [return_to] = useParam('return_to', singleParamConfig)
   const { isLoggedIn, setUserLoggedIn } = useAuth()
-  const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
+  const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
@@ -56,10 +57,10 @@ const Login: React.VFC<ScreenProps> = () => {
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
-        setFlow(flow)
+        safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t, displayError])
+  }, [t, safeSetFlow, displayError])
 
   const handleRedirectAfterLogin = Platform.OS === 'web' && return_to
   const redirectAfterLogin = () => {
@@ -72,16 +73,15 @@ const Login: React.VFC<ScreenProps> = () => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
 
-  const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
+  const performLogin = (payload: UpdateLoginFlowBody): Promise<void> => {
     if (flow)
-      return newKratosSdk()
-        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+      return submitLoginFlow(flow, payload, undefined)
         .then(({ data }) =>
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
           })
         )
-        .catch(handleFormSubmitError(setFlow, initializeFlow))
+        .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
         .catch((error) => displayError(error, t('auth.login.error.login')))
     return Promise.resolve()
   }

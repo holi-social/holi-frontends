@@ -1,4 +1,4 @@
-import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
+import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -21,7 +21,7 @@ const isWeb = Platform.OS === 'web'
 
 const Registration: React.VFC = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
-  const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -42,10 +42,10 @@ const Registration: React.VFC = () => {
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
   // This will update the registration flow with the user provided input:
-  const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
+  const onSubmit = (payload: UpdateRegistrationFlowBody): Promise<void> =>
     flow
       ? newKratosSdk()
-          .submitSelfServiceRegistrationFlow(flow.id, payload)
+          .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: payload })
           .then(({ data }) => {
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
