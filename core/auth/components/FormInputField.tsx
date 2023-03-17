@@ -12,6 +12,7 @@ interface Props extends InputProps {
   node: UiNode
   attributes: UiNodeInputAttributes
   autofocus: boolean
+  translationPrefix: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
@@ -33,7 +34,7 @@ export interface InputProps {
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
-const getValidationErrorText = (
+export const getValidationErrorText = (
   { messages, attributes }: UiNode,
   i18n: UseTranslationResponse<'translation', undefined>['i18n']
 ) => {
@@ -97,6 +98,7 @@ const FormInputField = ({
   disabled,
   textInputOverride,
   autofocus,
+  translationPrefix,
   style,
 }: Props) => {
   const { t, i18n } = useTranslation()
@@ -130,13 +132,14 @@ const FormInputField = ({
   const inputProps: TextInputProps = {
     onKeyPress: handleKeyDown,
     autoFocus: autofocus,
+    // ...(node.attributes.autocomplete ? { autoComplete: node.attributes.autocomplete } : {}),
   }
 
   return (
     <HoliTextInput
-      inputLabel={t(`auth.login.input.label-${fieldLabel}`)}
-      accessibilityLabel={t(`auth.login.input.label-${fieldLabel}`)}
-      placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
+      inputLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
+      accessibilityLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
+      placeholder={t(`${translationPrefix}input.placeholder-${fieldLabel}`)}
       value={value ? String(value) : ''}
       validationErrorText={getValidationErrorText(node, i18n)}
       disabled={disabled}

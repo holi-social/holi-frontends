@@ -14,7 +14,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
  * If you edit retries, make sure that the use.trace, use.screenshot and use.video settings match accordingly.
  */
 const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): number => {
-  if (!!value) {
+  if (value) {
     try {
       return parseInt(value)
     } catch (e) {
@@ -57,7 +57,7 @@ const possibleBrowsers = [
 ]
 
 const browsersFromEnv = (value: string | undefined): Object[] => {
-  if (!!value) {
+  if (value) {
     return value.split(',').map((name) => {
       const match = possibleBrowsers.find((browser) => browser.name === name)
       if (match) {

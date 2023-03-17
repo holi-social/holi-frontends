@@ -1,7 +1,7 @@
 import { UiNode } from '@ory/kratos-client'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import CommunityGuidelinesDocument from '@holi/core/screens/communityGuidelines/CommunityGuidelinesDocument'
@@ -15,6 +15,7 @@ export type FormCheckboxProps = {
   node: UiNode
   value: boolean
   autofocus?: boolean
+  translationPrefix: string
   onChange?: (checked: boolean) => void
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -24,6 +25,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   node,
   value = false,
   autofocus = false,
+  translationPrefix,
   onChange = () => null,
   style,
   testID,
@@ -39,7 +41,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
     const { id, text } = node.messages[0]
     if (!id) return undefined
 
-    const translationKey = `auth.login.checkbox.message.${id}`
+    const translationKey = `${translationPrefix}checkbox.message.${id}`
     return i18n.exists(translationKey) ? i18n.t(translationKey) : text
   }
 
@@ -61,21 +63,23 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           style={style}
           testID={testID}
         >
-          <HoliText size="small">
-            <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
-              {/* TODO: The link href does not yet exist */}
-              <HoliTextLink
-                label=""
-                href={'/communityGuidelines'}
-                onPress={openModal}
-                variant="secondary"
-                size="small"
-              />
-            </Trans>
-          </HoliText>
+          <View style={{ maxWidth: 300 }}>
+            <HoliText size="small">
+              <Trans t={t} i18nKey={`${translationPrefix}checkbox.label-Consent`}>
+                {/* TODO: The link href does not yet exist */}
+                <HoliTextLink
+                  label=""
+                  href={'/communityGuidelines'}
+                  onPress={openModal}
+                  variant="secondary"
+                  size="small"
+                />
+              </Trans>
+            </HoliText>
+          </View>
         </HoliCheckbox>
         <HoliModal
-          label={t('auth.login.checkbox.label-Consent')}
+          label={t(`${translationPrefix}checkbox.label-Consent`)}
           autoHeight={false}
           show={showModal}
           onDismiss={() => setShowModal(false)}
