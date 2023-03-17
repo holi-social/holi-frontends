@@ -2,7 +2,7 @@
 import { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import { Platform, ViewStyle } from 'react-native'
 
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -16,17 +16,25 @@ import {
 } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { isWebTouchDevice } from '@holi/ui/helper'
+import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
 interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   onSubmitPress: () => void
+  scrollToInputWithId?: (id: string) => ScrollToProps
   style?: ViewStyle | Record<string, unknown>
 }
 
 const FormNode = (props: Props) => {
   const { t } = useTranslation()
-  const { node } = props
+  const { node, scrollToInputWithId = () => ({}) } = props
+
+  const fieldName = getNodeId(node)
+  const isMobile = Platform.OS !== 'web'
+  const isTouchDevice = isWebTouchDevice() || isMobile
+  const mobileInputFieldScrollIntoViewProps = isTouchDevice ? scrollToInputWithId(fieldName) : {}
 
   if (oryNodeIsHiddenField(node.attributes as UiNodeAttributes & { name: string })) {
     return <></>
@@ -49,18 +57,18 @@ const FormNode = (props: Props) => {
         {...props}
         attributes={node.attributes}
         onEnterPress={props.onSubmitPress}
+        {...mobileInputFieldScrollIntoViewProps}
         style={[props.style || {}, { marginTop: 10 }]}
       />
     )
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const fieldName = getNodeId(node)
     const fieldLabel = t(`auth.login.input.label-${getNodeTitle(node)}`)
     return (
       <HoliButton
         label={fieldLabel}
-        style={props.style || {}}
+        style={props.style}
         onPress={props.onSubmitPress}
         testID={`ory-submit-${fieldName}`}
       >
