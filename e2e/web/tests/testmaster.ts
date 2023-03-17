@@ -2,15 +2,15 @@ import { Browser, Page, test as baseTest } from '@playwright/test'
 
 import { withRandomUserSession } from './helpers'
 
-class UserHandler {
-  private browser
+export class UserHandler {
+  private browser: Browser
   private sessions: (() => Promise<void>)[] = []
 
   constructor(browser: Browser) {
     this.browser = browser
   }
 
-  public async withRandomUserSession(actions: (page: Page) => Promise<void>) {
+  public async asRandomUser(actions: (page: Page) => Promise<void>) {
     this.sessions.push(await withRandomUserSession(this.browser, actions))
   }
 
@@ -19,8 +19,8 @@ class UserHandler {
   }
 }
 
-export const test = baseTest.extend<{ userHandler: UserHandler }>({
-  userHandler: async ({ browser }, use) => {
+export const test = baseTest.extend<{ userHandler: UserHandler; asGuest: Page; asE2EUser: Page }>({
+  userHandler: async ({ browser, context, page }, use) => {
     const userHandler = new UserHandler(browser)
     await use(userHandler)
     await userHandler.cleanup()

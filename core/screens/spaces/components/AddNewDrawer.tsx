@@ -37,7 +37,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
     <>
       {/* Floating apps button */}
       <HoliButton
-        label={t('addNew.drawer.headline')}
+        label={t('allTools.drawer.headline')}
         testID="space-resources-add-button"
         style={styles.overlayButton}
         onPress={show}
@@ -46,9 +46,9 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
       </HoliButton>
 
       {/* Add new modal (drawer) */}
-      <HoliModal label={t('addNew.drawer.headline')} show={visible} onDismiss={hide} testID="add-new-drawer-modal">
+      <HoliModal label={t('allTools.drawer.headline')} show={visible} onDismiss={hide} testID="add-new-drawer-modal">
         <View style={[styles.modalContent, mixins.container]}>
-          <HoliHeading level="1">{t('addNew.drawer.headline')}</HoliHeading>
+          <HoliHeading level="1">{t('allTools.drawer.headline')}</HoliHeading>
           <View style={styles.categoriesContainer}>
             <FlatList
               data={RESOURCE_CATEGORIES_LIST}

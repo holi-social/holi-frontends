@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -17,7 +17,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
 import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
-import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
 import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
@@ -25,6 +24,7 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -107,7 +107,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           {/* TODO: integrate on collaborators screen */}
           {isMember && (
             <MoreOptionItem
-              icon="sun"
+              icon="cloud"
               label="Storage"
               onPress={() => {
                 if (Platform.OS === 'web') {
@@ -160,7 +160,17 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultScrollHeaderLayout>
 
-      {(isCreator || isMember) && <SpaceDashboardModal spaceIdOrName={spaceIdOrName} />}
+      {(isCreator || isMember) && (
+        <View style={styles.overlayContainer}>
+          <HoliButton
+            label={t('spaces.dashboard.openBtn')}
+            onPress={() => navigate(`/spaces/${spaceIdOrName}/collaboratorArea`)}
+            style={styles.overlayButton}
+          >
+            {t('spaces.dashboard.openBtn')}
+          </HoliButton>
+        </View>
+      )}
     </>
   )
 }
@@ -203,6 +213,18 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: vars.topBarHeight + 50,
+  },
+  overlayButton: {
+    marginHorizontal: 'auto',
+    maxWidth: vars.maxButtonWidth,
+  },
+  overlayContainer: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 42,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 24,
+    justifyContent: 'center',
   },
 })
 

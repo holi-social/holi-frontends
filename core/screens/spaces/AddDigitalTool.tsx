@@ -190,7 +190,6 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
-          addCollaborationTool()
           navigateBack()
         }}
       />

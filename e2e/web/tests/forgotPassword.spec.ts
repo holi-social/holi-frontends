@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -7,6 +7,7 @@ import {
   locateElementByTestId,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
