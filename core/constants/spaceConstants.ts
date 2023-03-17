@@ -2,7 +2,7 @@ import type { ResourceCategory } from '@holi/core/screens/spaces/components/Reso
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
-  FILE: 'file',
+  STORAGE: 'storage',
   EVENT: 'event',
   POLL: 'poll',
   VIDEO_CALL: 'video-call',
@@ -14,7 +14,13 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.DIGITAL_TOOL,
     icon: 'link-m',
     translationKey: 'spaces.resources.category.digitalTool',
-    path: '/addDigitalTool',
+    path: '/toolKit',
+  },
+  {
+    id: SPACE_COLLABORATOR_TOOLS.STORAGE,
+    icon: 'cloud',
+    translationKey: 'spaces.resources.category.storage',
+    path: '/storage',
   },
 ]
 
