@@ -85,22 +85,20 @@ const AcceptDocumentLayout = ({
         style={styles.checkbox}
         testID={`${testID}-checkbox`}
       >
-        <View>
-          <HoliText size="small">
-            <Trans t={t} i18nKey={checkboxLabelTranslation}>
-              <HoliTextLink
-                label=""
-                href={documentNavPath}
-                size="small"
-                variant="secondary"
-                onPress={() => {
-                  showModal()
-                  return false
-                }}
-              />
-            </Trans>
-          </HoliText>
-        </View>
+        <HoliText size="small">
+          <Trans t={t} i18nKey={checkboxLabelTranslation}>
+            <HoliTextLink
+              label=""
+              href={documentNavPath}
+              size="small"
+              variant="secondary"
+              onPress={() => {
+                showModal()
+                return false
+              }}
+            />
+          </Trans>
+        </HoliText>
       </HoliCheckbox>
 
       <HoliModal label={modalLabelText} {...modalProps} autoHeight={false} relativeHeight={1} style={styles.modal}>
@@ -136,6 +134,7 @@ const styles = StyleSheet.create({
   checkbox: {
     marginTop: 24,
     maxWidth: '100%',
+    alignSelf: 'center',
   },
   labelLink: {
     fontSize: 14,
