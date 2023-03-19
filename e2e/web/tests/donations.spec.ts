@@ -150,8 +150,8 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   // reset filter in list
   await clickElementByTestId(page, 'donations-list-search-reset')
 
-  // assert reset
-  await waitForElementByTestId(page, 'donations-list-unfiltered')
+  // assert reset, might take longer due to reload of donations projects
+  await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: 20000 })
 
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg', { useSuggestion: true })
