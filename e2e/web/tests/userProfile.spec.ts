@@ -1,14 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  loginAsE2EUser,
-  waitForAnimationEnd,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, waitForElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -36,7 +29,6 @@ test.describe('@Profile', () => {
 
       await checkAccessibility(page)
       await clickElementByTestId(page, 'btn-open-profile-edit-view')
-      await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
       await checkAccessibility(page)
 
       // validation should block save
@@ -50,10 +42,11 @@ test.describe('@Profile', () => {
       const lastNameEdited = faker.name.lastName()
       await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
       await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
-      await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-      await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
+      await Promise.all([
+        page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' }),
+        clickElementByTestId(page, 'user-profile-edit-form-close-btn'),
+      ])
 
-      await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
       await expect
         .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
         .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
@@ -80,28 +73,19 @@ const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await clickElementByTestId(page, `user-profile-${what}-edit`)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
 
-  const countOfSelectedChips: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
+  const selectorForSelectedChips = `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  const countOfSelectedChips = async (): Promise<number> => getCountOf(page, selectorForSelectedChips)
 
-  for (let stillSelectedCount = countOfSelectedChips; stillSelectedCount > 0; stillSelectedCount--) {
-    await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
-      .first()
-      .click()
+  for (let stillSelectedCount = await countOfSelectedChips(); stillSelectedCount > 0; stillSelectedCount--) {
+    await page.locator(selectorForSelectedChips).first().click()
+    await expect.poll(countOfSelectedChips).toBe(stillSelectedCount - 1)
   }
 
-  const stillSelectedCount: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(stillSelectedCount).toBe(0)
+  expect(await countOfSelectedChips()).toBe(0)
 
   await saveAndCloseChipform(page)
 
@@ -118,10 +102,11 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await clickElementByTestId(page, `user-profile-${what}-edit`)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
+  const countOfSelectedChips = async (): Promise<number> =>
+    getCountOf(page, `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
 
   const expectedNoOfSelectedChips = 3
 
@@ -130,13 +115,10 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
       .nth(indexToSelect)
       .click()
+    await expect.poll(countOfSelectedChips).toBe(indexToSelect + 1)
   }
 
-  const newSelectionCount = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
+  expect.poll(countOfSelectedChips).toBe(expectedNoOfSelectedChips)
 
   await saveAndCloseChipform(page)
 
@@ -145,15 +127,15 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await expect.poll(shownChips).toBe(expectedNoOfSelectedChips)
 }
 
-const getCountOf = async (page: Page, selector: string) => {
-  const locator = await page.locator(selector)
-  return await locator.count()
+const getCountOf = async (page: Page, selector: string): Promise<number> => {
+  return page.locator(selector).count()
 }
 
 const saveAndCloseChipform = async (page: Page) => {
-  await clickElementByTestId(page, 'user-profile-chipform-close-btn')
-  await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  await page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' })
+  await Promise.all([
+    clickElementByTestId(page, 'user-profile-chipform-close-btn'),
+    page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' }),
+    page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' }),
+  ])
   await waitForElementByTestId(page, 'user-profile-full-name')
 }
