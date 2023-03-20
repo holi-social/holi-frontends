@@ -11,8 +11,7 @@ describe('@Login test1', () => {
 
     await tapOnElementWithTestId('nav-button-back')
     await navigateBackToHomeScreen('btn-to-home-view')
-  })
-  it('should work with valid credentials', async () => {
+
     // Login
     await defaultAuthSteps()
 

@@ -1,14 +1,15 @@
-import { BrowserContext, Locator, Page, expect, test } from '@playwright/test'
+import { BrowserContext, Locator, Page, expect } from '@playwright/test'
 
 import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
-  delay,
   locateElementBySelector,
   locateElementByTestId,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 // sometimes responses to Betterplace take a little longer (10s < response latency < 30s)
 // increase timeout from default of 5 seconds to 30 seconds
@@ -17,6 +18,9 @@ const betterplaceTimeout = { timeout: 30_000 }
 test.describe('@Donations', () => {
   test('user journey', async ({ browserName, context, page }) => {
     test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
+    // prepare
+    await proceedAsGuest(page)
+
     await testAbleToVisitDonationsApp(page)
 
     await testProjectListAndPagination(page)
@@ -32,10 +36,6 @@ test.describe('@Donations', () => {
 })
 
 const testAbleToVisitDonationsApp = async (page: Page) => {
-  // prepare
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
-
   // click first element in ScrollView
   await clickElementByTestId(page, 'donations-updates-item')
 
@@ -199,10 +199,6 @@ const filterForLocation = async (
   location: string,
   { assertAccessibility = false, useSuggestion = false } = {}
 ) => {
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   // open search modal
   await clickElementByTestId(page, 'donations-search-button')
 

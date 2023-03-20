@@ -5,8 +5,7 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  defaultAuthSteps,
-  delay,
+  loginAsE2EUser,
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
@@ -19,17 +18,16 @@ test.setTimeout(120000)
 
 test.describe('@Profile', () => {
   test('user journey', async ({ page, context, userHandler }) => {
-    // fill the interests, skills and sdgs for visiting the profile later
-    await defaultAuthSteps({ page, context }, 'login')
-    await waitForElementByTestId(page, 'btn-to-settings')
+    await loginAsE2EUser(context, page)
 
+    // fill the interests, skills and sdgs for visiting the profile later
     await page.goto('/profile')
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
-    await userHandler.withRandomUserSession(async (page) => {
+    await userHandler.asRandomUser(async (page) => {
       await waitForElementByTestId(page, 'user-profile-full-name')
 
       await waitForElementByTestId(page, 'user-profile-interests')
@@ -81,10 +79,6 @@ const checkChipsSelection = async (page: Page, what: string) => {
 const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
@@ -123,10 +117,6 @@ const deselectAll = async (page: Page, what: string) => {
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded

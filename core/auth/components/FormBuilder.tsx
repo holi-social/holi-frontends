@@ -1,13 +1,13 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/SelfServiceFlow.tsx
 import {
-  SelfServiceLoginFlow,
-  SelfServiceRecoveryFlow,
-  SelfServiceRegistrationFlow,
-  SelfServiceSettingsFlow,
-  SubmitSelfServiceLoginFlowBody,
-  SubmitSelfServiceRegistrationFlowBody,
-  SubmitSelfServiceSettingsFlowBody,
+  LoginFlow,
+  RecoveryFlow,
+  RegistrationFlow,
+  SettingsFlow,
   UiNode,
+  UpdateLoginFlowBody,
+  UpdateRegistrationFlowBody,
+  UpdateSettingsFlowBody,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,15 +16,20 @@ import { View, ViewStyle } from 'react-native'
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
+type NodeId = string
+
 interface Props<T> {
-  flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow | SelfServiceRecoveryFlow
+  flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   scrollToInputWithId?: (id: string) => ScrollToProps
+  autofocusField?: NodeId
+  translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
@@ -34,14 +39,14 @@ interface FlowData<T> {
   submitType: Record<string, unknown>
 }
 
-const FormBuilder = <
-  T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
->({
+const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody>({
   flow,
   onSubmit,
   only,
   textInputOverride,
   scrollToInputWithId,
+  autofocusField,
+  translationPrefix = 'auth.login.',
   style,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
@@ -54,6 +59,11 @@ const FormBuilder = <
   })
 
   const isEmailField = (name: string) => name === 'identifier' || name === 'traits.email' || name === 'email'
+  const hasAutofocus = (node: UiNode) => {
+    const name = getNodeId(node)
+    const hasFocus = autofocusField === name || isEmailField(name)
+    return hasFocus && !node.attributes.disabled
+  }
 
   useEffect(() => {
     if (!flow) {
@@ -133,7 +143,9 @@ const FormBuilder = <
 
   return (
     <View style={style}>
-      {flow &&
+      {!flow ? (
+        <HoliLoader />
+      ) : (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
@@ -141,16 +153,18 @@ const FormBuilder = <
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}
               textInputOverride={textInputOverride}
+              translationPrefix={translationPrefix}
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={false}
               scrollToInputWithId={scrollToInputWithId}
+              autofocus={hasAutofocus(node)}
               style={{ marginTop: 30 }}
             />
           )
-        })}
+        })
+      )}
     </View>
   )
 }

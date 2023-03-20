@@ -4,10 +4,9 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   clickElementByTestId,
-  defaultAuthSteps,
   locateElementByTestId,
+  loginAsE2EUser,
   sendConnectionRequest,
-  waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
@@ -16,10 +15,6 @@ import { UserHandler, test } from './testmaster'
 require('dotenv').config({ path: '.envrc' })
 
 test.setTimeout(180000)
-
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
 
 test.describe('@Notifications', () => {
   test('user journey', async ({ context, page, userHandler }) => {
@@ -35,24 +30,21 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 ) => {
   // create two connection requests from two separate users in parallel
   await Promise.all([
-    userHandler.withRandomUserSession(async (page) => {
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
-    userHandler.withRandomUserSession(async (page) => {
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
   ])
 
-  // login with your test user
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications
   await clickElementByTestId(page, 'btn-to-home-view')
-  await waitForElementByTestId(page, 'btn-to-notifications')
   await clickElementByTestId(page, 'btn-to-notifications')
-
-  // await page.goto('/notifications')
+  // notifications currently can take a while to load, therefore we're setting a long timeout here
+  await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 60000 })
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
@@ -95,7 +87,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
     await clickElementByTestId(page, 'feed-insight-image-link')
     await clickElementByTestId(page, 'btn-to-post')
     // after clicking on notification we should go to post detail page and scroll to the comment
-    // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
+    // notifications currently can take a while to load, therefore we're setting a long timeout here
     await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
     await clickElementByTestId(page, 'post-detail-footer')
     await clickElementByTestId(page, 'post-comment')
@@ -106,19 +98,18 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
     await expect(page.getByText(commentTextContent)).toBeVisible()
   }
 
-  await userHandler.withRandomUserSession(async (page) => {
+  await userHandler.asRandomUser(async (page) => {
     await createCommentWithE2EUserMention(page)
   })
 
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications and click first one post-comment-mention-notification
 
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
-  await expect(page.getByTestId('notifications-overview')).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('post-comment-mention')).toBeVisible({ timeout: 60000 })
   await clickElementByTestId(page, 'post-comment-mention')
 
   // after clicking on notification we should go to post detail page and scroll to the comment

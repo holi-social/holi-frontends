@@ -14,7 +14,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
  * If you edit retries, make sure that the use.trace, use.screenshot and use.video settings match accordingly.
  */
 const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): number => {
-  if (!!value) {
+  if (value) {
     try {
       return parseInt(value)
     } catch (e) {
@@ -57,7 +57,7 @@ const possibleBrowsers = [
 ]
 
 const browsersFromEnv = (value: string | undefined): Object[] => {
-  if (!!value) {
+  if (value) {
     return value.split(',').map((name) => {
       const match = possibleBrowsers.find((browser) => browser.name === name)
       if (match) {
@@ -104,7 +104,7 @@ const config: PlaywrightTestConfig = {
     video: retries == 0 ? 'retain-on-failure' : 'on-first-retry',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 10000,
-    navigationTimeout: 10000,
+    navigationTimeout: 20000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
 

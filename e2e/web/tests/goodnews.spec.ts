@@ -1,18 +1,18 @@
-import { Page, expect, test } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import {
   checkAccessibility,
   clickElementByTestId,
-  delay,
   locateElementByTestId,
+  proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 test.describe('@GoodNews', () => {
   test('user journey', async ({ page }) => {
     // prepare
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+    await proceedAsGuest(page)
 
     await testIsAccessibleFromHomeScreen(page)
     await testAllowsPagination(page)
@@ -20,10 +20,6 @@ test.describe('@GoodNews', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, 'home-apps-button')
   await clickElementByTestId(page, 'app-tile-goodnews')
 

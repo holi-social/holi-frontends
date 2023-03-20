@@ -3,7 +3,14 @@ import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
-import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, View, ViewStyle } from 'react-native'
+import {
+  NativeSyntheticEvent,
+  StyleProp,
+  TextInputKeyPressEventData,
+  TextInputProps,
+  View,
+  ViewStyle,
+} from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
@@ -23,7 +30,8 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   node: UiNode
   attributes: UiNodeInputAttributes
   autofocus: boolean
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  translationPrefix: string
+  style?: StyleProp<ViewStyle>
 }
 
 enum OryErrorCode {
@@ -33,7 +41,7 @@ enum OryErrorCode {
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
-const getValidationErrorText = (
+export const getValidationErrorText = (
   { messages, attributes }: UiNode,
   i18n: UseTranslationResponse<'translation', undefined>['i18n']
 ) => {
@@ -99,6 +107,7 @@ const FormInputField = React.forwardRef<View, Props>(
       disabled,
       textInputOverride,
       autofocus,
+      translationPrefix,
       style,
       ...restProps
     },
@@ -139,9 +148,9 @@ const FormInputField = React.forwardRef<View, Props>(
 
     return (
       <HoliTextInput
-        inputLabel={t(`auth.login.input.label-${fieldLabel}`)}
-        accessibilityLabel={t(`auth.login.input.label-${fieldLabel}`)}
-        placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
+        inputLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
+        accessibilityLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
+        placeholder={t(`${translationPrefix}input.placeholder-${fieldLabel}`)}
         value={value ? String(value) : ''}
         validationErrorText={getValidationErrorText(node, i18n)}
         disabled={disabled}

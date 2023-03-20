@@ -79,7 +79,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
     return (
       kratosSdk
         // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
-        .toSession(orySessionToken)
+        .toSession({ xSessionToken: orySessionToken })
         .then(({ data: session }) => (session.active ? 'active' : 'expired'))
         .catch((/*e: AxiosError*/) => 'invalid')
     )
@@ -141,7 +141,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
       .then(onSessionLoadedFromStorage)
       .catch((error) => displayError(error, t('auth.authContextProvider.error.sessionCreation')))
     // eslint-disable-next-line
-    }, [])
+  }, [])
 
   return (
     <AuthContext.Provider

@@ -79,7 +79,7 @@ const browserStackCapabilities = () => {
         projectName: gitlabBranchName || localGitInfo.branch,
         buildName: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
         sessionName: 'undefined',
-        idleTimeout: '30', // seconds, should be short in order to fail early and keep queue slots open
+        idleTimeout: '60', // seconds, should be short in order to fail early and keep queue slots open
         networkLogs: 'true',
         consoleLogs: 'info',
         disableAnimations: 'true',

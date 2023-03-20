@@ -79,7 +79,7 @@ Or invert selective tests `--grep-invert @...`
 
 ### Troubleshooting
 
-- Playwright can be really fast with clicks, when using animated views it might run into issues - it is recommended to add delay between steps.
+- Playwright is really fast with clicks, which might uncover issues that don't appear in manual testing - they still are issues, though, either in the test itself or even in the application. Don't add delays to work around such test failures.
 
 - If an error like "Test timeout of 60000ms exceeded" occurs during CI in combination with "Target closed" in locally working tests, have a look at the overall execution time of the test - it might be that the timeout actually is not long enough and execution during CI just takes longer. (When the timeout is reached during test execution, the browser will be closed, causing Playwright to throw the error "Target closed" while searching for elements on the no longer existing page.)
   

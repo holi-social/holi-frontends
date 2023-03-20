@@ -1,13 +1,15 @@
-import { BrowserContext, Page, expect, test } from '@playwright/test'
+import { BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   clickElementByTestId,
-  defaultAuthSteps,
   locateElementByTestId,
+  loginAsE2EUser,
+  proceedAsGuest,
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
+import { test } from './testmaster'
 
 test.setTimeout(120000)
 const insightLoadMoreTimeout = { timeout: 30000 }
@@ -15,8 +17,7 @@ const insightLoadMoreTimeout = { timeout: 30000 }
 test.describe('@HomeScreen', () => {
   test('user journey', async ({ context, page }) => {
     // prepare
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
+    await proceedAsGuest(page)
 
     await testInsightsSection(page)
 
@@ -77,7 +78,7 @@ const testUserSuggestions = async (page: Page, context: BrowserContext) => {
   await expect(page.locator(byTestId('user-suggestions'))).toHaveCount(0)
 
   // shows 10 user suggestions if logged in
-  await defaultAuthSteps({ page, context })
+  await loginAsE2EUser(context, page)
   await page.locator(byTestId('btn-to-home-view')).click()
   await page.waitForSelector(byTestId('user-suggestions'))
   await expect(page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)

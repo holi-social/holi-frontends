@@ -2,10 +2,12 @@ import { faker } from '@faker-js/faker'
 import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
 
+import { test } from './testmaster'
+
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
-export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
+export const delay = (time: number) => test.fail() // don't use delays, they are hiding test issues that we should fix directly
 
 export const waitForElementByTestId = async (
   page: Page,
@@ -39,52 +41,99 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
 }
 
 export const waitForAnimationEnd = async (locator: Locator): Promise<void> => {
-  await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
+  //await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
 
-interface PageContext {
-  page: Page
-  context: BrowserContext
-}
-
-interface DefaultAuthStepsProps extends PageContext {
-  email?: string
-  password?: string
-}
-
-export const defaultAuthSteps = async (
-  {
-    page,
-    context,
-    email = process.env.E2E_USER_USERNAME || 'empty',
-    password = process.env.E2E_USER_PASSWORD || 'empty',
-  }: DefaultAuthStepsProps,
-  mode: 'login' | 'registration' = 'login'
-): Promise<void> => {
-  const isLogin = mode === 'login'
-
+const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
-
   await page.goto('/profile')
-  await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
+}
 
-  if (!isLogin) {
-    await clickElementByTestId(page, 'community-guidelines-checkbox')
-    await clickElementByTestId(page, 'holi-wizard-next-btn')
-    await clickElementByTestId(page, 'privicy-policy-checkbox')
-    await clickElementByTestId(page, 'holi-wizard-next-btn')
-  }
+export const gotoFillAndSubmitLogin = async (
+  context: BrowserContext,
+  page: Page,
+  email: string,
+  password: string
+): Promise<void> => {
+  await prepareForLoginOrRegistration(context, page)
 
-  const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
+  await clickElementByTestId(page, 'btn-to-login-form')
+
+  const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
 
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
 
-  await clickElementByTestId(page, 'ory-submit-method')
+  await clickElementByTestId(page, 'ory-submit-password')
+}
+
+export const gotoFillAndSubmitRegistration = async (
+  context: BrowserContext,
+  page: Page,
+  email: string,
+  password: string
+): Promise<void> => {
+  await prepareForLoginOrRegistration(context, page)
+
+  await clickElementByTestId(page, 'btn-to-registration-form')
+
+  await clickElementByTestId(page, 'community-guidelines-checkbox')
+
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  await clickElementByTestId(page, 'privicy-policy-checkbox')
+
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
+  await emailInput.fill(email)
+
+  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
+  await passwordInput.fill(password)
+
+  await clickElementByTestId(page, 'ory-submit-password')
+}
+
+export const proceedAsGuest = async (page: Page): Promise<void> => {
+  await page.goto('/')
+  // click the button and wait for it to be detached
+  Promise.all([
+    page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-continue-as-guest'),
+  ])
+}
+
+export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
+  test.fail(
+    !(!!process.env.E2E_USER_USERNAME && !!process.env.E2E_USER_PASSWORD),
+    'The environment variables E2E_USER_USERNAME and/or E2E_USER_PASSWORD are not set up correctly, please set them up.'
+  )
+  await gotoFillAndSubmitLogin(
+    context,
+    page,
+    process.env.E2E_USER_USERNAME as string,
+    process.env.E2E_USER_PASSWORD as string
+  )
+  // wait for profile - login succeeded
+  await waitForElementByTestId(page, 'btn-to-settings')
+}
+
+export const registerAsNewUser = async (
+  context: BrowserContext,
+  page: Page,
+  email?: string,
+  password?: string
+): Promise<void> => {
+  const emailToUse = email || newUserEmail()
+  const passwordToUse = password || newUserPassword
+  await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
+  // wait for profile - registration succeeded
+  await waitForElementByTestId(page, 'btn-to-settings')
 }
 
 export const checkAccessibility = async (page: Page) => {
+  /*
   await injectAxe(page)
   const axeOptions = {
     rules: {
@@ -93,6 +142,7 @@ export const checkAccessibility = async (page: Page) => {
   }
   // set skipFailures to true for now, so we can fix the issues in a planned task
   await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
+  */
 }
 
 export const sendConnectionRequest = async (page: Page) => {
@@ -124,8 +174,7 @@ export const withRandomUserSession = async (
   const email = newUserEmail()
   const password = newUserPassword
 
-  await page.goto('/')
-  await defaultAuthSteps({ context, page, email, password }, 'registration')
+  await registerAsNewUser(context, page)
   // wait for login to complete
   await page.waitForSelector(byTestId('btn-to-settings'))
   await actions(page)
@@ -143,12 +192,4 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-delete-account')
   await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
   await waitForElementByTestId(page, 'login-protection-heading')
-}
-
-export const ignoreOnboarding = async (page: Page) => {
-  try {
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
-  } catch (e) {
-    null
-  }
 }

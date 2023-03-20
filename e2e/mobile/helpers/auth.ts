@@ -43,17 +43,14 @@ export const defaultAuthSteps = async (
 
   // hit login
   const buttonId = isLogin ? 'already-have-account-text' : 'btn-to-registration-form'
-  const buttonExists = await checkIfElementWithTestIdExists(buttonId)
-  if (buttonExists) {
-    if (isLogin) {
-      await tapOnLoginLinkInText()
-    } else {
-      await tapOnElementWithTestId(buttonId)
-      await tapOnElementWithTestId('community-guidelines-checkbox')
-      await tapOnElementWithTestId('holi-wizard-next-btn')
-      await tapOnElementWithTestId('privicy-policy-checkbox')
-      await tapOnElementWithTestId('holi-wizard-next-btn')
-    }
+  if (isLogin) {
+    await tapOnLoginLinkInText()
+  } else {
+    await tapOnElementWithTestId(buttonId)
+    await tapOnElementWithTestId('community-guidelines-checkbox')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('privicy-policy-checkbox')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
   }
 
   // inspect login modal
@@ -62,10 +59,10 @@ export const defaultAuthSteps = async (
   await fillFieldByTestId('ory-password-input', password)
 
   // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 
   // Submit the form
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 }
 
 export const logout = async () => {

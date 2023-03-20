@@ -1,14 +1,11 @@
-import { expect, test } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, waitForAnimationEnd, waitForElementByTestId } from './helpers'
-
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
-})
+import { byTestId, clickElementByTestId, proceedAsGuest, waitForAnimationEnd, waitForElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 test.describe('@AppsDrawer', () => {
-  test('should be visible and opens drawer', async ({ page }) => {
+  test('user journey', async ({ page }) => {
+    await proceedAsGuest(page)
     // find and click apps button
     await waitForElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'home-apps-button')
