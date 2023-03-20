@@ -38,6 +38,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
             icon="key-2"
             onPress={goTo('/profile/settings/changePassword')}
             style={styles.settingsItem}
+            testID="btn-change-password"
           />
         </View>
         <View style={styles.separator} />

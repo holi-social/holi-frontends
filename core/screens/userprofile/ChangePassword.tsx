@@ -139,7 +139,7 @@ const ChangePassword: React.VFC = () => {
               onChange={setOldPwd}
               type="password"
               style={styles.formField}
-              testID={'input-old-pasword'}
+              testID={'old-password'}
             />
             <HoliTextInput
               inputLabel={t('auth.changePassword.input.label-NewPassword')}
@@ -151,12 +151,12 @@ const ChangePassword: React.VFC = () => {
               onChange={setNewPwd}
               type="password"
               style={styles.formField}
-              testID={'input-old-pasword'}
+              testID={'new-password'}
             />
             <HoliButton
               label={t('auth.changePassword.input.label-Save')}
               onPress={performPasswordChange}
-              testID={'submit-new-password'}
+              testID={'btn-submit-change-password'}
               style={styles.formButton}
             >
               {t('auth.changePassword.input.label-Save')}
