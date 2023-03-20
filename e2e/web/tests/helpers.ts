@@ -7,7 +7,8 @@ import { test } from './testmaster'
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
-export const delay = (time: number) => test.fail() // don't use delays, they are hiding test issues that we should fix directly
+export const delay = (time: number) =>
+  test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
 export const waitForElementByTestId = async (
   page: Page,
@@ -16,32 +17,18 @@ export const waitForElementByTestId = async (
   return await page.waitForSelector(byTestId(testId))
 }
 
-export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
+export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
   await waitForElementByTestId(page, testId)
-  return page.locator(byTestId(testId))
+  return page.locator(byTestId(testId, nth))
 }
 
-export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
-  return await page.locator(`text=${text}`).waitFor()
-}
-
-export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
-  await page.waitForSelector(selector)
-  return page.locator(selector)
-}
-
-export const clickElement = async (locator: Locator) => {
+export const clickElement = async (locator: Locator): Promise<void> => {
   // potentially there are multiple matches, so we ensure to only click the first element
   await locator.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string, nth?: number) => {
-  const button = await locateElementByTestId(page, testId, nth)
-  await clickElement(button)
-}
-
-export const waitForAnimationEnd = async (locator: Locator): Promise<void> => {
-  //await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
+  return clickElement(await locateElementByTestId(page, testId, nth))
 }
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
@@ -98,17 +85,25 @@ export const gotoFillAndSubmitRegistration = async (
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
   // click the button and wait for it to be detached
-  Promise.all([
+  await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
   ])
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
-  test.fail(
-    !(!!process.env.E2E_USER_USERNAME && !!process.env.E2E_USER_PASSWORD),
-    'The environment variables E2E_USER_USERNAME and/or E2E_USER_PASSWORD are not set up correctly, please set them up.'
-  )
+  test
+    .expect(
+      !!process.env.E2E_USER_USERNAME,
+      'The environment variable E2E_USER_USERNAME is not set up correctly, please set it up.'
+    )
+    .toBeTruthy()
+  test
+    .expect(
+      !!process.env.E2E_USER_PASSWORD,
+      'The environment variable E2E_USER_PASSWORD is not set up correctly, please set it up.'
+    )
+    .toBeTruthy()
   await gotoFillAndSubmitLogin(
     context,
     page,

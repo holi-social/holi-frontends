@@ -6,7 +6,6 @@ import {
   locateElementByTestId,
   loginAsE2EUser,
   proceedAsGuest,
-  waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
@@ -66,11 +65,9 @@ const testInsightsSection = async (page: Page) => {
 const testInsightsEditors = async (page: Page) => {
   // opens editors list upon clicking in avatar pile and shows insight editor cards
   await clickElementByTestId(page, 'avatar-pile-open-modal-button')
-  await waitForAnimationEnd(page.locator(byTestId('insight-editors-modal-animatedview')))
   await waitForElementByTestId(page, 'insight-editors-modal')
   await waitForElementByTestId(page, 'user-card')
   await clickElementByTestId(page, 'insight-editors-close-btn')
-  await waitForAnimationEnd(page.locator(byTestId('insight-editors-modal-animatedview')))
 }
 const testUserSuggestions = async (page: Page, context: BrowserContext) => {
   await waitForElementByTestId(page, 'home-feed-insights-heading')
@@ -82,5 +79,4 @@ const testUserSuggestions = async (page: Page, context: BrowserContext) => {
   await page.locator(byTestId('btn-to-home-view')).click()
   await page.waitForSelector(byTestId('user-suggestions'))
   await expect(page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
-  //await expect(page.locator(byTestId('user-card-suggestion'))).toHaveCount(0)
 }

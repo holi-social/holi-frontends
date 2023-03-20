@@ -98,10 +98,14 @@ const config: PlaywrightTestConfig = {
   // please edit the variable, not this setting, because other settings depend on it.
   retries: retries,
   use: {
-    /* Collect traces when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: retries == 0 ? 'retain-on-failure' : 'on-first-retry',
+    /**
+     * Collect traces when retrying the failed test. See https://playwright.dev/docs/trace-viewer
+     * We prioritize debuggability over saving storage space here. With a setting of
+     * on-first-retry, we might not get a trace for flaky tests and would be less able to debug.
+     */
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: retries == 0 ? 'retain-on-failure' : 'on-first-retry',
+    video: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 10000,
     navigationTimeout: 20000,
