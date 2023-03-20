@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -16,7 +16,12 @@ import HoliWizardNaviagtionButtons, {
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
-interface AcceptDocumentLayoutProps {
+export interface AgreementProps {
+  agreementValue: boolean
+  onAgreementChange: () => void
+}
+
+interface AcceptDocumentLayoutProps extends AgreementProps {
   append?: React.ReactNode
   onNextPress?: () => void
   onBackPress?: () => void
@@ -32,6 +37,8 @@ interface AcceptDocumentLayoutProps {
 
 const AcceptDocumentLayout = ({
   children,
+  agreementValue,
+  onAgreementChange,
   append,
   onNextPress,
   onBackPress,
@@ -45,14 +52,13 @@ const AcceptDocumentLayout = ({
   testID,
 }: React.PropsWithChildren<AcceptDocumentLayoutProps>) => {
   const { t } = useTranslation()
-  const [accepted, setAccepted] = useState(false)
   const { show: showModal, props: modalProps } = useModalState()
 
   const navButtons = (
     <HoliWizardNaviagtionButtons
       onNextPress={onNextPress}
       onBackPress={onBackPress}
-      isNextButtonEnabled={accepted}
+      isNextButtonEnabled={agreementValue}
       style={styles.buttonContainer}
     />
   )
@@ -80,8 +86,8 @@ const AcceptDocumentLayout = ({
 
       <HoliCheckbox
         autofocus={false}
-        checked={accepted}
-        onSelect={() => setAccepted((value) => !value)}
+        checked={agreementValue}
+        onSelect={onAgreementChange}
         style={styles.checkbox}
         testID={`${testID}-checkbox`}
       >
