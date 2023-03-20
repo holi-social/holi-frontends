@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface CenteredContentLayoutProps {
@@ -9,23 +10,29 @@ export interface CenteredContentLayoutProps {
   contentContainerStyle?: StyleProp<ViewStyle>
 }
 
-const CenteredContentLayout = ({
-  append,
-  children,
-  contentContainerStyle,
-}: React.PropsWithChildren<CenteredContentLayoutProps>) => {
-  return (
-    <SafeAreaView style={[styles.outer]}>
-      <View style={styles.inner}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}>
-          {children}
-        </ScrollView>
-      </View>
+const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildren<CenteredContentLayoutProps>>(
+  ({ append, children, contentContainerStyle }, ref) => {
+    return (
+      <SafeAreaView style={[styles.outer]}>
+        <View style={styles.inner}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+            ref={ref}
+          >
+            <HoliBox padding={24}>
+              <View style={{ justifyContent: 'center' }}>{children}</View>
+            </HoliBox>
+          </ScrollView>
+        </View>
 
-      {append}
-    </SafeAreaView>
-  )
-}
+        {append}
+      </SafeAreaView>
+    )
+  }
+)
+
+CenteredContentLayout.displayName = 'CenteredContentLayout'
 
 const styles = StyleSheet.create({
   outer: {
@@ -47,7 +54,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     alignItems: 'center',
-    margin: 24,
   },
 })
 

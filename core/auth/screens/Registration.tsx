@@ -1,12 +1,11 @@
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -15,6 +14,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isWeb = Platform.OS === 'web'
@@ -66,9 +67,12 @@ const Registration: React.VFC = () => {
           .catch((error) => displayError(error, t('auth.registration.error.registration')))
       : Promise.resolve()
 
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
   return (
-    <CenteredContentLayout>
-      <LoginRegistrationContainer>
+    <HoliKeyboardSaveView>
+      <CenteredContentLayout ref={scrollViewRef}>
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}
@@ -77,11 +81,16 @@ const Registration: React.VFC = () => {
           <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
         </View>
 
-        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
+        <FormBuilder
+          flow={flow}
+          onSubmit={onSubmit}
+          style={styles.loginForm}
+          scrollToInputWithId={scrollToInputWithId}
+        />
 
         <AlreadyHaveAccountText style={styles.loginHeadline} />
-      </LoginRegistrationContainer>
-    </CenteredContentLayout>
+      </CenteredContentLayout>
+    </HoliKeyboardSaveView>
   )
 }
 
@@ -93,7 +102,6 @@ const styles = StyleSheet.create({
   },
   headline: {
     fontWeight: '400',
-    marginTop: 74,
   },
   description: {
     color: colors.foreground20,
