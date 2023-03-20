@@ -52,8 +52,7 @@ const testFiltering = async (page: Page) => {
   await locationInput.fill('Berlin')
 
   // expect suggestions
-  const element = await locateElementBySelector(page, '[role="menuitem"]')
-  await clickElement(element)
+  await clickElement(page.locator('[role="menuitem"]'))
 
   // open topics dropdown
   await clickElementByTestId(page, 'spaces-filter-interests-input')
@@ -209,8 +208,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await inputSpaceLocation(page, editedLocation)
 
     // expect suggestions
-    const element = await locateElementBySelector(page, '[role="menuitem"]')
-    await clickElement(element)
+    await clickElement(page.locator('[role="menuitem"]'))
     await saveAndWaitForModalClosed(page)
 
     // edit space sdgs
