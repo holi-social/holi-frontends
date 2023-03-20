@@ -214,9 +214,8 @@ const filterForLocation = async (
   await locationInput.fill(location)
 
   // expect suggestions
-  const element = await locateElementBySelector(page, '[role="menuitem"]')
   if (useSuggestion) {
-    await clickElement(element)
+    await clickElement(page.locator('[role="menuitem"]'))
   }
 
   // close search modal
