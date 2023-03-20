@@ -21,7 +21,7 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
             ref={ref}
           >
             <HoliBox padding={24}>
-              <View style={{ justifyContent: 'center' }}>{children}</View>
+              <View style={styles.contentWrapper}>{children}</View>
             </HoliBox>
           </ScrollView>
         </View>
@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   scrollViewContent: {
+    alignItems: 'center',
+  },
+  contentWrapper: {
+    justifyContent: 'center',
     alignItems: 'center',
   },
 })
