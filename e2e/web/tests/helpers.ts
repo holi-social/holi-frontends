@@ -28,7 +28,7 @@ export const clickElement = async (locator: Locator): Promise<void> => {
 }
 
 export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
-  return clickElement(locateElementByTestId(page, testId, nth))
+  return clickElement(await locateElementByTestId(page, testId, nth))
 }
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
