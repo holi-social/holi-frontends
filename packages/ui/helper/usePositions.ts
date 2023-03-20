@@ -1,5 +1,5 @@
-import { SyntheticEvent, useState } from 'react'
-import { View } from 'react-native'
+import { useState } from 'react'
+import { LayoutChangeEvent, View } from 'react-native'
 
 import { useRefList } from './useRefList'
 
@@ -55,7 +55,7 @@ export const usePositions = () => {
   ) => {
     return {
       ref: addRef(id),
-      onLayout: (event: SyntheticEvent) => {
+      onLayout: (event: LayoutChangeEvent) => {
         const x = event.nativeEvent?.layout?.x as number
         const y = event.nativeEvent?.layout?.y as number
         setElementsPositions((prevState) => ({ ...prevState, [id]: { x, y, ref: refs[id] } }))

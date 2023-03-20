@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   button: {
     maxWidth: 300,
+    alignSelf: 'center',
   },
   fistButton: {
     marginTop: 24,

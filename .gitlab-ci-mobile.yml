@@ -6,7 +6,7 @@
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
     ORY_BASE_URL: https://dev-auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://dev.cloud.project-holi.org
+    OWNCLOUD_BASE_URL: https://development.cloud.project-holi.org
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -249,7 +249,7 @@ mobile_production_publish:
     ENVIRONMENT_ID: production
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
     ORY_BASE_URL: https://auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://prod.cloud.project-holi.org
+    OWNCLOUD_BASE_URL: https://production.cloud.project-holi.org
   only:
     - production
 

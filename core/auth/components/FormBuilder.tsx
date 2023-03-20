@@ -18,6 +18,7 @@ import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
 type NodeId = string
 
@@ -26,6 +27,7 @@ interface Props<T> {
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  scrollToInputWithId?: (id: string) => ScrollToProps
   autofocusField?: NodeId
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
@@ -42,6 +44,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
   onSubmit,
   only,
   textInputOverride,
+  scrollToInputWithId,
   autofocusField,
   translationPrefix = 'auth.login.',
   style,
@@ -155,6 +158,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
+              scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
               style={{ marginTop: 30 }}
             />

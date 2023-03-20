@@ -34,8 +34,9 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       onError(error) {
         if (error.message.includes('Not requested to join community')) {
           displayError(error, t('spaces.join.error.already-revoked'))
+        } else {
+          displayError(error, t('spaces.join.error'))
         }
-        displayError(error, t('spaces.join.error'))
       },
     }
   )
