@@ -185,7 +185,7 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-settings')
   await clickElementByTestId(page, 'btn-your-account')
   await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
+  await clickElementByTestIdAndWaitForToast(page, 'account-deletion-confirmation-confirmation-confirm', 'toast-SUCCESS')
   await waitForElementByTestId(page, 'login-protection-heading')
 }
 
