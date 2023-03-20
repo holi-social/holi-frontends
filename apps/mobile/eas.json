@@ -23,7 +23,7 @@
       "env": {
         "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql",
         "ORY_BASE_URL": "https://auth.project-holi.org",
-        "OWNCLOUD_BASE_URL": "https://prod.cloud.project-holi.org"
+        "OWNCLOUD_BASE_URL": "https://production.cloud.project-holi.org"
       },
       "ios": {
         "resourceClass": "m1-medium"

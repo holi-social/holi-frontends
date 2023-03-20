@@ -78,7 +78,7 @@ export default {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
       },
       owncloud: {
-        url: process.env.OWNCLOUD_BASE_URL || 'https://dev.cloud.project-holi.org',
+        url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.project-holi.org',
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID || '',
