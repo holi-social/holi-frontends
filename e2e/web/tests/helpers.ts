@@ -22,23 +22,13 @@ export const locateElementByTestId = async (page: Page, testId: string, nth?: nu
   return page.locator(byTestId(testId, nth))
 }
 
-export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
-  return await page.locator(`text=${text}`).waitFor()
-}
-
-export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
-  await page.waitForSelector(selector)
-  return page.locator(selector)
-}
-
-export const clickElement = async (locator: Locator) => {
+export const clickElement = async (locator: Locator): Promise<void> => {
   // potentially there are multiple matches, so we ensure to only click the first element
   await locator.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string, nth?: number) => {
-  const button = await locateElementByTestId(page, testId, nth)
-  await clickElement(button)
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
+  return clickElement(locateElementByTestId(page, testId, nth))
 }
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
@@ -95,7 +85,7 @@ export const gotoFillAndSubmitRegistration = async (
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
   // click the button and wait for it to be detached
-  Promise.all([
+  await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
   ])

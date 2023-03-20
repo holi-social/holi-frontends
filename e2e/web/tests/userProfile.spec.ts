@@ -77,23 +77,15 @@ const deselectAll = async (page: Page, what: string) => {
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
 
-  const countOfSelectedChips: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
+  const selectorForSelectedChips = `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  const countOfSelectedChips = async (): Promise<number> => getCountOf(page, selectorForSelectedChips)
 
-  for (let stillSelectedCount = countOfSelectedChips; stillSelectedCount > 0; stillSelectedCount--) {
-    await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
-      .first()
-      .click()
+  for (let stillSelectedCount = await countOfSelectedChips(); stillSelectedCount > 0; stillSelectedCount--) {
+    await page.locator(selectorForSelectedChips).first().click()
+    await expect.poll(countOfSelectedChips).toBe(stillSelectedCount - 1)
   }
 
-  const stillSelectedCount: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(stillSelectedCount).toBe(0)
+  expect(await countOfSelectedChips()).toBe(0)
 
   await saveAndCloseChipform(page)
 
@@ -113,6 +105,8 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
+  const countOfSelectedChips = async (): Promise<number> =>
+    getCountOf(page, `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
 
   const expectedNoOfSelectedChips = 3
 
@@ -121,13 +115,10 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
       .nth(indexToSelect)
       .click()
+    await expect.poll(countOfSelectedChips).toBe(indexToSelect + 1)
   }
 
-  const newSelectionCount = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
+  expect.poll(countOfSelectedChips).toBe(expectedNoOfSelectedChips)
 
   await saveAndCloseChipform(page)
 
@@ -136,9 +127,8 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await expect.poll(shownChips).toBe(expectedNoOfSelectedChips)
 }
 
-const getCountOf = async (page: Page, selector: string) => {
-  const locator = await page.locator(selector)
-  return await locator.count()
+const getCountOf = async (page: Page, selector: string): Promise<number> => {
+  return page.locator(selector).count()
 }
 
 const saveAndCloseChipform = async (page: Page) => {

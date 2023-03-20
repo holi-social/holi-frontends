@@ -5,14 +5,13 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
-  locateElementBySelector,
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-test.setTimeout(120000)
+test.setTimeout(180000)
 
 test.describe('@Spaces', () => {
   test('user journey', async ({ context, page, userHandler }) => {

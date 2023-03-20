@@ -4,7 +4,6 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
-  locateElementBySelector,
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
@@ -134,7 +133,9 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
 
 const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   // filter for "Germany"
-  await filterForLocation(page, 'Germany', { assertAccessibility: true })
+  await waitForElementByTestId(page, 'donations-list-item')
+  await filterForLocation(page, 'Germany', { assertAccessibility: true, useSuggestion: true })
+  await waitForElementByTestId(page, 'donations-list-item')
 
   // assert results
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
@@ -155,6 +156,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg', { useSuggestion: true })
+  await waitForElementByTestId(page, 'donations-list-item')
 
   // assert and compare results
   heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -174,6 +176,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 const testDisplayDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
+  await waitForElementByTestId(page, 'donations-list-item')
 
   // expect filtered list
   let heading = await locateElementByTestId(page, 'donations-list-search-heading')

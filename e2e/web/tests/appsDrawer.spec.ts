@@ -12,7 +12,6 @@ test.describe('@AppsDrawer', () => {
 
     // apps drawer is open and contain apps
     await waitForElementByTestId(page, 'apps-drawer-modal')
-    await waitForElementByTestId(page, 'app-tile-donations')
 
     // open an app
     await clickElementByTestId(page, 'app-tile-donations')
