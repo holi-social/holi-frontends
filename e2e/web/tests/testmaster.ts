@@ -10,8 +10,8 @@ export class UserHandler {
     this.browser = browser
   }
 
-  public async asRandomUser(actions: (page: Page) => Promise<void>) {
-    this.sessions.push(await withRandomUserSession(this.browser, actions))
+  public async asRandomUser(actions: (page: Page) => Promise<void>, email?: string, password?: string) {
+    this.sessions.push(await withRandomUserSession(this.browser, actions, email, password))
   }
 
   public async cleanup() {
@@ -20,7 +20,7 @@ export class UserHandler {
 }
 
 export const test = baseTest.extend<{ userHandler: UserHandler; asGuest: Page; asE2EUser: Page }>({
-  userHandler: async ({ browser, context, page }, use) => {
+  userHandler: async ({ browser }, use) => {
     const userHandler = new UserHandler(browser)
     await use(userHandler)
     await userHandler.cleanup()
