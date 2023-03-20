@@ -14,10 +14,10 @@ import { test } from './testmaster'
 require('dotenv').config({ path: '.envrc' })
 
 test.describe('@ChangePassword', () => {
-  test('changes the password of a user.', async ({ userHandler, context }) => {
+  test('user journey', async ({ userHandler, context }) => {
     const email = newUserEmail()
     const oldPassword = 'whgr88234298wohfffwo'
-    const newPassword = 'dlrnrf82840wnfw4o538'
+    const newPassword = 'dlrnrf82840wnfw4o5'
     await userHandler.asRandomUser(
       async (page) => {
         // after the login we are on the profile page.
@@ -25,11 +25,21 @@ test.describe('@ChangePassword', () => {
         await clickElementByTestId(page, 'btn-your-account')
         await clickElementByTestId(page, 'btn-change-password')
 
-        const oldPwdInput = await locateElementByTestId(page, 'old-password-input')
-        await oldPwdInput.fill(oldPassword)
-        const newPwdInput = await locateElementByTestId(page, 'new-password-input')
-        await newPwdInput.fill(newPassword)
+        // provide invalid old password
+        await (await locateElementByTestId(page, 'old-password-input')).fill('wrongOldPassword')
+        await (await locateElementByTestId(page, 'new-password-input')).fill(newPassword)
+        await clickElementByTestId(page, 'btn-submit-change-password')
+        await waitForElementByTestId(page, 'old-password-input-error-message')
 
+        // provide invalid new password
+        await (await locateElementByTestId(page, 'old-password-input')).fill(oldPassword)
+        await (await locateElementByTestId(page, 'new-password-input')).fill('1234')
+        await clickElementByTestId(page, 'btn-submit-change-password')
+        await waitForElementByTestId(page, 'new-password-input-error-message')
+
+        // provide correct passwords
+        await (await locateElementByTestId(page, 'old-password-input')).fill(oldPassword)
+        await (await locateElementByTestId(page, 'new-password-input')).fill(newPassword)
         await clickElementByTestIdAndWaitForToastFinish(page, 'btn-submit-change-password', 'toast-SUCCESS')
 
         // Logout
@@ -37,8 +47,8 @@ test.describe('@ChangePassword', () => {
         await clickElementByTestId(page, 'btn-to-logout')
         await clickElementByTestIdAndWaitForToast(page, 'modal-logout-confirmation-confirm', 'toast-SUCCESS')
 
+        // re-login with new password
         await gotoFillAndSubmitLogin(context, page, email, newPassword)
-
         await waitForElementByTestId(page, 'btn-to-settings')
       },
       email,
