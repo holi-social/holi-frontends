@@ -16,7 +16,7 @@ export const useStepper = (initialStep = 0) => {
   const [currentStep, setCurrentStep] = React.useState(initialStep)
 
   const goNext = useCallback(() => setCurrentStep((current) => current + 1), [])
-  const goBack = useCallback(() => setCurrentStep((current) => current - 1), [])
+  const goBack = useCallback(() => setCurrentStep((current) => Math.max(current - 1, 0)), [])
 
   return {
     currentStep,
