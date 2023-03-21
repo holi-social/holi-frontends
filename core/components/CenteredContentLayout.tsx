@@ -17,11 +17,12 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
         <View style={styles.inner}>
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={[styles.scrollViewContent, contentContainerStyle]}
+            contentContainerStyle={contentContainerStyle}
             ref={ref}
+            onLayout={(event) => console.log(event.nativeEvent.layout.height)}
           >
             <HoliBox padding={24}>
-              <View style={styles.contentWrapper}>{children}</View>
+              <View style={{ alignItems: 'center' }}>{children}</View>
             </HoliBox>
           </ScrollView>
         </View>
@@ -45,19 +46,10 @@ const styles = StyleSheet.create({
   },
   inner: {
     justifyContent: 'center',
-    ...Platform.select({
-      web: { maxHeight: '100%' },
-    }),
+    maxHeight: '100%',
   },
   scrollView: {
     overflow: 'visible',
-  },
-  scrollViewContent: {
-    alignItems: 'center',
-  },
-  contentWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 })
 
