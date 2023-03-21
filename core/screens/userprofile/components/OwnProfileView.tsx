@@ -6,12 +6,10 @@ import { StyleSheet, View } from 'react-native'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -21,7 +19,10 @@ interface Props {
   user: User
 }
 
+/** TODO: Suspence currently only works on web. To make it work for
+ * mobile we need to move to the new React Native architecture */
 const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
+const InsightsTab = lazy(() => import('@holi/core/components/InsightsTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
@@ -91,26 +92,14 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
           {
             title: t('profile.tabs.insight'),
             children: (
-              <View
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingHorizontal: 56,
-                  paddingVertical: 72,
-                }}
-              >
-                <HoliText style={{ textAlign: 'center', color: colors.foreground20 }}>
-                  {t('profile.tabs.insight.empty')}
-                </HoliText>
-              </View>
+              <Suspense fallback={<HoliLoader />}>
+                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+              </Suspense>
             ),
           },
           {
             title: t('profile.tabs.spaces'),
             children: (
-              /** TODO: Suspence currently only works on web. To make it work for
-               * mobile we need to move to the new React Native architecture */
               <Suspense fallback={<HoliLoader />}>
                 <SpacesTab
                   emptyText={t('profile.tabs.spaces.empty')}
