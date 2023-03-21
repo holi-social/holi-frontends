@@ -21,16 +21,17 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
-  const [followSpace, { loading, error }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-      update: (cache) => {
-        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-      },
-    }
-  )
   const { displayError } = useErrorHandling()
+
+  const [followSpace, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
+    // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
+    onError: (error) => {
+      displayError(error, t('spaces.follow.error'))
+    },
+  })
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -64,10 +65,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
 
   if (isMember || hasRequestedMembership) {
     return null
-  }
-
-  if (error) {
-    displayError(error, t('spaces.follow.error'))
   }
 
   return (

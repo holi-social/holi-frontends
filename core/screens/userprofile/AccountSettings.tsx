@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
@@ -21,10 +21,13 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
 
+  const { navigate } = useRouting()
+
   useLayoutEffect(() => setOptions({ title: t('profile.settings.account.title') }), [setOptions, t])
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const goTo = (url: string) => () => {
+    navigate(url)
+  }
 
   return (
     <DefaultScrollHeaderLayout>
@@ -33,8 +36,9 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
           <MoreOptionItem
             label={t('profile.edit.changePassword')}
             icon="key-2"
-            onPress={showFeatureNotImplementedToast}
+            onPress={goTo('/profile/settings/changePassword')}
             style={styles.settingsItem}
+            testID="btn-change-password"
           />
         </View>
         <View style={styles.separator} />

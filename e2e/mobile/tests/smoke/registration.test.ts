@@ -13,7 +13,7 @@ const goFromRegistrationToHome = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
 }
 
-describe('@Registration', () => {
+describe('@Registration - smoke', () => {
   it('Registration - Logout', async () => {
     // successful registration
     const email = await registerNewUser()

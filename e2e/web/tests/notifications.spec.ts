@@ -52,8 +52,6 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await Promise.all([
     // wait for ignoring the connection request
     page.waitForResponse('/api/graphql'),
-    // sometimes, waitForAnimationEnd fails due to not finding the loader indicator ???
-    //waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
     // ignore the connection request
     clickElementByTestId(page, 'ignore-connection-request-button'),
   ])
@@ -63,8 +61,6 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await Promise.all([
     // Waits for accepting the connection request
     page.waitForResponse('/api/graphql'),
-    // sometimes, waitForAnimationEnd fails due to not finding the loader indicator ???
-    //waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
     // accept the connection request
     clickElementByTestId(page, 'accept-connection-request-button'),
   ])

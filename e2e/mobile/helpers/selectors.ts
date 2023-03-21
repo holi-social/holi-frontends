@@ -122,7 +122,7 @@ export const scrollToElementWithTestId = async (
       scrollCounter++
     }
     // one last try
-    return await waitForElementWithTestId(testId, 1000)
+    return await waitForElementWithTestId(testId, timeout)
   })
 }
 
