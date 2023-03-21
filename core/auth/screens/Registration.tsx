@@ -79,16 +79,17 @@ const Registration: React.VFC = () => {
           </HoliHeading>
 
           <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+          <FormBuilder
+            flow={flow}
+            onSubmit={onSubmit}
+            style={styles.loginForm}
+            scrollToInputWithId={scrollToInputWithId}
+          />
+
+          <View style={{ alignItems: 'center' }}>
+            <AlreadyHaveAccountText style={styles.loginHeadline} />
+          </View>
         </View>
-
-        <FormBuilder
-          flow={flow}
-          onSubmit={onSubmit}
-          style={styles.loginForm}
-          scrollToInputWithId={scrollToInputWithId}
-        />
-
-        <AlreadyHaveAccountText style={styles.loginHeadline} />
       </CenteredContentLayout>
     </HoliKeyboardSaveView>
   )
@@ -99,6 +100,7 @@ export default memo(Registration)
 const styles = StyleSheet.create({
   inner: {
     maxWidth: vars.breakpointL,
+    width: '100%',
   },
   headline: {
     fontWeight: '400',

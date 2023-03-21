@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import DataConsent from '@holi/core/auth/components/DataConsent'
@@ -102,6 +102,15 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      },
+    }),
   },
 })
 
