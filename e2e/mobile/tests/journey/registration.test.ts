@@ -8,7 +8,7 @@ const goFromRegistrationToHome = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
 }
 
-describe('@Registration', () => {
+describe('@Registration - journey', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
