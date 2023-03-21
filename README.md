@@ -11,6 +11,7 @@
     - [Automated Testing](#automated-testing)
       - [Unit tests](#unit-tests)
         - [Execution](#execution)
+        - [Local Execution](#local-execution)
         - [Conventions](#conventions)
       - [Web e2e tests](#web-e2e-tests)
       - [Mobile e2e tests](#mobile-e2e-tests)
@@ -44,6 +45,7 @@
   - [Authentication](#authentication)
     - [Mobile](#mobile-1)
     - [Web](#web-1)
+    - [OAuth2](#oauth2)
   - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
   - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
     - [Feature Branches \& Environments](#feature-branches--environments)
@@ -141,7 +143,8 @@ yarn test -t 'SpaceTaskTile renders correctly'
 ```
 
 ##### Local Execution
-You can also run some of the tests locally. Currently, only Core, but more is to come. 
+
+You can also run some of the tests locally. Currently, only Core, but more is to come.
 
 ```sh
 # just navigate to the package, for example:
@@ -156,8 +159,6 @@ yarn test:watchAll
 ```
 
 Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
-
-
 
 ##### Conventions
 
@@ -642,6 +643,16 @@ request header `Authorization: Bearer $TOKEN`.
 During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
 secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
 the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
+
+### OAuth2
+
+In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://owncloud.dev/ocis/)) there are some web specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
+
+The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
+
+```sh
+127.0.0.1 https://staging.web.project-holi.org
+```
 
 ## Exploring the GraphQL API (via graphiql)
 
