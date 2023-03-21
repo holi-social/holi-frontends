@@ -84,8 +84,8 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
             }}
           >
             {isAdmin && (
-              <View style={{ alignItems: 'center' }}>
-                <HoliHeading level="2" size="small" style={{ marginBottom: '20px' }}>
+              <View>
+                <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
                   {selectedTool?.title}
                 </HoliHeading>
                 <MoreOptionItem
@@ -194,5 +194,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     paddingVertical: 18,
+  },
+  toolContextHeader: {
+    width: '100%',
+    textAlign: 'center',
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
   },
 })
