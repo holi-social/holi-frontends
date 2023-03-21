@@ -98,7 +98,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   contentStyle={styles.buttonWithIcon}
                 />
                 <DeleteCollaborationToolButton
-                  toolId={tool?.id || ''}
+                  toolId={selectedTool?.id || ''}
                   onDelete={() => {
                     navigateToToolkitPage()
                     hide()
