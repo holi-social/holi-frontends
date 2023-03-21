@@ -201,7 +201,6 @@ export default AddDigitalTool
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    padding: 24,
     backgroundColor: colors.background20,
   },
   contentStyle: {

@@ -46,6 +46,7 @@ const SpaceFragment = gql`
       url
       description
       title
+      collectionType
     }
     members {
       ...FullSpaceMember
@@ -272,6 +273,32 @@ export const addCollaborationToolMutation = gql`
 export type AddCollaborationToolResponse = {
   addCollaborationTool: SpaceCollaborationTool
 }
+
+export const UpdateCollaborationToolSchema = z.object({
+  id: z.string() /* UUID */,
+  url: z.string().url().max(500),
+  title: z.string().trim().min(3).max(50),
+  description: z.string().trim().min(3).max(100).optional(),
+  collectionType: z.string(),
+})
+
+export type UpdateCollaborationToolInput = z.infer<typeof UpdateCollaborationToolSchema>
+
+export type UpdateCollaborationToolResponse = {
+  updateCollaborationTool: SpaceCollaborationTool
+}
+
+export const updateCollaborationToolMutation = gql`
+  mutation UpdateCollaborationTool($input: UpdateCollaborationToolInput!) {
+    updateCollaborationTool(input: $input) {
+      id
+      url
+      title
+      description
+      collectionType
+    }
+  }
+`
 
 export type CreateSpaceResponse = {
   createSpace: Space

@@ -12,7 +12,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const COLLECTION_TYPES: HoliSelectOption[] = [
+export const COLLECTION_TYPES: HoliSelectOption[] = [
   {
     id: 'COLLABORATION',
     title: 'Collaboration',
@@ -36,6 +36,7 @@ export interface DigitalToolInputFormProps {
   description?: string
   selectedCollection?: HoliSelectOption
   thumbnail?: ImageInfo | undefined
+  isEdit?: boolean
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -49,6 +50,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
+  isEdit = false,
 }: DigitalToolInputFormProps) => {
   const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
@@ -160,8 +162,12 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
       />
-      <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
-      <ThumbnailUploader />
+      {!isEdit && (
+        <>
+          <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
+          <ThumbnailUploader />
+        </>
+      )}
     </>
   )
 }
