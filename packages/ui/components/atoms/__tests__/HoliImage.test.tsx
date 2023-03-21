@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage.web'
-import { ResizeModes } from '@holi/ui/components/atoms/imageUtils'
+import { ImageSource, ResizeModes } from '@holi/ui/components/utils/image'
 
 const allSources = [
   { uri: 'http://placekitten.com/320/213', width: 320, height: 213 },
@@ -15,7 +15,9 @@ describe('renders correctly for web', () => {
   ResizeModes.forEach((resizeMode) => {
     it(`renders image with single source correctly for resize mode '${resizeMode}'`, () => {
       const tree = renderer
-        .create(<HoliImage source={{ uri: allSources[0].uri }} label={'alt text'} resizeMode={resizeMode} />)
+        .create(
+          <HoliImage source={{ uri: allSources[0].uri } as ImageSource} label={'alt text'} resizeMode={resizeMode} />
+        )
         .toJSON()
       expect(tree).toMatchSnapshot()
     })
