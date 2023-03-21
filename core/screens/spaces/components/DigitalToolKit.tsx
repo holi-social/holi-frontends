@@ -1,3 +1,4 @@
+import HoliHeading from 'packages/ui/components/atoms/HoliHeading'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
@@ -27,27 +28,11 @@ const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [showAll, setShowAll] = useState(false)
+  const [selectedTool, setSelectedTool] = useState()
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
-  const { useParam } = createParam<SpaceDetailsParams>()
-  const { setOptions } = useUnifiedNavigation()
   const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-
-  useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
-      headerTitle: () => null,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
 
   const { collaborationTools = [] } = space
 
@@ -91,17 +76,21 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
             <HoliIcon icon={'share-box'} size={15} />
           </HoliButton>
           <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
+            label={t('spaces.digitalTool.preview.more')}
             showOptions={visible}
             onModalDismiss={hide}
             testID="digital-toolkit-btn"
             onPress={() => {
+              setSelectedTool(tool)
               visible && hide()
               show()
             }}
           >
             {isAdmin && (
-              <>
+              <View style={{ alignItems: 'center' }}>
+                <HoliHeading level="2" size="small" style={{ marginBottom: '20px' }}>
+                  {selectedTool?.title}
+                </HoliHeading>
                 <MoreOptionItem
                   icon="edit-2"
                   label={t('global.edit')}
@@ -119,7 +108,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   }}
                   style={styles.buttonWithIcon}
                 />
-              </>
+              </View>
             )}
           </MoreOptionsButtonWithModal>
         </View>
