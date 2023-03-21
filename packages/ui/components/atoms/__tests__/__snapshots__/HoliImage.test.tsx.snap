@@ -4,8 +4,8 @@ exports[`renders correctly for web passes aspect ratio 1`] = `
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="http://placekitten.com/320/213"
-  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
+  src="http://placekitten.com/320/213?tr=w-320%2Ch-213"
+  srcSet="http://placekitten.com/320/213?tr=w-320%2Ch-213 320w,http://placekitten.com/576/384?tr=w-576%2Ch-384 576w,http://placekitten.com/992/661?tr=w-992%2Ch-661 992w,http://placekitten.com/1200/800?tr=w-1200%2Ch-800 1200w"
   style={
     {
       "aspectRatio": "1.7777777777777777",
@@ -19,8 +19,8 @@ exports[`renders correctly for web passes sizes property 1`] = `
 <img
   alt="alt text"
   sizes="500px"
-  src="http://placekitten.com/320/213"
-  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
+  src="http://placekitten.com/320/213?tr=w-320%2Ch-213"
+  srcSet="http://placekitten.com/320/213?tr=w-320%2Ch-213 320w,http://placekitten.com/576/384?tr=w-576%2Ch-384 576w,http://placekitten.com/992/661?tr=w-992%2Ch-661 992w,http://placekitten.com/1200/800?tr=w-1200%2Ch-800 1200w"
   style={
     {
       "objectFit": "cover",
@@ -69,8 +69,8 @@ exports[`renders correctly for web renders responsive image correctly for resize
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="http://placekitten.com/320/213"
-  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
+  src="http://placekitten.com/320/213?tr=w-320%2Ch-213"
+  srcSet="http://placekitten.com/320/213?tr=w-320%2Ch-213 320w,http://placekitten.com/576/384?tr=w-576%2Ch-384 576w,http://placekitten.com/992/661?tr=w-992%2Ch-661 992w,http://placekitten.com/1200/800?tr=w-1200%2Ch-800 1200w"
   style={
     {
       "objectFit": "contain",
@@ -83,8 +83,8 @@ exports[`renders correctly for web renders responsive image correctly for resize
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="http://placekitten.com/320/213"
-  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
+  src="http://placekitten.com/320/213?tr=w-320%2Ch-213"
+  srcSet="http://placekitten.com/320/213?tr=w-320%2Ch-213 320w,http://placekitten.com/576/384?tr=w-576%2Ch-384 576w,http://placekitten.com/992/661?tr=w-992%2Ch-661 992w,http://placekitten.com/1200/800?tr=w-1200%2Ch-800 1200w"
   style={
     {
       "objectFit": "cover",
@@ -97,8 +97,8 @@ exports[`renders correctly for web renders responsive image correctly for resize
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="http://placekitten.com/320/213"
-  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
+  src="http://placekitten.com/320/213?tr=w-320%2Ch-213"
+  srcSet="http://placekitten.com/320/213?tr=w-320%2Ch-213 320w,http://placekitten.com/576/384?tr=w-576%2Ch-384 576w,http://placekitten.com/992/661?tr=w-992%2Ch-661 992w,http://placekitten.com/1200/800?tr=w-1200%2Ch-800 1200w"
   style={
     {
       "objectFit": "fill",
