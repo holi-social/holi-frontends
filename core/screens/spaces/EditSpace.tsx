@@ -12,6 +12,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import EditSpaceAvatar from '@holi/core/screens/spaces/components/EditSpaceAvatar'
+import EditSpaceContact from '@holi/core/screens/spaces/components/EditSpaceContact'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/components/EditSpaceCoverImage'
 import EditSpaceLocation from '@holi/core/screens/spaces/components/EditSpaceLocation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
@@ -42,6 +43,7 @@ enum EditFields {
   COVER_IMAGE = 'COVER_IMAGE',
   AVATAR = 'AVATAR',
   LOCATION = 'LOCATION',
+  CONTACT = 'CONTACT',
 }
 
 export type EditSpaceParams = {
@@ -216,7 +218,13 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                   </View>
                 )}
               </SpaceSection>
-
+              <SpaceSection
+                title={t('spaces.spaceDetails.contact')}
+                editable
+                style={styles.noBorderSection}
+                onPressEdit={() => openEditModal(EditFields.CONTACT)}
+                testID="space-edit-contact"
+              />
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
@@ -255,6 +263,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
         {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
         {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
+        {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
       </HoliModal>
     </SpaceTermContextProvider>
   )
