@@ -10,12 +10,14 @@ import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface Props {
   userId: string
   emptyText: string
 }
+
+const THUMBNAIL_SIZE = 64
 
 const InsightsTab = ({ emptyText, userId }: Props) => {
   const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, { variables: { userId } })
@@ -30,25 +32,25 @@ const InsightsTab = ({ emptyText, userId }: Props) => {
     <>
       {insights.data.map((insight) => {
         return (
-          <View key={insight.id} style={styles.item}>
-            <HoliColumns padding={[0, 24]}>
-              <HoliColumn padding={[0, 16, 0, 0]} alignSelf="stretch">
+          <View key={insight.id} style={styles.itemContainer}>
+            <HoliColumns padding={[40, 24]} alignItems="flex-start">
+              <HoliColumn padding={[0, 16, 0, 0]} flex={2}>
                 <HoliTextLink href={`/insights/${insight.id}`} variant="secondary">
                   {insight.title}
                 </HoliTextLink>
               </HoliColumn>
               {!!insight.headerImage && (
-                <HoliColumn padding={[0, 16, 0, 0]}>
+                <View style={styles.imageColumn}>
                   <HoliImage
                     label=""
                     source={{
                       uri: insight.headerImage,
-                      width: 64,
-                      height: 64,
+                      width: THUMBNAIL_SIZE,
+                      height: THUMBNAIL_SIZE,
                     }}
                     resizeMode="cover"
                   />
-                </HoliColumn>
+                </View>
               )}
             </HoliColumns>
           </View>
@@ -63,11 +65,20 @@ const InsightsTab = ({ emptyText, userId }: Props) => {
 export default InsightsTab
 
 const styles = StyleSheet.create({
-  item: {
+  itemContainer: {
     flex: 1,
-    paddingTop: 40,
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderStyle: 'solid',
     borderBottomColor: colors.background30,
+    maxWidth: vars.maxScreenWidth,
+  },
+  imageColumn: {
+    paddingBottom: 40,
+    flexBasis: THUMBNAIL_SIZE,
+    width: THUMBNAIL_SIZE,
+    height: THUMBNAIL_SIZE,
+    borderRadius: 8,
+    backgroundColor: colors.background20,
   },
 })
