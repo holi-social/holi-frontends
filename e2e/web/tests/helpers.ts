@@ -155,21 +155,21 @@ export const sendConnectionRequest = async (page: Page) => {
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }
 
-const newUserEmail = () => {
+export const newUserEmail = () => {
   return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
 }
-const newUserPassword = 'TheSamePassword4A11E2eUsers'
+export const newUserPassword = 'TheSamePassword4A11E2eUsers'
 
 export const withRandomUserSession = async (
   browser: Browser,
-  actions: (page: Page) => Promise<void>
+  actions: (page: Page) => Promise<void>,
+  email: string = newUserEmail(),
+  password: string = newUserPassword
 ): Promise<() => Promise<void>> => {
   const context = await browser.newContext()
   const page = await context.newPage()
-  const email = newUserEmail()
-  const password = newUserPassword
 
-  await registerAsNewUser(context, page)
+  await registerAsNewUser(context, page, email, password)
   // wait for login to complete
   await page.waitForSelector(byTestId('btn-to-settings'))
   await actions(page)
@@ -185,6 +185,15 @@ const deleteUser = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-settings')
   await clickElementByTestId(page, 'btn-your-account')
   await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
+  await clickElementByTestIdAndWaitForToast(page, 'account-deletion-confirmation-confirmation-confirm', 'toast-SUCCESS')
   await waitForElementByTestId(page, 'login-protection-heading')
+}
+
+export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {
+  await Promise.all([clickElementByTestId(page, elementId), page.waitForSelector(byTestId(toastId))])
+}
+
+export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elementId: string, toastId: string) => {
+  await clickElementByTestIdAndWaitForToast(page, elementId, toastId)
+  await page.waitForSelector(byTestId(toastId), { state: 'detached' })
 }

@@ -1,21 +1,22 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import AcceptDocumentLayout from '@holi/core/auth/components/AcceptDocumentLayout'
+import AcceptDocumentLayout, { AgreementProps } from '@holi/core/auth/components/AcceptDocumentLayout'
 import DataConsentDocument from '@holi/core/screens/dataConsent/DataConsentDocument'
 
-interface DataConsentProps {
+interface DataConsentProps extends AgreementProps {
   onNextPress?: () => void
   onBackPress?: () => void
 }
 
-const DataConsent = ({ onNextPress, onBackPress }: DataConsentProps) => {
+const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsentProps) => {
   const { t } = useTranslation()
 
   return (
     <AcceptDocumentLayout
       onNextPress={onNextPress}
       onBackPress={onBackPress}
+      {...agreementProps}
       imageSource={require('@holi/ui/assets/img/illustrations/registration_consent_data.svg')}
       imageLabelText={t('registration.dataconsent.imageLabel')}
       headlineText={t('registration.dataconsent.heading')}

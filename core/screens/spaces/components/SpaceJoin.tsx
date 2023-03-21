@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
@@ -32,6 +33,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
       },
       onError(error) {
+        client.cache.evict({ id: client.cache.identify(space) })
+
         if (error.message.includes('Not requested to join community')) {
           displayError(error, t('spaces.join.error.already-revoked'))
         } else {

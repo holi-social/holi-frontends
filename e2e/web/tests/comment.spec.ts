@@ -1,7 +1,12 @@
 import { faker } from '@faker-js/faker'
 import { expect } from '@playwright/test'
 
-import { clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  clickElementByTestId,
+  clickElementByTestIdAndWaitForToast,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -29,7 +34,7 @@ test.describe('@Comment', () => {
       await input.fill(comment)
 
       // submit comment
-      await clickElementByTestId(page, 'btn-submit-comment')
+      await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
       // wait until submit succeeded
       await waitForElementByTestId(page, 'btn-to-commenter-profile')
 
