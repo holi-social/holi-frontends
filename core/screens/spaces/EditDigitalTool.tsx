@@ -25,6 +25,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -53,6 +54,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const { openToast } = useToast()
 
   const {
     data,
@@ -69,7 +71,10 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const { displayError } = useErrorHandling()
 
   const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
-    onCompleted: () => navigateBack(),
+    onCompleted: () => {
+      openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
+      navigateBack()
+    },
     onError: (error) => displayError(error, error.message),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
@@ -89,7 +94,6 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     !loadingSpace &&
-      isAdmin &&
       setOptions({
         animation: 'slide_from_bottom',
         title: '',
@@ -100,7 +104,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isAdmin])
+  }, [setOptions, t, loadingSpace])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection) {
@@ -109,14 +113,17 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   }, [url, title, selectedCollection])
 
   useEffect(() => {
-    const collaborationTools = space ? space.collaborationTools : []
-    if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
-      const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
-      const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
-      setUrl(digitalTool.url)
-      setTitle(digitalTool.title)
-      setDescription(digitalTool.description)
-      setSelectedCollection({ ...collectionType, selected: true })
+    if (space) {
+      const collaborationTools = space ? space.collaborationTools : []
+      if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
+        const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
+        const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
+        const toolCollectionType = { ...collectionType, selected: true }
+        setUrl(digitalTool.url)
+        setTitle(digitalTool.title)
+        setDescription(digitalTool.description)
+        setSelectedCollection(toolCollectionType)
+      }
     }
   }, [space, toolIdOrName])
 
@@ -161,7 +168,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           disabled={saveButtonDisabled}
           label={t('global.save')}
           onPress={onSave}
-          testID="digital-tool-add-modal-save-btn"
+          testID="digital-tool-edit-modal-save-btn"
           style={styles.footerButton}
         />
       </View>

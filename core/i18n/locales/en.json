@@ -276,6 +276,7 @@
   "spaces.digitalTool.edit.close.dialog.confirm.button.label": "Confirm",
   "spaces.digitalTool.edit.close.dialog.description": "Do you really want to leave this page? All unsaved data will be lost.",
   "spaces.digitalTool.edit.close.dialog.title": "Leave this page",
+  "spaces.digitalTool.edit.success": "Bookmark successfully updated",
   "spaces.digitalTool.open.button.label": "open",
   "spaces.digitalToolKit.noData.discription": "Tap here to add links and tools",
   "spaces.digitalToolKit.noData.discription.title": "No collaboration essentials yet",

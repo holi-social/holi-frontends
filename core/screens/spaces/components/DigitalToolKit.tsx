@@ -110,9 +110,8 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   icon="edit-2"
                   label={t('global.edit')}
                   onPress={() => {
-                    navigateToEditToolPage(tool.id)
                     visible && hide()
-                    show()
+                    navigateToEditToolPage(tool.id)
                   }}
                   contentStyle={styles.buttonWithIcon}
                 />
