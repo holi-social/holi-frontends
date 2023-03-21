@@ -25,7 +25,7 @@ export interface OnboardingProps {
 const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
   const { onFinish } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
-  const { currentStep, goNext, goBack } = useStepper(toRegistration ? RegistrationStep.PRIVACY_POLICY : 0)
+  const { currentStep, goNext, goBack } = useStepper(toRegistration ? RegistrationStep.COMMUNICATION_GUIDELINES : 0)
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
