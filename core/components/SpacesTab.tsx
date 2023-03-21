@@ -22,7 +22,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: Props) => {
   })
 
   if (error) {
-    logError(error, `[OwnProfileView.tsx] ${error.message}`)
+    logError(error, `[SpacesTab.tsx] ${error.message}`)
   }
 
   if (!data) return null
