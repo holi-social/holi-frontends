@@ -18,6 +18,7 @@ export enum RouteName {
   AddDigitalTool = 'AddDigitalTool',
   SpaceStorage = 'SpaceStorage',
   ToolKit = 'ToolKit',
+  EditDigitalTool = 'EditDigitalTool',
 
   // Chat Stack
   ChatHome = 'ChatHome',
