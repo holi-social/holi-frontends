@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import { BrowserContext, Page } from '@playwright/test'
 
 import {
@@ -21,9 +20,6 @@ test.describe('@Registration', () => {
     await canRegisterUser(userHandler)
   })
 })
-
-const password = 'TheSamePassword4A11E2eUsers'
-const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
 
 const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page) => {
   // redirects from Registration to Login and back to Registration
@@ -49,6 +45,9 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {
+  const validPassword = 'JwoXk17wQSDCCEkl'
+  const validEmail = 'foobar@barbaz.de'
+
   // no password and email provided
   await gotoFillAndSubmitRegistration(context, page, '', '')
   await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
@@ -56,25 +55,23 @@ const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Pa
   await checkAccessibility(page)
 
   // invalid email provided
-  await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', password)
+  await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', validPassword)
   await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
 
   // short password provided
-  await gotoFillAndSubmitRegistration(context, page, email, 'Sh0rt')
+  await gotoFillAndSubmitRegistration(context, page, validEmail, 'Sh0rt')
   await waitForElementByTestId(page, 'ory-password-input-error-message')
 
   // weak password provided
-  await gotoFillAndSubmitRegistration(context, page, email, '11111111')
+  await gotoFillAndSubmitRegistration(context, page, validEmail, '11111111')
   await waitForElementByTestId(page, 'ory-password-input-error-message')
 }
 
 const canRegisterUser = async (userHandler: UserHandler) => {
+  // using a random user session implicitly tests user registration
   await userHandler.asRandomUser(async (page) => {
     await waitForElementByTestId(page, 'user-profile-full-name')
-    // try to go to registration or login page with logged in user
-    await page.goto('/profile')
-    await waitForElementByTestId(page, 'user-profile-full-name')
-
+    // trying to go to login page with logged in user should show profile
     await page.goto('/login')
     await waitForElementByTestId(page, 'user-profile-full-name')
   })
