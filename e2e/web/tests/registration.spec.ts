@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { BrowserContext, Page } from '@playwright/test'
 
 import {
@@ -21,8 +22,8 @@ test.describe('@Registration', () => {
   })
 })
 
-const password = 'JwoXk17wQSDCCEkl'
-const email = 'foobar@barbaz.de'
+const password = 'TheSamePassword4A11E2eUsers'
+const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
 
 const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page) => {
   // redirects from Registration to Login and back to Registration
@@ -71,7 +72,7 @@ const canRegisterUser = async (userHandler: UserHandler) => {
   await userHandler.asRandomUser(async (page) => {
     await waitForElementByTestId(page, 'user-profile-full-name')
     // try to go to registration or login page with logged in user
-    await page.goto('/registration')
+    await page.goto('/profile')
     await waitForElementByTestId(page, 'user-profile-full-name')
 
     await page.goto('/login')
