@@ -33,7 +33,7 @@ exports[`HoliCard renders correctly 1`] = `
   <Image
     accessibilityLabel="volunteering"
     accessibilityRole="image"
-    accessible={false}
+    accessible={true}
     source={
       {
         "uri": "https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg",
