@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { CollaborationType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,14 +13,14 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const COLLECTION_TYPES: HoliSelectOption[] = [
+export const COLLECTION_TYPES: HoliSelectOption[] = [
   {
-    id: 'COLLABORATION',
+    id: CollaborationType.COLLABORATION,
     title: 'Collaboration',
     selected: false,
   },
   {
-    id: 'COMMUNICATION',
+    id: CollaborationType.COMMUNICATION,
     title: 'Communication',
     selected: false,
   },
@@ -36,6 +37,7 @@ export interface DigitalToolInputFormProps {
   description?: string
   selectedCollection?: HoliSelectOption
   thumbnail?: ImageInfo | undefined
+  isEdit?: boolean
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -49,20 +51,21 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
+  isEdit = false,
 }: DigitalToolInputFormProps) => {
   const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
 
   useEffect(() => {
     if (selectedCollection) {
-      const updatedCollectionsList = collectionOptions.map((collectionOption) =>
+      const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
         collectionOption.title === selectedCollection.title
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
       setCollectionOptions(updatedCollectionsList)
     }
-  }, [selectedCollection, collectionOptions])
+  }, [selectedCollection])
 
   const ThumbnailUploader = () => {
     return (
@@ -160,8 +163,12 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
       />
-      <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
-      <ThumbnailUploader />
+      {!isEdit && (
+        <>
+          <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
+          <ThumbnailUploader />
+        </>
+      )}
     </>
   )
 }
