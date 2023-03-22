@@ -6,7 +6,7 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
+import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -25,9 +25,9 @@ const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [showAll, setShowAll] = useState(false)
-  const [selectedTool, setSelectedTool] = useState()
+  const [selectedTool, setSelectedTool] = useState<SpaceCollaborationTool>()
   const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
@@ -97,10 +97,9 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   }}
                   contentStyle={styles.buttonWithIcon}
                 />
-                <DeleteSpaceButton
-                  spaceId={space?.id || ''}
+                <DeleteCollaborationToolButton
+                  toolId={selectedTool?.id || ''}
                   onDelete={() => {
-                    replaceRoute('/spaces/')
                     hide()
                   }}
                   style={styles.buttonWithIcon}
