@@ -5,7 +5,7 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 export interface NavigationContextType {
   pathname: string
   setPathname: (pathName: string) => void
-  redirectAfterLogin: string | null
+  redirectPath: string | null
   setRedirectAfterLogin: (pathName: string | null) => void
   clearRedirectAfterLogin: () => void
   options: NavigationCustomOptions
@@ -24,7 +24,7 @@ export interface NavigationCustomOptions extends NativeStackNavigationOptions {
 export const NavigationContext = createContext<NavigationContextType>({
   pathname: '/',
   setPathname: () => null,
-  redirectAfterLogin: null,
+  redirectPath: null,
   setRedirectAfterLogin: () => null,
   clearRedirectAfterLogin: () => null,
   options: {},

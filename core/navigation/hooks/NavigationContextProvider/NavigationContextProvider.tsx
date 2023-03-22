@@ -4,7 +4,7 @@ import { NavigationContext, initialScreenOptions } from './NavigationContext'
 
 export const NavigationContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [pathname, setPathname] = useState('/')
-  const [redirectAfterLogin, setRedirect] = useState<string | null>(null)
+  const [redirectPath, setRedirect] = useState<string | null>(null)
   const [options, setOptions] = useState(initialScreenOptions)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const NavigationContextProvider = ({ children }: React.PropsWithChildren<
       value={{
         pathname,
         setPathname,
-        redirectAfterLogin,
+        redirectPath,
         setRedirectAfterLogin,
         clearRedirectAfterLogin,
         options,

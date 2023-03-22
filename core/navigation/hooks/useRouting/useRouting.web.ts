@@ -8,7 +8,7 @@ import { UseRouting, navigateOptions } from './types'
 const useRouting: UseRouting = () => {
   const router = useRouter()
 
-  const { redirectAfterLogin, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
+  const { redirectPath, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
 
   const navigate = useCallback(
     (routeName: string, options?: navigateOptions) => {
@@ -41,12 +41,12 @@ const useRouting: UseRouting = () => {
   )
 
   const redirect = useCallback(() => {
-    console.log('[useRouting.web] ***** redirect()', redirectAfterLogin)
-    if (redirectAfterLogin && redirectAfterLogin !== '/') {
+    console.log('[useRouting.web] ***** redirect()', redirectPath)
+    if (redirectPath && redirectPath !== '/') {
       clearRedirectAfterLogin()
-      navigate(redirectAfterLogin)
+      navigate(redirectPath)
     }
-  }, [redirectAfterLogin, clearRedirectAfterLogin, navigate])
+  }, [redirectPath, clearRedirectAfterLogin, navigate])
 
   return {
     navigate,

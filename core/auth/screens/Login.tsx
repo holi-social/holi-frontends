@@ -20,7 +20,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-// import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -42,7 +41,7 @@ const Login: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const [return_to] = useParam('return_to', singleParamConfig)
   const { redirect } = useRouting()
-  const { redirectAfterLogin } = useNavigationContext()
+  const { redirectPath } = useNavigationContext()
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
@@ -60,22 +59,22 @@ const Login: React.VFC<ScreenProps> = () => {
 
   const initializeFlow = useCallback(() => {
     console.log('1 [Login] return_to: ', return_to)
-    console.log('1 [Login] redirectAfterLogin: ', redirectAfterLogin)
+    console.log('1 [Login] redirectAfterLogin: ', redirectPath)
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t, safeSetFlow, displayError, redirectAfterLogin, return_to])
+  }, [t, safeSetFlow, displayError, redirectPath, return_to])
 
   const onLoggedIn = () => {
     // Redirect on success
-    // get redirect from navigtaion context .... redirectAfterLogin
+    // get redirect from navigtaion context .... redirectPath
     // TODO: do this also after registration
 
     console.log('2 [Login] redirect after login to: ', return_to)
-    console.log('2 [Login] redirect after login to: ', redirectAfterLogin)
+    console.log('2 [Login] redirect after login to: ', redirectPath)
 
     redirect()
 
@@ -95,8 +94,8 @@ const Login: React.VFC<ScreenProps> = () => {
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
           })
+          console.log('###### [Login] User is loggedIn - Redirect after login to: ', redirectPath)
           onLoggedIn()
-          console.log('###### [Login] User is loggedIn - Redirect after login to: ', redirectAfterLogin)
         })
         .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
         .catch((error) => displayError(error, t('auth.login.error.login')))

@@ -9,8 +9,7 @@ import { navigationRef } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
 const useRouting: UseRouting = () => {
-  const { pathname, setPathname, redirectAfterLogin, setRedirectAfterLogin, clearRedirectAfterLogin } =
-    useNavigationContext()
+  const { pathname, setPathname, redirectPath, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
 
@@ -69,10 +68,10 @@ const useRouting: UseRouting = () => {
     const intRef = setInterval(() => {
       if (navigationRef.isReady()) {
         clearInterval(intRef)
-        performRedirect(redirectAfterLogin, clearRedirectAfterLogin, navigate)
+        performRedirect(redirectPath, clearRedirectAfterLogin, navigate)
       }
     }, 200)
-  }, [redirectAfterLogin, clearRedirectAfterLogin, navigate])
+  }, [redirectPath, clearRedirectAfterLogin, navigate])
 
   const performRedirect = (
     url: string | null,
