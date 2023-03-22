@@ -1,4 +1,5 @@
 import type { ImageURISource } from 'react-native'
+import { PixelRatio } from 'react-native'
 
 export interface ImageSource {
   uri: string
@@ -45,9 +46,10 @@ export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSo
   if (!source.width && !source.height) return source
 
   const url = new URL(source.uri)
+
   // String concatination is much faster than template strings. Please do not replace.
-  const width = source.width ? 'w-' + source.width : ''
-  const height = source.height ? 'h-' + source.height : ''
+  const width = source.width ? 'w-' + PixelRatio.getPixelSizeForLayoutSize(source.width) : ''
+  const height = source.height ? 'h-' + PixelRatio.getPixelSizeForLayoutSize(source.height) : ''
   const params = width && height ? width + ',' + height : width + height
 
   url.searchParams.set('tr', params)

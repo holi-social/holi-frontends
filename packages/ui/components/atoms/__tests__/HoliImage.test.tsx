@@ -22,7 +22,7 @@ describe('renders correctly for web', () => {
       expect(tree).toMatchSnapshot()
     })
 
-    it(`renders responsive image correctly for resize mode '${resizeMode}'`, () => {
+    it(`renders responsive image  based on s 2 pixel density correctly for resize mode '${resizeMode}'`, () => {
       const tree = renderer
         .create(<HoliImage source={allSources} label={'alt text'} resizeMode={resizeMode} />)
         .toJSON()
@@ -37,7 +37,7 @@ describe('renders correctly for web', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('passes sizes property', () => {
+  it('passes sizes property  based on s 2 pixel density', () => {
     const tree = renderer.create(<HoliImage source={allSources} label={'alt text'} sizes="500px" />).toJSON()
     expect(tree).toMatchSnapshot()
   })

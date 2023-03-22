@@ -1,10 +1,11 @@
-import { ImageURISource } from 'react-native'
+import { ImageURISource, PixelRatio } from 'react-native'
 
 import { ImageSource, setImageKitParams, transformSourcesURL } from '@holi/ui/components/utils/image'
 
-it('should set width as query param', () => {
+it('should set a width based on s 2 pixel density as query param', () => {
+  const pxr = PixelRatio.get()
   const width = 50
-  const result = `w-${width}`
+  const result = `w-${width * pxr}`
   const source: ImageURISource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
     width,
@@ -15,9 +16,10 @@ it('should set width as query param', () => {
   expect(url.searchParams.get('tr')).toBe(result)
 })
 
-it('should set the height as a query param', () => {
+it('should set the height based on s 2 pixel density as a query param', () => {
+  const pxr = PixelRatio.get()
   const height = 1000
-  const result = `h-${height}`
+  const result = `h-${height * pxr}`
 
   const source: ImageURISource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
@@ -29,10 +31,11 @@ it('should set the height as a query param', () => {
   expect(url.searchParams.get('tr')).toBe(result)
 })
 
-it('should set width and height as a query param', () => {
+it('should set width and height based on s 2 pixel density as a query param', () => {
+  const pxr = PixelRatio.get()
   const width = 100
   const height = 150
-  const result = `w-${width},h-${height}`
+  const result = `w-${width * pxr},h-${height * pxr}`
 
   const source: ImageURISource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
@@ -44,14 +47,13 @@ it('should set width and height as a query param', () => {
   expect(url.searchParams.get('tr')).toBe(result)
 })
 
-it('should transform an array of sources', () => {
+it('should transform an array of sources  based on s 2 pixel density', () => {
   const sources = [
     {
       uri: 'https://ik.imagekit.io/demo/one.jpg',
       width: 50,
       height: 1000,
     },
-
     {
       uri: 'https://ik.imagekit.io/demo/two.jpg',
       width: 5000,
@@ -66,16 +68,16 @@ it('should transform an array of sources', () => {
     [
       {
         "height": 1000,
-        "uri": "https://ik.imagekit.io/demo/one.jpg?tr=w-50%2Ch-1000",
+        "uri": "https://ik.imagekit.io/demo/one.jpg?tr=w-100%2Ch-2000",
         "width": 50,
       },
       {
-        "uri": "https://ik.imagekit.io/demo/two.jpg?tr=w-5000",
+        "uri": "https://ik.imagekit.io/demo/two.jpg?tr=w-10000",
         "width": 5000,
       },
       {
         "height": 200,
-        "uri": "https://ik.imagekit.io/demo/three.jpg?tr=h-200",
+        "uri": "https://ik.imagekit.io/demo/three.jpg?tr=h-400",
       },
     ]
   `)
