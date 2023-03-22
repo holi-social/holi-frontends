@@ -7,6 +7,8 @@ import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@ho
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const identityApi = new IdentityApi(oryConfiguration)
+const emailSuffix = '@holi.team'
+const userNamePrefix = 'holi_'
 
 const OAuth2ConsentPage: NextPage = () => <OAuth2Redirect />
 
@@ -17,8 +19,8 @@ const createSession = async (subject: string): Promise<AcceptOAuth2ConsentReques
     access_token: {},
     id_token: {
       name: identity.id,
-      email: `${identity.id}@holi.team`,
-      preferred_username: identity.id,
+      email: identity.id + emailSuffix,
+      preferred_username: userNamePrefix + identity.id,
     },
   }
 }
