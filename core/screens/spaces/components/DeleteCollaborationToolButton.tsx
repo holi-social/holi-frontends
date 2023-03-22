@@ -5,7 +5,6 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import createParam from '@holi/core/navigation/hooks/useParam'
 import {
   DeleteCollaborationToolResponse,
   deleteCollaborationToolMutation,
@@ -17,6 +16,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface DeleteCollaborationToolButtonProps {
   toolId: string
+  spaceIdOrName: string
   onDelete: () => void
   style?: StyleProp<ViewStyle>
 }
@@ -25,10 +25,9 @@ export type AddDigitalToolParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<AddDigitalToolParams>()
-
 const DeleteCollaborationToolButton: React.VoidFunctionComponent<DeleteCollaborationToolButtonProps> = ({
   toolId,
+  spaceIdOrName,
   onDelete,
   style,
 }) => {
@@ -36,8 +35,6 @@ const DeleteCollaborationToolButton: React.VoidFunctionComponent<DeleteCollabora
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
-
-  const [spaceIdOrName] = useParam('spaceIdOrName')
 
   const [deleteTool, { loading }] = useMutation<DeleteCollaborationToolResponse>(deleteCollaborationToolMutation, {
     variables: { id: toolId },

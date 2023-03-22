@@ -72,19 +72,19 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
           >
             <HoliIcon icon={'share-box'} size={15} />
           </HoliButton>
-          <MoreOptionsButtonWithModal
-            label={t('spaces.digitalTool.preview.more')}
-            showOptions={visible}
-            onModalDismiss={hide}
-            testID="digital-toolkit-btn"
-            onPress={() => {
-              setSelectedTool(tool)
-              visible && hide()
-              show()
-            }}
-          >
-            {isAdmin && (
-              <View>
+          {isAdmin && (
+            <MoreOptionsButtonWithModal
+              label={t('spaces.digitalTool.preview.more')}
+              showOptions={visible}
+              onModalDismiss={hide}
+              testID="digital-toolkit-btn"
+              onPress={() => {
+                setSelectedTool(tool)
+                visible && hide()
+                show()
+              }}
+            >
+              <>
                 <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
                   {selectedTool?.title}
                 </HoliHeading>
@@ -99,14 +99,15 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                 />
                 <DeleteCollaborationToolButton
                   toolId={selectedTool?.id || ''}
+                  spaceIdOrName={space.id}
                   onDelete={() => {
                     hide()
                   }}
                   style={styles.buttonWithIcon}
                 />
-              </View>
-            )}
-          </MoreOptionsButtonWithModal>
+              </>
+            </MoreOptionsButtonWithModal>
+          )}
         </View>
       </View>
     )
@@ -197,7 +198,9 @@ const styles = StyleSheet.create({
   toolContextHeader: {
     width: '100%',
     textAlign: 'center',
-    paddingBottom: 20,
+    paddingBottom: 10,
+    marginBottom: 20,
+    marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
   },
