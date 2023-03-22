@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import renderer from 'react-test-renderer'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage.web'
@@ -12,6 +13,12 @@ const allSources = [
 ]
 
 describe('renders correctly for web', () => {
+  beforeEach(() => {
+    Object.defineProperty(Platform, 'OS', {
+      get: jest.fn(() => 'web'),
+    })
+  })
+
   ResizeModes.forEach((resizeMode) => {
     it(`renders image with single source correctly for resize mode '${resizeMode}'`, () => {
       const tree = renderer

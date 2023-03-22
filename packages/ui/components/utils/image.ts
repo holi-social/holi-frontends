@@ -1,5 +1,5 @@
 import type { ImageURISource } from 'react-native'
-import { PixelRatio } from 'react-native'
+import { PixelRatio, Platform } from 'react-native'
 
 export interface ImageSource {
   uri: string
@@ -39,6 +39,14 @@ export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 
   }
 }
 
+/** @description It handles the correct pixel density for native host platforms.
+ * It returns the same input value for the web. Different sizes in the web are
+ * regulated by the `srcSet` attribute. */
+export const calcPixelRatioSize = (value: number): number => {
+  if (Platform.OS === 'web') return value
+  return PixelRatio.getPixelSizeForLayoutSize(value)
+}
+
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSource | ImageURISource => {
@@ -48,8 +56,8 @@ export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSo
   const url = new URL(source.uri)
 
   // String concatination is much faster than template strings. Please do not replace.
-  const width = source.width ? 'w-' + PixelRatio.getPixelSizeForLayoutSize(source.width) : ''
-  const height = source.height ? 'h-' + PixelRatio.getPixelSizeForLayoutSize(source.height) : ''
+  const width = source.width ? 'w-' + calcPixelRatioSize(source.width) : ''
+  const height = source.height ? 'h-' + calcPixelRatioSize(source.height) : ''
   const params = width && height ? width + ',' + height : width + height
 
   url.searchParams.set('tr', params)
