@@ -1,12 +1,31 @@
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 
-import { UseRouting } from './types'
+import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
+
+import { UseRouting, navigateOptions } from './types'
 
 const useRouting: UseRouting = () => {
   const router = useRouter()
 
-  const navigate = useCallback((routeName: string) => router.push(routeName), [router])
+  const { redirectAfterLogin, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
+
+  const navigate = useCallback(
+    (routeName: string, options?: navigateOptions) => {
+      console.log('[useRouting.web] add redirect?', options?.redirectAfterLogin, '(pathname: ', router.asPath, ')')
+
+      if (options?.redirectAfterLogin) {
+        setRedirectAfterLogin(router.asPath)
+        // params['return_to'] = options.redirectAfterLogin
+      }
+      router.push(routeName)
+      // router.push({
+      //   pathname: routeName,
+      //   query: params,
+      // })
+    },
+    [router, setRedirectAfterLogin]
+  )
 
   const replaceRoute = useCallback((routeName: string) => router.replace(routeName), [router])
 
@@ -21,10 +40,19 @@ const useRouting: UseRouting = () => {
     [router, navigate]
   )
 
+  const redirect = useCallback(() => {
+    console.log('[useRouting.web] ***** redirect()', redirectAfterLogin)
+    if (redirectAfterLogin && redirectAfterLogin !== '/') {
+      clearRedirectAfterLogin()
+      navigate(redirectAfterLogin)
+    }
+  }, [redirectAfterLogin, clearRedirectAfterLogin, navigate])
+
   return {
     navigate,
     navigateBack,
     replaceRoute,
+    redirect,
     pathname: router.asPath,
   }
 }

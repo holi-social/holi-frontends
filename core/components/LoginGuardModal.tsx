@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -20,12 +21,18 @@ export const LoginGuardModal: React.VFC<LoginGuardModalProps> = ({
   testID = 'login-guard-modal',
 }) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigate, pathname } = useRouting()
+  const { pathname: pathname2 } = useNavigationContext()
+
+  // useEffect(() => {
+  //   console.log('[LoginGuard] onMount - current path: ', pathname, pathname2)
+  // }, [pathname, pathname2])
 
   const confirmHandler = useCallback(() => {
-    navigate('/login')
+    console.log('[LoginGuard] current path: ', pathname, pathname2)
+    navigate('/login', { redirectAfterLogin: true })
     return onConfirm?.()
-  }, [navigate, onConfirm])
+  }, [navigate, onConfirm, pathname, pathname2])
 
   return (
     <HoliConfirmation

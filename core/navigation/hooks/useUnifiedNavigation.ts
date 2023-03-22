@@ -7,6 +7,7 @@ import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationCont
 import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
+console.log('[unifiedNavigation] createNavigationContainerRef()')
 export const navigationRef = createNavigationContainerRef()
 
 export const useUnifiedNavigation = () => {
