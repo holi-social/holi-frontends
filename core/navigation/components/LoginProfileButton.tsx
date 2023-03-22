@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
@@ -22,29 +22,18 @@ const LoginProfileButton = ({
   style,
   ...props
 }: React.PropsWithChildren<LoginProfileButtonProps>) => {
-  const { pathname, navigate } = useRouting()
+  const { navigate } = useRouting()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useAuth()
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
-  const isWeb = Platform.OS === 'web'
-
-  let pathToGo = '/profile'
-
-  if (isWeb) {
-    pathToGo = pathname.includes('/login')
-      ? '/registration'
-      : pathname.includes('/registration')
-      ? '/login'
-      : '/profile'
-  }
 
   return (
     <HoliButton
       label={t('profile.title')}
       inline
       transparent
-      onPress={() => navigate(pathToGo)}
+      onPress={() => navigate('/profile')}
       contentStyle={[styles.button, style]}
       {...props}
       testID="btn-to-profile-view"
