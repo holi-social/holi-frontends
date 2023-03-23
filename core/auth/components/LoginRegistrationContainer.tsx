@@ -20,7 +20,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
       return
     }
     console.log('#### [LoginRegistrationContainer] already logged in -> go to profile ... ????!')
-    // navigate('/profile')
+    navigate('/profile')
   }, [isLoggedIn, navigate])
 
   return isLoggedIn ? (

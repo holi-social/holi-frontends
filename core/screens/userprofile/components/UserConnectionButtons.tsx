@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
@@ -6,7 +6,7 @@ import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -18,15 +18,14 @@ type UserConnectionButtonsProps = {
 }
 
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
-  const { navigate } = useRouting()
-
   const { connect, disconnect, error, loading } = useUserConnection()
   const { isLoggedIn } = useContext(AuthContext)
   // const { openLoginDialog } = useLoginRedirect()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+
+  const { openLoginModal } = useLoginModal()
 
   if (error) {
     displayError(error)
@@ -40,7 +39,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
       // return openLoginDialog({
       //   description: t('user.profileView.connection.notLoggedIn.message'),
       // })
-      setShowLoginModal(true)
+      openLoginModal()
       return
     }
 
@@ -53,12 +52,6 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
       setShowConfirmationModal(true)
     }
   }
-
-  const confirmHandler = useCallback(() => {
-    console.log('[UserConnectionButtons] confirmHandler() register redirect. ')
-    setShowLoginModal(false)
-    navigate('/login', { redirectAfterLogin: true })
-  }, [navigate])
 
   return (
     <>
@@ -109,15 +102,6 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
               }
             : undefined
         }
-      />
-
-      {/* TODO: make this a hook !!!! */}
-      <HoliConfirmation
-        label="sdf"
-        title="You must be logged in."
-        description="sfsdf"
-        show={showLoginModal}
-        onConfirm={confirmHandler}
       />
     </>
   )
