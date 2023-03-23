@@ -1,18 +1,18 @@
 import { BrowserContext, Locator, Page, expect } from '@playwright/test'
 
 import {
+  byTestId,
   checkAccessibility,
   clickElement,
   clickElementByTestId,
+  donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
-// sometimes responses to Betterplace take a little longer (10s < response latency < 30s)
-// increase timeout from default of 5 seconds to 30 seconds
-const betterplaceTimeout = { timeout: 30_000 }
+test.setTimeout(120000)
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browserName, context, page }) => {
@@ -36,10 +36,10 @@ test.describe('@Donations', () => {
 
 const testAbleToVisitDonationsApp = async (page: Page) => {
   // click first element in ScrollView
-  await clickElementByTestId(page, 'donations-updates-item')
+  await page.locator(byTestId('donations-updates-item')).first().click({ timeout: donationsRequestTimeout })
 
   // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container')
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
@@ -57,10 +57,10 @@ const testProjectListAndPagination = async (page: Page) => {
     return await listItems.count()
   }
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
-  await expect.poll(countListItems, { timeout: 20000 }).toBeGreaterThan(0)
+  await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(0)
   const listItemCountBefore = await countListItems()
   await clickElementByTestId(page, 'btn-donation-list-load-more')
-  await expect.poll(countListItems, betterplaceTimeout).toBeGreaterThan(listItemCountBefore)
+  await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(listItemCountBefore)
 }
 
 const testDisplayProjectDetails = async (context: BrowserContext, page: Page) => {
@@ -68,7 +68,7 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
   // click first element in list
   await clickElementByTestId(page, 'donations-list-item')
 
-  await waitForElementByTestId(page, 'donations-detailview-container')
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   await checkAccessibility(page)
 
@@ -111,7 +111,7 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
 
   // open first donation opportunity
   await clickElementByTestId(page, 'donations-list-item')
-  await waitForElementByTestId(page, 'donations-detailview-container')
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   const hasNews = await page.$('data-testid=donations-news-count')
   if (hasNews) {
@@ -122,8 +122,8 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
     const expectedOtherCount = !newsCount || newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1
 
     expect(newsCount).toBeDefined()
-    await expect.poll(countSpotlightNews, { timeout: 10000 }).toBe(expectedSpotlightCount)
-    await expect.poll(countOtherNews, { timeout: 10000 }).toBe(expectedOtherCount)
+    await expect.poll(countSpotlightNews, { timeout: donationsRequestTimeout }).toBe(expectedSpotlightCount)
+    await expect.poll(countOtherNews, { timeout: donationsRequestTimeout }).toBe(expectedOtherCount)
   }
 
   // navigate back
@@ -139,7 +139,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 
   // assert results
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
-  await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: 20000 })
+  await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: donationsRequestTimeout })
   let heading = await locateElementByTestId(page, 'donations-list-search-heading')
   await expect(heading).toContainText('Germany')
   let summary = await locateElementByTestId(page, 'donations-list-search-summary')
@@ -152,7 +152,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   await clickElementByTestId(page, 'donations-list-search-reset')
 
   // assert reset, might take longer due to reload of donations projects
-  await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: 20000 })
+  await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: donationsRequestTimeout })
 
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg', { useSuggestion: true })
@@ -170,13 +170,14 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   await resetFilterInModal(page)
 
   // assert reset
-  await waitForElementByTestId(page, 'donations-list-unfiltered')
+  await page.waitForSelector(byTestId('donations-list-unfiltered'), { timeout: donationsRequestTimeout })
 }
 
 const testDisplayDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
-  await waitForElementByTestId(page, 'donations-list-item')
+  await page.waitForSelector(byTestId('donations-search-modal'), { state: 'detached' })
+  await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
 
   // expect filtered list
   let heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -186,7 +187,7 @@ const testDisplayDetailsOfFilterResults = async (page: Page) => {
   await clickElementByTestId(page, 'donations-list-item')
 
   // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container')
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
@@ -216,6 +217,10 @@ const filterForLocation = async (
   // expect suggestions
   if (useSuggestion) {
     await clickElement(page.locator('[role="menuitem"]'))
+  } else {
+    // at least wait for the suggestions to pop up, fixes race condition
+    // FIXME: if we don't, it's flaky. We weren't able to find the issue in the app yet.
+    await page.locator('[role="menuitem"]').first().waitFor()
   }
 
   // close search modal

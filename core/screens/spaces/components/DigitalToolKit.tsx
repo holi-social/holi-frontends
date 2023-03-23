@@ -1,17 +1,15 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
+import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -27,27 +25,11 @@ const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [showAll, setShowAll] = useState(false)
+  const [selectedTool, setSelectedTool] = useState<SpaceCollaborationTool>()
   const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
-  const { useParam } = createParam<SpaceDetailsParams>()
-  const { setOptions } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-
-  useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
-      headerTitle: () => null,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
 
   const { collaborationTools = [] } = space
 
@@ -94,18 +76,22 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
           >
             <HoliIcon icon={'share-box'} size={15} />
           </HoliButton>
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            showOptions={visible}
-            onModalDismiss={hide}
-            testID="digital-toolkit-btn"
-            onPress={() => {
-              visible && hide()
-              show()
-            }}
-          >
-            {isAdmin && (
+          {isAdmin && (
+            <MoreOptionsButtonWithModal
+              label={t('spaces.digitalTool.preview.more')}
+              showOptions={visible}
+              onModalDismiss={hide}
+              testID="digital-toolkit-btn"
+              onPress={() => {
+                setSelectedTool(tool)
+                visible && hide()
+                show()
+              }}
+            >
               <>
+                <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
+                  {selectedTool?.title}
+                </HoliHeading>
                 <MoreOptionItem
                   icon="edit-2"
                   label={t('global.edit')}
@@ -115,17 +101,17 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   }}
                   contentStyle={styles.buttonWithIcon}
                 />
-                <DeleteSpaceButton
-                  spaceId={space?.id || ''}
+                <DeleteCollaborationToolButton
+                  toolId={selectedTool?.id || ''}
+                  spaceIdOrName={space.id}
                   onDelete={() => {
-                    replaceRoute('/spaces/')
                     hide()
                   }}
                   style={styles.buttonWithIcon}
                 />
               </>
-            )}
-          </MoreOptionsButtonWithModal>
+            </MoreOptionsButtonWithModal>
+          )}
         </View>
       </View>
     )
@@ -212,5 +198,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     paddingVertical: 18,
+  },
+  toolContextHeader: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: 16,
+    paddingBottom: 16,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
   },
 })

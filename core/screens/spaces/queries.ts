@@ -383,6 +383,18 @@ export const deleteSpaceMutation = gql`
   }
 `
 
+export interface DeleteCollaborationToolResponse {
+  success: boolean
+}
+
+export const deleteCollaborationToolMutation = gql`
+  mutation DeleteCollaborationTool($id: UUID!) {
+    deleteCollaborationTool(id: $id) {
+      success
+    }
+  }
+`
+
 export interface SpacesByMemberIdResponse {
   spaces: MemberSpaces
 }

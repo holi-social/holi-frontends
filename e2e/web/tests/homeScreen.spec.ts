@@ -3,9 +3,12 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   clickElementByTestId,
+  donationsRequestTimeout,
+  goodnewsRequestTimeout,
   locateElementByTestId,
   loginAsE2EUser,
   proceedAsGuest,
+  volunteeringRequestTimeout,
   waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
@@ -24,11 +27,11 @@ test.describe('@HomeScreen', () => {
 
     await testInsightsEditors(page)
 
-    await testAppUpdatesVisible(page, 'donations')
+    await testAppUpdatesVisible(page, 'donations', donationsRequestTimeout)
 
-    await testAppUpdatesVisible(page, 'goodnews')
+    await testAppUpdatesVisible(page, 'goodnews', goodnewsRequestTimeout)
 
-    await testAppUpdatesVisible(page, 'volunteering')
+    await testAppUpdatesVisible(page, 'volunteering', volunteeringRequestTimeout)
 
     await testUserSuggestions(page, context)
   })
@@ -47,10 +50,10 @@ const testAllowPaginationForInsightList = async (page: Page) => {
   await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
 }
 
-const testAppUpdatesVisible = async (page: Page, app: string) => {
-  await waitForElementByTestId(page, `${app}-updates-heading`)
-  await waitForElementByTestId(page, `${app}-updates-container`)
-  await waitForElementByTestId(page, `${app}-updates-item`)
+const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) => {
+  await page.waitForSelector(byTestId(`${app}-updates-heading`), { timeout: timeout })
+  await page.waitForSelector(byTestId(`${app}-updates-container`), { timeout: timeout })
+  await page.waitForSelector(byTestId(`${app}-updates-item`), { timeout: timeout })
 }
 
 const testInsightsSection = async (page: Page) => {
