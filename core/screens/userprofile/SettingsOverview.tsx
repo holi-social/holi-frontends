@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,7 @@ import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -18,8 +18,10 @@ const SettingsOverview: React.VFC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
   const logout = useLogout()
+  const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
+    onConfirm: logout,
+  })
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
@@ -75,15 +77,13 @@ const SettingsOverview: React.VFC = () => {
           />
 
           <HoliConfirmation
-            show={showLogoutConfirmation}
             label={t('auth.logout.button')}
             title={t('auth.logout.button')}
             description={t('auth.logout.heading')}
-            onDismiss={() => setShowLogoutConfirmation(false)}
             dismissText={t('auth.logout.confirmation.dismiss')}
             confirmText={t('auth.logout.confirmation.confirm')}
+            {...logoutConfirmationProps}
             testID="modal-logout"
-            onConfirm={logout}
           />
         </View>
       </LoginProtection>
