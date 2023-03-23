@@ -8,6 +8,7 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
+  waitForElementByTestIdToBeDetached,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
@@ -165,7 +166,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     const saveAndWaitForModalClosed = async (page: Page) => {
       await Promise.all([
-        page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' }),
+        waitForElementByTestIdToBeDetached(page, 'space-edit-modal-save-btn'),
         clickElementByTestId(page, 'space-edit-modal-save-btn'),
       ])
     }

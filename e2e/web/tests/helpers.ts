@@ -12,6 +12,7 @@ export const volunteeringRequestTimeout = 20_000
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const delay = (time: number) =>
   test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
@@ -21,6 +22,9 @@ export const waitForElementByTestId = async (
 ): Promise<ElementHandle<SVGElement | HTMLElement>> => {
   return await page.waitForSelector(byTestId(testId))
 }
+
+export const waitForElementByTestIdToBeDetached = async (page: Page, testId: string) =>
+  page.waitForSelector(byTestId(testId), { state: 'detached' })
 
 export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
   await waitForElementByTestId(page, testId)
@@ -91,7 +95,7 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
   // click the button and wait for it to be detached
   await Promise.all([
-    page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
+    waitForElementByTestIdToBeDetached(page, 'btn-to-continue-as-guest'),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
   ])
 }
@@ -155,7 +159,7 @@ export const sendConnectionRequest = async (page: Page) => {
   await clickElementByTestId(page, 'user-connection-button-NOT_CONNECTED')
 
   // after clicked, the button state should change to REQUESTED
-  await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
+  await waitForElementByTestIdToBeDetached(page, 'user-connection-button-REQUESTED')
 }
 
 export const newUserEmail = () => {
@@ -198,5 +202,5 @@ export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId:
 
 export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elementId: string, toastId: string) => {
   await clickElementByTestIdAndWaitForToast(page, elementId, toastId)
-  await page.waitForSelector(byTestId(toastId), { state: 'detached' })
+  await waitForElementByTestIdToBeDetached(page, toastId)
 }

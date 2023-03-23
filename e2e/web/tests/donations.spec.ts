@@ -9,6 +9,7 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
+  waitForElementByTestIdToBeDetached,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -176,7 +177,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 const testDisplayDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
-  await page.waitForSelector(byTestId('donations-search-modal'), { state: 'detached' })
+  await waitForElementByTestIdToBeDetached(page, 'donations-search-modal')
   await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
 
   // expect filtered list

@@ -50,7 +50,7 @@ test.describe('@ForgotPassword', () => {
 
     // input is not visible anymore
     await expect(await emailInput.isVisible()).not.toBeTruthy()
-    // await page.waitForSelector(byTestId('ory-email-input'), { state: 'detached' })
+    // await waitForElementByTestIdToBeDetached(page, 'ory-email-input')
     expect(await page.locator(byTestId('ory-email-input')).isVisible()).not.toBeTruthy()
   })
 })
