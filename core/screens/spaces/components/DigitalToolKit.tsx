@@ -41,6 +41,10 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     navigate(`/spaces/${space.name}/toolKit`)
   }
 
+  const navigateToEditToolPage = (toolIdOrName: string) => {
+    navigate(`/spaces/${spaceIdOrName}/tools/${toolIdOrName}/edit`)
+  }
+
   const NoToolsAvailable = () => {
     return (
       <View style={styles.noToolsDescriptionContainer}>
@@ -56,11 +60,11 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     return (
       <View style={styles.toolContainer}>
         <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={t(`spaces.link.${tool.domain}`)} />}
+          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
         </View>
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {t(`spaces.link.${tool.domain}`)}
+            {tool.domain}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
@@ -93,7 +97,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                   label={t('global.edit')}
                   onPress={() => {
                     visible && hide()
-                    show()
+                    navigateToEditToolPage(tool.id)
                   }}
                   contentStyle={styles.buttonWithIcon}
                 />

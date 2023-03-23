@@ -2613,10 +2613,10 @@
     set-cookie-parser "^2.4.8"
     tldjs "^2.3.1"
 
-"@ory/kratos-client@^0.9.0-alpha.3":
-  version "0.9.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@ory/kratos-client/-/kratos-client-0.9.0-alpha.3.tgz#2464139501f25169c5311bc0d5a0b15d0131be01"
-  integrity sha512-AyfNz1P+6G/vS752BqvrRhLYJC1KtukuBUGGQdiMKXJjy+wGTt7Y3wvEIASbD/QyoGEyhIBCYtLbunpVE7VOaA==
+"@ory/kratos-client@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@ory/kratos-client/-/kratos-client-0.11.1.tgz#2a4bfd697cff1da985ed98c13c29537715a891a0"
+  integrity sha512-ZR7wsbkVw1LSmTLxdfKwao2u8A0cnFVbwVcD0Iv5UXL9vIWL/JkxGBP0QsW3HF7jB/hmr+iTaBLjdJkUZE+2Sg==
   dependencies:
     axios "^0.21.4"
 

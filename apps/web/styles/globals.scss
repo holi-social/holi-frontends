@@ -81,8 +81,7 @@ li {
   border: solid 1px $brandColorB30 !important;
 }
 
-// React native 'ScrollView' specific style
-// when 'pagingEnabled' is enabled, set unreachable 'r-scrollSnapAlign-***' div and makes it fill the parent height
-[class*=scrollSnapAlign] {
+// "data-stepper-wrapper" and "data-stepper-step" are our custom data-set attributes for HoliStepper childe nodes
+[data-stepper-wrapper="true"] *:not([data-stepper-step="true"] *) {
   height: 100%;
 }

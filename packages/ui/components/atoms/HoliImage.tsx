@@ -1,22 +1,32 @@
 import React from 'react'
-import { AccessibilityProps, Image, ImageProps } from 'react-native'
+import type { AccessibilityProps, ImageProps } from 'react-native'
+import { Image } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage.shared'
+import type { HoliImageProps } from '@holi/ui/components/utils/image'
+import { transformSourcesURL } from '@holi/ui/components/utils/image'
 
-const HoliImage: React.VoidFunctionComponent<HoliImageProps & ImageProps> = ({
+const HoliImage = ({
   source,
   label,
   style,
   resizeMode = 'cover',
   ...nativeImageProps
-}: HoliImageProps) => {
+}: HoliImageProps & ImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    accessible: false,
+    accessible: !!label,
     accessibilityRole: 'image',
     accessibilityLabel: label,
   }
-  return <Image {...accessibilityProps} source={source} style={[style, { resizeMode }]} {...nativeImageProps} />
+
+  return (
+    <Image
+      source={transformSourcesURL(source)}
+      style={[style, { resizeMode }]}
+      {...nativeImageProps}
+      {...accessibilityProps}
+    />
+  )
 }
 
 export default HoliImage

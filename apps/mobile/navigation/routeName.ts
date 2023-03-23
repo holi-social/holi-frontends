@@ -18,6 +18,7 @@ export enum RouteName {
   AddDigitalTool = 'AddDigitalTool',
   SpaceStorage = 'SpaceStorage',
   ToolKit = 'ToolKit',
+  EditDigitalTool = 'EditDigitalTool',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -26,6 +27,7 @@ export enum RouteName {
   Profile = 'Profile',
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
+  ChangePassword = 'ChangePassword',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

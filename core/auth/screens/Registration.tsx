@@ -1,12 +1,11 @@
-import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -15,13 +14,15 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isWeb = Platform.OS === 'web'
 
 const Registration: React.VFC = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
-  const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -42,10 +43,10 @@ const Registration: React.VFC = () => {
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
   // This will update the registration flow with the user provided input:
-  const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
+  const onSubmit = (payload: UpdateRegistrationFlowBody): Promise<void> =>
     flow
       ? newKratosSdk()
-          .submitSelfServiceRegistrationFlow(flow.id, payload)
+          .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: payload })
           .then(({ data }) => {
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
@@ -66,22 +67,31 @@ const Registration: React.VFC = () => {
           .catch((error) => displayError(error, t('auth.registration.error.registration')))
       : Promise.resolve()
 
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
   return (
-    <CenteredContentLayout>
-      <LoginRegistrationContainer>
+    <HoliKeyboardSaveView>
+      <CenteredContentLayout ref={scrollViewRef}>
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}
           </HoliHeading>
 
           <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+          <FormBuilder
+            flow={flow}
+            onSubmit={onSubmit}
+            style={styles.loginForm}
+            scrollToInputWithId={scrollToInputWithId}
+          />
+
+          <View style={{ alignItems: 'center' }}>
+            <AlreadyHaveAccountText style={styles.loginHeadline} />
+          </View>
         </View>
-
-        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
-
-        <AlreadyHaveAccountText style={styles.loginHeadline} />
-      </LoginRegistrationContainer>
-    </CenteredContentLayout>
+      </CenteredContentLayout>
+    </HoliKeyboardSaveView>
   )
 }
 
@@ -90,10 +100,10 @@ export default memo(Registration)
 const styles = StyleSheet.create({
   inner: {
     maxWidth: vars.breakpointL,
+    width: '100%',
   },
   headline: {
     fontWeight: '400',
-    marginTop: 74,
   },
   description: {
     color: colors.foreground20,

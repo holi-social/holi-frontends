@@ -28,7 +28,7 @@ const ToolIdeas: React.FC = () => {
       name: t('spaces.toolKit.toolIdeas.tool.impactTools'),
       org: '[re]flecta network',
       url: 'https://www.reflecta.network/die-impact-tools',
-      icon: 'chat-smile-2',
+      icon: 'plant',
     },
     {
       id: '1',
@@ -59,26 +59,26 @@ const ToolIdeas: React.FC = () => {
 
   const RecommandedTool = ({ tool }: { tool: Tool }) => {
     return (
-      <View style={styles.toolContainer}>
-        <View style={styles.iconContainer}>
-          <HoliIcon size={21} color={colors.brandColorB30} icon={tool.icon} />
-        </View>
-        <View style={styles.infoContainer}>
-          <HoliText style={styles.toolName}>{tool.name}</HoliText>
-          <HoliText size="extrasmall" style={styles.toolOrg}>
-            {t('spaces.toolKit.toolIdeas.tool.poweredBy')} {tool.org}
-          </HoliText>
-        </View>
-        <View style={styles.shareButtonContainer}>
-          <HoliButton
-            label={t('spaces.toolKit.toolIdeas.tool.open.button.label')}
-            transparent
-            onPress={() => handleShareButtonPress(tool.url)}
-          >
+      <HoliButton
+        label={t('spaces.toolKit.toolIdeas.tool.open.button.label')}
+        transparent
+        onPress={() => handleShareButtonPress(tool.url)}
+      >
+        <View style={styles.toolContainer}>
+          <View style={styles.iconContainer}>
+            <HoliIcon size={21} color={colors.brandColorB30} icon={tool.icon} />
+          </View>
+          <View style={styles.infoContainer}>
+            <HoliText style={styles.toolName}>{tool.name}</HoliText>
+            <HoliText size="extrasmall" style={styles.toolOrg}>
+              {t('spaces.toolKit.toolIdeas.tool.poweredBy')} {tool.org}
+            </HoliText>
+          </View>
+          <View style={styles.shareButtonContainer}>
             <HoliIcon icon={'share-box'} size={15} color={colors.foreground20} />
-          </HoliButton>
+          </View>
         </View>
-      </View>
+      </HoliButton>
     )
   }
 

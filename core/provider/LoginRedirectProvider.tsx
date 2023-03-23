@@ -27,7 +27,7 @@ export const LoginRedirectProvider = ({ children }: React.PropsWithChildren<unkn
     <LoginRedirectContext.Provider value={{ openLoginDialog }}>
       {children}
 
-      <LoginGuardModal {...loginGuardModalProps} />
+      <LoginGuardModal {...props} {...loginGuardModalProps} />
     </LoginRedirectContext.Provider>
   )
 }

@@ -28,11 +28,15 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+/** TODO: Suspence currently only works on web. To make it work for
+ * mobile we need to move to the new React Native architecture */
 const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
+const InsightsTab = lazy(() => import('@holi/core/components/InsightsTab'))
 
 export type UserProfileParams = {
   userId: string
 }
+
 const { useParam } = createParam<UserProfileParams>()
 
 const UserProfile = () => {
@@ -201,16 +205,14 @@ const UserProfile = () => {
           {
             title: t('profile.tabs.insight'),
             children: (
-              <View style={styles.infoContainer}>
-                <HoliText style={styles.infoText}>{t('profile.tabs.insight.empty')}</HoliText>
-              </View>
+              <Suspense fallback={<HoliLoader />}>
+                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+              </Suspense>
             ),
           },
           {
             title: t('profile.tabs.spaces'),
             children: (
-              /** TODO: Suspence currently only works on web. To make it work for
-               * mobile we need to move to the new React Native architecture */
               <Suspense fallback={<HoliLoader />}>
                 <SpacesTab
                   emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}

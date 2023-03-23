@@ -16,7 +16,7 @@ export const useStepper = (initialStep = 0) => {
   const [currentStep, setCurrentStep] = React.useState(initialStep)
 
   const goNext = useCallback(() => setCurrentStep((current) => current + 1), [])
-  const goBack = useCallback(() => setCurrentStep((current) => current - 1), [])
+  const goBack = useCallback(() => setCurrentStep((current) => Math.max(current - 1, 0)), [])
 
   return {
     currentStep,
@@ -88,9 +88,15 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
       // 'scrollEnabled' must be 'true' for scroll animation on Safari
       scrollEnabled={currentStep !== previousStep || scrollEnabled}
       {...scrollViewProps}
+      dataSet={{ stepperWrapper: true }}
     >
       {steps.map((step, idx) => (
-        <View style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]} key={idx} testID="stepper-step">
+        <View
+          style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]}
+          key={idx}
+          testID="stepper-step"
+          dataSet={{ stepperStep: true }}
+        >
           {mustStepBeRendered(idx) && step}
         </View>
       ))}

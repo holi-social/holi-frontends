@@ -15,7 +15,7 @@ export interface MoreOptionItemProps extends HoliButtonProps {
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
   arrowRight = false,
-  tintColor = colors.foreground20,
+  tintColor = colors.foreground30,
   label,
   disabled,
   contentStyle,

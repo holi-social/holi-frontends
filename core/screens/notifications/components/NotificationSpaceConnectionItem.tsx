@@ -34,12 +34,19 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   )
   const { displayError } = useErrorHandling()
 
-  const [updateSpaceUserConnection, { loading, error }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
         spaceId: notification.options.space.id,
         userId: notification.options.user.id,
+      },
+      onError(error) {
+        if (error.message.includes('User did not request membership')) {
+          displayError(error, t('spaces.membership.update.not-requested'))
+        } else {
+          displayError(error, t('spaces.membership.update.error'))
+        }
       },
     }
   )
@@ -60,10 +67,6 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
       },
     }).then(() => setConnectionAccepted(false))
-  }
-
-  if (error) {
-    displayError(error)
   }
 
   const { userId } = useAuth()

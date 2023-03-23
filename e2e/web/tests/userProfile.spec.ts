@@ -1,17 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { Page, expect, test } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  defaultAuthSteps,
-  delay,
-  locateElementByTestId,
-  waitForAnimationEnd,
-  waitForElementByTestId,
-  withRandomUserSession,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, waitForElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -19,60 +10,57 @@ require('dotenv').config({ path: '.envrc' })
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('user journey', async ({ browser, page, context }) => {
-    // fill the interests, skills and sdgs for visiting the profile later
-    await defaultAuthSteps({ page, context }, 'login')
-    await waitForElementByTestId(page, 'btn-to-settings')
+  test('user journey', async ({ page, context, userHandler }) => {
+    await loginAsE2EUser(context, page)
 
+    // fill the interests, skills and sdgs for visiting the profile later
     await page.goto('/profile')
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
-    await (
-      await withRandomUserSession(browser, async (page) => {
-        await waitForElementByTestId(page, 'user-profile-full-name')
+    await userHandler.asRandomUser(async (page) => {
+      await waitForElementByTestId(page, 'user-profile-full-name')
 
-        await waitForElementByTestId(page, 'user-profile-interests')
-        await waitForElementByTestId(page, 'user-profile-sdgs')
-        await waitForElementByTestId(page, 'user-profile-skills')
+      await waitForElementByTestId(page, 'user-profile-interests')
+      await waitForElementByTestId(page, 'user-profile-sdgs')
+      await waitForElementByTestId(page, 'user-profile-skills')
 
-        await checkAccessibility(page)
-        await clickElementByTestId(page, 'btn-open-profile-edit-view')
-        await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-        await checkAccessibility(page)
+      await checkAccessibility(page)
+      await clickElementByTestId(page, 'btn-open-profile-edit-view')
+      await checkAccessibility(page)
 
-        // validation should block save
-        await page.locator(byTestId('first-name-input')).fill('a')
-        await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-        await page.locator(byTestId('first-name-input-error-message')).waitFor()
-        await checkAccessibility(page)
+      // validation should block save
+      await page.locator(byTestId('first-name-input')).fill('a')
+      await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
+      await page.locator(byTestId('first-name-input-error-message')).waitFor()
+      await checkAccessibility(page)
 
-        // edit firstName should work
-        const firstNameEdited = faker.name.firstName()
-        const lastNameEdited = faker.name.lastName()
-        await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
-        await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
-        await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-        await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
+      // edit firstName should work
+      const firstNameEdited = faker.name.firstName()
+      const lastNameEdited = faker.name.lastName()
+      await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
+      await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
+      await Promise.all([
+        page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' }),
+        clickElementByTestId(page, 'user-profile-edit-form-close-btn'),
+      ])
 
-        await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-        await expect
-          .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
-          .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
+      await expect
+        .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
+        .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
 
-        // visiting another user's profile should show the correct information
-        const userId = process.env.E2E_USER_ID || 'empty'
-        await page.goto('/profile/' + userId)
-        await waitForElementByTestId(page, 'user-profile-full-name')
-        await waitForElementByTestId(page, 'user-profile-interests')
-        await waitForElementByTestId(page, 'user-profile-sdgs')
-        await waitForElementByTestId(page, 'user-profile-skills')
+      // visiting another user's profile should show the correct information
+      const userId = process.env.E2E_USER_ID || 'empty'
+      await page.goto('/profile/' + userId)
+      await waitForElementByTestId(page, 'user-profile-full-name')
+      await waitForElementByTestId(page, 'user-profile-interests')
+      await waitForElementByTestId(page, 'user-profile-sdgs')
+      await waitForElementByTestId(page, 'user-profile-skills')
 
-        await checkAccessibility(page)
-      })
-    )()
+      await checkAccessibility(page)
+    })
   })
 })
 
@@ -84,33 +72,20 @@ const checkChipsSelection = async (page: Page, what: string) => {
 const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
 
-  const countOfSelectedChips: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
+  const selectorForSelectedChips = `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  const countOfSelectedChips = async (): Promise<number> => getCountOf(page, selectorForSelectedChips)
 
-  for (let stillSelectedCount = countOfSelectedChips; stillSelectedCount > 0; stillSelectedCount--) {
-    await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
-      .first()
-      .click()
+  for (let stillSelectedCount = await countOfSelectedChips(); stillSelectedCount > 0; stillSelectedCount--) {
+    await page.locator(selectorForSelectedChips).first().click()
+    await expect.poll(countOfSelectedChips).toBe(stillSelectedCount - 1)
   }
 
-  const stillSelectedCount: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(stillSelectedCount).toBe(0)
+  expect(await countOfSelectedChips()).toBe(0)
 
   await saveAndCloseChipform(page)
 
@@ -126,15 +101,12 @@ const deselectAll = async (page: Page, what: string) => {
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // FIXME (in components) if the filter button is pressed too early (when no content is loaded),
-  // it somehow completely breaks the filter button (does not work in any way)
-  // FIXME delay is needed because of wrong implementation of component.
-  await delay(2)
   await clickElementByTestId(page, `user-profile-${what}-edit`)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
+  const countOfSelectedChips = async (): Promise<number> =>
+    getCountOf(page, `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
 
   const expectedNoOfSelectedChips = 3
 
@@ -143,13 +115,10 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
       .nth(indexToSelect)
       .click()
+    await expect.poll(countOfSelectedChips).toBe(indexToSelect + 1)
   }
 
-  const newSelectionCount = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
+  await expect.poll(countOfSelectedChips).toBe(expectedNoOfSelectedChips)
 
   await saveAndCloseChipform(page)
 
@@ -158,15 +127,15 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await expect.poll(shownChips).toBe(expectedNoOfSelectedChips)
 }
 
-const getCountOf = async (page: Page, selector: string) => {
-  const locator = await page.locator(selector)
-  return await locator.count()
+const getCountOf = async (page: Page, selector: string): Promise<number> => {
+  return page.locator(selector).count()
 }
 
 const saveAndCloseChipform = async (page: Page) => {
-  await clickElementByTestId(page, 'user-profile-chipform-close-btn')
-  await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  await page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' })
+  await Promise.all([
+    clickElementByTestId(page, 'user-profile-chipform-close-btn'),
+    page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' }),
+    page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' }),
+  ])
   await waitForElementByTestId(page, 'user-profile-full-name')
 }

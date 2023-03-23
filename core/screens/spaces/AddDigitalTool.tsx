@@ -61,8 +61,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin =
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { displayError } = useErrorHandling()
 
@@ -190,7 +192,6 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         testID="exit-add-digitalTool-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
-          addCollaborationTool()
           navigateBack()
         }}
       />
@@ -202,7 +203,6 @@ export default AddDigitalTool
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    padding: 24,
     backgroundColor: colors.background20,
   },
   contentStyle: {

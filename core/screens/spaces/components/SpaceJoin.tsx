@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
@@ -23,20 +24,25 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
-  const [updateSpaceUserConnection, { loading, error }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const { displayError } = useErrorHandling()
+  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
       update: (cache) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
       },
+      onError(error) {
+        client.cache.evict({ id: client.cache.identify(space) })
+
+        if (error.message.includes('Not requested to join community')) {
+          displayError(error, t('spaces.join.error.already-revoked'))
+        } else {
+          displayError(error, t('spaces.join.error'))
+        }
+      },
     }
   )
-  const { displayError } = useErrorHandling()
-
-  if (error) {
-    displayError(error, t('spaces.join.error'))
-  }
 
   const submitJoinRequest = useCallback(() => {
     if (!isLoggedIn) {

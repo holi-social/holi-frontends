@@ -1,1 +1,1 @@
-export const owncloudUrl = process.env.OWNCLOUD_BASE_URL || 'https://dev.cloud.project-holi.org'
+export const owncloudUrl = process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.project-holi.org'

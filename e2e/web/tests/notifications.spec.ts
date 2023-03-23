@@ -1,54 +1,50 @@
 import { faker } from '@faker-js/faker'
-import { Browser, BrowserContext, Page, expect, test } from '@playwright/test'
+import { BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   clickElementByTestId,
-  defaultAuthSteps,
   locateElementByTestId,
+  loginAsE2EUser,
   sendConnectionRequest,
-  waitForAnimationEnd,
   waitForElementByTestId,
-  withRandomUserSession,
 } from './helpers'
+import { UserHandler, test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
 test.setTimeout(180000)
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
-
 test.describe('@Notifications', () => {
-  test('user journey', async ({ browser, context, page }) => {
-    await testIgnoringAndAcceptingConnectionRequests(browser, context, page)
-    await testUserMentionInPostComment(browser, context, page)
+  test('user journey', async ({ context, page, userHandler }) => {
+    await testIgnoringAndAcceptingConnectionRequests(context, page, userHandler)
+    await testUserMentionInPostComment(context, page, userHandler)
   })
 })
 
-const testIgnoringAndAcceptingConnectionRequests = async (browser: Browser, context: BrowserContext, page: Page) => {
+const testIgnoringAndAcceptingConnectionRequests = async (
+  context: BrowserContext,
+  page: Page,
+  userHandler: UserHandler
+) => {
   // create two connection requests from two separate users in parallel
-  const cleanupHooks = await Promise.all([
-    withRandomUserSession(browser, async (page) => {
+  await Promise.all([
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
-    withRandomUserSession(browser, async (page) => {
+    userHandler.asRandomUser(async (page) => {
       await sendConnectionRequest(page)
     }),
   ])
 
-  // login with your test user
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications
   await clickElementByTestId(page, 'btn-to-home-view')
-  await waitForElementByTestId(page, 'btn-to-notifications')
   await clickElementByTestId(page, 'btn-to-notifications')
-
-  // await page.goto('/notifications')
+  // notifications currently can take a while to load, therefore we're setting a long timeout here
+  await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 60000 })
   await waitForElementByTestId(page, 'connection-notification-item')
 
   // ignore first CONNECTION_REQUEST
@@ -56,7 +52,6 @@ const testIgnoringAndAcceptingConnectionRequests = async (browser: Browser, cont
   await Promise.all([
     // wait for ignoring the connection request
     page.waitForResponse('/api/graphql'),
-    waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
     // ignore the connection request
     clickElementByTestId(page, 'ignore-connection-request-button'),
   ])
@@ -66,15 +61,12 @@ const testIgnoringAndAcceptingConnectionRequests = async (browser: Browser, cont
   await Promise.all([
     // Waits for accepting the connection request
     page.waitForResponse('/api/graphql'),
-    waitForAnimationEnd(page.locator(byTestId('connection-notification-loader-indicator'))),
     // accept the connection request
     clickElementByTestId(page, 'accept-connection-request-button'),
   ])
-
-  await Promise.all(cleanupHooks.map((fn) => fn())) // clean up random users and wait for it
 }
 
-const testUserMentionInPostComment = async (browser: Browser, context: BrowserContext, page: Page) => {
+const testUserMentionInPostComment = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
   let commentTextContent = ''
   const createCommentWithE2EUserMention = async (page: Page) => {
     const userId = process.env.E2E_USER_ID
@@ -91,7 +83,7 @@ const testUserMentionInPostComment = async (browser: Browser, context: BrowserCo
     await clickElementByTestId(page, 'feed-insight-image-link')
     await clickElementByTestId(page, 'btn-to-post')
     // after clicking on notification we should go to post detail page and scroll to the comment
-    // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
+    // notifications currently can take a while to load, therefore we're setting a long timeout here
     await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
     await clickElementByTestId(page, 'post-detail-footer')
     await clickElementByTestId(page, 'post-comment')
@@ -102,24 +94,21 @@ const testUserMentionInPostComment = async (browser: Browser, context: BrowserCo
     await expect(page.getByText(commentTextContent)).toBeVisible()
   }
 
-  const cleanupHookCreateCommentSession = await withRandomUserSession(browser, async (page) => {
+  await userHandler.asRandomUser(async (page) => {
     await createCommentWithE2EUserMention(page)
   })
 
-  await defaultAuthSteps({ context, page }, 'login')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await loginAsE2EUser(context, page)
 
   // go to notifications and click first one post-comment-mention-notification
 
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
-  await expect(page.getByTestId('notifications-overview')).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('post-comment-mention')).toBeVisible({ timeout: 60000 })
   await clickElementByTestId(page, 'post-comment-mention')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
   // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
   await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 60000 })
-
-  await cleanupHookCreateCommentSession()
 }
