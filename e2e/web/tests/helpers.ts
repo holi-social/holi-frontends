@@ -4,6 +4,11 @@ import { checkA11y, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
 
+// sometimes requests to the app backends take a little longer (10s < response latency < 40s)
+export const donationsRequestTimeout = 40_000
+export const goodnewsRequestTimeout = 20_000
+export const volunteeringRequestTimeout = 20_000
+
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
@@ -128,7 +133,6 @@ export const registerAsNewUser = async (
 }
 
 export const checkAccessibility = async (page: Page) => {
-  /*
   await injectAxe(page)
   const axeOptions = {
     rules: {
@@ -137,7 +141,6 @@ export const checkAccessibility = async (page: Page) => {
   }
   // set skipFailures to true for now, so we can fix the issues in a planned task
   await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
-  */
 }
 
 export const sendConnectionRequest = async (page: Page) => {
