@@ -17,7 +17,6 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -41,7 +40,6 @@ const Login: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const [return_to] = useParam('return_to', singleParamConfig)
   const { redirect } = useRouting()
-  const { redirectPath } = useNavigationContext()
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
 
@@ -58,30 +56,13 @@ const Login: React.VFC<ScreenProps> = () => {
   }, [setOptions, t])
 
   const initializeFlow = useCallback(() => {
-    console.log('1 [Login] return_to: ', return_to)
-    console.log('1 [Login] redirectAfterLogin: ', redirectPath)
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t, safeSetFlow, displayError, redirectPath, return_to])
-
-  const onLoggedIn = () => {
-    // Redirect on success
-    // get redirect from navigtaion context .... redirectPath
-    // TODO: do this also after registration
-
-    console.log('2 [Login] redirect after login to: ', return_to)
-    console.log('2 [Login] redirect after login to: ', redirectPath)
-
-    redirect()
-
-    // if (Platform.OS === 'web' && return_to) {
-    //   window.location.href = return_to
-    // }
-  }
+  }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()
@@ -94,8 +75,12 @@ const Login: React.VFC<ScreenProps> = () => {
           client.clearStore().then(() => {
             setUserLoggedIn(data as OrySessionContext)
           })
-          console.log('###### [Login] User is loggedIn - Redirect after login to: ', redirectPath)
-          onLoggedIn()
+          if (Platform.OS === 'web' && return_to) {
+            // server side redirect, see: See apps/web/pages/oauth2/login.tsx
+            window.location.href = return_to
+          } else {
+            redirect()
+          }
         })
         .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
         .catch((error) => displayError(error, t('auth.login.error.login')))

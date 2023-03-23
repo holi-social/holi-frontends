@@ -20,7 +20,6 @@ type UserConnectionButtonsProps = {
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
   const { isLoggedIn } = useContext(AuthContext)
-  // const { openLoginDialog } = useLoginRedirect()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
@@ -36,10 +35,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
 
   const onPrimaryPress = () => {
     if (!isLoggedIn) {
-      // return openLoginDialog({
-      //   description: t('user.profileView.connection.notLoggedIn.message'),
-      // })
-      openLoginModal()
+      openLoginModal({ description: t('user.profileView.connection.notLoggedIn.message') })
       return
     }
 

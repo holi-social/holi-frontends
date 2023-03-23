@@ -36,14 +36,12 @@ export const LoginGuardModal: React.VFC<LoginGuardModalProps> = ({
   const { props } = useConfirmationState()
 
   const confirmHandler = useCallback(() => {
-    console.log('[LoginGuardModal] confirm()')
     navigate('/login', { redirectAfterLogin: true })
     const confirmPropagation = onConfirm?.()
     if (confirmPropagation !== false) props?.onConfirm?.()
   }, [navigate, onConfirm, props])
 
   const dismissHandler = useCallback(() => {
-    console.log('[LoginGuardModal] dismiss()')
     const dismissPropagation = onDismiss?.()
     if (dismissPropagation !== false) props?.onDismiss?.()
   }, [onDismiss, props])

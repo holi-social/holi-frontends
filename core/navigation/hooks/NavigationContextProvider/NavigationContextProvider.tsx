@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { NavigationContext, initialScreenOptions } from './NavigationContext'
 
@@ -7,17 +7,7 @@ export const NavigationContextProvider = ({ children }: React.PropsWithChildren<
   const [redirectPath, setRedirect] = useState<string | null>(null)
   const [options, setOptions] = useState(initialScreenOptions)
 
-  useEffect(() => {
-    console.log('------------ [NavigationProvider] pathname is updated', pathname)
-  }, [pathname])
-
-  const setRedirectAfterLogin = useCallback(
-    (url: string | null) => {
-      console.log('------------ [NavigationProvider] setRedirectAfterLogin to', url, 'existing pathname:', pathname)
-      setRedirect(url)
-    },
-    [pathname]
-  )
+  const setRedirectAfterLogin = useCallback((url: string | null) => setRedirect(url), [])
 
   const clearRedirectAfterLogin = useCallback(() => {
     setRedirect(null)

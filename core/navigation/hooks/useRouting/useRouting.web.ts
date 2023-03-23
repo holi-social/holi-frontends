@@ -16,13 +16,8 @@ const useRouting: UseRouting = () => {
 
       if (options?.redirectAfterLogin) {
         setRedirectAfterLogin(router.asPath)
-        // params['return_to'] = options.redirectAfterLogin
       }
       router.push(routeName)
-      // router.push({
-      //   pathname: routeName,
-      //   query: params,
-      // })
     },
     [router, setRedirectAfterLogin]
   )
