@@ -18,9 +18,10 @@ export const delay = (time: number) =>
 
 export const waitForElementByTestId = async (
   page: Page,
-  testId: string
+  testId: string,
+  options?: { timeout?: number }
 ): Promise<ElementHandle<SVGElement | HTMLElement>> => {
-  return await page.waitForSelector(byTestId(testId))
+  return await page.waitForSelector(byTestId(testId), options)
 }
 
 export const waitForElementByTestIdToBeDetached = async (page: Page, testId: string) =>
