@@ -133,7 +133,6 @@ export const registerAsNewUser = async (
 }
 
 export const checkAccessibility = async (page: Page) => {
-  /*
   await injectAxe(page)
   const axeOptions = {
     rules: {
@@ -142,7 +141,6 @@ export const checkAccessibility = async (page: Page) => {
   }
   // set skipFailures to true for now, so we can fix the issues in a planned task
   await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
-  */
 }
 
 export const sendConnectionRequest = async (page: Page) => {
