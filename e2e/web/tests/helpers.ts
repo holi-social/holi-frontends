@@ -4,6 +4,11 @@ import { checkA11y, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
 
+// sometimes requests to the app backends take a little longer (10s < response latency < 40s)
+export const donationsRequestTimeout = 40_000
+export const goodnewsRequestTimeout = 20_000
+export const volunteeringRequestTimeout = 20_000
+
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 

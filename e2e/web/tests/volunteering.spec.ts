@@ -5,9 +5,12 @@ import {
   clickElementByTestId,
   locateElementByTestId,
   proceedAsGuest,
+  volunteeringRequestTimeout,
   waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
+
+test.setTimeout(120000)
 
 test.describe('@Volunteering', () => {
   test('user journey', async ({ browserName, context, page }) => {
@@ -58,7 +61,7 @@ const testAllowsPagination = async (page: Page) => {
 
   const listItemCountBefore = await countListItems()
   await clickElementByTestId(page, 'btn-volunteering-list-load-more')
-  await expect.poll(countListItems, { timeout: 30_000 }).toBeGreaterThan(listItemCountBefore)
+  await expect.poll(countListItems, { timeout: volunteeringRequestTimeout }).toBeGreaterThan(listItemCountBefore)
 
   await checkAccessibility(page)
 }
