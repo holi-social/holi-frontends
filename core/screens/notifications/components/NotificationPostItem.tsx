@@ -4,11 +4,10 @@ import NotificationWithUserAvatar from '@holi/core/screens/notifications/compone
 import { NotificationPost, NotificationProps } from '@holi/core/screens/notifications/components/types'
 
 const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ notification, style, testID }) => {
-  const commentId = notification.options?.postComment?.id
-  const postId = notification.options?.postComment?.post?.id
-  if (!commentId || !postId) {
-    return <></>
-  }
+  const {
+    id: commentId,
+    post: { id: postId },
+  } = notification.options.postComment
 
   return (
     <NotificationWithUserAvatar

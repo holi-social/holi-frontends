@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import { resizeModeForWeb } from '@holi/ui/components/atoms/imageUtils'
+import { resizeModeForWeb } from '@holi/ui/components/utils/image'
 
 // Usage:
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'

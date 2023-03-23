@@ -19,6 +19,11 @@ export enum SpaceLinkType {
   WHATSAPP = 'WHATSAPP',
 }
 
+export enum CollaborationType {
+  COLLABORATION = 'COLLABORATION',
+  COMMUNICATION = 'COMMUNICATION',
+}
+
 export interface SpaceLink {
   url: string
   type: SpaceLinkType
@@ -29,6 +34,7 @@ export interface SpaceCollaborationTool {
   url: string
   domain: string
   title: string
+  collectionType: CollaborationType
   description?: string
   thumbnail?: string
 }

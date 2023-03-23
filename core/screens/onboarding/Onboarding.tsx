@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       web: {
-        // Workaround for Safari and WEB to disable bouncing and have fixed height
         position: 'fixed',
         top: 0,
         left: 0,

@@ -20,8 +20,8 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
   const isSpaces = pathname.startsWith('/spaces')
-  const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/registration', '/forgotPassword'].some(
-    (path) => pathname.startsWith(path)
+  const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
+    pathname.startsWith(path)
   )
 
   return (
