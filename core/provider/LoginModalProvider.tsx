@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
+import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
 export type LoginModalProps = {
   label?: string
@@ -10,38 +11,30 @@ export type LoginModalProps = {
   dismissText?: string
 }
 
-// *** Context ***
 export interface LoginModalContext {
-  modalProps: LoginModalProps
+  customProps: LoginModalProps
   openLoginModal: (props?: LoginModalProps) => void
 }
 
 export const LoginModalContext = createContext<LoginModalContext>({} as LoginModalContext)
 
-// *** Context Hook ***
 export const useLoginModal = () => useContext(LoginModalContext)
 
-// *** Provider ***
 export const LoginModalProvider = ({ children }: React.PropsWithChildren<unknown>) => {
-  const [modalProps, setModalProps] = useState<LoginModalProps>({})
-  // TODO: cannot reuse ConfirmationContext here. show is not reactive ?!
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [customProps, setCustomProps] = useState<LoginModalProps>({})
+  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState()
 
   const openLoginModal = (props: LoginModalProps = {}) => {
-    setModalProps((currentProps) => ({ ...currentProps, ...props }))
-    setShowLoginModal(true)
+    setCustomProps((currentProps) => ({ ...currentProps, ...props }))
+    setShowLoginGuard(true)
   }
 
   return (
-    <LoginModalContext.Provider value={{ modalProps, openLoginModal }}>
+    <LoginModalContext.Provider value={{ customProps, openLoginModal }}>
       {children}
-      <LoginGuardModal
-        show={showLoginModal}
-        {...modalProps}
-        onConfirm={() => setShowLoginModal(false)}
-        onDismiss={() => setShowLoginModal(false)}
-      />
+      <LoginGuardModal {...loginGuardModalProps} {...customProps} />
     </LoginModalContext.Provider>
   )
 }
+
 export default LoginModalProvider
