@@ -43,7 +43,7 @@ default:
       - e2e/web/playwright-report
       - e2e/web/test-results
       - e2e/web/artifacts # accessibility reports
-    when: on_failure
+    #when: on_failure
   script:
     - export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
