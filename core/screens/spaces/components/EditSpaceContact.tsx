@@ -13,7 +13,7 @@ interface EditSpaceContactProps {
 
 const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ /* space, */ onDismiss }: EditSpaceContactProps) => {
   const [spaceContactDescription, setSpaceContactDescription] = useState<string>('')
-  const [spacePhone, setSpacePhone] = useState<string>('')
+  const [spacePhone, setSpacePhone] = useState<number>(0)
   const [spaceMail, setSpaceMail] = useState<string>('')
 
   const [inputValid /* setInputValid */] = useState(true)

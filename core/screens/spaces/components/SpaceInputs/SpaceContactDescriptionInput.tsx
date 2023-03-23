@@ -18,8 +18,8 @@ const SpaceContactDescriptionInput: React.VFC<SpaceContactDescriptionInputProps>
 
   return (
     <HoliTextInput
-      placeholder={'Let people know about your preferred way of contact …'}
-      inputLabel={'Contact description'}
+      placeholder={t('spaces.input.contact.description.placeholder')}
+      inputLabel={t('spaces.input.contact.description.label')}
       maxNoOfCharacters={100}
       showCharacterCount={true}
       noOfVisibleLines={5}

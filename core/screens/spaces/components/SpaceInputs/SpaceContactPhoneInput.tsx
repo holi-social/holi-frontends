@@ -10,50 +10,30 @@ export type SpaceContactPhoneInputProps = {
   errorMessage?: string
 }
 
+// draft for HOLI-3549: Space contact info: add phone number format validation and design
 const SpaceContactPhoneInput: React.VFC<SpaceContactPhoneInputProps> = ({
   onChange,
   value,
 }: SpaceContactPhoneInputProps) => {
-  // const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
   return (
     <>
-      {/* <HoliTextInput
-        placeholder={'+49'}
-        inputLabel={'Phone number'}
-        type={'number'}
-        validationErrorText={errorMessage}
-        value={value}
-        onChange={onChange}
-        accessibilityLabel={t('spaces.input.contact.phone.label')}
-        testID="space-contact-phone"
-      /> */}
       <PhoneInput
-        // ref={phoneInput}m
         defaultValue={value}
         defaultCode="DE"
         layout="first"
         textContainerStyle={styles.textContainer}
-        // accept only numbers as input
         placeholder=" "
         onChangeText={onChange}
-        onChangeFormattedText={onChange}
         textInputProps={{
           keyboardType: 'number-pad',
         }}
-        // withDarkTheme
-        // withShadow
-        //style the phone input like the HoliTextInput above
         containerStyle={styles.wrapperContainer}
         textInputStyle={styles.textInput}
         codeTextStyle={styles.textInput}
-        // textInputStyle={styles.textInput}
         autoFocus
-        // why it has not the same sizing as the HoliTextInput?
-        // because it has a default value
-        // style it like the HoliTextInput
       />
     </>
   )
@@ -80,6 +60,5 @@ const getStyles = (theme: HoliTheme) =>
       color: 'grey',
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      // color: colors.foreground30,
     },
   })
