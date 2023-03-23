@@ -38,7 +38,7 @@ const MoreOptionsButtonWithModal = ({
         onDismiss={onModalDismiss}
         testID="more-options-modal"
         label={t('global.moreOptions')}
-        style={{ marginBottom: safeAreaBottom, paddingHorizontal: 20 }}
+        style={{ marginBottom: safeAreaBottom, paddingHorizontal: 24 }}
       >
         <View style={{ marginBottom: safeAreaBottom || 20 }}>{children}</View>
       </HoliModal>

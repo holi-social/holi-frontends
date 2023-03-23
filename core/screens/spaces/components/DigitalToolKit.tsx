@@ -202,9 +202,9 @@ const styles = StyleSheet.create({
   toolContextHeader: {
     width: '100%',
     textAlign: 'center',
-    paddingBottom: 10,
-    marginBottom: 20,
-    marginTop: 10,
+    marginTop: 16,
+    paddingBottom: 16,
+    marginBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
   },
