@@ -15,10 +15,8 @@ const useRouting: UseRouting = () => {
 
   const navigate = useCallback(
     (routeName: string, options?: navigateOptions) => {
-      console.log('[useRouting] navigate to', routeName)
       if (options?.redirectAfterLogin) {
         setRedirectAfterLogin(pathname)
-        console.log('[useRouting] set redirect to ', options.redirectAfterLogin, '(pathname: ', pathname, ')')
       }
       setPathname(routeName)
       return linkTo(routeName)

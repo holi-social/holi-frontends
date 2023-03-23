@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
@@ -37,34 +37,23 @@ export const useConfirmationState = ({
 }: Partial<Pick<HoliConfirmationProps, 'show' | 'onConfirm' | 'onDismiss'>> = {}) => {
   const [visible, setVisible] = useState(show)
 
-  useEffect(() => {
-    console.log('####### [ConfirmationState] "visible" has changed ', visible)
-  }, [visible])
-
-  const setShow = (show: boolean) => {
-    console.log('[ConfirmationState] setShow() ', show)
-    setVisible(show)
-  }
-
   const confirmHandler = useCallback(() => {
     const confirmPropagation = onConfirm?.()
-    console.log('[ConfirmationState] confirm() setVisible(false), propagation?', confirmPropagation)
     if (confirmPropagation !== false) {
-      setShow(false)
+      setVisible(false)
     }
   }, [onConfirm])
 
   const dismissHandler = useCallback(() => {
     const dismissPropagation = onDismiss?.()
     if (dismissPropagation !== false) {
-      console.log('[ConfirmationState] dismiss() setVisible(false), propagation?', dismissPropagation)
-      setShow(false)
+      setVisible(false)
     }
   }, [onDismiss])
 
   return {
     show: visible,
-    setShow: setShow,
+    setShow: setVisible,
     props: {
       show: visible,
       onConfirm: confirmHandler,
