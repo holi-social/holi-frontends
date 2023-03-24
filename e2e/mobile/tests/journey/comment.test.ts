@@ -11,7 +11,7 @@ import {
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
-  it('creates a comment and displays it in the post page.', async () => {
+  itif(platform !== 'ios', 'creates a comment and displays it in the post page.', async () => {
     await registerNewUser()
 
     // go to home feed

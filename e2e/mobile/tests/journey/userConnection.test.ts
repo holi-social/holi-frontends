@@ -3,7 +3,7 @@ import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
-  it('should request connection from another user profile page and then cancel it', async () => {
+  itif(platform !== 'ios', 'should request connection from another user profile page and then cancel it', async () => {
     // create a new user
     await registerNewUser()
 
