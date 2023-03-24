@@ -11,7 +11,6 @@ import {
 } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
   getSessionFromStorage,
@@ -21,6 +20,7 @@ import {
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'

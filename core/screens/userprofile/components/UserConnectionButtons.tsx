@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
@@ -19,7 +19,7 @@ type UserConnectionButtonsProps = {
 
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()

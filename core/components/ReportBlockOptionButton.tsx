@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import {
@@ -57,7 +57,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   testID = 'report-button',
 }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { openToast } = useToast()
   const title = (label || t('global.report')) as string
   const isReport = action === 'report'

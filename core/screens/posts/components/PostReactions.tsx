@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import React from 'react'
 import { ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'

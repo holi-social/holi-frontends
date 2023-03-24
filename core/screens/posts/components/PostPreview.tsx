@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
@@ -28,7 +28,7 @@ export type PostPreviewProps = {
 }
 
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()

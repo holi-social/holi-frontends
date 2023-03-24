@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'

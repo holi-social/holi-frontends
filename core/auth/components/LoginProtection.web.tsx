@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { vars } from '@holi/ui/styles/globalVars'
 

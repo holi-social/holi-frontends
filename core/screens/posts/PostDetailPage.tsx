@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useContext, useLayoutEffect, useRef } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -14,7 +14,7 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -50,7 +50,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   // `commentId` can be an UUID of a comment of hardcodded 'first' string value
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
 
   const { t } = useTranslation()

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'

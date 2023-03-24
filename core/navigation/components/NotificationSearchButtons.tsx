@@ -5,7 +5,7 @@ import { Linking } from 'react-native'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'

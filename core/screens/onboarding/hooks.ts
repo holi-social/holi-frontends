@@ -2,7 +2,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useLayoutEffect } from 'react'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const ONBOARDING_STORAGE_NAME = 'onboarding_finished'
 
