@@ -11,7 +11,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import DigitalToolInputForm from '@holi/core/screens/spaces/components/DigitalToolInputForm'
+import DigitalToolInputForm from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalToolInputForm'
 import {
   AddCollaborationToolResponse,
   SpaceByIdResponse,
@@ -62,7 +62,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin =
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 

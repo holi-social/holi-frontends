@@ -2,18 +2,15 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
-import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
+import DigitalTool from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalTool'
+import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -74,62 +71,62 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     )
   }
 
-  const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
-    return (
-      <View style={styles.toolContainer}>
-        <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
-        </View>
-        <View style={styles.infoContainer}>
-          <HoliText size="extrasmall" style={styles.toolName}>
-            {tool.domain}
-          </HoliText>
-          <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
-        </View>
-        <View style={styles.shareButtonContainer}>
-          <HoliButton
-            label={t('spaces.digitalTool.open.button.label')}
-            transparent
-            onPress={() => handleShareButtonPress(tool.url)}
-          >
-            <HoliIcon icon={'share-box'} size={15} />
-          </HoliButton>
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            showOptions={visible}
-            onModalDismiss={hide}
-            testID="digital-toolkit-btn"
-            onPress={() => {
-              visible && hide()
-              show()
-            }}
-          >
-            {isAdmin && (
-              <>
-                <MoreOptionItem
-                  icon="edit-2"
-                  label={t('global.edit')}
-                  onPress={() => {
-                    visible && hide()
-                    navigateToEditToolPage(tool.id)
-                  }}
-                  contentStyle={styles.buttonWithIcon}
-                />
-                <DeleteSpaceButton
-                  spaceId={space?.id || ''}
-                  onDelete={() => {
-                    replaceRoute('/spaces/')
-                    hide()
-                  }}
-                  style={styles.buttonWithIcon}
-                />
-              </>
-            )}
-          </MoreOptionsButtonWithModal>
-        </View>
-      </View>
-    )
-  }
+  // const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
+  //   return (
+  //     <View style={styles.toolContainer}>
+  //       <View style={styles.imageContainer}>
+  //         {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
+  //       </View>
+  //       <View style={styles.infoContainer}>
+  //         <HoliText size="extrasmall" style={styles.toolName}>
+  //           {tool.domain}
+  //         </HoliText>
+  //         <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
+  //       </View>
+  //       <View style={styles.shareButtonContainer}>
+  //         <HoliButton
+  //           label={t('spaces.digitalTool.open.button.label')}
+  //           transparent
+  //           onPress={() => handleShareButtonPress(tool.url)}
+  //         >
+  //           <HoliIcon icon={'share-box'} size={15} />
+  //         </HoliButton>
+  //         <MoreOptionsButtonWithModal
+  //           label={t('insights.post.preview.more')}
+  //           showOptions={visible}
+  //           onModalDismiss={hide}
+  //           testID="digital-toolkit-btn"
+  //           onPress={() => {
+  //             visible && hide()
+  //             show()
+  //           }}
+  //         >
+  //           {isAdmin && (
+  //             <>
+  //               <MoreOptionItem
+  //                 icon="edit-2"
+  //                 label={t('global.edit')}
+  //                 onPress={() => {
+  //                   visible && hide()
+  //                   navigateToEditToolPage(tool.id)
+  //                 }}
+  //                 contentStyle={styles.buttonWithIcon}
+  //               />
+  //               <DeleteSpaceButton
+  //                 spaceId={space?.id || ''}
+  //                 onDelete={() => {
+  //                   replaceRoute('/spaces/')
+  //                   hide()
+  //                 }}
+  //                 style={styles.buttonWithIcon}
+  //               />
+  //             </>
+  //           )}
+  //         </MoreOptionsButtonWithModal>
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
@@ -137,7 +134,16 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
         {(collaborationTools.length > 0 &&
           collaborationTools
             .slice(0, showAll ? collaborationTools.length : INITIAL_NUMBER_OF_ITEMS)
-            .map((item) => <DigitalTool key={item.id} tool={item} />)) || <NoToolsAvailable />}
+            .map((item) => (
+              <DigitalTool
+                key={item.id}
+                tool={item}
+                isAdmin={isAdmin}
+                spaceId={space?.id || ''}
+                onShareButtonPress={(url) => handleShareButtonPress(url)}
+                onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
+              />
+            ))) || <NoToolsAvailable />}
         {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && !showAll && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
