@@ -172,7 +172,7 @@
   "notifications.display.empty.text1": "Noch keine Benachrichtigungen",
   "notifications.display.empty.text2": "Komm später zurück, um neue Benachrichtigungen zu sehen",
   "notifications.post.mention.message": "<0>{{name}}</0> hat dich in einem Kommentar erwähnt.",
-  "notifications.releaseinfo.message": "Ein neues App-Update ist verfügbar.Schau, was drin ist!",
+  "notifications.releaseinfo.message": "Ein neues App-Update ist verfügbar. Schau, was drin ist!",
   "notifications.space.connection.accepted.message": "Du bist jetzt Mitglied im Space {{space}}",
   "notifications.space.connection.ignored.message": "Du hast die Mitgliedschaftsanfrage von <0>{{user}}</0> für Space {{space}} ignoriert.",
   "notifications.space.connection.joined.message": "<0>{{user}}</0> ist jetzt Mitglied im Space {{space}}",
