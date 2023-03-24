@@ -26,7 +26,7 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'foundation.holistic.projectholi',
+      bundleIdentifier: 'social.holi',
       buildNumber: versions.iosBuildNumber,
       config: {
         // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption

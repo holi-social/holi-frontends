@@ -23,6 +23,10 @@ export const notificationsQuery = gql`
         created
         read
         options {
+          post {
+            id
+            title
+          }
           user {
             ...UserAvatar
           }

@@ -66,6 +66,22 @@ const MOCKS_WITH_NOTIFICATIONS = [
                 },
               },
             },
+            {
+              id: 'e2bd2b4b-e996-4333-a5c9-0808c75f1a4e',
+              notificationType: 'REL',
+              owner: {
+                id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
+              },
+              created: '2023-03-23T10:30:53.608640+00:00',
+              read: true,
+              options: {
+                post: {
+                  id: '893dbc08-527d-4572-936d-38bd70c6a939',
+                  title:
+                    'Someone trip loss government property like hold staff. School line three page single. Source lay popular.',
+                },
+              },
+            },
           ],
         },
       },
@@ -142,7 +158,7 @@ describe('Notifications.tsx', () => {
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
   })
 
-  it('renders a PostCommentMention notification', async () => {
+  it('renders a PostCommentMention and Release notification', async () => {
     render(
       <AuthContext.Provider
         value={{
@@ -160,5 +176,6 @@ describe('Notifications.tsx', () => {
     )
 
     expect(await screen.findByTestId('post-comment-mention'))
+    expect(await screen.findByTestId('release-info'))
   })
 })
