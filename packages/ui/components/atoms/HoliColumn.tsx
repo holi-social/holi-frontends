@@ -8,6 +8,8 @@ import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 interface Props {
   /** Override align items of parent */
   alignSelf?: FlexStyle['alignSelf']
+  /** The factor of remaining space should be given to this node */
+  flex?: FlexStyle['flex']
   width?: FlexStyle['width']
   height?: FlexStyle['height']
   padding?: number | number[]
@@ -21,7 +23,7 @@ const generateStyles = (
 ) => {
   const boxStyles = padding ? createBoxPadding(padding) : null
   const layoutStyles = StyleSheet.create({ columnLayout: { ...layout } })
-  return StyleSheet.flatten([styles.default, boxStyles?.boxPadding, layoutStyles.columnLayout])
+  return StyleSheet.flatten<FlexStyle>([styles.default, boxStyles?.boxPadding, layoutStyles.columnLayout])
 }
 
 /**

@@ -1,42 +1,43 @@
+import type { CSSProperties } from 'react'
 import React from 'react'
-import { ImageStyle, StyleSheet } from 'react-native'
 
-import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage.shared'
-import { resizeModeForWeb } from '@holi/ui/components/atoms/imageUtils'
+import type { HoliImageProps, ImageSource } from '@holi/ui/components/utils/image'
+import { setImageKitParams } from '@holi/ui/components/utils/image'
+import { resizeModeForWeb } from '@holi/ui/components/utils/image'
 import { vars } from '@holi/ui/styles/globalVars'
 
-const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
-  source,
-  label,
-  style,
-  resizeMode = 'cover',
-  sizes,
-}: HoliImageProps) => {
-  const defaultStyle = {
-    objectFit: resizeModeForWeb(resizeMode),
-    borderStyle: 'solid',
-    borderWidth: 0,
-    maxWidth: '100%',
-  }
-  const srcSet = Array.isArray(source)
-    ? source
-        .map((source) => {
-          return `${source.uri} ${source.width}w`
-        })
-        .join(',')
-    : undefined
-  const src = Array.isArray(source) ? source[0].uri : source.uri
+import styles from './HoliImage.module.scss'
+
+interface Props extends HoliImageProps {
+  source: ImageSource | ImageSource[]
+  style?: CSSProperties
+}
+
+const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined => {
+  if (!Array.isArray(source)) return
+  return source
+    .map((source) => {
+      const { uri, width } = setImageKitParams(source)
+      return `${uri} ${width}w`
+    })
+    .join(',')
+}
+
+const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: Props) => {
+  const srcSet = createSrcSet(source)
+  const src = Array.isArray(source) ? setImageKitParams(source[0]) : setImageKitParams(source)
+  const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
   // support multiple sources for image tag: https://github.com/necolas/react-native-web/issues/515
   return (
     <img
+      className={styles.image}
       srcSet={srcSet}
-      src={src}
+      src={src.uri}
       sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
       alt={label}
-      // aspect ratio is ignored if not transformed to string
-      style={StyleSheet.flatten<ImageStyle>([defaultStyle, style, { aspectRatio: style?.aspectRatio?.toString() }])}
+      style={{ ...style, ...aspectRatio, objectFit: resizeModeForWeb(resizeMode) }}
     />
   )
 }

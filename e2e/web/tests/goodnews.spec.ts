@@ -1,13 +1,17 @@
 import { Page, expect } from '@playwright/test'
 
 import {
+  byTestId,
   checkAccessibility,
   clickElementByTestId,
+  goodnewsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
   waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
+
+test.setTimeout(120000)
 
 test.describe('@GoodNews', () => {
   test('user journey', async ({ page }) => {
@@ -23,12 +27,12 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'home-apps-button')
   await clickElementByTestId(page, 'app-tile-goodnews')
 
-  await waitForElementByTestId(page, 'goodnews-app-home')
+  await page.waitForSelector(byTestId('goodnews-app-home'), { timeout: goodnewsRequestTimeout })
   expect(page.url()).toContain('/apps/goodnews')
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'goodnews-list-container')
+  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
 
   // click first element in ScrollView
   await clickElementByTestId(page, 'goodnews-updates-item')
@@ -39,7 +43,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'goodnews-list-container')
+  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
 
   // click on "see more" / navigate to good news app
   await clickElementByTestId(page, 'goodnews-updates-load-more-button')
@@ -57,6 +61,6 @@ const testAllowsPagination = async (page: Page) => {
 
   const listItemCountBefore = await countListItems()
   await clickElementByTestId(page, 'btn-goodnews-list-load-more')
-  await expect.poll(countListItems, { timeout: 30_000 }).toBeGreaterThan(listItemCountBefore)
+  await expect.poll(countListItems, { timeout: goodnewsRequestTimeout }).toBeGreaterThan(listItemCountBefore)
   await checkAccessibility(page)
 }

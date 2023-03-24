@@ -4,9 +4,9 @@ import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
+import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -31,7 +31,6 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
 }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
-  const { replaceRoute } = useRouting()
 
   return (
     <View style={styles.toolContainer}>
@@ -52,18 +51,23 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         >
           <HoliIcon icon={'share-box'} size={15} />
         </HoliButton>
-        <MoreOptionsButtonWithModal
-          label={t('insights.post.preview.more')}
-          showOptions={visible}
-          onModalDismiss={hide}
-          testID="digital-toolkit-btn"
-          onPress={() => {
-            visible && hide()
-            show()
-          }}
-        >
-          {isAdmin && (
+        {isAdmin && (
+          <MoreOptionsButtonWithModal
+            label={t('spaces.digitalTool.preview.more')}
+            showOptions={visible}
+            onModalDismiss={hide}
+            testID="digital-toolkit-btn"
+            onPress={() => {
+              // setSelectedTool(tool)
+              visible && hide()
+              show()
+            }}
+          >
             <>
+              <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
+                {tool.title}
+                {/* {selectedTool?.title} */}
+              </HoliHeading>
               <MoreOptionItem
                 icon="edit-2"
                 label={t('global.edit')}
@@ -73,17 +77,18 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
                 }}
                 contentStyle={styles.buttonWithIcon}
               />
-              <DeleteSpaceButton
-                spaceId={spaceId}
+              <DeleteCollaborationToolButton
+                toolId={tool.id || ''}
+                //toolId={selectedTool?.id || ''}
+                spaceIdOrName={spaceId}
                 onDelete={() => {
-                  replaceRoute('/spaces/')
                   hide()
                 }}
                 style={styles.buttonWithIcon}
               />
             </>
-          )}
-        </MoreOptionsButtonWithModal>
+          </MoreOptionsButtonWithModal>
+        )}
       </View>
     </View>
   )
@@ -127,5 +132,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     paddingVertical: 18,
+  },
+  toolContextHeader: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: 16,
+    paddingBottom: 16,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
   },
 })

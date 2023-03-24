@@ -651,8 +651,10 @@ In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://o
 The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
 
 ```sh
-127.0.0.1 https://staging.web.project-holi.org
+127.0.0.1 staging.web.project-holi.org
 ```
+
+However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
 
 ## Exploring the GraphQL API (via graphiql)
 

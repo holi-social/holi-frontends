@@ -118,7 +118,7 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
     await expect.poll(countOfSelectedChips).toBe(indexToSelect + 1)
   }
 
-  expect.poll(countOfSelectedChips).toBe(expectedNoOfSelectedChips)
+  await expect.poll(countOfSelectedChips).toBe(expectedNoOfSelectedChips)
 
   await saveAndCloseChipform(page)
 

@@ -42,11 +42,11 @@ describe('@ForgotPassword', () => {
 
     // success view
     await waitForElementWithTestId('form-sent-headline')
-    await waitForElementWithTestId('back-to-home-btn')
+    await waitForElementWithTestId('nav-button-back')
     await waitForElementWithTestIdToBeNull('ory-email-input', 3000)
 
     // go back home
-    await tapOnElementWithTestId('back-to-home-btn')
+    await tapOnElementWithTestId('nav-button-back')
 
     // close forgotPassword modal
     // await tapOnElementWithTestId('nav-button-back')

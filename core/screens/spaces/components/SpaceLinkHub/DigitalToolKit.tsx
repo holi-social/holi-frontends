@@ -1,11 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalTool'
@@ -13,7 +11,6 @@ import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface DigitalToolKitProps {
@@ -24,28 +21,13 @@ const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [showAll, setShowAll] = useState(false)
-  const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
+  //const [selectedTool, setSelectedTool] = useState<SpaceCollaborationTool>()
   const { useParam } = createParam<SpaceDetailsParams>()
-  const { setOptions } = useUnifiedNavigation()
-  const { visible, show, hide } = useModalState()
+  const { t } = useTranslation()
+  const { navigate } = useRouting()
+  //const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-
-  useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
-      headerTitle: () => null,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceIdOrName, space])
-
   const { collaborationTools = [] } = space
 
   const handleShareButtonPress = (url: string) => {
@@ -218,5 +200,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     paddingVertical: 18,
+  },
+  toolContextHeader: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: 16,
+    paddingBottom: 16,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
   },
 })

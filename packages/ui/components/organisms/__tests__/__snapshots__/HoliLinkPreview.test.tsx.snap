@@ -35,7 +35,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
       <Image
         accessibilityLabel="Donate to animals on betterplace.org"
         accessibilityRole="image"
-        accessible={false}
+        accessible={true}
         source={
           {
             "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
