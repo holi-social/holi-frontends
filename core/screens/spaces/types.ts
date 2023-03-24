@@ -39,7 +39,7 @@ export interface SpaceCollaborationTool {
   thumbnail?: string
 }
 
-export interface Point {
+export interface Geolocation {
   latitude: number
   longitude: number
 }
@@ -52,7 +52,7 @@ export interface Space {
   creator: User
   cover: string
   location: string
-  geolocation?: Point
+  geolocation?: Geolocation
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
