@@ -1,8 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { ResizeModes } from '@holi/ui/components/atoms/imageUtils'
-
+// import { ResizeModes } from '@holi/ui/components/atoms/imageUtils'
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 
 export default {

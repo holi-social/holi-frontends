@@ -12,9 +12,9 @@ interface EditSpaceContactProps {
 }
 
 const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ /* space, */ onDismiss }: EditSpaceContactProps) => {
-  const [spaceContactDescription, setSpaceContactDescription] = useState<string>('')
-  const [spacePhone, setSpacePhone] = useState<number>(0)
-  const [spaceMail, setSpaceMail] = useState<string>('')
+  const [contactDescription, setContactDescription] = useState<string>('')
+  const [contactPhone, setContactPhone] = useState<number>(0)
+  const [contactMail, setContactMail] = useState<string>('')
 
   const [inputValid /* setInputValid */] = useState(true)
   /*   const { openToast } = useToast()
@@ -47,24 +47,24 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ /* space, */ onDis
 
   const onSave = () => {
     // updateSpace({ variables: { input: { id: space.id, title: spaceName, description: spaceGoal } } })
-    setSpaceContactDescription(spaceContactDescription)
-    setSpacePhone(spacePhone)
-    setSpaceMail(spaceMail)
+    setContactDescription(contactDescription)
+    setContactPhone(contactPhone)
+    setContactMail(contactMail)
   }
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={!inputValid}>
       <SpaceContactForm
         title={t('spaces.input.nameAndGoal.title')}
-        onChangeSpaceContactDescription={setSpaceContactDescription}
-        onChangeSpaceMail={setSpaceMail}
-        onChangeSpacePhone={setSpacePhone}
-        spaceContactDescription={spaceContactDescription}
-        spaceMail={spaceMail}
-        spacePhone={spacePhone}
-        spaceContactDescriptionErrors={fieldErrors.description}
-        spaceMailErrors={fieldErrors.description}
-        spacePhoneErrors={fieldErrors.description}
+        onChangeContactDescription={setContactDescription}
+        onChangeContactPhone={setContactPhone}
+        onChangeContactMail={setContactMail}
+        contactDescription={contactDescription}
+        contactMail={contactMail}
+        contactPhone={contactPhone}
+        contactDescriptionErrors={fieldErrors.description}
+        contactMailErrors={fieldErrors.description}
+        contactPhoneErrors={fieldErrors.description}
       />
     </EditSpaceModal>
   )

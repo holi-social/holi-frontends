@@ -10,28 +10,28 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceContactFormProps = {
-  onChangeSpaceContactDescription: (description: string) => void
-  onChangeSpaceMail: (mail: string) => void
-  onChangeSpacePhone: (phone: number) => void
-  spaceContactDescription: string
-  spaceMail: string
-  spacePhone: number
-  spaceContactDescriptionErrors?: string[]
-  spaceMailErrors?: string[]
-  spacePhoneErrors?: string[]
+  onChangeContactDescription: (contactDescription: string) => void
+  onChangeContactMail: (contactMail: string) => void
+  onChangeContactPhone: (contactPhone: number) => void
+  contactDescription: string
+  contactMail: string
+  contactPhone: number
+  contactDescriptionErrors?: string[]
+  contactMailErrors?: string[]
+  contactPhoneErrors?: string[]
   title: string
   style?: StyleProp<ViewStyle>
 }
 const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
-  onChangeSpaceContactDescription,
-  onChangeSpaceMail,
-  onChangeSpacePhone,
-  spaceContactDescription,
-  spaceMail,
-  spacePhone,
-  spaceContactDescriptionErrors,
-  spaceMailErrors,
-  spacePhoneErrors,
+  onChangeContactDescription,
+  onChangeContactMail,
+  onChangeContactPhone,
+  contactDescription,
+  contactMail,
+  contactPhone,
+  contactDescriptionErrors,
+  contactMailErrors,
+  contactPhoneErrors,
   title,
   style,
 }: SpaceContactFormProps) => {
@@ -46,22 +46,22 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
         <HoliText style={styles.infoText}>{t('spaces.input.contact.info.text')}</HoliText>
       </View>
       <SpaceContactDescriptionInput
-        value={spaceContactDescription}
-        onChange={onChangeSpaceContactDescription}
-        errorMessage={spaceContactDescriptionErrors?.length ? spaceContactDescriptionErrors[0] : undefined}
+        value={contactDescription}
+        onChange={onChangeContactDescription}
+        errorMessage={contactDescriptionErrors?.length ? contactDescriptionErrors[0] : undefined}
       />
       <View style={styles.inputContainer}>
         <SpaceContactMailInput
-          value={spaceMail}
-          onChange={onChangeSpaceMail}
-          errorMessage={spaceMailErrors?.length ? spaceMailErrors[0] : undefined}
+          value={contactMail}
+          onChange={onChangeContactMail}
+          errorMessage={contactMailErrors?.length ? contactMailErrors[0] : undefined}
         />
       </View>
       <View style={styles.inputContainer}>
         <SpaceContactPhoneInputWeb
-          value={spacePhone}
-          onChange={onChangeSpacePhone}
-          errorMessage={spacePhoneErrors?.length ? spacePhoneErrors[0] : undefined}
+          value={contactPhone}
+          onChange={onChangeContactPhone}
+          errorMessage={contactPhoneErrors?.length ? contactPhoneErrors[0] : undefined}
         />
       </View>
     </View>

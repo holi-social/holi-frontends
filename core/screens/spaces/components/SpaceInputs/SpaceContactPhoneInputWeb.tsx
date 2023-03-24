@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export type SpaceContactPhoneInputWebProps = {
-  onChange: (phone: number) => void
+  onChange: (contactPhone: number) => void
   value: number
   errorMessage?: string
 }
