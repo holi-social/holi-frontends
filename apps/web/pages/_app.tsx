@@ -5,6 +5,7 @@ import pino from 'pino'
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode } from 'react'
 
+import { initAuth } from '@holi/core/auth/helpers/init'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import { featureFlag } from '@holi/web/environment'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
@@ -22,6 +23,13 @@ export type NextPageWithLayout = NextPage<ApolloStateProps> & {
 }
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
+
+// Init authencation
+try {
+  initAuth()
+} catch (e) {
+  console.error(e)
+}
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
