@@ -1,5 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { Post } from '@holi/core/screens/posts/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
@@ -21,6 +22,7 @@ export enum NotificationType {
   USER_NEW_POST = 'UNP',
   COMMUNITY_MEMBERSHIP_REQUEST = 'CMR',
   COMMUNITY_MEMBERSHIP_APPROVED = 'CMRA',
+  RELEASE_INFO = 'REL',
 }
 
 // interface all Notifications extend
@@ -39,6 +41,13 @@ export interface NotificationConnection extends NotificationBase {
     | NotificationType.CONNECTION_CONFIRMED
   options: {
     user: User
+  }
+}
+
+export interface NotificationReleaseInfo extends NotificationBase {
+  notificationType: NotificationType.RELEASE_INFO
+  options: {
+    post: Post
   }
 }
 
@@ -72,7 +81,8 @@ export interface NotificationSpaceConnection extends NotificationBase {
 }
 
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
-export type Notification = NotificationConnection | NotificationPost | NotificationSpaceConnection
+export type NotificationWithUser = NotificationConnection | NotificationPost | NotificationSpaceConnection
+export type Notification = NotificationWithUser | NotificationReleaseInfo
 
 export interface NotificationProps<T = Notification> {
   notification: T

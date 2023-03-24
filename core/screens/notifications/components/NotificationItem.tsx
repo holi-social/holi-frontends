@@ -2,6 +2,7 @@ import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
+import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
@@ -18,6 +19,7 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.POST_COMMENT_USER_MENTION,
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
+  NotificationType.RELEASE_INFO,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -33,6 +35,8 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
       return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
+    case NotificationType.RELEASE_INFO:
+      return <NotificationReleaseInfoItem notification={notification} {...props} testID="release-info" />
 
     default:
       return null
