@@ -4,7 +4,9 @@ import { Linking, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
@@ -30,7 +32,8 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
+  const { useParam } = createParam<SpaceDetailsParams>()
+  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
 
   const handleShareButtonPress = (url: string) => {
