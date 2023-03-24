@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationWithUserAvatarProps<T = NotificationWithUser> extends NotificationProps<T> {
+interface NotificationWithUserAvatarProps extends NotificationProps<NotificationWithUser> {
   href?: string
   content?: React.ReactNode
   i18nKey?: string

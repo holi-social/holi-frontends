@@ -10,7 +10,7 @@ import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationWithSpaceAvatarProps<T = NotificationSpaceConnection> extends NotificationProps<T> {
+interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
   href?: string
   content?: React.ReactNode
   i18nKey?: string

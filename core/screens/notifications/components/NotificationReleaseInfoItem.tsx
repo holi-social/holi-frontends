@@ -25,7 +25,7 @@ const NotificationReleaseInfoItem: React.VFC<NotificationProps<NotificationRelea
         <View style={styles.link}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi_brandmark.svg')}
-            label="foo"
+            label=""
             width={styles.avatar.width}
             height={styles.avatar.height}
             resizeMode="contain"
