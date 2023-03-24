@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -16,7 +16,7 @@ import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -31,7 +31,7 @@ const Spaces: React.VFC = () => {
   const { setOptions, navigate } = useUnifiedNavigation()
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
-  const { user } = useContext(UserContext)
+  const { user } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginDialog } = useLoginRedirect()
 

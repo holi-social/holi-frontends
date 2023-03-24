@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -23,7 +23,7 @@ const LoginProfileButton = ({
   ...props
 }: React.PropsWithChildren<LoginProfileButtonProps>) => {
   const { navigate } = useRouting()
-  const { user } = useContext(UserContext)
+  const { user } = useLoggedInUser()
   const { isLoggedIn } = useAuth()
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
