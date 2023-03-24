@@ -26,6 +26,10 @@ export const userFragment = gql`
     aboutMe
     pronouns
     location
+    geolocation {
+      latitude
+      longitude
+    }
     avatarDefaultColor
     avatarLabel
     engagementLevel
@@ -114,6 +118,12 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   aboutMe: z.string().max(3000, { message: 'maxCharacters---3000' }).optional(),
   pronouns: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
   location: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
+  geolocation: z
+    .object({
+      latitude: z.number().optional(),
+      longiture: z.number().optional(),
+    })
+    .optional(),
   engagementLevel: z.string().optional(),
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),

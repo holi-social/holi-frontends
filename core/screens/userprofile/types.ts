@@ -14,6 +14,11 @@ export type SDG = Term & {
 }
 export type Skill = Term
 
+export interface Geolocation {
+  latitude: number
+  longitude: number
+}
+
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
 export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
 
@@ -28,6 +33,7 @@ export interface User {
   aboutMe?: string
   pronouns?: string
   location?: string
+  geolocation?: Geolocation
   engagementLevel?: string
   interests?: Topic[]
   sdgs?: SDG[]

@@ -205,6 +205,8 @@
   "profile.interests.edit": "Edit interests",
   "profile.interests.filter.empty": "We are sorry, no matching interests were found.",
   "profile.interests.filter.placeholder": "Search for an interest...",
+  "profile.location.validation.error": "Choose one of the suggested alternatives or leave empty",
+  "profile.location.validation.helper": "Select a valid location in the dropdown",
   "profile.loggedOut.heading": "Join holi and start to actively co-create the future",
   "profile.loggedOut.image": "Signed out illustration",
   "profile.logout": "Sign out",
