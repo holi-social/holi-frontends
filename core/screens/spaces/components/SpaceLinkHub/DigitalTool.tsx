@@ -43,14 +43,16 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         </HoliText>
         <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
       </View>
-      <View style={styles.shareButtonContainer}>
-        <HoliButton
-          label={t('spaces.digitalTool.open.button.label')}
-          transparent
-          onPress={() => onShareButtonPress(tool.url)}
-        >
-          <HoliIcon icon={'share-box'} size={15} />
-        </HoliButton>
+      <View style={styles.buttonContainer}>
+        <View>
+          <HoliButton
+            label={t('spaces.digitalTool.open.button.label')}
+            transparent
+            onPress={() => onShareButtonPress(tool.url)}
+          >
+            <HoliIcon icon={'share-box'} size={15} />
+          </HoliButton>
+        </View>
         {isAdmin && (
           <MoreOptionsButtonWithModal
             label={t('spaces.digitalTool.preview.more')}
@@ -58,7 +60,6 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             onModalDismiss={hide}
             testID="digital-toolkit-btn"
             onPress={() => {
-              // setSelectedTool(tool)
               visible && hide()
               show()
             }}
@@ -66,7 +67,6 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             <>
               <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
                 {tool.title}
-                {/* {selectedTool?.title} */}
               </HoliHeading>
               <MoreOptionItem
                 icon="edit-2"
@@ -79,7 +79,6 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
               />
               <DeleteCollaborationToolButton
                 toolId={tool.id || ''}
-                //toolId={selectedTool?.id || ''}
                 spaceIdOrName={spaceId}
                 onDelete={() => {
                   hide()
@@ -125,8 +124,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 12,
   },
-  shareButtonContainer: {
+  buttonContainer: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonWithIcon: {
     display: 'flex',

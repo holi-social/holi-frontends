@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
     marginTop: 10,
+    backgroundColor: colors.background20,
   },
   tabStyle: {
     backgroundColor: colors.background20,

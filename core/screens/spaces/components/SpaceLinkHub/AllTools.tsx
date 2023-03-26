@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -11,35 +11,33 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface AllToolsProps {
   spaceIdOrName: string | undefined
 }
 
 const TOOL_COLLECTIONS = [
-  { id: '0', name: CollaborationType.COLLABORATION },
-  { id: '1', name: CollaborationType.COMMUNICATION },
+  { id: '0', type: CollaborationType.COLLABORATION, name: 'Collaboration' },
+  { id: '1', type: CollaborationType.COMMUNICATION, name: 'Communication' },
 ]
 
-//TODO: Implement Screen
+type CategorizedToolsListProps = {
+  [CollaborationType: string]: {
+    tools: SpaceCollaborationTool[]
+  }
+}
+
+type ToolWidgetProps = {
+  widgetTitle: string
+  toolsList: SpaceCollaborationTool[]
+}
+
 const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => {
   const { t } = useTranslation()
-  const [toolList, setToolList] = useState<SpaceCollaborationTool[] | undefined>()
-  const [collaborationTools, setCollaborationTools] = useState<SpaceCollaborationTool[] | undefined>()
-  const [communicationTools, setCommunicationTools] = useState<SpaceCollaborationTool[] | undefined>()
-
+  const [categorizedToolsList, setCategorizedToolsList] = useState<CategorizedToolsListProps | undefined>()
   const { navigate } = useRouting()
-
-  const { width: deviceWidth, height: deviceHeight } = useWindowDimensions()
-  let imageWidth = 271
-  let imageHeight = 342
-  const largerThanAnyCellphone =
-    deviceWidth > parseInt(vars.largestMobileWidth, 10) && deviceHeight > parseInt(vars.largestMobileHeight, 10)
-  if (largerThanAnyCellphone) {
-    imageWidth = imageWidth * 1.2
-    imageHeight = imageHeight * 1.2
-  }
+  const imageWidth = 251
 
   const {
     data,
@@ -54,23 +52,19 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   useEffect(() => {
     if (space) {
-      const tools = space.collaborationTools
-      const collaborationTools = tools
-        ? tools.filter((tool) => tool.collectionType === CollaborationType.COLLABORATION)
-        : []
+      const allTools = space.collaborationTools
 
-      const communicationTools = tools
-        ? tools.filter((tool) => tool.collectionType === CollaborationType.COMMUNICATION)
-        : []
-      setCollaborationTools(collaborationTools)
-      setCommunicationTools(communicationTools)
-
-      setToolList(tools)
+      if (allTools && allTools.length > 0) {
+        const collaborationTools = allTools.filter((tool) => tool.collectionType === CollaborationType.COLLABORATION)
+        const communicationTools = allTools.filter((tool) => tool.collectionType === CollaborationType.COMMUNICATION)
+        const toolsList = {
+          [CollaborationType.COLLABORATION]: { tools: collaborationTools },
+          [CollaborationType.COMMUNICATION]: { tools: communicationTools },
+        }
+        setCategorizedToolsList(toolsList)
+      }
     }
   }, [space])
-
-  console.log('collaborationTools -->', collaborationTools)
-  console.log('communication tools -->', communicationTools)
 
   if (errorSpace) {
     logError(errorSpace, `[Alltools.tsx] ${errorSpace.message}`)
@@ -94,7 +88,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_digital_tools.svg')}
           width={imageWidth}
-          height={imageHeight}
+          height={imageWidth * 0.6}
           label={''}
           isSvg={true}
           resizeMode="stretch"
@@ -108,18 +102,11 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
     )
   }
 
-  const ToolWidget = ({ widgetTitle }: { widgetTitle: string }) => {
+  const ToolWidget = ({ widgetTitle, toolsList }: ToolWidgetProps) => {
     return (
-      <CollaboratorAreaCard
-        icon="tools"
-        title={widgetTitle}
-        onPress={() => {
-          console.log('onPress')
-        }}
-      >
-        {(toolList &&
-          toolList.length > 0 &&
-          toolList.map((tool) => {
+      <CollaboratorAreaCard title={widgetTitle} style={styles.widgetContainer}>
+        <View style={{ paddingHorizontal: 7.5 }}>
+          {toolsList.map((tool) => {
             return (
               <View key={tool.id}>
                 <DigitalTool
@@ -131,16 +118,21 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
                 />
               </View>
             )
-          })) || <NoTools />}
+          })}
+        </View>
       </CollaboratorAreaCard>
     )
   }
 
   return (
-    <View style={{ margin: 24 }}>
-      {TOOL_COLLECTIONS.map((collectionType) => {
-        return <ToolWidget key={collectionType.id} widgetTitle={collectionType.name} />
-      })}
+    <View style={styles.container}>
+      {(categorizedToolsList &&
+        TOOL_COLLECTIONS.map((collectionType) => {
+          const tools = categorizedToolsList ? categorizedToolsList[collectionType.type].tools : []
+          if (tools && tools.length > 0) {
+            return <ToolWidget key={collectionType.id} widgetTitle={collectionType.name} toolsList={tools} />
+          }
+        })) || <NoTools />}
     </View>
   )
 }
@@ -148,11 +140,14 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 export default AllTools
 
 const styles = StyleSheet.create({
+  container: {
+    margin: 24,
+  },
   noToolsContainer: {
     marginTop: 10,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.foreground30,
+    borderColor: colors.background30,
     backgroundColor: colors.background10,
     margin: 24,
     padding: 24,
@@ -160,8 +155,9 @@ const styles = StyleSheet.create({
   },
   illustration: {
     marginTop: 32,
+    marginBottom: 24,
   },
-  noToolsTitle: {},
-  noToolsDescription: { textAlign: 'center' },
-  widgetContainer: {},
+  noToolsTitle: { color: colors.foreground30 },
+  noToolsDescription: { textAlign: 'center', marginTop: 8, color: colors.foreground30 },
+  widgetContainer: { marginBottom: 24 },
 })
