@@ -21,11 +21,9 @@ const INITIAL_NUMBER_OF_ITEMS = 3
 
 const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   const [showAll, setShowAll] = useState(false)
-  //const [selectedTool, setSelectedTool] = useState<SpaceCollaborationTool>()
   const { useParam } = createParam<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  //const { visible, show, hide } = useModalState()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
@@ -52,63 +50,6 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
       </View>
     )
   }
-
-  // const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
-  //   return (
-  //     <View style={styles.toolContainer}>
-  //       <View style={styles.imageContainer}>
-  //         {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
-  //       </View>
-  //       <View style={styles.infoContainer}>
-  //         <HoliText size="extrasmall" style={styles.toolName}>
-  //           {tool.domain}
-  //         </HoliText>
-  //         <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
-  //       </View>
-  //       <View style={styles.shareButtonContainer}>
-  //         <HoliButton
-  //           label={t('spaces.digitalTool.open.button.label')}
-  //           transparent
-  //           onPress={() => handleShareButtonPress(tool.url)}
-  //         >
-  //           <HoliIcon icon={'share-box'} size={15} />
-  //         </HoliButton>
-  //         <MoreOptionsButtonWithModal
-  //           label={t('insights.post.preview.more')}
-  //           showOptions={visible}
-  //           onModalDismiss={hide}
-  //           testID="digital-toolkit-btn"
-  //           onPress={() => {
-  //             visible && hide()
-  //             show()
-  //           }}
-  //         >
-  //           {isAdmin && (
-  //             <>
-  //               <MoreOptionItem
-  //                 icon="edit-2"
-  //                 label={t('global.edit')}
-  //                 onPress={() => {
-  //                   visible && hide()
-  //                   navigateToEditToolPage(tool.id)
-  //                 }}
-  //                 contentStyle={styles.buttonWithIcon}
-  //               />
-  //               <DeleteSpaceButton
-  //                 spaceId={space?.id || ''}
-  //                 onDelete={() => {
-  //                   replaceRoute('/spaces/')
-  //                   hide()
-  //                 }}
-  //                 style={styles.buttonWithIcon}
-  //               />
-  //             </>
-  //           )}
-  //         </MoreOptionsButtonWithModal>
-  //       </View>
-  //     </View>
-  //   )
-  // }
 
   return (
     <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
@@ -151,37 +92,6 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingBottom: 16,
   },
-  toolContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    backgroundColor: colors.background10,
-    padding: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  toolName: {
-    color: colors.foreground20,
-  },
-  toolTitle: {
-    color: colors.foreground30,
-  },
-  imageContainer: {
-    width: 32,
-    aspectRatio: 1,
-    backgroundColor: colors.background20,
-    borderRadius: 8,
-  },
-  infoContainer: {
-    flex: 4,
-    flexDirection: 'column',
-    marginLeft: 12,
-  },
-  shareButtonContainer: {
-    justifyContent: 'center',
-  },
   seeAllButtonContainer: {
     alignSelf: 'center',
   },
@@ -195,19 +105,5 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: colors.foreground20,
-  },
-  buttonWithIcon: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingVertical: 18,
-  },
-  toolContextHeader: {
-    width: '100%',
-    textAlign: 'center',
-    marginTop: 16,
-    paddingBottom: 16,
-    marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.background30,
   },
 })
