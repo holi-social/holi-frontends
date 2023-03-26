@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { scrollDown, scrollUp } from '../../helpers/gestures'
 import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
+import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   scrollToElementWithTestId,

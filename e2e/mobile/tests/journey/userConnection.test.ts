@@ -1,5 +1,6 @@
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { itif } from '../../helpers/platform'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
