@@ -9,8 +9,8 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import AllTools from '@holi/core/screens/spaces/components/AllTools'
-import ToolIdeas from '@holi/core/screens/spaces/components/ToolIdeas'
+import AllTools from '@holi/core/screens/spaces/components/SpaceLinkHub/AllTools'
+import ToolIdeas from '@holi/core/screens/spaces/components/SpaceLinkHub/ToolIdeas'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
     marginTop: 10,
+    backgroundColor: colors.background20,
   },
   tabStyle: {
     backgroundColor: colors.background20,

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -10,15 +10,17 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface CollaboratorAreaCardProps {
-  icon: string
+  icon?: string
   title?: string
   children?: ReactNode
+  style?: StyleProp<ViewStyle>
   onPress?: () => void
 }
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   icon,
   title,
   children,
+  style,
   onPress,
 }: CollaboratorAreaCardProps) => {
   const { t } = useTranslation()
@@ -28,8 +30,8 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
       <View style={styles.headerContainer}>
         <HoliButton transparent style={styles.headerTitleContainer} label={title ? title : ''} onPress={onPress}>
           <View style={styles.headerTitle}>
-            <HoliIcon icon={icon} size={18} color={colors.foreground20} style={{ marginRight: 6 }} />
-            <HoliText size="small">{title}</HoliText>
+            {icon && <HoliIcon icon={icon} size={18} color={colors.foreground20} style={{ marginRight: 6 }} />}
+            <HoliText>{title}</HoliText>
           </View>
         </HoliButton>
         <MoreOptionsButtonWithModal
@@ -44,7 +46,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   }
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, style]}>
       <Header />
       <View style={styles.contentContainer}>{children && children}</View>
     </View>
