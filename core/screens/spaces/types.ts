@@ -50,6 +50,9 @@ export interface Space {
   description: string
   created: string
   creator: User
+  contactDescription: string
+  contactEmail: string
+  contactPhone: number
   cover: string
   location: string
   geolocation?: Point
