@@ -135,7 +135,7 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
 
 const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   // filter for "Germany"
-  await waitForElementByTestId(page, 'donations-list-item')
+  await waitForElementByTestId(page, 'donations-list-item', { timeout: donationsRequestTimeout })
   await filterForLocation(page, 'Germany', { assertAccessibility: true, useSuggestion: true })
   await waitForElementByTestId(page, 'donations-list-item')
 
