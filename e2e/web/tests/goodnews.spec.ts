@@ -32,7 +32,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
 
   // click first element in ScrollView
   await clickElementByTestId(page, 'goodnews-updates-item')
@@ -43,7 +43,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
 
   // click on "see more" / navigate to good news app
   await clickElementByTestId(page, 'goodnews-updates-load-more-button')

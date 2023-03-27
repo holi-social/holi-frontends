@@ -35,8 +35,7 @@ test.describe('@Donations', () => {
   })
 })
 
-const countElementsByTestId = async (page: Page, testId: string) =>
-  locateElementByTestId(page, testId).then((elements) => elements.count())
+const countElementsByTestId = async (page: Page, testId: string) => (await locateElementByTestId(page, testId)).count()
 
 const testAbleToVisitDonationsApp = async (page: Page) => {
   // click first element in ScrollView
