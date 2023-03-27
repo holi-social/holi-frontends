@@ -35,26 +35,29 @@ export type HoliAutocompleteProps = {
   suggestionsStyle?: StyleProp<ViewStyle>
 }
 
-const HoliAutocomplete = ({
-  style = {},
-  accessibilityLabel,
-  value,
-  inputLabel,
-  placeholder,
-  helperText,
-  validationErrorText,
-  onChange,
-  loading,
-  inputProps,
-  trailingIcon,
-  suggestions = [],
-  debounce: debounceValue,
-  id,
-  testID,
-  onSubmit,
-  onSelect,
-  suggestionsStyle = {},
-}: HoliAutocompleteProps) => {
+const HoliAutocomplete = (
+  {
+    style = {},
+    accessibilityLabel,
+    value,
+    inputLabel,
+    placeholder,
+    helperText,
+    validationErrorText,
+    onChange,
+    loading,
+    inputProps,
+    trailingIcon,
+    suggestions = [],
+    debounce: debounceValue,
+    id,
+    testID,
+    onSubmit,
+    onSelect,
+    suggestionsStyle = {},
+  }: HoliAutocompleteProps,
+  ref: React.ForwardedRef<View>
+) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
@@ -183,6 +186,7 @@ const HoliAutocomplete = ({
         onBlur={onBlur}
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
+        ref={ref}
       />
       <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
         {
@@ -194,7 +198,7 @@ const HoliAutocomplete = ({
   )
 }
 
-export default memo(HoliAutocomplete)
+export default memo(React.forwardRef(HoliAutocomplete))
 
 const styles = StyleSheet.create({
   textInputOpened: {
