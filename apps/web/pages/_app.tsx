@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
-import React, { ReactElement, ReactNode } from 'react'
+import React, { ReactElement, ReactNode, useEffect } from 'react'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
@@ -24,16 +24,18 @@ export type NextPageWithLayout = NextPage<ApolloStateProps> & {
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
-// Init authencation
-try {
-  initAuth()
-} catch (e) {
-  console.error(e)
-}
-
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
+
+  useEffect(() => {
+    // Init authencation
+    try {
+      initAuth()
+    } catch (e) {
+      console.error(e)
+    }
+  }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
