@@ -1,12 +1,12 @@
 import { Page, expect } from '@playwright/test'
 
 import {
+  byTestId,
   clickElementByTestId,
   donationsRequestTimeout,
   goodnewsRequestTimeout,
   proceedAsGuest,
   volunteeringRequestTimeout,
-  waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -26,13 +26,13 @@ const openAppAndReturn = async (page: Page, appName: string, appTimeout: number)
   await clickElementByTestId(page, 'home-apps-button')
 
   // apps drawer is open and contain apps
-  await waitForElementByTestId(page, 'apps-drawer-modal')
+  await page.waitForSelector(byTestId('apps-drawer-modal'))
 
   // open the app
   await clickElementByTestId(page, `app-tile-${appName}`)
 
   // app is open
-  await waitForElementByTestId(page, `${appName}-list-container`, { timeout: appTimeout })
+  await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })
   expect(page.url()).toContain(`/apps/${appName}`)
 
   // go back home

@@ -8,8 +8,6 @@ import {
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
-  waitForElementByTestId,
-  waitForElementByTestIdToBeDetached,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -42,15 +40,15 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
   await page.locator(byTestId('donations-updates-item')).first().click({ timeout: donationsRequestTimeout })
 
   // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'donations-updates-item')
+  await page.waitForSelector(byTestId('donations-updates-item'))
 
   // click on "see more" / navigate to donations app
   await clickElementByTestId(page, 'donations-updates-load-more-button')
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 }
 
 const testProjectListAndPagination = async (page: Page) => {
@@ -69,7 +67,7 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
   // click first element in list
   await clickElementByTestId(page, 'donations-list-item')
 
-  await waitForElementByTestId(page, 'donations-detailview-container', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   await checkAccessibility(page)
 
@@ -79,7 +77,7 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
   expect(projectUrl).toContain(projectUrlPrefix)
 
   // check if clicking on donate button actually opens a tab with the correct URL
-  await waitForElementByTestId(page, 'donations-project-detail-donate-btn')
+  await page.waitForSelector(byTestId('donations-project-detail-donate-btn'))
   // follows https://playwright.dev/docs/pages#handling-new-pages
   const [donationPage] = await Promise.all([
     context.waitForEvent('page'),
@@ -92,7 +90,7 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
   await donationPage.close() // close newly opened tab
 
   // check if clicking on initiative button actually opens a tab with a reasonable URL
-  await waitForElementByTestId(page, 'donations-project-initiative-btn')
+  await page.waitForSelector(byTestId('donations-project-initiative-btn'))
   const [initiativePage] = await Promise.all([
     context.waitForEvent('page'),
     clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
@@ -103,13 +101,13 @@ const testDisplayProjectDetails = async (context: BrowserContext, page: Page) =>
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 }
 
 const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
   // open first donation opportunity
   await clickElementByTestId(page, 'donations-list-item')
-  await waitForElementByTestId(page, 'donations-detailview-container', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   const hasNews = await page.$('data-testid=donations-news-count')
   if (hasNews) {
@@ -129,14 +127,14 @@ const testDisplayCorrectNewsCountOnProjectDetails = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 }
 
 const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
   // filter for "Germany"
-  await waitForElementByTestId(page, 'donations-list-item', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
   await filterForLocation(page, 'Germany', { assertAccessibility: true, useSuggestion: true })
-  await waitForElementByTestId(page, 'donations-list-item')
+  await page.waitForSelector(byTestId('donations-list-item'))
 
   // assert results
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
@@ -157,7 +155,7 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg', { useSuggestion: true })
-  await waitForElementByTestId(page, 'donations-list-item')
+  await page.waitForSelector(byTestId('donations-list-item'))
 
   // assert and compare results
   heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -177,8 +175,8 @@ const testFilterDonationsByLocationAndResetFilter = async (page: Page) => {
 const testDisplayDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
-  await waitForElementByTestIdToBeDetached(page, 'donations-search-modal')
-  await waitForElementByTestId(page, 'donations-list-item', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-search-modal'), { state: 'detached' })
+  await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
 
   // expect filtered list
   let heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -188,11 +186,11 @@ const testDisplayDetailsOfFilterResults = async (page: Page) => {
   await clickElementByTestId(page, 'donations-list-item')
 
   // expect detail view
-  await waitForElementByTestId(page, 'donations-detailview-container', { timeout: donationsRequestTimeout })
+  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 
   // expect filtered list
   heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -228,7 +226,7 @@ const filterForLocation = async (
   await clickElementByTestId(page, 'donations-search-modal-close-btn')
 
   // wait for results
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 }
 
 const extractResultCount = async (element: Locator): Promise<number> => {
@@ -260,5 +258,5 @@ const resetFilterInModal = async (page: Page) => {
   await clickElementByTestId(page, 'donations-search-modal-close-btn')
 
   // wait for results
-  await waitForElementByTestId(page, 'donations-list-container')
+  await page.waitForSelector(byTestId('donations-list-container'))
 }

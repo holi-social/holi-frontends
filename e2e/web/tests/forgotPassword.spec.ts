@@ -1,12 +1,6 @@
 import { expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  locateElementByTestId,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -19,24 +13,24 @@ test.describe('@ForgotPassword', () => {
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
     // shows also login link
-    await waitForElementByTestId(page, 'btn-to-login-form')
+    await page.waitForSelector(byTestId('btn-to-login-form'))
 
     // shows also registration link
-    await waitForElementByTestId(page, 'btn-to-registration-form')
+    await page.waitForSelector(byTestId('btn-to-registration-form'))
 
     // form validation ...
     const emailInput = await locateElementByTestId(page, 'ory-email-input')
 
     // required field message
     await clickElementByTestId(page, 'ory-submit-link')
-    await waitForElementByTestId(page, 'ory-email-input-error-message')
+    await page.waitForSelector(byTestId('ory-email-input-error-message'))
 
     // reset form by reloading, so error message disappears
     await page.goto('/forgotPassword')
     // invalid email message
     await emailInput.fill('an-invalid-email')
     await clickElementByTestId(page, 'ory-submit-link')
-    await waitForElementByTestId(page, 'ory-email-input-error-message')
+    await page.waitForSelector(byTestId('ory-email-input-error-message'))
 
     await checkAccessibility(page)
 
@@ -45,12 +39,12 @@ test.describe('@ForgotPassword', () => {
     await clickElementByTestId(page, 'ory-submit-link')
 
     // success view is shown
-    await waitForElementByTestId(page, 'form-sent-headline')
-    await waitForElementByTestId(page, 'back-to-home-btn')
+    await page.waitForSelector(byTestId('form-sent-headline'))
+    await page.waitForSelector(byTestId('back-to-home-btn'))
 
     // input is not visible anymore
     await expect(await emailInput.isVisible()).not.toBeTruthy()
-    // await waitForElementByTestIdToBeDetached(page, 'ory-email-input')
+    // await page.waitForSelector(byTestId('ory-email-input'), { state: 'detached' })
     expect(await page.locator(byTestId('ory-email-input')).isVisible()).not.toBeTruthy()
   })
 })
