@@ -2,12 +2,61 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import Spaces from '@holi/core/screens/spaces/Spaces'
 import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
+// Mock useAuth and useLoggedInUser hooks
+interface UseAuthReturn {
+  userId: string | null
+  isLoggedIn: boolean
+}
+
+interface UseLoggedInUserReturn {
+  name?: string
+}
+
+interface GetMockOptionsReturn {
+  useAuth: UseAuthReturn
+  useLoggedInUser: UseLoggedInUserReturn
+}
+
+let isLoggedIn = true
+
+const getMockOptions = (): GetMockOptionsReturn => {
+  return isLoggedIn
+    ? {
+        useAuth: {
+          userId: 'some_id',
+          isLoggedIn: true,
+        },
+        useLoggedInUser: {
+          name: 'user_name',
+        },
+      }
+    : {
+        useAuth: {
+          userId: null,
+          isLoggedIn: false,
+        },
+        useLoggedInUser: {},
+      }
+}
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => {
+  return {
+    useAuth: () => getMockOptions().useAuth,
+  }
+})
+
+jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
+  return {
+    useLoggedInUser: () => getMockOptions().useLoggedInUser,
+  }
+})
+
+// mock requests
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,
@@ -48,40 +97,24 @@ const MOCKS_WITHOUT_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithEm
 
 describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
-          <Spaces />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
+        <Spaces />
+      </MockedProvider>
     )
 
     expect(await screen.findByTestId('spaces-tab-navigation'))
   })
 
   it('shows discover-spaces-view, when user has no spaces', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
-          <Spaces />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
+        <Spaces />
+      </MockedProvider>
     )
 
     expect(await screen.findByTestId('discover-spaces-header'))

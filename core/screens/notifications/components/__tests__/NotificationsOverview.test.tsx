@@ -2,10 +2,61 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { notificationsQuery } from '@holi/core/screens/notifications/queries'
 
+// Mock useAuth and useLoggedInUser hooks
+interface UseAuthReturn {
+  userId: string | null
+  isLoggedIn: boolean
+}
+
+interface UseLoggedInUserReturn {
+  name?: string
+}
+
+interface GetMockOptionsReturn {
+  useAuth: UseAuthReturn
+  useLoggedInUser: UseLoggedInUserReturn
+}
+
+let isLoggedIn = true
+
+export const setIsLogin = (value: boolean) => (isLoggedIn = value)
+
+const getMockOptions = (): GetMockOptionsReturn => {
+  return isLoggedIn
+    ? {
+        useAuth: {
+          userId: 'some_id',
+          isLoggedIn: true,
+        },
+        useLoggedInUser: {
+          name: 'user_name',
+        },
+      }
+    : {
+        useAuth: {
+          userId: null,
+          isLoggedIn: false,
+        },
+        useLoggedInUser: {},
+      }
+}
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => {
+  return {
+    useAuth: () => getMockOptions().useAuth,
+  }
+})
+
+jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
+  return {
+    useLoggedInUser: () => getMockOptions().useLoggedInUser,
+  }
+})
+
+// mock requests
 const MOCKS_EMPTY = [
   {
     request: {
@@ -91,20 +142,12 @@ const MOCKS_WITH_NOTIFICATIONS = [
 
 describe('Notifications.tsx', () => {
   it('shows login message, when user is not logged in', async () => {
+    isLoggedIn = false
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: false,
-          userId: null,
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-          <Notifications />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
     )
 
     const notLoggedInMessage = 'loginRedirect.title'
@@ -112,20 +155,12 @@ describe('Notifications.tsx', () => {
   })
 
   it('shows empty message, when no proper notification is given', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-          <Notifications />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
     )
 
     // wait for loader to be removed first
@@ -138,20 +173,12 @@ describe('Notifications.tsx', () => {
   })
 
   it('does not show an empty message when proper notifications are given', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-          <Notifications />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
     )
 
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
@@ -159,20 +186,12 @@ describe('Notifications.tsx', () => {
   })
 
   it('renders a PostCommentMention and Release notification', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-          <Notifications />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <Notifications />
+      </MockedProvider>
     )
 
     expect(await screen.findByTestId('post-comment-mention'))

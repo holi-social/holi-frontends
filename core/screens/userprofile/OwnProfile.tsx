@@ -2,8 +2,6 @@ import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
@@ -15,7 +13,6 @@ import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/co
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -26,9 +23,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-type ScreenProps = NativeStackScreenProps<AuthStackScreensList>
-
-const OwnProfile: React.VFC<ScreenProps> = () => {
+const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {

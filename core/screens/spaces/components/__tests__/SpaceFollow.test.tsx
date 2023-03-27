@@ -2,7 +2,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import SpaceDetails from '@holi/core/screens/spaces/SpaceDetails'
 import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
@@ -90,13 +89,56 @@ const spaceByIdRequestFollowing = {
 const MOCKS_NOT_FOLLOWING = [spaceByIdRequest, followSpaceMutation]
 const MOCKS_FOLLOWING = [spaceByIdRequestFollowing, unfollowSpaceMutation]
 
-const AUTH_CONTEXT = {
-  isLoading: false,
-  isLoggedIn: false,
-  userId: '123',
-  setUserLoggedIn: jest.fn(),
-  setUserLoggedOut: jest.fn(),
+// Mock useAuth and useLoggedInUser hooks
+interface UseAuthReturn {
+  userId: string | null
+  isLoggedIn: boolean
 }
+
+interface UseLoggedInUserReturn {
+  name?: string
+}
+
+interface GetMockOptionsReturn {
+  useAuth: UseAuthReturn
+  useLoggedInUser: UseLoggedInUserReturn
+}
+
+let isLoggedIn = true
+
+export const setIsLogin = (value: boolean) => (isLoggedIn = value)
+
+const getMockOptions = (): GetMockOptionsReturn => {
+  return isLoggedIn
+    ? {
+        useAuth: {
+          userId: 'some_id',
+          isLoggedIn: true,
+        },
+        useLoggedInUser: {
+          name: 'user_name',
+        },
+      }
+    : {
+        useAuth: {
+          userId: null,
+          isLoggedIn: false,
+        },
+        useLoggedInUser: {},
+      }
+}
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => {
+  return {
+    useAuth: () => getMockOptions().useAuth,
+  }
+})
+
+jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
+  return {
+    useLoggedInUser: () => getMockOptions().useLoggedInUser,
+  }
+})
 
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: () => [SPACE_ID, jest.fn()],
@@ -104,80 +146,60 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
 
 describe('Space follow button', () => {
   it('shows follow button, when not logged in', async () => {
+    isLoggedIn = false
+
     const aSpace = {
       ...space,
       connectionStatusToMyself: [],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: false,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
-          <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <SpaceFollow space={aSpace} />
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
   })
 
   it('shows follow button, when logged in but not following', async () => {
+    isLoggedIn = true
+
     const aSpace = {
       ...space,
       connectionStatusToMyself: [],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
-          <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <SpaceFollow space={aSpace} />
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
   })
 
   it('shows button with text "already following", when user is already following', async () => {
+    isLoggedIn = true
+
     const aSpace = {
       ...space,
       connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
-          <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <SpaceFollow space={aSpace} />
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.unfollow'))
   })
 
   it('changes the button text after clicking follow-button', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
-          <SpaceDetails />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
+        <SpaceDetails />
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
@@ -186,17 +208,12 @@ describe('Space follow button', () => {
   })
 
   it('it shows already following button', async () => {
+    isLoggedIn = true
+
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
-          <SpaceDetails />
-        </MockedProvider>
-      </AuthContext.Provider>
+      <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
+        <SpaceDetails />
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.unfollow'))

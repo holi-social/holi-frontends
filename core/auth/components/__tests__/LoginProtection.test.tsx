@@ -2,25 +2,65 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
+
+// Mock useAuth and useLoggedInUser hooks
+interface UseAuthReturn {
+  userId: string | null
+  isLoggedIn: boolean
+}
+
+interface UseLoggedInUserReturn {
+  name?: string
+}
+
+interface GetMockOptionsReturn {
+  useAuth: UseAuthReturn
+  useLoggedInUser: UseLoggedInUserReturn
+}
+
+let isLoggedIn = true
+
+const getMockOptions = (): GetMockOptionsReturn => {
+  return isLoggedIn
+    ? {
+        useAuth: {
+          userId: 'some_id',
+          isLoggedIn: true,
+        },
+        useLoggedInUser: {
+          name: 'user_name',
+        },
+      }
+    : {
+        useAuth: {
+          userId: null,
+          isLoggedIn: false,
+        },
+        useLoggedInUser: {},
+      }
+}
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => {
+  return {
+    useAuth: () => getMockOptions().useAuth,
+  }
+})
+
+jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
+  return {
+    useLoggedInUser: () => getMockOptions().useLoggedInUser,
+  }
+})
 
 describe('renders correctly', () => {
   it('renders protected content when logged in', () => {
+    isLoggedIn = true
+
     const { queryByText } = render(
-      <AuthContext.Provider
-        value={{
-          userId: 'abc',
-          isLoading: false,
-          isLoggedIn: true,
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <LoginProtection>
-          <Text>Protected Content</Text>
-        </LoginProtection>
-      </AuthContext.Provider>
+      <LoginProtection>
+        <Text>Protected Content</Text>
+      </LoginProtection>
     )
 
     expect(queryByText('Protected Content')).toBeTruthy()
@@ -29,7 +69,13 @@ describe('renders correctly', () => {
   })
 
   it('renders fallback content when logged out and no other content was provided', () => {
-    const { queryByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+    isLoggedIn = false
+
+    const { queryByText } = render(
+      <LoginProtection>
+        <Text>Protected Content</Text>
+      </LoginProtection>
+    )
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
@@ -38,6 +84,8 @@ describe('renders correctly', () => {
 
   describe('navigates to', () => {
     it('registration', () => {
+      isLoggedIn = false
+
       const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
@@ -47,6 +95,8 @@ describe('renders correctly', () => {
     })
 
     it('login', () => {
+      isLoggedIn = false
+
       const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
 
       fireEvent.press(getByTestId('btn-to-login-form'))
@@ -55,6 +105,8 @@ describe('renders correctly', () => {
     })
 
     it('home', () => {
+      isLoggedIn = false
+
       const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
       fireEvent.press(getByText('auth.loginProtection.continueAsGuest'))
