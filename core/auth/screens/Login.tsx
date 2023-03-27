@@ -70,28 +70,27 @@ const Login: React.VFC<ScreenProps> = () => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
 
-  const performLogin = async (payload: UpdateLoginFlowBody) => {
+  const performLogin = (payload: UpdateLoginFlowBody): Promise<void> => {
     if (flow) {
       showLoader()
+      return submitLoginFlow(flow, payload, undefined)
+        .then(({ data }) =>
+          client.clearStore().then(() => {
+            setUserLoggedIn(data as OrySessionContext)
 
-      try {
-        const { data } = await submitLoginFlow(flow, payload, undefined)
-        await client.clearStore()
-        await setUserLoggedIn(data as OrySessionContext)
-
-        if (Platform.OS === 'web' && return_to) {
-          // server side redirect, see: See apps/web/pages/oauth2/login.tsx
-          window.location.href = return_to
-        } else {
-          redirect()
-        }
-      } catch (err) {
-        const error = handleFormSubmitError(safeSetFlow, initializeFlow)
-        displayError(error, t('auth.login.error.login'))
-      } finally {
-        hideLoader()
-      }
+            if (Platform.OS === 'web' && return_to) {
+              // server side redirect, see: See apps/web/pages/oauth2/login.tsx
+              window.location.href = return_to
+            } else {
+              redirect()
+            }
+          })
+        )
+        .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
+        .catch((error) => displayError(error, t('auth.login.error.login')))
+        .finally(() => hideLoader)
     }
+    return Promise.resolve()
   }
 
   return (
