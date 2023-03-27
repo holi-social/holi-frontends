@@ -18,7 +18,7 @@ const createSession = async (subject: string): Promise<AcceptOAuth2ConsentReques
   return {
     access_token: {},
     id_token: {
-      name: identity.id,
+      name: identity.traits?.name || identity.id,
       email: identity.id + emailSuffix,
       preferred_username: userNamePrefix + identity.id,
     },
