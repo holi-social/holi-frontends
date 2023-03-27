@@ -76,7 +76,7 @@ const Registration: React.VFC = () => {
 
         redirect()
       } catch (err) {
-        const error = handleFormSubmitError(setFlow, initializeFlow)
+        const error = handleFormSubmitError(setFlow, initializeFlow)(err)
         displayError(error, t('auth.registration.error.registration'))
       } finally {
         hideLoader()

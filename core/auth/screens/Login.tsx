@@ -86,7 +86,7 @@ const Login: React.VFC<ScreenProps> = () => {
           redirect()
         }
       } catch (err) {
-        const error = handleFormSubmitError(safeSetFlow, initializeFlow)
+        const error = handleFormSubmitError(safeSetFlow, initializeFlow)(err)
         displayError(error, t('auth.login.error.login'))
       } finally {
         hideLoader()
