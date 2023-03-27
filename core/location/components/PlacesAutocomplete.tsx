@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, TextInputProps, ViewStyle } from 'react-native'
+import { StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
@@ -35,23 +35,26 @@ interface PlacesAutocompleteProps {
   value?: string
 }
 
-const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
-  onSubmit,
-  selected,
-  onChangeText,
-  testID,
-  id,
-  label,
-  placeholder,
-  inputProps,
-  validationErrorText,
-  helperText,
-  onChange,
-  style,
-  suggestionsStyle,
-  withCoordinates,
-  value,
-}: PlacesAutocompleteProps) => {
+const PlacesAutocomplete = (
+  {
+    onSubmit,
+    selected,
+    onChangeText,
+    testID,
+    id,
+    label,
+    placeholder,
+    inputProps,
+    validationErrorText,
+    helperText,
+    onChange,
+    style,
+    suggestionsStyle,
+    withCoordinates,
+    value,
+  }: PlacesAutocompleteProps,
+  ref: React.ForwardedRef<View>
+) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(selected?.label || value)
   const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
@@ -143,8 +146,9 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       id={id}
       style={style}
       suggestionsStyle={suggestionsStyle}
+      ref={ref}
     />
   )
 }
 
-export default PlacesAutocomplete
+export default React.forwardRef(PlacesAutocomplete)
