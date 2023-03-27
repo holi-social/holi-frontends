@@ -66,7 +66,7 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
         env {
-          name  = "OWNCLOUD_BASE_URL"
+          name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
           value = local.environment == "production" ? "https://production.cloud.project-holi.org" : "https://development.cloud.project-holi.org"
         }
 

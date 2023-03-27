@@ -8,8 +8,8 @@ import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeader
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import AllTools from '@holi/core/screens/spaces/components/AllTools'
-import ToolIdeas from '@holi/core/screens/spaces/components/ToolIdeas'
+import AllTools from '@holi/core/screens/spaces/components/SpaceLinkHub/AllTools'
+import ToolIdeas from '@holi/core/screens/spaces/components/SpaceLinkHub/ToolIdeas'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -75,6 +75,8 @@ export default ToolKit
 const styles = StyleSheet.create({
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    marginTop: 10,
+    backgroundColor: colors.background20,
   },
   tabStyle: {
     backgroundColor: colors.background20,
