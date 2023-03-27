@@ -16,8 +16,7 @@ const useRouting: UseRouting = () => {
       }
       router.push(routeName)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router]
+    [router, setRedirectAfterLogin]
   )
 
   const replaceRoute = useCallback((routeName: string) => router.replace(routeName), [router])

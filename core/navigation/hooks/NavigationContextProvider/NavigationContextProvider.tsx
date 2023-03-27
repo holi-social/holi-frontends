@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { NavigationContext, initialScreenOptions } from './NavigationContext'
 
@@ -7,9 +7,7 @@ export const NavigationContextProvider = ({ children }: React.PropsWithChildren<
   const [redirectPath, setRedirect] = useState<string | null>(null)
   const [options, setOptions] = useState(initialScreenOptions)
 
-  const setRedirectAfterLogin = (url: string | null) => setRedirect(url)
-
-  const clearRedirectAfterLogin = () => setRedirect(null)
+  const clearRedirectAfterLogin = useCallback(() => setRedirect(null), [])
 
   return (
     <NavigationContext.Provider
@@ -17,7 +15,7 @@ export const NavigationContextProvider = ({ children }: React.PropsWithChildren<
         pathname,
         setPathname,
         redirectPath,
-        setRedirectAfterLogin,
+        setRedirectAfterLogin: setRedirect,
         clearRedirectAfterLogin,
         options,
         setOptions,

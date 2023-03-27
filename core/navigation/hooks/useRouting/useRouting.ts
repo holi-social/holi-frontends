@@ -20,8 +20,7 @@ const useRouting: UseRouting = () => {
       setPathname(routeName)
       return linkTo(routeName)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pathname, setPathname, linkTo]
+    [pathname, setRedirectAfterLogin, setPathname, linkTo]
   )
 
   const navigateBack = useCallback(
