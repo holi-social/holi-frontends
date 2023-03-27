@@ -7,7 +7,7 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
-import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
+import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
 import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,13 +34,13 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
         <ErrorBoundary>
           <ApolloProvider client={apolloWebClient}>
             <UserContextProvider>
-              <LoginRedirectProvider>
-                <PortalProvider>
-                  <ToastProvider>
-                    <NavigationContextProvider>{children}</NavigationContextProvider>
-                  </ToastProvider>
-                </PortalProvider>
-              </LoginRedirectProvider>
+              <PortalProvider>
+                <ToastProvider>
+                  <NavigationContextProvider>
+                    <LoginModalProvider>{children}</LoginModalProvider>
+                  </NavigationContextProvider>
+                </ToastProvider>
+              </PortalProvider>
             </UserContextProvider>
           </ApolloProvider>
         </ErrorBoundary>

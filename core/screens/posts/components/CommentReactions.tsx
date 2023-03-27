@@ -4,7 +4,7 @@ import { ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdatePostCommentReactionMutation, UpdatePostCommentReactionResponse } from '@holi/core/screens/posts/queries'
 import { Comment, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
@@ -17,7 +17,7 @@ export interface CommentReactionsProps {
 
 const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange, style }) => {
   const { isLoggedIn } = useAuth()
-  const { openLoginDialog } = useLoginRedirect()
+  const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
 
   const heartReactions = comment.reactions.HEART
@@ -33,7 +33,7 @@ const CommentReactions: React.VFC<CommentReactionsProps> = ({ comment, onChange,
 
   const reactOnComment = () => {
     if (!isLoggedIn) {
-      return openLoginDialog()
+      return openLoginModal()
     }
     updatePostCommentReaction({
       variables: {

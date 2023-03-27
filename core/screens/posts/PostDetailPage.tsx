@@ -20,7 +20,7 @@ import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
@@ -51,7 +51,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
   const { isLoggedIn } = useAuth()
-  const { openLoginDialog } = useLoginRedirect()
+  const { openLoginModal } = useLoginModal()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -148,7 +148,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             onPress={() =>
               isLoggedIn
                 ? navigate(`${insightId && `/insights/${insightId}`}/posts/${post.id}/comment`)
-                : openLoginDialog()
+                : openLoginModal()
             }
           />
         </View>

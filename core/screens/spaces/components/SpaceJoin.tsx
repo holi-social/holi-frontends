@@ -6,7 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import client from '@holi/api/graphql/client'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -22,7 +22,7 @@ export type SpaceJoinProps = {
 const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
-  const { openLoginDialog } = useLoginRedirect()
+  const { openLoginModal } = useLoginModal()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
@@ -46,7 +46,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 
   const submitJoinRequest = useCallback(() => {
     if (!isLoggedIn) {
-      return openLoginDialog({
+      return openLoginModal({
         description: t('spaces.join.loginRedirect.text'),
       })
     }
@@ -57,7 +57,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginDialog, t, updateSpaceUserConnection, space.id])
+  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
