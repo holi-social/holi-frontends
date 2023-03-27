@@ -65,7 +65,7 @@ const DeleteCollaborationToolButton: React.VoidFunctionComponent<DeleteCollabora
         confirmationButtonType="warning"
         description={t('spaces.digitalTool.delete.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('spaces.digitalTool.delete.confirmation.dismiss')}
+        dismissText={t('confirmation.dismiss')}
         confirmText={t('spaces.digitalTool.delete.confirmation.confirm')}
         testID="tool-delete"
         onConfirm={() => {
