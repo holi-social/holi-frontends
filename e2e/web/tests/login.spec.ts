@@ -1,10 +1,4 @@
-import {
-  checkAccessibility,
-  clickElementByTestId,
-  gotoFillAndSubmitLogin,
-  loginAsE2EUser,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, gotoFillAndSubmitLogin, loginAsE2EUser } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -16,7 +10,7 @@ test.describe('@Login', () => {
     await gotoFillAndSubmitLogin(context, page, 'asfd@asdf.de', '1234')
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
-    await waitForElementByTestId(page, 'toast-message-4000006')
+    await page.waitForSelector(byTestId('toast-message-4000006'))
     await checkAccessibility(page)
     // reset form by reloading the page
     await page.goto('/')
@@ -29,6 +23,6 @@ test.describe('@Login', () => {
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
     await clickElementByTestId(page, 'btn-to-home-view')
-    await waitForElementByTestId(page, 'home-feed-insights-heading')
+    await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })
 })

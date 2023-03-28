@@ -1,11 +1,11 @@
 import { BrowserContext, Page } from '@playwright/test'
 
 import {
+  byTestId,
   checkAccessibility,
   clickElementByTestId,
   gotoFillAndSubmitRegistration,
   proceedAsGuest,
-  waitForElementByTestId,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
@@ -25,7 +25,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
   // redirects from Registration to Login and back to Registration
   await clickElementByTestId(page, 'btn-to-profile-view')
   // make sure we are on the login protection page before proceeding
-  await waitForElementByTestId(page, 'login-protection-heading')
+  await page.waitForSelector(byTestId('login-protection-heading'))
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
@@ -41,7 +41,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForElementByTestId(page, 'community-guidelines-checkbox')
+  await page.waitForSelector(byTestId('community-guidelines-checkbox'))
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {
@@ -50,29 +50,29 @@ const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Pa
 
   // no password and email provided
   await gotoFillAndSubmitRegistration(context, page, '', '')
-  await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
-  await waitForElementByTestId(page, 'ory-password-input-error-message')
+  await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
+  await page.waitForSelector(byTestId('ory-password-input-error-message'))
   await checkAccessibility(page)
 
   // invalid email provided
   await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', validPassword)
-  await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
+  await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
 
   // short password provided
   await gotoFillAndSubmitRegistration(context, page, validEmail, 'Sh0rt')
-  await waitForElementByTestId(page, 'ory-password-input-error-message')
+  await page.waitForSelector(byTestId('ory-password-input-error-message'))
 
   // weak password provided
   await gotoFillAndSubmitRegistration(context, page, validEmail, '11111111')
-  await waitForElementByTestId(page, 'ory-password-input-error-message')
+  await page.waitForSelector(byTestId('ory-password-input-error-message'))
 }
 
 const canRegisterUser = async (userHandler: UserHandler) => {
   // using a random user session implicitly tests user registration
   await userHandler.asRandomUser(async (page) => {
-    await waitForElementByTestId(page, 'user-profile-full-name')
+    await page.waitForSelector(byTestId('user-profile-full-name'))
     // trying to go to login page with logged in user should show profile
     await page.goto('/login')
-    await waitForElementByTestId(page, 'user-profile-full-name')
+    await page.waitForSelector(byTestId('user-profile-full-name'))
   })
 }

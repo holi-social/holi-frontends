@@ -9,7 +9,6 @@ import {
   loginAsE2EUser,
   proceedAsGuest,
   volunteeringRequestTimeout,
-  waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -38,7 +37,7 @@ test.describe('@HomeScreen', () => {
 })
 
 const testAllowPaginationForInsightList = async (page: Page) => {
-  await waitForElementByTestId(page, 'btn-insights-list-load-more')
+  await page.waitForSelector(byTestId('btn-insights-list-load-more'))
 
   const countListItems = async () => {
     const listItems = await locateElementByTestId(page, 'feed-insight-image-link')
@@ -58,7 +57,7 @@ const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) =
 
 const testInsightsSection = async (page: Page) => {
   // has feed insight headline
-  await waitForElementByTestId(page, 'home-feed-insights-heading')
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 
   // has feed insight items and clicking them leads to insight detail page
   await clickElementByTestId(page, 'feed-insight-image-link')
@@ -68,12 +67,12 @@ const testInsightsSection = async (page: Page) => {
 const testInsightsEditors = async (page: Page) => {
   // opens editors list upon clicking in avatar pile and shows insight editor cards
   await clickElementByTestId(page, 'avatar-pile-open-modal-button')
-  await waitForElementByTestId(page, 'insight-editors-modal')
-  await waitForElementByTestId(page, 'user-card')
+  await page.waitForSelector(byTestId('insight-editors-modal'))
+  await page.waitForSelector(byTestId('user-card'))
   await clickElementByTestId(page, 'insight-editors-close-btn')
 }
 const testUserSuggestions = async (page: Page, context: BrowserContext) => {
-  await waitForElementByTestId(page, 'home-feed-insights-heading')
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
   // shows no user suggestions if logged out
   await expect(page.locator(byTestId('user-suggestions'))).toHaveCount(0)
 

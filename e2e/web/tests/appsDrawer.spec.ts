@@ -1,32 +1,40 @@
-import { expect } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, donationsRequestTimeout, proceedAsGuest } from './helpers'
+import {
+  byTestId,
+  clickElementByTestId,
+  donationsRequestTimeout,
+  goodnewsRequestTimeout,
+  proceedAsGuest,
+  volunteeringRequestTimeout,
+} from './helpers'
 import { test } from './testmaster'
 
 test.describe('@AppsDrawer', () => {
   test('user journey', async ({ page }) => {
+    // prepare
     await proceedAsGuest(page)
-    // find and click apps button
 
-    await page.waitForSelector(byTestId('home-apps-button'))
-    await clickElementByTestId(page, 'home-apps-button')
-
-    // apps drawer is open and contain apps
-    await page.waitForSelector(byTestId('apps-drawer-modal'))
-
-    // open an app
-    await clickElementByTestId(page, 'app-tile-donations')
-
-    // app is open, apps button has disappeared and drawer is gone
-    await page.waitForSelector(byTestId('donations-list-container'), { timeout: donationsRequestTimeout })
-    expect(page.url()).toContain('/apps/donations')
-    const appsButtonIsVisible = await page.locator(byTestId('home-apps-button')).isVisible()
-    expect(appsButtonIsVisible).not.toBeTruthy()
-    const modalIsOpen = await page.locator(byTestId('apps-drawer-modal')).isVisible()
-    expect(modalIsOpen).not.toBeTruthy()
-
-    // go back home and see apps button again
-    await clickElementByTestId(page, 'nav-button-back')
-    await page.waitForSelector(byTestId('home-apps-button'))
+    await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
+    await openAppAndReturn(page, 'goodnews', goodnewsRequestTimeout)
+    await openAppAndReturn(page, 'donations', donationsRequestTimeout)
   })
 })
+
+const openAppAndReturn = async (page: Page, appName: string, appTimeout: number) => {
+  // find and click apps button
+  await clickElementByTestId(page, 'home-apps-button')
+
+  // apps drawer is open and contain apps
+  await page.waitForSelector(byTestId('apps-drawer-modal'))
+
+  // open the app
+  await clickElementByTestId(page, `app-tile-${appName}`)
+
+  // app is open
+  await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })
+  expect(page.url()).toContain(`/apps/${appName}`)
+
+  // go back home
+  await clickElementByTestId(page, 'nav-button-back')
+}

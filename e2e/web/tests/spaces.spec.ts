@@ -7,7 +7,6 @@ import {
   clickElementByTestId,
   locateElementByTestId,
   proceedAsGuest,
-  waitForElementByTestId,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
@@ -37,7 +36,7 @@ const testDisplaysMultipleGroups = async (page: Page) => {
   const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
   const countSpaces = async () => await (await locateElementByTestId(page, 'space-link')).count()
 
-  await waitForElementByTestId(page, 'spaces-container')
+  await page.waitForSelector(byTestId('spaces-container'))
 
   await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
   await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
@@ -78,31 +77,31 @@ const testFiltering = async (page: Page) => {
   ])
 
   // check if the filtered spaces container is shown
-  await waitForElementByTestId(page, 'filtered-spaces-container')
+  await page.waitForSelector(byTestId('filtered-spaces-container'))
 
   // reset the filter and wait for it
   await clickElementByTestId(page, 'spaces-filter-reset')
-  await waitForElementByTestId(page, 'spaces-container')
+  await page.waitForSelector(byTestId('spaces-container'))
 }
 
 const testDisplaysSpaceDetails = async (page: Page) => {
   // click first element on page
   await clickElementByTestId(page, 'space-link')
 
-  await waitForElementByTestId(page, 'space-details-container')
+  await page.waitForSelector(byTestId('space-details-container'))
 
-  await waitForElementByTestId(page, 'space-header')
+  await page.waitForSelector(byTestId('space-header'))
 
-  await waitForElementByTestId(page, 'space-avatar')
+  await page.waitForSelector(byTestId('space-avatar'))
 
-  await waitForElementByTestId(page, 'space-title')
+  await page.waitForSelector(byTestId('space-title'))
 
-  await waitForElementByTestId(page, 'space-description')
+  await page.waitForSelector(byTestId('space-description'))
 
   await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
 
   // check if on click the user profile is displayed
-  await waitForElementByTestId(page, 'spaces-collaborators-item')
+  await page.waitForSelector(byTestId('spaces-collaborators-item'))
 
   await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
 
@@ -124,7 +123,7 @@ const testShareSpace = async (page: Page) => {
 
   // copy link and close modal / options
   await clickElementByTestId(page, 'space-share-url-btn')
-  await waitForElementByTestId(page, 'space-options-btn')
+  await page.waitForSelector(byTestId('space-options-btn'))
   await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
 }
 
@@ -227,7 +226,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
 
     // check if after deletion we are at the spaces dashboard (mine/discover)
-    await waitForElementByTestId(page, 'btn-create-space')
+    await page.waitForSelector(byTestId('btn-create-space'))
   })
 }
 
