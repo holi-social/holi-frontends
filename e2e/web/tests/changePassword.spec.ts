@@ -6,7 +6,6 @@ import {
   gotoFillAndSubmitLogin,
   locateElementByTestId,
   newUserEmail,
-  waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -29,13 +28,13 @@ test.describe('@ChangePassword', () => {
         await (await locateElementByTestId(page, 'old-password-input')).fill('wrongOldPassword')
         await (await locateElementByTestId(page, 'new-password-input')).fill(newPassword)
         await clickElementByTestId(page, 'btn-submit-change-password')
-        await waitForElementByTestId(page, 'old-password-input-error-message')
+        await page.waitForSelector(byTestId('old-password-input-error-message'))
 
         // provide invalid new password
         await (await locateElementByTestId(page, 'old-password-input')).fill(oldPassword)
         await (await locateElementByTestId(page, 'new-password-input')).fill('1234')
         await clickElementByTestId(page, 'btn-submit-change-password')
-        await waitForElementByTestId(page, 'new-password-input-error-message')
+        await page.waitForSelector(byTestId('new-password-input-error-message'))
 
         // provide correct passwords
         await (await locateElementByTestId(page, 'old-password-input')).fill(oldPassword)
@@ -49,7 +48,7 @@ test.describe('@ChangePassword', () => {
 
         // re-login with new password
         await gotoFillAndSubmitLogin(context, page, email, newPassword)
-        await waitForElementByTestId(page, 'btn-to-settings')
+        await page.waitForSelector(byTestId('btn-to-settings'))
       },
       email,
       oldPassword

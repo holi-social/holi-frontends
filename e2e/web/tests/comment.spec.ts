@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { BrowserContext, Page, expect } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -7,7 +7,6 @@ import {
   clickElementByTestIdAndWaitForToast,
   locateElementByTestId,
   loginAsE2EUser,
-  waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -45,7 +44,7 @@ test.describe('@Comment', () => {
       // submit comment
       await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
       // wait until submit succeeded
-      await waitForElementByTestId(page, 'btn-to-commenter-profile')
+      await page.waitForSelector(byTestId('btn-to-commenter-profile'))
 
       // check if comment is present in the comments page
       await expect(page.getByText(comment)).toBeVisible()
@@ -69,9 +68,9 @@ test.describe('@Comment', () => {
 
     // delete comment
     clickTreeDotsMenu(commentText, page)
-    await waitForElementByTestId(page, 'delete-comment-button')
+    await page.waitForSelector(byTestId('delete-comment-button'))
     await clickElementByTestId(page, 'delete-comment-button')
-    await waitForElementByTestId(page, 'delete-comment-confirmation-confirm')
+    await page.waitForSelector(byTestId('delete-comment-confirmation-confirm'))
     clickElementByTestId(page, 'delete-comment-confirmation-confirm')
 
     // comment should be gone
