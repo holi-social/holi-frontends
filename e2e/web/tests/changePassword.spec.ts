@@ -49,7 +49,7 @@ test.describe('@ChangePassword', () => {
 
         // re-login with new password
         await gotoFillAndSubmitLogin(context, page, email, newPassword)
-        await waitForElementByTestId(page, 'btn-to-settings')
+        await waitForElementByTestId(page, 'user-profile-full-name')
       },
       email,
       oldPassword
