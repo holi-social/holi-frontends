@@ -76,6 +76,7 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
         description={t('insights.posts.comment.delete.confirm.text')}
         confirmText={t('insights.posts.comment.delete')}
         confirmationButtonType="warning"
+        testID="delete-comment"
         {...confirmationStateProps}
       />
     </>
