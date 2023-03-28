@@ -4,42 +4,48 @@ import { StyleSheet } from 'react-native'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
   arrowRight?: boolean
   tintColor?: string
+  loading?: boolean
 }
 
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
   arrowRight = false,
   tintColor = colors.foreground30,
+  loading = false,
   label,
   disabled,
   contentStyle,
   ...buttonProps
 }) => {
   return (
-    <HoliButton
-      inline
-      transparent
-      label={label}
-      contentStyle={[styles.buttonContent, contentStyle]}
-      disabled={disabled}
-      {...buttonProps}
-    >
-      {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={styles.icon} />}
+    <>
+      <HoliButton
+        inline
+        transparent
+        label={label}
+        contentStyle={[styles.buttonContent, contentStyle]}
+        disabled={disabled}
+        {...buttonProps}
+      >
+        {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={styles.icon} />}
 
-      <HoliText bold style={{ color: tintColor }}>
-        {label}
-      </HoliText>
+        <HoliText bold style={{ color: tintColor }}>
+          {label}
+        </HoliText>
 
-      {arrowRight && (
-        <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.arrowRight} />
-      )}
-    </HoliButton>
+        {arrowRight && (
+          <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.arrowRight} />
+        )}
+      </HoliButton>
+      {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
+    </>
   )
 }
 
