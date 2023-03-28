@@ -7,7 +7,6 @@ import {
   goodnewsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
-  waitForElementByTestId,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -32,27 +31,27 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
 
   // click first element in ScrollView
   await clickElementByTestId(page, 'goodnews-updates-item')
 
   // navigate to article in good news app
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
+  await page.waitForSelector(byTestId('goodnews-detailview-container'))
   expect(page.url()).toContain('/apps/goodnews?articleId=')
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-list-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
 
   // click on "see more" / navigate to good news app
   await clickElementByTestId(page, 'goodnews-updates-load-more-button')
-  await waitForElementByTestId(page, 'goodnews-detailview-container')
+  await page.waitForSelector(byTestId('goodnews-detailview-container'))
 }
 
 const testAllowsPagination = async (page: Page) => {
-  await waitForElementByTestId(page, 'goodnews-app-home')
-  await waitForElementByTestId(page, 'btn-to-article-external')
+  await page.waitForSelector(byTestId('goodnews-app-home'))
+  await page.waitForSelector(byTestId('btn-to-article-external'))
   const countListItems = async () => {
     const listItems = await locateElementByTestId(page, 'goodnews-detailview-container')
     return await listItems.count()

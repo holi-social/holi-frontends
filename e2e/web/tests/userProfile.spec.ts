@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, waitForElementByTestId } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -21,11 +21,11 @@ test.describe('@Profile', () => {
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     await userHandler.asRandomUser(async (page) => {
-      await waitForElementByTestId(page, 'user-profile-full-name')
+      await page.waitForSelector(byTestId('user-profile-full-name'))
 
-      await waitForElementByTestId(page, 'user-profile-interests')
-      await waitForElementByTestId(page, 'user-profile-sdgs')
-      await waitForElementByTestId(page, 'user-profile-skills')
+      await page.waitForSelector(byTestId('user-profile-interests'))
+      await page.waitForSelector(byTestId('user-profile-sdgs'))
+      await page.waitForSelector(byTestId('user-profile-skills'))
 
       await checkAccessibility(page)
       await clickElementByTestId(page, 'btn-open-profile-edit-view')
@@ -54,10 +54,10 @@ test.describe('@Profile', () => {
       // visiting another user's profile should show the correct information
       const userId = process.env.E2E_USER_ID || 'empty'
       await page.goto('/profile/' + userId)
-      await waitForElementByTestId(page, 'user-profile-full-name')
-      await waitForElementByTestId(page, 'user-profile-interests')
-      await waitForElementByTestId(page, 'user-profile-sdgs')
-      await waitForElementByTestId(page, 'user-profile-skills')
+      await page.waitForSelector(byTestId('user-profile-full-name'))
+      await page.waitForSelector(byTestId('user-profile-interests'))
+      await page.waitForSelector(byTestId('user-profile-sdgs'))
+      await page.waitForSelector(byTestId('user-profile-skills'))
 
       await checkAccessibility(page)
     })
@@ -137,5 +137,5 @@ const saveAndCloseChipform = async (page: Page) => {
     page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' }),
     page.waitForSelector(byTestId('user-profile-modal-animatedview'), { state: 'detached' }),
   ])
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
