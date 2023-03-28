@@ -40,7 +40,7 @@ const MoreOptionsButtonWithModal = ({
         label={t('global.moreOptions')}
         style={{ marginBottom: safeAreaBottom, paddingHorizontal: 24 }}
       >
-        <View style={{ marginBottom: safeAreaBottom || 20 }}>{children}</View>
+        <View style={{ marginBottom: safeAreaBottom || 50 }}>{children}</View>
       </HoliModal>
     </>
   )
