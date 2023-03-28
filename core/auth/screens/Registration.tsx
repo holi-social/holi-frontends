@@ -47,33 +47,41 @@ const Registration: React.VFC = () => {
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
   // This will update the registration flow with the user provided input:
-  const onSubmit = (payload: UpdateRegistrationFlowBody): Promise<void> => {
+  const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {
       showLoader()
-      return newKratosSdk()
-        .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: payload })
-        .then(({ data }) => {
-          // ORY Kratos can be configured in such a way that it requires a login after
-          // registration. You could handle that case by navigating to the Login screen
-          // but for simplicity we'll just print an error here:
-          if (isWeb ? !data.session : !data.session_token) {
-            const err = new Error(
-              'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
-            )
-            return Promise.reject(err)
-          }
-          console.info('[Registration.tsx] registration was successful.')
-          setUserLoggedIn({
-            session: data.session,
-            session_token: data.session_token,
-          } as OrySessionContext)
-          redirect()
+
+      try {
+        const { data } = await newKratosSdk().updateRegistrationFlow({
+          flow: flow.id,
+          updateRegistrationFlowBody: payload,
         })
-        .catch(handleFormSubmitError(setFlow, initializeFlow))
-        .catch((error) => displayError(error, t('auth.registration.error.registration')))
-        .finally(() => hideLoader())
+
+        // ORY Kratos can be configured in such a way that it requires a login after
+        // registration. You could handle that case by navigating to the Login screen
+        // but for simplicity we'll just print an error here:
+        if (isWeb ? !data.session : !data.session_token) {
+          const err = new Error(
+            'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
+          )
+          return Promise.reject(err)
+        }
+
+        console.info('[Registration.tsx] registration was successful.')
+
+        setUserLoggedIn({
+          session: data.session,
+          session_token: data.session_token,
+        } as OrySessionContext)
+
+        redirect()
+      } catch (err) {
+        const error = handleFormSubmitError(setFlow, initializeFlow)
+        displayError(error, t('auth.registration.error.registration'))
+      } finally {
+        hideLoader()
+      }
     }
-    return Promise.resolve()
   }
 
   const scrollViewRef = useRef<ScrollView>(null)
