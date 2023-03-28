@@ -131,6 +131,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
                   <CommentView
                     key={comment.id}
                     comment={comment}
+                    postId={post.id}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
                   />

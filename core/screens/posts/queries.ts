@@ -196,3 +196,15 @@ export const UpdatePostCommentReactionMutation = gql`
 export interface UpdatePostCommentReactionResponse {
   postComment: Comment
 }
+
+export interface DeletePostCommentResponse {
+  success: boolean
+}
+
+export const DeletePostCommentMutation = gql`
+  mutation DeletePostComment($id: UUID!) {
+    deletePostComment(id: $id) {
+      success
+    }
+  }
+`

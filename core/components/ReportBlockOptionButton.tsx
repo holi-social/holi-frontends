@@ -62,7 +62,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   const title = (label || t('global.report')) as string
   const isReport = action === 'report'
 
-  const [reportContent] = useMutation<ReportContentResponse>(ReportContentMutation, {
+  const [reportContent, { loading }] = useMutation<ReportContentResponse>(ReportContentMutation, {
     variables: {
       contentType,
       objectId,
@@ -94,6 +94,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         label={title}
         icon={icon}
         tintColor={tintColor}
+        loading={loading}
         onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
         contentStyle={style}
         testID={testID}

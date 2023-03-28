@@ -51,7 +51,7 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
         confirmationButtonType="warning"
         description={t('spaces.delete.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('spaces.delete.confirmation.dismiss')}
+        dismissText={t('confirmation.dismiss')}
         confirmText={t('spaces.delete.confirmation.confirm')}
         testID="space-delete"
         onConfirm={() => {

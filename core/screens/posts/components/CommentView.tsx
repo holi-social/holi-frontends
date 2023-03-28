@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
+import CommentDeleteButton from '@holi/core/screens/posts/components/CommentDeleteButton'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
@@ -16,11 +17,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
+  postId: string
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
+const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props }) => {
   const { t } = useTranslation()
 
   const { creator } = comment
@@ -56,6 +58,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+          <CommentDeleteButton comment={comment} postId={postId} onConfirm={hide} style={styles.moreOptionItem} />
         </MoreOptionsButtonWithModal>
       </View>
 
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
   },
   moreOptionItem: {
     justifyContent: 'center',
-    paddingVertical: 18,
+    paddingVertical: 12,
   },
   body: {
     flexDirection: 'row',
