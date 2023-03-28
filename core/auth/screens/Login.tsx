@@ -57,6 +57,14 @@ const Login: React.VFC<ScreenProps> = () => {
     })
   }, [setOptions, t])
 
+  useEffect(() => {
+    // OAuth2 needs initial redirect
+    // see: See apps/web/pages/oauth2/login.tsx
+    if (Platform.OS === 'web' && isLoggedIn && return_to) {
+      window.location.href = return_to
+    }
+  }, [return_to, isLoggedIn])
+
   const initializeFlow = useCallback(() => {
     initLoginFlow()
       .then((response) => {
