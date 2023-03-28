@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Browser, BrowserContext, ElementHandle, Locator, Page, expect } from '@playwright/test'
+import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
@@ -12,18 +12,12 @@ export const volunteeringRequestTimeout = 20_000
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const delay = (time: number) =>
   test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
-export const waitForElementByTestId = async (
-  page: Page,
-  testId: string
-): Promise<ElementHandle<SVGElement | HTMLElement>> => {
-  return await page.waitForSelector(byTestId(testId))
-}
-
 export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
-  await waitForElementByTestId(page, testId)
+  await page.waitForSelector(byTestId(testId))
   return page.locator(byTestId(testId, nth))
 }
 
@@ -116,7 +110,7 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
     process.env.E2E_USER_PASSWORD as string
   )
   // wait for profile - login succeeded
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
 export const registerAsNewUser = async (
@@ -129,7 +123,7 @@ export const registerAsNewUser = async (
   const passwordToUse = password || newUserPassword
   await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
   // wait for profile - registration succeeded
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -149,7 +143,7 @@ export const sendConnectionRequest = async (page: Page) => {
   // test won't work if userId is not defined
   expect(userId?.length).toBe(36)
   await page.goto('/profile/' + userId)
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 
   // for the newly created user, the button state should be NOT_CONNECTED
   await clickElementByTestId(page, 'user-connection-button-NOT_CONNECTED')
@@ -184,12 +178,12 @@ export const withRandomUserSession = async (
 
 const deleteUser = async (page: Page) => {
   await page.goto('/profile')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
   await clickElementByTestId(page, 'btn-to-settings')
   await clickElementByTestId(page, 'btn-your-account')
   await clickElementByTestId(page, 'btn-delete-account')
   await clickElementByTestIdAndWaitForToast(page, 'account-deletion-confirmation-confirmation-confirm', 'toast-SUCCESS')
-  await waitForElementByTestId(page, 'login-protection-heading')
+  await page.waitForSelector(byTestId('login-protection-heading'))
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {
