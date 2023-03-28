@@ -12,6 +12,7 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -24,6 +25,7 @@ const Registration: React.VFC = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
+  const { redirect } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
@@ -62,6 +64,8 @@ const Registration: React.VFC = () => {
               session: data.session,
               session_token: data.session_token,
             } as OrySessionContext)
+
+            redirect()
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, t('auth.registration.error.registration')))

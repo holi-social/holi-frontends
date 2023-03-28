@@ -4,20 +4,24 @@ import { getActionFromState, getStateFromPath } from '@react-navigation/core'
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
-import { UseRouting } from '@holi/core/navigation/hooks/useRouting/types'
+import { UseRouting, navigateOptions } from '@holi/core/navigation/hooks/useRouting/types'
+import { navigationRef } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
 const useRouting: UseRouting = () => {
-  const { pathname, setPathname } = useNavigationContext()
+  const { pathname, setPathname, redirectPath, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
 
   const navigate = useCallback(
-    (routeName: string) => {
+    (routeName: string, options?: navigateOptions) => {
+      if (options?.redirectAfterLogin) {
+        setRedirectAfterLogin(pathname)
+      }
       setPathname(routeName)
       return linkTo(routeName)
     },
-    [setPathname, linkTo]
+    [pathname, setPathname, setRedirectAfterLogin, linkTo]
   )
 
   const navigateBack = useCallback(
@@ -57,10 +61,32 @@ const useRouting: UseRouting = () => {
     [navigation, linkTo]
   )
 
+  const redirect = useCallback(() => {
+    // wait until navigation is reinitialized (after login)
+    const intRef = setInterval(() => {
+      if (navigationRef.isReady()) {
+        clearInterval(intRef)
+        performRedirect(redirectPath, clearRedirectAfterLogin, navigate)
+      }
+    }, 200)
+  }, [redirectPath, clearRedirectAfterLogin, navigate])
+
+  const performRedirect = (
+    url: string | null,
+    clearRedirectAfterLogin: () => void,
+    navigate: (url: string) => void
+  ) => {
+    if (url && url !== '/') {
+      clearRedirectAfterLogin()
+      navigate(url)
+    }
+  }
+
   return {
     navigate,
     navigateBack,
     replaceRoute,
+    redirect,
     pathname,
   }
 }

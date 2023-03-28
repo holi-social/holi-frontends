@@ -10,7 +10,7 @@ import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButto
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
@@ -33,7 +33,7 @@ const Spaces: React.VFC = () => {
   const { openToast } = useToast()
   const { user } = useContext(UserContext)
   const pageViewRef = useRef<ScrollView>(null)
-  const { openLoginDialog } = useLoginRedirect()
+  const { openLoginModal } = useLoginModal()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -46,8 +46,8 @@ const Spaces: React.VFC = () => {
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginDialog()
-  }, [isLoggedIn, navigate, openLoginDialog])
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal()
+  }, [isLoggedIn, navigate, openLoginModal])
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
