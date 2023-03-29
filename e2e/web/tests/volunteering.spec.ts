@@ -32,6 +32,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   await page.waitForSelector(byTestId('volunteering-list-container'))
   expect(page.url()).toContain('/apps/volunteering')
+  await page.evaluate(() => window.scrollTo(0, 0)) // makes back-button visible
   await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('volunteering-updates-item'))
 
@@ -43,7 +44,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   expect(page.url()).toContain('/apps/volunteering/engagement')
 
   // navigate back
-  await page.evaluate(() => window.scrollTo(0, 20)) // makes back-button visible
+  await page.evaluate(() => window.scrollTo(0, 0)) // makes back-button visible
   await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('volunteering-updates-item'))
 
@@ -88,6 +89,7 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
   await engagementPage.close() // close newly opened tab
 
   // navigate back
+  await page.evaluate(() => window.scrollTo(0, 0)) // makes back-button visible
   await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('volunteering-list-container'))
 }
