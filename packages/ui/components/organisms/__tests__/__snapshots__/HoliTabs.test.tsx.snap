@@ -7,7 +7,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       {
         "alignContent": "center",
         "alignItems": "center",
-        "justifyContent": "center",
+        "justifyContent": "flex-start",
       },
       undefined,
     ]

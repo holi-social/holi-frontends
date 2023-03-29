@@ -34,7 +34,7 @@ test.describe('@Comment', () => {
       await clickElementByTestId(page, 'delete-comment-button')
       await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
 
-      await expect(page.getByText(commentText)).not.toBeHidden()
+      await expect(page.getByText(commentText)).toBeHidden()
     })
   })
 })
