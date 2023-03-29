@@ -31,7 +31,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
   const { visible, show, hide } = useModalState()
 
   return (
-    <View style={[styles.wrapper, style]} {...props}>
+    <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
       <View style={styles.header}>
         <View style={styles.mediaHeaderLink}>
           <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
@@ -45,6 +45,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
           onPress={show}
           onModalDismiss={hide}
           style={styles.moreButton}
+          testID="comment-three-dot-menu-button"
         >
           <ReportBlockOptionButton
             action="report"
@@ -57,8 +58,15 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
             }}
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
+            testID="report-comment-button"
           />
-          <CommentDeleteButton comment={comment} postId={postId} onConfirm={hide} style={styles.moreOptionItem} />
+          <CommentDeleteButton
+            comment={comment}
+            postId={postId}
+            onConfirm={hide}
+            style={styles.moreOptionItem}
+            testID="delete-comment-button"
+          />
         </MoreOptionsButtonWithModal>
       </View>
 
