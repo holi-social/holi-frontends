@@ -10,7 +10,7 @@ const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
 // intended to be called from outside the context provider (e.g. login form)
 export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
   console.debug('[Auth] setUserLoggedIn')
-  setSessionInStorage(session)
+  await setSessionInStorage(session)
   loggedInUserIdVar(session.session.identity.id)
 }
 
@@ -23,8 +23,5 @@ export const setUserLoggedOut = async () => {
 
 export const useAuth = () => {
   const userId = useReactiveVar(loggedInUserIdVar)
-  return {
-    userId,
-    isLoggedIn: !!userId,
-  }
+  return { userId }
 }
