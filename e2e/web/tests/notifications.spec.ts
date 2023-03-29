@@ -1,14 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { BrowserContext, Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  clickElementByTestId,
-  locateElementByTestId,
-  loginAsE2EUser,
-  sendConnectionRequest,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, clickElementByTestId, locateElementByTestId, loginAsE2EUser, sendConnectionRequest } from './helpers'
 import { UserHandler, test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -45,7 +38,7 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await clickElementByTestId(page, 'btn-to-notifications')
   // notifications currently can take a while to load, therefore we're setting a long timeout here
   await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 60000 })
-  await waitForElementByTestId(page, 'connection-notification-item')
+  await page.waitForSelector(byTestId('connection-notification-item'))
 
   // ignore first CONNECTION_REQUEST
   // run the following actions in parallel
