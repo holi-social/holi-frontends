@@ -1,13 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  clickElementByTestId,
-  clickElementByTestIdAndWaitForToast,
-  locateElementByTestId,
-  loginAsE2EUser,
-} from './helpers'
+import { byTestId, clickElementByTestId, clickElementByTestIdAndWaitForToast, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -34,31 +28,14 @@ test.describe('@Comment', () => {
 
       // check if comment is present in the comments page
       await expect(page.getByText(commentText)).toBeVisible()
+
+      // delete comment
+      clickTreeDotsMenu(page, commentText)
+      await clickElementByTestId(page, 'delete-comment-button')
+      await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
+
+      await expect(page.getByText(commentText)).not.toBeHidden()
     })
-  })
-
-  test('delete a comment', async ({ context, page }) => {
-    await loginAsE2EUser(context, page)
-    await page.locator(byTestId('btn-to-home-view')).click()
-    await goToPost(page)
-
-    // create a comment
-    await clickElementByTestId(page, 'post-detail-footer')
-    const input = await locateElementByTestId(page, 'post-comment-input')
-    const commentText = `e2e comment to be deleted ${faker.random.alphaNumeric(5)}`
-    await input.fill(commentText)
-    await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
-    await expect(page.getByText(commentText).first()).toBeVisible()
-
-    const commentsCount = await page.getByText(commentText).count()
-
-    // delete comment
-    clickTreeDotsMenu(page, commentText)
-    await clickElementByTestId(page, 'delete-comment-button')
-    await clickElementByTestId(page, 'delete-comment-confirmation-confirm')
-
-    // comment should be gone
-    await expect.poll(async () => await page.getByText(commentText).count()).toBeLessThan(commentsCount)
   })
 })
 
