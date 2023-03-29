@@ -7,13 +7,15 @@ import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/sc
 import type { User } from '@holi/core/screens/userprofile/types'
 
 interface UserContext {
-  isLoading: boolean
   user: User | undefined
+  isLoggedIn: boolean
+  isLoading: boolean
 }
 
-const initialState = {
-  isLoading: true,
+const initialState: UserContext = {
   user: undefined,
+  isLoggedIn: false,
+  isLoading: true,
 }
 
 const UserContext = createContext<UserContext>(initialState)
@@ -28,11 +30,11 @@ export const useLoggedInUser = () => {
 }
 
 const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
   const { displayError } = useErrorHandling()
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
-    skip: !isLoggedIn,
+    skip: !userId,
     fetchPolicy: 'network-only',
   })
 
@@ -43,7 +45,17 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
 
   const user = data?.authenticatedUser
 
-  return <UserContext.Provider value={{ isLoading: loading, user }}>{children}</UserContext.Provider>
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        isLoggedIn: !!user,
+        isLoading: loading,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  )
 }
 
 export default UserContextProvider
