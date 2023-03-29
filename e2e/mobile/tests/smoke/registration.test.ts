@@ -19,6 +19,9 @@ describe('@Registration - smoke', () => {
     // successful registration
     const email = await registerNewUser()
 
+    // wait for profile page to be loaded
+    await waitForElementWithTestId('user-profile-full-name')
+
     // logout
     await logout()
 
