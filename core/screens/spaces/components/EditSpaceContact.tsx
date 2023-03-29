@@ -68,7 +68,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading || !inputValid}>
       <SpaceContactForm
-        title={t('spaces.input.nameAndGoal.title')}
+        title={t('space.input.contact.title')}
         onChangeContactDescription={setContactDescription}
         onChangeContactPhone={setContactPhone}
         onChangeContactMail={setContactMail}
