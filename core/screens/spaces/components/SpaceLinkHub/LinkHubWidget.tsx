@@ -13,13 +13,13 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface DigitalToolKitProps {
+interface LinkHubWidgetProps {
   space: Space
 }
 
 const INITIAL_NUMBER_OF_ITEMS = 3
 
-const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
+const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   const { useParam } = createParam<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -96,7 +96,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   )
 }
 
-export default DigitalToolKit
+export default LinkHubWidget
 
 const styles = StyleSheet.create({
   toolKitContainer: {

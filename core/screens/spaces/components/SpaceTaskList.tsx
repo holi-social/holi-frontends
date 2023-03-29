@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import NoDataCard from '@holi/core/screens/spaces/components/NoDataCard'
-import DigitalToolKit from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalToolKit'
+import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -37,7 +37,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const CollaborationArea = () => {
     return (
       <View style={styles.collaborationAreaContainer}>
-        <DigitalToolKit space={space} />
+        <LinkHubWidget space={space} />
         <View style={{ marginTop: 16 }}>
           <StorageWidget />
         </View>
