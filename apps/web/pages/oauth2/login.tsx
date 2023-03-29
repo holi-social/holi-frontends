@@ -14,7 +14,7 @@ const frontendApi = new FrontendApi(oryConfiguration)
 const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
 const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiRequestCookies }) => {
-  const xSessionToken = '' // TODO(SF) req.headers['x-session-token']?.toString()
+  const xSessionToken = req.headers['x-session-token']?.toString()
   const cookie = Object.entries(req.cookies)
     .map(([key, value]) => `${key}=${value}`)
     .join('; ')
