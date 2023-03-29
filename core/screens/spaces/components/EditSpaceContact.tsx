@@ -40,7 +40,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
     } else {
       setFieldErrors({})
     }
-  }, [contactDescription, contactPhone, contactEmail, space.id, setInputValid])
+  }, [contactDescription, contactEmail, contactPhone, space.id, setInputValid])
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -73,11 +73,11 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
         onChangeContactPhone={setContactPhone}
         onChangeContactMail={setContactMail}
         contactDescription={contactDescription}
-        contactMail={contactEmail}
+        contactEmail={contactEmail}
         contactPhone={contactPhone}
-        contactDescriptionErrors={fieldErrors.description}
-        contactMailErrors={fieldErrors.description}
-        contactPhoneErrors={fieldErrors.description}
+        contactDescriptionErrors={fieldErrors.contactDescription}
+        contactMailErrors={fieldErrors.contactEmail}
+        contactPhoneErrors={fieldErrors.contactPhone}
       />
     </EditSpaceModal>
   )

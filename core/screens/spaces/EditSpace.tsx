@@ -224,7 +224,23 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.CONTACT)}
                 testID="space-edit-contact"
-              />
+              >
+                <View>
+                  <HoliText>{space.contactDescription}</HoliText>
+                  <View style={styles.contactContainer}>
+                    <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+                    <HoliText size="small" bold>
+                      {space.contactEmail}
+                    </HoliText>
+                  </View>
+                  <View style={styles.contactContainer}>
+                    <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+                    <HoliText size="small" bold>
+                      {space.contactPhone}
+                    </HoliText>
+                  </View>
+                </View>
+              </SpaceSection>
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
@@ -275,6 +291,14 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
+  },
+  contactIcon: {
+    marginRight: 10,
+  },
+  contactContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   wrapper: {
     justifyContent: 'center',

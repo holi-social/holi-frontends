@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?akmefv');
-  src:  url('fonts/icomoon.eot?akmefv#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?akmefv') format('truetype'),
-    url('fonts/icomoon.woff?akmefv') format('woff'),
-    url('fonts/icomoon.svg?akmefv#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?n50whc');
+  src:  url('fonts/icomoon.eot?n50whc#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?n50whc') format('truetype'),
+    url('fonts/icomoon.woff?n50whc') format('woff'),
+    url('fonts/icomoon.svg?n50whc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -61,141 +61,147 @@
 .icon-arrow-up-s:before {
   content: "\e90b";
 }
-.icon-calendar-event:before {
+.icon-at:before {
   content: "\e90c";
 }
-.icon-chat-3:before {
+.icon-calendar-event:before {
   content: "\e90d";
 }
-.icon-chat-poll:before {
+.icon-chat-3:before {
   content: "\e90e";
 }
-.icon-chat-smile-2:before {
+.icon-chat-poll:before {
   content: "\e90f";
 }
-.icon-check:before {
+.icon-chat-smile-2:before {
   content: "\e910";
 }
-.icon-close:before {
+.icon-check:before {
   content: "\e911";
 }
-.icon-cloud:before {
+.icon-close:before {
   content: "\e912";
 }
-.icon-delete:before {
+.icon-cloud:before {
   content: "\e913";
 }
-.icon-edit-2:before {
+.icon-delete:before {
   content: "\e914";
 }
-.icon-emotion-unhappy-noeyes:before {
+.icon-edit-2:before {
   content: "\e915";
 }
-.icon-error-warning:before {
+.icon-emotion-unhappy-noeyes:before {
   content: "\e916";
 }
-.icon-feedback:before {
+.icon-error-warning:before {
   content: "\e917";
 }
-.icon-filter-3:before {
+.icon-feedback:before {
   content: "\e918";
 }
-.icon-flag-2:before {
+.icon-filter-3:before {
   content: "\e919";
 }
-.icon-flag:before {
+.icon-flag-2:before {
   content: "\e91a";
 }
-.icon-global:before {
+.icon-flag:before {
   content: "\e91b";
 }
-.icon-globe:before {
+.icon-global:before {
   content: "\e91c";
 }
-.icon-group:before {
+.icon-globe:before {
   content: "\e91d";
 }
-.icon-hand-heart:before {
+.icon-group:before {
   content: "\e91e";
 }
-.icon-heart:before {
+.icon-hand-heart:before {
   content: "\e91f";
 }
-.icon-hearts:before {
+.icon-heart:before {
   content: "\e920";
 }
-.icon-help:before {
+.icon-hearts:before {
   content: "\e921";
 }
-.icon-home-smile-2:before {
+.icon-help:before {
   content: "\e922";
 }
-.icon-image-add:before {
+.icon-home-smile-2:before {
   content: "\e923";
 }
-.icon-image:before {
+.icon-image-add:before {
   content: "\e924";
 }
-.icon-information:before {
+.icon-image:before {
   content: "\e925";
 }
-.icon-key-2:before {
+.icon-information:before {
   content: "\e926";
 }
-.icon-loader-4:before {
+.icon-key-2:before {
   content: "\e927";
 }
-.icon-loader:before {
+.icon-loader-4:before {
   content: "\e928";
 }
-.icon-more:before {
+.icon-loader:before {
   content: "\e929";
 }
-.icon-newspaper:before {
+.icon-more:before {
   content: "\e92a";
 }
-.icon-notification-2:before {
+.icon-newspaper:before {
   content: "\e92b";
 }
-.icon-plant:before {
+.icon-notification-2:before {
   content: "\e92c";
 }
-.icon-pushpin:before {
+.icon-phone:before {
   content: "\e92d";
 }
-.icon-search-2:before {
+.icon-plant:before {
   content: "\e92e";
 }
-.icon-search:before {
+.icon-pushpin:before {
   content: "\e92f";
 }
-.icon-settings-3:before {
+.icon-search-2:before {
   content: "\e930";
 }
-.icon-share-box:before {
+.icon-search:before {
   content: "\e931";
 }
-.icon-share:before {
+.icon-settings-3:before {
   content: "\e932";
 }
-.icon-spaces:before {
+.icon-share-box:before {
   content: "\e933";
 }
-.icon-sun:before {
+.icon-share:before {
   content: "\e934";
 }
-.icon-time:before {
+.icon-spaces:before {
   content: "\e935";
 }
-.icon-timer-2:before {
+.icon-sun:before {
   content: "\e936";
 }
-.icon-tools:before {
+.icon-time:before {
   content: "\e937";
 }
-.icon-user-smile:before {
+.icon-timer-2:before {
   content: "\e938";
 }
-.icon-wallet-3:before {
+.icon-tools:before {
   content: "\e939";
+}
+.icon-user-smile:before {
+  content: "\e93a";
+}
+.icon-wallet-3:before {
+  content: "\e93b";
 }

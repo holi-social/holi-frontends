@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?jm1otf');
-  src:  url('fonts/icomoon.eot?jm1otf#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?jm1otf') format('truetype'),
-    url('fonts/icomoon.woff?jm1otf') format('woff'),
-    url('fonts/icomoon.svg?jm1otf#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?40zthr');
+  src:  url('fonts/icomoon.eot?40zthr#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?40zthr') format('truetype'),
+    url('fonts/icomoon.woff?40zthr') format('woff'),
+    url('fonts/icomoon.svg?40zthr#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-at:before {
+  content: "\e942";
+}
+.icon-phone:before {
+  content: "\e943";
+}
+.icon-plant:before {
+  content: "\e944";
+}
 .icon-account-circle:before {
   content: "\e900";
 }
@@ -175,54 +184,51 @@
 .icon-notification-2:before {
   content: "\e931";
 }
-.icon-plant:before {
+.icon-pushpin:before {
   content: "\e932";
 }
-.icon-pushpin:before {
+.icon-search-2:before {
   content: "\e933";
 }
-.icon-search-2:before {
+.icon-search:before {
   content: "\e934";
 }
-.icon-search:before {
+.icon-settings-3:before {
   content: "\e935";
 }
-.icon-settings-3:before {
+.icon-share-box:before {
   content: "\e936";
 }
-.icon-share-box:before {
+.icon-share:before {
   content: "\e937";
 }
-.icon-share:before {
+.icon-smiley:before {
   content: "\e938";
 }
-.icon-smiley:before {
+.icon-spaces:before {
   content: "\e939";
 }
-.icon-spaces:before {
+.icon-sun:before {
   content: "\e93a";
 }
-.icon-sun:before {
+.icon-time:before {
   content: "\e93b";
 }
-.icon-time:before {
+.icon-timer-2-line:before {
   content: "\e93c";
 }
-.icon-timer-2-line:before {
+.icon-tools:before {
   content: "\e93d";
 }
-.icon-tools:before {
+.icon-twitter:before {
   content: "\e93e";
 }
-.icon-twitter:before {
+.icon-user-smile:before {
   content: "\e93f";
 }
-.icon-user-smile:before {
+.icon-wallet-3-line:before {
   content: "\e940";
 }
-.icon-wallet-3-line:before {
-  content: "\e941";
-}
 .icon-whatsapp:before {
-  content: "\e942";
+  content: "\e941";
 }

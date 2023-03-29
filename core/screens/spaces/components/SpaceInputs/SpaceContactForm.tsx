@@ -11,10 +11,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceContactFormProps = {
   onChangeContactDescription: (contactDescription: string) => void
-  onChangeContactMail: (contactMail: string) => void
+  onChangeContactMail: (contactEmail: string) => void
   onChangeContactPhone: (contactPhone: number) => void
   contactDescription: string
-  contactMail: string
+  contactEmail: string
   contactPhone: number
   contactDescriptionErrors?: string[]
   contactMailErrors?: string[]
@@ -27,7 +27,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
   onChangeContactMail,
   onChangeContactPhone,
   contactDescription,
-  contactMail,
+  contactEmail,
   contactPhone,
   contactDescriptionErrors,
   contactMailErrors,
@@ -52,7 +52,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
       />
       <View style={styles.inputContainer}>
         <SpaceContactMailInput
-          value={contactMail}
+          value={contactEmail}
           onChange={onChangeContactMail}
           errorMessage={contactMailErrors?.length ? contactMailErrors[0] : undefined}
         />

@@ -25,6 +25,9 @@ const SpaceFragment = gql`
     id
     title
     description
+    contactEmail
+    contactPhone
+    contactDescription
     created
     avatar
     cover
@@ -312,6 +315,9 @@ export const UpdateSpaceInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
   topics: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
+  contactDescription: z.string().optional(),
+  contactEmail: z.string().optional(),
+  contactPhone: z.string().optional(),
 })
 
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
@@ -327,6 +333,9 @@ export const updateSpaceMutation = gql`
       location
       avatarDefaultColor
       name
+      contactDescription
+      contactEmail
+      contactPhone
       geolocation {
         latitude
         longitude
