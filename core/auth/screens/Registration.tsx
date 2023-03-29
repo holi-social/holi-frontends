@@ -23,7 +23,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const isWeb = Platform.OS === 'web'
 
 const Registration: React.VFC = () => {
-  const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   const { redirect } = useRouting()
@@ -33,7 +33,7 @@ const Registration: React.VFC = () => {
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
   const initializeFlow = useCallback(() => {
-    if (isLoggedIn) return
+    if (userId) return
 
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
@@ -41,7 +41,7 @@ const Registration: React.VFC = () => {
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t, isLoggedIn, displayError])
+  }, [safeSetFlow, t, userId, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
@@ -64,12 +64,12 @@ const Registration: React.VFC = () => {
           const err = new Error(
             'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
           )
-          return Promise.reject(err)
+          throw err
         }
 
         console.info('[Registration.tsx] registration was successful.')
 
-        setUserLoggedIn({
+        await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)

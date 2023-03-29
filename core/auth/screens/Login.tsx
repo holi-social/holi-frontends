@@ -35,7 +35,7 @@ const { useParam } = createParam<LoginParams>()
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
-  const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
@@ -44,6 +44,8 @@ const Login: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+
+  const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
     setOptions({
