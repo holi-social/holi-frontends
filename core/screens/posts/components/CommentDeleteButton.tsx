@@ -3,7 +3,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { DeletePostCommentMutation, DeletePostCommentResponse } from '@holi/core/screens/posts/queries'
@@ -27,6 +26,7 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
   const { user } = useLoggedInUser()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { isLoggedIn } = useLoggedInUser()
 
   const [deleteComment, { loading }] = useMutation<DeletePostCommentResponse>(DeletePostCommentMutation, {
     variables: { id: comment.id },
@@ -47,12 +47,8 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
       deleteComment()
     },
   })
-  // state props for login guard modal
-  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState({
-    onConfirm: () => setShowConfirmationModal(false),
-  })
 
-  if (user?.id !== comment.creator.id) return <></>
+  if (!isLoggedIn || user?.id !== comment.creator.id) return <></>
 
   return (
     <>
@@ -61,12 +57,10 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
         icon="delete"
         tintColor={colors.error20}
         loading={loading}
-        onPress={() => (user ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
+        onPress={() => setShowConfirmationModal(true)}
         contentStyle={style}
         testID={testID}
       />
-
-      <LoginGuardModal {...loginGuardModalProps} />
 
       <HoliConfirmation
         label={t('insights.posts.comment.delete')}
@@ -74,6 +68,7 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
         description={t('insights.posts.comment.delete.confirm.text')}
         confirmText={t('insights.posts.comment.delete')}
         confirmationButtonType="warning"
+        testID="delete-comment"
         {...confirmationStateProps}
       />
     </>

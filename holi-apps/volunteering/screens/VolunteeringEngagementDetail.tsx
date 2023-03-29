@@ -137,7 +137,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={styles.cardContainer}>
+      <View style={[styles.cardContainer, { maxWidth: deviceWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
         {organizer && <Organizer organizer={organizer} />}

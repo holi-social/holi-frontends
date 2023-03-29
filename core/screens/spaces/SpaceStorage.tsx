@@ -4,6 +4,7 @@ import { Linking, Platform, StyleSheet, useWindowDimensions } from 'react-native
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
+import { vars } from '@holi/ui/styles/globalVars'
 
 export interface SpaceStorageParams {
   spaceIdOrName: string
@@ -29,7 +30,7 @@ const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
       minHeight: deviceHeight,
-      marginTop: 44,
+      marginTop: vars.topBarHeight,
     },
   })
 

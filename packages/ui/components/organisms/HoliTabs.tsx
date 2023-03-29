@@ -51,7 +51,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   }
 
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View style={[styles.holiTabs, style]} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
           {tabs.map((tab, index) => {
@@ -107,8 +107,8 @@ export default HoliTabs
 
 const getStyles = (centeredButtons = false) =>
   StyleSheet.create({
-    container: {
-      justifyContent: 'center',
+    holiTabs: {
+      justifyContent: 'flex-start',
       alignItems: 'center',
       alignContent: 'center',
     },
