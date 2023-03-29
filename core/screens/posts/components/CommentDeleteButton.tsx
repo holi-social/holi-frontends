@@ -3,7 +3,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -25,7 +24,6 @@ export interface CommentDeleteButtonProps {
 
 const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, postId, onConfirm, style, testID }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
   const { user } = useLoggedInUser()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
@@ -54,7 +52,7 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
     onConfirm: () => setShowConfirmationModal(false),
   })
 
-  if (isLoggedIn && user?.id !== comment.creator.id) return <></>
+  if (user?.id !== comment.creator.id) return <></>
 
   return (
     <>
@@ -63,7 +61,7 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
         icon="delete"
         tintColor={colors.error20}
         loading={loading}
-        onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
+        onPress={() => (user ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
         contentStyle={style}
         testID={testID}
       />

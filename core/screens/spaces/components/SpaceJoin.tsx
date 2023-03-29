@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -21,7 +21,7 @@ export type SpaceJoinProps = {
 
 const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()

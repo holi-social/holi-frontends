@@ -14,7 +14,6 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -26,6 +25,7 @@ import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -50,7 +50,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   // `commentId` can be an UUID of a comment of hardcodded 'first' string value
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
 
   const { t } = useTranslation()

@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
@@ -26,7 +26,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const BottomTabsNavigator: React.VFC = () => {
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
 
   return (
     <BottomTabs.Navigator

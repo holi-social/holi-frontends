@@ -3,7 +3,6 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import {
@@ -13,6 +12,7 @@ import {
   ReportContentMutation,
   ReportContentResponse,
 } from '@holi/core/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliConfirmation, {
   HoliConfirmationProps,
   useConfirmationState,
@@ -57,7 +57,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   testID = 'report-button',
 }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { openToast } = useToast()
   const title = (label || t('global.report')) as string
   const isReport = action === 'report'

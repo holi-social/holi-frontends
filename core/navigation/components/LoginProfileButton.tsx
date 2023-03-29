@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -24,8 +23,6 @@ const LoginProfileButton = ({
 }: React.PropsWithChildren<LoginProfileButtonProps>) => {
   const { navigate } = useRouting()
   const { user } = useLoggedInUser()
-  const { isLoggedIn } = useAuth()
-  const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
 
   return (
@@ -38,7 +35,7 @@ const LoginProfileButton = ({
       {...props}
       testID="btn-to-profile-view"
     >
-      {hasUserData ? (
+      {user ? (
         <HoliAvatar
           imageSrc={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}

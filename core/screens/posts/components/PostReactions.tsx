@@ -2,11 +2,11 @@ import { useMutation } from '@apollo/client'
 import React from 'react'
 import { ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
 export interface PostReactionsProps {
@@ -16,7 +16,7 @@ export interface PostReactionsProps {
 }
 
 const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style }) => {
-  const { isLoggedIn } = useAuth()
+  const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
 
@@ -29,7 +29,7 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
   })
 
   const reactOnPost = () => {
-    if (!isLoggedIn) {
+    if (!user) {
       return openLoginModal()
     }
     updatePostReaction({

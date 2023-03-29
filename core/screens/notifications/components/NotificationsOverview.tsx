@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
@@ -13,6 +12,7 @@ import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifi
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@holi/core/screens/notifications/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -68,7 +68,7 @@ const groupByDate = (notifications?: Notification[]) => {
 
 const NotificationsOverview: React.VFC = () => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
 
   const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(

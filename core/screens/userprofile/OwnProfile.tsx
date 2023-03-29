@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -32,8 +31,7 @@ const OwnProfile: React.VFC = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const { isLoggedIn } = useAuth()
-  const { user } = useLoggedInUser()
+  const { user, isLoggedIn } = useLoggedInUser()
 
   const { setOptions, navigate } = useUnifiedNavigation()
 

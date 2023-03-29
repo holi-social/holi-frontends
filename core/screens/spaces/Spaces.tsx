@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -26,12 +25,11 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces: React.VFC = () => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
-  const { user } = useLoggedInUser()
+  const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
 
