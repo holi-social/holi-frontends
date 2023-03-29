@@ -10,6 +10,7 @@ import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -19,7 +20,7 @@ const SettingsOverview: React.VFC = () => {
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
-  const logout = useLogout()
+  const { logout, isLoggingOut } = useLogout()
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
@@ -87,6 +88,8 @@ const SettingsOverview: React.VFC = () => {
           />
         </View>
       </LoginProtection>
+
+      {isLoggingOut && <HoliLoader />}
     </DefaultScrollHeaderLayout>
   )
 }
