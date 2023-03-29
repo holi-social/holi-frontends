@@ -43,6 +43,7 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
   expect(page.url()).toContain('/apps/volunteering/engagement')
 
   // navigate back
+  await page.evaluate(() => window.scrollTo(0, 20)) // makes back-button visible
   await clickElementByTestId(page, 'nav-button-back')
   await page.waitForSelector(byTestId('volunteering-updates-item'))
 
