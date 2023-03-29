@@ -31,8 +31,8 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     Linking.openURL(url)
   }
 
-  const navigateToToolkitPage = () => {
-    navigate(`/spaces/${space.name}/toolKit`)
+  const navigateToLinkHubPage = () => {
+    navigate(`/spaces/${space.name}/linkHub`)
   }
 
   const navigateToEditToolPage = (toolIdOrName: string) => {
@@ -63,7 +63,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
       headerLeftIcon="link-m"
       headerRightIcon="add"
       title={t('spaces.digitalToolKit.title')}
-      onPressHeaderLeft={navigateToToolkitPage}
+      onPressHeaderLeft={navigateToLinkHubPage}
       onPressHeaderRight={navigateToAddToolPage}
     >
       <View style={styles.toolKitContainer}>
@@ -85,7 +85,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}
               style={styles.seeAllButton}
-              onPress={navigateToToolkitPage}
+              onPress={navigateToLinkHubPage}
             >
               <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
             </HoliButton>
