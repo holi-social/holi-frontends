@@ -182,6 +182,7 @@
   "notifications.space.connection.message": "Du hast die Migliedschaft im Space {{space}} angefragt",
   "notifications.space.connection.requested.message": "<0>{{user}}<0> hat die Migliedschaft im Space {{space}} angefragt",
   "notifications.title": "Benachrichtigungen",
+  "oauth2.redirect.error": "Weiterleitung fehlgeschlagen",
   "oauth2.redirecting": "Weiterleitung...",
   "onboarding.dataconsent.checkboxLabel": "Ich akzeptiere die <0>Datenschutzerklärung</0>. Mein Einverständnis kann ich jederzeit widerrufen.",
   "onboarding.dataconsent.describtion": "Um dir die beste holi Experience zu bieten, fragen wir dich nach ein paar persönlichen Infos. Diese persönlichen Daten werden nicht mit Dritten geteilt oder verkauft. Weder jetzt, noch in Zukunft.",

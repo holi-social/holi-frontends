@@ -1,28 +1,33 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/login.ts
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
+import { IncomingMessage } from 'http'
 import { GetServerSideProps, NextPage } from 'next'
-import { NextApiRequestCookies } from 'next/dist/server/api-utils'
+import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 
-import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
+import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
 
-const OAuth2LoginPage: NextPage = () => <OAuth2Redirect />
+const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
-const getSubjectIdIfLoggedIn = async (cookies: NextApiRequestCookies) => {
-  const cookie = Object.entries(cookies)
+const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiRequestCookies }) => {
+  const xSessionToken = '' // TODO(SF) req.headers['x-session-token']?.toString()
+  const cookie = Object.entries(req.cookies)
     .map(([key, value]) => `${key}=${value}`)
     .join('; ')
+  console.log('////// OAUTH2 HEADER /////////', xSessionToken)
+  console.log('////// OAUTH2 COOKIE /////////', cookie)
+  const payload = xSessionToken ? { xSessionToken } : { cookie }
   try {
-    const { data: sessionResponse } = await frontendApi.toSession({
-      cookie,
-    })
+    const { data: sessionResponse } = await frontendApi.toSession(payload)
+    console.log('////// OAUTH2 SESSION /////////', sessionResponse)
     return sessionResponse?.identity?.id
-  } catch (error) {
-    console.error('Error retrieving session', error)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error('Error retrieving session', error?.response?.data || error)
     return undefined
   }
 }
@@ -63,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     }
 
     // Check if user is already logged in
-    const subjectId = await getSubjectIdIfLoggedIn(req.cookies)
+    const subjectId = await getSubjectIdIfLoggedIn(req)
     if (subjectId) {
       // User was authenticated successfully,
       return acceptLoginRequest(loginChallenge, subjectId)
@@ -74,16 +79,24 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    // Reject login request in case an error occurs
+    // Try to reject login request in case an error occurs
     const message = error?.message || error || 'Unknown error'
-    const { data: rejectResponse } = await oauth2Api.rejectOAuth2LoginRequest({
-      loginChallenge,
-      rejectOAuth2Request: {
-        error: 'invalid_request',
-        error_description: message,
-      },
-    })
-    return serverSideRedirect(rejectResponse.redirect_to)
+    return await oauth2Api
+      .rejectOAuth2LoginRequest({
+        loginChallenge,
+        rejectOAuth2Request: {
+          error: 'invalid_request',
+          error_description: message,
+        },
+      })
+      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
+      .catch((error) => {
+        return {
+          props: {
+            error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+          },
+        }
+      })
   }
 }
 
