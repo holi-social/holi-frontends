@@ -13,20 +13,6 @@ import { test } from './testmaster'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-const goToPost = async (page: Page) => {
-  await clickElementByTestId(page, 'feed-insight-image-link')
-  await clickElementByTestId(page, 'btn-to-post')
-  await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
-}
-
-const clickTreeDotsMenu = async (commentText: string, page: Page) => {
-  const commentView = page.locator(byTestId('comment-item'), { has: page.locator(`text="${commentText}"`) })
-  await expect(commentView.first()).toBeVisible()
-  const threeDotMenuButton = commentView.first().locator(byTestId('comment-three-dot-menu-button'))
-  await expect(threeDotMenuButton).toBeVisible()
-  threeDotMenuButton.click()
-}
-
 test.describe('@Comment', () => {
   test('creates a comment and displays it in the post page.', async ({ userHandler }) => {
     await userHandler.asRandomUser(async (page) => {
@@ -67,13 +53,25 @@ test.describe('@Comment', () => {
     const commentsCount = await page.getByText(commentText).count()
 
     // delete comment
-    clickTreeDotsMenu(commentText, page)
-    await page.waitForSelector(byTestId('delete-comment-button'))
+    clickTreeDotsMenu(page, commentText)
     await clickElementByTestId(page, 'delete-comment-button')
-    await page.waitForSelector(byTestId('delete-comment-confirmation-confirm'))
-    clickElementByTestId(page, 'delete-comment-confirmation-confirm')
+    await clickElementByTestId(page, 'delete-comment-confirmation-confirm')
 
     // comment should be gone
     await expect.poll(async () => await page.getByText(commentText).count()).toBeLessThan(commentsCount)
   })
 })
+
+const goToPost = async (page: Page) => {
+  await clickElementByTestId(page, 'feed-insight-image-link')
+  await clickElementByTestId(page, 'btn-to-post')
+  await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
+}
+
+const clickTreeDotsMenu = async (page: Page, commentText: string) => {
+  const commentView = page.locator(byTestId('comment-item'), { has: page.locator(`text="${commentText}"`) })
+  await expect(commentView.first()).toBeVisible()
+  const threeDotMenuButton = commentView.first().locator(byTestId('comment-three-dot-menu-button'))
+  await expect(threeDotMenuButton).toBeVisible()
+  threeDotMenuButton.click()
+}
