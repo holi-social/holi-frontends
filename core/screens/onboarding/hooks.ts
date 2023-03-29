@@ -10,7 +10,8 @@ export const ONBOARDING_STORAGE_NAME = 'onboarding_finished'
 const finished = makeVar(true)
 
 export const useOnboarding = () => {
-  const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
+  const isLoggedIn = !!userId
 
   const onFinish = useCallback(() => {
     finished(true)
