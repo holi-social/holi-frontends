@@ -7,8 +7,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface CollaboratorAreaCardProps {
-  headerRightIcon?: string
   headerLeftIcon?: string
+  headerRightIcon?: string
   title?: string
   children?: ReactNode
   style?: StyleProp<ViewStyle>

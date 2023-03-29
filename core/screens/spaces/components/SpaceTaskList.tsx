@@ -69,7 +69,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
       <>
         {isCreator ||
           (isMember && (
-            <CollaboratorAreaCard headerLeftIcon="check" headerRightIcon="add" title={'Tasks'}>
+            <CollaboratorAreaCard headerLeftIcon="checkbox" headerRightIcon="add" title={'Tasks'}>
               <View style={[style, styles.empty]}>
                 <HoliText size={'small'} style={styles.emptyMessage}>
                   {t('spaces.spaceDetails.tasks.empty.message.forCreators')}

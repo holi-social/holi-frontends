@@ -22,7 +22,7 @@ const StorageWidget: React.VFC = () => {
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon="link-m"
+      headerLeftIcon="folder-open"
       title={t('spaces.storage.widget.title')}
       onPressHeaderLeft={navigateToStorageScreen}
     >
