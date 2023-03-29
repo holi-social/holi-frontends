@@ -24,8 +24,8 @@ test.describe('@Comment', () => {
 
       // create e2e comment and fill the textinput
       const input = await locateElementByTestId(page, 'post-comment-input')
-      const comment = `e2e comment ${faker.random.alphaNumeric(5)}`
-      await input.fill(comment)
+      const commentText = `e2e comment ${faker.random.alphaNumeric(5)}`
+      await input.fill(commentText)
 
       // submit comment
       await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
@@ -33,7 +33,7 @@ test.describe('@Comment', () => {
       await page.waitForSelector(byTestId('btn-to-commenter-profile'))
 
       // check if comment is present in the comments page
-      await expect(page.getByText(comment)).toBeVisible()
+      await expect(page.getByText(commentText)).toBeVisible()
     })
   })
 
@@ -45,7 +45,7 @@ test.describe('@Comment', () => {
     // create a comment
     await clickElementByTestId(page, 'post-detail-footer')
     const input = await locateElementByTestId(page, 'post-comment-input')
-    const commentText = 'Hello, hello you all 😄'
+    const commentText = `e2e comment to be deleted ${faker.random.alphaNumeric(5)}`
     await input.fill(commentText)
     await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
     await expect(page.getByText(commentText).first()).toBeVisible()
