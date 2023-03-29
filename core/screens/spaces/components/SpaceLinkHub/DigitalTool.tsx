@@ -55,39 +55,41 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         </View>
         <View>
           {isAdmin && (
-            <MoreOptionsButtonWithModal
-              label={t('spaces.digitalTool.preview.more')}
-              showOptions={visible}
-              onModalDismiss={hide}
-              testID="digital-toolkit-btn"
-              onPress={() => {
-                visible && hide()
-                show()
-              }}
-            >
-              <>
-                <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
-                  {tool.title}
-                </HoliHeading>
-                <MoreOptionItem
-                  icon="edit-2"
-                  label={t('global.edit')}
-                  onPress={() => {
-                    visible && hide()
-                    onEditButtonPress(tool.id)
-                  }}
-                  contentStyle={styles.buttonWithIcon}
-                />
-                <DeleteCollaborationToolButton
-                  toolId={tool.id || ''}
-                  spaceIdOrName={spaceId}
-                  onDelete={() => {
-                    hide()
-                  }}
-                  style={styles.buttonWithIcon}
-                />
-              </>
-            </MoreOptionsButtonWithModal>
+            <View style={{ paddingTop: 10 }}>
+              <MoreOptionsButtonWithModal
+                label={t('spaces.digitalTool.preview.more')}
+                showOptions={visible}
+                onModalDismiss={hide}
+                testID="digital-toolkit-btn"
+                onPress={() => {
+                  visible && hide()
+                  show()
+                }}
+              >
+                <>
+                  <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
+                    {tool.title}
+                  </HoliHeading>
+                  <MoreOptionItem
+                    icon="edit-2"
+                    label={t('global.edit')}
+                    onPress={() => {
+                      visible && hide()
+                      onEditButtonPress(tool.id)
+                    }}
+                    contentStyle={styles.buttonWithIcon}
+                  />
+                  <DeleteCollaborationToolButton
+                    toolId={tool.id || ''}
+                    spaceIdOrName={spaceId}
+                    onDelete={() => {
+                      hide()
+                    }}
+                    style={styles.buttonWithIcon}
+                  />
+                </>
+              </MoreOptionsButtonWithModal>
+            </View>
           )}
         </View>
       </View>
@@ -125,6 +127,7 @@ const styles = StyleSheet.create({
     flex: 4,
     flexDirection: 'column',
     marginLeft: 12,
+    justifyContent: 'space-between',
   },
   buttonContainer: {
     flexDirection: 'column',
