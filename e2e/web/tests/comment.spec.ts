@@ -1,12 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { expect } from '@playwright/test'
 
-import {
-  clickElementByTestId,
-  clickElementByTestIdAndWaitForToast,
-  locateElementByTestId,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, clickElementByTestId, clickElementByTestIdAndWaitForToast, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -36,7 +31,7 @@ test.describe('@Comment', () => {
       // submit comment
       await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
       // wait until submit succeeded
-      await waitForElementByTestId(page, 'btn-to-commenter-profile')
+      await page.waitForSelector(byTestId('btn-to-commenter-profile'))
 
       // check if comment is present in the comments page
       await expect(page.getByText(comment)).toBeVisible()
