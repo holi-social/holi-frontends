@@ -11,9 +11,10 @@ import CollaboratorAreaCard from '@holi/core/screens/spaces/components/Collabora
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { Space, SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import toolList from '@holi/core/static/toolList'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -60,14 +61,19 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   }
 
   const DigitalTool = ({ tool }: { tool: SpaceCollaborationTool }) => {
+    const currentTool = toolList.filter((t) => tool.url.toLowerCase().includes(t.slug)).at(0)
+    const imageSource = currentTool?.img
+    const toolName = currentTool?.name
     return (
       <View style={styles.toolContainer}>
-        <View style={styles.imageContainer}>
-          {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
-        </View>
+        {currentTool ? (
+          <HoliLocalImage imageSource={imageSource} width={32} height={32} label={tool.domain} />
+        ) : (
+          <HoliIcon icon={'link-m'} size={32} style={{ color: colors.brandColorB30 }} />
+        )}
         <View style={styles.infoContainer}>
           <HoliText size="extrasmall" style={styles.toolName}>
-            {tool.domain}
+            {toolName || tool.domain}
           </HoliText>
           <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
         </View>
@@ -168,12 +174,6 @@ const styles = StyleSheet.create({
   },
   toolTitle: {
     color: colors.foreground30,
-  },
-  imageContainer: {
-    width: 32,
-    aspectRatio: 1,
-    backgroundColor: colors.background20,
-    borderRadius: 8,
   },
   infoContainer: {
     flex: 4,
