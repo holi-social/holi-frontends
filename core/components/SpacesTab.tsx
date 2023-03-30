@@ -9,13 +9,13 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { vars } from '@holi/ui/styles/globalVars'
 
-interface Props {
+export interface SpacesTabProps {
   memberId: string
   emptyText: string
   emptyCallToAction?: string
 }
 
-const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: Props) => {
+const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) => {
   const { data, error } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId },
     fetchPolicy: 'network-only',

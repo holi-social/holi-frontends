@@ -1,8 +1,11 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
+import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -21,8 +24,8 @@ interface Props {
 
 /** TODO: Suspence currently only works on web. To make it work for
  * mobile we need to move to the new React Native architecture */
-const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
-const InsightsTab = lazy(() => import('@holi/core/components/InsightsTab'))
+const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
+const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
 
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
