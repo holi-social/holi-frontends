@@ -13,14 +13,14 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-interface Props {
+export interface InsightsTabProps {
   userId: string
   emptyText: string
 }
 
 const THUMBNAIL_SIZE = 64
 
-const InsightsTab = ({ emptyText, userId }: Props) => {
+const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
   const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, { variables: { userId } })
   const insights = data?.insightsByUserId
   const hasInsights = insights && insights.totalResults > 0
