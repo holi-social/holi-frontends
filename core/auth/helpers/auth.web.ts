@@ -19,8 +19,17 @@ const userSessionName = 'user_session'
 // user is authenticated or null is the user is not authenticated.
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
-export const getSessionFromStorage = (): Promise<OrySessionContext | null> => {
-  return AsyncStore.getItem(userSessionName).then((r) => (r ? JSON.parse(r) : null))
+export const getSessionFromStorage = async () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const resp = await AsyncStore.getItem(userSessionName)
+      return resp ? (JSON.parse(resp) as OrySessionContext) : null
+    } catch (_) {
+      return null
+    }
+  }
+
+  return null
 }
 
 export const setSessionInStorage = (session: OrySessionContext): Promise<void> => {

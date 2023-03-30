@@ -5,12 +5,12 @@ import { Linking } from 'react-native'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -22,7 +22,7 @@ const NOTIFICATION_POLLING_INTERVAL = process.env.NOTIFICATION_POLLING_INTERVAL
 const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
 
   const { error: hasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     skip: !isLoggedIn,
@@ -52,7 +52,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       </HoliButton>
       {/* TODO end: remove after Alpha */}
 
-      {!!isLoggedIn && (
+      {isLoggedIn && (
         <NotificationBadge visible={hasNewNotifications}>
           <HoliButton
             label={t('notifications.title')}

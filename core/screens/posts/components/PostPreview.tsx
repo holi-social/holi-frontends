@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -28,18 +28,19 @@ export type PostPreviewProps = {
 }
 
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
+  const { openLoginModal } = useLoginModal()
+
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
   const commentUrl = `${postUrl}/comment`
-  const { openLoginDialog } = useLoginRedirect()
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
-      openLoginDialog()
+      openLoginModal()
       // return false prevents link execution
       return false
     }

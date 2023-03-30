@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -15,6 +15,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -45,7 +46,8 @@ const UserProfile = () => {
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const { isLoggedIn, userId: authenticatedUserId } = useAuth()
+  const { userId: authenticatedUserId } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const [userId = ''] = useParam('userId')
 
   useLayoutEffect(() => {

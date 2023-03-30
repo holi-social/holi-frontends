@@ -9,7 +9,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
         false,
       ]
     }
-    testID="notification-item_null_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    testID="notification-item_undefined_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
     <View
       accessibilityLabel="Foo"
