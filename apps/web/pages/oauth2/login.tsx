@@ -17,6 +17,7 @@ const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirec
 
 const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiRequestCookies }) => {
   const xSessionToken = req.headers['x-session-token']?.toString()
+  const useCookie = !!req.headers['x-use-cookie']
   const cookie = Object.entries(req.cookies)
     .map(([key, value]) => `${key}=${value}`)
     .join('; ')
@@ -28,7 +29,7 @@ const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiR
     message: '////// OAUTH2 COOKIE /////////',
     value: cookie,
   })
-  const payload = xSessionToken ? { xSessionToken, cookie } : { cookie }
+  const payload = xSessionToken ? (useCookie ? { xSessionToken, cookie } : { xSessionToken }) : { cookie }
   try {
     const { data: sessionResponse } = await frontendApi.toSession(payload)
     logger.info({
