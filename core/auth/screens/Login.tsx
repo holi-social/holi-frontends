@@ -62,23 +62,25 @@ const Login: React.VFC<ScreenProps> = () => {
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }, [t, safeSetFlow, displayError])
 
-  const handleRedirectAfterLogin = Platform.OS === 'web' && return_to
-  const redirectAfterLogin = () => {
-    if (handleRedirectAfterLogin) {
-      window.location.href = return_to
-    }
-  }
-
   useEffect(() => {
-    !isLoggedIn && initializeFlow()
-  }, [isLoggedIn, initializeFlow])
+    if (isLoggedIn) {
+      if (Platform.OS === 'web' && return_to) {
+        window.location.href = return_to
+      }
+    } else {
+      initializeFlow()
+    }
+  }, [isLoggedIn, initializeFlow, return_to])
 
   const performLogin = (payload: UpdateLoginFlowBody): Promise<void> => {
     if (flow)
       return submitLoginFlow(flow, payload, undefined)
         .then(({ data }) =>
-          client.clearStore().then(() => {
-            setUserLoggedIn(data as OrySessionContext)
+          client.clearStore().then(async () => {
+            await setUserLoggedIn(data as OrySessionContext)
+            if (Platform.OS === 'web' && return_to) {
+              window.location.href = return_to
+            }
           })
         )
         .catch(handleFormSubmitError(safeSetFlow, initializeFlow))
@@ -89,7 +91,7 @@ const Login: React.VFC<ScreenProps> = () => {
   return (
     <DefaultLayout headerOverlap={true}>
       <HoliBox padding={[0, 24]}>
-        <LoginRegistrationContainer onLoggedIn={handleRedirectAfterLogin ? redirectAfterLogin : undefined}>
+        <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
           <View style={styles.formItemContainer}>
             <HoliTextLink
