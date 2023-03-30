@@ -22,6 +22,7 @@ test.describe('@Login', () => {
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
+    await page.waitForSelector(byTestId('login-protection-heading'))
     await clickElementByTestId(page, 'btn-to-home-view')
     await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })
