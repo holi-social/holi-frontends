@@ -11,7 +11,6 @@ import {
 } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
   getSessionFromStorage,
@@ -24,6 +23,7 @@ import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/au
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -38,7 +38,7 @@ const ChangePassword: React.VFC = () => {
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()
   const [oldPwd, setOldPwd] = useState<string>('')
   const [newPwd, setNewPwd] = useState<string>('')
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { setOptions, navigate } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
@@ -77,41 +77,43 @@ const ChangePassword: React.VFC = () => {
     initForm()
   }, [setOptions, initForm, t])
 
-  const performPasswordChange = () => {
+  const performPasswordChange = async () => {
     if (reauthFlow && settingsFlow) {
-      submitReauthFlow(reauthFlow, oldPwd, sessionToken)
-        .then(() => {
-          setOldPwdNode(undefined)
-          submitSettingsFlow(settingsFlow, newPwd, sessionToken)
-            .then(() => {
-              openToast('Du hast dein Passwort erfolgreich geändert.', HoliToastType.SUCCESS, 4000)
-              navigate('/profile')
-            })
-            .catch(
-              handleFormSubmitError((flow) => {
-                const passwordNode = findInputNodeByNameAndType('password', 'password', flow)
-                setNewPwdNode(passwordNode)
-              }, initForm)
-            )
-            .catch((error) => {
-              // technical error
-              displayError(error, '## Change password ##')
-            })
-        })
-        .catch(
-          handleFormSubmitError((flow) => {
+      try {
+        await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
+        setOldPwdNode(undefined)
+
+        try {
+          await submitSettingsFlow(settingsFlow, newPwd, sessionToken)
+
+          openToast(t('auth.changePassword.success'), HoliToastType.SUCCESS, 4000)
+          navigate('/profile')
+        } catch (err) {
+          handleFormSubmitError(
+            (flow) => {
+              const passwordNode = findInputNodeByNameAndType('password', 'password', flow)
+              setNewPwdNode(passwordNode)
+            },
+            initForm,
+            (error) => displayError(error, t('auth.changePassword.error')),
+            err
+          )
+        }
+      } catch (err) {
+        handleFormSubmitError(
+          (flow) => {
             const passwordNode = findInputNodeByNameAndType('password', 'password', flow)
             // sometimes messages are no attached to the node but are transfered generally, so we move them to the node
             if (passwordNode && flow.ui.messages && !passwordNode.messages?.length) {
               passwordNode.messages = flow.ui.messages
             }
             setOldPwdNode(passwordNode)
-          }, initForm)
+          },
+          initForm,
+          (error) => displayError(error, t('auth.changePassword.error')),
+          err
         )
-        .catch((error) => {
-          // technical error
-          displayError(error, '## Change password ##')
-        })
+      }
     }
   }
 

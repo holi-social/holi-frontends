@@ -1,35 +1,73 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
+import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+
+const loggedIn = () => ({ userId: '123' })
+const loggedOut = () => ({ userId: null })
+const useAuthMock = useAuth as jest.Mock
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: jest.fn(),
+  setUserLoggedOut: jest.fn(),
+}))
+
+const authenticatedUserRequest = {
+  request: {
+    query: authenticatedUserQuery,
+    variables: {},
+  },
+  result: {
+    data: {
+      authenticatedUser: {
+        id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: "I'm the User that is visited in E2E tests!",
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+      },
+    },
+  },
+}
 
 describe('renders correctly', () => {
-  it('renders protected content when logged in', () => {
-    const { queryByText } = render(
-      <AuthContext.Provider
-        value={{
-          userId: 'abc',
-          isLoading: false,
-          isLoggedIn: true,
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <LoginProtection>
-          <Text>Protected Content</Text>
-        </LoginProtection>
-      </AuthContext.Provider>
+  it('renders protected content when logged in', async () => {
+    useAuthMock.mockImplementation(loggedIn)
+
+    render(
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <LoginProtection>
+            <Text>Protected Content</Text>
+          </LoginProtection>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
-    expect(queryByText('Protected Content')).toBeTruthy()
-    expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
-    expect(queryByText('auth.loginProtection.registration')).toBeFalsy()
+    await waitForElementToBeRemoved(() => screen.getByTestId('loader'))
+    expect(screen.queryByText('Protected Content')).toBeTruthy()
+    expect(screen.queryByText('profile.loggedOut.heading')).toBeFalsy()
+    expect(screen.queryByText('auth.loginProtection.registration')).toBeFalsy()
   })
 
-  it('renders fallback content when logged out and no other content was provided', () => {
-    const { queryByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+  it('renders fallback content when logged out and no other content was provided', async () => {
+    useAuthMock.mockImplementation(loggedOut)
+
+    const { queryByText } = render(
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <LoginProtection>Protected Content</LoginProtection>
+        </UserContextProvider>
+      </MockedProvider>
+    )
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
@@ -38,7 +76,15 @@ describe('renders correctly', () => {
 
   describe('navigates to', () => {
     it('registration', () => {
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      useAuthMock.mockImplementation(loggedOut)
+
+      const { getByText } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
@@ -47,7 +93,15 @@ describe('renders correctly', () => {
     })
 
     it('login', () => {
-      const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
+      useAuthMock.mockImplementation(loggedOut)
+
+      const { getByTestId } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByTestId('btn-to-login-form'))
 
@@ -55,7 +109,15 @@ describe('renders correctly', () => {
     })
 
     it('home', () => {
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      useAuthMock.mockImplementation(loggedOut)
+
+      const { getByText } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByText('auth.loginProtection.continueAsGuest'))
 

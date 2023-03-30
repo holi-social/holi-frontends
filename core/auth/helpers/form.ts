@@ -103,37 +103,44 @@ export const getButtonNodeById = (nodeName: string, flow: SettingsFlow | Recover
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
-  return (err: AxiosError) => {
-    if (err.response) {
-      switch (err.response.status) {
-        case 400:
-          if (typeof err.response.data.error === 'object') {
-            console.error('[auth/helpers/form.ts] 400 error:', err.response)
-          }
+const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
+  return !!(err as AxiosError).response
+}
 
-          console.info('[auth/helpers/form.ts] Form validation failed.')
-          // The error response data contains a flow with error messages.
-          // With this data, the view can display the errors.
-          setFlow(err.response.data)
-          return
-        // case 403:
-        //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
-        //   if (err.response.data.error.id === 'session_refresh_required') {
-        //     // so something
-        //   }
-        //   return
-        case 404:
-        case 410:
-          // This happens when the flow is, for example, expired or was deleted.
-          // We simply re-initialize the flow if that happens!
-          console.error('[auth] Flow could not be found, reloading page: ', err.response)
-          initializeFlow()
-          return
-      }
+export const handleFormSubmitError = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setFlow: (p: any) => void,
+  initializeFlow: () => void,
+  showError: (err: unknown) => void,
+  err: unknown
+) => {
+  if (isAxiosError(err)) {
+    switch (err.response?.status) {
+      case 400:
+        if (typeof err.response.data.error === 'object') {
+          console.error('[auth/helpers/form.ts] 400 error:', err.response)
+        }
+
+        console.info('[auth/helpers/form.ts] Form validation failed.')
+        // The error response data contains a flow with error messages.
+        // With this data, the view can display the errors.
+        setFlow(err.response.data)
+        return
+      // case 403:
+      //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
+      //   if (err.response.data.error.id === 'session_refresh_required') {
+      //     // so something
+      //   }
+      //   return
+      case 404:
+      case 410:
+        // This happens when the flow is, for example, expired or was deleted.
+        // We simply re-initialize the flow if that happens!
+        console.error('[auth] Flow could not be found, reloading page: ', err.response)
+        initializeFlow()
+        return
     }
-
-    throw err
   }
+
+  showError(err)
 }

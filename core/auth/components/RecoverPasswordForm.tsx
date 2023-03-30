@@ -1,5 +1,5 @@
 import { RecoveryFlow, UpdateRecoveryFlowWithLinkMethod } from '@ory/kratos-client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -27,7 +27,6 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
   const safeSetFlow = useSafeDispatch(setFlow)
 
   const initializeFlow = useCallback(() => {
-    // if (isLoggedIn) return
     initPasswordRecoveryFlow()
       .then(({ data: flow }) => {
         safeSetFlow(flow)
@@ -35,22 +34,18 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
       .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
   }, [safeSetFlow, t, displayError])
 
-  useLayoutEffect(() => initializeFlow(), [initializeFlow])
+  useEffect(() => initializeFlow(), [initializeFlow])
 
-  const requestPasswordRecovery = (payload: UpdateRecoveryFlowWithLinkMethod): Promise<void> => {
-    if (flow)
-      return newKratosSdk()
-        .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: payload })
-        .then(() => {
-          initializeFlow()
-          props.onSubmit?.(true)
-        })
-        .catch((error) => {
-          handleFormSubmitError(setFlow, initializeFlow)(error)
-          props.onSubmit?.(false)
-        })
-        .catch((error) => displayError(error, t('auth.login.error.login')))
-    return Promise.resolve()
+  const requestPasswordRecovery = async (payload: UpdateRecoveryFlowWithLinkMethod): Promise<void> => {
+    if (flow) {
+      try {
+        await newKratosSdk().updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: payload })
+        props.onSubmit?.(true)
+      } catch (err) {
+        handleFormSubmitError(setFlow, initializeFlow, (error) => displayError(error, t('auth.login.error.login')), err)
+        props.onSubmit?.(false)
+      }
+    }
   }
 
   return (

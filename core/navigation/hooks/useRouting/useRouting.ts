@@ -4,20 +4,23 @@ import { getActionFromState, getStateFromPath } from '@react-navigation/core'
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
-import { UseRouting } from '@holi/core/navigation/hooks/useRouting/types'
+import { UseRouting, navigateOptions } from '@holi/core/navigation/hooks/useRouting/types'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
 const useRouting: UseRouting = () => {
-  const { pathname, setPathname } = useNavigationContext()
+  const { pathname, setPathname, redirectPath, setRedirectAfterLogin, clearRedirectAfterLogin } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
 
   const navigate = useCallback(
-    (routeName: string) => {
+    (routeName: string, options?: navigateOptions) => {
+      if (options?.redirectAfterLogin) {
+        setRedirectAfterLogin(pathname)
+      }
       setPathname(routeName)
       return linkTo(routeName)
     },
-    [setPathname, linkTo]
+    [pathname, setRedirectAfterLogin, setPathname, linkTo]
   )
 
   const navigateBack = useCallback(
@@ -57,10 +60,18 @@ const useRouting: UseRouting = () => {
     [navigation, linkTo]
   )
 
+  const redirect = useCallback(() => {
+    if (redirectPath && redirectPath !== '/') {
+      clearRedirectAfterLogin()
+      navigate(redirectPath)
+    }
+  }, [redirectPath, clearRedirectAfterLogin, navigate])
+
   return {
     navigate,
     navigateBack,
     replaceRoute,
+    redirect,
     pathname,
   }
 }
