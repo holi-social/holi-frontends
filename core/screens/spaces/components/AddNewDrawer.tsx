@@ -7,10 +7,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ResourceCategoryTile, { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
@@ -38,11 +39,14 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
       {/* Floating apps button */}
       <HoliButton
         label={t('allTools.drawer.headline')}
+        type="secondary"
+        inline
         testID="space-resources-add-button"
         style={styles.overlayButton}
         onPress={show}
       >
-        <HoliIcon icon="add" size={20} />
+        <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
+        <HoliIcon icon="spaces" size={20} />
       </HoliButton>
 
       {/* Add new modal (drawer) */}
@@ -95,17 +99,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: vars.topBarHeight,
-    right: 24,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 40,
+    right: 16,
     justifyContent: 'center',
+    paddingHorizontal: 20,
+    borderColor: colors.background30,
+    borderWidth: 1,
+    shadowColor: colors.foreground30,
+    backgroundColor: colors.background10,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    overflow: 'visible',
   },
+  buttonTitle: { marginRight: 6 },
   modalContent: {
     paddingHorizontal: 10,
   },
