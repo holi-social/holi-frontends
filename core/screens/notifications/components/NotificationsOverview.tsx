@@ -15,8 +15,8 @@ import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@hol
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -99,7 +99,7 @@ const NotificationsOverview: React.VFC = () => {
     }
   }, [data, reportLastSeenNotification])
 
-  if (loading || notificationsQueryError) return <HoliText>{t('global.loading')}</HoliText>
+  if (loading || notificationsQueryError) return <HoliLoader style={{ height: 300 }} testID="loader" />
 
   if (!isLoggedIn) {
     return (
