@@ -4,12 +4,14 @@ import { FrontendApi, OAuth2Api } from '@ory/client'
 import { IncomingMessage } from 'http'
 import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
+import pino from 'pino'
 
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
+const logger = pino()
 
 const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
@@ -18,16 +20,19 @@ const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiR
   const cookie = Object.entries(req.cookies)
     .map(([key, value]) => `${key}=${value}`)
     .join('; ')
-  console.log('////// OAUTH2 HEADER /////////', xSessionToken)
-  console.log('////// OAUTH2 COOKIE /////////', cookie)
+  logger.info('////// OAUTH2 HEADER ///////// ' + xSessionToken)
+  logger.info('////// OAUTH2 COOKIE ///////// ' + cookie)
   const payload = xSessionToken ? { xSessionToken, cookie } : { cookie }
   try {
     const { data: sessionResponse } = await frontendApi.toSession(payload)
-    console.log('////// OAUTH2 SESSION /////////', sessionResponse)
+    logger.info('////// OAUTH2 SESSION ///////// ' + sessionResponse)
     return sessionResponse?.identity?.id
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error('Error retrieving session', error?.response?.data || error)
+    logger.error({
+      message: 'Error retrieving session',
+      error: error?.response?.data || error,
+    })
     return undefined
   }
 }
@@ -81,6 +86,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   } catch (error: any) {
     // Try to reject login request in case an error occurs
     const message = error?.message || error || 'Unknown error'
+    logger.error({
+      message,
+      error: error?.response?.data || error,
+    })
     return await oauth2Api
       .rejectOAuth2LoginRequest({
         loginChallenge,
@@ -91,6 +100,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       })
       .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
       .catch((error) => {
+        logger.error({
+          message: 'Error rejecting login request',
+          error: error?.response?.data || error,
+        })
         return {
           props: {
             error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
