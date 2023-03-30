@@ -2,62 +2,55 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { notificationsQuery } from '@holi/core/screens/notifications/queries'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
+import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
-// Mock useAuth and useLoggedInUser hooks
-interface UseAuthReturn {
-  userId: string | null
-  isLoggedIn: boolean
-}
+const loggedIn = () => ({ userId: '123' })
+const loggedOut = () => ({ userId: null })
+const useAuthMock = useAuth as jest.Mock
 
-interface UseLoggedInUserReturn {
-  name?: string
-}
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: jest.fn(),
+  setUserLoggedOut: jest.fn(),
+}))
 
-interface GetMockOptionsReturn {
-  useAuth: UseAuthReturn
-  useLoggedInUser: UseLoggedInUserReturn
-}
-
-let isLoggedIn = true
-
-export const setIsLogin = (value: boolean) => (isLoggedIn = value)
-
-const getMockOptions = (): GetMockOptionsReturn => {
-  return isLoggedIn
-    ? {
-        useAuth: {
-          userId: 'some_id',
-          isLoggedIn: true,
-        },
-        useLoggedInUser: {
-          name: 'user_name',
-        },
-      }
-    : {
-        useAuth: {
-          userId: null,
-          isLoggedIn: false,
-        },
-        useLoggedInUser: {},
-      }
-}
-
-jest.mock('@holi/core/auth/helpers/useAuth', () => {
+const mockOpenToast = jest.fn()
+jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
+  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
   return {
-    useAuth: () => getMockOptions().useAuth,
+    ...original,
+    useToast: () => ({
+      openToast: mockOpenToast,
+    }),
   }
 })
 
-jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
-  return {
-    useLoggedInUser: () => getMockOptions().useLoggedInUser,
-  }
-})
+const authenticatedUserRequest = {
+  request: {
+    query: authenticatedUserQuery,
+    variables: {},
+  },
+  result: {
+    data: {
+      authenticatedUser: {
+        id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: "I'm the User that is visited in E2E tests!",
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+      },
+    },
+  },
+}
 
-// mock requests
 const MOCKS_EMPTY = [
+  authenticatedUserRequest,
   {
     request: {
       query: notificationsQuery,
@@ -86,6 +79,7 @@ const MOCKS_EMPTY = [
 ]
 
 const MOCKS_WITH_NOTIFICATIONS = [
+  authenticatedUserRequest,
   {
     request: {
       query: notificationsQuery,
@@ -142,11 +136,13 @@ const MOCKS_WITH_NOTIFICATIONS = [
 
 describe('Notifications.tsx', () => {
   it('shows login message, when user is not logged in', async () => {
-    isLoggedIn = false
+    useAuthMock.mockImplementation(loggedOut)
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <Notifications />
+        <UserContextProvider>
+          <Notifications />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -155,29 +151,31 @@ describe('Notifications.tsx', () => {
   })
 
   it('shows empty message, when no proper notification is given', async () => {
-    isLoggedIn = true
+    useAuthMock.mockImplementation(loggedIn)
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <Notifications />
+        <UserContextProvider>
+          <Notifications />
+        </UserContextProvider>
       </MockedProvider>
     )
 
-    // wait for loader to be removed first
-    const loaderTextContent = 'global.loading'
+    // wait for user to be loaded
+    const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
-    const notLoggedInMessage = 'loginRedirect.title'
-    expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(notLoggedInMessage)
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
   })
 
   it('does not show an empty message when proper notifications are given', async () => {
-    isLoggedIn = true
+    useAuthMock.mockImplementation(loggedIn)
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <Notifications />
+        <UserContextProvider>
+          <Notifications />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -186,11 +184,13 @@ describe('Notifications.tsx', () => {
   })
 
   it('renders a PostCommentMention and Release notification', async () => {
-    isLoggedIn = true
+    useAuthMock.mockImplementation(loggedIn)
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <Notifications />
+        <UserContextProvider>
+          <Notifications />
+        </UserContextProvider>
       </MockedProvider>
     )
 

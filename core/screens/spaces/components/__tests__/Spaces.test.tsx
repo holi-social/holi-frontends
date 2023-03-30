@@ -5,58 +5,16 @@ import React from 'react'
 import Spaces from '@holi/core/screens/spaces/Spaces'
 import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
-// Mock useAuth and useLoggedInUser hooks
-interface UseAuthReturn {
-  userId: string | null
-  isLoggedIn: boolean
-}
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => ({ userId: '123' }),
+  setUserLoggedOut: async () => {
+    null
+  },
+}))
 
-interface UseLoggedInUserReturn {
-  name?: string
-}
-
-interface GetMockOptionsReturn {
-  useAuth: UseAuthReturn
-  useLoggedInUser: UseLoggedInUserReturn
-}
-
-let isLoggedIn = true
-
-const getMockOptions = (): GetMockOptionsReturn => {
-  return isLoggedIn
-    ? {
-        useAuth: {
-          userId: 'some_id',
-          isLoggedIn: true,
-        },
-        useLoggedInUser: {
-          name: 'user_name',
-        },
-      }
-    : {
-        useAuth: {
-          userId: null,
-          isLoggedIn: false,
-        },
-        useLoggedInUser: {},
-      }
-}
-
-jest.mock('@holi/core/auth/helpers/useAuth', () => {
-  return {
-    useAuth: () => getMockOptions().useAuth,
-  }
-})
-
-jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
-  return {
-    useLoggedInUser: () => getMockOptions().useLoggedInUser,
-  }
-})
-
-// mock requests
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,
@@ -97,11 +55,11 @@ const MOCKS_WITHOUT_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithEm
 
 describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
-    isLoggedIn = true
-
     render(
       <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
-        <Spaces />
+        <UserContextProvider>
+          <Spaces />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -109,11 +67,11 @@ describe('Spaces screen', () => {
   })
 
   it('shows discover-spaces-view, when user has no spaces', async () => {
-    isLoggedIn = true
-
     render(
       <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
-        <Spaces />
+        <UserContextProvider>
+          <Spaces />
+        </UserContextProvider>
       </MockedProvider>
     )
 

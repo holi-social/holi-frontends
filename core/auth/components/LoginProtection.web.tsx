@@ -11,7 +11,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { userId } = useAuth()
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
 
-  if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />
+  if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader testID="loader" />
 
   return isLoggedIn ? <>{children}</> : <Onboarding style={styles.onboarding} />
 }

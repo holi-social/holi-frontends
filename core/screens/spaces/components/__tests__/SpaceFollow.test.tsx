@@ -7,6 +7,40 @@ import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
+import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => ({ userId: '123' }),
+  setUserLoggedOut: jest.fn(),
+}))
+
+jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
+  useErrorHandling: () => ({
+    displayError: jest.fn(),
+  }),
+}))
+
+const authenticatedUserRequest = {
+  request: {
+    query: authenticatedUserQuery,
+    variables: {},
+  },
+  result: {
+    data: {
+      authenticatedUser: {
+        id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: "I'm the User that is visited in E2E tests!",
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+      },
+    },
+  },
+}
 
 const SPACE_ID = '1'
 const followSpaceMutation = {
@@ -86,59 +120,8 @@ const spaceByIdRequestFollowing = {
   },
 }
 
-const MOCKS_NOT_FOLLOWING = [spaceByIdRequest, followSpaceMutation]
-const MOCKS_FOLLOWING = [spaceByIdRequestFollowing, unfollowSpaceMutation]
-
-// Mock useAuth and useLoggedInUser hooks
-interface UseAuthReturn {
-  userId: string | null
-  isLoggedIn: boolean
-}
-
-interface UseLoggedInUserReturn {
-  name?: string
-}
-
-interface GetMockOptionsReturn {
-  useAuth: UseAuthReturn
-  useLoggedInUser: UseLoggedInUserReturn
-}
-
-let isLoggedIn = true
-
-export const setIsLogin = (value: boolean) => (isLoggedIn = value)
-
-const getMockOptions = (): GetMockOptionsReturn => {
-  return isLoggedIn
-    ? {
-        useAuth: {
-          userId: 'some_id',
-          isLoggedIn: true,
-        },
-        useLoggedInUser: {
-          name: 'user_name',
-        },
-      }
-    : {
-        useAuth: {
-          userId: null,
-          isLoggedIn: false,
-        },
-        useLoggedInUser: {},
-      }
-}
-
-jest.mock('@holi/core/auth/helpers/useAuth', () => {
-  return {
-    useAuth: () => getMockOptions().useAuth,
-  }
-})
-
-jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
-  return {
-    useLoggedInUser: () => getMockOptions().useLoggedInUser,
-  }
-})
+const MOCKS_NOT_FOLLOWING = [authenticatedUserRequest, spaceByIdRequest, followSpaceMutation]
+const MOCKS_FOLLOWING = [authenticatedUserRequest, spaceByIdRequestFollowing, unfollowSpaceMutation]
 
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: () => [SPACE_ID, jest.fn()],
@@ -146,15 +129,15 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
 
 describe('Space follow button', () => {
   it('shows follow button, when not logged in', async () => {
-    isLoggedIn = false
-
     const aSpace = {
       ...space,
       connectionStatusToMyself: [],
     }
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <SpaceFollow space={aSpace} />
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <SpaceFollow space={aSpace} />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -162,15 +145,15 @@ describe('Space follow button', () => {
   })
 
   it('shows follow button, when logged in but not following', async () => {
-    isLoggedIn = true
-
     const aSpace = {
       ...space,
       connectionStatusToMyself: [],
     }
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <SpaceFollow space={aSpace} />
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <SpaceFollow space={aSpace} />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -178,15 +161,15 @@ describe('Space follow button', () => {
   })
 
   it('shows button with text "already following", when user is already following', async () => {
-    isLoggedIn = true
-
     const aSpace = {
       ...space,
       connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
     }
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <SpaceFollow space={aSpace} />
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <SpaceFollow space={aSpace} />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -194,11 +177,11 @@ describe('Space follow button', () => {
   })
 
   it('changes the button text after clicking follow-button', async () => {
-    isLoggedIn = true
-
     render(
       <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
-        <SpaceDetails />
+        <UserContextProvider>
+          <SpaceDetails />
+        </UserContextProvider>
       </MockedProvider>
     )
 
@@ -208,11 +191,11 @@ describe('Space follow button', () => {
   })
 
   it('it shows already following button', async () => {
-    isLoggedIn = true
-
     render(
       <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
-        <SpaceDetails />
+        <UserContextProvider>
+          <SpaceDetails />
+        </UserContextProvider>
       </MockedProvider>
     )
 

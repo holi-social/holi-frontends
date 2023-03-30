@@ -1,80 +1,72 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
+import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
-// Mock useAuth and useLoggedInUser hooks
-interface UseAuthReturn {
-  userId: string | null
-  isLoggedIn: boolean
+const loggedIn = () => ({ userId: '123' })
+const loggedOut = () => ({ userId: null })
+const useAuthMock = useAuth as jest.Mock
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: jest.fn(),
+  setUserLoggedOut: jest.fn(),
+}))
+
+const authenticatedUserRequest = {
+  request: {
+    query: authenticatedUserQuery,
+    variables: {},
+  },
+  result: {
+    data: {
+      authenticatedUser: {
+        id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: "I'm the User that is visited in E2E tests!",
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+      },
+    },
+  },
 }
-
-interface UseLoggedInUserReturn {
-  name?: string
-}
-
-interface GetMockOptionsReturn {
-  useAuth: UseAuthReturn
-  useLoggedInUser: UseLoggedInUserReturn
-}
-
-let isLoggedIn = true
-
-const getMockOptions = (): GetMockOptionsReturn => {
-  return isLoggedIn
-    ? {
-        useAuth: {
-          userId: 'some_id',
-          isLoggedIn: true,
-        },
-        useLoggedInUser: {
-          name: 'user_name',
-        },
-      }
-    : {
-        useAuth: {
-          userId: null,
-          isLoggedIn: false,
-        },
-        useLoggedInUser: {},
-      }
-}
-
-jest.mock('@holi/core/auth/helpers/useAuth', () => {
-  return {
-    useAuth: () => getMockOptions().useAuth,
-  }
-})
-
-jest.mock('@holi/core/screens/userprofile/UserContextProvider', () => {
-  return {
-    useLoggedInUser: () => getMockOptions().useLoggedInUser,
-  }
-})
 
 describe('renders correctly', () => {
-  it('renders protected content when logged in', () => {
-    isLoggedIn = true
+  it('renders protected content when logged in', async () => {
+    useAuthMock.mockImplementation(loggedIn)
 
-    const { queryByText } = render(
-      <LoginProtection>
-        <Text>Protected Content</Text>
-      </LoginProtection>
+    render(
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <LoginProtection>
+            <Text>Protected Content</Text>
+          </LoginProtection>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
-    expect(queryByText('Protected Content')).toBeTruthy()
-    expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
-    expect(queryByText('auth.loginProtection.registration')).toBeFalsy()
+    await waitForElementToBeRemoved(() => screen.getByTestId('loader'))
+    expect(screen.queryByText('Protected Content')).toBeTruthy()
+    expect(screen.queryByText('profile.loggedOut.heading')).toBeFalsy()
+    expect(screen.queryByText('auth.loginProtection.registration')).toBeFalsy()
   })
 
-  it('renders fallback content when logged out and no other content was provided', () => {
-    isLoggedIn = false
+  it('renders fallback content when logged out and no other content was provided', async () => {
+    useAuthMock.mockImplementation(loggedOut)
 
     const { queryByText } = render(
-      <LoginProtection>
-        <Text>Protected Content</Text>
-      </LoginProtection>
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
+          <LoginProtection>Protected Content</LoginProtection>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
@@ -84,9 +76,15 @@ describe('renders correctly', () => {
 
   describe('navigates to', () => {
     it('registration', () => {
-      isLoggedIn = false
+      useAuthMock.mockImplementation(loggedOut)
 
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      const { getByText } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
@@ -95,9 +93,15 @@ describe('renders correctly', () => {
     })
 
     it('login', () => {
-      isLoggedIn = false
+      useAuthMock.mockImplementation(loggedOut)
 
-      const { getByTestId } = render(<LoginProtection>Protected Content</LoginProtection>)
+      const { getByTestId } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByTestId('btn-to-login-form'))
 
@@ -105,9 +109,15 @@ describe('renders correctly', () => {
     })
 
     it('home', () => {
-      isLoggedIn = false
+      useAuthMock.mockImplementation(loggedOut)
 
-      const { getByText } = render(<LoginProtection>Protected Content</LoginProtection>)
+      const { getByText } = render(
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <UserContextProvider>
+            <LoginProtection>Protected Content</LoginProtection>
+          </UserContextProvider>
+        </MockedProvider>
+      )
 
       fireEvent.press(getByText('auth.loginProtection.continueAsGuest'))
 
