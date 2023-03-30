@@ -1,22 +1,21 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -26,14 +25,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const Spaces: React.VFC = () => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
-  const { user } = useContext(UserContext)
+  const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
-  const { openLoginDialog } = useLoginRedirect()
+  const { openLoginModal } = useLoginModal()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -46,8 +44,8 @@ const Spaces: React.VFC = () => {
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginDialog()
-  }, [isLoggedIn, navigate, openLoginDialog])
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal()
+  }, [isLoggedIn, navigate, openLoginModal])
 
   useLayoutEffect(() => {
     const title = t('spaces.title')

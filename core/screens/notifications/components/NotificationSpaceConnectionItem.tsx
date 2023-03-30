@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
 import {

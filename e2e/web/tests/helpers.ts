@@ -110,7 +110,7 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
     process.env.E2E_USER_PASSWORD as string
   )
   // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('btn-to-settings'))
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
 export const registerAsNewUser = async (
@@ -123,7 +123,7 @@ export const registerAsNewUser = async (
   const passwordToUse = password || newUserPassword
   await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
   // wait for profile - registration succeeded
-  await page.waitForSelector(byTestId('btn-to-settings'))
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -168,7 +168,7 @@ export const withRandomUserSession = async (
 
   await registerAsNewUser(context, page, email, password)
   // wait for login to complete
-  await page.waitForSelector(byTestId('btn-to-settings'))
+  await page.waitForSelector(byTestId('user-profile-full-name'))
   await actions(page)
   return async () => {
     await deleteUser(page)
