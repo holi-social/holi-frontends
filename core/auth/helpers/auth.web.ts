@@ -25,17 +25,17 @@ export const getSessionFromStorage = (): Promise<OrySessionContext | null> => {
 }
 
 const createAndStoreSessionFromCookie = async (): Promise<OrySessionContext | null> => {
-  const xSessionToken = cookieCutter.get('ory_kratos_session').toString()
+  const xSessionToken = cookieCutter.get('ory_kratos_session')?.toString()
   console.log('>>>>>>>> COOKIE <<<<<<<<' + xSessionToken)
   if (!xSessionToken) {
     return null
   }
   return newKratosSdk()
     .toSession({ xSessionToken })
-    .then(({ data: session }) => {
+    .then(async ({ data: session }) => {
       console.log('>>>>>>>>>>>> SESSION <<<<<<<<<', session)
       const sessionContext = { session_token: xSessionToken, session }
-      setSessionInStorage(sessionContext)
+      await setSessionInStorage(sessionContext)
       return sessionContext
     })
     .catch((error) => {

@@ -87,7 +87,6 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
   }, [])
 
   const validateSessionWithOry = (orySessionToken: OrySessionToken): Promise<SessionState> => {
-    console.log(orySessionToken)
     return (
       kratosSdk
         // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token

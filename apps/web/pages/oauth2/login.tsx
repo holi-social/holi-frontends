@@ -20,7 +20,7 @@ const getSubjectIdIfLoggedIn = async (req: IncomingMessage & { cookies: NextApiR
     .join('; ')
   console.log('////// OAUTH2 HEADER /////////', xSessionToken)
   console.log('////// OAUTH2 COOKIE /////////', cookie)
-  const payload = xSessionToken ? { xSessionToken } : { cookie }
+  const payload = xSessionToken ? { xSessionToken, cookie } : { cookie }
   try {
     const { data: sessionResponse } = await frontendApi.toSession(payload)
     console.log('////// OAUTH2 SESSION /////////', sessionResponse)
