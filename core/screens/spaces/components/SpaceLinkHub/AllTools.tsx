@@ -11,7 +11,9 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AllToolsProps {
   spaceIdOrName: string | undefined
@@ -37,6 +39,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   const { t } = useTranslation()
   const [categorizedToolsList, setCategorizedToolsList] = useState<CategorizedToolsListProps | undefined>()
   const { navigate } = useRouting()
+  const mixins = useStyleMixins()
   const imageWidth = 251
 
   const {
@@ -48,7 +51,10 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   })
 
   const space = data?.spaceById
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin =
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
+    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useEffect(() => {
     if (space) {
@@ -82,6 +88,10 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
     navigate(`/spaces/${spaceIdOrName}/tools/${toolIdOrName}/edit`)
   }
 
+  const navigateToAddToolPage = () => {
+    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
+  }
+
   const NoTools = () => {
     return (
       <View style={styles.noToolsContainer}>
@@ -98,6 +108,15 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
         <HoliText size="large" style={styles.noToolsDescription}>
           {t('spaces.toolKit.allTools.noData.description')}
         </HoliText>
+        <HoliButton
+          label={t('allTools.drawer.headline')}
+          inline
+          testID="space-resources-add-button"
+          onPress={navigateToAddToolPage}
+          style={styles.linkToolButton}
+        >
+          <HoliText>{t('spaces.toolKit.allTools.noData.link.button.label')}</HoliText>
+        </HoliButton>
       </View>
     )
   }
@@ -125,7 +144,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[mixins.container, styles.container]}>
       {(categorizedToolsList &&
         TOOL_COLLECTIONS.map((collectionType) => {
           const tools = categorizedToolsList ? categorizedToolsList[collectionType.type].tools : []
@@ -157,7 +176,9 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 24,
   },
-  noToolsTitle: { color: colors.foreground30 },
   noToolsDescription: { textAlign: 'center', marginTop: 8, color: colors.foreground30 },
   widgetContainer: { marginBottom: 24 },
+  linkToolButton: {
+    marginTop: 24,
+  },
 })
