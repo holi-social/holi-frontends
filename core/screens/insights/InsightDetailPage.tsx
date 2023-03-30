@@ -151,7 +151,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           )}
         </View>
 
-        {/* Dummy list of posts */}
         {!!posts.length && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
