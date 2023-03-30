@@ -1,16 +1,19 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { Suspense, lazy, memo, useEffect, useLayoutEffect } from 'react'
+import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -31,8 +34,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 /** TODO: Suspence currently only works on web. To make it work for
  * mobile we need to move to the new React Native architecture */
-const SpacesTab = lazy(() => import('@holi/core/components/SpacesTab'))
-const InsightsTab = lazy(() => import('@holi/core/components/InsightsTab'))
+const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
+const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
 
 export type UserProfileParams = {
   userId: string
