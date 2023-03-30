@@ -4,10 +4,16 @@ feedId query param
   -> mobile (Linking): Screen: route/:feedId
   -> web (page): route/[feedId].tsx
 */
+
+export type navigateOptions = {
+  redirectAfterLogin?: boolean
+}
+
 export type RoutingState = {
-  navigate: (routeName: string) => void
+  navigate: (routeName: string, options?: navigateOptions) => void
   navigateBack: (fallbackRouteName?: string) => void
   replaceRoute: (routeName: string) => void
+  redirect: () => void
   // pathnahme in mobile is depending on the navigator in which it is used
   pathname: string
 }

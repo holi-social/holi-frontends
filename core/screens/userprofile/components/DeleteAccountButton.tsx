@@ -12,6 +12,7 @@ import {
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -23,7 +24,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { openToast } = useToast()
-  const logout = useLogout()
+  const { logout, isLoggingOut } = useLogout()
   const { displayError } = useErrorHandling()
 
   const [deleteAuthenticatedUser, { loading, error }] = useMutation<DeleteAuthenticatedUserResponse>(
@@ -66,6 +67,8 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
           deleteAuthenticatedUser()
         }}
       />
+
+      {isLoggingOut && <HoliLoader />}
     </>
   )
 }
