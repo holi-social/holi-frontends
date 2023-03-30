@@ -62,6 +62,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
     <CollaboratorAreaCard
       headerLeftIcon="link-m"
       headerRightIcon="add"
+      headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
       title={t('spaces.digitalToolKit.title')}
       onPressHeaderLeft={navigateToLinkHubPage}
       onPressHeaderRight={navigateToAddToolPage}

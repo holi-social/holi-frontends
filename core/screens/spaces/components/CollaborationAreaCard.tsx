@@ -9,6 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface CollaboratorAreaCardProps {
   headerLeftIcon?: string
   headerRightIcon?: string
+  headerRightButtonLabel?: string
   title?: string
   children?: ReactNode
   style?: StyleProp<ViewStyle>
@@ -18,6 +19,7 @@ interface CollaboratorAreaCardProps {
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   headerLeftIcon,
   headerRightIcon,
+  headerRightButtonLabel,
   title,
   children,
   style,
@@ -27,12 +29,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
-        <HoliButton
-          transparent
-          style={styles.headerTitleContainer}
-          label={title ? title : ''}
-          onPress={onPressHeaderLeft}
-        >
+        <HoliButton transparent style={styles.headerTitleContainer} label={title || ''} onPress={onPressHeaderLeft}>
           <View style={styles.headerTitle}>
             {headerLeftIcon && (
               <HoliIcon icon={headerLeftIcon} size={18} color={colors.brandColorB30} style={{ marginRight: 6 }} />
@@ -44,7 +41,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
           <HoliButton
             transparent
             style={styles.headerRightButton}
-            label={title ? title : ''}
+            label={headerRightButtonLabel || ''}
             onPress={onPressHeaderRight}
           >
             {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
