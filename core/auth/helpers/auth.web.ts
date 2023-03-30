@@ -9,6 +9,7 @@ import {
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise, AxiosResponse } from 'axios'
+import cookieCutter from 'cookie-cutter'
 
 import { extractValue } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -20,7 +21,27 @@ const userSessionName = 'user_session'
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
 export const getSessionFromStorage = (): Promise<OrySessionContext | null> => {
-  return AsyncStore.getItem(userSessionName).then((r) => (r ? JSON.parse(r) : null))
+  return AsyncStore.getItem(userSessionName).then((r) => (r ? JSON.parse(r) : createAndStoreSessionFromCookie()))
+}
+
+const createAndStoreSessionFromCookie = async (): Promise<OrySessionContext | null> => {
+  const xSessionToken = cookieCutter.get('ory_kratos_session')?.toString()
+  console.log('>>>>>>>> COOKIE <<<<<<<<' + xSessionToken)
+  if (!xSessionToken) {
+    return null
+  }
+  return newKratosSdk()
+    .toSession({ xSessionToken })
+    .then(async ({ data: session }) => {
+      console.log('>>>>>>>>>>>> SESSION <<<<<<<<<', session)
+      const sessionContext = { session_token: xSessionToken, session }
+      await setSessionInStorage(sessionContext)
+      return sessionContext
+    })
+    .catch((error) => {
+      console.error('Could not get session from cookie', error)
+      return null
+    })
 }
 
 export const setSessionInStorage = (session: OrySessionContext): Promise<void> => {

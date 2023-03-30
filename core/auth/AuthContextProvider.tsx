@@ -9,6 +9,7 @@ import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
 
 export interface Context {
   userId: string | null
+  sessionToken: string | null
   isLoading: boolean
   isLoggedIn: boolean
   setUserLoggedIn: (session: OrySessionContext) => Promise<void>
@@ -17,6 +18,7 @@ export interface Context {
 
 const initialContext: Context = {
   userId: null,
+  sessionToken: null,
   isLoading: true,
   isLoggedIn: false,
   setUserLoggedIn: () => Promise.resolve(),
@@ -32,6 +34,7 @@ type AuthContextInternalState = {
   userId: string | null
   isLoading: boolean
   isLoggedIn: boolean
+  sessionToken: string | null
 }
 
 export const useAuth = () => {
@@ -47,18 +50,25 @@ const kratosSdk = newKratosSdk()
 const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
-  const [state, setState] = useState<AuthContextInternalState>({ userId: null, isLoading: true, isLoggedIn: false })
+  const [state, setState] = useState<AuthContextInternalState>({
+    userId: null,
+    isLoading: true,
+    isLoggedIn: false,
+    sessionToken: null,
+  })
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
   // intended to be called from outside the context provider (e.g. login form)
   const setUserLoggedIn = useCallback((session: OrySessionContext): Promise<void> => {
     console.debug('[AuthContextProvider] setUserLoggedIn')
+    console.log('session', session)
     return setSessionInStorage(session).then(() =>
       setState({
         userId: session.session.identity.id,
         isLoading: false,
         isLoggedIn: true,
+        sessionToken: session.session_token,
       })
     )
   }, [])
@@ -71,6 +81,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
         userId: null,
         isLoading: false,
         isLoggedIn: false,
+        sessionToken: null,
       })
     )
   }, [])
@@ -80,7 +91,10 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
       kratosSdk
         // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
         .toSession({ xSessionToken: orySessionToken })
-        .then(({ data: session }) => (session.active ? 'active' : 'expired'))
+        .then(({ data: session }) => {
+          console.log('########## APP SESSION ##########', session)
+          return session.active ? 'active' : 'expired'
+        })
         .catch((/*e: AxiosError*/) => 'invalid')
     )
   }
@@ -92,18 +106,22 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
         userId: null,
         isLoading: false,
         isLoggedIn: false,
+        sessionToken: null,
       })
       return Promise.resolve()
     } else {
+      console.log('########## APP SESSION STORE ##########', sessionFromStorage)
       return validateSessionWithOry(sessionFromStorage.session_token)
         .then((sessionState) => {
           console.debug(`[AuthContextProvider] ${sessionState} session found in storage`)
           switch (sessionState) {
             case 'active':
+              console.log('sessionFromStorage.session', sessionFromStorage)
               setState({
                 userId: sessionFromStorage.session.identity.id,
                 isLoading: false,
                 isLoggedIn: true,
+                sessionToken: sessionFromStorage.session_token,
               })
               return Promise.resolve()
             case 'expired':
@@ -112,6 +130,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
                   userId: null,
                   isLoading: false,
                   isLoggedIn: false,
+                  sessionToken: null,
                 })
               )
             case 'invalid':
@@ -120,6 +139,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
                   userId: null,
                   isLoading: false,
                   isLoggedIn: false,
+                  sessionToken: null,
                 })
               )
           }
@@ -129,6 +149,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
             userId: null,
             isLoading: false,
             isLoggedIn: false,
+            sessionToken: null,
           })
           throw e
         })
@@ -147,6 +168,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
     <AuthContext.Provider
       value={{
         userId: state.userId,
+        sessionToken: state.sessionToken,
         isLoading: state.isLoading,
         isLoggedIn: state.isLoggedIn,
         setUserLoggedIn: setUserLoggedIn,
