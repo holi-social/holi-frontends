@@ -220,11 +220,11 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
     // edit space contact info
+    const editedDescription = 'e2e edited space description'
+    const editedEmail = 'test@email.com'
+    const editedPhone = '123456789'
     await clickElementByTestId(page, 'btn-space-edit-contact')
-    const editDescription = 'e2e edited space description'
-    const editEmail = 'test@email.com'
-    const editPhone = '123456789'
-    await inputSpaceContactInfo(page, editDescription, editEmail, editPhone)
+    await inputSpaceContactInfo(page, editedDescription, editedEmail, editedPhone)
     await saveAndWaitForModalClosed(page)
 
     // delete space
@@ -249,6 +249,22 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
 
   const goalInput = await locateElementByTestId(page, 'space-goal-input')
   await goalInput.fill(goal)
+}
+
+const inputSpaceContactInfo = async (
+  page: Page,
+  contactDescription: string,
+  contactEmail: string,
+  contactPhone: string
+) => {
+  const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
+  await contactDescriptionInput.fill(contactDescription)
+
+  const contactEmailInput = await locateElementByTestId(page, 'space-contact-email-input')
+  await contactEmailInput.fill(contactEmail)
+
+  const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
+  await contactPhoneInput.fill(contactPhone)
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
@@ -278,20 +294,4 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
 const inputSpaceLocation = async (page: Page, location: string) => {
   const locationInput = await locateElementByTestId(page, 'spaces-location-input')
   await locationInput.fill(location)
-}
-
-const inputSpaceContactInfo = async (
-  page: Page,
-  contactDescription: string,
-  contactEmail: string,
-  contactPhone: string
-) => {
-  const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
-  await contactDescriptionInput.fill(contactDescription)
-
-  const contactEmailInput = await locateElementByTestId(page, 'space-contact-email-input')
-  await contactEmailInput.fill(contactEmail)
-
-  const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
-  await contactPhoneInput.fill(contactPhone)
 }
