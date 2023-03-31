@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -16,6 +16,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
@@ -24,7 +25,6 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -41,6 +41,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0)
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -138,6 +139,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
     })
   }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
+  const handleTabChange = (index: number) => {
+    setCurrentTabIndex(index)
+  }
+
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
       <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
@@ -157,20 +162,9 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   return (
     <>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <SpaceDetailView style={styles.spaceDetailView} space={space} />
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
       </DefaultScrollHeaderLayout>
-
-      {(isCreator || isMember) && (
-        <View style={styles.overlayContainer}>
-          <HoliButton
-            label={t('spaces.dashboard.openBtn')}
-            onPress={() => navigate(`/spaces/${spaceIdOrName}/collaboratorArea`)}
-            style={styles.overlayButton}
-          >
-            {t('spaces.dashboard.openBtn')}
-          </HoliButton>
-        </View>
-      )}
+      {(isCreator || isMember) && currentTabIndex === 1 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>
   )
 }
@@ -213,10 +207,6 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: vars.topBarHeight + 50,
-  },
-  overlayButton: {
-    marginHorizontal: 'auto',
-    maxWidth: vars.maxButtonWidth,
   },
   overlayContainer: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',

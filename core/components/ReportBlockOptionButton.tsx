@@ -1,9 +1,8 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import {
@@ -13,6 +12,7 @@ import {
   ReportContentMutation,
   ReportContentResponse,
 } from '@holi/core/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliConfirmation, {
   HoliConfirmationProps,
   useConfirmationState,
@@ -57,7 +57,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   testID = 'report-button',
 }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useLoggedInUser()
   const { openToast } = useToast()
   const title = (label || t('global.report')) as string
   const isReport = action === 'report'
@@ -85,7 +85,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         })
     }, [onConfirm, openToast, mutationHandler, t, successMessage]),
   })
-  // state props for login guard modal
+
   const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState({ onConfirm })
 
   return (

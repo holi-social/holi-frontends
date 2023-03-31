@@ -14,10 +14,9 @@ export enum RouteName {
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',
-  CollaboratorArea = 'CollaboratorArea',
   AddDigitalTool = 'AddDigitalTool',
   SpaceStorage = 'SpaceStorage',
-  ToolKit = 'ToolKit',
+  LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
 
   // Chat Stack

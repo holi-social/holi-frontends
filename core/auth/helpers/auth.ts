@@ -1,14 +1,6 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import {
-  LoginFlow,
-  PerformNativeLogoutBody,
-  RecoveryFlow,
-  RegistrationFlow,
-  SettingsFlow,
-  SuccessfulNativeLogin,
-  UpdateLoginFlowBody,
-} from '@ory/kratos-client'
-import { AxiosPromise, AxiosResponse } from 'axios'
+import { LoginFlow, PerformNativeLogoutBody, SettingsFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
 import { extractValue } from '@holi/core/auth/helpers/helper'
@@ -20,51 +12,45 @@ const userSessionName = 'user_session'
 // user is authenticated or null is the user is not authenticated.
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
-export const getSessionFromStorage = (): Promise<OrySessionContext | null> => {
-  return SecureStore.getItemAsync(userSessionName).then((r) => (r ? JSON.parse(r) : null))
-}
-
-export const setSessionInStorage = (session: OrySessionContext): Promise<void> => {
-  if (!session) {
-    return removeSessionFromStorage()
+export const getSessionFromStorage = async () => {
+  try {
+    const session = await SecureStore.getItemAsync(userSessionName)
+    return session ? (JSON.parse(session) as OrySessionContext) : null
+  } catch (err) {
+    return null
   }
-  return SecureStore.setItemAsync(userSessionName, JSON.stringify(session))
 }
 
-export const removeSessionFromStorage = (): Promise<void> => {
-  return SecureStore.deleteItemAsync(userSessionName)
+export const setSessionInStorage = async (session: OrySessionContext) => {
+  if (!session) {
+    await removeSessionFromStorage()
+  } else {
+    await SecureStore.setItemAsync(userSessionName, JSON.stringify(session))
+  }
 }
+
+export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
 export const initLoginFlow = (): AxiosPromise<LoginFlow> => {
   return newKratosSdk().createNativeLoginFlow()
 }
 
-export const submitLoginFlow = (
-  flow: LoginFlow,
-  payload: UpdateLoginFlowBody,
-  sessionToken?: string
-): AxiosPromise<SuccessfulNativeLogin> =>
+export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
   newKratosSdk().updateLoginFlow(
     { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
     { withCredentials: false }
   )
 
 // Logout
-export const submitLogoutFlow = (payload: PerformNativeLogoutBody): Promise<AxiosResponse<void>> => {
-  return newKratosSdk().performNativeLogout({ performNativeLogoutBody: payload })
-}
+export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) =>
+  newKratosSdk().performNativeLogout({ performNativeLogoutBody: payload })
 
 // Re-Auth
-export const initReauthFlow = (sessionToken?: string): AxiosPromise<LoginFlow> => {
-  return newKratosSdk().createNativeLoginFlow({ refresh: true, xSessionToken: sessionToken })
-}
+export const initReauthFlow = async (sessionToken?: string) =>
+  newKratosSdk().createNativeLoginFlow({ refresh: true, xSessionToken: sessionToken })
 
-export const submitReauthFlow = (
-  flow: LoginFlow,
-  password: string,
-  sessionToken?: string
-): AxiosPromise<SuccessfulNativeLogin> => {
+export const submitReauthFlow = async (flow: LoginFlow, password: string, sessionToken?: string) => {
   const identifier = extractValue(flow, 'identifier')
   return newKratosSdk().updateLoginFlow(
     { flow: flow.id, updateLoginFlowBody: { method: 'password', identifier, password }, xSessionToken: sessionToken },
@@ -73,23 +59,17 @@ export const submitReauthFlow = (
 }
 
 // Register
-export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> => {
-  return newKratosSdk().createNativeRegistrationFlow()
-}
+export const initRegistrationFlow = async () => newKratosSdk().createNativeRegistrationFlow()
 
 // Forgot Password
-export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> => newKratosSdk().createNativeRecoveryFlow()
+export const initPasswordRecoveryFlow = async () => newKratosSdk().createNativeRecoveryFlow()
 
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
-export const initSettingsFlow = (sessionToken?: string): AxiosPromise<SettingsFlow> =>
+export const initSettingsFlow = async (sessionToken?: string) =>
   newKratosSdk().createNativeSettingsFlow({ xSessionToken: sessionToken })
 
-export const submitSettingsFlow = (
-  flow: SettingsFlow,
-  password: string,
-  sessionToken?: string
-): AxiosPromise<SettingsFlow> =>
+export const submitSettingsFlow = async (flow: SettingsFlow, password: string, sessionToken?: string) =>
   newKratosSdk().updateSettingsFlow(
     { flow: flow.id, xSessionToken: sessionToken, updateSettingsFlowBody: { method: 'password', password } },
     { withCredentials: false }

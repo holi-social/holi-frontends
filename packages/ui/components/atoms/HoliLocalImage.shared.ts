@@ -4,7 +4,7 @@ import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
 
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
-type StaticImageData = {
+export type StaticImageData = {
   src?: string
   height?: number
   width?: number

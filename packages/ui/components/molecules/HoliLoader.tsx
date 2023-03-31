@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
@@ -7,6 +7,19 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 export interface HoliLoaderProps {
   style?: StyleProp<ViewStyle>
   testID?: string
+}
+
+export const useLoader = () => {
+  const [isLoaderShown, setIsLoaderShown] = useState(false)
+
+  const showLoader = useCallback(() => setIsLoaderShown(true), [])
+  const hideLoader = useCallback(() => setIsLoaderShown(false), [])
+
+  return {
+    isLoaderShown,
+    showLoader,
+    hideLoader,
+  }
 }
 
 const HoliLoader: React.VFC<HoliLoaderProps> = ({ style, testID }) => {

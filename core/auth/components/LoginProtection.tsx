@@ -3,12 +3,15 @@ import { Platform, StyleSheet } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
+  const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
   const navigation = useNavigation()
   const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
 
@@ -21,6 +24,8 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     })
     return unsubscribe
   }, [navigation, isLoggedIn])
+
+  if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />
 
   return isLoggedIn ? <>{children}</> : <Onboarding style={styles.onboarding} key={onboardingKey} />
 }

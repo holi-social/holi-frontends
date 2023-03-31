@@ -4,7 +4,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -14,6 +13,7 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -31,7 +31,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
 

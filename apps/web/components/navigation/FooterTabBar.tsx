@@ -2,9 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -15,7 +15,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')

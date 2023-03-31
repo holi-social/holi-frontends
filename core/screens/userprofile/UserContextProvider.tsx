@@ -1,30 +1,40 @@
 import { useQuery } from '@apollo/client'
-import React, { createContext } from 'react'
+import React, { createContext, useContext } from 'react'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
 interface UserContext {
-  isLoading: boolean
   user: User | undefined
+  isLoggedIn: boolean
+  isLoading: boolean
 }
 
-const initialState = {
-  isLoading: true,
+const initialState: UserContext = {
   user: undefined,
+  isLoggedIn: false,
+  isLoading: true,
 }
 
-export const UserContext = createContext<UserContext>(initialState)
+const UserContext = createContext<UserContext>(initialState)
 UserContext.displayName = 'UserContext'
 
+export const useLoggedInUser = () => {
+  const context = useContext(UserContext)
+
+  if (context === undefined) throw new Error('useLoggedInUser() must be used within a UserContextProvider')
+
+  return context
+}
+
 const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { isLoggedIn, setUserLoggedOut } = useAuth()
+  const { userId } = useAuth()
   const { displayError } = useErrorHandling()
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
-    skip: !isLoggedIn,
+    skip: !userId,
     fetchPolicy: 'network-only',
   })
 
@@ -35,7 +45,17 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
 
   const user = data?.authenticatedUser
 
-  return <UserContext.Provider value={{ isLoading: loading, user }}>{children}</UserContext.Provider>
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        isLoggedIn: !!user,
+        isLoading: loading,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  )
 }
 
 export default UserContextProvider

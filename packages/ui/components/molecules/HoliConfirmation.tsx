@@ -45,8 +45,8 @@ export const useConfirmationState = ({
   }, [onConfirm])
 
   const dismissHandler = useCallback(() => {
-    const confirmPropagation = onDismiss?.()
-    if (confirmPropagation !== false) {
+    const dismissPropagation = onDismiss?.()
+    if (dismissPropagation !== false) {
       setVisible(false)
     }
   }, [onDismiss])
