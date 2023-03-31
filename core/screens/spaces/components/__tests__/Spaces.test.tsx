@@ -2,11 +2,18 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import Spaces from '@holi/core/screens/spaces/Spaces'
 import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => ({ userId: '123' }),
+  setUserLoggedOut: async () => {
+    null
+  },
+}))
 
 const authenticatedUserRequest = {
   request: {
@@ -49,19 +56,11 @@ const MOCKS_WITHOUT_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithEm
 describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
+      <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
+        <UserContextProvider>
           <Spaces />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByTestId('spaces-tab-navigation'))
@@ -69,19 +68,11 @@ describe('Spaces screen', () => {
 
   it('shows discover-spaces-view, when user has no spaces', async () => {
     render(
-      <AuthContext.Provider
-        value={{
-          isLoading: false,
-          isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
-        }}
-      >
-        <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
+      <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
+        <UserContextProvider>
           <Spaces />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByTestId('discover-spaces-header'))

@@ -6,10 +6,9 @@ import AddDigitalTool, { AddDigitalToolParams } from '@holi/core/screens/spaces/
 import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/EditDigitalTool'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
-import SpaceCollaboratorArea, { SpaceCollaboratorAreaParams } from '@holi/core/screens/spaces/SpaceCollaboratorArea'
+import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/LinkHub'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
-import ToolKit, { ToolKitParams } from '@holi/core/screens/spaces/ToolKit'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -18,10 +17,9 @@ export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
   [RouteName.CreateSpace]: undefined
   [RouteName.EditSpace]: EditSpaceParams
-  [RouteName.CollaboratorArea]: SpaceCollaboratorAreaParams
   [RouteName.AddDigitalTool]: AddDigitalToolParams
   [RouteName.SpaceStorage]: SpaceStorageParams
-  [RouteName.ToolKit]: ToolKitParams
+  [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
 }
 
@@ -44,10 +42,9 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
       <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
-      <SpacesStack.Screen name={RouteName.CollaboratorArea} component={SpaceCollaboratorArea} />
       <SpacesStack.Screen name={RouteName.AddDigitalTool} component={AddDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
-      <SpacesStack.Screen name={RouteName.ToolKit} component={ToolKit} />
+      <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
     </SpacesStack.Navigator>
   )

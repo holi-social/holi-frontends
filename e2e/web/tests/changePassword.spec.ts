@@ -48,7 +48,7 @@ test.describe('@ChangePassword', () => {
 
         // re-login with new password
         await gotoFillAndSubmitLogin(context, page, email, newPassword)
-        await page.waitForSelector(byTestId('btn-to-settings'))
+        await page.waitForSelector(byTestId('user-profile-full-name'))
       },
       email,
       oldPassword

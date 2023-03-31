@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
@@ -22,7 +22,7 @@ import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -54,7 +54,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
-  const { user } = useContext(UserContext)
+  const { user } = useLoggedInUser()
   const { height: screenHeight } = useWindowDimensions()
   const styles = useMemo(() => getStyles(screenHeight), [screenHeight])
 

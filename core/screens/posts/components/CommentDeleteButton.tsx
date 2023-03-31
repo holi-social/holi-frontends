@@ -1,15 +1,14 @@
 import { ApolloError, useMutation } from '@apollo/client'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { DeletePostCommentMutation, DeletePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { Comment } from '@holi/core/screens/posts/types'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -24,10 +23,10 @@ export interface CommentDeleteButtonProps {
 
 const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, postId, onConfirm, style, testID }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useContext(AuthContext)
-  const { user } = useContext(UserContext)
+  const { user } = useLoggedInUser()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { isLoggedIn } = useLoggedInUser()
 
   const [deleteComment, { loading }] = useMutation<DeletePostCommentResponse>(DeletePostCommentMutation, {
     variables: { id: comment.id },
@@ -36,7 +35,8 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
       onConfirm?.()
     },
     onError: (error: ApolloError) => {
-      displayError(error, t('global.technicalError'))
+      onConfirm?.()
+      displayError(error, t('global.technicalError'), 5000)
     },
     refetchQueries: [{ query: PostById, variables: { id: postId } }],
   })

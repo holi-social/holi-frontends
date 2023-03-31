@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
+import { initAuth } from '@holi/core/auth/helpers/init'
 import { initI18n } from '@holi/core/i18n'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
@@ -36,6 +37,7 @@ const App: React.VoidFunctionComponent = () => {
           ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
         }),
         initI18n(),
+        initAuth(),
       ])
     } catch (e) {
       console.warn(e)
