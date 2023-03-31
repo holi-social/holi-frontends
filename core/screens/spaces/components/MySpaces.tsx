@@ -37,7 +37,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 title={space.title}
                 subtitle={space.location}
                 description={space.description}
-                imageElement={<SpaceAvatar space={space} style={{ borderColor: 'transparent' }} />}
+                imageElement={<SpaceAvatar space={space} />}
                 users={space.members.data.map((membership) => membership.user)}
                 href={decodeURI(`/spaces/${space.name}`)}
                 type={section.type}
