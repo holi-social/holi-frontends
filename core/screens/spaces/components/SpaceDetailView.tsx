@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,6 @@ import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
 import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
 import SpaceUpdatesTab from '@holi/core/screens/spaces/components/SpaceUpdatesTab'
 import { Space } from '@holi/core/screens/spaces/types'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -40,12 +39,12 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
           },
           {
             title: t('spaces.tab.updates'),
-            titleIcon: '',
+            titleIcon: 'flag-2',
             style: styles.tabStyle,
             children: (
-              <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTab space={space} />
-              </Suspense>
+              // <Suspense fallback={<HoliLoader />}>
+              <SpaceUpdatesTab space={space} />
+              // </Suspense>
             ),
           },
           {

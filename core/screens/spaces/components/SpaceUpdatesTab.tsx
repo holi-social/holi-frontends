@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -14,7 +14,6 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -23,7 +22,6 @@ export interface SpaceUpdatesTabProps {
 const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const { error, data } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
     variables: { idOrName: space.id, offset: 0, limit: 10, visibility: Visibility.ALL },
@@ -39,46 +37,46 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const posts = data?.spaceById.posts?.data ? data?.spaceById.posts?.data : []
 
   return (
-    <HoliBox padding={24}>
+    <>
       {posts.length === 0 ? (
-        <HoliNoResults
-          firstText={t('spaces.updates.noResults.tagline')}
-          secondText={headline}
-          media={
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/spaceUpdatesEmptyState.svg')}
-              label=""
-              height={203}
-              width={279}
-              isSvg
-            />
-          }
-        />
-      ) : (
-        <View style={[mixins.container, styles.postList]}>
-          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview post={post} style={styles.postItem} />
-                </HoliGridCell>
-              ))
+        <HoliBox padding={24}>
+          <HoliNoResults
+            firstText={t('spaces.updates.noResults.tagline')}
+            secondText={headline}
+            media={
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/spaceUpdatesEmptyState.svg')}
+                label=""
+                height={203}
+                width={279}
+                isSvg
+              />
             }
-          </HoliGridWrapper>
-        </View>
+          />
+        </HoliBox>
+      ) : (
+        <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            posts.map((post) => (
+              <HoliGridCell key={post.id}>
+                <PostPreview post={post} style={styles.postItem} />
+              </HoliGridCell>
+            ))
+          }
+        </HoliGridWrapper>
       )}
-    </HoliBox>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  postList: {
-    marginTop: 24,
-  },
   postItem: {
     borderRadius: 12,
     paddingVertical: 24,
+  },
+  wrapper: {
+    padding: 24,
   },
 })
 
