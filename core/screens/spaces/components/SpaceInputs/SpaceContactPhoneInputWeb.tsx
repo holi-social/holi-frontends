@@ -26,7 +26,7 @@ const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
         value={value}
         onChange={onChange}
         accessibilityLabel={t('spaces.input.contact.phone.label')}
-        testID="space-contact-phone-input"
+        testID="space-contact-phone"
       />
     </>
   )

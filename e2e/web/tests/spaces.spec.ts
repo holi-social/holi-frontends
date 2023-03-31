@@ -260,7 +260,7 @@ const inputSpaceContactInfo = async (
   const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
   await contactDescriptionInput.fill(contactDescription)
 
-  const contactEmailInput = await locateElementByTestId(page, 'space-contact-email-input')
+  const contactEmailInput = await locateElementByTestId(page, 'space-contact-mail-input')
   await contactEmailInput.fill(contactEmail)
 
   const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
