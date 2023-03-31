@@ -1,33 +1,45 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
 jest.mock('@holi/core/auth/components/LoginProtection', () => require('@holi/core/auth/components/LoginProtection.web'))
 
+interface UseAuthReturn {
+  userId: string | null
+  isLoggedIn: boolean
+}
+
+const useAuth = {
+  login: {
+    userId: 'some_id',
+    isLoggedIn: true,
+  },
+  logout: {
+    userId: null,
+    isLoggedIn: false,
+  },
+}
+
+let mockUseAuthReturn: UseAuthReturn = useAuth.login
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => {
+  return {
+    useAuth: () => mockUseAuthReturn,
+  }
+})
+
 describe('OwnProfile', () => {
   it('renders profile when logged in', () => {
-    const { queryByText } = render(
-      <AuthContext.Provider
-        value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
-      >
-        <OwnProfile />
-      </AuthContext.Provider>
-    )
+    const { queryByText } = render(<OwnProfile />)
 
     expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
     expect(queryByText('auth.loginProtection.login')).toBeFalsy()
   })
 
   it('renders login hint when logged out', () => {
-    const { queryByText } = render(
-      <AuthContext.Provider
-        value={{ isLoading: false, isLoggedIn: false, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
-      >
-        <OwnProfile />
-      </AuthContext.Provider>
-    )
+    mockUseAuthReturn = useAuth.logout
+    const { queryByText } = render(<OwnProfile />)
 
     expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
