@@ -3,17 +3,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { SpaceByIdResponse, spacePostsQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionType, Visibility } from '@holi/core/screens/spaces/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 
-interface SpaceUpdatesViewProps {
+export interface SpaceUpdatesTabProps {
   space: Space
 }
 
-const SpaceUpdatesView = ({ space }: SpaceUpdatesViewProps) => {
+const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { error, data } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
@@ -50,4 +51,8 @@ const SpaceUpdatesView = ({ space }: SpaceUpdatesViewProps) => {
   )
 }
 
-export default SpaceUpdatesView
+export default SpaceUpdatesTab
+
+export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
+  () => import('@holi/core/screens/spaces/components/SpaceUpdatesTab')
+)
