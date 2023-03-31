@@ -1,12 +1,14 @@
 import React, { Children, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
-import HoliWizardNaviagtionButtons from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import HoliWizardNaviagtionButtons, {
+  BUTTON_RECTS,
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardProps {
@@ -17,121 +19,120 @@ interface HoliWizardProps {
   submitButtonLabel: string
 }
 
-const HoliWizard = ({
-  children,
-  isBackButtonAvailable = false,
-  onNextPress,
-  onSubmit,
-  submitButtonLabel,
-  testID,
-}: React.PropsWithChildren<HoliWizardProps>) => {
-  const { t } = useTranslation()
-  const [currentStep, setCurrentStep] = useState(0)
-  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const { height: deviceHeight } = useWindowDimensions()
-  const mixins = useStyleMixins()
+const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWizardProps>>(
+  ({ children, isBackButtonAvailable = false, onNextPress, onSubmit, submitButtonLabel, testID }, ref) => {
+    const { t } = useTranslation()
+    const [currentStep, setCurrentStep] = useState(0)
+    const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const mixins = useStyleMixins()
 
-  const arrayChildren = Children.toArray(children)
-  const stepCount = arrayChildren.length
-  const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
+    const arrayChildren = Children.toArray(children)
+    const stepCount = arrayChildren.length
+    const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
-  const setNextButtonEnabled = (buttonStatus: boolean) => {
-    setIsNextButtonEnabled(buttonStatus)
-  }
-  const wizardContext = {
-    setNextButtonEnabled,
-  }
+    const setNextButtonEnabled = (buttonStatus: boolean) => {
+      setIsNextButtonEnabled(buttonStatus)
+    }
+    const wizardContext = {
+      currentStep,
+      setNextButtonEnabled,
+    }
 
-  const handleNextButtonPress = async () => {
-    try {
-      setIsLoading(true)
-      if (currentStep < stepCount - 1) {
-        const success = await onNextPress(currentStep)
-        if (success) {
-          setIsNextButtonEnabled(false)
-          setCurrentStep(currentStep + 1)
+    const handleNextButtonPress = async () => {
+      try {
+        setIsLoading(true)
+        if (currentStep < stepCount - 1) {
+          const success = await onNextPress(currentStep)
+          if (success) {
+            setIsNextButtonEnabled(false)
+            setCurrentStep(currentStep + 1)
+          }
+        } else {
+          await onSubmit()
         }
-      } else {
-        await onSubmit()
+      } finally {
+        setIsLoading(false)
       }
-    } finally {
-      setIsLoading(false)
     }
-  }
 
-  const handleBackButtonPress = () => {
-    if (currentStep !== 0 && currentStep > 0) {
-      setCurrentStep(currentStep - 1)
+    const handleBackButtonPress = () => {
+      if (currentStep > 0) {
+        setCurrentStep(currentStep - 1)
+      }
     }
-  }
 
-  const StepCount = () => {
+    const StepCount = () => {
+      return (
+        <View style={styles.stepCountContainer}>
+          <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
+            {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
+          </HoliText>
+        </View>
+      )
+    }
+
     return (
-      <View style={styles.stepCountContainer}>
-        <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
-          {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
-        </HoliText>
-      </View>
+      <SafeAreaView style={[{ flex: 1 }, mixins.container]} testID={testID}>
+        <HoliWizardContext.Provider value={wizardContext}>
+          <View style={[mixins.container, styles.progressBarContainer]}>
+            <HoliProgressBar progress={progress} />
+            <StepCount />
+          </View>
+
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={[styles.scrollViewContent, mixins.container]}
+            ref={ref}
+          >
+            {arrayChildren && arrayChildren[currentStep]}
+          </ScrollView>
+
+          <HoliWizardNaviagtionButtons
+            onNextPress={handleNextButtonPress}
+            onBackPress={handleBackButtonPress}
+            submitButtonLabel={submitButtonLabel}
+            isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
+            isNextButtonEnabled={isNextButtonEnabled}
+            isLastStep={currentStep === stepCount - 1}
+            isLoading={isLoading}
+            style={styles.buttonContainer}
+          />
+        </HoliWizardContext.Provider>
+      </SafeAreaView>
     )
   }
+)
 
-  return (
-    <HoliWizardContext.Provider value={wizardContext}>
-      <View testID={testID} style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-        <View style={styles.progressBarContainer}>
-          <HoliProgressBar progress={progress} />
-          <StepCount />
-        </View>
-
-        <ScrollView style={styles.content}>{arrayChildren && arrayChildren[currentStep]}</ScrollView>
-
-        <HoliWizardNaviagtionButtons
-          onNextPress={handleNextButtonPress}
-          onBackPress={handleBackButtonPress}
-          submitButtonLabel={submitButtonLabel}
-          isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
-          isNextButtonEnabled={isNextButtonEnabled}
-          isLastStep={currentStep === stepCount - 1}
-          isLoading={isLoading}
-          style={styles.buttonContainer}
-        />
-      </View>
-    </HoliWizardContext.Provider>
-  )
-}
+HoliWizard.displayName = 'HoliWizard'
 
 export default HoliWizard
 
 const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingBottom: 0,
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    display: 'flex',
-    flex: 1,
-  },
   container: {
     alignItems: 'center',
     flex: 1,
-    paddingTop: Platform.OS === 'web' ? vars.topBarHeight : 44,
   },
-  content: {
+  scrollView: {
     width: '100%',
   },
-  stepsContainer: {
-    paddingHorizontal: 0,
+  scrollViewContent: {
+    paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 24,
+    flex: 1,
   },
-  stepCountContainer: { alignSelf: 'flex-start', marginTop: 12 },
+  stepCountContainer: {
+    alignSelf: 'flex-start',
+    marginTop: 12,
+  },
   progressBarContainer: {
     width: '100%',
     justifyContent: 'center',
     paddingTop: 16,
   },
   buttonContainer: {
-    bottom: Platform.OS === 'web' ? 0 : vars.topBarHeight,
-    paddingHorizontal: Platform.OS === 'web' ? 24 : 0,
+    bottom: 0,
+    paddingBottom: BUTTON_RECTS.paddingBottom,
+
     flexDirection: 'row',
     alignItems: 'center',
     ...Platform.select({
@@ -143,6 +144,5 @@ const styles = StyleSheet.create({
       },
     }),
     justifyContent: 'center',
-    paddingBottom: 28,
   },
 })
