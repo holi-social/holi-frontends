@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceContactDescriptionInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactDescriptionInput'
 import SpaceContactMailInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactMailInput'
@@ -71,16 +71,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
 export default SpaceContactForm
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
   info: {
     alignItems: 'center',
     flexDirection: 'row',

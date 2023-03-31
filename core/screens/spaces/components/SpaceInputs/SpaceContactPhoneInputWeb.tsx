@@ -9,6 +9,7 @@ export type SpaceContactPhoneInputWebProps = {
   errorMessage?: string
 }
 
+// currently used for web & mobile until the phone input (HOLI-3549) is implemented
 const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
   onChange,
   value,
