@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import Registration from '@holi/core/auth/screens/Registration'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -63,15 +62,6 @@ const RootNavigator: React.VFC = () => {
       <RootStack.Screen
         name={RouteName.Login}
         component={Login}
-        options={{
-          presentation: 'containedModal',
-          animation: 'slide_from_bottom',
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.Registration}
-        component={Registration}
         options={{
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
