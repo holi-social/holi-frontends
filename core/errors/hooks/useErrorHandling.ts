@@ -9,9 +9,9 @@ export const useErrorHandling = () => {
   const { openToast } = useToast()
 
   const displayError = useCallback(
-    (error: Error, message?: string) => {
+    (error: Error, message?: string, timeout?: number, testID?: string) => {
       logError(error, message)
-      openToast(message || t('global.technicalError'), HoliToastType.ERROR)
+      openToast(message || t('global.technicalError'), HoliToastType.ERROR, timeout, testID)
     },
     [t, openToast]
   )
