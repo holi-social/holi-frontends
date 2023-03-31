@@ -39,7 +39,6 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 imageSrc={space.cover}
                 users={space.members.data.map((membership) => membership.user)}
                 href={decodeURI(`/spaces/${space.name}`)}
-                type={section.type}
                 testID="space-link"
               />
             </View>
