@@ -5,7 +5,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
 import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
-import { SpaceUpdatesTabLazy } from '@holi/core/screens/spaces/components/SpaceUpdatesTab'
+import SpaceUpdatesTab from '@holi/core/screens/spaces/components/SpaceUpdatesTab'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -44,7 +44,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
             style: styles.tabStyle,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTabLazy space={space} />
+                <SpaceUpdatesTab space={space} />
               </Suspense>
             ),
           },

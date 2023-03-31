@@ -51,8 +51,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   )
 }
 
-export default SpaceUpdatesTab
-
 export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
   () => import('@holi/core/screens/spaces/components/SpaceUpdatesTab')
 )
+
+export default SpaceUpdatesTab
