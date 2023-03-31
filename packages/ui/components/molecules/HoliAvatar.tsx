@@ -40,7 +40,15 @@ const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, 
   }
 
   return (
-    <View {...props} style={[styles.wrapper, style, styles[sizeClass]]}>
+    <View
+      {...props}
+      style={[
+        styles.wrapper,
+        (size === 'large' || size === 'extralarge') && { borderColor: colors.foreground30 },
+        style,
+        styles[sizeClass],
+      ]}
+    >
       {hasImage ? (
         <Image source={imageUri} style={styles.image} {...accessibilityProps} />
       ) : (
@@ -80,17 +88,16 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.foreground30,
     },
     extralarge: {
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.foreground30,
     },
     image: {
       height: '100%',
       width: '100%',
+      resizeMode: 'contain',
     },
     inititals: {
       fontSize: initialsFontSize,

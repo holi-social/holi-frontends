@@ -89,6 +89,8 @@ const SpaceOverviewFragment = gql`
     created
     cover
     location
+    avatar
+    avatarDefaultColor
     name
     members {
       ...FullSpaceMember

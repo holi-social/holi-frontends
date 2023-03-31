@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
@@ -36,7 +37,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 title={space.title}
                 subtitle={space.location}
                 description={space.description}
-                imageSrc={space.cover}
+                imageElement={<SpaceAvatar space={space} style={{ borderColor: 'transparent' }} />}
                 users={space.members.data.map((membership) => membership.user)}
                 href={decodeURI(`/spaces/${space.name}`)}
                 type={section.type}
