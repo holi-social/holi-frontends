@@ -1,46 +1,52 @@
 import React, { ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface CollaboratorAreaCardProps {
-  icon?: string
+  headerLeftIcon?: string
+  headerRightIcon?: string
+  headerRightButtonLabel?: string
   title?: string
   children?: ReactNode
   style?: StyleProp<ViewStyle>
-  onPress?: () => void
+  onPressHeaderLeft?: () => void
+  onPressHeaderRight?: () => void
 }
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
-  icon,
+  headerLeftIcon,
+  headerRightIcon,
+  headerRightButtonLabel,
   title,
   children,
   style,
-  onPress,
+  onPressHeaderLeft,
+  onPressHeaderRight,
 }: CollaboratorAreaCardProps) => {
-  const { t } = useTranslation()
-  const { visible, show, hide } = useModalState()
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
-        <HoliButton transparent style={styles.headerTitleContainer} label={title ? title : ''} onPress={onPress}>
+        <HoliButton transparent style={styles.headerTitleContainer} label={title || ''} onPress={onPressHeaderLeft}>
           <View style={styles.headerTitle}>
-            {icon && <HoliIcon icon={icon} size={18} color={colors.foreground20} style={{ marginRight: 6 }} />}
+            {headerLeftIcon && (
+              <HoliIcon icon={headerLeftIcon} size={18} color={colors.brandColorB30} style={{ marginRight: 6 }} />
+            )}
             <HoliText>{title}</HoliText>
           </View>
         </HoliButton>
-        <MoreOptionsButtonWithModal
-          label={t('global.moreOptions')}
-          showOptions={visible}
-          onPress={show}
-          onModalDismiss={hide}
-          style={styles.moreButton}
-        />
+        <View>
+          <HoliButton
+            transparent
+            style={styles.headerRightButton}
+            label={headerRightButtonLabel || ''}
+            onPress={onPressHeaderRight}
+          >
+            {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
+          </HoliButton>
+        </View>
       </View>
     )
   }
@@ -76,9 +82,8 @@ const styles = StyleSheet.create({
   headerTitle: {
     flexDirection: 'row',
   },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
+  headerRightButton: {
+    alignSelf: 'flex-end',
   },
   contentContainer: {
     flex: 1,

@@ -17,15 +17,15 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export type ToolKitParams = {
+export type LinkHubParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<ToolKitParams>()
+const { useParam } = createParam<LinkHubParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const ToolKit: React.VFC<ScreenProps> = () => {
+const LinkHub: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
@@ -89,7 +89,7 @@ const ToolKit: React.VFC<ScreenProps> = () => {
   )
 }
 
-export default ToolKit
+export default LinkHub
 
 const styles = StyleSheet.create({
   defaultLayout: {
