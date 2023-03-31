@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet } from 'react-native'
 
@@ -41,6 +41,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0)
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -138,6 +139,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
     })
   }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
+  const handleTabChange = (index: number) => {
+    setCurrentTabIndex(index)
+  }
+
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
       <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
@@ -157,9 +162,9 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   return (
     <>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <SpaceDetailView style={styles.spaceDetailView} space={space} />
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
       </DefaultScrollHeaderLayout>
-      {(isCreator || isMember) && <AddNewDrawer spaceIdOrName={space.name} />}
+      {(isCreator || isMember) && currentTabIndex === 1 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>
   )
 }
