@@ -6,9 +6,11 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
+import digitalTools from '@holi/core/static/digitalTools'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -31,15 +33,24 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
 }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
+  const currentTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug)).at(0)
+  const imageSource = currentTool?.img
+  const toolName = currentTool?.name
 
   return (
     <View style={styles.toolContainer}>
       <View style={styles.imageContainer}>
-        {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
+        {tool.thumbnail ? (
+          <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />
+        ) : currentTool ? (
+          <HoliLocalImage imageSource={imageSource} width={40} height={40} label={tool.domain} />
+        ) : (
+          <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
+        )}
       </View>
       <View style={styles.infoContainer}>
         <HoliText size="extrasmall" style={styles.toolName}>
-          {tool.domain}
+          {toolName || tool.domain}
         </HoliText>
         <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
       </View>
@@ -118,10 +129,8 @@ const styles = StyleSheet.create({
     color: colors.foreground30,
   },
   imageContainer: {
-    width: 32,
-    aspectRatio: 1,
-    backgroundColor: colors.background20,
-    borderRadius: 8,
+    display: 'flex',
+    justifyContent: 'center',
   },
   infoContainer: {
     flex: 4,
