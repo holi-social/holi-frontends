@@ -108,6 +108,7 @@ const Login: React.VFC<ScreenProps> = () => {
       <HoliBox padding={[0, 24]}>
         <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+
           <View style={styles.formItemContainer}>
             <HoliTextLink
               label={t('auth.login.link.forgotPassword')}

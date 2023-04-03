@@ -2,7 +2,6 @@ import React from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export interface CenteredContentLayoutProps {
   // `append` is ReactNode that we can position (absolute/fixed) over main content in `children`
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: { minHeight: '100%' },
     }),
-    backgroundColor: colors.background20,
     justifyContent: 'center',
     flex: 1,
   },
