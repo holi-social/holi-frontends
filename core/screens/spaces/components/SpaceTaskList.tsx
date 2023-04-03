@@ -30,6 +30,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
@@ -106,14 +107,16 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
               <HoliHeading level="2">
                 {t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}
               </HoliHeading>
-              <HoliButton
-                transparent
-                inline
-                onPress={() => navigate(`${space.name}/createTask`)}
-                label={t('spaces.createTask.button')}
-              >
-                <HoliIcon icon={'add'} size={20} />
-              </HoliButton>
+              {(isCreator || isAdmin) && (
+                <HoliButton
+                  transparent
+                  inline
+                  onPress={() => navigate(`${space.name}/createTask`)}
+                  label={t('spaces.createTask.button')}
+                >
+                  <HoliIcon icon={'add'} size={20} />
+                </HoliButton>
+              )}
             </View>
 
             <HoliGridWrapper itemsInRow={itemsInRow} style={styles.tasksList}>
