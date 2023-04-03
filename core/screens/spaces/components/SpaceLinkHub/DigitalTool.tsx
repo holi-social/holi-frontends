@@ -6,9 +6,11 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
+import digitalTools from '@holi/core/static/digitalTools'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -31,15 +33,24 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
 }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
+  const currentTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug)).at(0)
+  const imageSource = currentTool?.img
+  const toolName = currentTool?.name
 
   return (
     <View style={styles.toolContainer}>
       <View style={styles.imageContainer}>
-        {tool.thumbnail && <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />}
+        {tool.thumbnail ? (
+          <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />
+        ) : currentTool ? (
+          <HoliLocalImage imageSource={imageSource} width={40} height={40} label={tool.domain} />
+        ) : (
+          <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
+        )}
       </View>
       <View style={styles.infoContainer}>
         <HoliText size="extrasmall" style={styles.toolName}>
-          {tool.domain}
+          {toolName || tool.domain}
         </HoliText>
         <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
       </View>
@@ -53,41 +64,45 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             <HoliIcon icon={'share-box'} size={15} />
           </HoliButton>
         </View>
-        {isAdmin && (
-          <MoreOptionsButtonWithModal
-            label={t('spaces.digitalTool.preview.more')}
-            showOptions={visible}
-            onModalDismiss={hide}
-            testID="digital-toolkit-btn"
-            onPress={() => {
-              visible && hide()
-              show()
-            }}
-          >
-            <>
-              <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
-                {tool.title}
-              </HoliHeading>
-              <MoreOptionItem
-                icon="edit-2"
-                label={t('global.edit')}
+        <View>
+          {isAdmin && (
+            <View style={{ paddingTop: 10 }}>
+              <MoreOptionsButtonWithModal
+                label={t('spaces.digitalTool.preview.more')}
+                showOptions={visible}
+                onModalDismiss={hide}
+                testID="digital-toolkit-btn"
                 onPress={() => {
                   visible && hide()
-                  onEditButtonPress(tool.id)
+                  show()
                 }}
-                contentStyle={styles.buttonWithIcon}
-              />
-              <DeleteCollaborationToolButton
-                toolId={tool.id || ''}
-                spaceIdOrName={spaceId}
-                onDelete={() => {
-                  hide()
-                }}
-                style={styles.buttonWithIcon}
-              />
-            </>
-          </MoreOptionsButtonWithModal>
-        )}
+              >
+                <>
+                  <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
+                    {tool.title}
+                  </HoliHeading>
+                  <MoreOptionItem
+                    icon="edit-2"
+                    label={t('global.edit')}
+                    onPress={() => {
+                      visible && hide()
+                      onEditButtonPress(tool.id)
+                    }}
+                    contentStyle={styles.buttonWithIcon}
+                  />
+                  <DeleteCollaborationToolButton
+                    toolId={tool.id || ''}
+                    spaceIdOrName={spaceId}
+                    onDelete={() => {
+                      hide()
+                    }}
+                    style={styles.buttonWithIcon}
+                  />
+                </>
+              </MoreOptionsButtonWithModal>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   )
@@ -114,24 +129,25 @@ const styles = StyleSheet.create({
     color: colors.foreground30,
   },
   imageContainer: {
-    width: 32,
-    aspectRatio: 1,
-    backgroundColor: colors.background20,
-    borderRadius: 8,
+    display: 'flex',
+    justifyContent: 'center',
   },
   infoContainer: {
     flex: 4,
     flexDirection: 'column',
     marginLeft: 12,
+    justifyContent: 'space-between',
   },
   buttonContainer: {
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   buttonWithIcon: {
     display: 'flex',
     justifyContent: 'center',
     paddingVertical: 18,
+    marginBottom: 12,
   },
   toolContextHeader: {
     width: '100%',
@@ -141,5 +157,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
+  },
+  shareIcon: {
+    marginBottom: 5,
   },
 })

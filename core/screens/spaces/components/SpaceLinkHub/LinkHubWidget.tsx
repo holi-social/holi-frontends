@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -13,14 +13,13 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface DigitalToolKitProps {
+interface LinkHubWidgetProps {
   space: Space
 }
 
 const INITIAL_NUMBER_OF_ITEMS = 3
 
-const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
-  const [showAll, setShowAll] = useState(false)
+const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   const { useParam } = createParam<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -32,31 +31,46 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
     Linking.openURL(url)
   }
 
-  const navigateToToolkitPage = () => {
-    navigate(`/spaces/${space.name}/toolKit`)
+  const navigateToLinkHubPage = () => {
+    navigate(`/spaces/${space.name}/linkHub`)
   }
 
   const navigateToEditToolPage = (toolIdOrName: string) => {
     navigate(`/spaces/${spaceIdOrName}/tools/${toolIdOrName}/edit`)
   }
 
+  const navigateToAddToolPage = () => {
+    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
+  }
+
   const NoToolsAvailable = () => {
     return (
       <View style={styles.noToolsDescriptionContainer}>
-        <HoliText size="small">{t('spaces.digitalToolKit.noData.discription.title')}</HoliText>
-        <HoliText size="extrasmall" style={styles.descriptionText}>
+        <HoliText size="small" style={styles.descriptionText}>
           {t('spaces.digitalToolKit.noData.discription')}
         </HoliText>
+        <HoliButton label={t('spaces.digitalToolKit.noData.instruction')} transparent onPress={navigateToAddToolPage}>
+          <HoliText size="small" style={styles.instruction}>
+            {t('spaces.digitalToolKit.noData.instruction')}
+          </HoliText>
+        </HoliButton>
       </View>
     )
   }
 
   return (
-    <CollaboratorAreaCard icon="tools" title={t('spaces.digitalToolKit.title')} onPress={navigateToToolkitPage}>
+    <CollaboratorAreaCard
+      headerLeftIcon="link-m"
+      headerRightIcon="add"
+      headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
+      title={t('spaces.digitalToolKit.title')}
+      onPressHeaderLeft={navigateToLinkHubPage}
+      onPressHeaderRight={navigateToAddToolPage}
+    >
       <View style={styles.toolKitContainer}>
         {(collaborationTools.length > 0 &&
           collaborationTools
-            .slice(0, showAll ? collaborationTools.length : INITIAL_NUMBER_OF_ITEMS)
+            .slice(0, INITIAL_NUMBER_OF_ITEMS)
             .map((item) => (
               <DigitalTool
                 key={item.id}
@@ -67,12 +81,12 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
                 onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
               />
             ))) || <NoToolsAvailable />}
-        {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && !showAll && (
+        {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
           <View style={styles.seeAllButtonContainer}>
             <HoliButton
               label={t('spaces.digitalToolKit.seeAll.button.label')}
               style={styles.seeAllButton}
-              onPress={() => setShowAll(true)}
+              onPress={navigateToLinkHubPage}
             >
               <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
             </HoliButton>
@@ -83,7 +97,7 @@ const DigitalToolKit: React.VFC<DigitalToolKitProps> = ({ space }) => {
   )
 }
 
-export default DigitalToolKit
+export default LinkHubWidget
 
 const styles = StyleSheet.create({
   toolKitContainer: {
@@ -100,10 +114,16 @@ const styles = StyleSheet.create({
   },
   noToolsDescriptionContainer: {
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginTop: 70,
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  instruction: {
+    marginTop: 12,
+    alignSelf: 'center',
+    color: colors.foreground30,
   },
   descriptionText: {
+    textAlign: 'center',
     color: colors.foreground20,
   },
 })

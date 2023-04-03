@@ -35,7 +35,8 @@ const CommentDeleteButton: React.VFC<CommentDeleteButtonProps> = ({ comment, pos
       onConfirm?.()
     },
     onError: (error: ApolloError) => {
-      displayError(error, t('global.technicalError'))
+      onConfirm?.()
+      displayError(error, t('global.technicalError'), 5000)
     },
     refetchQueries: [{ query: PostById, variables: { id: postId } }],
   })
