@@ -13,13 +13,13 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.DIGITAL_TOOL,
     icon: 'link-m',
-    translationKey: 'spaces.resources.category.digitalTool',
+    translationKey: 'spaces.resources.category.linkhub',
     path: '/linkHub',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.STORAGE,
-    icon: 'cloud',
-    translationKey: 'spaces.resources.category.storage',
+    icon: 'folder-open',
+    translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
 ]
