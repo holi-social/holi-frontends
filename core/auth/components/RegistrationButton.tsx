@@ -9,14 +9,14 @@ import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliB
 const RegistrationButton = (props: Omit<HoliButtonProps, 'label'>) => {
   const { t } = useTranslation()
   const { replaceRoute } = useUnifiedNavigation()
-  const { finished } = useOnboarding()
+  const { onboardingState } = useOnboarding()
 
   return (
     <HoliButton
       onPress={() => {
         const profilePath = '/profile'
         const onboardingPath = Platform.OS === 'web' ? '/' : '/onboarding'
-        const path = finished ? profilePath : onboardingPath
+        const path = onboardingState === 'finished' ? profilePath : onboardingPath
         replaceRoute(path + '?registrationStep=true')
       }}
       label={t('auth.loginProtection.registration')}
