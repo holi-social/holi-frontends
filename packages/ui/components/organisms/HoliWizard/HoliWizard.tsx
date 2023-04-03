@@ -73,7 +73,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     }
 
     return (
-      <SafeAreaView style={[{ flex: 1 }, mixins.container]} testID={testID}>
+      <SafeAreaView style={{ flex: 1 }} testID={testID}>
         <HoliWizardContext.Provider value={wizardContext}>
           <View style={[mixins.container, styles.progressBarContainer]}>
             <HoliProgressBar progress={progress} />
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     width: '100%',
     justifyContent: 'center',
-    paddingTop: 16,
+    paddingTop: Platform.OS === 'android' ? 32 : 16,
   },
   buttonContainer: {
     bottom: 0,

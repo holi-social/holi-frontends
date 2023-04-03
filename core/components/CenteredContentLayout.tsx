@@ -7,13 +7,14 @@ export interface CenteredContentLayoutProps {
   // `append` is ReactNode that we can position (absolute/fixed) over main content in `children`
   append?: React.ReactNode
   contentContainerStyle?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildren<CenteredContentLayoutProps>>(
-  ({ append, children, contentContainerStyle }, ref) => {
+  ({ append, children, contentContainerStyle, testID }, ref) => {
     return (
       <SafeAreaView style={[styles.outer]}>
-        <View style={styles.inner}>
+        <View style={styles.inner} testID={testID}>
           <ScrollView style={styles.scrollView} contentContainerStyle={contentContainerStyle} ref={ref}>
             <HoliBox padding={24}>
               <View style={styles.childrenWapper}>{children}</View>

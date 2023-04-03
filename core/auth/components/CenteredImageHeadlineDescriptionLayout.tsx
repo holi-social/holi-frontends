@@ -29,7 +29,7 @@ const CenteredImageHeadlineDescriptionLayout = ({
   testID = 'centered-layout',
 }: React.PropsWithChildren<CenteredImageHeadlineDescriptionLayoutProps>) => {
   return (
-    <CenteredContentLayout append={append} contentContainerStyle={contentContainerStyle}>
+    <CenteredContentLayout append={append} contentContainerStyle={contentContainerStyle} testID={testID}>
       <View style={styles.inner}>
         <View style={styles.imageContainer}>
           <HoliLocalImage
