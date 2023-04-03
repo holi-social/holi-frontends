@@ -12,6 +12,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import TaskInputForm from '@holi/core/screens/spaces/components/SpaceTask/TaskInputForm'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import {
   CreateTaskResponse,
   SpaceByIdResponse,
@@ -80,7 +81,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const { displayError } = useErrorHandling()
 
-  const [createTask] = useMutation<CreateTaskResponse>(createTaskMutation, {
+  const [createTask, { loading }] = useMutation<CreateTaskResponse>(createTaskMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => displayError(error, error.message),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
@@ -99,7 +100,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           contactEmail,
           slotsAvailable,
           thumbnail,
-          skills,
+          skills: skills.map((skill) => skill.id),
           location,
           geolocation,
           contactPhone,
@@ -154,7 +155,8 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           {t('global.dismiss')}
         </HoliButton>
         <HoliButtonLoading
-          disabled={saveButtonDisabled}
+          disabled={saveButtonDisabled || loading}
+          iconSpinning={loading}
           label={t('global.save')}
           onPress={onSave}
           testID="create-task-modal-save-btn"
@@ -165,7 +167,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <>
+    <SpaceTermContextProvider>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <TaskInputForm
@@ -215,7 +217,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           navigateBack()
         }}
       />
-    </>
+    </SpaceTermContextProvider>
   )
 }
 

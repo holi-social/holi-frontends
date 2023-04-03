@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
+import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
+import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Geolocation, LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // TODO: try to make this programmatically
@@ -101,6 +108,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   contactEmail,
   thumbnail,
   contactPhone,
+  skills,
   onChangeName,
   onChangeDescription,
   onChangeVisibility,
@@ -109,12 +117,18 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   onChangeContactEmail,
   onChangeThumbnail,
   onChangeContactPhone,
+  onChangeSkills,
   isEdit = false,
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliSelectOption[]>(LOCATION_TYPE_OPTIONS)
   const [regularityOptions, setRegularityOptions] = useState<HoliSelectOption[]>(REGULARITY_OPTIONS)
+  // const [showSkillsModal, setShowSkillsModal] = useState(false)
   const { t } = useTranslation()
+  const { skills: allSkills } = useContext(SpaceTermContext)
+  const { height: deviceHeight } = useWindowDimensions()
+
+  const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
 
   useEffect(() => {
     if (visibility) {
@@ -212,7 +226,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}
-          validationErrorText={''} // TODO: check this
+          validationErrorText={''}
           value={name}
           onChange={onChangeName}
           style={styles.marginSeparator}
@@ -225,16 +239,42 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}
           inputLabel={t('spaces.input.task.description.label')}
-          validationErrorText={''} // TODO: check this
+          validationErrorText={''}
           value={description}
           onChange={onChangeDescription}
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.description.label')}
           testID="task-description-input"
           isRequired
+          showCharacterCount
+          noOfVisibleLines={4}
+          maxNoOfVisibleLines={8}
           maxNoOfCharacters={1200}
         />
-        {/* TODO: Skills */}
+
+        <SpaceSection
+          title={t('spaces.input.task.section.skills')}
+          editable
+          onPressEdit={showSkillsForm}
+          testID="task-skills-input"
+          style={styles.skillsSection}
+        >
+          <HoliText style={styles.skillsDescription}>{t('spaces.input.task.section.skills.description')}</HoliText>
+          {!!skills?.length && (
+            <View style={styles.listContainer}>
+              {skills.map((skill, index) => (
+                <HoliChip
+                  key={`skill_${index}`}
+                  text={`${skill.title}`}
+                  label={`${skill.title}`}
+                  disabled
+                  style={styles.chip}
+                  testID="task-edit-skills-chip"
+                />
+              ))}
+            </View>
+          )}
+        </SpaceSection>
       </View>
 
       <View style={[styles.sectionWrapper, { zIndex: 2 }]}>
@@ -265,7 +305,6 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           id="task-regularity-input"
           testID="task-regularity-input"
         />
-        {/* TODO: Compensation */}
       </View>
 
       <View style={styles.sectionWrapper}>
@@ -300,6 +339,36 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           <ThumbnailUploader />
         </View>
       )}
+
+      <HoliModal
+        show={skillsFormVisibile}
+        onDismiss={hideSkillsForm}
+        testID="task-skills-modal"
+        label={t('spaces.input.task.skills')}
+        autoHeight={false}
+        // Smaller devices use the whole screen and
+        // larger ones should have more space above for clicking the backdrop pane
+        relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+      >
+        <HoliKeyboardSaveView>
+          <HoliModalContentWrapper
+            actionButtonText={t('global.done')}
+            onActionButtonPress={hideSkillsForm}
+            hideFooterWhenKeyboardIsOpen={true}
+            style={styles.modalWrapper}
+            testID="create-task-skills-modal-wrapper"
+          >
+            <SpaceTermsInput
+              title={t('spaces.input.task.section.skills')}
+              description={t('spaces.input.task.section.skills.description')}
+              searchPlaceholder={t('spaces.input.task.section.skills.search')}
+              selected={skills}
+              onSelect={onChangeSkills}
+              terms={allSkills}
+            />
+          </HoliModalContentWrapper>
+        </HoliKeyboardSaveView>
+      </HoliModal>
     </>
   )
 }
@@ -356,5 +425,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     color: colors.foreground20,
+  },
+  skillsSection: {
+    paddingBottom: 0,
+    borderTopColor: 'transparent',
+  },
+  skillsDescription: {
+    width: '100%',
+  },
+  listContainer: {
+    marginTop: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flexShrink: 1,
+  },
+  chip: {
+    backgroundColor: colors.background10,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  modalWrapper: {
+    flex: 1,
   },
 })

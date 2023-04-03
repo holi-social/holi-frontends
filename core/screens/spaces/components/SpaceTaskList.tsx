@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import NoDataCard from '@holi/core/screens/spaces/components/NoDataCard'
 import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
@@ -13,8 +14,10 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskListProps = {
@@ -24,6 +27,7 @@ export type SpaceTaskListProps = {
 
 const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
@@ -98,9 +102,19 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
         {(isCreator || isMember) && <CollaborationArea />}
         {(space && space.tasks && space.tasks.length > 0 && (
           <>
-            <HoliHeading level="2">
-              {t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}
-            </HoliHeading>
+            <View style={styles.tasksHeading}>
+              <HoliHeading level="2">
+                {t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}
+              </HoliHeading>
+              <HoliButton
+                transparent
+                inline
+                onPress={() => navigate(`${space.name}/createTask`)}
+                label={t('spaces.createTask.button')}
+              >
+                <HoliIcon icon={'add'} size={20} />
+              </HoliButton>
+            </View>
 
             <HoliGridWrapper itemsInRow={itemsInRow} style={styles.tasksList}>
               {
@@ -132,6 +146,10 @@ const styles = StyleSheet.create({
   instruction: {
     marginTop: 12,
     color: colors.foreground30,
+  },
+  tasksHeading: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   tasksList: {
     paddingTop: 20,
