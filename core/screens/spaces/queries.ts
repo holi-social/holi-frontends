@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -346,6 +346,43 @@ export const updateSpaceMutation = gql`
 
 export type UpdateSpaceResponse = {
   updateSpace: Partial<Space>
+}
+
+export const CreateTaskSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  visibility: z.string() /* VisibilityType */,
+  name: z.string().url().min(2).max(128),
+  description: z.string().trim().max(1200),
+  locationType: z.string() /* LocationType */,
+  regularity: z.string() /* Regularity */,
+  contactEmail: z.string(),
+  location: z.string().optional(),
+  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  contactPhone: z.string().optional(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
+
+export const createTaskMutation = gql`
+  mutation CreateTask($input: CreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      name
+      description
+      visibility
+      regularity
+      locationType
+      location
+      contactEmail
+      contactPhone
+      thumbnail
+    }
+  }
+`
+
+export type CreateTaskResponse = {
+  createTask: Task
 }
 
 export const mySpaceQuery = gql`

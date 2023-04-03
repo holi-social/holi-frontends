@@ -86,8 +86,31 @@ export interface Task {
   slotsAvailable: number
   slotsTaken: number
   location: string
-  regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
+  locationType: LocationType
+  regularity: Regularity
   skills: Skill[]
+  visibility: VisibilityType
+  contactEmail: string
+  contactPhone?: string
+  geolocation?: Geolocation
+  thumbnail?: string
+}
+
+export enum VisibilityType {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+}
+
+export enum Regularity {
+  REGULARLY = 'REGULARLY',
+  PROJECT_BASED = 'PROJECT_BASED',
+  ONE_TIME = 'ONE_TIME',
+}
+
+export enum LocationType {
+  HYBRID = 'HYBRID',
+  REMOTE = 'REMOTE',
+  ONSITE = 'ONSITE',
 }
 
 export enum SpaceConnectionType {
