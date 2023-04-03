@@ -104,8 +104,8 @@ export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
 }
-export enum Visibility {
-  PRIVATE = 'PRIVATE',
+export enum VisibilityFilter {
+  MEMBERS = 'MEMBERS',
   PUBLIC = 'PUBLIC',
   ALL = 'ALL',
 }

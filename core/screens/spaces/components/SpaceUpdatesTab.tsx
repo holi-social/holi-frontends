@@ -8,7 +8,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { SpaceByIdResponse, spacePostsQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceConnectionType, Visibility } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -24,7 +24,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const { displayError } = useErrorHandling()
   const postGridItemsInRow = useBreakpointMatcher()
   const { error, data } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
-    variables: { idOrName: space.id, offset: 0, limit: 10, visibility: Visibility.ALL },
+    variables: { idOrName: space.id, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
   })
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
