@@ -6,7 +6,8 @@ import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 
 const HomeFeedOnboarding: React.VFC<HomeFeedProps> = (props) => {
-  const { finished } = useOnboarding()
+  const { onboardingState } = useOnboarding()
+  const finished = onboardingState === 'finished'
 
   return (
     <>
