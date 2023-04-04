@@ -2,27 +2,31 @@
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
 import { GetServerSideProps, NextPage } from 'next'
-import { NextApiRequestCookies } from 'next/dist/server/api-utils'
+import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
+import pino from 'pino'
 
-import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
+import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
+const logger = pino()
 
-const OAuth2LoginPage: NextPage = () => <OAuth2Redirect />
+const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
 const getSubjectIdIfLoggedIn = async (cookies: NextApiRequestCookies) => {
   const cookie = Object.entries(cookies)
     .map(([key, value]) => `${key}=${value}`)
     .join('; ')
   try {
-    const { data: sessionResponse } = await frontendApi.toSession({
-      cookie,
-    })
+    const { data: sessionResponse } = await frontendApi.toSession({ cookie })
     return sessionResponse?.identity?.id
-  } catch (error) {
-    console.error('Error retrieving session', error)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    logger.error({
+      message: 'Error retrieving session',
+      error: error?.response?.data || error,
+    })
     return undefined
   }
 }
@@ -74,16 +78,32 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    // Reject login request in case an error occurs
+    // Try to reject login request in case an error occurs
     const message = error?.message || error || 'Unknown error'
-    const { data: rejectResponse } = await oauth2Api.rejectOAuth2LoginRequest({
-      loginChallenge,
-      rejectOAuth2Request: {
-        error: 'invalid_request',
-        error_description: message,
-      },
+    logger.error({
+      message,
+      error: error?.response?.data || error,
     })
-    return serverSideRedirect(rejectResponse.redirect_to)
+    return await oauth2Api
+      .rejectOAuth2LoginRequest({
+        loginChallenge,
+        rejectOAuth2Request: {
+          error: 'invalid_request',
+          error_description: message,
+        },
+      })
+      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
+      .catch((error) => {
+        logger.error({
+          message: 'Error rejecting login request',
+          error: error?.response?.data || error,
+        })
+        return {
+          props: {
+            error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+          },
+        }
+      })
   }
 }
 

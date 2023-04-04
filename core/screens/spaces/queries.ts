@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
+import { PostFragment } from '@holi/core/screens/posts/queries'
 import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
@@ -413,6 +414,18 @@ export const spacesByMemberIdQuery = gql`
   query SpacesByMember($memberId: UUID) {
     spaces(memberId: $memberId) {
       ...MemberSpaces
+    }
+  }
+`
+export const spacePostsQuery = gql`
+  ${PostFragment}
+  query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
+    spaceById(idOrName: $idOrName) {
+      posts(offset: $offset, limit: $limit, visibility: $visibility) {
+        data {
+          ...PostFragment
+        }
+      }
     }
   }
 `
