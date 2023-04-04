@@ -1,16 +1,18 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/consent.ts
 import { AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, OAuth2ConsentRequest } from '@ory/client'
 import { GetServerSideProps, NextPage } from 'next'
+import pino from 'pino'
 
-import OAuth2Redirect from '@holi/core/auth/screens/OAuth2Redirect'
+import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const identityApi = new IdentityApi(oryConfiguration)
 const emailSuffix = '@holi.team'
 const userNamePrefix = 'holi_'
+const logger = pino()
 
-const OAuth2ConsentPage: NextPage = () => <OAuth2Redirect />
+const OAuth2ConsentPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
 const createSession = async (subject: string): Promise<AcceptOAuth2ConsentRequestSession> => {
   const { data: identity } = await identityApi.getIdentity({ id: subject })
@@ -74,18 +76,35 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const session = await createSession(consentRequest.subject)
 
     return acceptConsentRequest(consentChallenge, session, consentRequest)
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    // Reject consent request in case an error occurs
+    // Try to reject consent request in case an error occurs
     const message = error?.message || error || 'Unknown error'
-    const { data: rejectResponse } = await oauth2Api.rejectOAuth2ConsentRequest({
-      consentChallenge,
-      rejectOAuth2Request: {
-        error: 'invalid_request',
-        error_description: message,
-      },
+    logger.error({
+      message,
+      error: error?.response?.data || error,
     })
-    return serverSideRedirect(rejectResponse.redirect_to)
+    return await oauth2Api
+      .rejectOAuth2ConsentRequest({
+        consentChallenge,
+        rejectOAuth2Request: {
+          error: 'invalid_request',
+          error_description: message,
+        },
+      })
+      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
+      .catch((error) => {
+        logger.error({
+          message: 'Error rejecting login request',
+          error: error?.response?.data || error,
+        })
+        return {
+          props: {
+            error: error?.response?.data || error.toString(),
+          },
+        }
+      })
   }
 }
 
