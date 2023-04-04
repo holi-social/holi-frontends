@@ -3,6 +3,7 @@ import { AccessibilityProps, Image, ImageSourcePropType, StyleProp, StyleSheet, 
 import tinycolor from 'tinycolor2'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { transformSourcesURL } from '@holi/ui/components/utils/image'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
@@ -30,7 +31,7 @@ const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, 
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
-  const imageUri: ImageSourcePropType = { uri: imageSrc }
+  const imageUri: ImageSourcePropType = { uri: imageSrc, width }
   const sizeClass = size || 'medium'
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
@@ -42,7 +43,7 @@ const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, 
   return (
     <View {...props} style={[styles.wrapper, style, styles[sizeClass]]}>
       {hasImage ? (
-        <Image source={imageUri} style={styles.image} {...accessibilityProps} />
+        <Image source={transformSourcesURL(imageUri)} style={styles.image} {...accessibilityProps} />
       ) : (
         <HoliText style={styles.inititals} {...accessibilityProps}>
           {initials}
