@@ -34,7 +34,7 @@ export interface NamesStepProps {
   ) => ScrollToProps
 }
 
-const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: React.PropsWithChildren<NamesStepProps>) => {
+const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: NamesStepProps) => {
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
   const { translateFieldErrors } = useFieldErrors({
@@ -45,7 +45,7 @@ const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: React.
   const { firstName, lastName, pronouns } = names
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
-  //   Do validation for all inputs and if valid enable Next-button
+  // Do validation for all inputs and if valid enable Next-button
   useEffect(() => {
     const { success } = UpdateAuthenticatedUserInputSchema.safeParse(trimNames(names))
     setNextButtonEnabled(success)
