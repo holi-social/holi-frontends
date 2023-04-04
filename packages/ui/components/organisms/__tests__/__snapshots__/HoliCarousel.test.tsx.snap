@@ -75,9 +75,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -91,12 +93,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }
@@ -190,9 +194,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -307,9 +313,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -323,12 +331,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }
@@ -422,9 +432,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -539,9 +551,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -555,12 +569,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }
@@ -654,9 +670,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -773,9 +791,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -789,12 +809,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
                 {
                   "height": "100%",
+                  "resizeMode": "contain",
                   "width": "100%",
                 }
               }

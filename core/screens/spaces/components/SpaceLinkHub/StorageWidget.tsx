@@ -1,24 +1,30 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Linking, Platform, StyleSheet } from 'react-native'
 
-import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
+import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
+import { Space } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const StorageWidget: React.VFC = () => {
-  const { useParam } = createParam<SpaceDetailsParams>()
+interface StorageWidgetProps {
+  space: Space
+}
+
+const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  const navigateToStorageScreen = () => {
-    navigate(`/spaces/${spaceIdOrName}/storage`)
-  }
+  const navigateToStorageScreen = useCallback(() => {
+    if (Platform.OS === 'web') {
+      Linking.openURL(getUrlForSpaceStorage(space))
+    } else {
+      navigate(`/spaces/${space.name}/storage`)
+    }
+  }, [navigate, space])
 
   return (
     <CollaboratorAreaCard

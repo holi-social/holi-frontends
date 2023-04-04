@@ -221,25 +221,32 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection
                 title={t('spaces.spaceDetails.contact')}
                 editable
-                style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.CONTACT)}
                 testID="space-edit-contact"
               >
-                <View>
-                  <HoliText>{space.contactDescription}</HoliText>
-                  <View style={styles.contactContainer}>
-                    <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
-                    <HoliText size="small" bold>
-                      {space.contactEmail}
-                    </HoliText>
+                {space.contactDescription || space.contactEmail || space.contactPhone ? (
+                  <View>
+                    <HoliText>{space.contactDescription}</HoliText>
+                    {space.contactEmail && (
+                      <View style={styles.contactContainer}>
+                        <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+
+                        <HoliText size="small" bold>
+                          {space.contactEmail}
+                        </HoliText>
+                      </View>
+                    )}
+                    {space.contactPhone && (
+                      <View style={styles.contactContainer}>
+                        <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+
+                        <HoliText size="small" bold>
+                          {space.contactPhone}
+                        </HoliText>
+                      </View>
+                    )}
                   </View>
-                  <View style={styles.contactContainer}>
-                    <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
-                    <HoliText size="small" bold>
-                      {space.contactPhone}
-                    </HoliText>
-                  </View>
-                </View>
+                ) : null}
               </SpaceSection>
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
