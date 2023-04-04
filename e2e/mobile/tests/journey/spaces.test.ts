@@ -4,9 +4,11 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
+  seeTextWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
+import { delay } from '../../helpers/time'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()
@@ -15,6 +17,11 @@ const navigateToSpaces = async () => {
 }
 
 describe('@Spaces', () => {
+  const initialName = 'e2e space name'
+  const initialGoal = 'e2e space goal'
+  const numberOfInitialTerms = 3
+  const numberOfEditedTerms = 2
+
   afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
@@ -31,7 +38,9 @@ describe('@Spaces', () => {
     await assertFilteringWorks()
     await assertSpaceDetailsDisplayed()
     await assertSharingSpaceWorks()
-    await assertCreatingEditingDeletingSpace()
+    await assertCreatingSpace()
+    await assertEditingSpace()
+    await assertDeletingSpace()
   })
 
   const assertMultipleGroupsDisplayed = async () => {
@@ -120,24 +129,15 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('nav-button-back')
   }
 
-  const assertCreatingEditingDeletingSpace = async () => {
-    const numberOfInitialTerms = 3
-    // const numberOfEditedTerms = 2
-
+  const assertCreatingSpace = async () => {
     // login
     await defaultAuthSteps()
     await tapOnElementWithTestId('btn-to-spaces')
     await tapOnElementWithTestId('btn-create-space')
 
     // create space - name and goal
-    const initialName = 'e2e space name'
-    const initialGoal = 'e2e space goal'
     await checkConfirmButtonIsDisabled()
     await inputSpaceNameAndGoal(initialName, initialGoal)
-    // Click on the title (or anywhere outside the keyboard) to close the keyboard
-    // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
-    // https://github.com/appium/appium/issues/15073
-    await tapOnElementWithTestId('space-name-and-goal-title')
     await tapOnElementWithTestId('holi-wizard-next-btn')
 
     // create space - topics
@@ -146,33 +146,28 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('holi-wizard-next-btn')
 
     // create space - cover image
-    await checkConfirmButtonIsDisabled()
-    // TODO: Abort here for now, as actual space creation currently requires image selection
-    // // await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-    // await tapOnElementWithTestId('holi-wizard-next-btn')
-    await tapOnElementWithTestId('nav-button-back')
-    // Confirm to exit space creation
-    await tapOnElementWithTestId('exit-space-creation-confirmation-confirmation-confirm')
+    // FIXME: currently we mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
+    await waitForElementWithTestId('create-space-remove-image-btn')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
+  }
 
-    // // check if edit space page has correct information
-    // let editSpaceTitle = await waitForElementWithTestId('space-edit-title')
-    // let editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
-    // expect(editSpaceTitle).toContainText(initialName)
-    // expect(editSpaceGoal).toContainText(initialGoal)
+  const assertEditingSpace = async () => {
+    // check if edit space page has correct information
+    await seeTextWithTestId(initialName, 'space-edit-title')
+    await seeTextWithTestId(initialGoal, 'space-edit-goal')
 
-    // // // edit space name and goal
-    // const editedName = 'e2e edited space name HELLO THERE'
-    // const editedGoal = 'e2e edited space goal'
-    // await tapOnElementWithTestId('btn-space-edit-name')
-    // await inputSpaceNameAndGoal(editedName, editedGoal)
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // edit space name and goal
+    const editedName = 'e2e edited space name HELLO THERE'
+    const editedGoal = 'e2e edited space goal'
+    await tapOnElementWithTestId('btn-space-edit-name')
+    await inputSpaceNameAndGoal(editedName, editedGoal)
+    await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // // check if space name and goal were updated
-    // editSpaceTitle = await waitForElementWithTestId('space-edit-title')
-    // editSpaceGoal = await waitForElementWithTestId('space-edit-goal')
-    // expect(editSpaceTitle).toContainText(editedName)
-    // expect(editSpaceGoal).toContainText(editedGoal)
+    // check if space name and goal were updated
+    await seeTextWithTestId(editedName, 'space-edit-title')
+    await seeTextWithTestId(editedGoal, 'space-edit-goal')
 
+    // TODO: test editing images
     // // edit space avatar
     // await tapOnElementWithTestId('btn-space-edit-avatar')
     // // await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
@@ -183,34 +178,37 @@ describe('@Spaces', () => {
     // // await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
     // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // // edit space topics
-    // await tapOnElementWithTestId('btn-space-edit-topics')
-    // await selectSomeTerms(numberOfEditedTerms)
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // edit space topics
+    await tapOnElementWithTestId('btn-space-edit-topics')
+    await selectSomeTerms(numberOfEditedTerms)
+    await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // // check if the correct number of topics have been selected
-    // await delay(1)
-    // const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
-    // expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
+    // check if the correct number of topics have been selected
+    await delay(1)
+    const numberOfEditedTopics = (await locateMultipleElementsWithTestId('space-edit-topics-chip')).length
+    expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
-    // // edit space sdgs
-    // await tapOnElementWithTestId('btn-space-edit-sdgs')
-    // await selectSomeTerms(numberOfEditedTerms)
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // edit space sdgs
+    await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
+    await tapOnElementWithTestId('btn-space-edit-sdgs')
+    await selectSomeTerms(numberOfEditedTerms)
+    await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // // check if the correct number of sdgs have been selected
-    // await delay(1)
-    // const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
-    // expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+    // check if the correct number of sdgs have been selected
+    await delay(1)
+    const numberOfEditedSdgs = (await locateMultipleElementsWithTestId('space-edit-sdgs-chip')).length
+    expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+  }
 
-    // // delete space
-    // await tapOnElementWithTestId('space-edit-close')
-    // await tapOnElementWithTestId('space-options-btn')
-    // await tapOnElementWithTestId('space-delete-btn')
-    // await tapOnElementWithTestId('space-delete-confirmation-confirm')
+  const assertDeletingSpace = async () => {
+    // delete space
+    await tapOnElementWithTestId('space-edit-close')
+    await tapOnElementWithTestId('space-options-btn')
+    await tapOnElementWithTestId('space-delete-btn')
+    await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
-    // // check if after deletion we are at the spaces dashboard (mine/discover)
-    // await waitForElementWithTestId('spaces-tab-navigation')
+    // check if after deletion we are at the spaces dashboard (mine/discover)
+    await waitForElementWithTestId('btn-create-space')
   }
 
   const checkConfirmButtonIsDisabled = async () => {
@@ -223,23 +221,24 @@ describe('@Spaces', () => {
     await waitForElementWithTestId('space-goal-input')
     await fillFieldByTestId('space-name-input', name)
     await fillFieldByTestId('space-goal-input', goal)
+    // Click on the title (or anywhere outside the keyboard) to close the keyboard
+    // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
+    // https://github.com/appium/appium/issues/15073
+    await tapOnElementWithTestId('space-name-and-goal-title')
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
-    const locator = await locateMultipleElementsWithTestId('space-terms-list-item')
-    const numberOfTotalTerms = locator.length
-    const numberOfSelectedTerms = (await locateMultipleElementsWithTestId('space-terms-list-item-checked')).length
+    const unselectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item')
+    const selectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item-checked')
 
     // unselect previous terms
-    for (let i = 0; i < numberOfSelectedTerms; i++) {
-      // the selected terms are always sorted as first
-      await Appium.touchAction({ element: locator[i], action: 'tap' })
+    for (let i = 0; i < selectedTerms.length; i++) {
+      await Appium.touchAction({ element: selectedTerms[i], action: 'tap' })
     }
 
     // select new terms
     for (let i = 0; i < numberOfTermsToSelect; i++) {
-      // the selected terms are always sorted as first, so we select the last ones to avoid unselection
-      await Appium.touchAction({ element: locator[numberOfTotalTerms - i - 1], action: 'tap' })
+      await Appium.touchAction({ element: unselectedTerms[unselectedTerms.length - i - 1], action: 'tap' })
     }
   }
 })
