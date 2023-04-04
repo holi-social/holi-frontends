@@ -52,7 +52,7 @@ export interface Space {
   creator: User
   contactDescription: string
   contactEmail: string
-  contactPhone: number
+  contactPhone: string
   cover: string
   location: string
   geolocation?: Geolocation

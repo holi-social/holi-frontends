@@ -15,9 +15,9 @@ interface EditSpaceContactProps {
 }
 
 const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }: EditSpaceContactProps) => {
-  const [contactDescription, setContactDescription] = useState<string>(space.contactDescription)
-  const [contactPhone, setContactPhone] = useState<number>(space.contactPhone)
-  const [contactEmail, setContactMail] = useState<string>(space.contactEmail)
+  const [contactDescription, setContactDescription] = useState<string>(space.contactDescription || '')
+  const [contactPhone, setContactPhone] = useState<string>(space.contactPhone || '')
+  const [contactEmail, setContactMail] = useState<string>(space.contactEmail || '')
 
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
@@ -30,9 +30,9 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
   useEffect(() => {
     const resultSchema = UpdateSpaceInputSchema.safeParse({
       id: space.id,
-      contactDescription: contactDescription,
-      contactPhone: contactPhone,
-      contactEmail: contactEmail,
+      ...(contactDescription ? { contactDescription } : {}),
+      ...(contactEmail ? { contactEmail } : {}),
+      ...(contactPhone ? { contactPhone } : {}),
     })
     setInputValid(resultSchema.success)
     if (!resultSchema.success) {

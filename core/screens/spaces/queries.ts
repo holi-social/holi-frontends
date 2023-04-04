@@ -316,7 +316,7 @@ export const UpdateSpaceInputSchema = z.object({
   topics: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
   contactDescription: z.string().optional(),
-  contactEmail: z.string().optional(),
+  contactEmail: z.string().email().optional(),
   contactPhone: z.string().optional(),
 })
 

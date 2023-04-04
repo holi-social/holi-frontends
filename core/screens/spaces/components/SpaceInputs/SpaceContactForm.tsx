@@ -12,10 +12,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceContactFormProps = {
   onChangeContactDescription: (contactDescription: string) => void
   onChangeContactMail: (contactEmail: string) => void
-  onChangeContactPhone: (contactPhone: number) => void
+  onChangeContactPhone: (contactPhone: string) => void
   contactDescription: string
   contactEmail: string
-  contactPhone: number
+  contactPhone: string
   contactDescriptionErrors?: string[]
   contactMailErrors?: string[]
   contactPhoneErrors?: string[]
