@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -19,7 +20,7 @@ import {
   createTaskMutation,
   spaceByIdQuery,
 } from '@holi/core/screens/spaces/queries'
-import { Geolocation, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -58,9 +59,11 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
-  const [location, setLocation] = useState('')
+  const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>()
-  const [contactPhone, setContactPhone] = useState('')
+  const [contactPhone, setContactPhone] = useState<string | undefined>('')
+
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -87,7 +90,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
-  const onSave = () =>
+  const onSave = () => {
     createTask({
       variables: {
         input: {
@@ -99,7 +102,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           regularity: regularity?.id,
           contactEmail,
           slotsAvailable,
-          thumbnail,
+          thumbnail: thumbnail?.blob,
           skills: skills.map((skill) => skill.id),
           location,
           geolocation,
@@ -107,6 +110,23 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         },
       },
     })
+  }
+
+  // If locationType is REMOTE, remove location and coordinates
+  // Otherwise set their values based on the selectedLocation
+  useEffect(() => {
+    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
+      setGeolocation({
+        latitude: selectedLocation.coordinates.latitude,
+        longitude: selectedLocation.coordinates.longitude,
+      })
+      setLocation(selectedLocation.label)
+    }
+    if (locationType?.id === LocationType.REMOTE) {
+      setGeolocation(undefined)
+      setLocation(undefined)
+    }
+  }, [selectedLocation, locationType])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -182,6 +202,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             skills={skills}
             location={location}
             geolocation={geolocation}
+            selectedLocation={selectedLocation}
             contactPhone={contactPhone}
             onChangeName={setName}
             onChangeDescription={setDescription}
@@ -195,6 +216,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             onChangeLocation={setLocation}
             onChangeGeolocation={setGeolocation}
             onChangeContactPhone={setContactPhone}
+            onChangeSelectedLocation={setSelectedLocation}
           />
         </View>
       </DefaultScrollHeaderLayout>

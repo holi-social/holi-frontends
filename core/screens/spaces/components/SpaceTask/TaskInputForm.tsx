@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
@@ -84,6 +85,7 @@ export interface TaskInputFormProps {
   location?: string
   geolocation?: Geolocation
   contactPhone?: string
+  selectedLocation?: GeolocationSuggestion
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeVisibility: (_: HoliSelectOption) => void
@@ -96,6 +98,7 @@ export interface TaskInputFormProps {
   onChangeLocation: (_: string) => void
   onChangeGeolocation: (_: Geolocation) => void
   onChangeContactPhone: (_: string) => void
+  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   isEdit?: boolean
 }
 
@@ -109,6 +112,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   thumbnail,
   contactPhone,
   skills,
+  selectedLocation,
   onChangeName,
   onChangeDescription,
   onChangeVisibility,
@@ -118,12 +122,13 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   onChangeThumbnail,
   onChangeContactPhone,
   onChangeSkills,
+  onChangeSelectedLocation,
   isEdit = false,
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliSelectOption[]>(LOCATION_TYPE_OPTIONS)
   const [regularityOptions, setRegularityOptions] = useState<HoliSelectOption[]>(REGULARITY_OPTIONS)
-  // const [showSkillsModal, setShowSkillsModal] = useState(false)
+
   const { t } = useTranslation()
   const { skills: allSkills } = useContext(SpaceTermContext)
   const { height: deviceHeight } = useWindowDimensions()
@@ -290,6 +295,23 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           id="task-locationType-input"
           testID="task-locationType-input"
         />
+
+        {locationType && locationType.id !== LocationType.REMOTE && (
+          <PlacesAutocomplete
+            label={t('spaces.input.location.label')}
+            placeholder={t('spaces.input.location.placeholder')}
+            selected={selectedLocation}
+            value={selectedLocation?.label}
+            id="spaces-location-input"
+            testID="spaces-location"
+            onChange={onChangeSelectedLocation}
+            onSubmit={onChangeSelectedLocation}
+            style={[styles.marginSeparator, { zIndex: 2 }]}
+            inputProps={{ autoFocus: true }}
+            helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
+            withCoordinates
+          />
+        )}
       </View>
 
       <View style={[styles.sectionWrapper, { zIndex: 1 }]}>

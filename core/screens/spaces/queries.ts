@@ -59,6 +59,7 @@ const SpaceFragment = gql`
       slotsTaken
       location
       regularity
+      thumbnail
       creator {
         ...UserAvatar
       }
