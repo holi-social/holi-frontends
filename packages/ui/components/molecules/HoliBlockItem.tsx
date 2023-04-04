@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSectionType } from '@holi/core/screens/spaces/types'
@@ -19,7 +19,8 @@ export interface HoliBlockItemProps {
   subtitle?: string
   description?: string
   users: User[]
-  imageSrc: string
+  imageSrc?: string
+  imageElement?: React.ReactNode
   href: string
   label: string
   size?: 'small' | 'large'
@@ -33,6 +34,7 @@ const HoliBlockItem = ({
   description,
   users,
   imageSrc,
+  imageElement,
   href,
   label,
   testID,
@@ -40,9 +42,10 @@ const HoliBlockItem = ({
   size = 'small',
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
-  const imageUri: ImageSourcePropType = { uri: imageSrc }
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
+
+  if (typeof styles.imageContainer.width === 'number') imageUri.width = styles.imageContainer.width as number
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -54,7 +57,10 @@ const HoliBlockItem = ({
         <HoliLink label={label} href={href}>
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
-              <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+              {!imageElement && (
+                <HoliImage label="" source={{ uri: imageSrc }} resizeMode="cover" style={styles.image} />
+              )}
+              {imageElement}
               {size === 'large' && (
                 <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
                   <HoliText>{users.length}</HoliText>

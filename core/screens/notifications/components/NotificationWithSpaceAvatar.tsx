@@ -1,11 +1,11 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -28,16 +28,15 @@ const NotificationWithSpaceAvatar = ({
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const fullName = notification.options.user?.fullName || t('user.profileView.anonymous')
-  const { name: spaceIdOrName, title, avatar } = notification.options.space
-  href = href || `/spaces/${spaceIdOrName}`
-  const imageUri: ImageSourcePropType = { uri: avatar }
+  const { id, title } = notification.options.space
+  href = href || `/spaces/${id}`
 
   return (
     <View style={style} testID={testID}>
       <HoliLink href={href} label={title} mobileNavigateBackFirst>
         <View style={styles.link}>
           <View style={styles.imageContainer}>
-            <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+            <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
           </View>
           <View style={styles.content}>
             {content || (

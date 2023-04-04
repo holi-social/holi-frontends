@@ -169,6 +169,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -183,12 +184,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }
@@ -555,6 +558,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -569,12 +573,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }
@@ -941,6 +947,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -955,12 +962,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }

@@ -43,7 +43,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
       <View style={styles.collaborationAreaContainer}>
         <LinkHubWidget space={space} />
         <View style={{ marginTop: 16 }}>
-          <StorageWidget />
+          <StorageWidget space={space} />
         </View>
       </View>
     )

@@ -7,15 +7,12 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AllTools from '@holi/core/screens/spaces/components/SpaceLinkHub/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/components/SpaceLinkHub/SuggestedTools'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type LinkHubParams = {
   spaceIdOrName: string
@@ -29,7 +26,6 @@ const LinkHub: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { navigate } = useRouting()
 
   useLayoutEffect(
     () =>
@@ -45,23 +41,6 @@ const LinkHub: React.VFC<ScreenProps> = () => {
       }),
     [setOptions, t]
   )
-
-  const onAddButtonPress = () => {
-    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
-  }
-
-  const AddButton = () => {
-    return (
-      <HoliButton
-        label={t('spaces.toolKit.add.button.label')}
-        testID="space-add-tool-button"
-        style={styles.overlayButton}
-        onPress={onAddButtonPress}
-      >
-        <HoliIcon icon="add" size={20} />
-      </HoliButton>
-    )
-  }
 
   return (
     <>
@@ -84,7 +63,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
           ]}
         />
       </DefaultScrollHeaderLayout>
-      <AddButton />
+      {/* <AddButton /> */}
     </>
   )
 }
@@ -100,18 +79,5 @@ const styles = StyleSheet.create({
   tabStyle: {
     backgroundColor: colors.background20,
     paddingBottom: 24,
-  },
-  overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: vars.topBarHeight,
-    right: 24,
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    justifyContent: 'center',
   },
 })
