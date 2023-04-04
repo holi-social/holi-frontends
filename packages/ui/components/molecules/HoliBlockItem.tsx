@@ -44,6 +44,8 @@ const HoliBlockItem = ({
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
 
+  if (typeof styles.imageContainer.width === 'number') imageUri.width = styles.imageContainer.width as number
+
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
   const isEditable = type === SpaceSectionType.MEMBER || type === SpaceSectionType.CREATOR
