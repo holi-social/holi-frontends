@@ -27,6 +27,8 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
+  const isModarator = isAdmin || isCreator || isMember
+
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
     [+vars.breakpointM, 2],
@@ -76,13 +78,17 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
     return (
       <>
-        {((isCreator || isMember) && (
-          <CollaboratorAreaCard headerLeftIcon="checkbox" title={'Tasks'} {...cardProps}>
+        {(isModarator && (
+          <CollaboratorAreaCard
+            headerLeftIcon="checkbox"
+            title={t('spaces.spaceDetails.tasks.header.title')}
+            {...cardProps}
+          >
             <View style={[style, styles.empty]}>
               <HoliText size={'small'} style={styles.emptyMessage}>
                 {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
               </HoliText>
-              {(isCreator || isMember) && (
+              {isAdmin && (
                 <HoliText size={'small'} style={styles.instruction}>
                   {t('spaces.spaceDetails.tasks.empty.instruction')}
                 </HoliText>
@@ -111,7 +117,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           tasks.map((task) => (
             <HoliGridCell key={task.id}>
-              <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
+              <SpaceTaskTile task={task} style={styles.taskTile} />
             </HoliGridCell>
           ))
         }
@@ -131,8 +137,12 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
     return (
       <>
-        {((isAdmin || isCreator || isMember) && (
-          <CollaboratorAreaCard headerLeftIcon="checkbox" title={'Tasks'} {...cardProps}>
+        {(isModarator && (
+          <CollaboratorAreaCard
+            headerLeftIcon="checkbox"
+            title={t('spaces.spaceDetails.tasks.header.title')}
+            {...cardProps}
+          >
             <View style={styles.tasksListContainer}>
               <TasksList tasks={tasks} />
             </View>
@@ -145,9 +155,9 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   return (
     <>
       <View style={style}>
-        {(isCreator || isMember) && <CollaborationArea />}
+        {isModarator && <CollaborationArea />}
         {(space && space.tasks && space.tasks.length > 0 && <TasksCard tasks={space.tasks} />) || <NoTasks />}
-        {(isCreator || isMember) && <NewToolsTeaser />}
+        {isModarator && <NewToolsTeaser />}
       </View>
     </>
   )
