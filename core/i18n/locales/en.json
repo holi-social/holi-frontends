@@ -185,6 +185,7 @@
   "notifications.space.connection.message": "You requested to join the space {{space}}",
   "notifications.space.connection.requested.message": "<0>{{user}}</0> requested to join the space {{space}}",
   "notifications.title": "Notifications",
+  "oauth2.redirect.error": "Redirect failed",
   "oauth2.redirecting": "Redirecting...",
   "onboarding.dataconsent.checkboxLabel": "I accept the <0>Privacy Policy</0>. I can revoke my consent anytime.",
   "onboarding.dataconsent.describtion": "To create the best Holi experience for you, we will ask you for some personal information. This personal data won't be shared or sold to any third-party providers. Neither now, nor in the future.",
