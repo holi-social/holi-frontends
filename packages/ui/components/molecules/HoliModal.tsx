@@ -190,7 +190,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                       onPress={onDismiss}
                       transparent
                       style={styles.lineButton}
-                      testID={`btn-to-close-${testID}-modal`}
+                      testID={`btn-to-close-${testID}`}
                     >
                       <View style={styles.line} />
                     </HoliButton>
@@ -203,13 +203,19 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
                     onPress={onDismiss}
                     transparent
-                    testID={`btn-to-close-${testID}-modal`}
+                    testID={`btn-to-close-${testID}`}
                   >
                     <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
                   </HoliButton>
 
                   {!!heading && (
-                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                    <HoliHeading
+                      level="2"
+                      style={styles.title}
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      testID={`${testID}-heading`}
+                    >
                       {heading}
                     </HoliHeading>
                   )}

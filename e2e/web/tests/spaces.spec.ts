@@ -79,7 +79,7 @@ const testFiltering = async (page: Page) => {
   // check if the filtered spaces container is shown
   await page.waitForSelector(byTestId('filtered-spaces-container'))
 
-  // reset the filter and wait for it
+  // reset the filter and wait for unfiltered results
   await clickElementByTestId(page, 'spaces-filter-reset')
   await page.waitForSelector(byTestId('spaces-container'))
 }
@@ -124,7 +124,7 @@ const testShareSpace = async (page: Page) => {
   // copy link and close modal / options
   await clickElementByTestId(page, 'space-share-url-btn')
   await page.waitForSelector(byTestId('space-options-btn'))
-  await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
+  await clickElementByTestId(page, 'btn-to-close-more-options-modal')
 }
 
 const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {

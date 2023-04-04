@@ -103,7 +103,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       <HoliModal
         show={showFilterModal}
         onDismiss={closeModal}
-        testID="volunteering-filter"
+        testID="volunteering-filter-modal"
         label={t('volunteering:filter.heading')}
         autoHeight={false}
         relativeHeight={1}

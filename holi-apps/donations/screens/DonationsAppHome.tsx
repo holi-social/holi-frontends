@@ -84,7 +84,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
-        testID="donations-search"
+        testID="donations-search-modal"
         label={t('donations:search.heading')}
         autoHeight={false}
         // Smaller devides use the whole screen and

@@ -1,4 +1,4 @@
-import { defaultAuthSteps } from '../../helpers/auth'
+import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -7,8 +7,6 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
-
-// import { delay } from '../../helpers/time'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()
@@ -21,6 +19,7 @@ describe('@Spaces', () => {
     // Speeds up local execution
     if (target === 'local') {
       await tapOnElementWithTestId('btn-to-home-view', 0)
+      await logout()
     }
   })
 
@@ -29,14 +28,10 @@ describe('@Spaces', () => {
     await navigateToSpaces()
 
     await assertMultipleGroupsDisplayed()
-
-    await assertSpaceDetails()
-
-    await shareLinkToSpace()
-
     await assertFilteringWorks()
-
-    await assertCreateSpace()
+    await assertSpaceDetailsDisplayed()
+    await assertSharingSpaceWorks()
+    await assertCreatingEditingDeletingSpace()
   })
 
   const assertMultipleGroupsDisplayed = async () => {
@@ -58,6 +53,9 @@ describe('@Spaces', () => {
     // click on first topic in the list
     await tapOnElementWithTestId('spaces-filter-interests-item')
 
+    // make sure dropdown is closed by tapping the heading
+    await tapOnElementWithTestId('spaces-filter-modal-heading')
+
     // open skills dropdown
     await tapOnElementWithTestId('spaces-filter-skills-input')
 
@@ -72,9 +70,13 @@ describe('@Spaces', () => {
 
     // check if the filtered spaces container is shown
     await waitForElementWithTestId('filtered-spaces-container')
+
+    // reset the filter and wait for unfiltered results
+    await tapOnElementWithTestId('spaces-filter-reset')
+    await waitForElementWithTestId('spaces-container')
   }
 
-  const assertSpaceDetails = async () => {
+  const assertSpaceDetailsDisplayed = async () => {
     // click first element on page
     await tapOnElementWithTestId('space-link')
 
@@ -86,13 +88,11 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-title')
 
-    await waitForElementWithTestId('btn-to-open-space-collaborators-modal')
-
-    await scrollToElementWithTestId('space-description', 'down', { maxAttempts: 2 })
-
     // FIXME: not working anymore:
     // element ("//*[@resource-id='space-details-container']") still not displayed after 10000ms
     // await tapOnElementWithTestId('btn-to-open-space-collaborators-modal')
+    // Only check if button to open modal is displayed
+    await waitForElementWithTestId('btn-to-open-space-collaborators-modal')
 
     // // check if space collaborators are displayed
     // await waitForElementWithTestId('spaces-collaborators-item')
@@ -100,11 +100,13 @@ describe('@Spaces', () => {
     // // close space collaborators modal
     // await tapOnElementWithTestId('btn-to-close-space-collaborators-modal')
 
-    // // wait until space details are displayed again
-    // await waitForElementWithTestId('space-details-container')
+    // wait until space details are displayed again
+    await waitForElementWithTestId('space-details-container')
+
+    await scrollToElementWithTestId('space-description', 'down', { maxAttempts: 2 })
   }
 
-  const shareLinkToSpace = async () => {
+  const assertSharingSpaceWorks = async () => {
     // open options menu
     await tapOnElementWithTestId('space-options-btn')
 
@@ -112,13 +114,13 @@ describe('@Spaces', () => {
     await waitForElementWithTestId('space-share-btn')
 
     // close options menu
-    await tapOnElementWithTestId('btn-to-close-more-options-modal-modal')
+    await tapOnElementWithTestId('btn-to-close-more-options-modal')
 
     // close space details page
     await tapOnElementWithTestId('nav-button-back')
   }
 
-  const assertCreateSpace = async () => {
+  const assertCreatingEditingDeletingSpace = async () => {
     const numberOfInitialTerms = 3
     // const numberOfEditedTerms = 2
 
@@ -130,24 +132,27 @@ describe('@Spaces', () => {
     // create space - name and goal
     const initialName = 'e2e space name'
     const initialGoal = 'e2e space goal'
+    await checkConfirmButtonIsDisabled()
     await inputSpaceNameAndGoal(initialName, initialGoal)
-
     // Click on the title (or anywhere outside the keyboard) to close the keyboard
     // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
     // https://github.com/appium/appium/issues/15073
     await tapOnElementWithTestId('space-name-and-goal-title')
-
-    // go to the next step
     await tapOnElementWithTestId('holi-wizard-next-btn')
 
-    // // create space - topics
+    // create space - topics
+    await checkConfirmButtonIsDisabled()
     await selectSomeTerms(numberOfInitialTerms)
-    // await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
 
-    // // create space - cover image
-    // await checkConfirmButtonIsDisabled()
+    // create space - cover image
+    await checkConfirmButtonIsDisabled()
+    // TODO: Abort here for now, as actual space creation currently requires image selection
     // // await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
     // await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('nav-button-back')
+    // Confirm to exit space creation
+    await tapOnElementWithTestId('exit-space-creation-confirmation-confirmation-confirm')
 
     // // check if edit space page has correct information
     // let editSpaceTitle = await waitForElementWithTestId('space-edit-title')
@@ -208,6 +213,11 @@ describe('@Spaces', () => {
     // await waitForElementWithTestId('spaces-tab-navigation')
   }
 
+  const checkConfirmButtonIsDisabled = async () => {
+    const nextButton = await waitForElementWithTestId('holi-wizard-next-btn')
+    await nextButton.waitForEnabled({ reverse: true })
+  }
+
   const inputSpaceNameAndGoal = async (name: string, goal: string) => {
     await waitForElementWithTestId('space-name-input')
     await waitForElementWithTestId('space-goal-input')
@@ -216,20 +226,20 @@ describe('@Spaces', () => {
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
-    const locator = await waitForElementWithTestId('space-terms-list-item')
-    // const numberOfTotalTerms = await locator.count()
-    const numberOfSelectedTerms = (await waitForElementWithTestId('space-terms-list-item-checked')).count()
+    const locator = await locateMultipleElementsWithTestId('space-terms-list-item')
+    const numberOfTotalTerms = locator.length
+    const numberOfSelectedTerms = (await locateMultipleElementsWithTestId('space-terms-list-item-checked')).length
 
-    // unselect all
+    // unselect previous terms
     for (let i = 0; i < numberOfSelectedTerms; i++) {
-      // the selected terms are always sorted as first, thus nth(0)
-      await locator.nth(0).tap()
+      // the selected terms are always sorted as first
+      await Appium.touchAction({ element: locator[i], action: 'tap' })
     }
 
     // select new terms
     for (let i = 0; i < numberOfTermsToSelect; i++) {
       // the selected terms are always sorted as first, so we select the last ones to avoid unselection
-      // await locator.nth(numberOfTotalTerms - 1).tap()
+      await Appium.touchAction({ element: locator[numberOfTotalTerms - i - 1], action: 'tap' })
     }
   }
 })

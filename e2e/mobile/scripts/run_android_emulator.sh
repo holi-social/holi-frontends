@@ -15,21 +15,19 @@ set -eux
 PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$PATH
 export PATH
 
-# Android PIE (9.0) API 28, oldest version with (currently) above 10% market share 
+# Android PIE (9.0) API 28, oldest version with (currently) above 10% market share
 AVD_PACKAGE='system-images;android-28;google_apis;x86'
 
 NEW_AVD=0
 
 echo "checking if device is connected..."
-if adb get-state 1>/dev/null 2>&1
-then
+if adb get-state 1>/dev/null 2>&1; then
   echo 'device connected'
 else
   echo 'no device connected'
 
   echo "checking if emulator $E2E_ANDROID_VIRTUAL_DEVICE_NAME exists..."
-  if avdmanager list avds | grep "$E2E_ANDROID_VIRTUAL_DEVICE_NAME" 1>/dev/null 2>&1
-  then
+  if avdmanager list avds | grep "$E2E_ANDROID_VIRTUAL_DEVICE_NAME" 1>/dev/null 2>&1; then
     echo "emulator $E2E_ANDROID_VIRTUAL_DEVICE_NAME exists"
   else
     echo "emulator $E2E_ANDROID_VIRTUAL_DEVICE_NAME does not exist"
@@ -42,15 +40,13 @@ else
   fi
 
   echo "starting emulator $E2E_ANDROID_VIRTUAL_DEVICE_NAME..."
-  emulator @"$E2E_ANDROID_VIRTUAL_DEVICE_NAME" -skin 1080x2340 &
+  emulator @"$E2E_ANDROID_VIRTUAL_DEVICE_NAME" -skin 540x1170 &
 
-  if $NEW_AVD
-  then
+  if $NEW_AVD; then
     echo "checking if emulator is connected..."
     sleep 15
     # TODO: wait longer / check in loop?
-    if adb get-state 1>/dev/null 2>&1
-    then
+    if adb get-state 1>/dev/null 2>&1; then
       echo 'emulator connected'
 
       echo 'installing Expo Go on emulator...'

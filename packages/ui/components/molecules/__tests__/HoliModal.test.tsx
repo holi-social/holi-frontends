@@ -6,7 +6,9 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer.create(<HoliModal label="Test" show={true} onDismiss={() => null} />).toJSON()
+    const tree = renderer
+      .create(<HoliModal label="Test" testID="test-modal" show={true} onDismiss={() => null} />)
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when closed', () => {
