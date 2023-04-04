@@ -1,24 +1,31 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
-const LoginRegistrationContainer = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { userId, isLoggedIn } = useAuth()
+interface LoginRegistrationContainerProps {
+  style?: StyleProp<ViewStyle>
+}
+
+const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
+  const { isLoggedIn, isLoading } = useLoggedInUser()
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   useLayoutEffect(() => {
     isLoggedIn && navigate('/profile')
-  }, [isLoggedIn, navigate, userId])
+  }, [isLoggedIn, navigate])
+
+  if (isLoading) return <HoliLoader />
 
   return isLoggedIn ? (
     <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
   ) : (
-    <View style={styles.viewContainer}>{children}</View>
+    <View style={[styles.viewContainer, style]}>{children}</View>
   )
 }
 
@@ -31,7 +38,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     maxWidth: 500,
     width: '100%',
-    paddingHorizontal: 32,
     alignItems: 'center',
     ...Platform.select({
       native: {

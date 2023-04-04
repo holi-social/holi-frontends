@@ -1,38 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SpaceTaskList renders correctly when there are no tasks within space 1`] = `
-<View
-  style={
-    [
-      undefined,
+<View>
+  <View
+    style={
       {
         "alignItems": "center",
-        "paddingTop": 60,
-      },
-    ]
-  }
->
-  <Text
-    accessible={false}
-    selectable={true}
-    style={
-      [
+        "backgroundColor": "#fff",
+        "borderColor": "#ebebeb",
+        "borderRadius": 16,
+        "borderWidth": 1,
+        "margin": 24,
+        "marginTop": 10,
+        "padding": 24,
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
         {
           "color": "#262424",
           "fontFamily": "Circular Std Book",
+          "fontSize": 14,
           "fontWeight": "400",
-        },
+          "lineHeight": 16.8,
+        }
+      }
+    >
+      spaces.spaceDetails.tasks.empty.title.forNonMembers
+    </Text>
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
         {
-          "fontSize": 16,
-          "lineHeight": 19.2,
-        },
-        false,
-        undefined,
-      ]
-    }
-  >
-    spaces.spaceDetails.tasks.empty
-  </Text>
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 21,
+          "fontWeight": "400",
+          "lineHeight": 25.2,
+          "marginTop": 8,
+          "textAlign": "center",
+        }
+      }
+    >
+      spaces.spaceDetails.tasks.empty.message.forNonMembers
+    </Text>
+  </View>
 </View>
 `;
 
@@ -267,21 +283,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 Hamburg, Germany
@@ -362,21 +370,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 spaces.tasks.regularity.PROJECT_BASED
@@ -397,29 +397,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Communication skills
@@ -429,29 +421,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Creativity
@@ -482,24 +466,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      {
-                        "fontSize": 14,
-                        "lineHeight": 16.8,
-                      },
-                      false,
-                      [
-                        {
-                          "color": "#787777",
-                        },
-                        {},
-                      ],
-                    ]
+                    {
+                      "color": "#787777",
+                      "fontFamily": "Circular Std Book",
+                      "fontSize": 14,
+                      "fontWeight": "400",
+                      "lineHeight": 16.8,
+                    }
                   }
                 >
                   Task description
@@ -696,21 +669,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 Hamburg, Germany
@@ -791,21 +756,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 spaces.tasks.regularity.PROJECT_BASED
@@ -826,29 +783,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Communication skills
@@ -858,29 +807,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Creativity
@@ -911,24 +852,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      {
-                        "fontSize": 14,
-                        "lineHeight": 16.8,
-                      },
-                      false,
-                      [
-                        {
-                          "color": "#787777",
-                        },
-                        {},
-                      ],
-                    ]
+                    {
+                      "color": "#787777",
+                      "fontFamily": "Circular Std Book",
+                      "fontSize": 14,
+                      "fontWeight": "400",
+                      "lineHeight": 16.8,
+                    }
                   }
                 >
                   Task description
@@ -1125,21 +1055,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 Hamburg, Germany
@@ -1220,21 +1142,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "Circular Std Book",
-                      "fontWeight": "400",
-                    },
-                    {
-                      "fontSize": 12,
-                      "lineHeight": 14.399999999999999,
-                    },
-                    false,
-                    {
-                      "color": "#787777",
-                    },
-                  ]
+                  {
+                    "color": "#787777",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 14.399999999999999,
+                  }
                 }
               >
                 spaces.tasks.regularity.PROJECT_BASED
@@ -1255,29 +1169,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Communication skills
@@ -1287,29 +1193,21 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 14,
-                    "lineHeight": 16.8,
-                  },
-                  false,
-                  {
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 16,
-                    "borderWidth": 1,
-                    "color": "#787777",
-                    "height": 33,
-                    "marginBottom": 4,
-                    "marginRight": 4,
-                    "paddingHorizontal": 14,
-                    "paddingVertical": 8,
-                  },
-                ]
+                {
+                  "borderColor": "#ebebeb",
+                  "borderRadius": 16,
+                  "borderWidth": 1,
+                  "color": "#787777",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "height": 33,
+                  "lineHeight": 16.8,
+                  "marginBottom": 4,
+                  "marginRight": 4,
+                  "paddingHorizontal": 14,
+                  "paddingVertical": 8,
+                }
               }
             >
               Creativity
@@ -1340,24 +1238,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   accessible={false}
                   selectable={true}
                   style={
-                    [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      {
-                        "fontSize": 14,
-                        "lineHeight": 16.8,
-                      },
-                      false,
-                      [
-                        {
-                          "color": "#787777",
-                        },
-                        {},
-                      ],
-                    ]
+                    {
+                      "color": "#787777",
+                      "fontFamily": "Circular Std Book",
+                      "fontSize": 14,
+                      "fontWeight": "400",
+                      "lineHeight": 16.8,
+                    }
                   }
                 >
                   Task description

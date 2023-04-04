@@ -6,9 +6,10 @@ import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonW
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
+import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
@@ -77,13 +78,15 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
         </View>
       )}
 
-      {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.commentsPile]}>
+      <View style={[styles.reactionsBar]}>
+        {post.numberOfComments > 0 && (
           <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
             {t('insights.post.response', { count: post.numberOfComments })}
           </HoliUserAvatarPile>
-        </View>
-      )}
+        )}
+
+        <PostReactions post={post} />
+      </View>
     </View>
   )
 }
@@ -119,8 +122,17 @@ const styles = StyleSheet.create({
     marginTop: 16,
     maxWidth: 320,
   },
-  commentsPile: {
-    marginTop: 20,
+  reactionsBar: {
+    marginTop: 21,
+    paddingLeft: 24,
+    paddingRight: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  reactionsLink: {
+    height: 'auto',
+    display: 'flex',
   },
 })
 

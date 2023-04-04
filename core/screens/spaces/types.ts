@@ -1,3 +1,4 @@
+import { Post } from '@holi/core/screens/posts/types'
 import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
@@ -19,9 +20,29 @@ export enum SpaceLinkType {
   WHATSAPP = 'WHATSAPP',
 }
 
+export enum CollaborationType {
+  COLLABORATION = 'COLLABORATION',
+  COMMUNICATION = 'COMMUNICATION',
+}
+
 export interface SpaceLink {
   url: string
   type: SpaceLinkType
+}
+
+export interface SpaceCollaborationTool {
+  id: string
+  url: string
+  domain: string
+  title: string
+  collectionType: CollaborationType
+  description?: string
+  thumbnail?: string
+}
+
+export interface Geolocation {
+  latitude: number
+  longitude: number
 }
 
 export interface Space {
@@ -32,14 +53,18 @@ export interface Space {
   creator: User
   cover: string
   location: string
+  geolocation?: Geolocation
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
+  name: string
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
+  collaborationTools?: SpaceCollaborationTool[]
+  posts?: Paged<Post>
 }
 
 export enum SpaceSectionType {
@@ -78,4 +103,9 @@ export enum SpaceConnectionType {
 export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+}
+export enum VisibilityFilter {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+  ALL = 'ALL',
 }

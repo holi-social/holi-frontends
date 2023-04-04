@@ -3,19 +3,19 @@ import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
-import CommunityGuidelines from '@holi/core/screens/communityGuidelines/components/CommunityGuidelines'
+import CommunityGuidelinesDocument from '@holi/core/screens/communityGuidelines/CommunityGuidelinesDocument'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type FormCheckboxProps = {
   node: UiNode
   value: boolean
   autofocus?: boolean
+  translationPrefix: string
   onChange?: (checked: boolean) => void
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -25,6 +25,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   node,
   value = false,
   autofocus = false,
+  translationPrefix,
   onChange = () => null,
   style,
   testID,
@@ -32,7 +33,6 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const fieldLabel = getNodeTitle(node)
-  const { theme } = useTheme()
 
   // TODO: toast message in case of error auth.login.checkbox.toast-Consent
 
@@ -41,7 +41,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
     const { id, text } = node.messages[0]
     if (!id) return undefined
 
-    const translationKey = `auth.login.checkbox.message.${id}`
+    const translationKey = `${translationPrefix}checkbox.message.${id}`
     return i18n.exists(translationKey) ? i18n.t(translationKey) : text
   }
 
@@ -65,26 +65,27 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
         >
           <View style={{ maxWidth: 300 }}>
             <HoliText size="small">
-              <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
+              <Trans t={t} i18nKey={`${translationPrefix}checkbox.label-Consent`}>
                 {/* TODO: The link href does not yet exist */}
-                <HoliLink
+                <HoliTextLink
                   label=""
                   href={'/communityGuidelines'}
                   onPress={openModal}
-                  textStyle={[styles.labelLink, { fontFamily: theme.fontFamily.default('Medium') }]}
+                  variant="secondary"
+                  size="small"
                 />
               </Trans>
             </HoliText>
           </View>
         </HoliCheckbox>
         <HoliModal
-          label={t('auth.login.checkbox.label-Consent')}
+          label={t(`${translationPrefix}checkbox.label-Consent`)}
           autoHeight={false}
           show={showModal}
           onDismiss={() => setShowModal(false)}
         >
           <ScrollView style={styles.communityGuidelines} contentContainerStyle={{ maxWidth: '100%' }}>
-            <CommunityGuidelines />
+            <CommunityGuidelinesDocument />
           </ScrollView>
         </HoliModal>
       </>

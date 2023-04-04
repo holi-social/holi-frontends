@@ -14,7 +14,10 @@ export enum RouteName {
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',
-  CollaboratorArea = 'CollaboratorArea',
+  AddDigitalTool = 'AddDigitalTool',
+  SpaceStorage = 'SpaceStorage',
+  LinkHub = 'LinkHub',
+  EditDigitalTool = 'EditDigitalTool',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -23,6 +26,7 @@ export enum RouteName {
   Profile = 'Profile',
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
+  ChangePassword = 'ChangePassword',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

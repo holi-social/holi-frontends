@@ -32,6 +32,8 @@ describe('@Spaces', () => {
 
     await assertSpaceDetails()
 
+    await shareLinkToSpace()
+
     await assertFilteringWorks()
 
     await assertCreateSpace()
@@ -100,6 +102,17 @@ describe('@Spaces', () => {
 
     // // wait until space details are displayed again
     // await waitForElementWithTestId('space-details-container')
+  }
+
+  const shareLinkToSpace = async () => {
+    // open options menu
+    await tapOnElementWithTestId('space-options-btn')
+
+    // check if share button is displayed
+    await waitForElementWithTestId('space-share-btn')
+
+    // close options menu
+    await tapOnElementWithTestId('btn-to-close-more-options-modal-modal')
 
     // close space details page
     await tapOnElementWithTestId('nav-button-back')

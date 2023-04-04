@@ -12,6 +12,11 @@ import {
   WithTrailingIcon,
 } from '@holi/ui/components/molecules/__stories__/HoliTextInput.stories'
 
+jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+  OS: 'web',
+  select: () => null,
+}))
+
 describe('HoliTextInput', () => {
   test('renders correctly with default props', () => {
     const tree = renderer.create(<Primary {...Primary.args} />).toJSON()

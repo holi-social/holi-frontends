@@ -1,5 +1,8 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
 import {
+  LoginFlow,
+  RecoveryFlow,
+  SettingsFlow,
   UiNode,
   UiNodeAnchorAttributes,
   UiNodeAttributes,
@@ -9,7 +12,7 @@ import {
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
-const HIDDEN_FIELDS = ['traits.name']
+const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name']
 
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
@@ -35,6 +38,10 @@ export const oryNodeIsButton = (pet: UiNodeAttributes): pet is UiNodeInputAttrib
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'button'
 }
 
+export const oryNodeIsHidden = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).type === 'hidden'
+}
+
 export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
 }
@@ -44,13 +51,10 @@ export const oryNodeIsHiddenField = (pet: UiNodeAttributes & { name: string }): 
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
-  if (
-    oryNodeIsInput(attributes) ||
-    oryNodeIsSubmit(attributes) ||
-    oryNodeIsButton(attributes) ||
-    oryNodeIsCheckbox(attributes)
-  ) {
+  if (oryNodeIsInput(attributes) || oryNodeIsButton(attributes) || oryNodeIsCheckbox(attributes)) {
     return attributes.name
+  } else if (oryNodeIsSubmit(attributes)) {
+    return attributes.value
   } else {
     return attributes.id
   }
@@ -77,31 +81,66 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
-  return (err: AxiosError) => {
-    if (err.response) {
-      switch (err.response.status) {
-        case 400:
-          if (typeof err.response.data.error === 'object') {
-            console.error('[auth/helpers/form.ts] 400 error:', err.response)
-          }
+export const getNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
+  return flow.ui.nodes.filter((node: UiNode) => getNodeId(node) === nodeName)
+}
 
-          console.info('[auth/helpers/form.ts] Form validation failed.')
-          // The error response data contains a flow with the error messages.
-          // This is data is here set to be the new flow.
-          setFlow(err.response.data)
-          return
-        case 404:
-        case 410:
-          // This happens when the flow is, for example, expired or was deleted.
-          // We simply re-initialize the flow if that happens!
-          console.error('[auth] Flow could not be found, reloading page: ', err.response)
-          initializeFlow()
-          return
-      }
+export const findInputNodeByNameAndType = (
+  nodeName: string,
+  nodeType: string,
+  flow: LoginFlow | SettingsFlow | RecoveryFlow
+) => {
+  return flow.ui.nodes.find(
+    (node: UiNode) =>
+      oryNodeIsInput(node.attributes) && node.attributes.name === nodeName && node.attributes.type === nodeType
+  )
+}
+
+export const getButtonNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
+  return flow.ui.nodes.filter(
+    (node: UiNode) =>
+      (oryNodeIsSubmit(node.attributes) || oryNodeIsButton(node.attributes)) && getNodeId(node) === nodeName
+  )
+}
+
+const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
+  return !!(err as AxiosError).response
+}
+
+export const handleFormSubmitError = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setFlow: (p: any) => void,
+  initializeFlow: () => void,
+  showError: (err: unknown) => void,
+  err: unknown
+) => {
+  if (isAxiosError(err)) {
+    switch (err.response?.status) {
+      case 400:
+        if (typeof err.response.data.error === 'object') {
+          console.error('[auth/helpers/form.ts] 400 error:', err.response)
+        }
+
+        console.info('[auth/helpers/form.ts] Form validation failed.')
+        // The error response data contains a flow with error messages.
+        // With this data, the view can display the errors.
+        setFlow(err.response.data)
+        return
+      // case 403:
+      //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
+      //   if (err.response.data.error.id === 'session_refresh_required') {
+      //     // so something
+      //   }
+      //   return
+      case 404:
+      case 410:
+        // This happens when the flow is, for example, expired or was deleted.
+        // We simply re-initialize the flow if that happens!
+        console.error('[auth] Flow could not be found, reloading page: ', err.response)
+        initializeFlow()
+        return
     }
-
-    throw err
   }
+
+  showError(err)
 }

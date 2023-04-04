@@ -1,15 +1,16 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -18,9 +19,12 @@ const SettingsOverview: React.VFC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
-  const logout = useLogout()
+  const { logout, isLoggingOut } = useLogout()
+  const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
+    onConfirm: () => {
+      logout()
+    },
+  })
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
@@ -35,7 +39,7 @@ const SettingsOverview: React.VFC = () => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -51,6 +55,7 @@ const SettingsOverview: React.VFC = () => {
             icon="notification-2"
             arrowRight
             onPress={showFeatureNotImplementedToast}
+            tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
           <MoreOptionItem
@@ -58,6 +63,7 @@ const SettingsOverview: React.VFC = () => {
             icon="help"
             arrowRight
             onPress={showFeatureNotImplementedToast}
+            tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
         </View>
@@ -74,19 +80,19 @@ const SettingsOverview: React.VFC = () => {
           />
 
           <HoliConfirmation
-            show={showLogoutConfirmation}
             label={t('auth.logout.button')}
             title={t('auth.logout.button')}
             description={t('auth.logout.heading')}
-            onDismiss={() => setShowLogoutConfirmation(false)}
             dismissText={t('auth.logout.confirmation.dismiss')}
             confirmText={t('auth.logout.confirmation.confirm')}
+            {...logoutConfirmationProps}
             testID="modal-logout"
-            onConfirm={logout}
           />
         </View>
       </LoginProtection>
-    </DefaultLayout>
+
+      {isLoggingOut && <HoliLoader />}
+    </DefaultScrollHeaderLayout>
   )
 }
 

@@ -5,6 +5,7 @@ import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
+  tapOnLoginLinkInText,
   waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from './selectors'
@@ -41,27 +42,27 @@ export const defaultAuthSteps = async (
   await tapOnElementWithTestId('btn-to-profile-view', 10000)
 
   // hit login
-  const buttonId = isLogin ? 'btn-to-login-form' : 'btn-to-registration-form'
-  const buttonExists = await checkIfElementWithTestIdExists(buttonId)
-  if (!isLogin || buttonExists) {
+  const buttonId = isLogin ? 'already-have-account-text' : 'btn-to-registration-form'
+  if (isLogin) {
+    await tapOnLoginLinkInText()
+  } else {
     await tapOnElementWithTestId(buttonId)
+    await tapOnElementWithTestId('community-guidelines-checkbox')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('privicy-policy-checkbox')
+    await tapOnElementWithTestId('holi-wizard-next-btn')
   }
 
   // inspect login modal
   await waitForElementWithTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
-
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
   // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-method')
+  await tapOnElementWithTestId('ory-submit-password')
 
-  if (!isLogin) {
-    const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
-    consentCheckbox.click()
-  }
-
-  await tapOnElementWithTestId('ory-submit-method')
+  // Submit the form
+  await tapOnElementWithTestId('ory-submit-password')
 }
 
 export const logout = async () => {
@@ -83,7 +84,7 @@ export const deleteAccount = async () => {
   await tapOnElementWithTestId('btn-delete-account')
   await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
 
-  await waitForElementWithTestId('btn-to-login-form')
+  await waitForElementWithTestId('already-have-account-text')
   await tapOnElementWithTestId('btn-to-home-view')
 }
 
@@ -98,7 +99,7 @@ const gotoProfileSettingsOrLogin = async () => {
   }
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
-    await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
     if (await checkIfElementWithTestIdExists('btn-to-settings')) {
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
@@ -107,7 +108,7 @@ const gotoProfileSettingsOrLogin = async () => {
   }
   await navigateBackToHomeScreen()
   await tapOnElementWithTestId('btn-to-profile-view')
-  await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+  await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
   if (await checkIfElementWithTestIdExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')

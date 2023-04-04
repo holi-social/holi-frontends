@@ -46,7 +46,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
       <Image
         accessibilityLabel="insights.posts.image"
         accessibilityRole="image"
-        accessible={false}
+        accessible={true}
         onLayout={[Function]}
         sizes="(min-width: 1200px) 588px, (min-width: 992px) 484px, (min-width: 768px) 728px, (min-width: 576px) 536px, (min-width: 375px) 335px, 100wv"
         source={

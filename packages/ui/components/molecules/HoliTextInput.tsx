@@ -8,6 +8,7 @@ import {
   StyleProp,
   StyleSheet,
   TargetedEvent,
+  Text,
   TextInput,
   TextInputContentSizeChangeEventData,
   TextInputIOSProps,
@@ -52,9 +53,12 @@ export type HoliTextInputProps = {
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
   showCharacterCount?: boolean
+  isRequired?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
+
+const isIOS = Platform.OS === 'ios'
 
 const HoliTextInput = (
   {
@@ -70,6 +74,7 @@ const HoliTextInput = (
     onFocus,
     onBlur,
     showCharacterCount = false,
+    isRequired = false,
     ...props
   }: HoliTextInputProps,
   ref: React.ForwardedRef<View>
@@ -134,7 +139,8 @@ const HoliTextInput = (
   })()
 
   const autocomplete: TextInputProps['autoComplete'] = (() => {
-    if (type === 'password') return Platform.OS === 'android' ? 'password' : 'current-password'
+    if (type === 'password')
+      return Platform.OS === 'android' ? 'password' : props?.inputProps?.autocomplete || 'current-password'
     if (type === 'email') return 'email'
     return 'off'
   })()
@@ -176,6 +182,7 @@ const HoliTextInput = (
             >
               {inputLabel}
             </HoliText>
+            {isRequired && <Text> *</Text>}
           </View>
         )}
         <View
@@ -188,6 +195,7 @@ const HoliTextInput = (
             props?.disabled && styles.inputWrapperDisabled,
             hasValidationErrors && styles.inputWrapperHasValidationErrors,
           ]}
+          testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
         >
           <TextInput
             value={value}
@@ -220,7 +228,7 @@ const HoliTextInput = (
             autoCorrect={false}
             {...accessibilityProps}
             {...props?.inputProps}
-            testID={`${props?.testID || 'holi-text'}-input`}
+            testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
           />
           {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
             <View style={styles.trailingIconWrapper}>
@@ -249,11 +257,14 @@ const HoliTextInput = (
         </View>
         <View style={styles.descriptionContainer}>
           {(props?.validationErrorText || props?.helperText) && (
-            <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
+            <View
+              style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}
+              testID={isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
+            >
               <HoliText
                 size="extrasmall"
                 style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-                testID={`${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message`}
+                testID={!isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
               >
                 {props?.validationErrorText || props?.helperText}
               </HoliText>
@@ -362,6 +373,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     labelWrapper: {
       marginBottom: 6,
+      flexDirection: 'row',
     },
     label: {
       color: colors.foreground30,

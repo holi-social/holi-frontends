@@ -2,110 +2,128 @@ import { faker } from '@faker-js/faker'
 import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
 
+import { test } from './testmaster'
+
+// sometimes requests to the app backends take a little longer (10s < response latency < 40s)
+export const donationsRequestTimeout = 40_000
+export const goodnewsRequestTimeout = 20_000
+export const volunteeringRequestTimeout = 20_000
+
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
-export const byTestId = (testId: string) => `[data-testid=${testId}]`
+export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
 
-export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const delay = (time: number) =>
+  test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
-export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
-  const selector = byTestId(testId)
-  await page.waitForSelector(selector) // default timeout: 30s
-  return selector
+export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
+  await page.waitForSelector(byTestId(testId))
+  return page.locator(byTestId(testId, nth))
 }
 
-export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
-  const selector = await waitForElementByTestId(page, testId)
-  return page.locator(selector)
-}
-
-export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
-  return await page.locator(`text=${text}`).waitFor()
-}
-
-export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
-  await page.waitForSelector(selector)
-  return page.locator(selector)
-}
-
-export const clickElement = async (element: Locator) => {
-  await delay(0.5) // source of flakiness and delay. Why do we need this here? Component is there, but click does not work when done too early.
+export const clickElement = async (locator: Locator): Promise<void> => {
   // potentially there are multiple matches, so we ensure to only click the first element
-  await element.first().click()
+  await locator.first().click()
 }
 
-export const clickElementByTestId = async (page: Page, testId: string) => {
-  const button = await locateElementByTestId(page, testId)
-  await clickElement(button)
+export const clickElementByTestId = async (page: Page, testId: string, nth?: number): Promise<void> => {
+  return clickElement(await locateElementByTestId(page, testId, nth))
 }
 
-export const waitForAnimationEnd = async (locator: Locator) => {
-  return locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
-}
-
-const defaultPassword = 'TheSamePassword4A11E2eUsers'
-
-export const registerNewUser = async ({ page, context }: PageContext) => {
-  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
-  await defaultAuthSteps({ page, context, email, password: defaultPassword }, 'registration')
-}
-
-interface PageContext {
-  page: Page
-  context: BrowserContext
-}
-
-interface DefaultAuthStepsProps extends PageContext {
-  email?: string
-  password?: string
-}
-
-type BrowserAuthStepsProps = {
-  browser: Browser
-  email?: string
-  password?: string
-}
-
-export const defaultAuthSteps = async (
-  {
-    page,
-    context,
-    email = process.env.E2E_USER_USERNAME || 'empty',
-    password = process.env.E2E_USER_PASSWORD || 'empty',
-  }: DefaultAuthStepsProps,
-  mode: 'login' | 'registration' = 'login'
-): Promise<void> => {
-  const isLogin = mode === 'login'
-
+const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
+  await page.goto('/profile')
+}
 
-  await page.goto('/')
-  await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
+export const gotoFillAndSubmitLogin = async (
+  context: BrowserContext,
+  page: Page,
+  email: string,
+  password: string
+): Promise<void> => {
+  await prepareForLoginOrRegistration(context, page)
 
-  const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
+  await clickElementByTestId(page, 'btn-to-login-form')
+
+  const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
 
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
 
-  if (!isLogin) {
-    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits_consent')
-    await acceptConsentCheckbox.click()
-  }
-
-  await clickElementByTestId(page, 'ory-submit-method')
-  await waitForElementByTestId(page, 'btn-to-settings')
+  await clickElementByTestId(page, 'ory-submit-password')
 }
 
-export const deleteAccount = async (page: Page) => {
-  await page.goto('/profile')
+export const gotoFillAndSubmitRegistration = async (
+  context: BrowserContext,
+  page: Page,
+  email: string,
+  password: string
+): Promise<void> => {
+  await prepareForLoginOrRegistration(context, page)
 
-  await clickElementByTestId(page, 'btn-to-settings')
-  await clickElementByTestId(page, 'btn-your-account')
-  await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
+  await clickElementByTestId(page, 'btn-to-registration-form')
 
-  await waitForElementByTestId(page, 'btn-to-login-form')
-  await clickElementByTestId(page, 'btn-to-home-view')
+  await clickElementByTestId(page, 'community-guidelines-checkbox')
+
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  await clickElementByTestId(page, 'privicy-policy-checkbox')
+
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
+  await emailInput.fill(email)
+
+  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
+  await passwordInput.fill(password)
+
+  await clickElementByTestId(page, 'ory-submit-password')
+}
+
+export const proceedAsGuest = async (page: Page): Promise<void> => {
+  await page.goto('/')
+  // click the button and wait for it to be detached
+  await Promise.all([
+    page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-continue-as-guest'),
+  ])
+}
+
+export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
+  test
+    .expect(
+      !!process.env.E2E_USER_USERNAME,
+      'The environment variable E2E_USER_USERNAME is not set up correctly, please set it up.'
+    )
+    .toBeTruthy()
+  test
+    .expect(
+      !!process.env.E2E_USER_PASSWORD,
+      'The environment variable E2E_USER_PASSWORD is not set up correctly, please set it up.'
+    )
+    .toBeTruthy()
+  await gotoFillAndSubmitLogin(
+    context,
+    page,
+    process.env.E2E_USER_USERNAME as string,
+    process.env.E2E_USER_PASSWORD as string
+  )
+  // wait for profile - login succeeded
+  await page.waitForSelector(byTestId('user-profile-full-name'))
+}
+
+export const registerAsNewUser = async (
+  context: BrowserContext,
+  page: Page,
+  email?: string,
+  password?: string
+): Promise<void> => {
+  const emailToUse = email || newUserEmail()
+  const passwordToUse = password || newUserPassword
+  await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
+  // wait for profile - registration succeeded
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -125,7 +143,7 @@ export const sendConnectionRequest = async (page: Page) => {
   // test won't work if userId is not defined
   expect(userId?.length).toBe(36)
   await page.goto('/profile/' + userId)
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
 
   // for the newly created user, the button state should be NOT_CONNECTED
   await clickElementByTestId(page, 'user-connection-button-NOT_CONNECTED')
@@ -134,22 +152,23 @@ export const sendConnectionRequest = async (page: Page) => {
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }
 
-const newUserEmail = () => {
+export const newUserEmail = () => {
   return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
 }
-const newUserPassword = 'TheSamePassword4A11E2eUsers'
+export const newUserPassword = 'TheSamePassword4A11E2eUsers'
 
 export const withRandomUserSession = async (
   browser: Browser,
-  actions: (page: Page) => Promise<void>
+  actions: (page: Page) => Promise<void>,
+  email: string = newUserEmail(),
+  password: string = newUserPassword
 ): Promise<() => Promise<void>> => {
   const context = await browser.newContext()
   const page = await context.newPage()
-  const email = newUserEmail()
-  const password = newUserPassword
 
-  await page.goto('/')
-  await defaultAuthSteps({ context, page, email, password }, 'registration')
+  await registerAsNewUser(context, page, email, password)
+  // wait for login to complete
+  await page.waitForSelector(byTestId('user-profile-full-name'))
   await actions(page)
   return async () => {
     await deleteUser(page)
@@ -157,36 +176,21 @@ export const withRandomUserSession = async (
   }
 }
 
-/*export const getAnyUserCredentials = async (
-  browser: Browser,
-  credentials: UserCredentials[]
-): Promise<UserCredentials> => {
-  if (credentials.length > 0) {
-    console.log('returning existing user', credentials[0].email)
-    return credentials[0]
-  } else {
-    const newUserCredentials = await createNewUser(browser, credentials)
-    return newUserCredentials
-  }
-}*/
-
 const deleteUser = async (page: Page) => {
   await page.goto('/profile')
-  await waitForElementByTestId(page, 'user-profile-full-name')
+  await page.waitForSelector(byTestId('user-profile-full-name'))
   await clickElementByTestId(page, 'btn-to-settings')
   await clickElementByTestId(page, 'btn-your-account')
   await clickElementByTestId(page, 'btn-delete-account')
-  await clickElementByTestId(page, 'account-deletion-confirmation-confirmation-confirm')
-  await waitForElementByTestId(page, 'login-protection-heading')
+  await clickElementByTestIdAndWaitForToast(page, 'account-deletion-confirmation-confirmation-confirm', 'toast-SUCCESS')
+  await page.waitForSelector(byTestId('login-protection-heading'))
 }
 
-/*
-export const cleanupUsers = async (browser: Browser) => {
-  console.log('cleaning up users', allCreatedUserCredentials)
-  await Promise.all(
-    allCreatedUserCredentials.map(async (credentials) => {
-      await deleteUser(browser, credentials)
-    })
-  )
+export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {
+  await Promise.all([clickElementByTestId(page, elementId), page.waitForSelector(byTestId(toastId))])
 }
-*/
+
+export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elementId: string, toastId: string) => {
+  await clickElementByTestIdAndWaitForToast(page, elementId, toastId)
+  await page.waitForSelector(byTestId(toastId), { state: 'detached' })
+}

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, NativeScrollEvent, StyleSheet, View } from 'react-native'
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -9,7 +9,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -22,7 +22,7 @@ import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/voluntee
 type VolunteeringListingProps = {
   clearFilters: () => void
   filters: VolunteeringFilters
-  onScroll: (event: { nativeEvent: NativeScrollEvent }) => void
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10
@@ -77,14 +77,14 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
     <View style={styles.cardContainer} key={item.id}>
-      <HoliCardComponent
+      <HoliCard
         imageUrl={item.imageUrl}
         imageLabel={item.title ?? ''}
         testID="btn-to-volunteering-engagement"
         onCardPress={() => handleCardPress(item)}
       >
         <VolunteeringCardContent engagement={item} key={item.id} />
-      </HoliCardComponent>
+      </HoliCard>
     </View>
   )
 

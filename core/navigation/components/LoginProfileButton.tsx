@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,34 +21,21 @@ const LoginProfileButton = ({
   style,
   ...props
 }: React.PropsWithChildren<LoginProfileButtonProps>) => {
-  const { pathname, navigate } = useRouting()
-  const { user } = useContext(UserContext)
-  const { isLoggedIn } = useAuth()
-  const hasUserData = isLoggedIn && user
+  const { navigate } = useRouting()
+  const { user } = useLoggedInUser()
   const { t } = useTranslation()
-  const isWeb = Platform.OS === 'web'
-
-  let pathToGo = '/profile'
-
-  if (isWeb) {
-    pathToGo = pathname.includes('/login')
-      ? '/registration'
-      : pathname.includes('/registration')
-      ? '/login'
-      : '/profile'
-  }
 
   return (
     <HoliButton
       label={t('profile.title')}
       inline
       transparent
-      onPress={() => navigate(pathToGo)}
+      onPress={() => navigate('/profile')}
       contentStyle={[styles.button, style]}
       {...props}
       testID="btn-to-profile-view"
     >
-      {hasUserData ? (
+      {user ? (
         <HoliAvatar
           imageSrc={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}

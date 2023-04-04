@@ -11,6 +11,7 @@
     - [Automated Testing](#automated-testing)
       - [Unit tests](#unit-tests)
         - [Execution](#execution)
+        - [Local Execution](#local-execution)
         - [Conventions](#conventions)
       - [Web e2e tests](#web-e2e-tests)
       - [Mobile e2e tests](#mobile-e2e-tests)
@@ -44,6 +45,7 @@
   - [Authentication](#authentication)
     - [Mobile](#mobile-1)
     - [Web](#web-1)
+    - [OAuth2](#oauth2)
   - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
   - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
     - [Feature Branches \& Environments](#feature-branches--environments)
@@ -86,6 +88,7 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
   - _Note that the **Pixel 4 API 32** was throwing a permissions error in **macOS Ventura 13.1**. We corrected the error by installing a different device, for example, the **Pixel 5 API 31**._
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Add `<path-to-android-sdk>/platform-tools` to your `PATH` environment variable to access the `adb` command.
+- For Gnu Bash or Zsh run `export ANDROID_HOME ~/Library/Android/sdk` and `export PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools`
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
 - `yarn mobile:dev` > `a`
@@ -138,6 +141,24 @@ yarn test -t SpaceTaskTile
 # or
 yarn test -t 'SpaceTaskTile renders correctly'
 ```
+
+##### Local Execution
+
+You can also run some of the tests locally. Currently, only Core, but more is to come.
+
+```sh
+# just navigate to the package, for example:
+cd core
+
+# and execute
+yarn test
+# or
+yarn test:watch myFileName
+# or
+yarn test:watchAll 
+```
+
+Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
 
 ##### Conventions
 
@@ -622,6 +643,18 @@ request header `Authorization: Bearer $TOKEN`.
 During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
 secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
 the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
+
+### OAuth2
+
+In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://owncloud.dev/ocis/)) there are some web specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
+
+The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
+
+```sh
+127.0.0.1 staging.web.project-holi.org
+```
+
+However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
 
 ## Exploring the GraphQL API (via graphiql)
 

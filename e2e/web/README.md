@@ -10,6 +10,24 @@ You need to have Docker installed, because Playwright only supports Ubuntu.
 
 The test for the login require working credentials. Please provide them in the `.envrc.local` file. The variable names are already there.
 
+## Testing selective browsers
+
+You can test selective browsers from the command line by specifying an environment variable:
+
+```sh
+E2E_WEB_BROWSERS=Desktop_WebKit,Mobile_WebKit yarn test
+```
+
+Take a look in `playwright.config.ts` for valid browser names.
+
+## Testing with retries
+
+By default, local tests run without retries, but CI test runs use retries. Therefore, flaky tests can fail locally, but succeed in CI. If you want to test with retries locally, you can enable them via an environment variable:
+
+```sh
+E2E_WEB_RETRIES=2 yarn test
+```
+
 ## Testing locally
 
 For testing the web app locally, start the local dev environment from the root of the project with
@@ -58,9 +76,10 @@ yarn test:localhost --grep @Profile
 
 Or invert selective tests `--grep-invert @...`
 
+
 ### Troubleshooting
 
-- Playwright can be really fast with clicks, when using animated views it might run into issues - it is recommended to add delay between steps.
+- Playwright is really fast with clicks, which might uncover issues that don't appear in manual testing - they still are issues, though, either in the test itself or even in the application. Don't add delays to work around such test failures.
 
 - If an error like "Test timeout of 60000ms exceeded" occurs during CI in combination with "Target closed" in locally working tests, have a look at the overall execution time of the test - it might be that the timeout actually is not long enough and execution during CI just takes longer. (When the timeout is reached during test execution, the browser will be closed, causing Playwright to throw the error "Target closed" while searching for elements on the no longer existing page.)
   

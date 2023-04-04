@@ -23,7 +23,7 @@ default:
       - "terraform/environments/web/scripts/terraform-*.log" # separate log for every step/command
       - $UI_DOMAIN_PATH
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
-    #when: on_failure
+    when: always
     expire_in: 1 month
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
@@ -42,7 +42,8 @@ default:
     paths:
       - e2e/web/playwright-report
       - e2e/web/test-results
-    when: on_failure
+      - e2e/web/artifacts # accessibility reports
+    when: always
   script:
     - export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"

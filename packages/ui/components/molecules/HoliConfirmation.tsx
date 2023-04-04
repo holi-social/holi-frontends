@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
-  Modal,
   ModalProps,
   Platform,
   Pressable,
@@ -15,8 +14,8 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
+import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliConfirmationProps extends ModalProps {
   show: boolean
@@ -37,23 +36,20 @@ export const useConfirmationState = ({
   onDismiss,
 }: Partial<Pick<HoliConfirmationProps, 'show' | 'onConfirm' | 'onDismiss'>> = {}) => {
   const [visible, setVisible] = useState(show)
-  const { setModalIsOpen } = useTheme()
 
   const confirmHandler = useCallback(() => {
     const confirmPropagation = onConfirm?.()
     if (confirmPropagation !== false) {
       setVisible(false)
-      setModalIsOpen(false)
     }
-  }, [onConfirm, setModalIsOpen])
+  }, [onConfirm])
 
   const dismissHandler = useCallback(() => {
-    const confirmPropagation = onDismiss?.()
-    if (confirmPropagation !== false) {
+    const dismissPropagation = onDismiss?.()
+    if (dismissPropagation !== false) {
       setVisible(false)
-      setModalIsOpen(false)
     }
-  }, [onDismiss, setModalIsOpen])
+  }, [onDismiss])
 
   return {
     show: visible,
@@ -91,9 +87,10 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   }
 
   return (
-    <Modal
+    <ModalBasic
+      label=""
       {...accessibilityProps}
-      visible={show}
+      show={show}
       transparent
       animationType="fade"
       {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
@@ -138,7 +135,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
           </View>
         </View>
       </View>
-    </Modal>
+    </ModalBasic>
   )
 }
 

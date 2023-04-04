@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -19,11 +19,12 @@ type UserConnectionButtonsProps = {
 
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
-  const { isLoggedIn } = useContext(AuthContext)
-  const { openLoginDialog } = useLoginRedirect()
+  const { isLoggedIn } = useLoggedInUser()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+
+  const { openLoginModal } = useLoginModal()
 
   if (error) {
     displayError(error)
@@ -33,10 +34,10 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
   const onPrimaryPress = () => {
-    if (!isLoggedIn)
-      return openLoginDialog({
-        description: t('user.profileView.connection.notLoggedIn.message'),
-      })
+    if (!isLoggedIn) {
+      openLoginModal({ description: t('user.profileView.connection.notLoggedIn.message') })
+      return
+    }
 
     if (
       connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||

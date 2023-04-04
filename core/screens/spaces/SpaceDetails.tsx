@@ -1,25 +1,26 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Linking, Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
-import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
+import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -28,7 +29,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
@@ -36,16 +37,16 @@ const { useParam } = createParam<SpaceDetailsParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { navigate, replaceRoute } = useRouting()
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0)
 
   const { setOptions } = useUnifiedNavigation()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
+    variables: { idOrName: spaceIdOrName },
   })
 
   const space = data?.spaceById
@@ -68,7 +69,13 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}
           showOptions={visible}
-          onPress={show}
+          onPress={() => {
+            // if pressed too soon, the state is set to true, but the modal is not shown.
+            // crude mechanism to recover from this state.
+            // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+            visible && hide()
+            show()
+          }}
           onModalDismiss={hide}
           tintColor={tintColor}
           testID="space-options-btn"
@@ -78,17 +85,17 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               icon="edit-2"
               label={t('global.edit')}
               onPress={() => {
-                navigate(`/spaces/${spaceId}/edit`)
+                navigate(`/spaces/${spaceIdOrName}/edit`)
                 hide()
               }}
               contentStyle={styles.buttonWithIcon}
             />
           )}
-          {Platform.OS !== 'web' && <SpaceShare space={space} />}
+          {space && <SpaceShare space={space} />}
 
           <ReportBlockOptionButton
             action="report"
-            objectId={spaceId || ''}
+            objectId={space?.id || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
             confirmationModalProps={{
@@ -98,9 +105,25 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+          {/* TODO: integrate on collaborators screen */}
+          {isMember && (
+            <MoreOptionItem
+              icon="cloud"
+              label="Storage"
+              onPress={() => {
+                if (Platform.OS === 'web') {
+                  Linking.openURL(owncloudUrl)
+                } else {
+                  navigate(`/spaces/${spaceIdOrName}/storage`)
+                }
+                hide()
+              }}
+              contentStyle={styles.buttonWithIcon}
+            />
+          )}
           {isAdmin && (
             <DeleteSpaceButton
-              spaceId={spaceId || ''}
+              spaceId={space?.id || ''}
               onDelete={() => {
                 replaceRoute('/spaces/')
                 hide()
@@ -114,12 +137,16 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, navigate, replaceRoute, spaceId, space])
+  }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
+
+  const handleTabChange = (index: number) => {
+    setCurrentTabIndex(index)
+  }
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
       <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
+        <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
   }
@@ -134,15 +161,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
-        <SpaceDetailView style={styles.spaceDetailView} space={space} />
-      </DefaultLayout>
-      {(isCreator || isMember) && <SpaceDashboardModal spaceId={spaceId} />}
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
+      </DefaultScrollHeaderLayout>
+      {(isCreator || isMember) && currentTabIndex === 1 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>
   )
 }
@@ -176,6 +198,7 @@ const styles = StyleSheet.create({
   buttonWithIcon: {
     display: 'flex',
     justifyContent: 'center',
+    paddingVertical: 18,
   },
   reportButton: {
     justifyContent: 'center',
@@ -184,6 +207,14 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: vars.topBarHeight + 50,
+  },
+  overlayContainer: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 42,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 24,
+    justifyContent: 'center',
   },
 })
 

@@ -1,66 +1,46 @@
-import { expect, test } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  locateElementByTestId,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
-
 test.describe('@ForgotPassword', () => {
-  test('form validation', async ({ page }) => {
+  test('user journey', async ({ page }) => {
+    await page.goto('/')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
     // shows also login link
-    await waitForElementByTestId(page, 'btn-to-login-form')
+    await page.waitForSelector(byTestId('btn-to-login-form'))
 
     // shows also registration link
-    await waitForElementByTestId(page, 'btn-to-registration-form')
+    await page.waitForSelector(byTestId('btn-to-registration-form'))
 
     // form validation ...
     const emailInput = await locateElementByTestId(page, 'ory-email-input')
 
     // required field message
-    await clickElementByTestId(page, 'ory-submit-method')
-    await waitForElementByTestId(page, 'ory-email-input-error-message')
+    await clickElementByTestId(page, 'ory-submit-link')
+    await page.waitForSelector(byTestId('ory-email-input-error-message'))
 
+    // reset form by reloading, so error message disappears
+    await page.goto('/forgotPassword')
     // invalid email message
     await emailInput.fill('an-invalid-email')
-    await clickElementByTestId(page, 'ory-submit-method')
-    await waitForElementByTestId(page, 'ory-email-input-error-message')
-  })
-
-  test('successful form submission', async ({ page }) => {
-    await clickElementByTestId(page, 'btn-to-login-form')
-    await clickElementByTestId(page, 'btn-to-forgot-password-form')
+    await clickElementByTestId(page, 'ory-submit-link')
+    await page.waitForSelector(byTestId('ory-email-input-error-message'))
 
     await checkAccessibility(page)
 
-    // shows also login link
-    await waitForElementByTestId(page, 'btn-to-login-form')
-
-    // shows also registration link
-    await waitForElementByTestId(page, 'btn-to-registration-form')
-
-    // form validation ...
-    const emailInput = await locateElementByTestId(page, 'ory-email-input')
-
     // successful form submission
     await emailInput.fill('valid@mail.de')
-    await clickElementByTestId(page, 'ory-submit-method')
+    await clickElementByTestId(page, 'ory-submit-link')
 
     // success view is shown
-    await waitForElementByTestId(page, 'form-sent-headline')
-    await waitForElementByTestId(page, 'back-to-home-btn')
+    await page.waitForSelector(byTestId('form-sent-headline'))
+    await page.waitForSelector(byTestId('back-to-home-btn'))
 
     // input is not visible anymore
     await expect(await emailInput.isVisible()).not.toBeTruthy()

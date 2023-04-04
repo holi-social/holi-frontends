@@ -34,6 +34,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.Profile]: 'profile',
             [RouteName.SettingsOverview]: 'profile/settings',
             [RouteName.AccountSettings]: 'profile/settings/account',
+            [RouteName.ChangePassword]: 'profile/settings/changePassword',
           },
         },
       },
@@ -51,10 +52,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
 
     [RouteName.Spaces]: {
       screens: {
-        [RouteName.SpaceDetails]: 'spaces/:spaceId',
+        [RouteName.SpaceDetails]: 'spaces/:spaceIdOrName',
         [RouteName.CreateSpace]: 'spaces/create',
-        [RouteName.EditSpace]: 'spaces/:spaceId/edit',
-        [RouteName.CollaboratorArea]: 'spaces/:spaceId/collaboratorArea',
+        [RouteName.EditSpace]: 'spaces/:spaceIdOrName/edit',
+        [RouteName.AddDigitalTool]: 'spaces/:spaceIdOrName/addDigitalTool',
+        [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
+        [RouteName.LinkHub]: 'spaces/:spaceIdOrName/linkHub',
+        [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/tools/:toolIdOrName/edit',
       },
     },
 

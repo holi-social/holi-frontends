@@ -79,7 +79,7 @@ const browserStackCapabilities = () => {
         projectName: gitlabBranchName || localGitInfo.branch,
         buildName: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
         sessionName: 'undefined',
-        idleTimeout: '30', // seconds, should be short in order to fail early and keep queue slots open
+        idleTimeout: '60', // seconds, should be short in order to fail early and keep queue slots open
         networkLogs: 'true',
         consoleLogs: 'info',
         disableAnimations: 'true',
@@ -125,6 +125,7 @@ const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
   host: process.env.APPIUM_HOST || 'localhost', // host ist correct, even though the webdriver.io type has hostname
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
+  path: process.env.APPIUM_PATH || '/',
 }
 
 const localCapabilities = () => {

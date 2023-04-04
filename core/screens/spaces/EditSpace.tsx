@@ -5,15 +5,15 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import EditSpaceAvatar from '@holi/core/screens/spaces/components/EditSpaceAvatar'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/components/EditSpaceCoverImage'
+import EditSpaceLocation from '@holi/core/screens/spaces/components/EditSpaceLocation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
@@ -35,8 +35,6 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import EditSpaceLocation from './components/EditSpaceLocation'
-
 enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
@@ -47,7 +45,7 @@ enum EditFields {
 }
 
 export type EditSpaceParams = {
-  spaceId: string
+  spaceIdOrName: string
 }
 
 const { useParam } = createParam<EditSpaceParams>()
@@ -55,17 +53,16 @@ const { useParam } = createParam<EditSpaceParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditSpace: React.VFC<ScreenProps> = () => {
-  const [spaceId] = useParam('spaceId')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
   const [editField, setEditField] = useState<EditFields | null>(null)
 
   const { t } = useTranslation()
-  const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
+    variables: { idOrName: spaceIdOrName },
   })
 
   const space = data?.spaceById
@@ -73,17 +70,21 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   if (!loading && !isAdmin) {
-    navigate(`/spaces/${spaceId}`)
+    navigate(`/spaces/${spaceIdOrName}`)
   }
 
   const { visible, show, hide } = useModalState()
 
   const openEditModal = useCallback(
     (type: EditFields) => {
+      // if pressed too soon, the state is set to non null, but the modal is not shown.
+      // crude mechanism to recover from this state.
+      // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+      editField && setEditField(null)
       setEditField(type)
       show()
     },
-    [setEditField, show]
+    [editField, setEditField, show]
   )
 
   useLayoutEffect(() => {
@@ -110,12 +111,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-      >
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
@@ -194,6 +190,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.location')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.LOCATION)}
+                testID="space-edit-location"
               >
                 {space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
@@ -232,11 +229,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             </View>
           </View>
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigate(`/spaces/${spaceId}`)}
+          onPress={() => navigate(`/spaces/${spaceIdOrName}`)}
           style={styles.overlayButton}
           testID="space-edit-close"
         >

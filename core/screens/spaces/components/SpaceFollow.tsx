@@ -3,11 +3,11 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -18,16 +18,21 @@ export type SpaceFollowProps = {
 
 const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
-  const { openLoginDialog } = useLoginRedirect()
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
+
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
-  const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
-    // refetchQueries considered harmful https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+  const { displayError } = useErrorHandling()
+
+  const [followSpace, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
+    // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
     update: (cache) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
     },
+    onError: (error) => {
+      displayError(error, t('spaces.follow.error'))
+    },
   })
-  const { displayError } = useErrorHandling()
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -35,7 +40,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
 
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
-      return openLoginDialog({
+      return openLoginModal({
         description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
@@ -46,7 +51,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginDialog, t, followSpace, space.id, space.title])
+  }, [isLoggedIn, openLoginModal, t, followSpace, space.id, space.title])
 
   const submitUnfollowRequest = useCallback(() => {
     setUnfollowDialogIsOpen(false)
@@ -61,10 +66,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
 
   if (isMember || hasRequestedMembership) {
     return null
-  }
-
-  if (error) {
-    displayError(error, t('spaces.follow.error'))
   }
 
   return (

@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
 const withHtml = require('@blunck/next-html')()
@@ -53,6 +52,11 @@ module.exports = withSentryConfig(
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
+          'react-native-webview',
+          'react-native-render-html',
+          'react-native-animated-pagination-dot',
+          'expo-status-bar',
+          '@jsamr/react-native-li',
           '@holi-apps/donations',
           '@holi-apps/goodnews',
           '@holi-apps/volunteering',

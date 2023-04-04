@@ -7,9 +7,9 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -45,7 +45,6 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -138,7 +137,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={styles.cardContainer}>
+      <View style={[styles.cardContainer, { maxWidth: deviceWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
         {organizer && <Organizer organizer={organizer} />}
@@ -148,11 +147,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   return (
     <View style={styles.container} testID="volunteering-detailview-container">
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={{ backgroundColor: colors.background30 }}
-      >
+      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }}>
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} />
@@ -162,7 +157,8 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             )}
           </View>
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading
           icon="share-box"

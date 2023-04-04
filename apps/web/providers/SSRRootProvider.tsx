@@ -3,14 +3,12 @@ import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
 
-import AuthContextProvider from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
-import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
+import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
@@ -33,23 +31,19 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           </SafeArea>
         }
       >
-        <ScrollYProvider>
-          <ErrorBoundary>
-            <ApolloProvider client={apolloWebClient}>
-              <AuthContextProvider>
-                <UserContextProvider>
-                  <LoginRedirectProvider>
-                    <PortalProvider>
-                      <ToastProvider>
-                        <NavigationContextProvider>{children}</NavigationContextProvider>
-                      </ToastProvider>
-                    </PortalProvider>
-                  </LoginRedirectProvider>
-                </UserContextProvider>
-              </AuthContextProvider>
-            </ApolloProvider>
-          </ErrorBoundary>
-        </ScrollYProvider>
+        <ErrorBoundary>
+          <ApolloProvider client={apolloWebClient}>
+            <UserContextProvider>
+              <PortalProvider>
+                <ToastProvider>
+                  <NavigationContextProvider>
+                    <LoginModalProvider>{children}</LoginModalProvider>
+                  </NavigationContextProvider>
+                </ToastProvider>
+              </PortalProvider>
+            </UserContextProvider>
+          </ApolloProvider>
+        </ErrorBoundary>
       </Suspense>
     </ThemeProvider>
   )

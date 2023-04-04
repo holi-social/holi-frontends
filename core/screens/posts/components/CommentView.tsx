@@ -5,22 +5,24 @@ import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
+import CommentDeleteButton from '@holi/core/screens/posts/components/CommentDeleteButton'
+import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
+  postId: string
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
+const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props }) => {
   const { t } = useTranslation()
 
   const { creator } = comment
@@ -29,16 +31,13 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   const { visible, show, hide } = useModalState()
 
   return (
-    <View style={[styles.wrapper, style]} {...props}>
+    <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
       <View style={styles.header}>
-        <HoliLink
-          href={`/profile/${creator.id}`}
-          label={name}
-          testID="btn-to-commenter-profile"
-          style={styles.mediaHeaderLink}
-        >
-          <HoliMediaHeader title={name} author={creator} date={comment.created} />
-        </HoliLink>
+        <View style={styles.mediaHeaderLink}>
+          <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
+            <HoliMediaHeader title={name} author={creator} date={comment.created} />
+          </HoliLink>
+        </View>
 
         <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}
@@ -46,6 +45,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           onPress={show}
           onModalDismiss={hide}
           style={styles.moreButton}
+          testID="comment-three-dot-menu-button"
         >
           <ReportBlockOptionButton
             action="report"
@@ -58,6 +58,14 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
             }}
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
+            testID="report-comment-button"
+          />
+          <CommentDeleteButton
+            comment={comment}
+            postId={postId}
+            onConfirm={hide}
+            style={styles.moreOptionItem}
+            testID="delete-comment-button"
           />
         </MoreOptionsButtonWithModal>
       </View>
@@ -67,17 +75,8 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
         <View style={styles.commentContent}>
           <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
 
-          {/* TODO: reactions functionality comes with HOLI-3478 */}
           <View style={styles.reactionsBar}>
-            <HoliReactionsCount
-              onPress={() => {
-                console.log('click !!!!!')
-              }}
-              type="comment"
-              count={0}
-              active={false}
-              fullName={name}
-            />
+            <CommentReactions comment={comment} />
           </View>
         </View>
       </View>
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
   },
   moreOptionItem: {
     justifyContent: 'center',
-    paddingVertical: 18,
+    paddingVertical: 12,
   },
   body: {
     flexDirection: 'row',

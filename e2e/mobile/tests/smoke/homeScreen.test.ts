@@ -11,6 +11,6 @@ describe('@HomeScreen', () => {
     await waitForElementWithTestId('insight-headline')
 
     // go home
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreen('nav-button-back')
   })
 })

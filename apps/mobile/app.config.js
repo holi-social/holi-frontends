@@ -18,7 +18,7 @@ export default {
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#F5F5F5',
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -26,7 +26,7 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'foundation.holistic.projectholi',
+      bundleIdentifier: 'social.holi',
       buildNumber: versions.iosBuildNumber,
       config: {
         // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
@@ -40,7 +40,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F5F5F5',
       },
       package: 'foundation.holistic.projectholi',
       versionCode: versions.androidVersionCode,
@@ -67,8 +67,8 @@ export default {
       ],
     },
     extra: {
-      kratos: {
-        url: process.env.KRATOS_BASE_URL || 'https://dev-auth.project-holi.org',
+      ory: {
+        url: process.env.ORY_BASE_URL || 'https://dev-auth.project-holi.org',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
@@ -76,6 +76,9 @@ export default {
       environment: process.env.ENVIRONMENT_ID,
       sentry: {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
+      },
+      owncloud: {
+        url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.project-holi.org',
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID || '',

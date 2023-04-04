@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
@@ -15,7 +16,10 @@ interface EditSpaceLocationProps {
 
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { openToast } = useToast()
-  const [location, setLocation] = useState<string>('')
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    space.location ? { label: space.location, id: '', coordinates: space.geolocation } : undefined
+  )
+  const [validationErrorText, setValidationErrorText] = useState('')
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -27,16 +31,38 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
     },
   })
 
+  useEffect(() => {
+    setValidationErrorText('')
+  }, [location])
+
   const { t } = useTranslation()
-  const onSave = () => updateSpace({ variables: { input: { id: space.id, location: location } } })
+  const onSave = () => {
+    if (!location) {
+      setValidationErrorText(t('spaces.input.location.validation.helper'))
+      return
+    }
+    updateSpace({
+      variables: {
+        input: {
+          id: space.id,
+          location: location?.label,
+          geolocation: {
+            latitude: location?.coordinates?.latitude,
+            longitude: location?.coordinates?.longitude,
+          },
+        },
+      },
+    })
+  }
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} scrollable={false}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading || !location} scrollable={false}>
       <SpaceLocationInput
         title={t('spaces.input.location.title')}
         description={t('spaces.input.location.description')}
         onChange={setLocation}
         location={location}
+        validationErrorText={validationErrorText}
       />
     </EditSpaceModal>
   )

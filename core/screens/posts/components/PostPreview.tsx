@@ -1,18 +1,20 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
+import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -26,26 +28,37 @@ export type PostPreviewProps = {
 }
 
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
+  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
+  const { openLoginModal } = useLoginModal()
+
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
 
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
   const commentUrl = `${postUrl}/comment`
 
+  const onPressCommentLink = () => {
+    if (!isLoggedIn) {
+      openLoginModal()
+      // return false prevents link execution
+      return false
+    }
+  }
+
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
         <View style={styles.header}>
-          <HoliLink
-            href={`/profile/${post.creator.id}`}
-            label={post.creator.fullName}
-            testID="btn-to-post-creator-profile"
-            style={styles.mediaHeaderLink}
-          >
-            <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
-          </HoliLink>
-
+          <View style={styles.mediaHeaderLink}>
+            <HoliLink
+              href={`/profile/${post.creator.id}`}
+              label={post.creator.fullName}
+              testID="btn-to-post-creator-profile"
+            >
+              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+            </HoliLink>
+          </View>
           <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
             showOptions={visible}
@@ -68,11 +81,13 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
           </MoreOptionsButtonWithModal>
         </View>
 
-        <HoliLink href={postUrl} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
-          <HoliHeading size="small" style={styles.postTitle}>
-            {post.title}
-          </HoliHeading>
-        </HoliLink>
+        <View style={styles.postTitleLink}>
+          <HoliLink href={postUrl} label={post.title} testID="btn-to-post">
+            <HoliHeading size="small" style={styles.postTitle}>
+              {post.title}
+            </HoliHeading>
+          </HoliLink>
+        </View>
 
         <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
           <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
@@ -91,35 +106,29 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
 
       <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
         {post.numberOfComments > 0 && (
-          <HoliLink
-            href={`${postUrl}?commentId=first`}
-            label={t('insights.posts.comments.link')}
-            style={styles.reactionsLink}
-          >
-            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-              {t('insights.post.response', { count: post.numberOfComments })}
-            </HoliUserAvatarPile>
-          </HoliLink>
+          <View style={styles.reactionsLink}>
+            <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
+              <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+                {t('insights.post.response', { count: post.numberOfComments })}
+              </HoliUserAvatarPile>
+            </HoliLink>
+          </View>
         )}
-
         {post.numberOfComments < 1 && (
-          <HoliLink href={commentUrl} label={t('insights.posts.comments.create_comment_button')}>
-            <HoliText size="small" style={{ color: colors.foreground20 }}>
-              {t('insights.post.no-comment-yet')}
-            </HoliText>
-          </HoliLink>
+          <View style={styles.noCommentsYetMessage}>
+            <HoliLink
+              href={commentUrl}
+              label={t('insights.posts.comments.create_comment_button')}
+              onPress={onPressCommentLink}
+            >
+              <HoliText size="small" style={{ color: colors.foreground20 }}>
+                {t('insights.post.no-comment-yet')}
+              </HoliText>
+            </HoliLink>
+          </View>
         )}
 
-        {/* TODO: reactions functionality comes with HOLI-3478 */}
-        <HoliReactionsCount
-          onPress={() => {
-            console.log('click !!!!!')
-          }}
-          type="post"
-          count={0}
-          active={false}
-          fullName={post.creator.fullName}
-        />
+        <PostReactions post={post} />
       </View>
     </View>
   )
@@ -172,6 +181,11 @@ const styles = StyleSheet.create({
   reactionsLink: {
     height: 'auto',
     display: 'flex',
+  },
+  noCommentsYetMessage: {
+    paddingRight: 24,
+    flex: 1,
+    marginTop: Platform.OS === 'web' ? 0 : 4,
   },
 })
 

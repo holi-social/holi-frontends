@@ -39,6 +39,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -52,31 +53,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -108,6 +91,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -117,7 +101,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -135,7 +119,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -186,6 +170,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -213,67 +199,25 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -404,7 +348,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -417,6 +361,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -457,19 +403,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -503,7 +443,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": true,
@@ -516,6 +456,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -556,19 +498,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -595,67 +531,26 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 ]
               }
             >
-              <RNSVGSvgView
-                align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
-                focusable={false}
-                meetOrSlice={0}
-                minX={0}
-                minY={0}
+              <svg
+                color="#fff"
                 style={
-                  [
-                    {
-                      "backgroundColor": "transparent",
-                      "borderWidth": 0,
-                    },
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#fff",
-                      "display": "flex",
-                      "fill": "currentColor",
-                      "flexDirection": "row",
-                      "flexWrap": "wrap",
-                      "height": 20,
-                      "stroke": "currentColor",
-                      "width": 20,
-                    },
-                    {
-                      "flex": 0,
-                      "height": 20,
-                      "width": 20,
-                    },
-                  ]
+                  {
+                    "borderStyle": "solid",
+                    "borderWidth": 0,
+                    "color": "#fff",
+                    "display": "inline-block",
+                    "fill": "currentColor",
+                    "height": 20,
+                    "stroke": "currentColor",
+                    "width": 20,
+                  }
                 }
-                tintColor={4294967295}
-                vbHeight={1024}
-                vbWidth={1024}
+                viewBox="0 0 1024 1024"
               >
-                <RNSVGGroup
-                  fill={
-                    [
-                      2,
-                    ]
-                  }
-                  propList={
-                    [
-                      "fill",
-                      "stroke",
-                    ]
-                  }
-                  stroke={
-                    [
-                      2,
-                    ]
-                  }
-                >
-                  <RNSVGPath
-                    d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                  />
-                </RNSVGGroup>
-              </RNSVGSvgView>
+                <path
+                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
+                />
+              </svg>
             </View>
           </View>
         </View>
@@ -667,7 +562,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={true}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": true,
@@ -680,6 +575,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -720,19 +617,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -759,67 +650,26 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 ]
               }
             >
-              <RNSVGSvgView
-                align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
-                focusable={false}
-                meetOrSlice={0}
-                minX={0}
-                minY={0}
+              <svg
+                color="#fff"
                 style={
-                  [
-                    {
-                      "backgroundColor": "transparent",
-                      "borderWidth": 0,
-                    },
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#fff",
-                      "display": "flex",
-                      "fill": "currentColor",
-                      "flexDirection": "row",
-                      "flexWrap": "wrap",
-                      "height": 20,
-                      "stroke": "currentColor",
-                      "width": 20,
-                    },
-                    {
-                      "flex": 0,
-                      "height": 20,
-                      "width": 20,
-                    },
-                  ]
+                  {
+                    "borderStyle": "solid",
+                    "borderWidth": 0,
+                    "color": "#fff",
+                    "display": "inline-block",
+                    "fill": "currentColor",
+                    "height": 20,
+                    "stroke": "currentColor",
+                    "width": 20,
+                  }
                 }
-                tintColor={4294967295}
-                vbHeight={1024}
-                vbWidth={1024}
+                viewBox="0 0 1024 1024"
               >
-                <RNSVGGroup
-                  fill={
-                    [
-                      2,
-                    ]
-                  }
-                  propList={
-                    [
-                      "fill",
-                      "stroke",
-                    ]
-                  }
-                  stroke={
-                    [
-                      2,
-                    ]
-                  }
-                >
-                  <RNSVGPath
-                    d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                  />
-                </RNSVGGroup>
-              </RNSVGSvgView>
+                <path
+                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
+                />
+              </svg>
             </View>
           </View>
         </View>
@@ -831,7 +681,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -844,6 +694,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -884,19 +736,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -930,7 +776,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -943,6 +789,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -983,19 +831,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -1029,7 +871,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -1042,6 +884,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1082,19 +926,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -1128,7 +966,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -1141,6 +979,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1181,19 +1021,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -1227,7 +1061,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -1240,6 +1074,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1280,19 +1116,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -1363,6 +1193,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -1376,31 +1207,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -1432,6 +1245,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -1441,7 +1255,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -1459,7 +1273,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1510,6 +1324,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -1537,67 +1353,25 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -1728,7 +1502,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -1741,6 +1515,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1781,19 +1557,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -1827,7 +1597,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={true}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": true,
@@ -1840,6 +1610,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -1880,19 +1652,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -1919,67 +1685,26 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 ]
               }
             >
-              <RNSVGSvgView
-                align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
-                focusable={false}
-                meetOrSlice={0}
-                minX={0}
-                minY={0}
+              <svg
+                color="#fff"
                 style={
-                  [
-                    {
-                      "backgroundColor": "transparent",
-                      "borderWidth": 0,
-                    },
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#fff",
-                      "display": "flex",
-                      "fill": "currentColor",
-                      "flexDirection": "row",
-                      "flexWrap": "wrap",
-                      "height": 20,
-                      "stroke": "currentColor",
-                      "width": 20,
-                    },
-                    {
-                      "flex": 0,
-                      "height": 20,
-                      "width": 20,
-                    },
-                  ]
+                  {
+                    "borderStyle": "solid",
+                    "borderWidth": 0,
+                    "color": "#fff",
+                    "display": "inline-block",
+                    "fill": "currentColor",
+                    "height": 20,
+                    "stroke": "currentColor",
+                    "width": 20,
+                  }
                 }
-                tintColor={4294967295}
-                vbHeight={1024}
-                vbWidth={1024}
+                viewBox="0 0 1024 1024"
               >
-                <RNSVGGroup
-                  fill={
-                    [
-                      2,
-                    ]
-                  }
-                  propList={
-                    [
-                      "fill",
-                      "stroke",
-                    ]
-                  }
-                  stroke={
-                    [
-                      2,
-                    ]
-                  }
-                >
-                  <RNSVGPath
-                    d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                  />
-                </RNSVGGroup>
-              </RNSVGSvgView>
+                <path
+                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
+                />
+              </svg>
             </View>
           </View>
         </View>
@@ -1991,7 +1716,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2004,6 +1729,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2044,19 +1771,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -2090,7 +1811,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2103,6 +1824,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2143,19 +1866,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -2189,7 +1906,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2202,6 +1919,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2242,19 +1961,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -2288,7 +2001,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2301,6 +2014,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2341,19 +2056,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -2387,7 +2096,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2400,6 +2109,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2440,19 +2151,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -2486,7 +2191,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -2499,6 +2204,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -2539,19 +2246,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -2622,6 +2323,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -2635,29 +2337,13 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -2685,6 +2371,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -2693,7 +2380,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -2711,7 +2398,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2762,6 +2449,8 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -2788,67 +2477,25 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -2905,6 +2552,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -2918,31 +2566,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -2974,6 +2604,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -2983,7 +2614,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -3001,7 +2632,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3052,6 +2683,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -3079,67 +2712,25 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -3270,7 +2861,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3283,6 +2874,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3323,19 +2916,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -3369,7 +2956,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3382,6 +2969,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3422,19 +3011,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -3468,7 +3051,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3481,6 +3064,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3521,19 +3106,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -3567,7 +3146,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3580,6 +3159,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3620,19 +3201,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -3666,7 +3241,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3679,6 +3254,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3719,19 +3296,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -3765,7 +3336,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3778,6 +3349,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3818,19 +3391,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -3864,7 +3431,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3877,6 +3444,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -3917,19 +3486,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -3963,7 +3526,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -3976,6 +3539,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4016,19 +3581,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -4099,6 +3658,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -4112,31 +3672,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -4168,6 +3710,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -4177,7 +3720,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -4195,7 +3738,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4246,6 +3789,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -4275,67 +3820,25 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={16}
-                  bbWidth={16}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 16,
-                        "stroke": "currentColor",
-                        "width": 16,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 16,
-                        "width": 16,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 16,
+                      "stroke": "currentColor",
+                      "width": 16,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM512 451.669l-120.661-120.704-60.373 60.373 120.704 120.661-120.704 120.661 60.373 60.373 120.661-120.704 120.661 120.704 60.373-60.373-120.704-120.661 120.704-120.661-60.373-60.373-120.661 120.704z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM512 451.669l-120.661-120.704-60.373 60.373 120.704 120.661-120.704 120.661 60.373 60.373 120.661-120.704 120.661 120.704 60.373-60.373-120.704-120.661 120.704-120.661-60.373-60.373-120.661 120.704z"
+                  />
+                </svg>
               </View>
             </View>
             <View
@@ -4352,6 +3855,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -4379,67 +3884,25 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -4540,7 +4003,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -4553,6 +4016,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4593,19 +4058,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -4637,7 +4096,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -4650,6 +4109,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -4690,19 +4151,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection
@@ -4771,6 +4226,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -4784,29 +4240,13 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -4834,6 +4274,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -4842,7 +4283,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -4860,7 +4301,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4911,6 +4352,8 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -4938,67 +4381,25 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -5055,6 +4456,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -5068,29 +4470,13 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {},
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -5118,6 +4504,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -5126,7 +4513,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -5144,7 +4531,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5195,6 +4582,8 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -5221,67 +4610,25 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -5338,6 +4685,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
               "marginBottom": 6,
             },
             {
@@ -5351,31 +4699,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              [
-                {
-                  "color": "#262424",
-                },
-                {
-                  "color": "#6267e7",
-                },
-                {},
-                {},
-              ],
-            ]
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           Label
@@ -5407,6 +4737,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             false,
           ]
         }
+        testID=""
       >
         <TextInput
           accessibilityAutoComplete="list"
@@ -5416,7 +4747,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          blurOnSubmit={true}
+          blurOnSubmit={false}
           editable={true}
           keyboardType="default"
           maxLength={5000}
@@ -5434,7 +4765,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               {
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": null,
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5485,6 +4816,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -5512,67 +4845,25 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                   ]
                 }
               >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280689700}
-                  focusable={false}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
+                <svg
                   style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "borderStyle": "solid",
-                        "borderWidth": 0,
-                        "color": "#262424",
-                        "display": "flex",
-                        "fill": "currentColor",
-                        "flexDirection": "row",
-                        "flexWrap": "wrap",
-                        "height": 22,
-                        "stroke": "currentColor",
-                        "width": 22,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 22,
-                        "width": 22,
-                      },
-                    ]
+                    {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#262424",
+                      "display": "inline-block",
+                      "fill": "currentColor",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    }
                   }
-                  tintColor={4280689700}
-                  vbHeight={1024}
-                  vbWidth={1024}
+                  viewBox="0 0 1024 1024"
                 >
-                  <RNSVGGroup
-                    fill={
-                      [
-                        2,
-                      ]
-                    }
-                    propList={
-                      [
-                        "fill",
-                        "stroke",
-                      ]
-                    }
-                    stroke={
-                      [
-                        2,
-                      ]
-                    }
-                  >
-                    <RNSVGPath
-                      d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                    />
-                  </RNSVGGroup>
-                </RNSVGSvgView>
+                  <path
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </svg>
               </View>
             </View>
           </View>
@@ -5703,7 +4994,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Animal Welfare"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -5716,6 +5007,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -5756,19 +5049,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Animal Welfare
@@ -5800,7 +5087,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Children & Youth"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -5813,6 +5100,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -5853,19 +5142,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Children & Youth
@@ -5897,7 +5180,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Climate Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -5910,6 +5193,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -5950,19 +5235,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Climate Protection
@@ -5994,7 +5273,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Corona"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -6007,6 +5286,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6047,19 +5328,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Corona
@@ -6091,7 +5366,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Culture & History"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -6104,6 +5379,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6144,19 +5421,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Culture & History
@@ -6188,7 +5459,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Development Cooperation"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -6201,6 +5472,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6241,19 +5514,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Development Cooperation
@@ -6285,7 +5552,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Digitalization"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -6298,6 +5565,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6338,19 +5607,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Digitalization
@@ -6382,7 +5645,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         <View
           accessibilityChecked={false}
           accessibilityLabel="Disaster Protection"
-          accessibilityRole="menuitem"
+          accessibilityRole="button"
           accessibilityState={
             {
               "checked": false,
@@ -6395,6 +5658,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
           onResponderRelease={[Function]}
@@ -6435,19 +5700,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               numberOfLines={2}
               selectable={false}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": null,
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
             >
               Disaster Protection

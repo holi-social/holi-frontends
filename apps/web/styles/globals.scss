@@ -80,3 +80,8 @@ li {
 [role=checkbox]:focus > div {
   border: solid 1px $brandColorB30 !important;
 }
+
+// "data-stepper-wrapper" and "data-stepper-step" are our custom data-set attributes for HoliStepper childe nodes
+[data-stepper-wrapper="true"] *:not([data-stepper-step="true"] *) {
+  height: 100%;
+}
