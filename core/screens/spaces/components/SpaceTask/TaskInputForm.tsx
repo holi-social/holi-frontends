@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -100,6 +101,7 @@ export interface TaskInputFormProps {
   onChangeContactPhone: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   isEdit?: boolean
+  fieldErrors?: TranslatedFieldErrors
 }
 
 const TaskInputForm: React.VFC<TaskInputFormProps> = ({
@@ -124,16 +126,29 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   onChangeSkills,
   onChangeSelectedLocation,
   isEdit = false,
+  fieldErrors = {},
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliSelectOption[]>(LOCATION_TYPE_OPTIONS)
   const [regularityOptions, setRegularityOptions] = useState<HoliSelectOption[]>(REGULARITY_OPTIONS)
+
+  const [nameError, setNameError] = useState<string | undefined>()
+  const [descriptionError, setDescriptionError] = useState<string | undefined>()
+  const [contactEmailError, setContactEmailError] = useState<string | undefined>()
+  const [contactPhoneError, setContactPhoneError] = useState<string | undefined>()
 
   const { t } = useTranslation()
   const { skills: allSkills } = useContext(SpaceTermContext)
   const { height: deviceHeight } = useWindowDimensions()
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
+
+  useEffect(() => {
+    setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
+    setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
+    setContactEmailError(fieldErrors?.contactEmail?.length ? fieldErrors.contactEmail[0] : undefined)
+    setContactPhoneError(fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined)
+  }, [fieldErrors])
 
   useEffect(() => {
     if (visibility) {
@@ -231,7 +246,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}
-          validationErrorText={''}
+          validationErrorText={nameError}
           value={name}
           onChange={onChangeName}
           style={styles.marginSeparator}
@@ -244,11 +259,11 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}
           inputLabel={t('spaces.input.task.description.label')}
-          validationErrorText={''}
           value={description}
           onChange={onChangeDescription}
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.description.label')}
+          validationErrorText={descriptionError}
           testID="task-description-input"
           isRequired
           showCharacterCount
@@ -334,7 +349,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.contactEmail.placeholder')}
           inputLabel={t('spaces.input.task.contactEmail.label')}
-          validationErrorText={''} // TODO: check
+          validationErrorText={contactEmailError}
           isRequired
           value={contactEmail}
           onChange={onChangeContactEmail}
@@ -346,7 +361,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.contactPhone.placeholder')}
           inputLabel={t('spaces.input.task.contactPhone.label')}
-          validationErrorText={''} // TODO: check
+          validationErrorText={contactPhoneError}
           value={contactPhone}
           onChange={onChangeContactPhone}
           style={styles.marginSeparator}

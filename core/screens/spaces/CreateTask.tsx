@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -16,6 +16,7 @@ import TaskInputForm from '@holi/core/screens/spaces/components/SpaceTask/TaskIn
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import {
   CreateTaskResponse,
+  CreateTaskSchema,
   SpaceByIdResponse,
   createTaskMutation,
   spaceByIdQuery,
@@ -67,6 +68,8 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
+  const [inputValid, setInputValid] = useState(true)
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
   const {
     data,
@@ -90,7 +93,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
-  const onSave = () => {
+  const onSave = () =>
     createTask({
       variables: {
         input: {
@@ -110,7 +113,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         },
       },
     })
-  }
 
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
@@ -127,6 +129,36 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       setLocation(undefined)
     }
   }, [selectedLocation, locationType])
+
+  useEffect(() => {
+    const resultSchema = CreateTaskSchema.safeParse({
+      spaceId: space?.id,
+      ...(name ? { name } : {}),
+      ...(description ? { description } : {}),
+      ...(contactEmail ? { contactEmail } : {}),
+      ...(contactPhone ? { contactPhone } : {}),
+    })
+    setInputValid(resultSchema.success)
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+    } else {
+      setFieldErrors({})
+    }
+  }, [
+    space?.id,
+    name,
+    description,
+    visibility,
+    locationType,
+    regularity,
+    contactEmail,
+    slotsAvailable,
+    thumbnail,
+    skills,
+    location,
+    geolocation,
+    contactPhone,
+  ])
 
   useLayoutEffect(() => {
     !loadingSpace &&
@@ -175,7 +207,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           {t('global.dismiss')}
         </HoliButton>
         <HoliButtonLoading
-          disabled={saveButtonDisabled || loading}
+          disabled={saveButtonDisabled || loading || !inputValid}
           iconSpinning={loading}
           label={t('global.save')}
           onPress={onSave}
@@ -217,6 +249,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             onChangeGeolocation={setGeolocation}
             onChangeContactPhone={setContactPhone}
             onChangeSelectedLocation={setSelectedLocation}
+            fieldErrors={fieldErrors}
           />
         </View>
       </DefaultScrollHeaderLayout>
