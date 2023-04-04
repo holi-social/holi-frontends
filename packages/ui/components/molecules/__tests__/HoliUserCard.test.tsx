@@ -12,7 +12,7 @@ const user: User = {
   lastName: 'Rosmait',
   avatarLabel: 'D',
   avatarDefaultColor: 'green',
-  avatar: 'avatar-1',
+  avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   aboutMe: 'aboutMe',
 }
 

@@ -48,6 +48,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       source={
         {
           "uri": "avatar-1",
+          "width": 24,
         }
       }
       style={
@@ -140,6 +141,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       source={
         {
           "uri": "avatar-2",
+          "width": 24,
         }
       }
       style={
@@ -232,6 +234,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       source={
         {
           "uri": "avatar-3",
+          "width": 24,
         }
       }
       style={

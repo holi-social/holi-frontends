@@ -40,7 +40,8 @@ exports[`React tree renders correctly 1`] = `
     accessible={false}
     source={
       {
-        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-128",
+        "width": 64,
       }
     }
     style={
