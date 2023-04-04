@@ -93,7 +93,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
@@ -330,7 +331,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
@@ -567,7 +569,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
@@ -806,7 +809,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={

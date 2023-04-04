@@ -165,6 +165,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-1",
+                            "width": 128,
                           }
                         }
                         style={
@@ -448,6 +449,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-2",
+                            "width": 128,
                           }
                         }
                         style={
@@ -731,6 +733,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-3",
+                            "width": 128,
                           }
                         }
                         style={
@@ -1016,6 +1019,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-4",
+                            "width": 128,
                           }
                         }
                         style={

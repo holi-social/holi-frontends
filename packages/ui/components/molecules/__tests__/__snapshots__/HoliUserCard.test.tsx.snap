@@ -46,7 +46,8 @@ exports[`HoliUserCard renders correctly 1`] = `
       accessible={false}
       source={
         {
-          "uri": "avatar-1",
+          "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+          "width": 128,
         }
       }
       style={
@@ -150,7 +151,8 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
         accessible={false}
         source={
           {
-            "uri": "avatar-1",
+            "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+            "width": 128,
           }
         }
         style={

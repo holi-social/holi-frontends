@@ -15,7 +15,7 @@ describe('SpaceTaskTile', () => {
     expect(getByText('Creativity')).toBeDefined()
     expect(getByText('spaces.tasks.regularity.PROJECT_BASED')).toBeDefined()
     const image = getByRole('image')
-    expect(image).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
+    expect(image).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
     expect(image).toHaveProp('accessibilityLabel', 'Some Body')
   })
 })
