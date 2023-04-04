@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface DigitalToolProps {
@@ -33,17 +35,28 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
 }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
-  const currentTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug)).at(0)
+  const { navigate } = useRouting()
+  const [showModal, setShowModal] = useState(false)
+  const currentTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug))[0]
   const imageSource = currentTool?.img
   const toolName = currentTool?.name
 
   return (
     <View style={styles.toolContainer}>
+      <MoreOptionItem
+        label={''}
+        onPress={() => {
+          setShowModal(true)
+        }}
+        testID={'btn-show-digital-tool-details'}
+        transparent
+        style={styles.showDetailsTrigger}
+      />
       <View style={styles.imageContainer}>
         {tool.thumbnail ? (
           <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />
-        ) : currentTool ? (
-          <HoliLocalImage imageSource={imageSource} width={40} height={40} label={tool.domain} />
+        ) : imageSource ? (
+          <HoliLocalImage imageSource={imageSource} width={40} height={40} label={toolName} />
         ) : (
           <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
         )}
@@ -104,6 +117,49 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
           )}
         </View>
       </View>
+      <HoliModal
+        show={showModal}
+        onDismiss={() => setShowModal(false)}
+        testID="user-profile-modal"
+        label={t('spaces.digitalTool.showDetails')}
+        autoHeight={true}
+      >
+        <View style={[styles.modalContent]}>
+          <View style={styles.modalHeader}>
+            {imageSource ? (
+              <HoliLocalImage imageSource={imageSource} width={52} height={52} label={tool.title} />
+            ) : (
+              <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
+            )}
+            <HoliButton
+              onPress={() => {
+                navigate(`/spaces/${spaceId}/tools/${tool?.id}/edit`)
+              }}
+              inline
+              label={t('global.edit')}
+              type="secondary"
+              testID="btn-to-edit-tool"
+            >
+              <HoliText>{t('global.edit')}</HoliText>
+              <HoliIcon icon="edit-2" size={24} />
+            </HoliButton>
+          </View>
+          <HoliHeading level="1" style={styles.modalToolName}>
+            {currentTool ? toolName : tool?.title}
+          </HoliHeading>
+          <HoliText size="small" style={styles.modalToolDescription}>
+            {tool.description}
+          </HoliText>
+          <HoliLink label={'open'} href={tool.url} external>
+            <View style={styles.modalToolLink}>
+              <HoliText size="small" numberOfLines={1}>
+                {Platform.OS !== 'web' ? `Open ${tool.url.slice(0, 32)}...` : `Open ${tool.url}`}
+              </HoliText>
+              <HoliIcon icon="share-box" size={20} style={{ color: colors.foreground20, flexShrink: 0 }} />
+            </View>
+          </HoliLink>
+        </View>
+      </HoliModal>
     </View>
   )
 }
@@ -160,5 +216,43 @@ const styles = StyleSheet.create({
   },
   shareIcon: {
     marginBottom: 5,
+  },
+  showDetailsTrigger: {
+    width: '90%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+  },
+  modalContent: {
+    paddingHorizontal: 20,
+    paddingVertical: 32,
+  },
+  modalHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 32,
+  },
+  modalToolName: {
+    marginBottom: 8,
+  },
+  modalToolDescription: {
+    color: colors.foreground20,
+    marginBottom: 12,
+  },
+  modalToolLink: {
+    backgroundColor: colors.background20,
+    padding: 12,
+    marginTop: 8,
+    borderRadius: 4,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 })
