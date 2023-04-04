@@ -28,6 +28,8 @@ export interface HoliBlockItemProps {
   type?: SpaceSectionType
 }
 
+const SMALL_IMAGE_DIMENSION = 64
+
 const HoliBlockItem = ({
   title,
   subtitle,
@@ -44,6 +46,9 @@ const HoliBlockItem = ({
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
+  const imageSource = isSmall
+    ? { uri: imageSrc, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
+    : { uri: imageSrc }
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -56,7 +61,7 @@ const HoliBlockItem = ({
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
               {!imageElement ? (
-                <HoliImage label="" source={{ uri: imageSrc }} resizeMode="cover" style={styles.image} />
+                <HoliImage label="" source={imageSource} resizeMode="cover" style={styles.image} />
               ) : (
                 imageElement
               )}
@@ -127,8 +132,8 @@ const stylesSmall = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
-    width: 64,
-    height: 64,
+    width: SMALL_IMAGE_DIMENSION,
+    height: SMALL_IMAGE_DIMENSION,
   },
   image: {
     borderRadius: 8,
