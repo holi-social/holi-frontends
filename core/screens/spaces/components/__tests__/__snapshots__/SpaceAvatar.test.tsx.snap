@@ -11,6 +11,9 @@ exports[`React tree renders correctly 1`] = `
         "justifyContent": "center",
         "overflow": "hidden",
       },
+      {
+        "borderColor": "#262424",
+      },
       [
         {
           "alignItems": "center",
@@ -25,7 +28,6 @@ exports[`React tree renders correctly 1`] = `
         undefined,
       ],
       {
-        "borderColor": "#262424",
         "borderWidth": 2,
         "height": 64,
         "width": 64,
@@ -46,6 +48,7 @@ exports[`React tree renders correctly 1`] = `
     style={
       {
         "height": "100%",
+        "resizeMode": "contain",
         "width": "100%",
       }
     }
@@ -64,6 +67,9 @@ exports[`React tree renders initials with colored background, when given image p
         "justifyContent": "center",
         "overflow": "hidden",
       },
+      {
+        "borderColor": "#262424",
+      },
       [
         {
           "alignItems": "center",
@@ -78,7 +84,6 @@ exports[`React tree renders initials with colored background, when given image p
         undefined,
       ],
       {
-        "borderColor": "#262424",
         "borderWidth": 2,
         "height": 64,
         "width": 64,
