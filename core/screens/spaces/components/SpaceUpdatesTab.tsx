@@ -34,7 +34,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
     displayError(error, t('spaces.updates.error'))
   }
 
-  const posts = data?.spaceById.posts?.data ? data?.spaceById.posts?.data : []
+  const posts = data?.spaceById.posts?.data || []
 
   return (
     <>
