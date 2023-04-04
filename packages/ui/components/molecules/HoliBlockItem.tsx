@@ -45,8 +45,6 @@ const HoliBlockItem = ({
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
 
-  if (typeof styles.imageContainer.width === 'number') imageUri.width = styles.imageContainer.width as number
-
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
   const isEditable = type === SpaceSectionType.MEMBER || type === SpaceSectionType.CREATOR
@@ -57,10 +55,11 @@ const HoliBlockItem = ({
         <HoliLink label={label} href={href}>
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
-              {!imageElement && (
+              {!imageElement ? (
                 <HoliImage label="" source={{ uri: imageSrc }} resizeMode="cover" style={styles.image} />
+              ) : (
+                imageElement
               )}
-              {imageElement}
               {size === 'large' && (
                 <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
                   <HoliText>{users.length}</HoliText>
