@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
@@ -14,7 +15,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import type { DonationsAppScreensList } from '@holi/mobile/navigation/DonationsAppNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
@@ -33,6 +34,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
+  const statusBarHeight = Constants.statusBarHeight
   const [showSearchModal, setShowSearchModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
@@ -66,12 +68,16 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     )
 
     setOptions({
+      navigationCustomOptions: {
+        footerShown: false,
+      },
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {title}
         </HoliHeading>
       ),
       headerTransparent: true,
+
       headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () =>
@@ -80,7 +86,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultScrollHeaderLayout keyboardShouldPersistTaps="always">
+    <DefaultScrollHeaderLayout keyboardShouldPersistTaps="always" headerOverlap>
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
@@ -93,7 +99,10 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       >
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
-      <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
+      <View
+        style={[mixins.container, { paddingTop: statusBarHeight + vars.topBarHeight }]}
+        testID={'donations-list-container'}
+      >
         <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
       </View>
     </DefaultScrollHeaderLayout>
