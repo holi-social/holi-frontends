@@ -121,7 +121,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
             </HoliGridWrapper>
           )}
           {loading ? (
-            <HoliLoader style={{ padding: isMember ? 36 + 58 : 36 }} />
+            <HoliBox padding={24}>
+              <HoliLoader />
+            </HoliBox>
           ) : (
             <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
               {
