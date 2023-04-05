@@ -36,17 +36,17 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
-  const [showModal, setShowModal] = useState(false)
-  const currentTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug))[0]
-  const imageSource = currentTool?.img
-  const toolName = currentTool?.name
+  const [showDetailModal, setShowDetailModal] = useState(false)
+  const defaultTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug))[0]
+  const imageSource = defaultTool?.img
+  const toolName = defaultTool?.name
 
   return (
     <View style={styles.toolContainer}>
       <MoreOptionItem
         label={''}
         onPress={() => {
-          setShowModal(true)
+          setShowDetailModal(true)
         }}
         testID={'btn-show-digital-tool-details'}
         transparent
@@ -118,11 +118,10 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         </View>
       </View>
       <HoliModal
-        show={showModal}
-        onDismiss={() => setShowModal(false)}
+        show={showDetailModal}
+        onDismiss={() => setShowDetailModal(false)}
         testID="user-profile-modal"
         label={t('spaces.digitalTool.showDetails')}
-        autoHeight={true}
       >
         <View style={[styles.modalContent]}>
           <View style={styles.modalHeader}>
@@ -145,7 +144,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             </HoliButton>
           </View>
           <HoliHeading level="1" style={styles.modalToolName}>
-            {currentTool ? toolName : tool?.title}
+            {defaultTool ? toolName : tool?.title}
           </HoliHeading>
           <HoliText size="small" style={styles.modalToolDescription}>
             {tool.description}
