@@ -6,6 +6,7 @@ import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
+import Welcome from '@holi/core/auth/components/Welcome'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
@@ -88,6 +89,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
       <HoliStepper
         currentStep={currentStep}
         steps={[
+          <Welcome handleSkip={goNext} key="first-time-welcome" />,
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
             onRegistration={goNext}
