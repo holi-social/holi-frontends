@@ -46,6 +46,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
+  const buttonStyles = (isSelected: boolean) =>
+    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : styles.buttonUnselected])
+
   return (
     <>
       {!loading && posts.length === 0 ? (
@@ -65,14 +68,14 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           />
         </HoliBox>
       ) : (
-        <>
+        <HoliBox padding={[12, 12, 12, 12]}>
           {isMember && (
-            <HoliGridWrapper itemsInRow={3} gap={8} style={styles.buttonWrapper}>
+            <HoliGridWrapper itemsInRow={3} gap={8} style={styles.wrapper}>
               <HoliGridCell>
                 <HoliButton
                   label={t('spaces.updates.filter.all')}
                   onPress={() => setFilter(VisibilityFilter.ALL)}
-                  style={isFilterAll ? styles.buttonSelected : styles.buttonUnselected}
+                  style={buttonStyles(isFilterAll)}
                 >
                   <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
                     {t('spaces.updates.filter.all')}
@@ -83,7 +86,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliButton
                   label={t('spaces.updates.filter.public')}
                   onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                  style={isFilterPublic ? styles.buttonSelected : styles.buttonUnselected}
+                  style={buttonStyles(isFilterPublic)}
                 >
                   <HoliIcon
                     icon={'global'}
@@ -101,7 +104,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliButton
                   label={t('spaces.updates.filter.members')}
                   onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                  style={isFilterMembers ? styles.buttonSelected : styles.buttonUnselected}
+                  style={buttonStyles(isFilterMembers)}
                 >
                   <HoliIcon
                     icon="lock"
@@ -118,9 +121,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
             </HoliGridWrapper>
           )}
           {loading ? (
-            <HoliLoader />
+            <HoliLoader style={{ padding: isMember ? 36 + 58 : 36 }} />
           ) : (
-            <HoliGridWrapper itemsInRow={postGridItemsInRow} style={isMember ? styles.wrapperMember : styles.wrapper}>
+            <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
               {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
@@ -131,7 +134,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               }
             </HoliGridWrapper>
           )}
-        </>
+        </HoliBox>
       )}
     </>
   )
@@ -142,25 +145,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 24,
   },
-  buttonWrapper: {
-    padding: 24,
-  },
   wrapper: {
-    padding: 24,
+    padding: 12,
   },
-  wrapperMember: {
-    padding: 24,
-    paddingTop: 0,
-  },
-  buttonSelected: {
+  buttonSpacing: {
     paddingHorizontal: 6,
     paddingVertical: 8,
+  },
+  buttonSelected: {
     backgroundColor: colors.foreground30,
     borderColor: colors.foreground30,
   },
   buttonUnselected: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
     backgroundColor: colors.white100,
     borderColor: colors.background30,
   },
