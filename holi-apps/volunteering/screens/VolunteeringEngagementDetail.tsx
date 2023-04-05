@@ -40,6 +40,7 @@ type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppS
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
 const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
+const VOSTEL_URL = 'https://vostel.de/de/ueber_vostel'
 
 const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
@@ -101,10 +102,13 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           label={t('volunteering:engagementDetail.provider.link.btn', { source })}
         >
           <View style={styles.providerInfoRow}>
-            {/* local image until we have multiple providers / correct provider image */}
             <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/aktion-mensch-logo.svg')}
-              isSvg
+              imageSource={
+                engagement.source === 'Aktion Mensch'
+                  ? require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg')
+                  : require('@holi/ui/assets/img/volunteering/vostel-logo.png')
+              }
+              isSvg={engagement.source === 'Aktion Mensch' ? true : false}
               width={40}
               height={40}
               style={styles.providerImage}
@@ -152,8 +156,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {engagement.source === 'Aktion Mensch' && (
-              <ProviderContainer source={engagement.source} url={AKTION_MENSCH_URL} />
+            {(engagement.source === 'Aktion Mensch' || engagement.source === 'vostel.de') && (
+              <ProviderContainer
+                source={engagement.source}
+                url={engagement.source === 'Aktion Mensch' ? AKTION_MENSCH_URL : VOSTEL_URL}
+              />
             )}
           </View>
         )}
