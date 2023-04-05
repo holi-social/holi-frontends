@@ -9,10 +9,9 @@ import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/Lin
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { Space } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType, Task } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -26,6 +25,9 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const { t } = useTranslation()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const isCollaborator = isAdmin || isCreator || isMember
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
@@ -33,6 +35,10 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     [+vars.breakpointL, 3],
     [+vars.breakpointXxl, 4],
   ])
+
+  const navigateToAddTasksScreen = () => {
+    //TODO: add navigation
+  }
 
   const CollaborationArea = () => {
     return (
@@ -65,29 +71,83 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   }
 
   const NoTasks = () => {
+    const cardProps = {
+      headerRightIcon: isAdmin ? 'add' : undefined,
+      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+    }
+
     return (
       <>
-        {isCreator ||
-          (isMember && (
-            <CollaboratorAreaCard headerLeftIcon="checkbox" headerRightIcon="add" title={'Tasks'}>
-              <View style={[style, styles.empty]}>
-                <HoliText size={'small'} style={styles.emptyMessage}>
-                  {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
+        {(isCollaborator && (
+          <CollaboratorAreaCard
+            headerLeftIcon="checkbox"
+            title={t('spaces.spaceDetails.tasks.header.title')}
+            {...cardProps}
+          >
+            <View style={[style, styles.empty]}>
+              <HoliText size={'small'} style={styles.emptyMessage}>
+                {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
+              </HoliText>
+              {isAdmin && (
+                <HoliText size={'small'} style={styles.instruction}>
+                  {t('spaces.spaceDetails.tasks.empty.instruction')}
                 </HoliText>
-                {(isCreator || isMember) && (
-                  <HoliText size={'small'} style={styles.instruction}>
-                    {t('spaces.spaceDetails.tasks.empty.instruction')}
-                  </HoliText>
-                )}
-              </View>
-            </CollaboratorAreaCard>
-          )) || (
-            <NoDataCard
-              image={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
-              title={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
-              description={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
-            />
-          )}
+              )}
+            </View>
+          </CollaboratorAreaCard>
+        )) || (
+          <NoDataCard
+            image={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
+            title={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
+            description={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
+          />
+        )}
+      </>
+    )
+  }
+
+  type TasksListProps = {
+    tasks: Task[]
+  }
+
+  const TasksList = ({ tasks }: TasksListProps) => {
+    return (
+      <HoliGridWrapper itemsInRow={itemsInRow}>
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          tasks.map((task) => (
+            <HoliGridCell key={task.id}>
+              <SpaceTaskTile task={task} style={styles.taskTile} />
+            </HoliGridCell>
+          ))
+        }
+      </HoliGridWrapper>
+    )
+  }
+
+  type TasksCardProps = {
+    tasks: Task[]
+  }
+
+  const TasksCard = ({ tasks }: TasksCardProps) => {
+    const cardProps = {
+      headerRightIcon: isAdmin ? 'add' : undefined,
+      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+    }
+
+    return (
+      <>
+        {(isCollaborator && (
+          <CollaboratorAreaCard
+            headerLeftIcon="checkbox"
+            title={t('spaces.spaceDetails.tasks.header.title')}
+            {...cardProps}
+          >
+            <View style={styles.tasksListContainer}>
+              <TasksList tasks={tasks} />
+            </View>
+          </CollaboratorAreaCard>
+        )) || <TasksList tasks={tasks} />}
       </>
     )
   }
@@ -95,26 +155,9 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   return (
     <>
       <View style={style}>
-        {(isCreator || isMember) && <CollaborationArea />}
-        {(space && space.tasks && space.tasks.length > 0 && (
-          <>
-            <HoliHeading level="2">
-              {t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}
-            </HoliHeading>
-
-            <HoliGridWrapper itemsInRow={itemsInRow} style={styles.tasksList}>
-              {
-                /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                space.tasks.map((task) => (
-                  <HoliGridCell key={task.id}>
-                    <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
-                  </HoliGridCell>
-                ))
-              }
-            </HoliGridWrapper>
-          </>
-        )) || <NoTasks />}
-        {(isCreator || isMember) && <NewToolsTeaser />}
+        {isCollaborator && <CollaborationArea />}
+        {(space && space.tasks && space.tasks.length > 0 && <TasksCard tasks={space.tasks} />) || <NoTasks />}
+        {isCollaborator && <NewToolsTeaser />}
       </View>
     </>
   )
@@ -133,9 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     color: colors.foreground30,
   },
-  tasksList: {
-    paddingTop: 20,
-  },
+  tasksListContainer: { padding: 8 },
   taskTile: {
     flex: 1,
   },

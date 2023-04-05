@@ -1,21 +1,24 @@
 import React, { useCallback, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
+import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
-import Registration from '@holi/core/auth/screens/Registration'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const { useParam } = createParam()
 
 export enum RegistrationStep {
   'PRE_REGISTRATION_LOGIN',
-  'COMMUNICATION_GUIDELINES',
+  'COMMUNITY_GUIDELINES',
   'PRIVACY_POLICY',
   'CREATE_ACCOUNT',
+  'ACCOUNT_SETUP',
 }
 
 export interface OnboardingProps {
@@ -23,9 +26,19 @@ export interface OnboardingProps {
 }
 
 const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
-  const { onFinish } = useOnboarding()
+  // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
+  const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
-  const { currentStep, goNext, goBack } = useStepper(toRegistration ? RegistrationStep.COMMUNICATION_GUIDELINES : 0)
+
+  let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
+
+  if (onboardingState === 'accountSetup') {
+    initialStep = RegistrationStep.ACCOUNT_SETUP
+  } else if (toRegistration) {
+    initialStep = RegistrationStep.COMMUNITY_GUIDELINES
+  }
+
+  const { currentStep, goNext, goBack } = useStepper(initialStep)
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
@@ -55,16 +68,20 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
       case RegistrationStep.PRE_REGISTRATION_LOGIN:
         goNext()
         break
-      case RegistrationStep.COMMUNICATION_GUIDELINES:
+      case RegistrationStep.COMMUNITY_GUIDELINES:
         communityGuidelines && goNext()
         break
       case RegistrationStep.PRIVACY_POLICY:
         privacyPolicy && goNext()
         break
+      case RegistrationStep.CREATE_ACCOUNT:
+        onOnboardingStateChange('accountSetup')
+        goNext()
+        break
       default:
         return
     }
-  }, [communityGuidelines, currentStep, goNext, privacyPolicy])
+  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
 
   return (
     <View style={[styles.container, style]}>
@@ -72,7 +89,11 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         currentStep={currentStep}
         steps={[
           // Login-Registration-Continue as a Guest step
-          <LoginRegistration onRegistration={goToNextStep} onDismiss={onFinish} key="pre-login-registration" />,
+          <LoginRegistration
+            onRegistration={goNext}
+            onDismiss={onOnboardingStateChange}
+            key="pre-login-registration"
+          />,
           // Community Guidelines
           <CommunityGuidelines
             onNextPress={goToNextStep}
@@ -90,7 +111,9 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
             key="privacy-policy"
           />,
           // Create Account step
-          <Registration key="registration" />,
+          <CreateAccount onRegister={goToNextStep} key="registration" />,
+          // Account Setup
+          <AccountSetup key="account-setup" onFinish={onOnboardingStateChange} />,
         ]}
         scrollEnabled={false}
         lazy
@@ -101,6 +124,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.background20,
     flex: 1,
     ...Platform.select({
       web: {

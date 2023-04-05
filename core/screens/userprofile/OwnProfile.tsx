@@ -7,6 +7,7 @@ import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeader
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
@@ -32,6 +33,8 @@ const OwnProfile: React.VFC = () => {
   const { height: deviceHeight } = useWindowDimensions()
 
   const { user, isLoggedIn } = useLoggedInUser()
+  const { onboardingState } = useOnboarding()
+  const isOnboardingFinished = onboardingState === 'finished'
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
@@ -53,7 +56,7 @@ const OwnProfile: React.VFC = () => {
   useLayoutEffect(() => {
     const title = t('profile.title')
 
-    if (isLoggedIn) {
+    if (isLoggedIn && isOnboardingFinished) {
       setOptions({
         title,
         headerShown: true,
@@ -101,7 +104,7 @@ const OwnProfile: React.VFC = () => {
         headerShown: false,
       })
     }
-  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
+  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished])
 
   return (
     <LoginProtection>
