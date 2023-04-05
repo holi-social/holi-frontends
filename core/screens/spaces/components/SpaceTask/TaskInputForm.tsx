@@ -21,18 +21,21 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // TODO: try to make this programmatically
-const VISIBILITY_TYPE_OPTIONS: HoliSelectOption[] = [
+const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
   {
     id: VisibilityType.PUBLIC,
     title: 'Public', // TODO: check translation
+    description: 'Just collaborators can contact you regarding this task.',
     selected: false,
   },
   {
     id: VisibilityType.MEMBERS,
     title: 'Members', // TODO: check translation
+    description: 'This task is publicly visible. Anyone can contact you regarding this task.',
     selected: false,
   },
 ]
@@ -230,7 +233,17 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
       <HoliText style={styles.marginSeparator} size="large">
         {t('spaces.input.task.section.visibility')}
       </HoliText>
-      <HoliSelect
+      <HoliModalSelect
+        options={visibilityOptions}
+        style={styles.marginSeparator}
+        title={t('spaces.input.task.section.visibility')}
+        onChange={onChangeVisibility}
+        placeholder={t('spaces.input.task.visibility.placeholder')}
+        label={t('spaces.input.task.visibility.label')}
+        testID="task-visibility-input"
+        isRequired
+      />
+      {/* <HoliSelect
         options={visibilityOptions}
         inputLabel={t('spaces.input.task.visibility.label')}
         accessibilityLabel={t('spaces.input.task.visibility.label')}
@@ -240,7 +253,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         isRequired
         id="task-visibility-input"
         testID="task-visibility-input"
-      />
+      /> */}
       <View style={styles.sectionWrapper}>
         <HoliText size="large">{t('spaces.input.task.section.about')}</HoliText>
         <HoliTextInput
