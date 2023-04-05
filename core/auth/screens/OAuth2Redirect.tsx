@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,23 +8,25 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export interface Oauth2RedirectProps {
+export interface OAuth2RedirectProps {
   error?: string
 }
 
-const OAuth2Redirect: React.VFC<Oauth2RedirectProps> = ({ error }) => {
+const OAuth2Redirect: React.VFC<OAuth2RedirectProps> = ({ error }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  if (error) {
-    displayError(new Error(error))
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(new Error(error))
+    }
+  }, [displayError, error])
 
   return (
     <DefaultLayout>
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('oauth2.redirecting')}</HoliText>
+        <HoliText>{error ? t('oauth2.redirect.error') : t('oauth2.redirecting')}</HoliText>
       </View>
     </DefaultLayout>
   )

@@ -1,5 +1,4 @@
-import * as Linking from 'expo-linking'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Alert,
@@ -28,16 +27,24 @@ type SpaceShareProps = {
 
 const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProps) => {
   const { t } = useTranslation()
-  const prefix = Linking.createURL(`/spaces/${space.name}`)
+  const prefix = useRef('')
   const [show, setShow] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
+
+  // dynamic import is used to fix Web SSR building and do not put expo libs into Next.JS build
+  // TODO: but better solution will be to create your Linking module, that re-export `expo-linking` for mobile and provide dependency free solution for Web
+  useEffect(() => {
+    import(/* webpackPrefetch: true */ 'expo-linking').then(
+      (Linking) => (prefix.current = Linking.createURL(`/spaces/${space.name}`))
+    )
+  }, [space.name])
 
   const onShareMobile = async () => {
     try {
       const result = await Share.share({
         message: space.title,
         title: space.title,
-        url: prefix,
+        url: prefix.current,
       })
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -54,7 +61,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   }
 
   const copyToClipboard = () => {
-    Clipboard.setString(prefix)
+    Clipboard.setString(prefix.current)
     setIsCopied(true)
     setTimeout(() => {
       setShow(false)
@@ -82,7 +89,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
         testID="space-share-btn"
       >
-        <HoliIcon icon="share" size={24} color={colors.foreground20} />
+        <HoliIcon icon="share" size={24} color={colors.foreground30} />
         <HoliText bold style={styles.shareText}>
           {t('spaces:spaces.share')}
         </HoliText>
@@ -99,7 +106,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
                   </HoliHeading>
                 </View>
                 <HoliText style={styles.description} testID="space-share-link">
-                  {prefix}
+                  {prefix.current}
                 </HoliText>
                 <View style={styles.buttonContainer}>
                   <HoliButton
@@ -171,7 +178,7 @@ const styles = StyleSheet.create({
   },
   shareText: {
     marginLeft: 11,
-    color: colors.foreground20,
+    color: colors.foreground30,
   },
   copiedText: {
     color: colors.error20,

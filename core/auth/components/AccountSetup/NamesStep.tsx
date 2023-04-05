@@ -27,14 +27,14 @@ export const trimNames = (names: NamesValues) =>
 export interface NamesStepProps {
   names: NamesValues
   setNames: React.Dispatch<React.SetStateAction<NamesValues>>
-  scrollToInputWithId?: (
+  scrollToInputWithId: (
     id: string,
     onFocus?: (pos: Position, ref: View, id: string) => void,
     onBlur?: (pos: Position, ref: View, id: string) => void
   ) => ScrollToProps
 }
 
-const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: NamesStepProps) => {
+const NamesStep = ({ names, setNames, scrollToInputWithId }: React.PropsWithChildren<NamesStepProps>) => {
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
   const { translateFieldErrors } = useFieldErrors({
@@ -51,15 +51,12 @@ const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: NamesS
     setNextButtonEnabled(success)
   }, [names, setNextButtonEnabled])
 
-  const resetErrorsForField = useCallback(
-    (fieldName: string) =>
-      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [fieldName]: _, ...otherErrors } = currentErrors
-        return otherErrors
-      }),
-    []
-  )
+  const resetErrorsForField = (fieldName: string) =>
+    setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [fieldName]: _, ...otherErrors } = currentErrors
+      return otherErrors
+    })
 
   const validateOnBlur = useCallback(
     (pos: Position, ref: View, id: string) => {
