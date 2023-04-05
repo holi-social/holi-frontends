@@ -1,15 +1,13 @@
 import Lottie from 'lottie-react'
 import React from 'react'
 
-// eslint-disable-next-line no-restricted-imports
-import { animations } from '../../lottie-animations'
+import { animations } from '@holi/ui/lottie-animations'
 
-interface HoliLottieProps {
+interface Props {
   animType: keyof typeof animations
+  loop?: boolean
 }
 
-const HoliLottie: React.VFC<HoliLottieProps> = ({ animType }) => {
-  return <Lottie animationData={animations[animType]} />
-}
+const HoliLottie = ({ animType, loop }: Props) => <Lottie loop={loop} animationData={animations[animType]} />
 
 export default HoliLottie

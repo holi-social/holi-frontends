@@ -1,13 +1,15 @@
 import LottieView from 'lottie-react-native'
 import React from 'react'
 
-// eslint-disable-next-line no-restricted-imports
-import { animations } from '../../lottie-animations'
+import { animations } from '@holi/ui/lottie-animations'
 
 interface HoliLottieProps {
   animType: keyof typeof animations
+  loop?: boolean
 }
 
-const HoliLottie: React.VFC<HoliLottieProps> = ({ animType }) => <LottieView autoPlay source={animations[animType]} />
+const HoliLottie = ({ animType, loop }: HoliLottieProps) => (
+  <LottieView autoPlay loop={loop} source={animations[animType]} />
+)
 
 export default HoliLottie
