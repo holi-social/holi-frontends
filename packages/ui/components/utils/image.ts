@@ -53,16 +53,20 @@ export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSo
   if (!source.uri) return source
   if (!source.width && !source.height) return source
 
-  const url = new URL(source.uri)
+  try {
+    const url = new URL(source.uri)
 
-  // String concatination is much faster than template strings. Please do not replace.
-  const width = source.width ? 'w-' + calcPixelRatioSize(source.width) : ''
-  const height = source.height ? 'h-' + calcPixelRatioSize(source.height) : ''
-  const params = width && height ? width + ',' + height : width + height
+    // String concatination is much faster than template strings. Please do not replace.
+    const width = source.width ? 'w-' + calcPixelRatioSize(source.width) : ''
+    const height = source.height ? 'h-' + calcPixelRatioSize(source.height) : ''
+    const params = width && height ? width + ',' + height : width + height
 
-  url.searchParams.set('tr', params)
+    url.searchParams.set('tr', params)
 
-  return { ...source, uri: url.href }
+    return { ...source, uri: url.href }
+  } catch (error) {
+    return source
+  }
 }
 
 /** @description It handles the image sources, array, or single source and
