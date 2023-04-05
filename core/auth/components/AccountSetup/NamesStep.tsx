@@ -27,14 +27,14 @@ export const trimNames = (names: NamesValues) =>
 export interface NamesStepProps {
   names: NamesValues
   setNames: React.Dispatch<React.SetStateAction<NamesValues>>
-  scrollToInputWithId?: (
+  scrollToInputWithId: (
     id: string,
     onFocus?: (pos: Position, ref: View, id: string) => void,
     onBlur?: (pos: Position, ref: View, id: string) => void
   ) => ScrollToProps
 }
 
-const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: React.PropsWithChildren<NamesStepProps>) => {
+const NamesStep = ({ names, setNames, scrollToInputWithId }: React.PropsWithChildren<NamesStepProps>) => {
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
   const { translateFieldErrors } = useFieldErrors({
