@@ -83,6 +83,9 @@ export default {
       eas: {
         projectId: process.env.EXPO_PROJECT_ID || '',
       },
+      e2e: {
+        userId: process.env.E2E_USER_ID,
+      },
     },
   },
 }

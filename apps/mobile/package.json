@@ -46,6 +46,7 @@
     "apollo-link-timeout": "^4.0.0",
     "expo": "^46.0.0",
     "expo-application": "~4.2.2",
+    "expo-asset": "~8.6.3",
     "expo-constants": "~13.2.4",
     "expo-device": "~4.3.0",
     "expo-file-system": "~14.1.0",
