@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
@@ -120,7 +120,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
       <HoliModal
         show={showDetailModal}
         onDismiss={() => setShowDetailModal(false)}
-        testID="user-profile-modal"
+        testID="show-tool-details-modal"
         label={t('spaces.digitalTool.showDetails')}
       >
         <View style={[styles.modalContent]}>
@@ -137,6 +137,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
               inline
               label={t('global.edit')}
               type="secondary"
+              variant="small"
               testID="btn-to-edit-tool"
             >
               <HoliText>{t('global.edit')}</HoliText>
@@ -147,12 +148,12 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             {defaultTool ? toolName : tool?.title}
           </HoliHeading>
           <HoliText size="small" style={styles.modalToolDescription}>
-            {tool.description}
+            {tool.description || ''}
           </HoliText>
-          <HoliLink label={'open'} href={tool.url} external>
+          <HoliLink label={t('spaces.digitalTool.details.open')} href={tool.url} external>
             <View style={styles.modalToolLink}>
-              <HoliText size="small" numberOfLines={1}>
-                {Platform.OS !== 'web' ? `Open ${tool.url.slice(0, 32)}...` : `Open ${tool.url}`}
+              <HoliText size="small" numberOfLines={1} style={{ width: '90%' }}>
+                {t('spaces.digitalTool.details.open')} {tool.url}
               </HoliText>
               <HoliIcon icon="share-box" size={20} style={{ color: colors.foreground20, flexShrink: 0 }} />
             </View>
