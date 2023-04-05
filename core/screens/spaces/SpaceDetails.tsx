@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -20,7 +20,6 @@ import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
-import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -105,22 +104,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
-          {/* TODO: integrate on collaborators screen */}
-          {isMember && (
-            <MoreOptionItem
-              icon="cloud"
-              label="Storage"
-              onPress={() => {
-                if (Platform.OS === 'web') {
-                  Linking.openURL(owncloudUrl)
-                } else {
-                  navigate(`/spaces/${spaceIdOrName}/storage`)
-                }
-                hide()
-              }}
-              contentStyle={styles.buttonWithIcon}
-            />
-          )}
           {isAdmin && (
             <DeleteSpaceButton
               spaceId={space?.id || ''}

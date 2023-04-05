@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type DiscoverSpacesViewProps = {
   user?: User
@@ -21,9 +25,16 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
   defaultSpacesGroups,
 }) => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useLoggedInUser()
+  const { navigate } = useUnifiedNavigation()
+  const { openLoginModal } = useLoginModal()
 
   const hasUserSpecificTiers = userSpecificSpacesGroups.some((group) => group.spaces.totalResults > 0)
   const hasDefaultTiers = defaultSpacesGroups.some((group) => group.spaces.totalResults > 0)
+
+  const handleCreateSpaceButtonPress = useCallback(() => {
+    isLoggedIn ? navigate('/spaces/create') : openLoginModal()
+  }, [isLoggedIn, navigate, openLoginModal])
 
   return (
     <View style={style} testID="spaces-container">
@@ -33,6 +44,16 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
       <HoliText style={styles.headerDescription} testID="discover-spaces-description">
         {t('spaces.discover.description')}
       </HoliText>
+      <View style={styles.createSpaceButtonContainer}>
+        <HoliButton
+          label={t('spaces.discover.create.button')}
+          onPress={() => {
+            handleCreateSpaceButtonPress()
+          }}
+        >
+          {t('spaces.discover.create.button')}
+        </HoliButton>
+      </View>
 
       <View style={styles.body}>
         {/* User specific spaces suggestions */}
@@ -88,6 +109,10 @@ const styles = StyleSheet.create({
   othersTitle: {
     marginTop: 18,
     marginBottom: 48,
+  },
+  createSpaceButtonContainer: {
+    marginTop: 8,
+    alignSelf: 'flex-start',
   },
 })
 
