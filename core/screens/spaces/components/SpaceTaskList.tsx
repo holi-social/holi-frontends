@@ -27,7 +27,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const isModarator = isAdmin || isCreator || isMember
+  const isCollaborator = isAdmin || isCreator || isMember
 
   const itemsInRow = useBreakpointMatcher([
     [0, 1],
@@ -78,7 +78,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
     return (
       <>
-        {(isModarator && (
+        {(isCollaborator && (
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
@@ -137,7 +137,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
     return (
       <>
-        {(isModarator && (
+        {(isCollaborator && (
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
@@ -155,9 +155,9 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   return (
     <>
       <View style={style}>
-        {isModarator && <CollaborationArea />}
+        {isCollaborator && <CollaborationArea />}
         {(space && space.tasks && space.tasks.length > 0 && <TasksCard tasks={space.tasks} />) || <NoTasks />}
-        {isModarator && <NewToolsTeaser />}
+        {isCollaborator && <NewToolsTeaser />}
       </View>
     </>
   )

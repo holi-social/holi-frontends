@@ -414,7 +414,6 @@
   "spaces.spaceDetails.tasks.empty.message.forCreators": "Create meaningful tasks to get help from your community",
   "spaces.spaceDetails.tasks.empty.title.forNonMembers": "No actions available right now",
   "spaces.spaceDetails.tasks.empty.message.forNonMembers": "However if you feel like being part of our community, you are welcome to join us.",
-  "spaces.spaceDetails.tasks.heading_plural": "{{count}} ways to get involved",
   "spaces.spaceDetails.tasks.header.title": "Tasks",
   "spaces.spaceDetails.topics": "Topics",
   "spaces.spaceListing.error": "Loading spaces failed",
