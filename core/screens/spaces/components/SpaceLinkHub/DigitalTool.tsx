@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -156,10 +156,15 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
               {tool.description}
             </HoliText>
           )}
-          <HoliLink label={t('spaces.digitalTool.details.open')} href={tool.url} external>
+          <HoliLink label={tool.url} href={tool.url} external>
             <View style={styles.modalToolLink}>
               <HoliText size="small" numberOfLines={1} style={{ width: '90%' }}>
-                {t('spaces.digitalTool.details.open')} {tool.url}
+                <Trans
+                  t={t}
+                  i18nKey="spaces.digitalTool.details.open"
+                  values={{ url: tool.url }}
+                  shouldUnescape={true}
+                />
               </HoliText>
               <HoliIcon icon="share-box" size={20} style={{ color: colors.foreground20, flexShrink: 0 }} />
             </View>

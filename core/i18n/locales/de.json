@@ -283,7 +283,7 @@
   "spaces.digitalTool.delete.error": "Es gab einen Fehler beim Löschen des Tools. Bitte probiere es später nochmal.",
   "spaces.digitalTool.delete.label": "Löschen",
   "spaces.digitalTool.delete.success": "Tool erfolgreich gelöscht",
-  "spaces.digitalTool.details.open": "Öffne",
+  "spaces.digitalTool.details.open": "Öffne {{url}}",
   "spaces.digitalTool.edit.close.dialog.cancel.button.label": "Abbrechen",
   "spaces.digitalTool.edit.close.dialog.confirm.button.label": "Bestätigen",
   "spaces.digitalTool.edit.close.dialog.description": "Möchtest du diese Seite wirklich verlassen? Alle ungespeicherten Eingaben gehen verloren.",
