@@ -29,6 +29,7 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceIdOrName: string
+  tabIndex: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
@@ -37,10 +38,11 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const [initTabIndex = '0'] = useParam('tabIndex')
 
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>()
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -145,7 +147,12 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   return (
     <>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
+        <SpaceDetailView
+          style={styles.spaceDetailView}
+          space={space}
+          onChangeTab={handleTabChange}
+          initialTabIndex={+initTabIndex}
+        />
       </DefaultScrollHeaderLayout>
       {(isCreator || isMember) && currentTabIndex === 1 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>

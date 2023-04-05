@@ -38,12 +38,14 @@ const LinkHub: React.VFC<ScreenProps> = () => {
         title: t('spaces.toolKit.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+        headerLeft: () => (
+          <HeaderBackButton icon="arrow-left" onPress={() => navigate(`/spaces/${spaceIdOrName}?tabIndex=2`)} />
+        ),
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
-    [setOptions, t]
+    [navigate, setOptions, spaceIdOrName, t]
   )
 
   const onAddButtonPress = () => {

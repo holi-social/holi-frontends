@@ -15,10 +15,16 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type SpaceDetailViewProps = {
   space: Space
   style?: StyleProp<ViewStyle>
+  initialTabIndex?: number
   onChangeTab?: (index: number) => void
 }
 
-const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style, onChangeTab = () => null }) => {
+const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
+  space,
+  style,
+  initialTabIndex,
+  onChangeTab = () => null,
+}) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
@@ -32,6 +38,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style, onChan
       <HoliTabs
         id="space-tabs"
         centeredButtons
+        initialStep={initialTabIndex}
         style={{ flex: 1 }}
         onChangeTab={onChangeTab}
         tabs={[
