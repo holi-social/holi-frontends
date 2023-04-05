@@ -13,6 +13,8 @@
   "auth.changePassword.input.label-NewPassword": "New password",
   "auth.changePassword.input.label-OldPassword": "Old password",
   "auth.changePassword.input.label-Save": "Change password",
+  "global.visibilityType.public": "Public",
+  "global.visibilityType.members": "Members",
   "auth.changePassword.input.placeholder-NewPassword": "Your new password",
   "auth.changePassword.input.placeholder-OldPassword": "Your old password",
   "auth.changePassword.success": "Noted! Please use the new password from now on.",

@@ -169,7 +169,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
       ])
     }
 
-    // // edit space name and goal
+    // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
     await clickElementByTestId(page, 'btn-space-edit-name')
@@ -235,7 +235,6 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await clickElementByTestId(page, 'btn-right-space-tasks-card')
     await checkAccessibility(page)
     await inputTaskInfo(page, taskTitle, taskDescription)
-    await saveAndWaitForModalClosed(page)
 
     // delete space
     await clickElementByTestId(page, 'space-options-btn')
@@ -281,6 +280,8 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await clickElementByTestId(page, 'btn-task-visibility-input')
   await clickElementByTestId(page, 'item-task-visibility-input', 0)
   await clickElementByTestId(page, 'btn-to-close-task-visibility-input-modal')
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-visibility-input')
 
   // add task title
   const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
@@ -295,11 +296,16 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await selectSomeTerms(page)
   await clickElementByTestId(page, 'create-task-skills-modal-wrapper-close-btn')
 
-  // select locationType
-  const locationTypeInput = await locateElementByTestId(page, 'task-locationType-input')
-  await locationTypeInput.fill('hybrid')
-  // expect suggestions
-  await clickElementByTestId(page, 'task-locationType-item', 0)
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('create-task-skills-modal-wrapper-close-btn'), { state: 'hidden' })
+
+  // open locationType dropdown
+  await clickElementByTestId(page, 'task-visibility-title')
+  await page.waitForSelector(byTestId('task-locationType-input'))
+  await clickElementByTestId(page, 'task-locationType-input')
+
+  // click on first locationType in the list
+  await clickElementByTestId(page, 'task-locationType-item')
 
   // select location
   const locationInput = await locateElementByTestId(page, 'task-location-input')

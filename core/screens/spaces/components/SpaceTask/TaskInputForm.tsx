@@ -23,36 +23,37 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
-// TODO: try to make this programmatically
 const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
   {
     id: VisibilityType.PUBLIC,
-    title: 'Public', // TODO: check translation
+    title: 'Public',
     description: 'Just collaborators can contact you regarding this task.',
     selected: false,
+    icon: 'global',
   },
   {
     id: VisibilityType.MEMBERS,
-    title: 'Members', // TODO: check translation
+    title: 'Members',
     description: 'This task is publicly visible. Anyone can contact you regarding this task.',
     selected: false,
+    icon: 'lock',
   },
 ]
 
 const LOCATION_TYPE_OPTIONS: HoliSelectOption[] = [
   {
     id: LocationType.HYBRID,
-    title: 'Hybrid', // TODO: check translation
+    title: 'Hybrid',
     selected: false,
   },
   {
     id: LocationType.ONSITE,
-    title: 'On-site', // TODO: check translation
+    title: 'On-site',
     selected: false,
   },
   {
     id: LocationType.REMOTE,
-    title: 'Remote', // TODO: check translation
+    title: 'Remote',
     selected: false,
   },
 ]
@@ -60,30 +61,29 @@ const LOCATION_TYPE_OPTIONS: HoliSelectOption[] = [
 const REGULARITY_OPTIONS: HoliSelectOption[] = [
   {
     id: Regularity.ONE_TIME,
-    title: 'One time', // TODO: check translation
+    title: 'One time',
     selected: false,
   },
   {
     id: Regularity.PROJECT_BASED,
-    title: 'Project based', // TODO: check translation
+    title: 'Project based',
     selected: false,
   },
   {
     id: Regularity.REGULARLY,
-    title: 'Regularly', // TODO: check translation
+    title: 'Regularly',
     selected: false,
   },
 ]
-
 export interface TaskInputFormProps {
   name: string
   description: string
   contactEmail: string
   skills: Skill[]
   slotsAvailable?: number
-  visibility?: HoliSelectOption //  maybe VisibilityType
-  locationType?: HoliSelectOption // maybe LocationType
-  regularity?: HoliSelectOption // maybe Regularity
+  visibility?: HoliSelectOption
+  locationType?: HoliSelectOption
+  regularity?: HoliSelectOption
   thumbnail?: ImageInfo | undefined
   location?: string
   geolocation?: Geolocation
@@ -229,7 +229,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
 
   return (
     <>
-      <HoliText style={styles.marginSeparator} size="large">
+      <HoliText style={styles.marginSeparator} size="large" testID="task-visibility-title">
         {t('spaces.input.task.section.visibility')}
       </HoliText>
       <HoliModalSelect
