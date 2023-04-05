@@ -461,6 +461,7 @@ export const spacePostsQuery = gql`
   ${PostFragment}
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
+      id
       posts(offset: $offset, limit: $limit, visibility: $visibility) {
         data {
           ...PostFragment
