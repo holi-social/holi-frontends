@@ -9,7 +9,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AllTools from '@holi/core/screens/spaces/components/SpaceLinkHub/AllTools'
-import ToolIdeas from '@holi/core/screens/spaces/components/SpaceLinkHub/ToolIdeas'
+import SuggestedTools from '@holi/core/screens/spaces/components/SpaceLinkHub/SuggestedTools'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -43,30 +43,28 @@ const LinkHub: React.VFC<ScreenProps> = () => {
   )
 
   return (
-    <DefaultScrollHeaderLayout style={styles.defaultLayout}>
-      <HoliTabs
-        id="toolKit-tabs"
-        centeredButtons
-        style={{ flex: 1 }}
-        tabs={[
-          {
-            title: t('spaces.toolKit.allTools.label'),
-            style: styles.tabStyle,
-            children: <AllTools spaceIdOrName={spaceIdOrName} />,
-          },
-          // {
-          //   title: t('spaces.toolKit.favouriteTools.label'),
-          //   style: styles.tabStyle,
-          //   children: <FavouriteTools />,
-          // },
-          {
-            title: t('spaces.toolKit.toolIdeas.label'),
-            style: styles.tabStyle,
-            children: <ToolIdeas />,
-          },
-        ]}
-      />
-    </DefaultScrollHeaderLayout>
+    <>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout}>
+        <HoliTabs
+          id="toolKit-tabs"
+          centeredButtons
+          style={{ flex: 1 }}
+          tabs={[
+            {
+              title: t('spaces.toolKit.allTools.label'),
+              style: styles.tabStyle,
+              children: <AllTools spaceIdOrName={spaceIdOrName} />,
+            },
+            {
+              title: t('spaces.toolKit.toolIdeas.label'),
+              style: styles.tabStyle,
+              children: <SuggestedTools />,
+            },
+          ]}
+        />
+      </DefaultScrollHeaderLayout>
+      {/* <AddButton /> */}
+    </>
   )
 }
 
