@@ -1,31 +1,20 @@
 import * as React from 'react'
-import {
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliCarouselProps {
+interface Props {
   slides: { title?: string; children: React.ReactNode }[]
-  style?: StyleProp<ViewStyle>
   marginHorizontal?: number
 }
 
 const isWeb = Platform.OS === 'web'
 
-const HoliCarousel: React.FC<HoliCarouselProps> = ({
+const HoliCarousel = ({
   slides,
-  style,
   marginHorizontal = 0, // margin between slide and device screen
-}: HoliCarouselProps) => {
+}: Props) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
@@ -64,7 +53,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   }
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       {!isWeb && (
         <ScrollView
           ref={carousel}

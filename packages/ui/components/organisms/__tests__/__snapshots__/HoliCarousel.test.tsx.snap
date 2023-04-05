@@ -3,13 +3,10 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    [
-      {
-        "alignContent": "center",
-        "justifyContent": "center",
-      },
-      undefined,
-    ]
+    {
+      "alignContent": "center",
+      "justifyContent": "center",
+    }
   }
 >
   <RCTScrollView
