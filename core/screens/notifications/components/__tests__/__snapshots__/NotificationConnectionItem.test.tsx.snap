@@ -46,6 +46,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "justifyContent": "center",
                 "overflow": "hidden",
               },
+              false,
               undefined,
               {
                 "height": 40,

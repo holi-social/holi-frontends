@@ -89,7 +89,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
         onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
         testID="space-share-btn"
       >
-        <HoliIcon icon="share" size={24} color={colors.foreground20} />
+        <HoliIcon icon="share" size={24} color={colors.foreground30} />
         <HoliText bold style={styles.shareText}>
           {t('spaces:spaces.share')}
         </HoliText>
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   shareText: {
     marginLeft: 11,
-    color: colors.foreground20,
+    color: colors.foreground30,
   },
   copiedText: {
     color: colors.error20,
