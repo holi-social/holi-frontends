@@ -151,9 +151,11 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
           <HoliHeading level="1" style={styles.modalToolName}>
             {defaultTool ? toolName : tool?.title}
           </HoliHeading>
-          <HoliText size="small" style={styles.modalToolDescription}>
-            {tool.description || ''}
-          </HoliText>
+          {tool.description && (
+            <HoliText size="small" style={styles.modalToolDescription}>
+              {tool.description}
+            </HoliText>
+          )}
           <HoliLink label={t('spaces.digitalTool.details.open')} href={tool.url} external>
             <View style={styles.modalToolLink}>
               <HoliText size="small" numberOfLines={1} style={{ width: '90%' }}>
@@ -251,12 +253,11 @@ const styles = StyleSheet.create({
   },
   modalToolDescription: {
     color: colors.foreground20,
-    marginBottom: 12,
   },
   modalToolLink: {
     backgroundColor: colors.background20,
     padding: 12,
-    marginTop: 8,
+    marginTop: 20,
     borderRadius: 4,
     width: '100%',
     display: 'flex',
