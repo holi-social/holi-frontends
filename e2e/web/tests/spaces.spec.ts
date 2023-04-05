@@ -219,6 +219,14 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
     await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
+    // edit space contact info
+    const editedDescription = 'e2e edited space description'
+    const editedEmail = 'test@email.com'
+    const editedPhone = '123456789'
+    await clickElementByTestId(page, 'btn-space-edit-contact')
+    await inputSpaceContactInfo(page, editedDescription, editedEmail, editedPhone)
+    await saveAndWaitForModalClosed(page)
+
     // delete space
     await clickElementByTestId(page, 'space-edit-close')
     await clickElementByTestId(page, 'space-options-btn')
@@ -241,6 +249,22 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
 
   const goalInput = await locateElementByTestId(page, 'space-goal-input')
   await goalInput.fill(goal)
+}
+
+const inputSpaceContactInfo = async (
+  page: Page,
+  contactDescription: string,
+  contactEmail: string,
+  contactPhone: string
+) => {
+  const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
+  await contactDescriptionInput.fill(contactDescription)
+
+  const contactEmailInput = await locateElementByTestId(page, 'space-contact-mail-input')
+  await contactEmailInput.fill(contactEmail)
+
+  const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
+  await contactPhoneInput.fill(contactPhone)
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
