@@ -46,7 +46,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  const buttonStyles = (isSelected: boolean) =>
+  const setButtonStyles = (isSelected: boolean) =>
     StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : styles.buttonUnselected])
 
   return (
@@ -68,14 +68,14 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           />
         </HoliBox>
       ) : (
-        <HoliBox padding={[12, 12, 12, 12]}>
+        <HoliBox padding={12}>
           {isMember && (
             <HoliGridWrapper itemsInRow={3} gap={8} style={styles.wrapper}>
               <HoliGridCell>
                 <HoliButton
                   label={t('spaces.updates.filter.all')}
                   onPress={() => setFilter(VisibilityFilter.ALL)}
-                  style={buttonStyles(isFilterAll)}
+                  style={setButtonStyles(isFilterAll)}
                 >
                   <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
                     {t('spaces.updates.filter.all')}
@@ -86,7 +86,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliButton
                   label={t('spaces.updates.filter.public')}
                   onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                  style={buttonStyles(isFilterPublic)}
+                  style={setButtonStyles(isFilterPublic)}
                 >
                   <HoliIcon
                     icon={'global'}
@@ -104,7 +104,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliButton
                   label={t('spaces.updates.filter.members')}
                   onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                  style={buttonStyles(isFilterMembers)}
+                  style={setButtonStyles(isFilterMembers)}
                 >
                   <HoliIcon
                     icon="lock"
