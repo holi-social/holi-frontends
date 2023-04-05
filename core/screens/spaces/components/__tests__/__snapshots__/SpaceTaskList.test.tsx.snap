@@ -57,35 +57,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
   <View
     style={
       {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      role="header"
-      selectable={true}
-      style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          undefined,
-        ]
-      }
-    >
-      spaces.spaceDetails.tasks.heading
-    </Text>
-  </View>
-  <View
-    style={
-      {
         "overflow": "hidden",
       }
     }
@@ -93,9 +64,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     <View
       style={
         [
-          {
-            "paddingTop": 20,
-          },
+          undefined,
           {
             "flexDirection": "row",
             "flexWrap": "wrap",

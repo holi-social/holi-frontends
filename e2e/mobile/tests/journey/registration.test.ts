@@ -15,7 +15,7 @@ describe('@Registration - journey', () => {
 
   itif(platform !== 'ios', 'validates Email and password fields', async () => {
     // no password and no email
-    await defaultAuthSteps({ email: '', password: '' }, 'registration')
+    await defaultAuthSteps({ email: '', password: '' }, 'registration', false)
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
     await waitForElementWithTestId('ory-password-input-error-message')
@@ -23,19 +23,19 @@ describe('@Registration - journey', () => {
     await goFromRegistrationToHome()
 
     // invalid email provided
-    await defaultAuthSteps({ email: '', password }, 'registration')
+    await defaultAuthSteps({ email: '', password }, 'registration', false)
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
     await goFromRegistrationToHome()
 
     // short password provided
-    await defaultAuthSteps({ email, password: 'Sh0rt' }, 'registration')
+    await defaultAuthSteps({ email, password: 'Sh0rt' }, 'registration', false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
     await goFromRegistrationToHome()
 
     // weak password provided
-    await defaultAuthSteps({ email, password: '11111111' }, 'registration')
+    await defaultAuthSteps({ email, password: '11111111' }, 'registration', false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
     await goFromRegistrationToHome()
