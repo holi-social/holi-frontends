@@ -51,15 +51,12 @@ const NamesStep = ({ names, setNames, scrollToInputWithId = () => ({}) }: React.
     setNextButtonEnabled(success)
   }, [names, setNextButtonEnabled])
 
-  const resetErrorsForField = useCallback(
-    (fieldName: string) =>
-      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [fieldName]: _, ...otherErrors } = currentErrors
-        return otherErrors
-      }),
-    []
-  )
+  const resetErrorsForField = (fieldName: string) =>
+    setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [fieldName]: _, ...otherErrors } = currentErrors
+      return otherErrors
+    })
 
   const validateOnBlur = useCallback(
     (pos: Position, ref: View, id: string) => {
