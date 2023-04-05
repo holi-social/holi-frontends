@@ -34,7 +34,8 @@ export const defaultAuthSteps = async (
     email = process.env.E2E_USER_USERNAME || 'empty',
     password = process.env.E2E_USER_PASSWORD || 'empty',
   }: DefaultAuthStepsProps = {},
-  mode: AuthMode = 'login'
+  mode: AuthMode = 'login',
+  withAccountSetup = true
 ) => {
   const isLogin = mode === 'login'
 
@@ -63,6 +64,36 @@ export const defaultAuthSteps = async (
 
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
+
+  if (!isLogin && withAccountSetup) {
+    await finishAccountSetup()
+  }
+}
+
+export const finishAccountSetup = async ({
+  firstName = faker.name.firstName(),
+  lastName = faker.name.lastName(),
+  pronouns = '',
+}: {
+  firstName?: string
+  lastName?: string
+  pronouns?: string
+} = {}) => {
+  // go through accound setup
+  // provide user name
+  await fillFieldByTestId('first-name-input', firstName)
+  // provide user name
+  await fillFieldByTestId('last-name-input', lastName)
+  // provide user name
+  await fillFieldByTestId('pronouns-input', pronouns)
+
+  // submit name changes
+  // first tap to hide keyboard
+  await tapOnElementWithTestId('holi-wizard-next-btn')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
+  // finish accound setup
+  await waitForElementWithTestId('registration-success')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
 }
 
 export const logout = async () => {

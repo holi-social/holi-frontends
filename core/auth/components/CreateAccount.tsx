@@ -22,7 +22,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isWeb = Platform.OS === 'web'
 
-const Registration: React.VFC = () => {
+interface CreateAccountProps {
+  onRegister: CallableFunction
+}
+
+const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const { userId } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -46,7 +50,6 @@ const Registration: React.VFC = () => {
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
-  // This will update the registration flow with the user provided input:
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {
       showLoader()
@@ -56,7 +59,6 @@ const Registration: React.VFC = () => {
           flow: flow.id,
           updateRegistrationFlowBody: payload,
         })
-
         // ORY Kratos can be configured in such a way that it requires a login after
         // registration. You could handle that case by navigating to the Login screen
         // but for simplicity we'll just print an error here:
@@ -69,6 +71,7 @@ const Registration: React.VFC = () => {
 
         console.info('[Registration.tsx] registration was successful.')
 
+        await onRegister('accountSetup')
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
@@ -118,7 +121,7 @@ const Registration: React.VFC = () => {
   )
 }
 
-export default memo(Registration)
+export default memo(CreateAccount)
 
 const styles = StyleSheet.create({
   inner: {

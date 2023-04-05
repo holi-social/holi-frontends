@@ -43,6 +43,7 @@ const LoginProfileButton = ({
           defaultColor={user.avatarDefaultColor}
           size="micro"
           style={focused && styles.userAvatarHighlighted}
+          testID="logged-in-profile"
         />
       ) : (
         <HoliIcon

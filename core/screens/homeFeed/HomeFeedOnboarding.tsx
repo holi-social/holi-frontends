@@ -6,7 +6,8 @@ import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 
 const HomeFeedOnboarding: React.VFC<HomeFeedProps> = (props) => {
   const { navigate } = useRouting()
-  const { finished } = useOnboarding()
+  const { onboardingState } = useOnboarding()
+  const finished = onboardingState === 'finished'
 
   useLayoutEffect(() => {
     !finished && navigate('/onboarding')

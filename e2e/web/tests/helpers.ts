@@ -58,7 +58,8 @@ export const gotoFillAndSubmitRegistration = async (
   context: BrowserContext,
   page: Page,
   email: string,
-  password: string
+  password: string,
+  withAccountSetup = true
 ): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
 
@@ -79,6 +80,37 @@ export const gotoFillAndSubmitRegistration = async (
   await passwordInput.fill(password)
 
   await clickElementByTestId(page, 'ory-submit-password')
+
+  if (withAccountSetup) await finishAccountSetup(page)
+}
+
+export const finishAccountSetup = async (
+  page: Page,
+  {
+    firstName = faker.name.firstName(),
+    lastName = faker.name.lastName(),
+    pronouns = '',
+  }: {
+    firstName?: string
+    lastName?: string
+    pronouns?: string
+  } = {}
+) => {
+  // go through accound setup
+  // provide user name
+  const mandatoryFirtNameInput = await locateElementByTestId(page, 'first-name-input')
+  await mandatoryFirtNameInput.fill(firstName)
+  // provide user name
+  const lastNameInput = await locateElementByTestId(page, 'last-name-input')
+  await lastNameInput.fill(lastName)
+  // provide user name
+  const pronounsInput = await locateElementByTestId(page, 'pronouns-input')
+  await pronounsInput.fill(pronouns)
+
+  // submit name
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  // finish accound setup
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
@@ -143,6 +175,8 @@ export const sendConnectionRequest = async (page: Page) => {
   // test won't work if userId is not defined
   expect(userId?.length).toBe(36)
   await page.goto('/profile/' + userId)
+  // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
+  await page.waitForSelector(byTestId('logged-in-profile'))
   await page.waitForSelector(byTestId('user-profile-full-name'))
 
   // for the newly created user, the button state should be NOT_CONNECTED
