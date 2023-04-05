@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -14,6 +15,8 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
   const navigation = useNavigation()
   const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
+  const { onboardingState } = useOnboarding()
+  const isOnboardingFinished = onboardingState === 'finished'
 
   // user random key to reset registration onboarding when user goes to another app's path
   useEffect(() => {
@@ -27,7 +30,11 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
 
   if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />
 
-  return isLoggedIn ? <>{children}</> : <Onboarding style={styles.onboarding} key={onboardingKey} />
+  return isOnboardingFinished && isLoggedIn ? (
+    <>{children}</>
+  ) : (
+    <Onboarding style={styles.onboarding} key={onboardingKey} />
+  )
 }
 
 export default LoginProtection

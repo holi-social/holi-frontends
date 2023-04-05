@@ -49,21 +49,21 @@ const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Pa
   const validEmail = 'foobar@barbaz.de'
 
   // no password and email provided
-  await gotoFillAndSubmitRegistration(context, page, '', '')
+  await gotoFillAndSubmitRegistration(context, page, '', '', false)
   await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
   await checkAccessibility(page)
 
   // invalid email provided
-  await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', validPassword)
+  await gotoFillAndSubmitRegistration(context, page, '!!!wrong@', validPassword, false)
   await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
 
   // short password provided
-  await gotoFillAndSubmitRegistration(context, page, validEmail, 'Sh0rt')
+  await gotoFillAndSubmitRegistration(context, page, validEmail, 'Sh0rt', false)
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
 
   // weak password provided
-  await gotoFillAndSubmitRegistration(context, page, validEmail, '11111111')
+  await gotoFillAndSubmitRegistration(context, page, validEmail, '11111111', false)
   await page.waitForSelector(byTestId('ory-password-input-error-message'))
 }
 

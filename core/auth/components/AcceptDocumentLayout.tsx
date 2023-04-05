@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
-import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import CenteredImageHeadlineDescriptionLayout, {
+  CenteredImageHeadlineDescriptionLayoutProps,
+} from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -21,35 +21,26 @@ export interface AgreementProps {
   onAgreementChange: () => void
 }
 
-interface AcceptDocumentLayoutProps extends AgreementProps {
-  append?: React.ReactNode
+interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlineDescriptionLayoutProps {
   onNextPress?: () => void
   onBackPress?: () => void
-  imageSource: StaticImageData
-  imageLabelText: string
-  headlineText: string
-  descriptionText: string
   checkboxLabelTranslation: string
   documentNavPath: string
   modalLabelText: string
-  testID?: string
 }
 
 const AcceptDocumentLayout = ({
   children,
+  append,
   agreementValue,
   onAgreementChange,
-  append,
   onNextPress,
   onBackPress,
-  imageSource,
-  imageLabelText,
-  headlineText,
-  descriptionText,
   checkboxLabelTranslation,
   documentNavPath,
   modalLabelText,
   testID,
+  ...centeredLayoutProps
 }: React.PropsWithChildren<AcceptDocumentLayoutProps>) => {
   const { t } = useTranslation()
   const { show: showModal, props: modalProps } = useModalState()
@@ -64,26 +55,12 @@ const AcceptDocumentLayout = ({
   )
 
   return (
-    <CenteredContentLayout append={append || navButtons} contentContainerStyle={styles.outerContentContainerStyle}>
-      <View style={styles.inner}>
-        <View style={styles.imageContainer}>
-          <HoliLocalImage
-            imageSource={imageSource}
-            isSvg
-            width={251}
-            height={181}
-            label={imageLabelText}
-            resizeMode="contain"
-          />
-        </View>
-
-        <HoliHeading level="1" size="medium" style={styles.headline} testID={`${testID}-headline`}>
-          {headlineText}
-        </HoliHeading>
-
-        <HoliText style={styles.description}>{descriptionText}</HoliText>
-      </View>
-
+    <CenteredImageHeadlineDescriptionLayout
+      {...centeredLayoutProps}
+      append={append || navButtons}
+      contentContainerStyle={styles.outerContentContainerStyle}
+      testID={testID}
+    >
       <HoliCheckbox
         autofocus={false}
         checked={agreementValue}
@@ -112,30 +89,13 @@ const AcceptDocumentLayout = ({
           {children}
         </ScrollView>
       </HoliModal>
-    </CenteredContentLayout>
+    </CenteredImageHeadlineDescriptionLayout>
   )
 }
 
 const styles = StyleSheet.create({
   outerContentContainerStyle: {
     paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom,
-  },
-  inner: {
-    alignItems: 'center',
-    maxWidth: vars.breakpointL,
-  },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  headline: {
-    fontWeight: '400',
-    textAlign: 'center',
-    marginTop: 74,
-  },
-  description: {
-    color: colors.foreground20,
-    marginTop: 16,
-    textAlign: 'center',
   },
   checkbox: {
     marginTop: 24,

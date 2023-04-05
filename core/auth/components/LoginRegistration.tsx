@@ -12,7 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 interface LoginRegistrationProps {
   headingText?: string
   onRegistration?: () => void
-  onDismiss?: () => boolean | void
+  onDismiss?: CallableFunction
 }
 
 const LoginRegistration = ({
@@ -54,7 +54,8 @@ const LoginRegistration = ({
       <HoliButton
         label={t('auth.loginProtection.continueAsGuest')}
         onPress={() => {
-          onDismiss?.() !== false && navigate('/')
+          onDismiss?.()
+          navigate('/')
         }}
         style={[styles.button, styles.secondButton]}
         type="secondary"

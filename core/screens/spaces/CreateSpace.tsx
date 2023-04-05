@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     flex: 1,
-    paddingTop: Platform.OS === 'web' ? 0 : vars.topBarHeight,
+    paddingTop: vars.topBarHeight,
     width: '100%',
     paddingHorizontal: 0,
     ...Platform.select({
