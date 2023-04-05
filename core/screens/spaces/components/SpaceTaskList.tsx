@@ -80,6 +80,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={[style, styles.empty]}>
@@ -136,6 +137,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={styles.tasksListContainer}>

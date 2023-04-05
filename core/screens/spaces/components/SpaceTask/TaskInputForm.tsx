@@ -5,7 +5,6 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
-import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Geolocation, LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
@@ -253,7 +252,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           onChange={onChangeName}
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.name.label')}
-          testID="task-name-input"
+          testID="task-name"
           isRequired
           maxNoOfCharacters={128}
           minNoOfCharacters={2}
@@ -266,7 +265,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.description.label')}
           validationErrorText={descriptionError}
-          testID="task-description-input"
+          testID="task-description"
           isRequired
           showCharacterCount
           noOfVisibleLines={4}
@@ -274,13 +273,8 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           maxNoOfCharacters={1200}
         />
 
-        <SpaceSection
-          title={t('spaces.input.task.section.skills')}
-          editable
-          onPressEdit={showSkillsForm}
-          testID="task-skills-input"
-          style={styles.skillsSection}
-        >
+        <View style={[styles.marginSeparator, styles.skillsSection]}>
+          <HoliText>{t('spaces.input.task.section.skills.title')}</HoliText>
           <HoliText style={styles.skillsDescription}>{t('spaces.input.task.section.skills.description')}</HoliText>
           {!!skills?.length && (
             <View style={styles.listContainer}>
@@ -296,21 +290,32 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
               ))}
             </View>
           )}
-        </SpaceSection>
+          <HoliButton
+            label={t('global.edit')}
+            type="secondary"
+            inline
+            onPress={showSkillsForm}
+            testID="btn-task-edit-skills-modal"
+            style={styles.skillsButton}
+          >
+            <HoliText style={styles.skillsButtonText}>{t(skills.length > 0 ? 'global.edit' : 'global.add')}</HoliText>
+            <HoliIcon icon={skills.length > 0 ? 'edit-2' : 'add'} />
+          </HoliButton>
+        </View>
       </View>
 
-      <View style={[styles.sectionWrapper, { zIndex: 2 }]}>
+      <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
         <HoliText size="large">{t('spaces.input.task.section.location')}</HoliText>
         <HoliSelect
           options={locationTypeOptions}
           inputLabel={t('spaces.input.task.locationType.label')}
           accessibilityLabel={t('spaces.input.task.locationType.label')}
           placeholder={t('spaces.input.task.locationType.placeholder')}
-          style={styles.marginSeparator}
+          style={[styles.marginSeparator, { zIndex: 2 }]}
           onChange={onChangeLocationType}
           isRequired
-          id="task-locationType-input"
-          testID="task-locationType-input"
+          id="task-locationType"
+          testID="task-locationType"
         />
 
         {locationType && locationType.id !== LocationType.REMOTE && (
@@ -319,11 +324,11 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             placeholder={t('spaces.input.location.placeholder')}
             selected={selectedLocation}
             value={selectedLocation?.label}
-            id="spaces-location-input"
-            testID="spaces-location"
+            id="task-location"
+            testID="task-location"
             onChange={onChangeSelectedLocation}
             onSubmit={onChangeSelectedLocation}
-            style={[styles.marginSeparator, { zIndex: 2 }]}
+            style={[styles.marginSeparator, { zIndex: 1 }]}
             inputProps={{ autoFocus: true }}
             helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
             withCoordinates
@@ -341,8 +346,8 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           style={styles.marginSeparator}
           onChange={onChangeRegularity}
           isRequired
-          id="task-regularity-input"
-          testID="task-regularity-input"
+          id="task-regularity"
+          testID="task-regularity"
         />
       </View>
 
@@ -357,7 +362,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           onChange={onChangeContactEmail}
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.contactEmail.label')}
-          testID="digital-tool-title"
+          testID="task-contactEmail"
           maxNoOfCharacters={256}
         />
         <HoliTextInput
@@ -368,7 +373,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           onChange={onChangeContactPhone}
           style={styles.marginSeparator}
           accessibilityLabel={t('spaces.input.task.contactPhone.label')}
-          testID="digital-tool-title"
+          testID="task-contactPhone"
           maxNoOfCharacters={100}
         />
       </View>
@@ -470,7 +475,17 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
   },
   skillsDescription: {
-    width: '100%',
+    color: colors.foreground20,
+    marginTop: 8,
+  },
+  skillsButton: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginTop: 16,
+  },
+  skillsButtonText: {
+    marginRight: 6,
   },
   listContainer: {
     marginTop: 16,

@@ -256,7 +256,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             "bottom": "0%",
             "maxHeight": "90%",
             "overflow": "hidden",
-            "paddingBottom": 24,
             "shadowColor": "#262424",
             "shadowOffset": {
               "height": 0,
@@ -389,7 +388,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             <View
               style={
                 {
-                  "marginVertical": 16,
+                  "marginTop": 16,
+                  "paddingBottom": 24,
                 }
               }
             >
@@ -420,7 +420,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         "width": "100%",
                       },
                     ],
-                    undefined,
+                    {
+                      "marginTop": 16,
+                    },
                   ]
                 }
                 testID="item-holi-modal-select"
@@ -438,7 +440,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         "borderWidth": 1,
                         "flex": 1,
                         "flexDirection": "row",
-                        "marginTop": 16,
                         "padding": 16,
                       },
                     ]
@@ -701,7 +702,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         "width": "100%",
                       },
                     ],
-                    undefined,
+                    {
+                      "marginTop": 16,
+                    },
                   ]
                 }
                 testID="item-holi-modal-select"
@@ -719,7 +722,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         "borderWidth": 1,
                         "flex": 1,
                         "flexDirection": "row",
-                        "marginTop": 16,
                         "padding": 16,
                       },
                     ]
@@ -1325,7 +1327,6 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             "bottom": "0%",
             "maxHeight": "90%",
             "overflow": "hidden",
-            "paddingBottom": 24,
             "shadowColor": "#262424",
             "shadowOffset": {
               "height": 0,
@@ -1458,7 +1459,8 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             <View
               style={
                 {
-                  "marginVertical": 16,
+                  "marginTop": 16,
+                  "paddingBottom": 24,
                 }
               }
             >
@@ -1489,7 +1491,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         "width": "100%",
                       },
                     ],
-                    undefined,
+                    {
+                      "marginTop": 16,
+                    },
                   ]
                 }
                 testID="item-holi-modal-select"
@@ -1507,7 +1511,6 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         "borderWidth": 1,
                         "flex": 1,
                         "flexDirection": "row",
-                        "marginTop": 16,
                         "padding": 16,
                       },
                     ]
@@ -1707,7 +1710,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         "width": "100%",
                       },
                     ],
-                    undefined,
+                    {
+                      "marginTop": 16,
+                    },
                   ]
                 }
                 testID="item-holi-modal-select"
@@ -1725,7 +1730,6 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         "borderWidth": 1,
                         "flex": 1,
                         "flexDirection": "row",
-                        "marginTop": 16,
                         "padding": 16,
                       },
                     ]

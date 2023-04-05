@@ -133,12 +133,16 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     const resultSchema = CreateTaskSchema.safeParse({
       spaceId: space?.id,
+      visibility: visibility?.id,
+      locationType: locationType?.id,
+      regularity: regularity?.id,
       ...(name ? { name } : {}),
       ...(description ? { description } : {}),
       ...(contactEmail ? { contactEmail } : {}),
       ...(contactPhone ? { contactPhone } : {}),
     })
     setInputValid(resultSchema.success)
+
     if (!resultSchema.success) {
       setFieldErrors(resultSchema.error.flatten().fieldErrors)
     } else {

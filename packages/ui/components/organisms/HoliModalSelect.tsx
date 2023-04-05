@@ -57,7 +57,8 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const renderOption = useCallback(
     (option: HoliModalSelectOption) => (
       <HoliButton
-        contentStyle={styles.optionCard}
+        contentStyle={styles.optionCardContent}
+        style={styles.optionCard}
         label={option.title}
         key={option.id}
         transparent
@@ -151,16 +152,18 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: colors.background30,
-    paddingBottom: 24,
   },
   optionsContainer: {
-    marginVertical: 16,
+    marginTop: 16,
+    paddingBottom: 24,
   },
   optionCard: {
+    marginTop: 16,
+  },
+  optionCardContent: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 16,
     padding: 16,
     backgroundColor: colors.background10,
     borderRadius: 16,
