@@ -15,6 +15,6 @@ describe('SpacesGrid', () => {
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
     expect(coverImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
-    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
+    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
   })
 })

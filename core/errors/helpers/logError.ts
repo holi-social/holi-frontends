@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 
-export const logError = (error: Error, message?: string, stack?: string) => {
+export const logError = (error: unknown, message?: string, stack?: string) => {
   Sentry.captureException(error)
 
   const isDevEnvironment = process.env.NODE_ENV === 'development'

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSectionType } from '@holi/core/screens/spaces/types'
@@ -19,7 +19,8 @@ export interface HoliBlockItemProps {
   subtitle?: string
   description?: string
   users: User[]
-  imageSrc: string
+  imageSrc?: string
+  imageElement?: React.ReactNode
   href: string
   label: string
   size?: 'small' | 'large'
@@ -27,12 +28,15 @@ export interface HoliBlockItemProps {
   type?: SpaceSectionType
 }
 
+const SMALL_IMAGE_DIMENSION = 64
+
 const HoliBlockItem = ({
   title,
   subtitle,
   description,
   users,
   imageSrc,
+  imageElement,
   href,
   label,
   testID,
@@ -40,9 +44,11 @@ const HoliBlockItem = ({
   size = 'small',
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
-  const imageUri: ImageSourcePropType = { uri: imageSrc }
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
+  const imageSource = isSmall
+    ? { uri: imageSrc, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
+    : { uri: imageSrc }
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -54,7 +60,11 @@ const HoliBlockItem = ({
         <HoliLink label={label} href={href}>
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
-              <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+              {!imageElement ? (
+                <HoliImage label="" source={imageSource} resizeMode="cover" style={styles.image} />
+              ) : (
+                imageElement
+              )}
               {size === 'large' && (
                 <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
                   <HoliText>{users.length}</HoliText>
@@ -122,8 +132,8 @@ const stylesSmall = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
-    width: 64,
-    height: 64,
+    width: SMALL_IMAGE_DIMENSION,
+    height: SMALL_IMAGE_DIMENSION,
   },
   image: {
     borderRadius: 8,

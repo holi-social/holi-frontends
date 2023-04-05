@@ -17,7 +17,7 @@ type Tool = {
   icon: string
 }
 
-const ToolIdeas: React.FC = () => {
+const SuggestedTools: React.FC = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const imageWidth = 210
@@ -85,7 +85,7 @@ const ToolIdeas: React.FC = () => {
   return (
     <View style={[mixins.container, styles.container]}>
       <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_tool_ideas.svg')}
+        imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_suggested_tools.svg')}
         width={imageWidth}
         height={imageWidth * 0.86}
         label={''}
@@ -108,7 +108,7 @@ const ToolIdeas: React.FC = () => {
   )
 }
 
-export default ToolIdeas
+export default SuggestedTools
 
 const styles = StyleSheet.create({
   container: {
