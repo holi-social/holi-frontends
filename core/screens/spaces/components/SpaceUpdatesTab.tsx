@@ -16,6 +16,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -116,16 +117,20 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               </HoliGridCell>
             </HoliGridWrapper>
           )}
-          <HoliGridWrapper itemsInRow={postGridItemsInRow} style={isMember ? styles.wrapperMember : styles.wrapper}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview post={post} style={styles.postItem} />
-                </HoliGridCell>
-              ))
-            }
-          </HoliGridWrapper>
+          {loading ? (
+            <HoliLoader />
+          ) : (
+            <HoliGridWrapper itemsInRow={postGridItemsInRow} style={isMember ? styles.wrapperMember : styles.wrapper}>
+              {
+                /** FIXME convert to VirtualizedList, FlatList or SectionList */
+                posts.map((post) => (
+                  <HoliGridCell key={post.id}>
+                    <PostPreview post={post} style={styles.postItem} />
+                  </HoliGridCell>
+                ))
+              }
+            </HoliGridWrapper>
+          )}
         </>
       )}
     </>
