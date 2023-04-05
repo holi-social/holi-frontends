@@ -54,26 +54,6 @@ exports[`SpaceTaskList renders correctly when there are no tasks within space 1`
 
 exports[`SpaceTaskList renders correctly when there are tasks within space 1`] = `
 <View>
-  <Text
-    role="header"
-    selectable={true}
-    style={
-      [
-        {
-          "color": "#262424",
-          "fontFamily": "Circular Std Medium",
-          "fontWeight": "500",
-        },
-        {
-          "fontSize": 21,
-          "lineHeight": 25.2,
-        },
-        undefined,
-      ]
-    }
-  >
-    spaces.spaceDetails.tasks.heading
-  </Text>
   <View
     style={
       {
@@ -84,9 +64,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     <View
       style={
         [
-          {
-            "paddingTop": 20,
-          },
+          undefined,
           {
             "flexDirection": "row",
             "flexWrap": "wrap",
@@ -169,6 +147,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -183,12 +162,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }
@@ -555,6 +536,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -569,12 +551,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }
@@ -941,6 +925,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "justifyContent": "center",
                     "overflow": "hidden",
                   },
+                  false,
                   undefined,
                   {
                     "height": 24,
@@ -955,12 +940,14 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 source={
                   {
-                    "uri": "https://www.example.com/avatar.jpg",
+                    "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                    "width": 24,
                   }
                 }
                 style={
                   {
                     "height": "100%",
+                    "resizeMode": "contain",
                     "width": "100%",
                   }
                 }

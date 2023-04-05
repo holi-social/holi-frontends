@@ -146,9 +146,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -163,11 +165,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-1",
+                            "width": 128,
                           }
                         }
                         style={
                           {
                             "height": "100%",
+                            "resizeMode": "contain",
                             "width": "100%",
                           }
                         }
@@ -284,9 +288,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -424,9 +430,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -441,11 +449,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-2",
+                            "width": 128,
                           }
                         }
                         style={
                           {
                             "height": "100%",
+                            "resizeMode": "contain",
                             "width": "100%",
                           }
                         }
@@ -562,9 +572,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -702,9 +714,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -719,11 +733,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-3",
+                            "width": 128,
                           }
                         }
                         style={
                           {
                             "height": "100%",
+                            "resizeMode": "contain",
                             "width": "100%",
                           }
                         }
@@ -840,9 +856,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -982,9 +1000,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "justifyContent": "center",
                             "overflow": "hidden",
                           },
-                          undefined,
                           {
                             "borderColor": "#262424",
+                          },
+                          undefined,
+                          {
                             "borderWidth": 2,
                             "height": 128,
                             "width": 128,
@@ -999,11 +1019,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         source={
                           {
                             "uri": "avatar-4",
+                            "width": 128,
                           }
                         }
                         style={
                           {
                             "height": "100%",
+                            "resizeMode": "contain",
                             "width": "100%",
                           }
                         }

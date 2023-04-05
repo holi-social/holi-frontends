@@ -1,3 +1,4 @@
+import { Post } from '@holi/core/screens/posts/types'
 import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
@@ -50,6 +51,9 @@ export interface Space {
   description: string
   created: string
   creator: User
+  contactDescription: string
+  contactEmail: string
+  contactPhone: string
   cover: string
   location: string
   geolocation?: Geolocation
@@ -63,6 +67,7 @@ export interface Space {
   topics?: Topic[]
   sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
+  posts?: Paged<Post>
 }
 
 export enum SpaceSectionType {
@@ -101,4 +106,9 @@ export enum SpaceConnectionType {
 export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+}
+export enum VisibilityFilter {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+  ALL = 'ALL',
 }

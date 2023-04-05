@@ -40,6 +40,7 @@ export const notificationsQuery = gql`
             id
             title
             avatar
+            avatarDefaultColor
           }
         }
       }
