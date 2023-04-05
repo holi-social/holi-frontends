@@ -243,17 +243,6 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         testID="task-visibility-input"
         isRequired
       />
-      {/* <HoliSelect
-        options={visibilityOptions}
-        inputLabel={t('spaces.input.task.visibility.label')}
-        accessibilityLabel={t('spaces.input.task.visibility.label')}
-        placeholder={t('spaces.input.task.visibility.placeholder')}
-        style={[styles.marginSeparator, { zIndex: 3 }]}
-        onChange={onChangeVisibility}
-        isRequired
-        id="task-visibility-input"
-        testID="task-visibility-input"
-      /> */}
       <View style={styles.sectionWrapper}>
         <HoliText size="large">{t('spaces.input.task.section.about')}</HoliText>
         <HoliTextInput

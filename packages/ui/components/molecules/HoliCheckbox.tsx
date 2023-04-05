@@ -92,12 +92,8 @@ const HoliCheckbox = ({
           disabled={disabled}
           onFocus={onFocus}
           onBlur={onBlur}
-          onPressIn={() => {
-            runAnimation(0.8, 0.1)
-          }}
-          onPressOut={() => {
-            runAnimation(1, 0.4)
-          }}
+          onPressIn={() => runAnimation(0.8, 0.1)}
+          onPressOut={() => runAnimation(1, 0.4)}
           onPress={onPress}
           style={styles.checkboxContainer}
           testID={testID}
@@ -117,6 +113,7 @@ const HoliCheckbox = ({
                 icon="check"
                 size={20}
                 style={[styles.icon, disabled && styles.iconDisabled, hasError && styles.iconError]}
+                testID={`checked-${testID}`}
               />
             )}
           </Animated.View>

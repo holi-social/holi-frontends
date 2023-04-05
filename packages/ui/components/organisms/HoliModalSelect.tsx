@@ -45,10 +45,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
 
-  useEffect(() => {
-    console.log(options)
-    setSelectedOption(options.find((option) => option.selected))
-  }, [options])
+  useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -65,16 +62,17 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         key={option.id}
         transparent
         onPress={() => onChange(option)}
+        testID={`item-${testID}`}
       >
         <HoliIcon icon={option.icon || 'global'} size={22} />
         <View style={styles.optionTextContainer}>
           <HoliText bold>{option.title}</HoliText>
           {option.description && <HoliText style={styles.optionDescription}>{option.description}</HoliText>}
         </View>
-        <HoliCheckbox shape="round" checked={option.selected} autofocus={false} />
+        <HoliCheckbox shape="round" checked={option.selected} autofocus={false} testID={testID} />
       </HoliButton>
     ),
-    [onChange]
+    [onChange, testID]
   )
 
   return (
@@ -90,7 +88,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         )}
         <HoliButton
           label={title}
-          testID={testID}
+          testID={`btn-${testID}`}
           transparent
           contentStyle={[styles.button, hovered && styles.buttonHovered]}
           onPress={show}
@@ -105,7 +103,15 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         </HoliButton>
       </View>
 
-      <HoliModal show={visible} onDismiss={hide} onShow={show} label={label} statusBarTranslucent style={styles.modal}>
+      <HoliModal
+        show={visible}
+        onDismiss={hide}
+        onShow={show}
+        label={label}
+        statusBarTranslucent
+        style={styles.modal}
+        testID={testID}
+      >
         <ScrollView style={mixins.container}>
           <HoliHeading level="2">{label}</HoliHeading>
 
@@ -145,6 +151,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: colors.background30,
+    paddingBottom: 24,
   },
   optionsContainer: {
     marginVertical: 16,
