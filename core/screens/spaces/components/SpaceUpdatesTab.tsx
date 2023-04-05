@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -12,8 +12,12 @@ import { Space, SpaceConnectionType, VisibilityFilter } from '@holi/core/screens
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -23,8 +27,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const postGridItemsInRow = useBreakpointMatcher()
-  const { error, data } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
-    variables: { idOrName: space.id, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+  const [filter, setFilter] = useState(VisibilityFilter.ALL)
+  const { error, data, loading } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
+    variables: { idOrName: space.id, offset: 0, limit: 10, visibility: filter },
   })
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -36,9 +41,13 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
 
   const posts = data?.spaceById.posts?.data || []
 
+  const isFilterAll = filter === VisibilityFilter.ALL
+  const isFilterPublic = filter === VisibilityFilter.PUBLIC
+  const isFilterMembers = filter === VisibilityFilter.MEMBERS
+
   return (
     <>
-      {posts.length === 0 ? (
+      {!loading && posts.length === 0 ? (
         <HoliBox padding={24}>
           <HoliNoResults
             firstText={t('spaces.updates.noResults.tagline')}
@@ -55,16 +64,69 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           />
         </HoliBox>
       ) : (
-        <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
-          {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
-            posts.map((post) => (
-              <HoliGridCell key={post.id}>
-                <PostPreview post={post} style={styles.postItem} />
+        <>
+          {isMember && (
+            <HoliGridWrapper itemsInRow={3} gap={8} style={styles.buttonWrapper}>
+              <HoliGridCell>
+                <HoliButton
+                  label={t('spaces.updates.filter.all')}
+                  onPress={() => setFilter(VisibilityFilter.ALL)}
+                  style={isFilterAll ? styles.buttonSelected : styles.buttonUnselected}
+                >
+                  <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
+                    {t('spaces.updates.filter.all')}
+                  </HoliText>
+                </HoliButton>
               </HoliGridCell>
-            ))
-          }
-        </HoliGridWrapper>
+              <HoliGridCell>
+                <HoliButton
+                  label={t('spaces.updates.filter.public')}
+                  onPress={() => setFilter(VisibilityFilter.PUBLIC)}
+                  style={isFilterPublic ? styles.buttonSelected : styles.buttonUnselected}
+                >
+                  <HoliIcon
+                    icon={'global'}
+                    size={14}
+                    filled={true}
+                    color={isFilterPublic ? colors.white100 : colors.foreground30}
+                    style={styles.icon}
+                  />
+                  <HoliText size="small" color={isFilterPublic ? 'white100' : 'black300'}>
+                    {t('spaces.updates.filter.public')}
+                  </HoliText>
+                </HoliButton>
+              </HoliGridCell>
+              <HoliGridCell>
+                <HoliButton
+                  label={t('spaces.updates.filter.members')}
+                  onPress={() => setFilter(VisibilityFilter.MEMBERS)}
+                  style={isFilterMembers ? styles.buttonSelected : styles.buttonUnselected}
+                >
+                  <HoliIcon
+                    icon="lock"
+                    size={14}
+                    filled={true}
+                    color={isFilterMembers ? colors.white100 : colors.foreground30}
+                    style={styles.icon}
+                  />
+                  <HoliText size="small" color={isFilterMembers ? 'white100' : 'black300'}>
+                    {t('spaces.updates.filter.members')}
+                  </HoliText>
+                </HoliButton>
+              </HoliGridCell>
+            </HoliGridWrapper>
+          )}
+          <HoliGridWrapper itemsInRow={postGridItemsInRow} style={isMember ? styles.wrapperMember : styles.wrapper}>
+            {
+              /** FIXME convert to VirtualizedList, FlatList or SectionList */
+              posts.map((post) => (
+                <HoliGridCell key={post.id}>
+                  <PostPreview post={post} style={styles.postItem} />
+                </HoliGridCell>
+              ))
+            }
+          </HoliGridWrapper>
+        </>
       )}
     </>
   )
@@ -75,8 +137,30 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 24,
   },
+  buttonWrapper: {
+    padding: 24,
+  },
   wrapper: {
     padding: 24,
+  },
+  wrapperMember: {
+    padding: 24,
+    paddingTop: 0,
+  },
+  buttonSelected: {
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+    backgroundColor: colors.foreground30,
+    borderColor: colors.foreground30,
+  },
+  buttonUnselected: {
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+    backgroundColor: colors.white100,
+    borderColor: colors.background30,
+  },
+  icon: {
+    marginRight: 5,
   },
 })
 
