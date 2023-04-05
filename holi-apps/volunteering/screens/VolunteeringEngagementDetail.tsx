@@ -106,7 +106,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
               imageSource={
                 engagement.source === 'Aktion Mensch'
                   ? require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg')
-                  : require('@holi/ui/assets/img/volunteering/logo-de-rot-small.png')
+                  : require('@holi/ui/assets/img/volunteering/vostel-logo.png')
               }
               isSvg={engagement.source === 'Aktion Mensch' ? true : false}
               width={40}
