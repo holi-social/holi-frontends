@@ -111,7 +111,7 @@ export const handleFormSubmitError = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setFlow: (p: any) => void,
   initializeFlow: () => void,
-  showError: (err: unknown) => void,
+  showError: (err: Error) => void,
   err: unknown
 ) => {
   if (isAxiosError(err)) {
@@ -142,5 +142,5 @@ export const handleFormSubmitError = (
     }
   }
 
-  showError(err)
+  showError(err as Error)
 }

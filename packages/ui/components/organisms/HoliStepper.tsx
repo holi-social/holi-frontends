@@ -50,9 +50,12 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
   const firstUpdate = useRef(true)
   const [previousStep, setPreviousStep] = useState(currentStep)
   const { run: scrollToStep } = useSafeFunctionThrottle((position: number) => {
-    carousel.current?.scrollTo({ x: position, y: 0, animated: true })
+    carousel.current?.scrollTo({ x: position, y: 0, animated: !firstUpdate.current })
     // reset previousStep after scroll animation
-    setTimeout(() => setPreviousStep(currentStep), 700)
+    setTimeout(() => {
+      firstUpdate.current = false
+      setPreviousStep(currentStep)
+    }, 700)
   })
 
   const mustStepBeRendered = (stepIdx: number) => {
@@ -69,7 +72,6 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
     // this workaround is for Web version. ScrollView has a bug and does not scroll correctly on initial rendering
     // so in Web on initial rendering only when "currentStep > 0" we wait after 600ms for next Animation Frame and scroll the ScrollView
     if (Platform.OS === 'web' && firstUpdate.current) {
-      firstUpdate.current = false
       timeout = 600
     }
     const scrollPoint = currentStep * screenWidth
