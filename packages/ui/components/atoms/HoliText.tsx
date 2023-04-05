@@ -11,7 +11,7 @@ export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extras
 // introduce bugs.
 export interface HoliTextProps extends TextProps {
   align?: TextStyle['textAlign']
-  color?: 'black300' | 'gray200' | 'gray300'
+  color?: 'black300' | 'gray200' | 'gray300' | 'white100'
   bold?: boolean
   size?: HoliTextSize
   selectable?: boolean
@@ -91,6 +91,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     gray200: {
       color: colors.foreground10,
+    },
+    white100: {
+      color: colors.white100,
     },
     bold: {
       fontWeight: '500',
