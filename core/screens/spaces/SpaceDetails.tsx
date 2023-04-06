@@ -147,7 +147,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
         <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
       </DefaultScrollHeaderLayout>
-      {(isCreator || isMember) && currentTabIndex === 1 && <AddNewDrawer spaceIdOrName={space.name} />}
+      {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>
   )
 }
