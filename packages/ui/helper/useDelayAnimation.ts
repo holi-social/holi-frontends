@@ -1,15 +1,17 @@
 import { useRef } from 'react'
 
+type UseDelayedAnimation = [(props: unknown, delay: number) => void, () => void]
+
 /**
  * This hook delays animations using the request Animation Frame (rAF) queue.
  * Think of it as a JS timer running at the beginning of each frame
- * executeting your passed function with the passed arguments at the end of the
+ * executing your passed function with the passed arguments at the end of the
  * passed delayed time. Its used as a side-effect when the component has mounted.
- * Don't forget to stop the timer in the `useEffect` cleanup phase.
+ * Don't forget to cancel the rAF in the `useEffect` cleanup phase.
  * @usage
  * ```
  * // init expects the function to call
- * const {run, stop} = useSafeFunctionThrottle(someFunc)
+ * const [run, stop] = useSafeFunctionThrottle(funcToDelay)
  *
  * // start the execution with run()
  * // 1st param: optional function props
@@ -17,11 +19,11 @@ import { useRef } from 'react'
  * useEffect(() => {
  *  run({}, 800)
  *  // Don't forget to stop the timer
- *  ;() => stop()
+ *  ;() => cancel()
  * }, [dependencies])
  * ```
  */
-export const useSafeFunctionThrottle = (fn: CallableFunction) => {
+export const useDelayedAnimation = (fn: CallableFunction): UseDelayedAnimation => {
   const rAfRef = useRef(0)
   const startRef = useRef(0)
   const delayRef = useRef(500)
@@ -48,7 +50,7 @@ export const useSafeFunctionThrottle = (fn: CallableFunction) => {
     rAfRef.current = requestAnimationFrame(loop)
   }
 
-  const stop = () => cancelAnimationFrame(rAfRef.current)
+  const cancel = () => cancelAnimationFrame(rAfRef.current)
 
-  return { run, stop }
+  return [run, cancel]
 }
