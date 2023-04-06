@@ -20,6 +20,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -44,6 +45,7 @@ const Login: React.VFC<ScreenProps> = () => {
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+  const { onOnboardingStateChange: finishOnboarding } = useOnboarding()
 
   const isLoggedIn = !!userId
 
@@ -88,6 +90,7 @@ const Login: React.VFC<ScreenProps> = () => {
         const { data } = await submitLoginFlow(flow, payload, undefined)
         await client.clearStore()
         await setUserLoggedIn(data as OrySessionContext)
+        await finishOnboarding()
 
         if (Platform.OS === 'web' && return_to) {
           // server side redirect, see: See apps/web/pages/oauth2/login.tsx
@@ -108,6 +111,7 @@ const Login: React.VFC<ScreenProps> = () => {
       <HoliBox padding={[0, 24]}>
         <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+
           <View style={styles.formItemContainer}>
             <HoliTextLink
               label={t('auth.login.link.forgotPassword')}

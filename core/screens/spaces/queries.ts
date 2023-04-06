@@ -26,6 +26,9 @@ const SpaceFragment = gql`
     id
     title
     description
+    contactEmail
+    contactPhone
+    contactDescription
     created
     avatar
     cover
@@ -90,6 +93,8 @@ const SpaceOverviewFragment = gql`
     created
     cover
     location
+    avatar
+    avatarDefaultColor
     name
     members {
       ...FullSpaceMember
@@ -313,6 +318,9 @@ export const UpdateSpaceInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
   topics: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
+  contactDescription: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+  contactPhone: z.string().optional(),
 })
 
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
@@ -328,6 +336,9 @@ export const updateSpaceMutation = gql`
       location
       avatarDefaultColor
       name
+      contactDescription
+      contactEmail
+      contactPhone
       geolocation {
         latitude
         longitude
@@ -412,6 +423,7 @@ export const spacePostsQuery = gql`
   ${PostFragment}
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
+      id
       posts(offset: $offset, limit: $limit, visibility: $visibility) {
         data {
           ...PostFragment
