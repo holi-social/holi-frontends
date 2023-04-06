@@ -4,6 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
+import NoDataCard from '@holi/core/screens/spaces/components/NoDataCard'
 import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
@@ -13,7 +14,6 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskListProps = {
@@ -60,7 +60,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           height={96}
           label={''}
           isSvg={true}
-          resizeMode="contain"
+          resizeMode="stretch"
           style={styles.illustration}
         />
         <HoliText size={'small'} style={styles.emptyMessage}>
@@ -96,18 +96,10 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
             </View>
           </CollaboratorAreaCard>
         )) || (
-          <HoliNoResults
-            firstText={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
-            secondText={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
-                label=""
-                height={203}
-                width={279}
-                isSvg
-              />
-            }
+          <NoDataCard
+            image={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
+            title={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
+            description={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
           />
         )}
       </>
