@@ -5,8 +5,13 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
+import {
+  LOCATION_TYPE_OPTIONS,
+  REGULARITY_OPTIONS,
+  VISIBILITY_TYPE_OPTIONS,
+} from '@holi/core/screens/spaces/components/SpaceTask/consts'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { Geolocation, LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
+import { Geolocation, LocationType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -23,58 +28,6 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
-  {
-    id: VisibilityType.PUBLIC,
-    title: 'Public',
-    description: 'Just collaborators can contact you regarding this task.',
-    selected: false,
-    icon: 'global',
-  },
-  {
-    id: VisibilityType.MEMBERS,
-    title: 'Members',
-    description: 'This task is publicly visible. Anyone can contact you regarding this task.',
-    selected: false,
-    icon: 'lock',
-  },
-]
-
-const LOCATION_TYPE_OPTIONS: HoliSelectOption[] = [
-  {
-    id: LocationType.HYBRID,
-    title: 'Hybrid',
-    selected: false,
-  },
-  {
-    id: LocationType.ONSITE,
-    title: 'On-site',
-    selected: false,
-  },
-  {
-    id: LocationType.REMOTE,
-    title: 'Remote',
-    selected: false,
-  },
-]
-
-const REGULARITY_OPTIONS: HoliSelectOption[] = [
-  {
-    id: Regularity.ONE_TIME,
-    title: 'One time',
-    selected: false,
-  },
-  {
-    id: Regularity.PROJECT_BASED,
-    title: 'Project based',
-    selected: false,
-  },
-  {
-    id: Regularity.REGULARLY,
-    title: 'Regularly',
-    selected: false,
-  },
-]
 export interface TaskInputFormProps {
   name: string
   description: string
@@ -130,7 +83,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   isEdit = false,
   fieldErrors = {},
 }: TaskInputFormProps) => {
-  const [visibilityOptions, setVisibilityOptions] = useState<HoliSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
+  const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliSelectOption[]>(LOCATION_TYPE_OPTIONS)
   const [regularityOptions, setRegularityOptions] = useState<HoliSelectOption[]>(REGULARITY_OPTIONS)
 
@@ -144,6 +97,31 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   const { height: deviceHeight } = useWindowDimensions()
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
+
+  // set options translations
+  useEffect(() => {
+    setVisibilityOptions((options) =>
+      options.map((option) => ({
+        ...option,
+        title: t(`spaces.input.task.visibility.${option.id}.title`),
+        description: t(`spaces.input.task.visibility.${option.id}.description`),
+      }))
+    )
+
+    setLocationTypeOptions((options) =>
+      options.map((option) => ({
+        ...option,
+        title: t(`spaces.input.task.locationType.${option.id}.title`),
+      }))
+    )
+
+    setRegularityOptions((options) =>
+      options.map((option) => ({
+        ...option,
+        title: t(`spaces.input.task.regularity.${option.id}.title`),
+      }))
+    )
+  }, [t, setVisibilityOptions, setLocationTypeOptions, setRegularityOptions])
 
   useEffect(() => {
     setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
