@@ -154,6 +154,7 @@ describe('@Spaces', () => {
   const assertEditingSpace = async () => {
     // check if edit space page has correct information
     await seeTextWithTestId(initialName, 'space-edit-title')
+    await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 
     // edit space name and goal
@@ -165,6 +166,7 @@ describe('@Spaces', () => {
 
     // check if space name and goal were updated
     await seeTextWithTestId(editedName, 'space-edit-title')
+    await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(editedGoal, 'space-edit-goal')
 
     // TODO: test editing images
@@ -179,6 +181,7 @@ describe('@Spaces', () => {
     // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
     // edit space topics
+    await scrollToElementWithTestId('btn-space-edit-topics', 'down', { maxAttempts: 2 })
     await tapOnElementWithTestId('btn-space-edit-topics')
     await selectSomeTerms(numberOfEditedTerms)
     await tapOnElementWithTestId('space-edit-modal-save-btn')
