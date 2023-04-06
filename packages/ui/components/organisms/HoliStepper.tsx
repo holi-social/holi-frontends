@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { useSafeFunctionThrottle } from '@holi/ui/helper'
+import { useDelayedAnimation } from '@holi/ui/helper'
 
 export const useStepper = (initialStep = 0) => {
   const [currentStep, setCurrentStep] = React.useState(initialStep)
@@ -45,12 +45,14 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
   scrollEnabled = false,
   ...scrollViewProps
 }) => {
-  const carousel = React.useRef<ScrollView>(null)
-  const { width: screenWidth } = useWindowDimensions()
+  const carouselRef = React.useRef<ScrollView>(null)
   const firstUpdate = useRef(true)
+
+  const { width: screenWidth } = useWindowDimensions()
   const [previousStep, setPreviousStep] = useState(currentStep)
-  const { run: scrollToStep } = useSafeFunctionThrottle((position: number) => {
-    carousel.current?.scrollTo({ x: position, y: 0, animated: !firstUpdate.current })
+
+  const [scrollToStep, cancelScrollToStep] = useDelayedAnimation((position: number) => {
+    carouselRef.current?.scrollTo({ x: position, y: 0, animated: !firstUpdate.current })
     // reset previousStep after scroll animation
     setTimeout(() => {
       firstUpdate.current = false
@@ -76,11 +78,12 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
     }
     const scrollPoint = currentStep * screenWidth
     scrollToStep(scrollPoint, timeout)
-  }, [currentStep, previousStep, screenWidth, scrollToStep])
+    ;() => cancelScrollToStep
+  }, [currentStep, previousStep, screenWidth, scrollToStep, cancelScrollToStep])
 
   return (
     <ScrollView
-      ref={carousel}
+      ref={carouselRef}
       style={[styles.scrollView, style]}
       contentContainerStyle={[styles.scrollViewContainer, contentContainerStyle]}
       horizontal
