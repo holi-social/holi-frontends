@@ -27,6 +27,7 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface TaskInputFormProps {
   name: string
@@ -97,6 +98,8 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   const { height: deviceHeight } = useWindowDimensions()
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
+
+  const mixins = useStyleMixins()
 
   // set options translations
   useEffect(() => {
@@ -232,6 +235,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           accessibilityLabel={t('spaces.input.task.name.label')}
           testID="task-name"
           isRequired
+          showCharacterCount
           maxNoOfCharacters={128}
           minNoOfCharacters={2}
         />
@@ -377,7 +381,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             actionButtonText={t('global.done')}
             onActionButtonPress={hideSkillsForm}
             hideFooterWhenKeyboardIsOpen={true}
-            style={styles.modalWrapper}
+            style={[styles.modalWrapper, mixins.container]}
             testID="create-task-skills-modal-wrapper"
           >
             <SpaceTermsInput
