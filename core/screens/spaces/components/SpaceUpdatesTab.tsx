@@ -46,8 +46,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  const setButtonStyles = (isSelected: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : styles.buttonUnselected])
+  const setButtonStyles = (isSelected: boolean) => (isSelected ? styles.buttonSelected : styles.buttonUnselected)
 
   return (
     <>
@@ -73,6 +72,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
             <HoliGridWrapper itemsInRow={3} gap={8} style={styles.wrapper}>
               <HoliGridCell>
                 <HoliButton
+                  type="secondary"
                   label={t('spaces.updates.filter.all')}
                   onPress={() => setFilter(VisibilityFilter.ALL)}
                   style={setButtonStyles(isFilterAll)}
@@ -84,6 +84,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               </HoliGridCell>
               <HoliGridCell>
                 <HoliButton
+                  type="secondary"
                   label={t('spaces.updates.filter.public')}
                   onPress={() => setFilter(VisibilityFilter.PUBLIC)}
                   style={setButtonStyles(isFilterPublic)}
@@ -102,6 +103,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               </HoliGridCell>
               <HoliGridCell>
                 <HoliButton
+                  type="secondary"
                   label={t('spaces.updates.filter.members')}
                   onPress={() => setFilter(VisibilityFilter.MEMBERS)}
                   style={setButtonStyles(isFilterMembers)}
@@ -150,15 +152,15 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 12,
   },
-  buttonSpacing: {
+  buttonSelected: {
     paddingHorizontal: 6,
     paddingVertical: 8,
-  },
-  buttonSelected: {
     backgroundColor: colors.foreground30,
     borderColor: colors.foreground30,
   },
   buttonUnselected: {
+    paddingHorizontal: 6,
+    paddingVertical: 8,
     backgroundColor: colors.white100,
     borderColor: colors.background30,
   },
