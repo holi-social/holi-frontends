@@ -1,6 +1,7 @@
 import { ReactNativeFile } from 'apollo-upload-client'
 import { Asset } from 'expo-asset'
 import Constants from 'expo-constants'
+import { Platform } from 'react-native'
 
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
@@ -10,7 +11,7 @@ const e2e = {
 }
 
 export const mockImageUploadForE2E = async (userId?: string | null): Promise<ImageInfo | undefined> => {
-  if (userId === e2e.userId) {
+  if (Platform.OS !== 'web' && userId === e2e.userId) {
     const [asset] = await Asset.loadAsync(e2e.testImage)
     const { uri, width, height } = asset
     if (!uri || !width || !height) {
