@@ -43,6 +43,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
             style={styles.headerRightButton}
             label={headerRightButtonLabel || ''}
             onPress={onPressHeaderRight}
+            testID="add-digital-tool"
           >
             {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
           </HoliButton>
