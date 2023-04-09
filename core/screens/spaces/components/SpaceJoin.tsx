@@ -106,6 +106,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         description={t('spaces.join.withdraw.confirm.text')}
         dismissText={t('global.dismiss')}
         confirmText={t('global.yes')}
+        confirmationButtonType="warning"
         onConfirm={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
