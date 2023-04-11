@@ -32,6 +32,15 @@ const args = {
   },
 }
 
+// documentation https://storybook.js.org/addons/storybook-addon-next-router
+const nextRouterParameters = {
+  nextRouter: {
+    pathname: '/', // defaults to `/`
+    asPath: '/', // defaults to `/`
+    query: {}, // defaults to `{}`
+  },
+}
+
 export const Primary = ({ ...args }) => (
   <>
     <LinkPreviewSlot>
@@ -61,6 +70,8 @@ export const Primary = ({ ...args }) => (
     </LinkPreviewSlot>
   </>
 )
+
+Primary.parameters = nextRouterParameters
 
 Primary.argTypes = { ...args }
 
@@ -93,5 +104,7 @@ export const Secondary = ({ ...args }) => (
     </LinkPreviewSlot>
   </>
 )
+
+Secondary.parameters = nextRouterParameters
 
 Secondary.argTypes = { ...args }

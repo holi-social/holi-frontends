@@ -1,3 +1,4 @@
+import { RouterContext } from 'next/dist/shared/lib/router-context'
 import * as NextImage from 'next/image'
 import * as React from 'react'
 
@@ -21,6 +22,9 @@ export const parameters = {
   locales: {
     en: { title: 'English', left: '🇬🇧' },
     de: { title: 'Deutsch', left: '🇩🇪' },
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider, // documentation https://storybook.js.org/addons/storybook-addon-next-router
   },
 }
 
