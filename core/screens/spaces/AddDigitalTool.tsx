@@ -43,7 +43,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
+  const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -185,7 +185,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         show={showConfirmationModal}
         label={exitConfirmationTitle}
         title={exitConfirmationTitle}
-        description={t('global.leavePage.confirmation.description')}
+        description={t('spaces.digitalTool.add.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.digitalTool.add.close.dialog.cancel.button.label')}
         confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   footer: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -231,7 +231,6 @@ const styles = StyleSheet.create({
     margin: -7,
     ...Platform.select({
       web: {
-        position: 'fixed',
         alignSelf: 'center',
       },
     }),
