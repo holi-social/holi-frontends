@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import NamesStep, { NamesValues, trimNames } from '@holi/core/auth/components/AccountSetup/NamesStep'
-import RegistrationSuccessStep from '@holi/core/auth/components/AccountSetup/RegistrationSuccessStep'
+import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { FieldErrors } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling, useFieldErrors } from '@holi/core/errors/hooks'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
@@ -208,7 +208,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             contentContainerStyle={[mixins.container, styles.stepContainer, styles.stepContainerCentered]}
             testID="fooobar"
           >
-            <RegistrationSuccessStep firstName={names.firstName} />
+            <CenteredImageHeadlineDescriptionLayout
+              imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
+              imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+              headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+              descriptionText={t('registration.accountSetup.firstSuccess.describtion')}
+              testID="registration-success"
+            />
           </ScrollView>,
 
           // Interests step
@@ -229,7 +235,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             key="success"
             contentContainerStyle={[mixins.container, styles.stepContainer, styles.stepContainerCentered]}
           >
-            <RegistrationSuccessStep firstName={names.firstName} key="success" />
+            <CenteredImageHeadlineDescriptionLayout
+              imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
+              imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+              headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+              descriptionText={t('registration.accountSetup.success.describtion')}
+              testID="account-setup-success"
+            />
           </ScrollView>,
         ]}
         currentStep={currentStep}
