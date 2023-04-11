@@ -37,6 +37,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
 
       <HoliTabs
         id="space-tabs"
+        testID="space-tabs"
         centeredButtons
         initialStep={initialTabIndex}
         style={{ flex: 1 }}
