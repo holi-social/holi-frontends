@@ -52,8 +52,6 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
     setStep(Math.round(nativeEvent.contentOffset.x / tabScreenWidth))
   }
 
-  console.log('FROM TABS', initialStep)
-
   return (
     <View style={[styles.holiTabs, style]} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">

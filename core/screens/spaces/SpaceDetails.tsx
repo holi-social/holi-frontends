@@ -38,7 +38,6 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const [initTabIndex = '0'] = useParam('tabIndex')
 
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
@@ -125,6 +124,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
   const handleTabChange = (index: number) => {
+    global.spaceDetailInitialTabIndex = index
+
     setCurrentTabIndex(index)
   }
 
@@ -151,7 +152,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           style={styles.spaceDetailView}
           space={space}
           onChangeTab={handleTabChange}
-          initialTabIndex={+initTabIndex}
+          initialTabIndex={global.spaceDetailInitialTabIndex}
         />
       </DefaultScrollHeaderLayout>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}

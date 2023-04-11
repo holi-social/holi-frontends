@@ -38,16 +38,13 @@ const LinkHub: React.VFC<ScreenProps> = () => {
         title: t('spaces.toolKit.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => (
-          <HeaderBackButton icon="arrow-left" onPress={() => navigate(`/spaces/${spaceIdOrName}?tabIndex=2`)} />
-        ),
+        headerLeft: () => <HeaderBackButton icon="arrow-left" />,
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
     [navigate, setOptions, spaceIdOrName, t]
   )
-
   const onAddButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
   }
