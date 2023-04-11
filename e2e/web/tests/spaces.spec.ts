@@ -283,6 +283,9 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // check if it closed
   await locateElementByTestId(page, 'btn-task-visibility-input')
 
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-task-visibility-input-modal'), { state: 'hidden' })
+
   // add task title
   const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
   await taskTitleInput.fill(taskTitle)
