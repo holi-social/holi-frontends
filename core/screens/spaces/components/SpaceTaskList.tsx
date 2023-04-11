@@ -136,7 +136,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksCard = ({ tasks }: TasksCardProps) => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigate(`${space.name}/createTask`) : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
     }
 
     return (
