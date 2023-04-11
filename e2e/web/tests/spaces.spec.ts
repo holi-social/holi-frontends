@@ -296,7 +296,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
 
   // select some skills
   await clickElementByTestId(page, 'btn-task-edit-skills-modal')
-  await selectSomeTerms(page)
+  await selectSomeTerms(page, 1)
   await clickElementByTestId(page, 'create-task-skills-modal-wrapper-close-btn')
 
   // make sure previous modal is closed
