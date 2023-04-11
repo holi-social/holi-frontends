@@ -240,6 +240,8 @@
   "registration.accountSetup.names.pronouns.hint": "Ideen: sie/ihr, er/ihm, they/them, Einhorn 🦄",
   "registration.accountSetup.names.validation.firstName.maxCharacters": "Name soll maximal {{value}} Zeichen lang sein",
   "registration.accountSetup.names.validation.firstName.minCharacters": "Name soll mindestens {{value}} Zeichen lang sein",
+  "registration.accountSetup.success.describtion": "Danke, dass Du Teil der Veränderung bist, die Du in dieser Welt sehen möchtest. Mit holi bist Du auf dieser Reise nie allein.",
+  "registration.accountSetup.success.heading": "Yeah! Alles erledigt, {{name}}!",
   "registration.communityGuidelines": "Community Guidelines",
   "registration.communityGuidelines.checkboxLabel": "Ich respektiere die <0>Community Guidelines</0>",
   "registration.communityGuidelines.describtion": "Bei holi sind alle Stimmen, die ein ganzheitliches Bild des positiven Wandels zeichnen, willkommen. Unsere Gemeinschaft gedeiht im Geiste wahrer Freundlichkeit und gegenseitigen Respekts. Unangemessenes Verhalten wird gemeldet.",
