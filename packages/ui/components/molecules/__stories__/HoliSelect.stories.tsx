@@ -71,7 +71,7 @@ const argTypes = {
   options: { description: 'Options', control: { type: 'object' } },
 }
 
-export const SingleSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
+const SingleSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
   const [selectedOption, setSelectedOption] = useState<string | undefined>()
 
   const toggleOptionSelect = (topic: HoliSelectOption) => {
@@ -94,7 +94,7 @@ export const SingleSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => 
 SingleSelect.args = args
 SingleSelect.argTypes = argTypes
 
-export const MultiSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
+const MultiSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
   const [options, setOptions] = useState<HoliSelectOption[]>(initialOptions)
 
   const toggleOptionSelection = (topic: HoliSelectOption) => {
