@@ -41,8 +41,8 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   // timeout in ms for the waitFor... commands
   waitforTimeout: 10000, // ms
   // TODO (OL) trying if this stabilizes tests
-  connectionRetryCount: 3,
-  connectionRetryTimeout: 200000, // ms
+  connectionRetryCount: 1,
+  connectionRetryTimeout: 600000, // ms
 }
 
 const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', { defaultValue: undefined })
