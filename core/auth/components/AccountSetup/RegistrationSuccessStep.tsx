@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import useWizard from '@holi//ui/components/organisms/HoliWizard/useWizard'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 
 export interface RegistrationSuccessStepProps {
@@ -10,11 +9,6 @@ export interface RegistrationSuccessStepProps {
 
 const RegistrationSuccessStep = ({ firstName }: RegistrationSuccessStepProps) => {
   const { t } = useTranslation()
-  const { setNextButtonEnabled } = useWizard()
-
-  useEffect(() => {
-    setNextButtonEnabled(true)
-  }, [setNextButtonEnabled])
 
   return (
     <CenteredImageHeadlineDescriptionLayout
