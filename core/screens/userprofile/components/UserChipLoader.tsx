@@ -6,6 +6,7 @@ import HoliText from '@holi//ui/components/atoms/HoliText'
 import { colors } from '@holi//ui/styles/globalVars'
 import { UseUserChipsOptions, useUserChips } from '@holi/core/helpers/useUserChips'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 
 type UserChipLoaderProps = UseUserChipsOptions
@@ -38,13 +39,15 @@ const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChi
       loading={loading}
       testID="user-profile-chipform"
     >
-      <UserChipForm
-        filterString={filterString}
-        onFilterStringChange={onFilterStringChange}
-        terms={terms}
-        onTermSelect={onTermSelect}
-        keyInUserObject={keyInUserObject}
-      />
+      <HoliBox padding={[0, 24]}>
+        <UserChipForm
+          filterString={filterString}
+          onFilterStringChange={onFilterStringChange}
+          terms={terms}
+          onTermSelect={onTermSelect}
+          keyInUserObject={keyInUserObject}
+        />
+      </HoliBox>
     </HoliModalContentWrapper>
   )
 }

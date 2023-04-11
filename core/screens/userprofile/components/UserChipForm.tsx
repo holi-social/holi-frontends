@@ -30,7 +30,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const { t } = useTranslation()
 
   return (
-    <View style={styles.mainContainer}>
+    <View>
       <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
 
       <HoliTextInput
@@ -61,9 +61,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    marginHorizontal: 24,
-  },
   scrollViewContent: {
     paddingHorizontal: 16,
     alignItems: 'center',
