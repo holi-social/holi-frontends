@@ -584,7 +584,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             "flexWrap": "nowrap",
                           }
                         }
-                        testID="holi-modal-select"
+                        testID="checked-holi-modal-select"
                       >
                         <View
                           collapsable={false}
@@ -640,7 +640,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                                 },
                               ]
                             }
-                            testID="checked-holi-modal-select"
                             tintColor={4294967295}
                             vbHeight={1024}
                             vbWidth={1024}

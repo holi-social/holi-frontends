@@ -68,9 +68,14 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         <HoliIcon icon={option.icon || 'global'} size={22} />
         <View style={styles.optionTextContainer}>
           <HoliText bold>{option.title}</HoliText>
-          {option.description && <HoliText style={styles.optionDescription}>{option.description}</HoliText>}
+          <HoliText style={styles.optionDescription}>{option.description || 'hello'}</HoliText>
         </View>
-        <HoliCheckbox shape="round" checked={option.selected} autofocus={false} testID={testID} />
+        <HoliCheckbox
+          shape="round"
+          checked={option.selected}
+          autofocus={false}
+          testID={`${option.selected ? 'checked-' : ''}${testID}`}
+        />
       </HoliButton>
     ),
     [onChange, testID]

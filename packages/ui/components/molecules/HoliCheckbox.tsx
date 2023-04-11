@@ -113,7 +113,6 @@ const HoliCheckbox = ({
                 icon="check"
                 size={20}
                 style={[styles.icon, disabled && styles.iconDisabled, hasError && styles.iconError]}
-                testID={`checked-${testID}`}
               />
             )}
           </Animated.View>

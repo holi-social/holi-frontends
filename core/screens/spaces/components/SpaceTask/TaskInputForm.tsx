@@ -135,28 +135,31 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
 
   useEffect(() => {
     if (visibility) {
-      const updatedVisibilitysList = VISIBILITY_TYPE_OPTIONS.map((visibilityOption) =>
-        visibilityOption.title === visibility.title
-          ? { ...visibilityOption, selected: true }
-          : { ...visibilityOption, selected: false }
+      setVisibilityOptions((options) =>
+        options.map((visibilityOption) =>
+          visibilityOption.title === visibility.title
+            ? { ...visibilityOption, selected: true }
+            : { ...visibilityOption, selected: false }
+        )
       )
-      setVisibilityOptions(updatedVisibilitysList)
     }
     if (locationType) {
-      const updatedLocationTypeList = LOCATION_TYPE_OPTIONS.map((locationTypeOption) =>
-        locationTypeOption.title === locationType.title
-          ? { ...locationTypeOption, selected: true }
-          : { ...locationTypeOption, selected: false }
+      setLocationTypeOptions((options) =>
+        options.map((locationTypeOption) =>
+          locationTypeOption.title === locationType.title
+            ? { ...locationTypeOption, selected: true }
+            : { ...locationTypeOption, selected: false }
+        )
       )
-      setLocationTypeOptions(updatedLocationTypeList)
     }
     if (regularity) {
-      const updatedRegularityList = REGULARITY_OPTIONS.map((regularityOption) =>
-        regularityOption.title === regularity.title
-          ? { ...regularityOption, selected: true }
-          : { ...regularityOption, selected: false }
+      setRegularityOptions((options) =>
+        options.map((regularityOption) =>
+          regularityOption.title === regularity.title
+            ? { ...regularityOption, selected: true }
+            : { ...regularityOption, selected: false }
+        )
       )
-      setRegularityOptions(updatedRegularityList)
     }
   }, [visibility, locationType, regularity])
 
