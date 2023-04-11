@@ -1,14 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  Platform,
-  ScrollView,
-  ScrollViewProps,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import type { ScrollViewProps } from 'react-native'
 
 import { useDelayedAnimation } from '@holi/ui/helper'
 
@@ -30,18 +22,12 @@ export interface HoliStepperProps extends ScrollViewProps {
   steps: React.ReactNode[]
   currentStep: number
   lazy?: boolean
-  style?: StyleProp<ViewStyle>
-  contentContainerStyle?: StyleProp<ViewStyle>
-  stepContainerStyle?: StyleProp<ViewStyle>
 }
 
 export const HoliStepper: React.VFC<HoliStepperProps> = ({
   steps,
   currentStep = 0,
   lazy = false,
-  style,
-  contentContainerStyle,
-  stepContainerStyle,
   scrollEnabled = false,
   ...scrollViewProps
 }) => {
@@ -76,6 +62,7 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
     if (Platform.OS === 'web' && firstUpdate.current) {
       timeout = 600
     }
+
     const scrollPoint = currentStep * screenWidth
     scrollToStep(scrollPoint, timeout)
     ;() => cancelScrollToStep
@@ -84,21 +71,21 @@ export const HoliStepper: React.VFC<HoliStepperProps> = ({
   return (
     <ScrollView
       ref={carouselRef}
-      style={[styles.scrollView, style]}
-      contentContainerStyle={[styles.scrollViewContainer, contentContainerStyle]}
-      horizontal
-      pagingEnabled
-      showsHorizontalScrollIndicator={false}
-      bounces={false}
+      style={styles.scrollView}
+      contentContainerStyle={styles.scrollViewContainer}
       // 'scrollEnabled' must be 'true' for scroll animation on Safari
       scrollEnabled={currentStep !== previousStep || scrollEnabled}
-      {...scrollViewProps}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
       dataSet={{ stepperWrapper: true }}
+      {...scrollViewProps}
+      horizontal
+      pagingEnabled
     >
       {steps.map((step, idx) => (
         <View
-          style={[styles.tabWrapper, { width: screenWidth }, stepContainerStyle]}
           key={idx}
+          style={StyleSheet.flatten([styles.tabWrapper, { width: screenWidth }])}
           testID="stepper-step"
           dataSet={{ stepperStep: true }}
         >
