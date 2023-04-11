@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   subline: {
-    marginBottom: 16,
+    marginBottom: 24,
   },
   input: {
     marginBottom: 16,

@@ -5,6 +5,7 @@ import { View } from 'react-native'
 import HoliLoader from '@holi//ui/components/molecules/HoliLoader'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 export interface UseUserChipsReturn {
@@ -21,9 +22,11 @@ const InterestsStep = (props: UseUserChipsReturn) => {
 
   return (
     <View>
-      <HoliHeading level="1" size="medium" testID="headline">
-        {t('user.interests.form.headline')}
-      </HoliHeading>
+      <HoliBox padding={[0, 0, 16, 0]}>
+        <HoliHeading level="1" size="large" testID="headline">
+          {t('user.interests.form.headline')}
+        </HoliHeading>
+      </HoliBox>
 
       <UserChipForm {...props} />
 
