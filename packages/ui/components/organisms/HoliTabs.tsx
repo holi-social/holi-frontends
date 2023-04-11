@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { NativeScrollEvent, StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
@@ -23,31 +23,26 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   id,
   tabs,
   centeredButtons,
-  onChangeTab = () => null,
   style,
+  tabBarStyle,
+  onChangeTab,
   scrollEnabled = true,
   testID = 'tabs-module',
-  tabBarWidth,
-  tabBarStyle,
 }: HoliTabsProps) => {
-  const { currentStep, setStep } = useStepper()
-
   const { width: screenWidth } = useWindowDimensions()
-  const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
+  const { currentStep, setStep, stepperRef } = useStepper(screenWidth)
+  const [activeTab, setActiveTab] = useState(currentStep)
+
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
   useEffect(() => {
-    onChangeTab(currentStep)
+    onChangeTab?.(currentStep)
   }, [currentStep, onChangeTab])
 
-  const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent || !nativeEvent.contentOffset) {
-      return
-    }
-
-    // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setStep(Math.round(nativeEvent.contentOffset.x / tabScreenWidth))
+  const handleTabChange = (index: number) => {
+    setActiveTab(index)
+    setStep(index)
   }
 
   return (
@@ -55,13 +50,13 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
           {tabs.map((tab, index) => {
-            const isActive = currentStep === index
+            const isActive = activeTab === index
             return (
               <HoliTabButton
                 label={tab.title}
                 id={`${id}-tab-${index}`}
-                style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
-                onPress={() => setStep(index)}
+                style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
+                onPress={() => handleTabChange(index)}
                 key={index}
                 accessibilitySelected={isActive}
                 accessibilityControls={`${id}-panel-${index}`}
@@ -76,7 +71,9 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
                     filled={isActive}
                   />
                 )}
-                <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
+                <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : {}])}>
+                  {tab.title}
+                </Text>
               </HoliTabButton>
             )
           })}
@@ -84,7 +81,9 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
       </View>
 
       <HoliStepper
+        ref={stepperRef}
         currentStep={currentStep}
+        screenWidth={screenWidth}
         steps={tabs.map((tab, i) => (
           <View
             style={tab.style}
@@ -96,7 +95,6 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
             {tab.children}
           </View>
         ))}
-        onMomentumScrollEnd={handleScrollEnd}
         scrollEnabled={scrollEnabled}
       />
     </View>
