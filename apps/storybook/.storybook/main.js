@@ -31,6 +31,7 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-storysource',
     'storybook-react-i18next',
+    'storybook-addon-next-router',
     {
       name: '@storybook/addon-react-native-web',
       options: {
