@@ -69,7 +69,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
 
   const { currentStep, goNext, goBack } = useStepper()
-  const currentStepOptions = ACCOUNT_SETUP_STEP_OPTIONS[currentStep]
+  const currentStepOptions = ACCOUNT_SETUP_STEP_OPTIONS[currentStep as AccountSetupStep]
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
 
@@ -240,7 +240,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         onSkipPress={goNext}
         isLoading={isLoading}
         isNextButtonEnabled={isNextButtonEnabled}
-        ref={scrollViewRef}
       />
     </HoliKeyboardSaveView>
   )

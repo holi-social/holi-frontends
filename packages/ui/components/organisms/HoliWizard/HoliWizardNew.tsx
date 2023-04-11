@@ -59,10 +59,9 @@ const HoliWizard = ({
             {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
           </HoliText>
 
-          {/* TODO: translations */}
           {skipable && (
-            <HoliButton label="Skip" inline transparent variant="small" onPress={onSkipPress}>
-              <HoliText size="extrasmall">Skip</HoliText>
+            <HoliButton label={t('global.skip')} inline transparent variant="small" onPress={onSkipPress}>
+              <HoliText size="extrasmall">{t('global.skip')}</HoliText>
             </HoliButton>
           )}
         </View>

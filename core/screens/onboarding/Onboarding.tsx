@@ -113,7 +113,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           // Create Account step
           <CreateAccount onRegister={goToNextStep} key="registration" />,
           // Account Setup
-          <AccountSetup key="account-setup" onFinish={onOnboardingStateChange} />,
+          <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
         scrollEnabled={false}
         lazy
