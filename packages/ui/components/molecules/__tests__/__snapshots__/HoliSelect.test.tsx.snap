@@ -2390,6 +2390,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          placeholder="Nothing selected"
           placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
@@ -2623,6 +2624,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          placeholder="Nothing selected"
           placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
@@ -3656,6 +3658,36 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
+              "marginBottom": 6,
+            },
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#ebebeb",
@@ -3698,6 +3730,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          placeholder="Nothing selected"
           placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
@@ -4193,6 +4226,36 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
+              "marginBottom": 6,
+            },
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#ebebeb",
@@ -4393,6 +4456,36 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
+              "marginBottom": 6,
+            },
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#ebebeb",
@@ -4430,6 +4523,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          placeholder="Nothing selected"
           placeholderTextColor="#787777"
           secureTextEntry={false}
           style={
@@ -4591,6 +4685,36 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         style={
           [
             {
+              "flexDirection": "row",
+              "marginBottom": 6,
+            },
+            {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            {
+              "color": "#6267e7",
+              "fontFamily": null,
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#ebebeb",
@@ -4633,6 +4757,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          placeholder="Nothing selected"
           placeholderTextColor="#787777"
           secureTextEntry={false}
           style={

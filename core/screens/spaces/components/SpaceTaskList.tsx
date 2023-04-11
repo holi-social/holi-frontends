@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
@@ -24,7 +23,6 @@ export type SpaceTaskListProps = {
 
 const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -37,6 +35,10 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     [+vars.breakpointL, 3],
     [+vars.breakpointXxl, 4],
   ])
+
+  const navigateToAddTasksScreen = () => {
+    //TODO: add navigation
+  }
 
   const CollaborationArea = () => {
     return (
@@ -71,7 +73,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const NoTasks = () => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
+      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
     }
 
     return (
@@ -80,7 +82,6 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
-            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={[style, styles.empty]}>
@@ -120,11 +121,14 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksList = ({ tasks }: TasksListProps) => {
     return (
       <HoliGridWrapper itemsInRow={itemsInRow}>
-        {tasks.map((task) => (
-          <HoliGridCell key={task.id}>
-            <SpaceTaskTile task={task} style={styles.taskTile} />
-          </HoliGridCell>
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          tasks.map((task) => (
+            <HoliGridCell key={task.id}>
+              <SpaceTaskTile task={task} style={styles.taskTile} />
+            </HoliGridCell>
+          ))
+        }
       </HoliGridWrapper>
     )
   }
@@ -136,7 +140,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksCard = ({ tasks }: TasksCardProps) => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
+      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
     }
 
     return (
@@ -145,7 +149,6 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
-            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={styles.tasksListContainer}>
