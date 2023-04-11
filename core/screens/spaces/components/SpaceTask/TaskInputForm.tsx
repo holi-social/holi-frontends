@@ -38,7 +38,7 @@ export interface TaskInputFormProps {
   visibility?: HoliSelectOption
   locationType?: HoliSelectOption
   regularity?: HoliSelectOption
-  thumbnail?: ImageInfo | undefined
+  thumbnail?: ImageInfo
   location?: string
   geolocation?: Geolocation
   contactPhone?: string

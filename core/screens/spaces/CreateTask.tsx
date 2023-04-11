@@ -257,7 +257,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           />
         </View>
       </DefaultScrollHeaderLayout>
-
       <View>
         <Footer />
       </View>
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
     }),
   },
   footer: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -309,6 +308,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         alignSelf: 'center',
+        position: 'fixed',
       },
     }),
   },

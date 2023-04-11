@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   footer: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     margin: -7,
     ...Platform.select({
       web: {
+        position: 'fixed',
         alignSelf: 'center',
       },
     }),
