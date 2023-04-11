@@ -291,7 +291,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#fff",
                 "height": 40,
               }
             }
@@ -1362,7 +1361,6 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#fff",
                 "height": 40,
               }
             }
