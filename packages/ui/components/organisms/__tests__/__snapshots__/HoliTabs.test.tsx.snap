@@ -188,14 +188,11 @@ exports[`renders correctly renders correctly when open 1`] = `
   <RCTScrollView
     bounces={false}
     contentContainerStyle={
-      [
-        {
-          "alignContent": "flex-start",
-          "alignItems": "flex-start",
-          "justifyContent": "flex-start",
-        },
-        undefined,
-      ]
+      {
+        "alignContent": "flex-start",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+      }
     }
     dataSet={
       {
@@ -208,15 +205,12 @@ exports[`renders correctly renders correctly when open 1`] = `
     scrollEnabled={true}
     showsHorizontalScrollIndicator={false}
     style={
-      [
-        {
-          "flex": 1,
-          "flexDirection": "row",
-          "minHeight": "100%",
-          "width": "100%",
-        },
-        undefined,
-      ]
+      {
+        "flex": 1,
+        "flexDirection": "row",
+        "minHeight": "100%",
+        "width": "100%",
+      }
     }
   >
     <View>
@@ -227,15 +221,10 @@ exports[`renders correctly renders correctly when open 1`] = `
           }
         }
         style={
-          [
-            {
-              "flex": 1,
-            },
-            {
-              "width": 750,
-            },
-            undefined,
-          ]
+          {
+            "flex": 1,
+            "width": 750,
+          }
         }
         testID="stepper-step"
       >
@@ -271,15 +260,10 @@ exports[`renders correctly renders correctly when open 1`] = `
           }
         }
         style={
-          [
-            {
-              "flex": 1,
-            },
-            {
-              "width": 750,
-            },
-            undefined,
-          ]
+          {
+            "flex": 1,
+            "width": 750,
+          }
         }
         testID="stepper-step"
       >
