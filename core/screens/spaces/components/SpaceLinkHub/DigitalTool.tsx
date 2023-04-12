@@ -242,8 +242,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   modalContent: {
-    paddingHorizontal: 20,
-    paddingVertical: 32,
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 56,
   },
   modalHeader: {
     display: 'flex',
