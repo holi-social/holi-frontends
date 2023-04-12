@@ -26,7 +26,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type AddDigitalToolParams = {
@@ -43,7 +43,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const exitConfirmationTitle = t('spaces.digitalTool.add.close.dialog.title')
+  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -158,8 +158,10 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <View
+          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
+        >
           <HoliText size="large">{t('spaces.digitalTool.add.title')}</HoliText>
           <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
           <DigitalToolInputForm
@@ -177,15 +179,13 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         </View>
       </DefaultScrollHeaderLayout>
 
-      <View>
-        <Footer />
-      </View>
+      <Footer />
 
       <HoliConfirmation
         show={showConfirmationModal}
         label={exitConfirmationTitle}
         title={exitConfirmationTitle}
-        description={t('spaces.digitalTool.add.close.dialog.description')}
+        description={t('global.leavePage.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.digitalTool.add.close.dialog.cancel.button.label')}
         confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   footer: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     margin: -7,
     ...Platform.select({
       web: {
+        position: 'fixed',
         alignSelf: 'center',
       },
     }),
