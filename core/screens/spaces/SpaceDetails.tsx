@@ -29,7 +29,6 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceIdOrName: string
-  tabIndex: string
 }
 
 const { useParam } = createParam<SpaceDetailsParams>()
