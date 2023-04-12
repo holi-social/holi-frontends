@@ -124,7 +124,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         value={url}
         onChange={onChangeUrl}
         accessibilityLabel={t('spaces.input.digitalTool.url.label')}
-        testID="digital-tool-url"
+        testID="tool-url"
         isRequired={true}
         maxNoOfCharacters={500}
       />
@@ -135,7 +135,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         value={title}
         onChange={onChangeTitle}
         accessibilityLabel={t('spaces.input.digitalTool.title.label')}
-        testID="digital-tool-title"
+        testID="tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
         maxNoOfCharacters={50}
@@ -159,7 +159,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         value={description}
         onChange={onChangeDescription}
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}
-        testID="digital-tool-title"
+        testID="tool-description"
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
       />
