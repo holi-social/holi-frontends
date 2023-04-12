@@ -15,6 +15,7 @@ interface CollaboratorAreaCardProps {
   style?: StyleProp<ViewStyle>
   onPressHeaderLeft?: () => void
   onPressHeaderRight?: () => void
+  testID?: string
 }
 const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   headerLeftIcon,
@@ -25,11 +26,18 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   style,
   onPressHeaderLeft,
   onPressHeaderRight,
+  testID = 'collaboration-area-card',
 }: CollaboratorAreaCardProps) => {
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
-        <HoliButton transparent style={styles.headerTitleContainer} label={title || ''} onPress={onPressHeaderLeft}>
+        <HoliButton
+          transparent
+          style={styles.headerTitleContainer}
+          label={title || ''}
+          onPress={onPressHeaderLeft}
+          testID={`btn-left-${testID}`}
+        >
           <View style={styles.headerTitle}>
             {headerLeftIcon && (
               <HoliIcon icon={headerLeftIcon} size={18} color={colors.brandColorB30} style={{ marginRight: 6 }} />
@@ -43,7 +51,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
             style={styles.headerRightButton}
             label={headerRightButtonLabel || ''}
             onPress={onPressHeaderRight}
-            testID="add-digital-tool"
+            testID={`btn-right-${testID}`}
           >
             {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
           </HoliButton>

@@ -46,7 +46,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  const setButtonStyles = (isSelected: boolean) => (isSelected ? styles.buttonSelected : styles.buttonUnselected)
+  const setButtonStyles = (isSelected: boolean) =>
+    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
     <>
@@ -152,17 +153,13 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 12,
   },
-  buttonSelected: {
+  buttonSpacing: {
     paddingHorizontal: 6,
     paddingVertical: 8,
+  },
+  buttonSelected: {
     backgroundColor: colors.foreground30,
     borderColor: colors.foreground30,
-  },
-  buttonUnselected: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    backgroundColor: colors.white100,
-    borderColor: colors.background30,
   },
   icon: {
     marginRight: 5,

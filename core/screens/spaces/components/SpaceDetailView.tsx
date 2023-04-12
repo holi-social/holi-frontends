@@ -31,6 +31,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style, onChan
 
       <HoliTabs
         id="space-tabs"
+        testID="space-tabs"
         centeredButtons
         style={{ flex: 1 }}
         onChangeTab={onChangeTab}
