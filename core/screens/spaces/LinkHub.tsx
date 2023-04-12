@@ -64,11 +64,11 @@ const LinkHub: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} headerOverlap>
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
-          style={{ flex: 1 }}
+          style={{ flex: 1, paddingTop: vars.topBarHeight + 40 }}
           tabs={[
             {
               title: t('spaces.toolKit.allTools.label'),

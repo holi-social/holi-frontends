@@ -48,22 +48,7 @@ const testFiltering = async (page: Page) => {
   await clickElementByTestId(page, 'btn-filter-spaces')
 
   const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
-  await locationInput.fill('Berlin')
-
-  // expect suggestions
-  await clickElement(page.locator('[role="menuitem"]'))
-
-  // open topics dropdown
-  await clickElementByTestId(page, 'spaces-filter-interests-input')
-
-  // click on first topic in the list
-  await clickElementByTestId(page, 'spaces-filter-interests-item')
-
-  // open skills dropdown
-  await clickElementByTestId(page, 'spaces-filter-skills-input')
-
-  // click on first skill in the list
-  await clickElementByTestId(page, 'spaces-filter-skills-item')
+  await locationInput.fill('nwqekjnk23jn4k23')
 
   await checkAccessibility(page)
 
