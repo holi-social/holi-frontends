@@ -51,7 +51,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
   const NewToolsTeaser = () => {
     return (
-      <View>
+      <View style={styles.illustrationContainer}>
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_tools.svg')}
           width={96}
@@ -188,8 +188,13 @@ const styles = StyleSheet.create({
   collaborationAreaContainer: {
     marginBottom: 16,
   },
-  illustration: {
+  illustrationContainer: {
     marginTop: 32,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
+  illustration: {
+    marginBottom: 8,
   },
 })
 
