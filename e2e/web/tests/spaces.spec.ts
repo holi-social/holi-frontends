@@ -169,7 +169,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
       ])
     }
 
-    // // edit space name and goal
+    // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
     await clickElementByTestId(page, 'btn-space-edit-name')
@@ -227,8 +227,16 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await inputSpaceContactInfo(page, editedDescription, editedEmail, editedPhone)
     await saveAndWaitForModalClosed(page)
 
-    // delete space
+    // create task
+    const taskTitle = 'E2E task title'
+    const taskDescription = 'E2E task description'
     await clickElementByTestId(page, 'space-edit-close')
+    await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+    await clickElementByTestId(page, 'btn-right-space-tasks-card')
+    await checkAccessibility(page)
+    await inputTaskInfo(page, taskTitle, taskDescription)
+
+    // delete space
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
@@ -265,6 +273,67 @@ const inputSpaceContactInfo = async (
 
   const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
   await contactPhoneInput.fill(contactPhone)
+}
+
+const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: string) => {
+  // choose first option on visibility
+  await clickElementByTestId(page, 'btn-task-visibility-input')
+  await clickElementByTestId(page, 'item-task-visibility-input', 0)
+  await clickElementByTestId(page, 'btn-to-close-task-visibility-input-modal')
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-visibility-input')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-task-visibility-input-modal'), { state: 'hidden' })
+
+  // add task title
+  const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
+  await taskTitleInput.fill(taskTitle)
+
+  // add task description
+  const taskDescriptionInput = await locateElementByTestId(page, 'task-description-input')
+  await taskDescriptionInput.fill(taskDescription)
+
+  // select some skills
+  await clickElementByTestId(page, 'btn-task-edit-skills-modal')
+  await selectSomeTerms(page, 1)
+  await clickElementByTestId(page, 'create-task-skills-modal-wrapper-close-btn')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('create-task-skills-modal-wrapper-close-btn'), { state: 'hidden' })
+
+  // open locationType dropdown
+  await clickElementByTestId(page, 'task-visibility-title')
+  await page.waitForSelector(byTestId('task-locationType-input'))
+  await clickElementByTestId(page, 'task-locationType-input')
+
+  // click on first locationType in the list
+  await clickElementByTestId(page, 'task-locationType-item')
+
+  // select location
+  const locationInput = await locateElementByTestId(page, 'task-location-input')
+  await locationInput.fill('Hamburg')
+  // expect suggestions
+  await clickElement(page.locator('[role="menuitem"]'))
+
+  // select commitment level
+  const commitmentLevelInput = await locateElementByTestId(page, 'task-regularity-input')
+  await commitmentLevelInput.fill('Regularly')
+  // expect suggestions
+  await clickElementByTestId(page, 'task-regularity-item', 0)
+
+  // add contact information
+  const contactEmail = 'e2e@holi.team'
+  const contactPhone = '+49 164 4344 434'
+  const taskContactEmail = await locateElementByTestId(page, 'task-contactEmail-input')
+  await taskContactEmail.fill(contactEmail)
+  const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
+  await taskContactPhone.fill(contactPhone)
+
+  // add thumbnail image
+  await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+
+  await clickElementByTestId(page, 'create-task-modal-save-btn')
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
