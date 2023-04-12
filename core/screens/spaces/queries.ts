@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import { PostFragment } from '@holi/core/screens/posts/queries'
+import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
 import type { Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
@@ -457,8 +457,49 @@ export const spacesByMemberIdQuery = gql`
     }
   }
 `
+
+export const SpacePostFragment = gql`
+  ${userAvatarFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
+
+  fragment PostFragment on Post {
+    id
+    title
+    text
+    created
+    creator {
+      ...UserAvatar
+    }
+    numberOfComments
+    commenters {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
+    }
+    public
+  }
+`
+
 export const spacePostsQuery = gql`
-  ${PostFragment}
+  ${SpacePostFragment}
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id

@@ -56,7 +56,12 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               label={post.creator.fullName}
               testID="btn-to-post-creator-profile"
             >
-              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+              <HoliMediaHeader
+                title={post.creator.fullName}
+                author={post.creator}
+                date={post.created}
+                isPublic={post.public}
+              />
             </HoliLink>
           </View>
           <MoreOptionsButtonWithModal
