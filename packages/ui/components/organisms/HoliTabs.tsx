@@ -74,7 +74,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
                     filled={isActive}
                   />
                 )}
-                <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : {}])}>
+                <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
                   {tab.title}
                 </Text>
               </HoliTabButton>

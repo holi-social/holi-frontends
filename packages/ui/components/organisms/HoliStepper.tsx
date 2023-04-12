@@ -3,7 +3,7 @@ import type { ReactNode, RefObject } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type { ScrollViewProps } from 'react-native'
 
-import { useDelayedAnimation } from '@holi/ui/helper'
+import { delayAnimation } from '@holi/ui/helper'
 
 interface StepperController {
   stepperRef: RefObject<ScrollView>
@@ -18,18 +18,17 @@ export const useStepper = (screenWidth: number, initialStep = 0): StepperControl
 
   const ref = React.useRef<ScrollView>(null)
   const [currentStep, setCurrentStep] = useState(initialStep)
-  const [scrollToStep] = useDelayedAnimation((position: number) => {
-    ref.current?.scrollTo({ x: position, y: 0, animated: true })
-  })
 
   const handleNextStep = useCallback(
     (nextStep: number) => {
+      const scrollTo = ref.current?.scrollTo
       const scrollPoint = nextStep * screenWidth
-      scrollToStep(scrollPoint, delay)
+      const scrollOptions = { x: scrollPoint, y: 0, animated: true }
+      delayAnimation(scrollTo, scrollOptions, delay)
 
       return nextStep
     },
-    [screenWidth, scrollToStep]
+    [screenWidth]
   )
 
   const goNext = useCallback(() => {
