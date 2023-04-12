@@ -447,7 +447,7 @@
   "spaces.spaceDetails.creator": "Creator: {{name}}",
   "spaces.spaceDetails.goal": "Goal",
   "spaces.spaceDetails.location": "Location",
-  "spaces.spaceDetails.newTools.message": "New tools to boost collaboration in your Space comming soon!",
+  "spaces.spaceDetails.newTools.message": "New tools to boost collaboration in your Space coming soon!",
   "spaces.spaceDetails.notFound": "Space {{spaceIdOrName}} not found",
   "spaces.spaceDetails.report.confirmation.description": "Do you really want to report this space?",
   "spaces.spaceDetails.report.confirmation.title": "Report space",
