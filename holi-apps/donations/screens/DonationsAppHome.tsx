@@ -77,7 +77,6 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         </HoliHeading>
       ),
       headerTransparent: true,
-
       headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () =>
