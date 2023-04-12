@@ -16,6 +16,7 @@ type EditSpaceModalProps = {
   saveButtonDisabled?: boolean
   loading?: boolean
   scrollable?: boolean
+  keyboardShouldPersistTaps?: boolean | 'always' | 'never' | 'handled' | undefined
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -25,6 +26,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   loading = false,
   children,
   scrollable = true,
+  keyboardShouldPersistTaps = 'always',
 }: EditSpaceModalProps) => {
   const { keyboardIsOpen } = useKeyboard()
   const { softkeyboardIsOpen } = useSoftKeyboard()
@@ -41,7 +43,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       contentStyle={styles.contentStyle}
       scrollable={scrollable}
     >
-      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps="always">
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
         {children}
       </ScrollView>
       {showFooter && (
