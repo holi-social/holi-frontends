@@ -88,6 +88,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
+        confirmationButtonType="warning"
         testID="user-connection"
         // onConfirm needs to be undefined if not logged in to hide the confirm button inside the dialog
         onConfirm={
