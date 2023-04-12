@@ -48,11 +48,11 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         onPress={() => {
           setShowDetailModal(true)
         }}
-        testID={'btn-show-digital-tool-details'}
+        testID={'btn-show-tool-details'}
         transparent
         style={styles.showDetailsTrigger}
       />
-      <View style={styles.imageContainer}>
+      <View style={styles.imageContainer} testID="tool-icon">
         {tool.thumbnail ? (
           <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />
         ) : imageSource ? (
@@ -67,7 +67,9 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         <HoliText size="extrasmall" style={styles.toolName}>
           {toolName || tool.domain}
         </HoliText>
-        <HoliText style={styles.toolTitle}>{tool.title}</HoliText>
+        <HoliText style={styles.toolTitle} testID="tool-title">
+          {tool.title}
+        </HoliText>
       </View>
       <View style={styles.buttonContainer}>
         <View>
@@ -104,6 +106,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
                       onEditButtonPress(tool.id)
                     }}
                     contentStyle={styles.buttonWithIcon}
+                    testID="tool-edit-btn"
                   />
                   <DeleteCollaborationToolButton
                     toolId={tool.id || ''}
@@ -122,7 +125,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
       <HoliModal
         show={showDetailModal}
         onDismiss={() => setShowDetailModal(false)}
-        testID="show-tool-details-modal"
+        testID="tool-details-modal"
         label={t('spaces.digitalTool.showDetails')}
       >
         <View style={[styles.modalContent]}>
@@ -152,7 +155,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             {defaultTool ? toolName : tool?.title}
           </HoliHeading>
           {tool.description && (
-            <HoliText size="small" style={styles.modalToolDescription}>
+            <HoliText size="small" style={styles.modalToolDescription} testID="tool-desc">
               {tool.description}
             </HoliText>
           )}
