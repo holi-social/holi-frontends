@@ -13,7 +13,7 @@ export const useScrollToInputOnFocus = (ref: RefObject<ScrollView>) => {
     (pos: Position) => {
       const scrollTo = ref.current?.scrollTo
       const scrollOptions = { y: pos.y, animated: true }
-      delayAnimation(scrollTo, scrollOptions, 800)
+      return delayAnimation(scrollTo, scrollOptions, 800)
     },
     [ref]
   )
@@ -27,7 +27,8 @@ export const useScrollToInputOnFocus = (ref: RefObject<ScrollView>) => {
       id,
       (pos, ref, id) => {
         onFocus?.(pos, ref, id)
-        scrollOnFocus(pos)
+        const cancelRAF = scrollOnFocus(pos)
+        cancelRAF?.()
       },
       onBlur
     )
