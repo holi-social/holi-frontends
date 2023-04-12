@@ -9,6 +9,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
   id: string
+  initialStep?: number
   tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
   centeredButtons?: boolean
   onChangeTab?: (index: number) => void
@@ -22,6 +23,7 @@ export type HoliTabsProps = {
 const HoliTabs: React.FC<HoliTabsProps> = ({
   id,
   tabs,
+  initialStep,
   centeredButtons,
   onChangeTab = () => null,
   style,
@@ -30,7 +32,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   tabBarWidth,
   tabBarStyle,
 }: HoliTabsProps) => {
-  const { currentStep, setStep } = useStepper()
+  const { currentStep, setStep } = useStepper(initialStep)
 
   const { width: screenWidth } = useWindowDimensions()
   const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
