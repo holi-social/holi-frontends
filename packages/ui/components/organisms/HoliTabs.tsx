@@ -18,6 +18,7 @@ export type HoliTabsProps = {
   scrollEnabled?: boolean
   tabBarWidth?: number
   tabBarStyle?: StyleProp<ViewStyle>
+  stepper?: boolean
 }
 
 const HoliTabs: React.FC<HoliTabsProps> = ({
@@ -31,6 +32,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   testID = 'tabs-module',
   tabBarWidth,
   tabBarStyle,
+  stepper = true,
 }: HoliTabsProps) => {
   const { currentStep, setStep } = useStepper(initialStep)
 
@@ -85,9 +87,25 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
         </View>
       </View>
 
-      <HoliStepper
-        currentStep={currentStep}
-        steps={tabs.map((tab, i) => (
+      {stepper ? (
+        <HoliStepper
+          currentStep={currentStep}
+          steps={tabs.map((tab, i) => (
+            <View
+              style={tab.style}
+              accessibilityLabelledBy={`${id}-tab-${i}`}
+              nativeID={`${id}-panel-${i}`}
+              testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
+              key={i}
+            >
+              {tab.children}
+            </View>
+          ))}
+          onMomentumScrollEnd={handleScrollEnd}
+          scrollEnabled={scrollEnabled}
+        />
+      ) : (
+        tabs.map((tab, i) => (
           <View
             style={tab.style}
             accessibilityLabelledBy={`${id}-tab-${i}`}
@@ -97,10 +115,8 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
           >
             {tab.children}
           </View>
-        ))}
-        onMomentumScrollEnd={handleScrollEnd}
-        scrollEnabled={scrollEnabled}
-      />
+        ))
+      )}
     </View>
   )
 }

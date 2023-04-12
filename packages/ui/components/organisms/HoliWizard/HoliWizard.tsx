@@ -111,14 +111,12 @@ export default HoliWizard
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1,
   },
   scrollView: {
     width: '100%',
   },
   scrollViewContent: {
     paddingBottom: BUTTON_RECTS.height + BUTTON_RECTS.paddingBottom + 24,
-    flex: 1,
   },
   stepCountContainer: {
     alignSelf: 'flex-start',
