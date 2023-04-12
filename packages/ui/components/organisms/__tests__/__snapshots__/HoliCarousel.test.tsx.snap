@@ -5,6 +5,7 @@ exports[`renders correctly renders correctly when open 1`] = `
   style={
     {
       "alignContent": "center",
+      "flex": 1,
       "justifyContent": "center",
     }
   }
@@ -14,6 +15,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       {
         "alignContent": "center",
         "alignItems": "center",
+        "flex": 1,
         "justifyContent": "center",
       }
     }

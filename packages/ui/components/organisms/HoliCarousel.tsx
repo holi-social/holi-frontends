@@ -156,11 +156,13 @@ const getStyles = (
     container: {
       justifyContent: 'center',
       alignContent: 'center',
+      flex: 1,
     },
     scrollViewContainerStyle: {
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
+      flex: 1,
     },
     scrollViewStyle: {
       overflowX: 'scroll',
