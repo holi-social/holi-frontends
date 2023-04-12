@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
@@ -63,6 +64,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
+  const statusBarHeight = Constants.statusBarHeight
+  const styles = getStyles(statusBarHeight)
+
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
@@ -113,7 +117,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
@@ -292,90 +296,91 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
-  },
-  contentStyle: {
-    paddingBottom: 0,
-  },
-  contactIcon: {
-    marginRight: 10,
-  },
-  contactContainer: {
-    marginTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  wrapper: {
-    justifyContent: 'center',
-    paddingTop: 12,
-  },
-  modalHeader: {
-    backgroundColor: colors.background30,
-  },
-  header: {
-    alignItems: 'center',
-    backgroundColor: colors.background10,
-    paddingBottom: 24,
-  },
-  editButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  editButtonText: {
-    marginRight: 6,
-  },
-  editAvatarButton: {
-    marginVertical: 8,
-  },
-  editTitleButton: {
-    marginTop: 8,
-  },
-  requirements: {
-    color: colors.foreground20,
-  },
-  container: {
-    alignItems: 'center',
-  },
-  title: {
-    paddingTop: 24,
-  },
-  body: {
-    backgroundColor: colors.background20,
-    paddingTop: 24,
-    paddingBottom: 72,
-  },
-  noBorderSection: {
-    borderTopColor: 'transparent',
-  },
-  listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flexShrink: 1,
-  },
-  chip: {
-    backgroundColor: colors.background10,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  link: {
-    marginRight: 20,
-    marginBottom: 20,
-  },
-  overlayContainer: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 42,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
-  },
-  overlayButton: {
-    marginHorizontal: 'auto',
-    maxWidth: vars.maxButtonWidth,
-  },
-})
+const getStyles = (statusBarHeight: number) =>
+  StyleSheet.create({
+    defaultLayout: {
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    },
+    contentStyle: {
+      paddingBottom: 0,
+    },
+    contactIcon: {
+      marginRight: 10,
+    },
+    contactContainer: {
+      marginTop: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    wrapper: {
+      justifyContent: 'center',
+      paddingTop: vars.topBarHeight + statusBarHeight,
+    },
+    modalHeader: {
+      backgroundColor: colors.background30,
+    },
+    header: {
+      alignItems: 'center',
+      backgroundColor: colors.background10,
+      paddingBottom: 24,
+    },
+    editButton: {
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+    },
+    editButtonText: {
+      marginRight: 6,
+    },
+    editAvatarButton: {
+      marginVertical: 8,
+    },
+    editTitleButton: {
+      marginTop: 8,
+    },
+    requirements: {
+      color: colors.foreground20,
+    },
+    container: {
+      alignItems: 'center',
+    },
+    title: {
+      paddingTop: 24,
+    },
+    body: {
+      backgroundColor: colors.background20,
+      paddingTop: 24,
+      paddingBottom: 72,
+    },
+    noBorderSection: {
+      borderTopColor: 'transparent',
+    },
+    listContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
+    },
+    chip: {
+      backgroundColor: colors.background10,
+      marginRight: 8,
+      marginBottom: 8,
+    },
+    link: {
+      marginRight: 20,
+      marginBottom: 20,
+    },
+    overlayContainer: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 42,
+      left: 0,
+      right: 0,
+      paddingHorizontal: 24,
+      justifyContent: 'center',
+    },
+    overlayButton: {
+      marginHorizontal: 'auto',
+      maxWidth: vars.maxButtonWidth,
+    },
+  })
 
 export default memo(EditSpace)

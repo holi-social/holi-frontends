@@ -144,7 +144,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
       </DefaultScrollHeaderLayout>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
@@ -155,6 +155,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 0,
+    paddingTop: vars.topBarHeight,
+
     ...Platform.select({
       web: {
         minHeight: '100vh',
@@ -163,6 +165,8 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
+    paddingTop: vars.topBarHeight,
+
     ...Platform.select({
       web: {
         minHeight: '100vh',
