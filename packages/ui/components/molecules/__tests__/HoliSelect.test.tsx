@@ -1,36 +1,122 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
-import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
-import { MultiSelect, SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
+import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'web',
   select: () => null,
 }))
 
+const initialOptions: HoliSelectOption[] = [
+  {
+    id: '1',
+    title: 'Animal Welfare',
+    selected: false,
+  },
+  {
+    id: '2',
+    title: 'Children & Youth',
+    selected: false,
+  },
+  {
+    id: '3',
+    title: 'Climate Protection',
+    selected: false,
+  },
+  {
+    id: '4',
+    title: 'Corona',
+    selected: false,
+  },
+  {
+    id: '5',
+    title: 'Culture & History',
+    selected: false,
+  },
+  {
+    id: '6',
+    title: 'Development Cooperation',
+    selected: false,
+  },
+  {
+    id: '7',
+    title: 'Digitalization',
+    selected: false,
+  },
+  {
+    id: '8',
+    title: 'Disaster Protection',
+    selected: false,
+  },
+]
+
+const SingleSelect = ({ ...args }) => {
+  const [selectedOption, setSelectedOption] = useState<string | undefined>()
+
+  const toggleOptionSelect = (topic: HoliSelectOption) => {
+    if (selectedOption === topic.id) {
+      setSelectedOption(undefined)
+    } else {
+      setSelectedOption(topic.id)
+    }
+  }
+
+  return (
+    <HoliSelect
+      id="singleselect"
+      accessibilityLabel="Accessibility label"
+      options={initialOptions.map((option) => ({ ...option, selected: option.id === selectedOption }))}
+      onChange={toggleOptionSelect}
+      {...args}
+    />
+  )
+}
+
+const MultiSelect = ({ ...args }) => {
+  const [options, setOptions] = useState<HoliSelectOption[]>(initialOptions)
+
+  const toggleOptionSelection = (topic: HoliSelectOption) => {
+    setOptions((options) =>
+      options.map((option) => (option.id === topic.id ? { ...option, selected: !option.selected } : option))
+    )
+  }
+
+  return (
+    <HoliSelect
+      multiSelect
+      id="multiselect"
+      inputLabel="Label"
+      accessibilityLabel="Accessibility label"
+      options={options}
+      onChange={toggleOptionSelection}
+      {...args}
+    />
+  )
+}
+
 describe('HoliSelect', () => {
   describe('SingleSelect', () => {
     it('renders correctly when closed', () => {
-      render(<SingleSelect {...SingleSelect.args} />)
+      render(<SingleSelect />)
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
     it('renders correctly when opened', () => {
-      render(<SingleSelect {...SingleSelect.args} testID="test" />)
+      render(<SingleSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
     it('correctly filters options', () => {
-      render(<SingleSelect {...SingleSelect.args} testID="test" />)
+      render(<SingleSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
     it('renders correctly after selection', () => {
-      render(<SingleSelect {...SingleSelect.args} testID="test" />)
+      render(<SingleSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent.press(screen.getAllByTestId('test-item')[1])
       expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
@@ -39,7 +125,9 @@ describe('HoliSelect', () => {
 
     it('calls onChange with selection', () => {
       const onChange = jest.fn()
-      render(<HoliSelect {...SingleSelect.args} testID="test" onChange={onChange} />)
+      render(
+        <HoliSelect accessibilityLabel="test" id="test" options={initialOptions} testID="test" onChange={onChange} />
+      )
 
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
 
@@ -48,7 +136,7 @@ describe('HoliSelect', () => {
     })
 
     it('clears text input', () => {
-      render(<SingleSelect {...SingleSelect.args} testID="test" />)
+      render(<SingleSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
       expect(screen.getByTestId('test-input')).toHaveProp('value', 'di')
@@ -59,18 +147,18 @@ describe('HoliSelect', () => {
 
   describe('MultiSelect', () => {
     it('renders correctly when closed', () => {
-      render(<MultiSelect {...MultiSelect.args} />)
+      render(<MultiSelect />)
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
     it('renders correctly when opened', () => {
-      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      render(<MultiSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
     it('renders correctly after single selection', () => {
-      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      render(<MultiSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent.press(screen.getAllByTestId('test-item')[1])
       expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
@@ -78,7 +166,7 @@ describe('HoliSelect', () => {
     })
 
     it('renders correctly after multiple selections', () => {
-      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      render(<MultiSelect testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent.press(screen.getAllByTestId('test-item')[1])
       fireEvent.press(screen.getAllByTestId('test-item')[2])

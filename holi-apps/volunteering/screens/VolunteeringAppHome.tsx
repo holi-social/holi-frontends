@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -13,7 +14,7 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
@@ -26,6 +27,7 @@ const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
+  const statusBarHeight = Constants.statusBarHeight
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -95,7 +97,6 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
     <DefaultLayout
       style={styles.defaultLayout}
       scrollable={false}
-      headerOverlap
       testID={'volunteering-list-container'}
       keyboardShouldPersistTaps="handled"
       hasFooterTabBar={false}
@@ -111,7 +112,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         <VolunteeringFilterForm onSubmit={submit} filters={filters} />
       </HoliModal>
 
-      <SafeArea style={{ backgroundColor: colors.background10 }}>
+      <SafeArea style={{ backgroundColor: colors.background10, paddingTop: statusBarHeight + vars.topBarHeight }}>
         <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
       </SafeArea>
     </DefaultLayout>

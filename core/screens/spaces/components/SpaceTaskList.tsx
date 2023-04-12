@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import NoDataCard from '@holi/core/screens/spaces/components/NoDataCard'
 import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
@@ -14,6 +14,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskListProps = {
@@ -23,6 +24,7 @@ export type SpaceTaskListProps = {
 
 const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -35,10 +37,6 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     [+vars.breakpointL, 3],
     [+vars.breakpointXxl, 4],
   ])
-
-  const navigateToAddTasksScreen = () => {
-    //TODO: add navigation
-  }
 
   const CollaborationArea = () => {
     return (
@@ -53,14 +51,14 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
   const NewToolsTeaser = () => {
     return (
-      <View>
+      <View style={styles.illustrationContainer}>
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_tools.svg')}
           width={96}
           height={96}
           label={''}
           isSvg={true}
-          resizeMode="stretch"
+          resizeMode="contain"
           style={styles.illustration}
         />
         <HoliText size={'small'} style={styles.emptyMessage}>
@@ -73,7 +71,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const NoTasks = () => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
     }
 
     return (
@@ -82,6 +80,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={[style, styles.empty]}>
@@ -96,10 +95,18 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
             </View>
           </CollaboratorAreaCard>
         )) || (
-          <NoDataCard
-            image={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
-            title={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
-            description={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
+          <HoliNoResults
+            firstText={t('spaces.spaceDetails.tasks.empty.title.forNonMembers')}
+            secondText={t('spaces.spaceDetails.tasks.empty.message.forNonMembers')}
+            media={
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_no_actions_available.svg')}
+                label=""
+                height={203}
+                width={279}
+                isSvg
+              />
+            }
           />
         )}
       </>
@@ -113,14 +120,11 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksList = ({ tasks }: TasksListProps) => {
     return (
       <HoliGridWrapper itemsInRow={itemsInRow}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          tasks.map((task) => (
-            <HoliGridCell key={task.id}>
-              <SpaceTaskTile task={task} style={styles.taskTile} />
-            </HoliGridCell>
-          ))
-        }
+        {tasks.map((task) => (
+          <HoliGridCell key={task.id}>
+            <SpaceTaskTile task={task} style={styles.taskTile} />
+          </HoliGridCell>
+        ))}
       </HoliGridWrapper>
     )
   }
@@ -132,7 +136,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksCard = ({ tasks }: TasksCardProps) => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
     }
 
     return (
@@ -141,6 +145,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={styles.tasksListContainer}>
@@ -183,8 +188,13 @@ const styles = StyleSheet.create({
   collaborationAreaContainer: {
     marginBottom: 16,
   },
-  illustration: {
+  illustrationContainer: {
     marginTop: 32,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
+  illustration: {
+    marginBottom: 8,
   },
 })
 
