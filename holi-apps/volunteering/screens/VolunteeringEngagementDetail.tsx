@@ -1,4 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
+import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -55,6 +56,8 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation)
   const engagement = data?.appVolunteering_engagement
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
+  const statusBarHeight = Constants.statusBarHeight
+  const styles = getStyles(statusBarHeight)
 
   useLayoutEffect(() => {
     if (engagementId && !loading && !engagement) {
@@ -151,7 +154,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   return (
     <View style={styles.container} testID="volunteering-detailview-container">
-      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }}>
+      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} />
@@ -180,68 +183,73 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
 export default memo(VolunteeringEngagementDetail)
 
-const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
-  },
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: colors.background30,
-  },
-  wrapper: {
-    paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  cardContainer: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: 32,
-    padding: 24,
-    marginTop: 2,
-  },
-  organizerInfoRow: {
-    display: 'flex',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  organizerLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 16,
-  },
-  providerImage: {
-    marginRight: 16,
-  },
-  providerInfoRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-  },
+const getStyles = (statusBarHeight: number) =>
+  StyleSheet.create({
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: vars.topBarHeight + 50,
+    },
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: colors.background30,
+    },
+    wrapper: {
+      paddingBottom: 132,
+      paddingHorizontal: 0,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+          paddingTop: vars.topBarHeight + 40,
+        },
+        web: {
+          paddingTop: vars.topBarHeight + statusBarHeight,
+        },
+      }),
+    },
+    cardContainer: {
+      width: '100%',
+      backgroundColor: 'white',
+      borderRadius: 32,
+      padding: 24,
+      marginTop: 2,
+    },
+    organizerInfoRow: {
+      display: 'flex',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    organizerLogo: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      marginRight: 16,
+    },
+    providerImage: {
+      marginRight: 16,
+    },
+    providerInfoRow: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 16,
+    },
 
-  volunteeringButton: {
-    bottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-  },
-})
+    volunteeringButton: {
+      bottom: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      ...Platform.select({
+        native: {
+          position: 'absolute',
+        },
+        default: {
+          position: 'fixed',
+        },
+      }),
+    },
+  })
