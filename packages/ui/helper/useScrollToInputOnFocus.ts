@@ -1,28 +1,21 @@
 import { RefObject, useCallback } from 'react'
 import { ScrollView, TextInputProps, View } from 'react-native'
 
-import { useDelayedAnimation } from '@holi/ui/helper'
+import { delayAnimation } from '@holi/ui/helper'
 import { Position, usePositions } from '@holi/ui/helper/usePositions'
 
 export type ScrollToProps = Pick<TextInputProps, 'onLayout' | 'onBlur' | 'onFocus'>
 
 export const useScrollToInputOnFocus = (ref: RefObject<ScrollView>) => {
   const { getScrollToProps } = usePositions()
-  const scrollToRefNode = useCallback(
-    (pos: Position) => {
-      ref.current?.scrollTo({ y: pos.y, animated: true })
-    },
-    [ref]
-  )
-
-  const [run, cancel] = useDelayedAnimation(scrollToRefNode)
 
   const scrollOnFocus = useCallback(
     (pos: Position) => {
-      run(pos, 800)
-      ;() => cancel()
+      const scrollTo = ref.current?.scrollTo
+      const scrollOptions = { y: pos.y, animated: true }
+      delayAnimation(scrollTo, scrollOptions, 800)
     },
-    [run, cancel]
+    [ref]
   )
 
   const scrollToPropsFor = (
