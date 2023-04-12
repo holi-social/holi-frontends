@@ -51,13 +51,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       </Text>
       <View
         style={
-          [
-            {
-              "alignContent": "center",
-              "justifyContent": "center",
-            },
-            undefined,
-          ]
+          {
+            "alignContent": "center",
+            "justifyContent": "center",
+          }
         }
       >
         <RCTScrollView
