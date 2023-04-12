@@ -38,6 +38,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
+  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
   )
@@ -151,12 +152,30 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      // @Todo remove this asap - The requestAnimationFrame hack in clearFocusAndClose of HoliAutocomplete necessitates to also perform the setters asyncronously (on mobile)
+      requestAnimationFrame(() => {
+        console.log('selected', selectedSuggestion)
+        setLocation(selectedSuggestion)
+
+        if (!selectedSuggestion && locationQuery.length) {
+          setFieldErrors({ location: [t('profile.location.validation.error')] })
+        } else {
+          resetErrorsForField('location')
+        }
+      })
+    },
+    [resetErrorsForField, t, locationQuery]
+  )
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       prependChildren={prependComponent}
       loading={loading}
+      keyboardShouldPersistTaps="handled"
       hideFooterWhenKeyboardIsOpen={true}
       testID={testID}
       style={styles.wrapper}
@@ -228,28 +247,16 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.locationPlaceholder')}
           id="user-location-input"
           testID="user-location"
-          value={location?.label}
-          onChange={(selectedSuggestion) => {
-            setLocation(selectedSuggestion)
-            resetErrorsForField('location')
-          }}
-          onChangeText={(textValue) => {
-            // @TODO onChangeText not called if blur happens while debounced
-            if (textValue.length) {
-              setLocation(undefined)
-              setFieldErrors({ location: [t('profile.location.validation.error')] })
-            } else {
-              // empty text is allowed
-              setLocation(undefined)
-              resetErrorsForField('location')
-            }
-          }}
-          style={[styles.input, { zIndex: 2 }]}
-          inputProps={{ autoFocus: true }}
+          selected={location}
+          value={locationQuery}
+          onClose={onLocationClose}
+          onChangeText={setLocationQuery}
+          style={styles.input}
+          suggestionsStyle={{ backgroundColor: colors.background10 }}
           helperText={location ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
-          {...scrollToPropsFor('location')}
           withCoordinates
+          {...scrollToPropsFor('location')}
         />
       </View>
     </HoliModalContentWrapper>
@@ -263,7 +270,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
     marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 250 : 100,
+    paddingBottom: Platform.OS === 'ios' ? 250 : 0,
   },
   headerContainer: {
     alignItems: 'center',

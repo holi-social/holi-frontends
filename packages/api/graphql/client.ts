@@ -1,11 +1,14 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
-import { concat, mergeDeepWith } from 'ramda'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { OperationDefinitionNode } from 'graphql'
 
+
+import { concat, mergeDeepWith } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
@@ -17,7 +20,9 @@ const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 
-const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+// There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link" 
+const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   // Do not log "not found" or "bad user input" errors
   if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT'])) {
@@ -34,14 +39,28 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 })
 
+// See https://github.com/apollographql/apollo-feature-requests/issues/6
+// 
+const cleanTypenameFromMutationsLink = new ApolloLink((operation, forward) => {
+  const omitTypename = (key:string, value: unknown) =>
+    key === '__typename' ? undefined : value
+
+  const def = getMainDefinition(operation.query) 
+  if (def && (<OperationDefinitionNode>def).operation === 'mutation') {
+    operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename)
+  }
+  return forward ? forward(operation) : null
+})
+
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+const link = from([headerLink, timeoutLink, errorLink,cleanTypenameFromMutationsLink, uploadLink].filter((link) => !!link))
 
-export const createCache = () =>
+const createCache = () =>
   new InMemoryCache({
+    // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
         fields: {
@@ -116,6 +135,7 @@ export const createCache = () =>
       },
     },
   })
+
 
 interface ApolloCreateClientOptions {
   readonly ssrMode: boolean

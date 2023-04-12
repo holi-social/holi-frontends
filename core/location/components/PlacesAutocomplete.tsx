@@ -1,11 +1,13 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useSafeDispatch } from '@holi/core/helpers'
 import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
+import { useDebounce } from '@holi/ui/helper'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
@@ -22,6 +24,7 @@ interface PlacesAutocompleteProps {
   onChangeText?: (text: string) => void
   onSubmit?: (selected: GeolocationSuggestion) => void
   onChange?: (selected: GeolocationSuggestion) => void
+  onClose?: (selected?: GeolocationSuggestion) => void
   testID?: string
   id: string
   label: string
@@ -48,6 +51,7 @@ const PlacesAutocomplete = (
     validationErrorText,
     helperText,
     onChange,
+    onClose,
     style,
     suggestionsStyle,
     withCoordinates,
@@ -56,8 +60,53 @@ const PlacesAutocomplete = (
   ref: React.ForwardedRef<View>
 ) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(selected?.label || value)
-  const [placeSuggestions, setPlaceSuggestions] = useState<GeolocationSuggestion[]>([])
+  const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
+    variables: {
+      limit: PLACE_SUGGESTION_MAX_COUNT,
+    },
+  })
+  const debouncedFetchSuggestions = useDebounce(useSafeDispatch(fetchSuggestions), PLACE_SUGGESTION_DEBOUNCE)
+
+  if (error) {
+    logError(error, `[PlacesAutocomplete.tsx] ${error.message}`)
+  }
+
+  const placeSuggestions = useMemo(() => {
+    const places = data?.geo_placesAutocomplete || []
+
+    return places
+      .map(({ id, name, coordinates }) => ({
+        id,
+        value: name,
+        label: name,
+        coordinates,
+      }))
+      .slice(0, PLACE_SUGGESTION_MAX_COUNT)
+  }, [data])
+
+  const getSuggestions = useCallback(
+    (value: string) => {
+      const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.value === value)
+
+      onChange && selectedSuggestion && onChange(selectedSuggestion)
+      onChangeText && onChangeText(value)
+
+      if (value && !selectedSuggestion) {
+        debouncedFetchSuggestions({
+          variables: {
+            text: value,
+          },
+        })
+      }
+    },
+    [debouncedFetchSuggestions, onChange, onChangeText, placeSuggestions]
+  )
+
+  const onAutocompleteClose = useCallback(
+    (suggestion?: Suggestion) => onClose && onClose(placeSuggestions.find((s) => s.id == suggestion?.id)),
+    [placeSuggestions, onClose]
+  )
+
   const submit = useCallback(
     (id: string) => {
       if (onSubmit) {
@@ -68,32 +117,6 @@ const PlacesAutocomplete = (
     [onSubmit, placeSuggestions]
   )
 
-  const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
-    variables: {
-      text: locationInput,
-      limit: PLACE_SUGGESTION_MAX_COUNT,
-    },
-  })
-
-  if (error) {
-    logError(error, `[PlacesAutocomplete.tsx] ${error.message}`)
-  }
-
-  const getSuggestions = useCallback(
-    (value: string) => {
-      setLocationInput(value)
-      const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === value)
-      onChange && selectedSuggestion && onChange(selectedSuggestion)
-      onChangeText && onChangeText(value)
-      if (value) {
-        fetchSuggestions()
-      } else {
-        setPlaceSuggestions([])
-      }
-    },
-    [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange, placeSuggestions, onChangeText]
-  )
-
   // Trigger loading suggestions for initial value
   useEffect(() => {
     if (!called && (value || selected?.label)) {
@@ -101,35 +124,21 @@ const PlacesAutocomplete = (
     }
   }, [called, selected, getSuggestions, value])
 
-  useEffect(() => {
-    // keep displaying previous suggestions while loading to prevent flickering
-    if (loading) {
-      return
-    }
-    const places = data?.geo_placesAutocomplete || []
-
-    const newPlaces = places.map(({ id, name, coordinates }) => ({
-      id,
-      value: name,
-      label: name,
-      coordinates,
-    }))
-    setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
-  }, [loading, data, setPlaceSuggestions])
-
   const noResultsText = useMemo(() => {
-    return !loading && locationInput && !placeSuggestions.length
+    return !loading && called && data && !placeSuggestions.length && value
       ? t('location.placesAutocomplete.noResults')
       : undefined
-  }, [t, loading, locationInput, placeSuggestions])
+  }, [t, loading, called, data, placeSuggestions, value])
+
+  // Hide suggestions when the autocomplete is empty
+  const displayedSuggestions = value?.trim() ? placeSuggestions : []
 
   // TODO: fix autofocus
   return (
     <HoliAutocomplete
       loading={loading}
       onChange={getSuggestions}
-      debounce={PLACE_SUGGESTION_DEBOUNCE}
-      suggestions={placeSuggestions}
+      suggestions={displayedSuggestions}
       inputLabel={label}
       accessibilityLabel={label}
       placeholder={placeholder}
@@ -138,6 +147,7 @@ const PlacesAutocomplete = (
       inputProps={inputProps}
       onSubmit={submit}
       onSelect={onChange}
+      onClose={onAutocompleteClose}
       testID={testID}
       validationErrorText={
         validationErrorText ? validationErrorText : error?.message && t('location.placesAutocomplete.error')
