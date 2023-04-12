@@ -40,7 +40,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>()
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -123,6 +123,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
 
   const handleTabChange = (index: number) => {
+    global.spaceDetailInitialTabIndex = index
+
     setCurrentTabIndex(index)
   }
 
@@ -144,8 +146,13 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <SpaceDetailView
+          style={styles.spaceDetailView}
+          space={space}
+          onChangeTab={handleTabChange}
+          initialTabIndex={global.spaceDetailInitialTabIndex}
+        />
       </DefaultScrollHeaderLayout>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
     </>
@@ -155,6 +162,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingBottom: 0,
+    paddingTop: vars.topBarHeight,
+
     ...Platform.select({
       web: {
         minHeight: '100vh',
@@ -163,6 +172,8 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
+    paddingTop: vars.topBarHeight,
+
     ...Platform.select({
       web: {
         minHeight: '100vh',
