@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
   illustrationContainer: {
     marginTop: 32,
     paddingBottom: 16,
-    display: 'flex',
     alignItems: 'center',
   },
   illustration: {
