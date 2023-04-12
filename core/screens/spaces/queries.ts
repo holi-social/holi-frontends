@@ -494,7 +494,7 @@ export const SpacePostFragment = gql`
     reactions {
       HEART
     }
-    public
+    isPublic
   }
 `
 

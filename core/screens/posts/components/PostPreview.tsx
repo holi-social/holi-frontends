@@ -60,7 +60,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
                 title={post.creator.fullName}
                 author={post.creator}
                 date={post.created}
-                isPublic={post.public}
+                isPublic={post.isPublic}
               />
             </HoliLink>
           </View>
