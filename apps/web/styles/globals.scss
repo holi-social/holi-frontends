@@ -87,3 +87,8 @@ li {
 [data-stepper-wrapper="true"] > * > * > * {
   height: 100%;
 }
+
+// do not display header, if it does not have any children
+header:empty {
+  display: none;
+}

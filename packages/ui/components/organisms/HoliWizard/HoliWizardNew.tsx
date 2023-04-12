@@ -40,7 +40,7 @@ const HoliWizard = ({
   submitButtonLabel,
   isNextButtonEnabled,
   isLoading,
-  testID,
+  testID = 'holi-wizard',
 }: HoliWizardProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -60,7 +60,14 @@ const HoliWizard = ({
           </HoliText>
 
           {skipable && (
-            <HoliButton label={t('global.skip')} inline transparent variant="small" onPress={onSkipPress}>
+            <HoliButton
+              label={t('global.skip')}
+              inline
+              transparent
+              variant="small"
+              onPress={onSkipPress}
+              testID={`${testID}-skip-btn`}
+            >
               <HoliText size="extrasmall">{t('global.skip')}</HoliText>
             </HoliButton>
           )}

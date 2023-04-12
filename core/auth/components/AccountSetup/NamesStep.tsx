@@ -32,6 +32,7 @@ export interface NamesStepProps {
   onChange: (fieldName: keyof NamesValues, value: string) => void
   scrollToInputWithId: (id: keyof NamesValues) => ScrollToProps
   fieldErrors: TranslatedFieldErrors
+  testID?: string
 }
 
 const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.PropsWithChildren<NamesStepProps>) => {
