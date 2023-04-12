@@ -41,7 +41,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         tabs={[
           {
             title: t('spaces.input.coverImage.tab.upload.title'),
-            style: { ...styles.tabStyle },
+            style: styles.tabStyle,
             children: <Uploader />,
           },
         ]}
