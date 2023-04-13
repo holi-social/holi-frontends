@@ -84,26 +84,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       message,
       error: error?.response?.data || error,
     })
-    return await oauth2Api
-      .rejectOAuth2LoginRequest({
+    try {
+      const { data: rejectResponse } = await oauth2Api.rejectOAuth2LoginRequest({
         loginChallenge,
         rejectOAuth2Request: {
           error: 'invalid_request',
           error_description: message,
         },
       })
-      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
-      .catch((error) => {
-        logger.error({
-          message: 'Error rejecting login request',
-          error: error?.response?.data || error,
-        })
-        return {
-          props: {
-            error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
-          },
-        }
+      return serverSideRedirect(rejectResponse.redirect_to)
+    } catch (error) {
+      logger.error({
+        message: 'Error rejecting login request',
+        error: error?.response?.data || error,
       })
+      return {
+        props: {
+          error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+        },
+      }
+    }
   }
 }
 

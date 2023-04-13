@@ -37,23 +37,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       message,
       error: error?.response?.data || error,
     })
-    return await oauth2Api
-      .rejectOAuth2LogoutRequest({
+    try {
+      await oauth2Api.rejectOAuth2LogoutRequest({
         logoutChallenge,
       })
       // Response does not specify a redirect destination
-      .then(() => serverSideRedirect(process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL))
-      .catch((error) => {
-        logger.error({
-          message: 'Error rejecting logout request',
-          error: error?.response?.data || error,
-        })
-        return {
-          props: {
-            error: error?.response?.data || error.toString(),
-          },
-        }
+      return serverSideRedirect(process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL || '')
+    } catch (error) {
+      logger.error({
+        message: 'Error rejecting logout request',
+        error: error?.response?.data || error,
       })
+      return {
+        props: {
+          error: error?.response?.data || error.toString(),
+        },
+      }
+    }
   }
 }
 
