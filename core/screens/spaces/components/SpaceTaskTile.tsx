@@ -29,7 +29,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, isAdmin, showFullV
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
       <HoliButton transparent label={task.name} onPress={goToDetailView}>
         <View style={styles.imageContainer}>
-          {task.thumbnail && (
+          {!!task.thumbnail && (
             <HoliImage
               label={t('spaces.task.thumbnail.label')}
               source={{ uri: task.thumbnail }}
