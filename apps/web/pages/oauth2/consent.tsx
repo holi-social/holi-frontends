@@ -51,8 +51,31 @@ const acceptConsentRequest = async (
   return serverSideRedirect(acceptResponse.redirect_to)
 }
 
+const rejectConsentRequest = async (consentChallenge: string, message?: string) => {
+  try {
+    const { data: rejectResponse } = await oauth2Api.rejectOAuth2ConsentRequest({
+      consentChallenge,
+      rejectOAuth2Request: {
+        error: 'invalid_request',
+        error_description: message,
+      },
+    })
+    return serverSideRedirect(rejectResponse.redirect_to)
+  } catch (error) {
+    logger.error({
+      message: 'Error rejecting login request',
+      error: error?.response?.data || error,
+    })
+    return {
+      props: {
+        error: error?.response?.data || error.toString(),
+      },
+    }
+  }
+}
+
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  // The challenge is used to fetch information about the consent request from ORY hydraAdmin.
+  // The challenge is used to fetch information about the consent request from ORY Hydra.
   const consentChallenge = extractQueryParameter(req.url || '', 'consent_challenge')
   if (!consentChallenge) {
     return {
@@ -73,38 +96,21 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       }
     }
 
+    if (!consentRequest.skip && !consentRequest.client?.skip_consent) {
+      return rejectConsentRequest(consentChallenge, 'Skipping consent not allowed')
+    }
+
     const session = await createSession(consentRequest.subject)
 
     return acceptConsentRequest(consentChallenge, session, consentRequest)
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
+  } catch (error) {
     // Try to reject consent request in case an error occurs
     const message = error?.message || error || 'Unknown error'
     logger.error({
       message,
       error: error?.response?.data || error,
     })
-    return await oauth2Api
-      .rejectOAuth2ConsentRequest({
-        consentChallenge,
-        rejectOAuth2Request: {
-          error: 'invalid_request',
-          error_description: message,
-        },
-      })
-      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
-      .catch((error) => {
-        logger.error({
-          message: 'Error rejecting login request',
-          error: error?.response?.data || error,
-        })
-        return {
-          props: {
-            error: error?.response?.data || error.toString(),
-          },
-        }
-      })
+    return rejectConsentRequest(consentChallenge, message)
   }
 }
 
