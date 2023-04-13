@@ -7,6 +7,7 @@ import { Task } from '@holi/core/screens/spaces/types'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -17,24 +18,39 @@ export type SpaceTaskTileProps = {
 
 const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
-  const IMAGE_SOURCE = { uri: task.thumbnail }
-
-  /* visibility is hardcoded for now, need to be adjusted in the backend */
-  const visibility = VisibilityType.PUBLIC
 
   return (
-    <HoliButton key={task.id} style={styles.taskItem} testID="space-task-tile" label={''} transparent>
+    <HoliButton key={task.id} style={styles.taskItem} testID="space-task-tile" label={task.name} transparent>
       <View style={styles.imageContainer}>
-        {task.thumbnail && <HoliImage label="" source={IMAGE_SOURCE} resizeMode="cover" style={styles.image} />}
+        {task.thumbnail && (
+          <HoliImage
+            label={t('spaces.task.thumbnail.label')}
+            source={{ uri: task.thumbnail }}
+            resizeMode="cover"
+            style={styles.image}
+          />
+        )}
+        {!task.thumbnail && (
+          <View style={[styles.image, styles.emptyImage]}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
+              label={t('spaces.task.thumbnail.label')}
+              isSvg
+              height={166}
+              width={296}
+              style={styles.image}
+            />
+          </View>
+        )}
         <View style={styles.visibility}>
           <HoliIcon
-            icon={visibility === VisibilityType.PUBLIC ? 'globe' : 'lock'}
+            icon={task.visibility === VisibilityType.PUBLIC ? 'globe' : 'lock'}
             size={12}
             color={colors.foreground30}
             style={styles.iconGroupIcon}
             filled
           />
-          <HoliText size="small">Public</HoliText>
+          <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
         </View>
       </View>
       <View style={styles.detailContainer}>
@@ -47,33 +63,30 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTilePro
         <View style={styles.iconGroupContainer}>
           <HoliIcon icon="map-pin-2" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
-            {!task.location ? 'Remote' : task.location}
+            {!task.location ? t(`spaces.input.task.locationType.${task.locationType}.title`) : task.location}
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
           <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
-            {t(`spaces.tasks.regularity.${task.regularity}`)}
+            {t(`spaces.input.task.regularity.${task.regularity}.title`)}
           </HoliText>
         </View>
       </View>
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
-          {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
-            task.skills.map((skill) => {
-              return (
-                <SpacesFilterPill
-                  small
-                  key={skill.id}
-                  testID="spaces-topic-title"
-                  label={skill.title}
-                  filterType="skill"
-                  style={styles.pill}
-                />
-              )
-            })
-          }
+          {task.skills.map((skill) => {
+            return (
+              <SpacesFilterPill
+                small
+                key={skill.id}
+                testID="spaces-topic-title"
+                label={skill.title}
+                filterType="skill"
+                style={styles.pill}
+              />
+            )
+          })}
         </View>
       )}
       <View style={styles.descriptionContainer}>
@@ -114,6 +127,11 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 8,
     height: 166,
+  },
+  emptyImage: {
+    backgroundColor: colors.background20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imageContainer: {
     position: 'relative',
@@ -179,7 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: colors.background30,
-    backgroundColor: colors.background10,
+    backgroundColor: colors.background20,
     flexDirection: 'row',
     alignItems: 'center',
   },

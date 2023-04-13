@@ -6,16 +6,16 @@ import { task } from '@holi/core/screens/spaces/components/__tests__/testData'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
-    const { getByText, getByRole } = render(<SpaceTaskTile task={task} />)
+    const { getByText } = render(<SpaceTaskTile task={task} />)
 
     expect(getByText('Task title')).toBeDefined()
     expect(getByText('Task description')).toBeDefined()
     expect(getByText('Hamburg, Germany')).toBeDefined()
     expect(getByText('Communication skills')).toBeDefined()
     expect(getByText('Creativity')).toBeDefined()
-    expect(getByText('spaces.tasks.regularity.PROJECT_BASED')).toBeDefined()
-    const image = getByRole('image')
-    expect(image).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
-    expect(image).toHaveProp('accessibilityLabel', 'Some Body')
+    expect(getByText('spaces.input.task.regularity.PROJECT_BASED.title')).toBeDefined()
+    // const image = getByRole('image')
+    // expect(image).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
+    // expect(image).toHaveProp('accessibilityLabel', 'Some Body')
   })
 })

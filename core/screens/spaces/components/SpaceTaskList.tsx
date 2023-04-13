@@ -181,11 +181,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
     color: colors.foreground30,
   },
-  tasksListContainer: { padding: 8 },
-  taskTile: {
-    flex: 1,
-    height: 300,
-    marginVertical: 8,
+  tasksListContainer: {
+    padding: 8,
   },
   collaborationAreaContainer: {
     marginBottom: 16,
