@@ -1,46 +1,69 @@
-import { DocumentNode, useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
+import HoliText from '@holi//ui/components/atoms/HoliText'
+import { colors } from '@holi//ui/styles/globalVars'
+import { UseUserChipsOptions, useUserChips } from '@holi/core/helpers/useUserChips'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
-import type { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 
-type UserChipLoaderProps = {
-  user: User
-  onCancel?: () => void
-  onSubmit?: (user: User) => void
-  keyInUserObject: string
-  sortByTranslation?: boolean
-  queryToUse: DocumentNode
-}
+type UserChipLoaderProps = UseUserChipsOptions
 
-const UserChipLoader: React.VoidFunctionComponent<UserChipLoaderProps> = ({
-  user,
-  onCancel,
-  onSubmit,
-  keyInUserObject,
-  queryToUse,
-}: UserChipLoaderProps) => {
-  const { loading, data, error } = useQuery(queryToUse)
+const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChipLoaderProps) => {
+  const { t } = useTranslation()
+  const {
+    filterString,
+    onFilterStringChange,
+    terms,
+    onTermSelect,
+    onSubmit: submitHandler,
+    loading,
+  } = useUserChips({ user, queryToUse, onSubmit, keyInUserObject })
 
-  if (error) {
-    logError(error, `[UserChipLoader.tsx] ${error.message}`)
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
-  }
+  const notificationComponent = user ? null : (
+    <View style={styles.notification}>
+      <HoliText>{t('user.profileView.noUser')}</HoliText>
+    </View>
+  )
 
   return (
-    <UserChipForm
-      user={user}
-      onCancel={onCancel}
-      onSubmit={onSubmit}
-      keyInUserObject={keyInUserObject}
-      availableTerms={data[keyInUserObject].data}
-    />
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submitHandler}
+      headlineText={t(`user.${keyInUserObject}.form.headline`)}
+      prependChildren={notificationComponent}
+      hideFooterWhenKeyboardIsOpen={true}
+      style={styles.modalWrapper}
+      loading={loading}
+      testID="user-profile-chipform"
+    >
+      <HoliBox padding={[0, 24]}>
+        <UserChipForm
+          filterString={filterString}
+          onFilterStringChange={onFilterStringChange}
+          terms={terms}
+          onTermSelect={onTermSelect}
+          keyInUserObject={keyInUserObject}
+        />
+      </HoliBox>
+    </HoliModalContentWrapper>
   )
 }
 
 export default UserChipLoader
+
+const styles = StyleSheet.create({
+  modalWrapper: {
+    flex: 1,
+  },
+  notification: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 16,
+    zIndex: 10,
+    backgroundColor: colors.background10,
+  },
+})

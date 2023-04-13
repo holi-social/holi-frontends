@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { onlyCharacters } from '@holi/core/helpers'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import {
   UpdateAuthenticatedUserInput,
@@ -29,8 +30,6 @@ type UserProfileFormProps = {
   onSubmit: (user: User) => void
   testId?: string
 }
-
-const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
 
 const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
@@ -186,7 +185,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setFirstName(onlyAllowedCharacters(text))
+            setFirstName(onlyCharacters(text))
             resetErrorsForField('firstName')
           }}
           style={styles.input}
@@ -202,7 +201,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setLastName(onlyAllowedCharacters(text))
+            setLastName(onlyCharacters(text))
             resetErrorsForField('lastName')
           }}
           style={styles.input}

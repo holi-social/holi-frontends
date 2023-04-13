@@ -15,6 +15,7 @@ export interface CenteredImageHeadlineDescriptionLayoutProps {
   headlineText: string
   descriptionText: string
   contentContainerStyle?: StyleProp<ViewStyle>
+  contentStyle?: StyleProp<ViewStyle>
   testID?: string
 }
 
@@ -26,11 +27,12 @@ const CenteredImageHeadlineDescriptionLayout = ({
   headlineText,
   descriptionText,
   contentContainerStyle,
+  contentStyle,
   testID = 'centered-layout',
 }: React.PropsWithChildren<CenteredImageHeadlineDescriptionLayoutProps>) => {
   return (
     <CenteredContentLayout append={append} contentContainerStyle={contentContainerStyle} testID={testID}>
-      <View style={styles.inner}>
+      <View style={[styles.inner, contentStyle]}>
         <View style={styles.imageContainer}>
           <HoliLocalImage
             imageSource={imageSource}

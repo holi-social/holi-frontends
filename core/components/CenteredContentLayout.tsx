@@ -30,6 +30,7 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
 
 CenteredContentLayout.displayName = 'CenteredContentLayout'
 
+// Be careful with style changes, they are very fragile to keep correct for all platforms
 const styles = StyleSheet.create({
   outer: {
     ...Platform.select({
