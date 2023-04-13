@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -70,58 +70,52 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
       ) : (
         <HoliBox padding={12}>
           {isMember && (
-            <HoliGridWrapper itemsInRow={3} gap={8} style={styles.wrapper}>
-              <HoliGridCell>
-                <HoliButton
-                  type="secondary"
-                  label={t('spaces.updates.filter.all')}
-                  onPress={() => setFilter(VisibilityFilter.ALL)}
-                  style={setButtonStyles(isFilterAll)}
-                >
-                  <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
-                    {t('spaces.updates.filter.all')}
-                  </HoliText>
-                </HoliButton>
-              </HoliGridCell>
-              <HoliGridCell>
-                <HoliButton
-                  type="secondary"
-                  label={t('spaces.updates.filter.public')}
-                  onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                  style={setButtonStyles(isFilterPublic)}
-                >
-                  <HoliIcon
-                    icon={'global'}
-                    size={14}
-                    filled={true}
-                    color={isFilterPublic ? colors.white100 : colors.foreground30}
-                    style={styles.icon}
-                  />
-                  <HoliText size="small" color={isFilterPublic ? 'white100' : 'black300'}>
-                    {t('spaces.updates.filter.public')}
-                  </HoliText>
-                </HoliButton>
-              </HoliGridCell>
-              <HoliGridCell>
-                <HoliButton
-                  type="secondary"
-                  label={t('spaces.updates.filter.members')}
-                  onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                  style={setButtonStyles(isFilterMembers)}
-                >
-                  <HoliIcon
-                    icon="lock"
-                    size={14}
-                    filled={true}
-                    color={isFilterMembers ? colors.white100 : colors.foreground30}
-                    style={styles.icon}
-                  />
-                  <HoliText size="small" color={isFilterMembers ? 'white100' : 'black300'}>
-                    {t('spaces.updates.filter.members')}
-                  </HoliText>
-                </HoliButton>
-              </HoliGridCell>
-            </HoliGridWrapper>
+            <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.wrapper}>
+              <HoliButton
+                type="secondary"
+                label={t('spaces.updates.filter.all')}
+                onPress={() => setFilter(VisibilityFilter.ALL)}
+                style={setButtonStyles(isFilterAll)}
+              >
+                <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
+                  {t('spaces.updates.filter.all')}
+                </HoliText>
+              </HoliButton>
+              <HoliButton
+                type="secondary"
+                label={t('spaces.updates.filter.public')}
+                onPress={() => setFilter(VisibilityFilter.PUBLIC)}
+                style={setButtonStyles(isFilterPublic)}
+              >
+                <HoliIcon
+                  icon={'global'}
+                  size={14}
+                  filled={true}
+                  color={isFilterPublic ? colors.white100 : colors.foreground30}
+                  style={styles.icon}
+                />
+                <HoliText size="small" color={isFilterPublic ? 'white100' : 'black300'}>
+                  {t('spaces.updates.filter.public')}
+                </HoliText>
+              </HoliButton>
+              <HoliButton
+                type="secondary"
+                label={t('spaces.updates.filter.members')}
+                onPress={() => setFilter(VisibilityFilter.MEMBERS)}
+                style={setButtonStyles(isFilterMembers)}
+              >
+                <HoliIcon
+                  icon="lock"
+                  size={14}
+                  filled={true}
+                  color={isFilterMembers ? colors.white100 : colors.foreground30}
+                  style={styles.icon}
+                />
+                <HoliText size="small" color={isFilterMembers ? 'white100' : 'black300'}>
+                  {t('spaces.updates.filter.members')}
+                </HoliText>
+              </HoliButton>
+            </ScrollView>
           )}
           {loading ? (
             <HoliBox padding={24}>
@@ -150,12 +144,19 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 24,
   },
+  buttonContainer: {
+    flexGrow: 1,
+    gap: 8,
+  },
   wrapper: {
     padding: 12,
   },
   buttonSpacing: {
     paddingHorizontal: 6,
     paddingVertical: 8,
+    flex: 1,
+    minWidth: 'fit-content',
+    maxWidth: '33%',
   },
   buttonSelected: {
     backgroundColor: colors.foreground30,

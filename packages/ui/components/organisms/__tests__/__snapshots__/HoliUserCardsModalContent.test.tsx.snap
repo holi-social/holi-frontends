@@ -1511,8 +1511,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         style={
           {
-            "height": 120,
-            "zIndex": -1,
+            "height": 80,
           }
         }
       />
@@ -1527,6 +1526,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         "opacity": 1,
         "position": "absolute",
         "right": 0,
+        "zIndex": 1,
       }
     }
   >
