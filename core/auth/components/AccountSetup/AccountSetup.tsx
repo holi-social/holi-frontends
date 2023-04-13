@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,7 +7,7 @@ import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import NamesStep, { NamesValues, trimNames } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
-import { FieldErrors } from '@holi/core/errors/helpers'
+import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling, useFieldErrors } from '@holi/core/errors/hooks'
 import { onlyCharacters } from '@holi/core/helpers'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
@@ -102,20 +102,17 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     })
   }
 
-  const validateOnBlur = useCallback(
-    (pos: Position, ref: View, id: string) => {
-      const valueObj = { [id]: names[id as keyof NamesValues]?.trim() }
-      const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(valueObj)
+  const validateOnBlur = (_: Position, __: View, id: string) => {
+    const valueObj = { [id]: names[id as keyof NamesValues]?.trim() }
+    const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(valueObj)
 
-      if (!resultSchema.success) {
-        const { fieldErrors } = resultSchema.error.flatten()
-        setFieldErrors(translateFieldErrors(fieldErrors as FieldErrors))
-      } else {
-        setIsNextButtonEnabled(true)
-      }
-    },
-    [names, translateFieldErrors]
-  )
+    if (!resultSchema.success) {
+      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+      setFieldErrors(translateFieldErrors(fieldErrors))
+    } else {
+      setIsNextButtonEnabled(true)
+    }
+  }
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
@@ -157,8 +154,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         setIsLoading(true)
 
         const selectedInterestIds = terms.reduce(
-          (acc, { id, selected }) => (selected ? [...acc, id] : acc),
-          [] as string[]
+          (acc: string[], { id, selected }) => (selected ? [...acc, id] : acc),
+          []
         )
         await updateUser({
           variables: { input: { interests: selectedInterestIds } },

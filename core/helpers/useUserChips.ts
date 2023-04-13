@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
+import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -11,15 +11,18 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import type { Paged } from '@holi/core/types'
+
+export type ChipUserField = 'interests' | 'sdgs' | 'skills'
 
 export interface UseUserChipsOptions {
   user?: User
-  keyInUserObject: 'interests' | 'sdgs' | 'skills'
+  keyInUserObject: ChipUserField
   queryToUse: DocumentNode
   onSubmit?: (user: User) => void
 }
 
-const getSortedAndFilteredTemrs = (
+const getSortedAndFilteredTerms = (
   availableTerms: Term[],
   selectedTerms: Term[],
   filterString = ''
@@ -34,19 +37,22 @@ const getSortedAndFilteredTemrs = (
     : orderedTerms
 }
 
-export const useUserChips = ({ user, queryToUse, keyInUserObject, onSubmit }: UseUserChipsOptions) => {
+export const useUserChips = <T extends Record<ChipUserField, Paged<Term>>>({
+  user,
+  queryToUse,
+  keyInUserObject,
+  onSubmit,
+}: UseUserChipsOptions) => {
   const { displayError } = useErrorHandling()
-  const { loading, data, error } = useQuery(queryToUse, { skip: !user })
+  const { loading, data, error } = useQuery<T>(queryToUse, { skip: !user })
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
     useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
 
-  const [filterString, setFilterString] = useState<string>('')
+  const [filterString, setFilterString] = useState('')
 
-  const availableTerms = useMemo(() => data?.[keyInUserObject]?.data || [], [data, keyInUserObject]) as Term[]
-  const [selectedTerms, setSelectedTerms] = useState<Term[]>(
-    user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []
-  )
-  const sortedAndFilteredTerms = getSortedAndFilteredTemrs(availableTerms, selectedTerms, filterString)
+  const availableTerms = useMemo(() => data?.[keyInUserObject]?.data || [], [data, keyInUserObject])
+  const [selectedTerms, setSelectedTerms] = useState(user?.[keyInUserObject] ?? [])
+  const sortedAndFilteredTerms = getSortedAndFilteredTerms(availableTerms, selectedTerms, filterString)
 
   const onTermSelect = useCallback(
     (id: string) =>
