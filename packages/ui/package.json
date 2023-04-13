@@ -11,7 +11,9 @@
     "clean": "echo 'nothing to be done'",
     "clean:all": "rimraf node_modules"
   },
-  "dependencies": {},
+  "dependencies": {
+    "expo-av": "~12.0.4"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/preset-env": "^7.18.2",

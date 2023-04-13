@@ -8,7 +8,7 @@ const { withSentryConfig } = require('@sentry/nextjs')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Transform all direct 'react-native' imports to 'react-native-web'
@@ -16,6 +16,20 @@ const nextConfig = {
       'react-native-svg': 'react-native-svg-web',
     }
     config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', ...config.resolve.extensions]
+    // Add supports to imported videos
+    config.module.rules.push({
+      test: /\.mp4$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/media/',
+            outputPath: `${isServer ? '../' : ''}static/media/`,
+            name: '[name].[hash].[ext]',
+          },
+        },
+      ],
+    })
     return config
   },
   sassOptions: {
@@ -52,10 +66,14 @@ module.exports = withSentryConfig(
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
+          'react-native-web',
           'react-native-webview',
           'react-native-render-html',
           'react-native-animated-pagination-dot',
+          'expo-asset',
           'expo-status-bar',
+          'expo-modules-core',
+          'expo-av',
           '@jsamr/react-native-li',
           '@holi-apps/donations',
           '@holi-apps/goodnews',
