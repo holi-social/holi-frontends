@@ -46,8 +46,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  const setButtonStyles = (isSelected: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
+  const setButtonStyles = (isSelected: boolean, isLast: boolean) =>
+    StyleSheet.flatten([styles.buttonSpacing, isLast ? {} : styles.buttonGap, isSelected ? styles.buttonSelected : {}])
 
   return (
     <>
@@ -75,9 +75,14 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.all')}
                 onPress={() => setFilter(VisibilityFilter.ALL)}
-                style={setButtonStyles(isFilterAll)}
+                style={setButtonStyles(isFilterAll, false)}
               >
-                <HoliText size="small" color={isFilterAll ? 'white100' : 'black300'}>
+                <HoliText
+                  size="small"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  color={isFilterAll ? 'white100' : 'black300'}
+                >
                   {t('spaces.updates.filter.all')}
                 </HoliText>
               </HoliButton>
@@ -85,7 +90,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.public')}
                 onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                style={setButtonStyles(isFilterPublic)}
+                style={setButtonStyles(isFilterPublic, false)}
               >
                 <HoliIcon
                   icon={'global'}
@@ -94,7 +99,12 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                   color={isFilterPublic ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />
-                <HoliText size="small" color={isFilterPublic ? 'white100' : 'black300'}>
+                <HoliText
+                  size="small"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  color={isFilterPublic ? 'white100' : 'black300'}
+                >
                   {t('spaces.updates.filter.public')}
                 </HoliText>
               </HoliButton>
@@ -102,7 +112,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.members')}
                 onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                style={setButtonStyles(isFilterMembers)}
+                style={setButtonStyles(isFilterMembers, true)}
               >
                 <HoliIcon
                   icon="lock"
@@ -111,7 +121,12 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                   color={isFilterMembers ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />
-                <HoliText size="small" color={isFilterMembers ? 'white100' : 'black300'}>
+                <HoliText
+                  size="small"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  color={isFilterMembers ? 'white100' : 'black300'}
+                >
                   {t('spaces.updates.filter.members')}
                 </HoliText>
               </HoliButton>
@@ -146,16 +161,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexGrow: 1,
-    gap: 8,
   },
   wrapper: {
     padding: 12,
+  },
+  buttonGap: {
+    marginRight: 8,
   },
   buttonSpacing: {
     paddingHorizontal: 6,
     paddingVertical: 8,
     flex: 1,
-    minWidth: 'fit-content',
+    // minWidth: 'fit-content',
     maxWidth: '33%',
   },
   buttonSelected: {
