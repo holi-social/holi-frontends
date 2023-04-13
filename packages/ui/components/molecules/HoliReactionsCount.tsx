@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
   },
   text: {
     color: colors.foreground20,
