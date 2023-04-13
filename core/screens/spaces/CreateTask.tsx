@@ -212,6 +212,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         </HoliButton>
         <HoliButtonLoading
           disabled={saveButtonDisabled || loading || !inputValid}
+          icon={loading ? 'loader-4' : undefined}
           iconSpinning={loading}
           label={t('global.save')}
           onPress={onSave}
