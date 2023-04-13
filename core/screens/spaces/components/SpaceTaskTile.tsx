@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
-import { Task } from '@holi/core/screens/spaces/types'
-import { VisibilityType } from '@holi/core/screens/spaces/types'
+import { LocationType, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -18,12 +18,23 @@ export type SpaceTaskTileProps = {
 const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const IMAGE_SOURCE = { uri: task.thumbnail }
+  const [showFullView, setShowFullView] = useState(false)
 
   /* visibility is hardcoded for now, need to be adjusted in the backend */
   const visibility = VisibilityType.PUBLIC
+  const locationType = LocationType.REMOTE
+  const contactEmail = 'examplemail@posteo.com'
+  const contactPhone = '+49123456789'
 
   return (
-    <HoliButton key={task.id} style={styles.taskItem} testID="space-task-tile" label={''} transparent>
+    <HoliButton
+      key={task.id}
+      style={styles.taskItem}
+      testID="space-task-tile"
+      label={''}
+      transparent
+      onPress={() => setShowFullView(!showFullView)}
+    >
       <View style={styles.imageContainer}>
         {task.thumbnail && <HoliImage label="" source={IMAGE_SOURCE} resizeMode="cover" style={styles.image} />}
         <View style={styles.visibility}>
@@ -45,10 +56,30 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTilePro
       </View>
       <View style={styles.iconsContainer}>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="map-pin-2" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
-          <HoliText style={styles.iconGroupText} size="extrasmall">
-            {!task.location ? 'Remote' : task.location}
-          </HoliText>
+          {task.location && (
+            <>
+              <HoliIcon icon="map-pin-2" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {task.location}
+              </HoliText>
+            </>
+          )}
+          {locationType === 'HYBRID' && (
+            <>
+              <HoliIcon icon="refresh" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {locationType}
+              </HoliText>
+            </>
+          )}
+          {locationType === 'REMOTE' && (
+            <>
+              <HoliIcon icon="global" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+              <HoliText style={styles.iconGroupText} size="extrasmall">
+                {locationType}
+              </HoliText>
+            </>
+          )}
         </View>
         <View style={styles.iconGroupContainer}>
           <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
@@ -76,11 +107,52 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTilePro
           }
         </View>
       )}
-      <View style={styles.descriptionContainer}>
-        <HoliText color="gray300" size="small" numberOfLines={3}>
-          {task.description}
-        </HoliText>
-      </View>
+      {!showFullView ? (
+        <View style={styles.descriptionContainer}>
+          <HoliText color="gray300" size="small" numberOfLines={3}>
+            {task.description}
+          </HoliText>
+        </View>
+      ) : (
+        <View style={styles.descriptionContainer}>
+          <HoliText color="gray300" size="small">
+            {task.description}
+          </HoliText>
+          <HoliText bold style={{ marginTop: 32 }}>
+            Task published by
+          </HoliText>
+          <View style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center' }}>
+            <HoliAvatar
+              imageSrc={task.creator.avatar}
+              label={task.creator.fullName || t('user.profileView.anonymous')}
+              initials={task.creator.avatarLabel || ''}
+              defaultColor={task.creator.avatarDefaultColor || ''}
+              size="large"
+            />
+            <HoliText style={{ marginLeft: 16 }}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+          </View>
+          {contactEmail && (
+            <>
+              <HoliText bold style={{ marginTop: 32 }}>
+                If you are interested contact us via:
+              </HoliText>
+              <View style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center' }}>
+                <HoliIcon icon="at" size={24} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+                <HoliText style={styles.iconGroupText} size="extrasmall">
+                  {contactEmail}
+                </HoliText>
+              </View>
+
+              <View style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center' }}>
+                <HoliIcon icon="phone" size={24} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+                <HoliText style={styles.iconGroupText} size="extrasmall">
+                  {contactPhone}
+                </HoliText>
+              </View>
+            </>
+          )}
+        </View>
+      )}
       {/* TODO: reinsert when claiming is implemented */}
       {/* <View style={styles.buttonContainer}>
         <HoliButton
@@ -138,13 +210,13 @@ const styles = StyleSheet.create({
   iconGroupContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 8,
   },
   iconGroupIcon: {
     marginRight: 4,
   },
   iconGroupText: {
     color: colors.foreground20,
+    marginRight: 8,
   },
   spotsClaimed: {
     textAlign: 'right',
