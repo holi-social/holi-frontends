@@ -206,7 +206,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           // Pre-Success step
           <ScrollView
-            contentContainerStyle={[mixins.container, styles.stepContainer, styles.stepContainerCentered]}
+            contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
             key="pre-success"
             testID="account-setup-pre-registration-success-step"
           >
@@ -215,6 +215,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               descriptionText={t('registration.accountSetup.firstSuccess.describtion')}
+              contentStyle={styles.stepContainer}
             />
           </ScrollView>,
 
@@ -237,7 +238,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           // Success step
           <ScrollView
-            contentContainerStyle={[mixins.container, styles.stepContainer, styles.stepContainerCentered]}
+            contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
             key="success"
             testID="account-setup-success-step"
           >
@@ -246,6 +247,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               descriptionText={t('registration.accountSetup.success.describtion')}
+              contentStyle={styles.stepContainer}
             />
           </ScrollView>,
         ]}
