@@ -103,14 +103,14 @@ const HoliTextInput = (
   }, [noOfVisibleLines, maxNoOfVisibleLines])
 
   const handleFocus = useCallback(
-    (event) => {
+    (event: NativeSyntheticEvent<TargetedEvent>) => {
       setFocused(true)
       onFocus && onFocus(event)
     },
     [setFocused, onFocus]
   )
   const handleBlur = useCallback(
-    (event) => {
+    (event: NativeSyntheticEvent<TargetedEvent>) => {
       setFocused(false)
       onBlur && onBlur(event)
     },
@@ -140,7 +140,7 @@ const HoliTextInput = (
 
   const autocomplete: TextInputProps['autoComplete'] = (() => {
     if (type === 'password')
-      return Platform.OS === 'android' ? 'password' : props?.inputProps?.autocomplete || 'current-password'
+      return Platform.OS === 'android' ? 'password' : props?.inputProps?.autoComplete || 'current-password'
     if (type === 'email') return 'email'
     return 'off'
   })()

@@ -108,7 +108,7 @@ const OwnProfile: React.VFC = () => {
 
   return (
     <LoginProtection>
-      <DefaultScrollHeaderLayout>
+      <DefaultScrollHeaderLayout keyboardShouldPersistTaps="handled">
         {user ? (
           <>
             {editMode && (
