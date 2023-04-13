@@ -32,8 +32,8 @@ const HoliKeyboardSaveView = ({
   children,
 }: React.PropsWithChildren<HoliKeyboardSaveViewProps>) => {
   const { height: screenHeight } = useWindowDimensions()
-  const { keyboardIsOpen, keyboardHeight } = useKeyboard()
-  const { softkeyboardIsOpen, viewPortHeight } = useSoftKeyboard()
+  const { isKeyboardOpen, keyboardHeight } = useKeyboard()
+  const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
   const [offsetTop, setOffsetTop] = useState(0)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
@@ -42,13 +42,13 @@ const HoliKeyboardSaveView = ({
     (offsetTopFromElement?: number) => {
       const isInitialCall = offsetTop === 0
       if (isInitialCall) {
-        if (keyboardIsOpen || softkeyboardIsOpen) return
+        if (isKeyboardOpen || isSoftkeyboardOpen) return
         if (offsetTopFromElement) {
           setOffsetTop(offsetTopFromElement)
         }
       }
     },
-    [keyboardIsOpen, softkeyboardIsOpen, offsetTop]
+    [isKeyboardOpen, isSoftkeyboardOpen, offsetTop]
   )
 
   const calcMaxHeight = useCallback(() => {
