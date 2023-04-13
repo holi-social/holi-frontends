@@ -14,8 +14,6 @@ export interface NamesValues {
   pronouns: string
 }
 
-// const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
-
 export const trimNames = (names: NamesValues): NamesValues => {
   const result: NamesValues = { ...names }
 

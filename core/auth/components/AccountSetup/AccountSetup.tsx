@@ -9,6 +9,7 @@ import NamesStep, { NamesValues, trimNames } from '@holi/core/auth/components/Ac
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { FieldErrors } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling, useFieldErrors } from '@holi/core/errors/hooks'
+import { onlyCharacters } from '@holi/core/helpers'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -56,8 +57,6 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
   },
 }
 
-const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
-
 const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -91,7 +90,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     // set new value
     setNames((names) => ({
       ...names,
-      [fieldName]: onlyAllowedCharacters(value),
+      [fieldName]: onlyCharacters(value),
     }))
 
     // reset error for this field
