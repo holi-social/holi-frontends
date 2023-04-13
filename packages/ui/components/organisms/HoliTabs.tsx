@@ -15,7 +15,6 @@ export type HoliTabsProps = {
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
   testID?: string
-  scrollEnabled?: boolean
   tabBarWidth?: number
   tabBarStyle?: StyleProp<ViewStyle>
   stepper?: boolean
@@ -29,11 +28,10 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   style,
   tabBarStyle,
   onChangeTab,
-  scrollEnabled = true,
   testID = 'tabs-module',
 }: HoliTabsProps) => {
   const { width: screenWidth } = useWindowDimensions()
-  const { currentStep, setStep, stepperRef } = useStepper(screenWidth, initialStep)
+  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
   const [activeTab, setActiveTab] = useState(currentStep)
 
   const mixins = useStyleMixins()
@@ -99,6 +97,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
           </View>
         ))}
         scrollEnabled={scrollEnabled}
+        onScroll={onScroll}
       />
     </View>
   )
