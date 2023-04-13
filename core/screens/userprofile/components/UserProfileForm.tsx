@@ -154,17 +154,13 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const onLocationClose = useCallback(
     (selectedSuggestion?: GeolocationSuggestion) => {
-      // @Todo remove this asap - The requestAnimationFrame hack in clearFocusAndClose of HoliAutocomplete necessitates to also perform the setters asyncronously (on mobile)
-      requestAnimationFrame(() => {
-        console.log('selected', selectedSuggestion)
-        setLocation(selectedSuggestion)
+      setLocation(selectedSuggestion)
 
-        if (!selectedSuggestion && locationQuery.length) {
-          setFieldErrors({ location: [t('profile.location.validation.error')] })
-        } else {
-          resetErrorsForField('location')
-        }
-      })
+      if (!selectedSuggestion && locationQuery.length) {
+        setFieldErrors({ location: [t('profile.location.validation.error')] })
+      } else {
+        resetErrorsForField('location')
+      }
     },
     [resetErrorsForField, t, locationQuery]
   )

@@ -1,3 +1,5 @@
+import { Geolocation } from '@holi/core/types'
+
 export interface Term {
   id: string
   title: string
@@ -13,11 +15,6 @@ export type SDG = Term & {
   number: number
 }
 export type Skill = Term
-
-export interface Geolocation {
-  latitude: number
-  longitude: number
-}
 
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
 export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
