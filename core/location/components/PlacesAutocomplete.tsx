@@ -5,6 +5,7 @@ import { StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
+import { Geolocation } from '@holi/core/types'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
@@ -12,10 +13,7 @@ const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
-  coordinates?: {
-    latitude: number
-    longitude: number
-  }
+  coordinates?: Geolocation
 }
 
 interface PlacesAutocompleteProps {

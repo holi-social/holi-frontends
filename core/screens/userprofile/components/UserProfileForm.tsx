@@ -65,13 +65,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 
   const submit = async () => {
+    // we need to explicitly perform a cleanup of the apollo __typename
+    const geolocation = location?.coordinates && {
+      latitude: location?.coordinates?.latitude,
+      longitude: location?.coordinates?.longitude,
+    }
+
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
       aboutMe,
       pronouns,
       location: location?.label,
-      geolocation: location?.coordinates,
+      geolocation,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 
@@ -140,7 +146,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     (pos: Position) => {
       const scrollTo = scrollViewRef.current?.scrollTo
       const scrollOptions = { y: pos.y, animated: true }
-      delayAnimation(scrollTo, scrollOptions, 16.6667) // 10000 ms / 60 fps
+      scrollTo && delayAnimation(scrollTo, scrollOptions, 16.6667) // 10000 ms / 60 fps
     },
     [scrollViewRef]
   )
