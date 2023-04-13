@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -21,6 +21,7 @@ export interface HoliWizardProps {
   steps: React.ReactNode[]
   currentStep: number
   currentStepOptions: HoliWizardCurrentStepOptions
+  screenWidth: number
   onNextPress: () => void
   onBackPress: () => void
   onSkipPress?: () => void
@@ -30,65 +31,71 @@ export interface HoliWizardProps {
   testID?: string
 }
 
-const HoliWizard = ({
-  steps,
-  currentStep,
-  currentStepOptions,
-  onNextPress,
-  onSkipPress,
-  onBackPress,
-  submitButtonLabel,
-  isNextButtonEnabled,
-  isLoading,
-  testID = 'holi-wizard',
-}: HoliWizardProps) => {
-  const { t } = useTranslation()
-  const mixins = useStyleMixins()
+const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
+  (
+    {
+      steps,
+      currentStep,
+      currentStepOptions,
+      screenWidth,
+      onNextPress,
+      onSkipPress,
+      onBackPress,
+      submitButtonLabel,
+      isNextButtonEnabled,
+      isLoading,
+      testID = 'holi-wizard',
+    },
+    ref
+  ) => {
+    const { t } = useTranslation()
+    const mixins = useStyleMixins()
 
-  const stepCount = steps.length
-  const { skipable = false, isBackButtonAvailable = true } = currentStepOptions
-  const progress = ((currentStep + 1) / stepCount) * 100
+    const stepCount = steps.length
+    const { skipable = false, isBackButtonAvailable = true } = currentStepOptions
+    const progress = ((currentStep + 1) / stepCount) * 100
 
-  return (
-    <SafeAreaView style={{ flex: 1 }} testID={testID}>
-      <View style={[mixins.container, styles.progressBarContainer]}>
-        <HoliProgressBar progress={progress} />
+    return (
+      <SafeAreaView style={{ flex: 1 }} testID={testID}>
+        <View style={[mixins.container, styles.progressBarContainer]}>
+          <HoliProgressBar progress={progress} />
 
-        <View style={styles.stepCountContainer}>
-          <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
-            {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
-          </HoliText>
+          <View style={styles.stepCountContainer}>
+            <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
+              {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
+            </HoliText>
 
-          {skipable && (
-            <HoliButton
-              label={t('global.skip')}
-              inline
-              transparent
-              variant="small"
-              onPress={onSkipPress}
-              testID={`${testID}-skip-btn`}
-            >
-              <HoliText size="extrasmall">{t('global.skip')}</HoliText>
-            </HoliButton>
-          )}
+            {skipable && (
+              <HoliButton
+                label={t('global.skip')}
+                inline
+                transparent
+                variant="small"
+                onPress={onSkipPress}
+                testID={`${testID}-skip-btn`}
+              >
+                <HoliText size="extrasmall">{t('global.skip')}</HoliText>
+              </HoliButton>
+            )}
+          </View>
         </View>
-      </View>
 
-      <HoliStepper steps={steps} currentStep={currentStep} lazy />
+        <HoliStepper steps={steps} currentStep={currentStep} screenWidth={screenWidth} ref={ref} lazy />
 
-      <HoliWizardNaviagtionButtons
-        onNextPress={onNextPress}
-        onBackPress={onBackPress}
-        submitButtonLabel={submitButtonLabel}
-        isBackButtonAvailable={isBackButtonAvailable && !!currentStep}
-        isNextButtonEnabled={isNextButtonEnabled}
-        isLastStep={currentStep === stepCount - 1}
-        isLoading={isLoading}
-        style={styles.buttonContainer}
-      />
-    </SafeAreaView>
-  )
-}
+        <HoliWizardNaviagtionButtons
+          onNextPress={onNextPress}
+          onBackPress={onBackPress}
+          submitButtonLabel={submitButtonLabel}
+          isBackButtonAvailable={isBackButtonAvailable && !!currentStep}
+          isNextButtonEnabled={isNextButtonEnabled}
+          isLastStep={currentStep === stepCount - 1}
+          isLoading={isLoading}
+          style={styles.buttonContainer}
+        />
+      </SafeAreaView>
+    )
+  }
+)
 
 HoliWizard.displayName = 'HoliWizard'
 

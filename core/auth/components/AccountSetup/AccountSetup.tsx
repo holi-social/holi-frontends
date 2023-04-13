@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
@@ -60,6 +60,7 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
 const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { width: screenWidth } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { user } = useLoggedInUser()
   const mixins = useStyleMixins()
@@ -67,7 +68,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
 
-  const { currentStep, goNext, goBack } = useStepper()
+  const { currentStep, goNext, goBack, stepperRef } = useStepper(screenWidth)
   const currentStepOptions = ACCOUNT_SETUP_STEP_OPTIONS[currentStep as AccountSetupStep]
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
@@ -253,12 +254,14 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         ]}
         currentStep={currentStep}
         currentStepOptions={currentStepOptions}
+        screenWidth={screenWidth}
         submitButtonLabel={t('global.next')}
         onNextPress={onNextPress}
         onBackPress={goBack}
         onSkipPress={goNext}
         isLoading={isLoading}
         isNextButtonEnabled={isNextButtonEnabled}
+        ref={stepperRef}
       />
     </HoliKeyboardSaveView>
   )
