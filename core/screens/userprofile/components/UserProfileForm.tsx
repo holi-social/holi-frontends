@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -37,7 +38,10 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
-  const [location, setLocation] = useState(user?.location ?? '')
+  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const scrollViewRef = useRef<ScrollView>(null)
@@ -66,7 +70,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       lastName,
       aboutMe,
       pronouns,
-      location,
+      location: location?.label,
+      geolocation: location?.coordinates,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 
@@ -142,12 +147,26 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setLocation(selectedSuggestion)
+
+      if (!selectedSuggestion && locationQuery.length) {
+        setFieldErrors({ location: [t('profile.location.validation.error')] })
+      } else {
+        resetErrorsForField('location')
+      }
+    },
+    [resetErrorsForField, t, locationQuery]
+  )
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       prependChildren={prependComponent}
       loading={loading}
+      keyboardShouldPersistTaps="handled"
       hideFooterWhenKeyboardIsOpen={true}
       testID={testID}
       style={styles.wrapper}
@@ -214,18 +233,21 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           {...scrollToPropsFor('pronouns')}
           style={styles.input}
         />
-        <HoliTextInput
-          value={location}
-          inputLabel={t('user.profileForm.location')}
-          accessibilityLabel={t('user.profileForm.location')}
+        <PlacesAutocomplete
+          label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
-          validationErrorText={fieldErrors?.location?.join()}
-          onChange={(text: string) => {
-            setLocation(text)
-            resetErrorsForField('location')
-          }}
-          {...scrollToPropsFor('location')}
+          id="user-location-input"
+          testID="user-location"
+          selected={location}
+          value={locationQuery}
+          onClose={onLocationClose}
+          onChangeText={setLocationQuery}
           style={styles.input}
+          suggestionsStyle={{ backgroundColor: colors.background10 }}
+          helperText={location ? undefined : t('profile.location.validation.helper')}
+          validationErrorText={fieldErrors?.location?.join()}
+          withCoordinates
+          {...scrollToPropsFor('location')}
         />
       </View>
     </HoliModalContentWrapper>
@@ -239,7 +261,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
     marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 250 : 100,
+    paddingBottom: Platform.OS === 'ios' ? 250 : 0,
   },
   headerContainer: {
     alignItems: 'center',

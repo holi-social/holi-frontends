@@ -1,5 +1,4 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import debounce from 'lodash.debounce'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
@@ -12,6 +11,40 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type Suggestion = {
   id: string
   label: string
+}
+interface AutocompleteItemProps {
+  suggestion: Suggestion
+  onFocus?: (suggestion: Suggestion) => void
+  onBlur?: (suggestion: Suggestion) => void
+  onPress?: (suggestion: Suggestion) => void
+  isLast: boolean
+  testID?: string
+}
+const HoliAutocompleteItem: React.VFC<AutocompleteItemProps> = ({
+  suggestion,
+  onBlur,
+  onFocus,
+  onPress,
+  testID,
+  isLast,
+}) => {
+  return (
+    <HoliButton
+      inline
+      transparent
+      label={suggestion.label}
+      accessibilityRole="menuitem"
+      style={[styles.listItem, isLast && styles.listItemLast]}
+      testID={testID && `${testID}-item-${suggestion.id}`}
+      onBlur={() => onBlur?.(suggestion)}
+      onFocus={() => onFocus?.(suggestion)}
+      onPress={() => onPress?.(suggestion)}
+    >
+      <HoliText selectable={false} numberOfLines={2}>
+        {suggestion.label}
+      </HoliText>
+    </HoliButton>
+  )
 }
 
 export type HoliAutocompleteProps = {
@@ -26,173 +59,161 @@ export type HoliAutocompleteProps = {
   loading?: boolean
   style?: StyleProp<ViewStyle>
   suggestions: Suggestion[]
-  debounce: number
   testID?: string
   inputProps?: TextInputProps
   id: string
   onSubmit?: (value: string) => void
-  onSelect?: (value: Suggestion) => void
+  onSelect?: (value: Suggestion) => void // should probably handle the non selection case
+  onClose?: (value?: Suggestion) => void
   suggestionsStyle?: StyleProp<ViewStyle>
 }
 
-const HoliAutocomplete = ({
-  style = {},
-  accessibilityLabel,
-  value,
-  inputLabel,
-  placeholder,
-  helperText,
-  validationErrorText,
-  onChange,
-  loading,
-  inputProps,
-  trailingIcon,
-  suggestions = [],
-  debounce: debounceValue,
-  id,
-  testID,
-  onSubmit,
-  onSelect,
-  suggestionsStyle = {},
-}: HoliAutocompleteProps) => {
-  const [searchText, setSearchText] = useState(value || '')
-  const [isOpened, setIsOpened] = useState(false)
-  const [focusedItem, setFocusedItem] = useState<string | null>(null)
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnChange = useCallback(
-    debounce((text: string) => {
-      onChange && onChange(text)
-    }, debounceValue ?? 0),
-    [debounceValue, onChange]
-  )
-  // Stop the invocation of the debounced function after unmounting
-  useEffect(() => {
-    return () => debouncedOnChange.cancel()
-  }, [debouncedOnChange])
-
-  const onChangeText = useCallback(
-    async (text: string) => {
-      setSearchText(text)
-      return debouncedOnChange(text)
+const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
+  (
+    {
+      style = {},
+      accessibilityLabel,
+      value,
+      inputLabel,
+      placeholder,
+      helperText,
+      validationErrorText,
+      onChange,
+      loading,
+      inputProps,
+      trailingIcon,
+      suggestions = [],
+      id, // think about encapsulating the selection mechanism from the ground up
+      testID,
+      onSubmit, // why do we need this?
+      onSelect,
+      onClose,
+      suggestionsStyle = {},
     },
-    [setSearchText, debouncedOnChange]
-  )
+    ref
+  ) => {
+    const [searchText, setSearchText] = useState(value || '')
+    const [isOpened, setIsOpened] = useState(false)
+    const [focusedItem, setFocusedItem] = useState<string | null>(null)
 
-  // Update search text if value changes from outside (e.g. cleared)
-  useEffect(() => {
-    setSearchText(value || '')
-  }, [value])
+    const onChangeText = useCallback(
+      async (text: string) => {
+        setSearchText(text)
+        return onChange?.(text)
+      },
+      [onChange]
+    )
 
-  const handleItemSelection = useCallback(
-    (item: Suggestion) => {
-      onSelect && onSelect(item)
-      onChangeText(item.label)
-      setIsOpened(false)
-      Keyboard.dismiss()
-    },
-    [setIsOpened, onChangeText, onSelect]
-  )
+    // Update search text if value changes from outside (e.g. cleared)
+    useEffect(() => {
+      setSearchText(value || '')
+    }, [value])
 
-  const clearFocusAndClose = useCallback(
-    (focusId: string | null) => {
-      // using setTimeout to make sure no other item was selected in the mean time
+    const handleItemSelection = useCallback(
+      (item: Suggestion) => {
+        onSelect?.(item)
+        onClose?.(item)
+        onChangeText(item.label)
+        setIsOpened(false)
+        Keyboard.dismiss()
+      },
+      [onChangeText, onSelect, onClose]
+    )
 
-      requestAnimationFrame(() => {
-        setFocusedItem((id) => {
-          if (id === focusId) {
-            setIsOpened(false)
-            return null
-          }
-          return id
-        })
-      })
-    },
-    [setFocusedItem, setIsOpened]
-  )
+    const clearFocusAndClose = useCallback(
+      (focusId: string | null) => {
+        if (isOpened) {
+          // using requestAnimationFrame to make sure no other item was selected in the mean time
+          requestAnimationFrame(() => {
+            setFocusedItem((id) => {
+              if (id === focusId) {
+                setIsOpened(false)
 
-  const setFocusAndOpen = useCallback(
-    (focusId: string) => {
+                // @Todo remove this asap and think about a different implementation alltogether - the hack also necessitates to delay the event handler call to the next rendercycle (on mobile)
+                requestAnimationFrame(() => {
+                  onClose?.()
+                })
+                return null
+              }
+              return id
+            })
+          })
+        }
+      },
+      [isOpened, onClose]
+    )
+
+    const setFocusAndOpen = useCallback((focusId: string) => {
       setIsOpened(true)
       setFocusedItem(focusId)
-    },
-    [setFocusedItem, setIsOpened]
-  )
+    }, [])
 
-  const onBlur = useCallback(() => {
-    clearFocusAndClose(focusedItem)
-  }, [clearFocusAndClose, focusedItem])
+    const onTextinputBlur = useCallback(() => {
+      clearFocusAndClose(focusedItem)
+    }, [clearFocusAndClose, focusedItem])
 
-  const onSubmitEditing = useCallback(() => {
-    onSubmit && onSubmit(searchText || '')
-    setIsOpened(false)
-  }, [onSubmit, setIsOpened, searchText])
+    const onSubmitEditing = useCallback(() => {
+      onSubmit?.(searchText || '')
+      setIsOpened(false)
+    }, [onSubmit, searchText])
 
-  const renderItem = useCallback(
-    (item: Suggestion, index: number) => {
-      const isLast = index === suggestions.length - 1
-      return (
-        <HoliButton
-          inline
-          transparent
-          key={item.id}
-          label={item.label}
-          accessibilityRole="menuitem"
-          onBlur={onBlur}
-          style={[styles.listItem, isLast && styles.listItemLast]}
-          onFocus={() => setFocusAndOpen('suggestion-' + item.id)}
-          onPress={() => handleItemSelection(item)}
-          testID={testID && `${testID}-item-${item.id}`}
-        >
-          <HoliText selectable={false} numberOfLines={2}>
-            {item.label}
-          </HoliText>
-        </HoliButton>
-      )
-    },
-    [testID, suggestions, handleItemSelection, setFocusAndOpen, onBlur]
-  )
+    const trailingComponent = useMemo(() => {
+      const icon = loading ? 'loader-4' : trailingIcon || 'search'
+      return <HoliIcon spinning={loading} icon={icon} size={22} />
+    }, [trailingIcon, loading])
 
-  const trailingComponent = useMemo(() => {
-    const icon = loading ? 'loader-4' : trailingIcon || 'search'
-    return <HoliIcon spinning={loading} icon={icon} size={22} />
-  }, [trailingIcon, loading])
-
-  return (
-    <View style={style}>
-      <HoliTextInput
-        inputLabel={inputLabel}
-        value={searchText}
-        placeholder={placeholder}
-        validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
-        helperText={isOpened && suggestions.length ? undefined : helperText}
-        accessibilityLabel={accessibilityLabel}
-        accessibilityAutoComplete="list"
-        accessibilityControls={`${id}-suggestions`}
-        accessibilityRole="combobox"
-        accessibilityExpanded={isOpened}
-        accessibilityHasPopup="menu"
-        trailingComponent={trailingComponent}
-        inputProps={{ ...inputProps, onSubmitEditing }}
-        inputStyle={[
-          isOpened && suggestions.length ? styles.textInputOpened : {},
-          focusedItem ? styles.textInputFocused : {},
-        ]}
-        labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
-        onChange={onChangeText}
-        onBlur={onBlur}
-        onFocus={() => setFocusAndOpen('input')}
-        testID={testID}
-      />
-      <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          isOpened ? suggestions.map(renderItem) : <></>
-        }
+    return (
+      <View style={style}>
+        <HoliTextInput
+          inputLabel={inputLabel}
+          value={searchText}
+          placeholder={placeholder}
+          validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
+          helperText={isOpened && suggestions.length ? undefined : helperText}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityAutoComplete="list"
+          accessibilityControls={`${id}-suggestions`}
+          accessibilityRole="combobox"
+          accessibilityExpanded={isOpened}
+          accessibilityHasPopup="menu"
+          trailingComponent={trailingComponent}
+          inputProps={{ ...inputProps, onSubmitEditing }}
+          inputStyle={[
+            isOpened && suggestions.length ? styles.textInputOpened : {},
+            focusedItem ? styles.textInputFocused : {},
+          ]}
+          labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
+          onChange={onChangeText}
+          onBlur={onTextinputBlur}
+          onFocus={() => setFocusAndOpen('input')}
+          testID={testID}
+          ref={ref}
+        />
+        <View nativeID={`${id}-suggestions`} accessibilityRole="menu" style={suggestionsStyle}>
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            isOpened ? (
+              suggestions.map((suggestion, index) => (
+                <HoliAutocompleteItem
+                  key={suggestion.id}
+                  isLast={index === suggestions.length - 1}
+                  onBlur={onTextinputBlur}
+                  onFocus={() => setFocusAndOpen('suggestion-' + suggestion.id)}
+                  onPress={handleItemSelection}
+                  {...{ testID, suggestion }}
+                />
+              ))
+            ) : (
+              <></>
+            )
+          }
+        </View>
       </View>
-    </View>
-  )
-}
+    )
+  }
+)
+
+HoliAutocomplete.displayName = 'HoliAutocomplete'
 
 export default memo(HoliAutocomplete)
 

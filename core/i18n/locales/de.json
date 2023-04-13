@@ -205,6 +205,8 @@
   "profile.interests.edit": "Interessen bearbeiten",
   "profile.interests.filter.empty": "Entschuldigung, es wurden keine passenden Interessen gefunden.",
   "profile.interests.filter.placeholder": "Interessen suchen...",
+  "profile.location.validation.error": "Wähle im Dropdown einen gültigen Standort aus oder lasse das Feld leer",
+  "profile.location.validation.helper": "Wähle im Dropdown einen gültigen Standort aus",
   "profile.loggedOut.heading": "holi beitreten und die Zukunft aktiv mitgestalten",
   "profile.loggedOut.image": "Abgemeldet Grafik",
   "profile.logout": "Abmelden",
