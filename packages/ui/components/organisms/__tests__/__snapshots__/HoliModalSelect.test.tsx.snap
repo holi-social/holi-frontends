@@ -284,7 +284,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
         >
           <View
             collapsable={false}
-            handlerTag={2}
+            handlerTag={3}
             handlerType="PanGestureHandler"
             onGestureHandlerEvent={[Function]}
             onGestureHandlerStateChange={[Function]}

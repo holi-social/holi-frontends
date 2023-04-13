@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -49,17 +49,21 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
     setStep(index)
   }
 
-  const renderedTabs = tabs.map((tab, i) => (
-    <View
-      style={tab.style}
-      accessibilityLabelledBy={`${id}-tab-${i}`}
-      nativeID={`${id}-panel-${i}`}
-      testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
-      key={i}
-    >
-      {tab.children}
-    </View>
-  ))
+  const renderedTabs = useMemo(
+    () =>
+      tabs.map((tab, i) => (
+        <View
+          style={tab.style}
+          accessibilityLabelledBy={`${id}-tab-${i}`}
+          nativeID={`${id}-panel-${i}`}
+          testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
+          key={i}
+        >
+          {tab.children}
+        </View>
+      )),
+    [tabs, testID, currentStep, id]
+  )
 
   return (
     <View style={[styles.holiTabs, style]} testID={testID}>
