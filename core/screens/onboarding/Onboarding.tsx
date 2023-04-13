@@ -39,7 +39,10 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
   }
 
-  const { currentStep, goNext, goBack, setStep, stepperRef } = useStepper(screenWidth, initialStep)
+  const { currentStep, goNext, goBack, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(
+    screenWidth,
+    initialStep
+  )
 
   // we can get initialStep asynchronously, so, react on it and set step
   useEffect(() => setStep(initialStep), [initialStep, setStep])
@@ -121,7 +124,8 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           // Account Setup
           <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
-        scrollEnabled={false}
+        scrollEnabled={scrollEnabled}
+        onScroll={onScroll}
         lazy
       />
     </View>

@@ -1,6 +1,14 @@
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -28,6 +36,8 @@ export interface HoliWizardProps {
   submitButtonLabel: string
   isNextButtonEnabled?: boolean
   isLoading?: boolean
+  scrollEnabled?: boolean
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   testID?: string
 }
 
@@ -44,6 +54,8 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
       submitButtonLabel,
       isNextButtonEnabled,
       isLoading,
+      scrollEnabled = false,
+      onScroll,
       testID = 'holi-wizard',
     },
     ref
@@ -80,7 +92,16 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
           </View>
         </View>
 
-        <HoliStepper steps={steps} currentStep={currentStep} screenWidth={screenWidth} ref={ref} lazy />
+        <HoliStepper
+          steps={steps}
+          currentStep={currentStep}
+          screenWidth={screenWidth}
+          ref={ref}
+          style={{ flexGrow: 1, flexShrink: 1 }}
+          scrollEnabled={scrollEnabled}
+          onScroll={onScroll}
+          lazy
+        />
 
         <HoliWizardNaviagtionButtons
           onNextPress={onNextPress}
@@ -117,6 +138,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     width: '100%',
     justifyContent: 'center',
+    flexShrink: 0,
     paddingTop: Platform.OS === 'android' ? 32 : 16,
   },
   buttonContainer: {
