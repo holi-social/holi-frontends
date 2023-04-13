@@ -246,8 +246,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       }
     }
     horizontal={true}
+    onScroll={[Function]}
     pagingEnabled={true}
-    scrollEnabled={true}
+    scrollEnabled={false}
+    scrollEventThrottle={16}
     showsHorizontalScrollIndicator={false}
     style={
       {
