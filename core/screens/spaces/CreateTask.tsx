@@ -169,7 +169,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       isAdmin &&
       setOptions({
         animation: 'slide_from_bottom',
-        title: t('spaces.task.add.title'),
+        title: t('spaces.tasks.add.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
