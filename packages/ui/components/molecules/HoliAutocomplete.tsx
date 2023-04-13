@@ -1,5 +1,5 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -57,32 +57,18 @@ const HoliAutocomplete = (
   }: HoliAutocompleteProps,
   ref: React.ForwardedRef<View>
 ) => {
-  const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
-
-  const onChangeText = useCallback(
-    async (text: string) => {
-      setSearchText(text)
-      return onChange && onChange(text)
-    },
-    [onChange]
-  )
-
-  // Update search text if value changes from outside (e.g. cleared)
-  useEffect(() => {
-    setSearchText(value || '')
-  }, [value])
 
   const handleItemSelection = useCallback(
     (item: Suggestion) => {
       onSelect && onSelect(item)
       onClose && onClose(item)
-      onChangeText(item.label)
+      onChange?.(item.label)
       setIsOpened(false)
       Keyboard.dismiss()
     },
-    [onChangeText, onSelect, onClose]
+    [onSelect, onClose, onChange]
   )
 
   const clearFocusAndClose = useCallback(
@@ -114,9 +100,9 @@ const HoliAutocomplete = (
   }, [clearFocusAndClose, focusedItem])
 
   const onSubmitEditing = useCallback(() => {
-    onSubmit && onSubmit(searchText || '')
+    onSubmit?.(value || '')
     setIsOpened(false)
-  }, [onSubmit, searchText])
+  }, [onSubmit, value])
 
   const renderItem = useCallback(
     (item: Suggestion, index: number) => {
@@ -152,7 +138,7 @@ const HoliAutocomplete = (
     <View style={style}>
       <HoliTextInput
         inputLabel={inputLabel}
-        value={searchText}
+        value={value}
         placeholder={placeholder}
         validationErrorText={!isOpened && validationErrorText} // hide it when opening the suggestions
         helperText={isOpened && suggestions.length ? undefined : helperText}
@@ -169,7 +155,7 @@ const HoliAutocomplete = (
           focusedItem ? styles.textInputFocused : {},
         ]}
         labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
-        onChange={onChangeText}
+        onChange={onChange}
         onBlur={onTextinputBlur}
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
@@ -185,7 +171,7 @@ const HoliAutocomplete = (
   )
 }
 
-export default memo(React.forwardRef(HoliAutocomplete))
+export default React.forwardRef(HoliAutocomplete)
 
 const styles = StyleSheet.create({
   textInputOpened: {
