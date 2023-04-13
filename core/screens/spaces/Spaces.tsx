@@ -154,7 +154,6 @@ const Spaces: React.VFC = () => {
               },
             ]}
             testID="spaces-tab-navigation"
-            scrollEnabled={Platform.OS !== 'android'}
           />
         )}
       </DefaultScrollHeaderLayout>
