@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -39,14 +39,18 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
-  useEffect(() => {
-    onChangeTab?.(currentStep)
-  }, [currentStep, onChangeTab])
+  const handleTabChange = useCallback(
+    (index: number) => {
+      setActiveTab(index)
+      setStep(index)
+    },
+    [setStep]
+  )
 
-  const handleTabChange = (index: number) => {
-    setActiveTab(index)
-    setStep(index)
-  }
+  useEffect(() => {
+    handleTabChange(currentStep)
+    onChangeTab?.(currentStep)
+  }, [currentStep, onChangeTab, handleTabChange])
 
   return (
     <View style={[styles.holiTabs, style]} testID={testID}>
