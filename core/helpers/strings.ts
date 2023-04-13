@@ -14,3 +14,5 @@ export const getInitials = (str: string, maxLength = 3) =>
     .map((name) => name[0] || '')
     .join('')
     .substring(0, maxLength) // maxLength is the max number of characters in the initials string
+
+export const onlyCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
