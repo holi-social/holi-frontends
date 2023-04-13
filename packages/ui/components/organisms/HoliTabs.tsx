@@ -31,6 +31,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   onChangeTab,
   scrollEnabled = true,
   testID = 'tabs-module',
+  stepper = true,
 }: HoliTabsProps) => {
   const { width: screenWidth } = useWindowDimensions()
   const { currentStep, setStep, stepperRef } = useStepper(screenWidth, initialStep)
@@ -47,6 +48,18 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
     setActiveTab(index)
     setStep(index)
   }
+
+  const renderedTabs = tabs.map((tab, i) => (
+    <View
+      style={tab.style}
+      accessibilityLabelledBy={`${id}-tab-${i}`}
+      nativeID={`${id}-panel-${i}`}
+      testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
+      key={i}
+    >
+      {tab.children}
+    </View>
+  ))
 
   return (
     <View style={[styles.holiTabs, style]} testID={testID}>
@@ -83,23 +96,17 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
         </View>
       </View>
 
-      <HoliStepper
-        ref={stepperRef}
-        currentStep={currentStep}
-        screenWidth={screenWidth}
-        steps={tabs.map((tab, i) => (
-          <View
-            style={tab.style}
-            accessibilityLabelledBy={`${id}-tab-${i}`}
-            nativeID={`${id}-panel-${i}`}
-            testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
-            key={i}
-          >
-            {tab.children}
-          </View>
-        ))}
-        scrollEnabled={scrollEnabled}
-      />
+      {stepper ? (
+        <HoliStepper
+          ref={stepperRef}
+          currentStep={currentStep}
+          screenWidth={screenWidth}
+          steps={renderedTabs}
+          scrollEnabled={scrollEnabled}
+        />
+      ) : (
+        renderedTabs
+      )}
     </View>
   )
 }
