@@ -45,7 +45,6 @@ const LinkHub: React.VFC<ScreenProps> = () => {
       }),
     [setOptions, t]
   )
-
   const onAddButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
   }

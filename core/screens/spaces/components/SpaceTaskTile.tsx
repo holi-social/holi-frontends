@@ -39,7 +39,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task }: SpaceTaskTilePro
       </View>
       <View style={styles.detailContainer}>
         <HoliText bold>{task.name}</HoliText>
-        <HoliButton label="" transparent inline onPress={() => {}}>
+        <HoliButton label="" transparent inline>
           <HoliIcon icon="more" size={16} color={colors.foreground30} style={styles.iconGroupIcon} />
         </HoliButton>
       </View>

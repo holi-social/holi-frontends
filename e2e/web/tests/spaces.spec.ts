@@ -342,7 +342,6 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
     await clickElementByTestId(page, 'space-tabs-button-2-inactive') // Get involved
     await clickElementByTestId(page, 'btn-right-collaboration-area-card') // Little + button
     await addDigitalTool(page)
-    await clickElementByTestId(page, 'space-tabs-button-2-inactive')
     const toolIcon = await locateElementByTestId(page, 'tool-icon')
     const toolName = await locateElementByTestId(page, 'tool-title')
     const toolContextBtn = await locateElementByTestId(page, 'digital-toolkit-btn')
