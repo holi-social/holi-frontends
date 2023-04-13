@@ -122,7 +122,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
       <HoliGridWrapper itemsInRow={itemsInRow}>
         {tasks.map((task) => (
           <HoliGridCell key={task.id}>
-            <SpaceTaskTile task={task} style={styles.taskTile} />
+            <SpaceTaskTile task={task} />
           </HoliGridCell>
         ))}
       </HoliGridWrapper>
@@ -184,6 +184,8 @@ const styles = StyleSheet.create({
   tasksListContainer: { padding: 8 },
   taskTile: {
     flex: 1,
+    height: 300,
+    marginVertical: 8,
   },
   collaborationAreaContainer: {
     marginBottom: 16,
