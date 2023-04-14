@@ -69,7 +69,7 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
