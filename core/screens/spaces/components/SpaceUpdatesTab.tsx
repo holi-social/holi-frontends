@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 8,
     flex: 1,
-    maxWidth: '33%',
   },
   buttonSpacingWeb: {
     paddingHorizontal: 6,
