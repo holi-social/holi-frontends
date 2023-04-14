@@ -214,7 +214,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
               imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
               headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.firstSuccess.describtion')}
+              descriptionText={t('registration.accountSetup.firstSuccess.description')}
               contentStyle={styles.stepContainer}
             />
           </ScrollView>,
@@ -246,7 +246,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
               imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.success.describtion')}
+              descriptionText={t('registration.accountSetup.success.description')}
               contentStyle={styles.stepContainer}
             />
           </ScrollView>,

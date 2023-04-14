@@ -102,7 +102,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
             {t('registration.signUp.heading')}
           </HoliHeading>
 
-          <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+          <HoliText style={styles.description}>{t('registration.signUp.description')}</HoliText>
           <FormBuilder
             flow={flow}
             onSubmit={onSubmit}
