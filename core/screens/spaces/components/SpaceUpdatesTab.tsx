@@ -84,7 +84,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliText
                   size="small"
                   numberOfLines={1}
-                  ellipsizeMode="tail"
+                  ellipsizeMode="clip"
                   color={isFilterAll ? 'white100' : 'black300'}
                 >
                   {t('spaces.updates.filter.all')}
@@ -106,7 +106,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliText
                   size="small"
                   numberOfLines={1}
-                  ellipsizeMode="tail"
+                  ellipsizeMode="clip"
                   color={isFilterPublic ? 'white100' : 'black300'}
                 >
                   {t('spaces.updates.filter.public')}
@@ -128,7 +128,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 <HoliText
                   size="small"
                   numberOfLines={1}
-                  ellipsizeMode="tail"
+                  ellipsizeMode="clip"
                   color={isFilterMembers ? 'white100' : 'black300'}
                 >
                   {t('spaces.updates.filter.members')}
