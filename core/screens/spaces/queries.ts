@@ -458,12 +458,12 @@ export const spacesByMemberIdQuery = gql`
   }
 `
 
-export const SpacePostFragment = gql`
+export const SpaceUpdatePostFragment = gql`
   ${userAvatarFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
-  fragment PostFragment on Post {
+  fragment SpaceUpdatePostFragment on Post {
     id
     title
     text
@@ -499,13 +499,13 @@ export const SpacePostFragment = gql`
 `
 
 export const spacePostsQuery = gql`
-  ${SpacePostFragment}
+  ${SpaceUpdatePostFragment}
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id
       posts(offset: $offset, limit: $limit, visibility: $visibility) {
         data {
-          ...PostFragment
+          ...SpaceUpdatePostFragment
         }
       }
     }
