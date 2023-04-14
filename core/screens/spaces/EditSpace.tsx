@@ -183,6 +183,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   type OnBoardCardProps = {
     content: OnboardingCard
   }
+
   const OnBoardCard = ({ content }: OnBoardCardProps) => {
     return (
       <View style={styles.onboardCardContainer}>
