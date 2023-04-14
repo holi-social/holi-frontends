@@ -113,7 +113,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
 
   return (
     <>
-      <HoliHeading level="1" size="large" testID="headline">
+      <HoliHeading level="1" size="large" testID="account-setup-names-step-headline">
         {t('registration.accountSetup.names.heading')}
       </HoliHeading>
 
