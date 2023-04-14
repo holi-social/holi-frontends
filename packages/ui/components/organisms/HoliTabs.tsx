@@ -103,17 +103,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
           ref={stepperRef}
           currentStep={currentStep}
           screenWidth={screenWidth}
-          steps={tabs.map((tab, i) => (
-            <View
-              style={tab.style}
-              accessibilityLabelledBy={`${id}-tab-${i}`}
-              nativeID={`${id}-panel-${i}`}
-              testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
-              key={i}
-            >
-              {tab.children}
-            </View>
-          ))}
+          steps={renderedTabs}
           scrollEnabled={scrollEnabled}
           onScroll={onScroll}
         />
