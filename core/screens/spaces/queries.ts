@@ -402,6 +402,18 @@ export type CreateTaskResponse = {
   createTask: Task
 }
 
+export interface DeleteTaskResponse {
+  success: boolean
+}
+
+export const deleteTaskMutation = gql`
+  mutation DeleteTask($id: UUID!) {
+    deleteTask(id: $id) {
+      success
+    }
+  }
+`
+
 export const mySpaceQuery = gql`
   ${SpaceOverviewFragment}
 
