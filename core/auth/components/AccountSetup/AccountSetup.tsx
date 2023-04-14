@@ -212,8 +212,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           >
             <CenteredImageHeadlineDescriptionLayout
               imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
-              imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
+              imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
+              headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
               descriptionText={t('registration.accountSetup.firstSuccess.describtion')}
               contentStyle={styles.stepContainer}
             />
