@@ -32,7 +32,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
   // make sure we have started the wizard
   await clickElementByTestId(page, 'community-guidelines-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await clickElementByTestId(page, 'privacy-policy-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
   // switch to login
