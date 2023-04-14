@@ -63,7 +63,11 @@ const SpaceFragment = gql`
       slotsTaken
       location
       regularity
+      visibility
+      locationType
       thumbnail
+      contactEmail
+      contactPhone
       creator {
         ...UserAvatar
       }
