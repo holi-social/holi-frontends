@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Animated, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -18,9 +18,24 @@ const HoliProgressBar: React.FC<HoliProgressBarProps> = ({
   barStyle,
   progressStyle,
 }) => {
+  const widthAnim = useRef(new Animated.Value(progress)).current
+  const widthAnimValue = widthAnim.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0%', '100%'],
+  })
+
+  // Animate on `progress` prop change
+  useEffect(() => {
+    Animated.timing(widthAnim, {
+      toValue: progress,
+      duration: 300,
+      useNativeDriver: false,
+    }).start()
+  }, [progress, widthAnim])
+
   return (
     <View testID={testID} style={[styles.bar, barStyle, isSmall && { height: 6 }]}>
-      <View style={[styles.progress, progressStyle, isSmall && { height: 6 }, { width: `${progress}%` }]} />
+      <Animated.View style={[styles.progress, progressStyle, isSmall && { height: 6 }, { width: widthAnimValue }]} />
     </View>
   )
 }

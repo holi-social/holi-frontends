@@ -86,7 +86,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   }, [onResize, onScroll, preventAutoScrolling, active])
 
   return {
-    softkeyboardIsOpen: !!lastKeyboardOpen,
+    isSoftkeyboardOpen: !!lastKeyboardOpen,
     softkeyboardHeight: lastKeyboardHeight,
     viewPortHeight: lastViewPortHeight,
   }
