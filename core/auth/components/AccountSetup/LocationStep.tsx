@@ -37,7 +37,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
           id="user-location-input"
           testID="user-location"
           suggestionsStyle={{ backgroundColor: colors.background10 }}
-          helperText={location ? undefined : t('profile.location.validation.helper')}
+          helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
           withCoordinates
           {...placesAutocompleteProps}
           {...scrollToInputWithId('location')}
