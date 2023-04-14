@@ -113,6 +113,8 @@ export const finishAccountSetup = async (
   await clickElementByTestId(page, 'holi-wizard-next-btn')
   // skip interests step
   await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  // skip location step
+  await clickElementByTestId(page, 'holi-wizard-skip-btn')
   // skip interests step
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 }
