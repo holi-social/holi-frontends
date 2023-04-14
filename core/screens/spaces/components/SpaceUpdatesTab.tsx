@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -47,7 +47,11 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
   const setButtonStyles = (isSelected: boolean, isLast: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isLast ? {} : styles.buttonGap, isSelected ? styles.buttonSelected : {}])
+    StyleSheet.flatten([
+      Platform.OS === 'web' ? styles.buttonSpacingWeb : styles.buttonSpacing,
+      isLast ? {} : styles.buttonGap,
+      isSelected ? styles.buttonSelected : {},
+    ])
 
   return (
     <>
@@ -172,7 +176,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 8,
     flex: 1,
-    // minWidth: 'fit-content',
+    maxWidth: '33%',
+  },
+  buttonSpacingWeb: {
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+    flex: 1,
+    minWidth: 'fit-content',
     maxWidth: '33%',
   },
   buttonSelected: {
