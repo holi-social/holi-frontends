@@ -52,7 +52,7 @@ const DeleteTaskButton: React.VoidFunctionComponent<DeleteTaskButtonProps> = ({
         tintColor={colors.error20}
         contentStyle={style}
         disabled={loading}
-        testID="task-delete-btn"
+        testID="btn-to-delete-task"
       />
       <HoliConfirmation
         show={showConfirmationModal}

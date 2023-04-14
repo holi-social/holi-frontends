@@ -86,7 +86,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
             onModalDismiss={hide}
             iconSize={16}
             tintColor={colors.foreground30}
-            testID="task-more-options-btn"
+            testID="btn-task-more-options"
             onPress={() => {
               visible && hide()
               show()
@@ -97,7 +97,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
               label={t('global.edit')}
               onPress={() => visible && hide()}
               contentStyle={styles.buttonWithIcon}
-              testID="task-edit-btn"
+              testID="btn-to-edit-task"
             />
             <DeleteTaskButton
               taskId={task.id || ''}

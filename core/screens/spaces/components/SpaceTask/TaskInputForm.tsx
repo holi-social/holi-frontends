@@ -354,6 +354,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           placeholder={t('spaces.input.task.contactPhone.placeholder')}
           inputLabel={t('spaces.input.task.contactPhone.label')}
           validationErrorText={contactPhoneError}
+          type="number"
           value={contactPhone}
           onChange={onChangeContactPhone}
           style={styles.marginSeparator}
