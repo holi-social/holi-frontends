@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React, { useState } from 'react'
 
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -65,29 +65,14 @@ describe('HoliModalSelect', () => {
     const firstOption = screen.getAllByTestId('item-holi-modal-select')[0]
     fireEvent.press(firstOption)
 
-    // check firstOption is selected
-    expect(within(firstOption).getByTestId('checked-holi-modal-select')).toBeDefined()
+    // check the button has the correct value after modal is closed
+    expect(screen.getByTestId('btn-holi-modal-select')).toHaveTextContent('Public')
 
     // ensure no other option is selected
+    fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     expect(screen.queryAllByTestId('checked-holi-modal-select').length).toBe(1)
 
     // check render correctly after selection
     expect(screen.toJSON()).toMatchSnapshot()
-  })
-
-  it('correctly displays selected option title in the button when modal is closed', async () => {
-    render(<ParentComponent />)
-    const modalSelectButton = screen.getByTestId('btn-holi-modal-select')
-    fireEvent.press(modalSelectButton)
-
-    // select first option
-    const firstOption = screen.getAllByTestId('item-holi-modal-select')[0]
-    fireEvent.press(firstOption)
-
-    // close modal (click on backdrop)
-    fireEvent.press(screen.getByTestId('holi-modal-select-backdrop'))
-
-    // check that the first option's title is in the button
-    expect(modalSelectButton).toHaveTextContent(defaultOptions[0].title)
   })
 })
