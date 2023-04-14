@@ -163,11 +163,10 @@ const styles = StyleSheet.create({
   },
   postTitleLink: {
     display: 'flex',
+    marginBottom: 8,
   },
   postTitle: {
     color: colors.foreground20,
-    paddingTop: 16,
-    paddingBottom: 8,
   },
   readMoreText: {
     color: colors.foreground30,
