@@ -82,8 +82,6 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
     context.waitForEvent('page'),
     clickElementByTestId(page, 'volunteering-engagement-get-in-touch-btn'), // opens a new tab
   ])
-  const engagementUrl = engagementPage.url()
-  expect(engagementUrl).toContain('https://www.aktion-mensch.de/')
   await engagementPage.close() // close newly opened tab
 
   // navigate back

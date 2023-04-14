@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -29,6 +29,7 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   tabBarStyle,
   onChangeTab,
   testID = 'tabs-module',
+  stepper = true,
 }: HoliTabsProps) => {
   const { width: screenWidth } = useWindowDimensions()
   const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
@@ -37,14 +38,34 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
-  useEffect(() => {
-    onChangeTab?.(currentStep)
-  }, [currentStep, onChangeTab])
+  const handleTabChange = useCallback(
+    (index: number) => {
+      setActiveTab(index)
+      setStep(index)
+    },
+    [setStep]
+  )
 
-  const handleTabChange = (index: number) => {
-    setActiveTab(index)
-    setStep(index)
-  }
+  useEffect(() => {
+    handleTabChange(currentStep)
+    onChangeTab?.(currentStep)
+  }, [currentStep, onChangeTab, handleTabChange])
+
+  const renderedTabs = useMemo(
+    () =>
+      tabs.map((tab, i) => (
+        <View
+          style={tab.style}
+          accessibilityLabelledBy={`${id}-tab-${i}`}
+          nativeID={`${id}-panel-${i}`}
+          testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
+          key={i}
+        >
+          {tab.children}
+        </View>
+      )),
+    [tabs, testID, currentStep, id]
+  )
 
   return (
     <View style={[styles.holiTabs, style]} testID={testID}>
@@ -81,24 +102,18 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
         </View>
       </View>
 
-      <HoliStepper
-        ref={stepperRef}
-        currentStep={currentStep}
-        screenWidth={screenWidth}
-        steps={tabs.map((tab, i) => (
-          <View
-            style={tab.style}
-            accessibilityLabelledBy={`${id}-tab-${i}`}
-            nativeID={`${id}-panel-${i}`}
-            testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
-            key={i}
-          >
-            {tab.children}
-          </View>
-        ))}
-        scrollEnabled={scrollEnabled}
-        onScroll={onScroll}
-      />
+      {stepper ? (
+        <HoliStepper
+          ref={stepperRef}
+          currentStep={currentStep}
+          screenWidth={screenWidth}
+          steps={renderedTabs}
+          scrollEnabled={scrollEnabled}
+          onScroll={onScroll}
+        />
+      ) : (
+        renderedTabs
+      )}
     </View>
   )
 }
