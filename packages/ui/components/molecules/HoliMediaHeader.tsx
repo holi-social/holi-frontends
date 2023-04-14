@@ -31,43 +31,44 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
   const authorName = author.fullName || t('user.profileView.anonymous')
 
   return (
-    <View style={[styles.row, style]} testID={testID}>
-      <HoliAvatar
-        imageSrc={author.avatar}
-        label={authorName}
-        initials={author.avatarLabel || ''}
-        defaultColor={author.avatarDefaultColor || ''}
-        size="small"
-      />
-
-      <View style={[styles.titleContainer]}>
-        <HoliText bold={boldTitle}>{title}</HoliText>
-        <View style={styles.row}>
-          {!!formattedDate && (
-            <HoliText size="small" style={styles.subline}>
-              {formattedDate}
+    <>
+      {isPublic !== undefined &&
+        (isPublic ? (
+          <View style={styles.row}>
+            <HoliIcon icon={'global'} size={12} filled={true} style={styles.visibility} />
+            <HoliText size="extrasmall" style={styles.visibility}>
+              {t('spaces.updates.filter.public')}
             </HoliText>
-          )}
-          {!!formattedDate && isPublic !== undefined && <HoliText style={styles.subline}>𐤟</HoliText>}
-          {isPublic !== undefined &&
-            (isPublic ? (
-              <>
-                <HoliIcon icon={'global'} size={14} filled={true} style={styles.subline} />
-                <HoliText size="small" style={styles.subline}>
-                  {t('spaces.updates.filter.public')}
-                </HoliText>
-              </>
-            ) : (
-              <>
-                <HoliIcon icon={'lock'} size={14} filled={true} style={styles.subline} />
-                <HoliText size="small" style={styles.subline}>
-                  {t('spaces.updates.filter.members')}
-                </HoliText>
-              </>
-            ))}
+          </View>
+        ) : (
+          <View style={styles.row}>
+            <HoliIcon icon={'lock'} size={12} filled={true} style={styles.visibility} />
+            <HoliText size="extrasmall" style={styles.visibility}>
+              {t('spaces.updates.filter.members')}
+            </HoliText>
+          </View>
+        ))}
+      <View style={[styles.row, style]} testID={testID}>
+        <HoliAvatar
+          imageSrc={author.avatar}
+          label={authorName}
+          initials={author.avatarLabel || ''}
+          defaultColor={author.avatarDefaultColor || ''}
+          size="small"
+        />
+
+        <View style={[styles.titleContainer]}>
+          <HoliText bold={boldTitle}>{title}</HoliText>
+          <View style={styles.row}>
+            {!!formattedDate && (
+              <HoliText size="small" style={styles.date}>
+                {formattedDate}
+              </HoliText>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </>
   )
 }
 
@@ -78,12 +79,16 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     marginHorizontal: 16,
+    marginBottom: 16,
     flex: 1,
   },
-  subline: {
+  date: {
     marginTop: 4,
-    marginRight: 4,
     color: colors.foreground20,
+  },
+  visibility: {
+    marginRight: 4,
+    marginBottom: 16,
   },
 })
 
