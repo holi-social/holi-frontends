@@ -124,15 +124,12 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         : undefined
     }, [t, loading, called, data, placeSuggestions, value])
 
-    // Hide suggestions when the autocomplete is empty
-    const displayedSuggestions = value?.trim() ? placeSuggestions : []
-
     // TODO: fix autofocus
     return (
       <HoliAutocomplete
         loading={loading}
         onChange={getSuggestions}
-        suggestions={displayedSuggestions}
+        suggestions={placeSuggestions}
         inputLabel={label}
         accessibilityLabel={label}
         placeholder={placeholder}
