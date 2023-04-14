@@ -31,6 +31,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -58,24 +59,24 @@ const { useParam } = createParam<EditSpaceParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 type OnboardingCard = {
-  image: string
+  image: StaticImageData
   description: string
   instruction: string
 }
 
 const onboardingContentList: Array<OnboardingCard> = [
   {
-    image: '@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg',
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
     description: 'spaces.edit.onboarding.description',
     instruction: 'spaces.edit.onboarding.instruction',
   },
   {
-    image: '@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg',
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
     description: 'spaces.edit.onboarding.tip1',
     instruction: '',
   },
   {
-    image: '@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg',
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
     description: 'spaces.edit.onboarding.tip2',
     instruction: '',
   },
@@ -110,8 +111,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { visible, show, hide } = useModalState()
 
   useEffect(() => {
-    setIsOnboarding(true)
-    show()
+    if (!global.hasOwnSpaces) {
+      setIsOnboarding(!global.hasOwnSpaces)
+      show()
+    }
   }, [show])
 
   const openEditModal = useCallback(
@@ -184,7 +187,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     return (
       <View style={styles.onboardCardContainer}>
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg')}
+          imageSource={content.image}
           width={202}
           height={180}
           label={''}
@@ -501,7 +504,6 @@ const getStyles = (statusBarHeight: number) =>
     },
     carouselContainer: {
       width: '100%',
-      backgroundColor: 'green',
     },
     onboardCardContainer: {
       padding: 24,
@@ -510,16 +512,14 @@ const getStyles = (statusBarHeight: number) =>
       borderColor: colors.foreground30,
       alignItems: 'center',
       alignContent: 'center',
-      backgroundColor: 'yellow', //colors.background20,
+      backgroundColor: colors.background20,
       height: '100%',
     },
     onboardingDescription: {
       marginTop: 24,
-      backgroundColor: 'red',
     },
     onboardingInstruction: {
       marginTop: 12,
-      backgroundColor: 'blue',
     },
   })
 
