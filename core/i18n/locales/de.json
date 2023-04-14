@@ -243,6 +243,8 @@
   "profile.userprofile.tabs.spaces.empty": "{{fullName}} ist bisher in keinem Space Mitglied.",
   "registration.accountSetup.firstSuccess.describtion": "Wir freuen uns, dir den besten digitalen Ort zu zeigen, an dem du zusammenkommen und Gutes für die Menschen und den Planeten tun kannst. Erzähl uns etwas über dich für eine ganzheitliche Erfahrung.",
   "registration.accountSetup.firstSuccess.heading": "Schön dich dabei zu haben, {{name}}",
+  "registration.accountSetup.location.describtion": "Wir verbessern dein Erlebnis auf holi mit relevanteren Inhalten basierend auf deinem Standort.",
+  "registration.accountSetup.location.heading": "Wo hältst du dich meistens auf?",
   "registration.accountSetup.names.heading": "Lass uns dich als Erstes kennenlernen",
   "registration.accountSetup.names.pronouns.hint": "Ideen: sie/ihr, er/ihm, they/them, Einhorn 🦄",
   "registration.accountSetup.names.validation.firstName.maxCharacters": "Vorname darf maximal {{value}} Zeichen lang sein",
