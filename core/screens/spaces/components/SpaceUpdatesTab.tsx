@@ -170,8 +170,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   buttonWrapper: {
-    paddingTop: 12,
-    paddingBottom: 12,
+    paddingVertical: 12,
   },
   wrapper: {
     paddingTop: 12,
