@@ -89,8 +89,8 @@ export const finishAccountSetup = async ({
   // provide user name
   await fillFieldByTestId('pronouns-input', pronouns)
   // submit name changes
-  // first tap to hide keyboard
-  await tapOnElementWithTestId('holi-wizard-next-btn')
+  // tap headline to hide keyboard
+  await tapOnElementWithTestId('account-setup-names-step-headline')
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   // Pre-success step
@@ -98,6 +98,9 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-next-btn')
   // Interests step
   await waitForElementWithTestId('account-setup-interests-step')
+  await tapOnElementWithTestId('holi-wizard-skip-btn')
+  // Location step
+  await waitForElementWithTestId('account-setup-location-step')
   await tapOnElementWithTestId('holi-wizard-skip-btn')
   // Success step
   await waitForElementWithTestId('account-setup-success-step')
