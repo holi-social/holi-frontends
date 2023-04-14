@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?ph5r53');
-  src:  url('fonts/icomoon.eot?ph5r53#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?ph5r53') format('truetype'),
-    url('fonts/icomoon.woff?ph5r53') format('woff'),
-    url('fonts/icomoon.svg?ph5r53#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?dp1v3z');
+  src:  url('fonts/icomoon.eot?dp1v3z#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?dp1v3z') format('truetype'),
+    url('fonts/icomoon.woff?dp1v3z') format('woff'),
+    url('fonts/icomoon.svg?dp1v3z#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -178,66 +178,75 @@
 .icon-lock:before {
   content: "\e932";
 }
-.icon-more:before {
+.icon-map-pin-2:before {
   content: "\e933";
 }
-.icon-newspaper:before {
+.icon-money-euro-circle:before {
   content: "\e934";
 }
-.icon-notification-2:before {
+.icon-more:before {
   content: "\e935";
 }
-.icon-phone:before {
+.icon-newspaper:before {
   content: "\e936";
 }
-.icon-plant:before {
+.icon-notification-2:before {
   content: "\e937";
 }
-.icon-pushpin:before {
+.icon-phone:before {
   content: "\e938";
 }
-.icon-search-2:before {
+.icon-plant:before {
   content: "\e939";
 }
-.icon-search:before {
+.icon-pushpin:before {
   content: "\e93a";
 }
-.icon-settings-3:before {
+.icon-refresh:before {
   content: "\e93b";
 }
-.icon-share-box:before {
+.icon-search-2:before {
   content: "\e93c";
 }
-.icon-share:before {
+.icon-search:before {
   content: "\e93d";
 }
-.icon-smiley:before {
+.icon-settings-3:before {
   content: "\e93e";
 }
-.icon-spaces:before {
+.icon-share-box:before {
   content: "\e93f";
 }
-.icon-sun:before {
+.icon-share:before {
   content: "\e940";
 }
-.icon-time:before {
+.icon-smiley:before {
   content: "\e941";
 }
-.icon-timer-2-line:before {
+.icon-spaces:before {
   content: "\e942";
 }
-.icon-tools:before {
+.icon-sun:before {
   content: "\e943";
 }
-.icon-twitter:before {
+.icon-time:before {
   content: "\e944";
 }
-.icon-user-smile:before {
+.icon-timer-2-line:before {
   content: "\e945";
 }
-.icon-wallet-3-line:before {
+.icon-tools:before {
   content: "\e946";
 }
-.icon-whatsapp:before {
+.icon-twitter:before {
   content: "\e947";
+}
+.icon-user-smile:before {
+  content: "\e948";
+}
+.icon-wallet-3-line:before {
+  content: "\e949";
+}
+.icon-whatsapp:before {
+  content: "\e94a";
 }

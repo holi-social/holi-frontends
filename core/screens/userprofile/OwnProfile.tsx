@@ -108,7 +108,7 @@ const OwnProfile: React.VFC = () => {
 
   return (
     <LoginProtection>
-      <DefaultScrollHeaderLayout>
+      <DefaultScrollHeaderLayout keyboardShouldPersistTaps="handled">
         {user ? (
           <>
             {editMode && (
@@ -132,7 +132,6 @@ const OwnProfile: React.VFC = () => {
                   {editMode === 'interests' && (
                     <UserChipLoader
                       user={user}
-                      onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
                       queryToUse={interestsQuery}
@@ -141,20 +140,13 @@ const OwnProfile: React.VFC = () => {
                   {editMode === 'skills' && (
                     <UserChipLoader
                       user={user}
-                      onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'skills'}
                       queryToUse={skillsQuery}
                     />
                   )}
                   {editMode === 'sdgs' && (
-                    <UserChipLoader
-                      user={user}
-                      onCancel={closeModal}
-                      onSubmit={closeModal}
-                      keyInUserObject={'sdgs'}
-                      queryToUse={sdgsQuery}
-                    />
+                    <UserChipLoader user={user} onSubmit={closeModal} keyInUserObject={'sdgs'} queryToUse={sdgsQuery} />
                   )}
                 </HoliKeyboardSaveView>
               </HoliModal>
