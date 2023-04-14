@@ -22,7 +22,7 @@ export type ChipProps = PressableProps & {
   checked?: boolean
   disabled?: boolean
   hideIcon?: boolean
-  onPress?: null | ((event: GestureResponderEvent) => void)
+  onPress?: (event: GestureResponderEvent) => void
   style?: ViewStyle | ViewStyle[]
   fontStyle?: TextStyle
   numberOfLines?: number
@@ -64,7 +64,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
       <Pressable
         {...accessibilityProps}
         {...(disabled ? { disabled } : {})}
-        onPress={(e) => onPress && onPress(e)}
+        onPress={(e) => onPress?.(e)}
         style={({ focused, hovered, pressed }) => [
           styles.pressable,
           !disabled && focused && styles.focused,

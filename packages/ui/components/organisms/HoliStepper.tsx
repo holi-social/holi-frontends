@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useRef, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type { ScrollViewProps } from 'react-native'
 
 import { delayAnimation } from '@holi/ui/helper'
@@ -11,6 +11,8 @@ interface StepperController {
   setStep: (nextStep: number) => void
   goNext: () => void
   goBack: () => void
+  scrollEnabled: boolean
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
 }
 
 export const useStepper = (screenWidth: number, initialStep = 0): StepperController => {
@@ -18,12 +20,18 @@ export const useStepper = (screenWidth: number, initialStep = 0): StepperControl
 
   const ref = React.useRef<ScrollView>(null)
   const [currentStep, setCurrentStep] = useState(initialStep)
+  // scrollEnabled=true prop on ScrollView is necessary on Safari for scroll animations
+  // but like in Onboarding we want to prevent users of manually swiping of ScrollView and goind to another steps
+  // so, we enable scroll only for a short time whe animation will happen
+  const [scrollEnabled, setScrollEnabled] = useState(false)
+  const scrollPoint = useRef(0)
 
   const handleNextStep = useCallback(
     (nextStep: number) => {
       const scrollTo = ref.current?.scrollTo
-      const scrollPoint = nextStep * screenWidth
-      const scrollOptions = { x: scrollPoint, y: 0, animated: true }
+      scrollPoint.current = nextStep * screenWidth
+      const scrollOptions = { x: scrollPoint.current, y: 0, animated: true }
+      setScrollEnabled(true) // enable scrolling for correct Safari animation
       delayAnimation(scrollTo, scrollOptions, delay)
 
       return nextStep
@@ -46,12 +54,22 @@ export const useStepper = (screenWidth: number, initialStep = 0): StepperControl
     [handleNextStep]
   )
 
+  // `onScroll` is used to detect scroll animation end and disable `scrollEnabled`
+  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollY = event.nativeEvent.contentOffset.x
+    if (scrollY === scrollPoint.current) {
+      setScrollEnabled(false)
+    }
+  }, [])
+
   return {
     stepperRef: ref,
     setStep,
     currentStep,
     goNext,
     goBack,
+    scrollEnabled,
+    onScroll,
   }
 }
 
@@ -63,7 +81,7 @@ interface Props extends ScrollViewProps {
 }
 
 export const HoliStepper = forwardRef<ScrollView, Props>(
-  ({ steps, currentStep, screenWidth, lazy = false, ...scrollViewProps }, carouselRef) => {
+  ({ steps, currentStep, screenWidth, lazy = false, scrollEnabled = true, ...scrollViewProps }, carouselRef) => {
     const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
 
     const renderStep = (step: ReactNode, stepIdx: number) => {
@@ -89,10 +107,11 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         showsHorizontalScrollIndicator={false}
         dataSet={{ stepperWrapper: true }}
         bounces={false}
+        scrollEventThrottle={16}
         {...scrollViewProps}
         horizontal
         pagingEnabled
-        scrollEnabled // Necessary on Safari for scroll animations
+        scrollEnabled={scrollEnabled} // Necessary to be `true` on Safari for scroll animations
       >
         {steps.map((step, idx) => (
           <View

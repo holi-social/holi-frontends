@@ -62,13 +62,16 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         label={option.title}
         key={option.id}
         transparent
-        onPress={() => onChange(option)}
+        onPress={() => {
+          onChange(option)
+          hide()
+        }}
         testID={`item-${testID}`}
       >
         <HoliIcon icon={option.icon || 'global'} size={22} />
         <View style={styles.optionTextContainer}>
           <HoliText bold>{option.title}</HoliText>
-          <HoliText style={styles.optionDescription}>{option.description || 'hello'}</HoliText>
+          <HoliText style={styles.optionDescription}>{option.description}</HoliText>
         </View>
         <HoliCheckbox
           shape="round"
@@ -78,7 +81,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         />
       </HoliButton>
     ),
-    [onChange, testID]
+    [onChange, testID, hide]
   )
 
   return (

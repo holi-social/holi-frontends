@@ -50,7 +50,7 @@ export const defaultAuthSteps = async (
     await tapOnElementWithTestId(buttonId)
     await tapOnElementWithTestId('community-guidelines-checkbox')
     await tapOnElementWithTestId('holi-wizard-next-btn')
-    await tapOnElementWithTestId('privicy-policy-checkbox')
+    await tapOnElementWithTestId('privacy-policy-checkbox')
     await tapOnElementWithTestId('holi-wizard-next-btn')
   }
 
@@ -80,19 +80,27 @@ export const finishAccountSetup = async ({
   pronouns?: string
 } = {}) => {
   // go through accound setup
+  // Names step
+  await waitForElementWithTestId('account-setup-names-step')
   // provide user name
   await fillFieldByTestId('first-name-input', firstName)
   // provide user name
   await fillFieldByTestId('last-name-input', lastName)
   // provide user name
   await fillFieldByTestId('pronouns-input', pronouns)
-
   // submit name changes
   // first tap to hide keyboard
   await tapOnElementWithTestId('holi-wizard-next-btn')
   await tapOnElementWithTestId('holi-wizard-next-btn')
-  // finish accound setup
-  await waitForElementWithTestId('registration-success')
+
+  // Pre-success step
+  await waitForElementWithTestId('account-setup-pre-registration-success-step')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
+  // Interests step
+  await waitForElementWithTestId('account-setup-interests-step')
+  await tapOnElementWithTestId('holi-wizard-skip-btn')
+  // Success step
+  await waitForElementWithTestId('account-setup-success-step')
   await tapOnElementWithTestId('holi-wizard-next-btn')
 }
 

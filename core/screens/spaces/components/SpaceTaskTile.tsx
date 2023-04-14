@@ -1,70 +1,197 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import { Task } from '@holi/core/screens/spaces/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
+import { LocationType, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import DeleteTaskButton from './DeleteTaskButton'
+
 export type SpaceTaskTileProps = {
-  style?: StyleProp<ViewStyle>
   task: Task
+  spaceId: string
+  isAdmin?: boolean
+  showFullView?: boolean
 }
 
-const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTaskTileProps) => {
+const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
+  task,
+  spaceId,
+  isAdmin,
+  showFullView = true,
+}: SpaceTaskTileProps) => {
   const { t } = useTranslation()
+  const { visible, show, hide } = useModalState()
+
+  const goToDetailView = () => {
+    console.log('detail view is on wip')
+  }
 
   return (
-    <View key={task.id} style={[style, styles.taskItem]} testID="space-task-tile">
-      <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
-        <HoliHeading level="2">{task.name}</HoliHeading>
-        {task.creator && (
-          <HoliAvatar
-            imageSrc={task.creator.avatar}
-            label={task.creator.fullName || t('user.profileView.anonymous')}
-            initials={task.creator.avatarLabel || ''}
-            defaultColor={task.creator.avatarDefaultColor || ''}
-            size="micro"
-          />
+    <View key={task.id} style={styles.taskItem} testID="space-task-tile">
+      <HoliButton transparent label={task.name} onPress={goToDetailView}>
+        <View style={styles.imageContainer}>
+          {!!task.thumbnail && (
+            <HoliImage
+              label={t('spaces.task.thumbnail.label')}
+              source={{ uri: task.thumbnail }}
+              resizeMode="cover"
+              style={styles.image}
+            />
+          )}
+          {!task.thumbnail && (
+            <View style={[styles.image, styles.emptyImage]}>
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
+                label={t('spaces.task.thumbnail.label')}
+                isSvg
+                height={166}
+                width={296}
+                style={styles.image}
+              />
+            </View>
+          )}
+          <View style={styles.visibility}>
+            <HoliIcon
+              icon={task.visibility === VisibilityType.PUBLIC ? 'globe' : 'lock'}
+              size={12}
+              color={colors.foreground30}
+              style={styles.iconGroupIcon}
+              filled
+            />
+            <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
+          </View>
+        </View>
+      </HoliButton>
+      <View style={styles.detailContainer}>
+        <HoliButton transparent inline label={task.name} onPress={goToDetailView} style={{ flex: 1 }}>
+          <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
+            {task.name}
+          </HoliText>
+        </HoliButton>
+        {isAdmin && (
+          <MoreOptionsButtonWithModal
+            label={t('global.moreOptions')}
+            showOptions={visible}
+            onModalDismiss={hide}
+            iconSize={16}
+            tintColor={colors.foreground30}
+            testID="btn-task-more-options"
+            onPress={() => {
+              visible && hide()
+              show()
+            }}
+          >
+            <MoreOptionItem
+              icon="edit-2"
+              label={t('global.edit')}
+              onPress={() => visible && hide()}
+              contentStyle={styles.buttonWithIcon}
+              testID="btn-to-edit-task"
+            />
+            <DeleteTaskButton
+              taskId={task.id || ''}
+              spaceIdOrName={spaceId}
+              onDelete={() => {
+                hide()
+              }}
+              style={styles.buttonWithIcon}
+            />
+          </MoreOptionsButtonWithModal>
         )}
       </View>
-      <View style={[styles.iconsContainer, styles.detailContainer]}>
+      <View style={styles.iconsContainer}>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="global" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+          <HoliIcon
+            icon={task.location ? 'map-pin-2' : task.locationType === LocationType.HYBRID ? 'refresh' : 'global'}
+            size={12}
+            color={colors.foreground20}
+            style={styles.iconGroupIcon}
+            filled
+          />
           <HoliText style={styles.iconGroupText} size="extrasmall">
-            {task.location}
+            {!task.location ? t(`spaces.input.task.locationType.${task.locationType}.title`) : task.location}
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
           <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
-            {t(`spaces.tasks.regularity.${task.regularity}`)}
+            {t(`spaces.input.task.regularity.${task.regularity}.title`)}
           </HoliText>
         </View>
       </View>
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
-          {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
-            task.skills.map((skill) => {
-              return (
-                <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
-                  {skill.title}
-                </HoliText>
-              )
-            })
-          }
+          {task.skills.map((skill) => {
+            return (
+              <SpacesFilterPill
+                small
+                key={skill.id}
+                testID="spaces-topic-title"
+                label={skill.title}
+                filterType="skill"
+                style={styles.pill}
+              />
+            )
+          })}
         </View>
       )}
-      <View style={styles.detailContainer}>
-        <HoliReadMore size="small" numberOfLines={3}>
-          {task.description}
-        </HoliReadMore>
-      </View>
+      {!showFullView ? (
+        <View style={styles.descriptionContainer}>
+          <HoliText color="gray300" size="small" numberOfLines={3}>
+            {task.description}
+          </HoliText>
+        </View>
+      ) : (
+        <View style={styles.descriptionContainer}>
+          <HoliText color="gray300" size="small">
+            {task.description}
+          </HoliText>
+          <HoliText bold style={styles.publishedByTitle}>
+            {t('spaces.tasks.published.by.title')}
+          </HoliText>
+          <View style={styles.avatar}>
+            <HoliAvatar
+              imageSrc={task.creator.avatar}
+              label={task.creator.fullName || t('user.profileView.anonymous')}
+              initials={task.creator.avatarLabel || ''}
+              defaultColor={task.creator.avatarDefaultColor || ''}
+              size="large"
+              testID="task-contact-avatar"
+            />
+            <HoliText style={styles.avatarName}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+          </View>
+
+          <HoliText bold style={styles.contactInformationTitle}>
+            {t('spaces.tasks.contact.title')}
+          </HoliText>
+          <View style={styles.contactContainer}>
+            <HoliIcon icon="at" size={24} color={colors.foreground20} filled />
+            <HoliText style={styles.contactInformation} size="extrasmall">
+              {task.contactEmail}
+            </HoliText>
+          </View>
+
+          {!!task.contactPhone && (
+            <View style={styles.contactContainer}>
+              <HoliIcon icon="phone" size={24} color={colors.foreground20} filled />
+              <HoliText style={styles.contactInformation} size="extrasmall">
+                {task.contactPhone}
+              </HoliText>
+            </View>
+          )}
+        </View>
+      )}
       {/* TODO: reinsert when claiming is implemented */}
       {/* <View style={styles.buttonContainer}>
         <HoliButton
@@ -87,34 +214,56 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
 
 const styles = StyleSheet.create({
   detailContainer: {
-    marginBottom: 16,
-  },
-  headingAvatarContainer: {
+    marginTop: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  moreOptionsButton: {
+    marginLeft: 16,
+  },
+  descriptionContainer: {
+    marginVertical: 16,
+  },
+  image: {
+    borderRadius: 8,
+    height: 166,
+  },
+  emptyImage: {
+    backgroundColor: colors.background20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageContainer: {
+    position: 'relative',
   },
   taskItem: {
     borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.background30,
     backgroundColor: colors.background10,
-    padding: 24,
+    padding: 8,
     flexShrink: 1,
   },
+  pill: {
+    marginRight: 6,
+    marginTop: 4,
+  },
   iconsContainer: {
+    marginTop: 4,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   iconGroupContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 8,
   },
   iconGroupIcon: {
     marginRight: 4,
   },
   iconGroupText: {
     color: colors.foreground20,
+    marginRight: 8,
   },
   spotsClaimed: {
     textAlign: 'right',
@@ -123,7 +272,7 @@ const styles = StyleSheet.create({
   skillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 12,
+    marginTop: 12,
   },
   skill: {
     borderRadius: 16,
@@ -139,6 +288,47 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  visibility: {
+    position: 'absolute',
+    left: 8,
+    top: 8,
+    padding: 4,
+    paddingRight: 8,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.background30,
+    backgroundColor: colors.background20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  publishedByTitle: {
+    marginTop: 32,
+  },
+  avatar: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarName: {
+    marginLeft: 16,
+  },
+  contactInformationTitle: {
+    marginTop: 16,
+  },
+  contactContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contactInformation: {
+    marginLeft: 10,
+  },
+  buttonWithIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    marginBottom: 12,
   },
 })
 

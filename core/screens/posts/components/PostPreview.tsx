@@ -56,7 +56,12 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               label={post.creator.fullName}
               testID="btn-to-post-creator-profile"
             >
-              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+              <HoliMediaHeader
+                title={post.creator.fullName}
+                author={post.creator}
+                date={post.created}
+                isPublic={post.isPublic}
+              />
             </HoliLink>
           </View>
           <MoreOptionsButtonWithModal
@@ -158,11 +163,10 @@ const styles = StyleSheet.create({
   },
   postTitleLink: {
     display: 'flex',
+    marginBottom: 8,
   },
   postTitle: {
     color: colors.foreground20,
-    paddingTop: 16,
-    paddingBottom: 8,
   },
   readMoreText: {
     color: colors.foreground30,
