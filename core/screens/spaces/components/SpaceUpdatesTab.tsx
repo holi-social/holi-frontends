@@ -72,9 +72,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           />
         </HoliBox>
       ) : (
-        <HoliBox padding={12}>
+        <HoliBox padding={[12, 0, 0, 0]}>
           {isMember && (
-            <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.wrapper}>
+            <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.buttonWrapper}>
               <HoliButton
                 type="secondary"
                 label={t('spaces.updates.filter.all')}
@@ -141,16 +141,18 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               <HoliLoader />
             </HoliBox>
           ) : (
-            <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
-              {
-                /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                posts.map((post) => (
-                  <HoliGridCell key={post.id}>
-                    <PostPreview post={post} style={styles.postItem} />
-                  </HoliGridCell>
-                ))
-              }
-            </HoliGridWrapper>
+            <HoliBox padding={[0, 24, 24, 24]}>
+              <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
+                {
+                  /** FIXME convert to VirtualizedList, FlatList or SectionList */
+                  posts.map((post) => (
+                    <HoliGridCell key={post.id}>
+                      <PostPreview post={post} style={styles.postItem} />
+                    </HoliGridCell>
+                  ))
+                }
+              </HoliGridWrapper>
+            </HoliBox>
           )}
         </HoliBox>
       )}
@@ -165,9 +167,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexGrow: 1,
+    paddingHorizontal: 24,
+  },
+  buttonWrapper: {
+    paddingTop: 12,
+    paddingBottom: 12,
   },
   wrapper: {
-    padding: 12,
+    paddingTop: 12,
   },
   buttonGap: {
     marginRight: 8,
