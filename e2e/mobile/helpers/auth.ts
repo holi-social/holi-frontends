@@ -50,7 +50,7 @@ export const defaultAuthSteps = async (
     await tapOnElementWithTestId(buttonId)
     await tapOnElementWithTestId('community-guidelines-checkbox')
     await tapOnElementWithTestId('holi-wizard-next-btn')
-    await tapOnElementWithTestId('privicy-policy-checkbox')
+    await tapOnElementWithTestId('privacy-policy-checkbox')
     await tapOnElementWithTestId('holi-wizard-next-btn')
   }
 

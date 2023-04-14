@@ -12,6 +12,7 @@ export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
   showOptions?: boolean
   onModalDismiss: () => void
   tintColor?: string
+  iconSize?: number
 }
 
 const MoreOptionsButtonWithModal = ({
@@ -22,6 +23,7 @@ const MoreOptionsButtonWithModal = ({
   label,
   onPress,
   children,
+  iconSize,
   ...buttonProps
 }: React.PropsWithChildren<MoreOptionsButtonWithModalProps>) => {
   const { t } = useTranslation()
@@ -30,7 +32,7 @@ const MoreOptionsButtonWithModal = ({
   return (
     <>
       <HoliButton transparent inline label={label} onPress={onPress} {...buttonProps}>
-        <HoliIcon icon="more" color={tintColor} />
+        <HoliIcon icon="more" color={tintColor} {...(iconSize ? { size: iconSize } : {})} />
       </HoliButton>
 
       <HoliModal

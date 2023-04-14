@@ -88,7 +88,7 @@ describe('renders correctly', () => {
 
       fireEvent.press(getByText('auth.loginProtection.registration'))
 
-      // goes to Privicy Policy step
+      // goes to Privacy Policy step
       expect(getByText('registration.communityGuidelines.heading')).not.toBeNull()
     })
 

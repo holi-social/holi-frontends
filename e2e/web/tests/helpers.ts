@@ -69,7 +69,7 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
@@ -106,16 +106,22 @@ export const finishAccountSetup = async (
   // provide user name
   const pronounsInput = await locateElementByTestId(page, 'pronouns-input')
   await pronounsInput.fill(pronouns)
-
   // submit name
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+
   // submit pre-success step
+  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
   // skip interests step
+  await page.waitForSelector(byTestId('account-setup-interests-step'))
+  await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  // skip location step
+  await page.waitForSelector(byTestId('account-setup-location-step'))
   await clickElementByTestId(page, 'holi-wizard-skip-btn')
   // skip location step
   await clickElementByTestId(page, 'holi-wizard-skip-btn')
   // skip interests step
+  await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 }
 
