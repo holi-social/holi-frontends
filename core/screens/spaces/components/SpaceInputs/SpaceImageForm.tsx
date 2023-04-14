@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceImageFormProps = {
   title: string
@@ -25,9 +25,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   image,
   style,
 }: SpaceImageFormProps) => {
-  const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
-  const containerPadding = deviceWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20
 
   const removeImage = () => {
     onUploadImage(undefined)
@@ -39,10 +37,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         id="upload-image-tabs"
         style={styles.holiTabs}
         tabBarStyle={styles.tabBar}
+        stepper={false}
         tabs={[
           {
             title: t('spaces.input.coverImage.tab.upload.title'),
-            style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
+            style: styles.tabStyle,
             children: <Uploader />,
           },
         ]}
@@ -124,7 +123,7 @@ export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 132,
+    paddingBottom: 42,
   },
   title: {
     marginTop: 40,
@@ -163,6 +162,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   tabStyle: {
+    width: '100%',
     backgroundColor: colors.background10,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
@@ -179,8 +179,12 @@ const styles = StyleSheet.create({
   imageUploader: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 42,
-    paddingTop: 16,
+    paddingVertical: 16,
+    ...Platform.select({
+      web: {
+        paddingVertical: 42,
+      },
+    }),
   },
   uploadButtonContainer: {
     alignItems: 'center',

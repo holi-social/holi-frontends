@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { onlyCharacters } from '@holi/core/helpers'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -18,8 +20,8 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { delayAnimation } from '@holi/ui/helper'
 import { Position, usePositions } from '@holi/ui/helper'
-import { useSafeFunctionThrottle } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -29,15 +31,16 @@ type UserProfileFormProps = {
   testId?: string
 }
 
-const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
-
 const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
-  const [location, setLocation] = useState(user?.location ?? '')
+  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const scrollViewRef = useRef<ScrollView>(null)
@@ -61,12 +64,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 
   const submit = async () => {
+    // we need to explicitly perform a cleanup of the apollo __typename
+    const geolocation = location?.coordinates && {
+      latitude: location?.coordinates?.latitude,
+      longitude: location?.coordinates?.longitude,
+    }
+
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
       aboutMe,
       pronouns,
-      location,
+      location: location?.label,
+      geolocation,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 
@@ -131,21 +141,29 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     </>
   )
 
-  const scrollTo = (pos: Position) => {
-    scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
-  }
-
-  const delayedScrollTo = useSafeFunctionThrottle(scrollTo)
-
   const onFocus = useCallback(
     (pos: Position) => {
-      scrollTo(pos)
-      delayedScrollTo.run(pos, 800)
+      const scrollTo = scrollViewRef.current?.scrollTo
+      const scrollOptions = { y: pos.y, animated: true }
+      scrollTo && delayAnimation(scrollTo, scrollOptions, 16.6667) // 10000 ms / 60 fps
     },
-    [delayedScrollTo]
+    [scrollViewRef]
   )
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
+
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setLocation(selectedSuggestion)
+
+      if (!selectedSuggestion && locationQuery.length) {
+        setFieldErrors({ location: [t('profile.location.validation.error')] })
+      } else {
+        resetErrorsForField('location')
+      }
+    },
+    [resetErrorsForField, t, locationQuery]
+  )
 
   return (
     <HoliModalContentWrapper
@@ -153,6 +171,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       onActionButtonPress={submit}
       prependChildren={prependComponent}
       loading={loading}
+      keyboardShouldPersistTaps="handled"
       hideFooterWhenKeyboardIsOpen={true}
       testID={testID}
       style={styles.wrapper}
@@ -166,7 +185,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setFirstName(onlyAllowedCharacters(text))
+            setFirstName(onlyCharacters(text))
             resetErrorsForField('firstName')
           }}
           style={styles.input}
@@ -182,7 +201,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setLastName(onlyAllowedCharacters(text))
+            setLastName(onlyCharacters(text))
             resetErrorsForField('lastName')
           }}
           style={styles.input}
@@ -219,18 +238,21 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           {...scrollToPropsFor('pronouns')}
           style={styles.input}
         />
-        <HoliTextInput
-          value={location}
-          inputLabel={t('user.profileForm.location')}
-          accessibilityLabel={t('user.profileForm.location')}
+        <PlacesAutocomplete
+          label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
-          validationErrorText={fieldErrors?.location?.join()}
-          onChange={(text: string) => {
-            setLocation(text)
-            resetErrorsForField('location')
-          }}
-          {...scrollToPropsFor('location')}
+          id="user-location-input"
+          testID="user-location"
+          selected={location}
+          value={locationQuery}
+          onClose={onLocationClose}
+          onChangeText={setLocationQuery}
           style={styles.input}
+          suggestionsStyle={{ backgroundColor: colors.background10 }}
+          helperText={location ? undefined : t('profile.location.validation.helper')}
+          validationErrorText={fieldErrors?.location?.join()}
+          withCoordinates
+          {...scrollToPropsFor('location')}
         />
       </View>
     </HoliModalContentWrapper>
@@ -244,7 +266,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
     marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 250 : 100,
+    paddingBottom: Platform.OS === 'ios' ? 250 : 0,
   },
   headerContainer: {
     alignItems: 'center',

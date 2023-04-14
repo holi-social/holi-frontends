@@ -117,7 +117,7 @@ const HoliCheckbox = ({
             )}
           </Animated.View>
 
-          {!children && label && (
+          {!children && !!label && (
             <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
               {label}
             </HoliText>

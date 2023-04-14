@@ -4,6 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -15,9 +16,10 @@ export type MediaHeaderProps = {
   date?: string
   style?: StyleProp<ViewStyle>
   testID?: string
+  isPublic?: boolean
 }
 
-const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle, date, style, testID }) => {
+const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle, date, style, testID, isPublic }) => {
   const { t, i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
@@ -40,11 +42,30 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
 
       <View style={[styles.titleContainer]}>
         <HoliText bold={boldTitle}>{title}</HoliText>
-        {!!formattedDate && (
-          <HoliText size="small" style={styles.date}>
-            {formattedDate}
-          </HoliText>
-        )}
+        <View style={styles.row}>
+          {!!formattedDate && (
+            <HoliText size="small" style={styles.subline}>
+              {formattedDate}
+            </HoliText>
+          )}
+          {!!formattedDate && isPublic !== undefined && <HoliText style={styles.subline}>𐤟</HoliText>}
+          {isPublic !== undefined &&
+            (isPublic ? (
+              <>
+                <HoliIcon icon={'global'} size={14} filled={true} style={styles.subline} />
+                <HoliText size="small" style={styles.subline}>
+                  {t('spaces.updates.filter.public')}
+                </HoliText>
+              </>
+            ) : (
+              <>
+                <HoliIcon icon={'lock'} size={14} filled={true} style={styles.subline} />
+                <HoliText size="small" style={styles.subline}>
+                  {t('spaces.updates.filter.members')}
+                </HoliText>
+              </>
+            ))}
+        </View>
       </View>
     </View>
   )
@@ -59,8 +80,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     flex: 1,
   },
-  date: {
+  subline: {
     marginTop: 4,
+    marginRight: 4,
     color: colors.foreground20,
   },
 })

@@ -246,7 +246,6 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // choose first option on visibility
   await clickElementByTestId(page, 'btn-task-visibility-input')
   await clickElementByTestId(page, 'item-task-visibility-input', 0)
-  await clickElementByTestId(page, 'btn-to-close-task-visibility-input-modal')
   // check if it closed
   await locateElementByTestId(page, 'btn-task-visibility-input')
 
