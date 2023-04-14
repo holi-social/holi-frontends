@@ -5,6 +5,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import DeleteTaskButton from '@holi/core/screens/spaces/components/DeleteTaskButton'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -15,8 +16,6 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import DeleteTaskButton from './DeleteTaskButton'
 
 export type SpaceTaskTileProps = {
   task: Task
@@ -35,7 +34,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
 
   const goToDetailView = () => {
     navigate(`/spaces/${space.name}/tasks/${task.id}`)
@@ -115,6 +114,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
               spaceIdOrName={space.id}
               onDelete={() => {
                 hide()
+                showFullView && navigateBack()
               }}
               style={styles.buttonWithIcon}
             />

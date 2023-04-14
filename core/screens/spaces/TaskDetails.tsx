@@ -13,6 +13,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -42,6 +43,8 @@ const TaskDetails: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
   const task = (space?.tasks || []).find((t) => t.id === taskId)
+
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useLayoutEffect(() => {
     setOptions({
@@ -76,7 +79,7 @@ const TaskDetails: React.VFC<ScreenProps> = () => {
     <>
       <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <View style={mixins.container}>
-          <SpaceTaskTile task={task} space={space} showFullView />
+          <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
         </View>
       </DefaultScrollHeaderLayout>
     </>
