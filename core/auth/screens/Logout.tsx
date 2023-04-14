@@ -1,0 +1,36 @@
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
+
+import DefaultLayout from '@holi/core/DefaultLayout'
+import { useLogout } from '@holi/core/helpers'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+const Logout: React.VFC = () => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const { logout } = useLogout()
+
+  useEffect(() => {
+    logout()
+  }, [logout])
+
+  return (
+    <DefaultLayout>
+      <View style={[mixins.container, styles.messageContainer]}>
+        <HoliText>{t('oauth2.logout')}</HoliText>
+      </View>
+    </DefaultLayout>
+  )
+}
+
+const styles = StyleSheet.create({
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: vars.topBarHeight + 50,
+  },
+})
+
+export default Logout

@@ -1,5 +1,6 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/logout.ts
 import { OAuth2Api } from '@ory/client'
+import { deleteCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
 
@@ -11,7 +12,7 @@ const logger = pino()
 
 const OAuth2LogoutPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   // The challenge is used to fetch information about the logout request from ORY Hydra.
   const logoutChallenge = extractQueryParameter(req.url || '', 'logout_challenge')
   if (!logoutChallenge) {
@@ -25,6 +26,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const { data: acceptResponse } = await oauth2Api.acceptOAuth2LogoutRequest({
       logoutChallenge,
+    })
+
+    // Delete all ory cookies to force logout from HOLI
+    Object.keys(req.cookies).map((key) => {
+      if (key.startsWith('ory_')) {
+        deleteCookie(key, { req, res })
+      }
     })
 
     return serverSideRedirect(acceptResponse.redirect_to)
