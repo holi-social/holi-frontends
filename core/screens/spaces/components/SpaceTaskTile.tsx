@@ -1,11 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
-import { LocationType, Task, VisibilityType } from '@holi/core/screens/spaces/types'
+import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -19,34 +20,37 @@ import DeleteTaskButton from './DeleteTaskButton'
 
 export type SpaceTaskTileProps = {
   task: Task
-  spaceId: string
+  space: Space
   isAdmin?: boolean
   showFullView?: boolean
 }
 
+const IMAGE_ASPECT_RATIO = 327 / 210
+
 const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
   task,
-  spaceId,
+  space,
   isAdmin,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
+  const { navigate } = useRouting()
 
   const goToDetailView = () => {
+    navigate(`/spaces/${space.name}/tasks/${task.id}`)
     console.log('detail view is on wip')
   }
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
-      <HoliButton transparent label={task.name} onPress={goToDetailView}>
+      <HoliButton transparent label={task.name} onPress={goToDetailView} disabled={showFullView}>
         <View style={styles.imageContainer}>
           {!!task.thumbnail && (
             <HoliImage
               label={t('spaces.task.thumbnail.label')}
               source={{ uri: task.thumbnail }}
-              resizeMode="cover"
-              style={styles.image}
+              style={showFullView ? styles.imageShowFullView : styles.image}
             />
           )}
           {!task.thumbnail && (
@@ -74,8 +78,15 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
         </View>
       </HoliButton>
       <View style={styles.detailContainer}>
-        <HoliButton transparent inline label={task.name} onPress={goToDetailView} style={{ flex: 1 }}>
-          <HoliText ellipsizeMode="tail" numberOfLines={2} bold>
+        <HoliButton
+          disabled={showFullView}
+          transparent
+          inline
+          label={task.name}
+          onPress={goToDetailView}
+          style={{ flex: 1 }}
+        >
+          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
             {task.name}
           </HoliText>
         </HoliButton>
@@ -101,7 +112,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
             />
             <DeleteTaskButton
               taskId={task.id || ''}
-              spaceIdOrName={spaceId}
+              spaceIdOrName={space.id}
               onDelete={() => {
                 hide()
               }}
@@ -148,7 +159,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
       )}
       {!showFullView ? (
         <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small" numberOfLines={3}>
+          <HoliText color="gray300" size="small" {...(showFullView ? {} : { numberOfLines: 3 })}>
             {task.description}
           </HoliText>
         </View>
@@ -228,6 +239,12 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 8,
     height: 166,
+  },
+  imageShowFullView: {
+    borderRadius: 8,
+    width: '100%',
+    aspectRatio: IMAGE_ASPECT_RATIO,
+    height: Platform.OS === 'web' ? '100%' : 'auto',
   },
   emptyImage: {
     backgroundColor: colors.background20,

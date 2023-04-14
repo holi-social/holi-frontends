@@ -60,6 +60,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.LinkHub]: 'spaces/:spaceIdOrName/linkHub',
         [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/tools/:toolIdOrName/edit',
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/createTask',
+        [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
       },
     },
 

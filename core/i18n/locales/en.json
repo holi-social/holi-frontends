@@ -485,6 +485,8 @@
   "spaces.tasks.delete.confirmation.title": "Delete your task",
   "spaces.tasks.delete.error": "There was an error deleting the task. Please retry later.",
   "spaces.tasks.delete.success": "Successfully deleted task",
+  "spaces.tasks.details.title": "Task details",
+  "spaces.tasks.notFound": "Task {{taskId}} not found",
   "spaces.tasks.published.by.title": "Task published by",
   "spaces.tasks.spots_claimed": "{{taken}} of {{available}} spots claimed",
   "spaces.tasks.thumbnail.label": "Thumbnail",
