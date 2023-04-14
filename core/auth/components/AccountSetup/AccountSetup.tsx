@@ -178,6 +178,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
   if (!user) return null
 
+  const wizardSubmitButtonLabel =
+    currentStep === AccountSetupStep.SUCCESS
+      ? t('registration.accountSetup.success.submitButtonText')
+      : t('global.next')
+
   return (
     <HoliKeyboardSaveView>
       <HoliWizard
@@ -266,7 +271,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         currentStep={currentStep}
         currentStepOptions={currentStepOptions}
         screenWidth={screenWidth}
-        submitButtonLabel={t('global.next')}
+        submitButtonLabel={wizardSubmitButtonLabel}
         onNextPress={onNextPress}
         onBackPress={goBack}
         onSkipPress={goNext}
