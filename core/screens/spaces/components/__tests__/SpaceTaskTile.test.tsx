@@ -6,7 +6,7 @@ import { task } from '@holi/core/screens/spaces/components/__tests__/testData'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
-    const { getByText, getAllByRole } = render(<SpaceTaskTile task={task} showFullView />)
+    const { getByText, getAllByRole } = render(<SpaceTaskTile task={task} showFullView spaceId="test" />)
 
     expect(getByText('Task title')).toBeDefined()
     expect(getByText('Task description')).toBeDefined()
