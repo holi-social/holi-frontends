@@ -1,16 +1,18 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
+import LocationStep from '@holi/core/auth/components/AccountSetup/LocationStep'
 import NamesStep, { NamesValues, trimNames } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling, useFieldErrors } from '@holi/core/errors/hooks'
 import { onlyCharacters } from '@holi/core/helpers'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
@@ -31,6 +33,7 @@ export enum AccountSetupStep {
   'NAMES',
   'PRE_SUCCESS',
   'INTERESTS',
+  'LOCATION',
   'SUCCESS',
 }
 
@@ -48,6 +51,10 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.INTERESTS]: {
+    skipable: true,
+    isBackButtonAvailable: true,
+  },
+  [AccountSetupStep.LOCATION]: {
     skipable: true,
     isBackButtonAvailable: true,
   },
@@ -82,10 +89,20 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
   const { translateFieldErrors } = useFieldErrors({
     i18nPrefix: 'registration.accountSetup.names',
-    handledFieldErrors: ['firstName'],
+    handledFieldErrors: ['firstName', 'lastName', 'pronouns', 'location'],
   })
 
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  const resetErrorsForField = useCallback(
+    (fieldName: string) =>
+      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [fieldName]: _, ...otherErrors } = currentErrors
+        return otherErrors
+      }),
+    []
+  )
 
   const onNamesChange = (fieldName: keyof NamesValues, value: string) => {
     // set new value
@@ -95,11 +112,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }))
 
     // reset error for this field
-    setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [fieldName]: _, ...otherErrors } = currentErrors
-      return otherErrors
-    })
+    resetErrorsForField(fieldName)
   }
 
   const validateOnBlur = (_: Position, __: View, id: string) => {
@@ -114,11 +127,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }
   }
 
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+  const namesScrollViewRef = useRef<ScrollView>(null)
+  const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
 
-  const scrollToInputWithIdValidateOnBlur = (fieldName: keyof NamesValues) =>
-    scrollToInputWithId(fieldName, undefined, validateOnBlur)
+  const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesValues) =>
+    scrollToNamesInputWithId(fieldName, undefined, validateOnBlur)
 
   // Interests step logic
   const keyInUserObject = 'interests'
@@ -129,6 +142,28 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     onTermSelect,
     loading: loadingUserInterests,
   } = useUserChips({ user, queryToUse: interestsQuery, keyInUserObject })
+
+  // Location step logic
+  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  )
+
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setLocation(selectedSuggestion)
+
+      if (!selectedSuggestion && locationQuery.length) {
+        setFieldErrors({ location: [t('profile.location.validation.error')] })
+      } else {
+        resetErrorsForField('location')
+      }
+    },
+    [resetErrorsForField, t, locationQuery]
+  )
+
+  const locationScrollViewRef = useRef<ScrollView>(null)
+  const scrollToLocationInputWithId = useScrollToInputOnFocus(locationScrollViewRef)
 
   // HoliWizard event handlers
   const onNextPress = async () => {
@@ -166,6 +201,28 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
       }
 
+      case AccountSetupStep.LOCATION: {
+        setIsLoading(true)
+
+        if (location?.coordinates) {
+          const geolocation = location?.coordinates && {
+            latitude: location?.coordinates?.latitude,
+            longitude: location?.coordinates?.longitude,
+          }
+
+          await updateUser({
+            variables: { input: { geolocation } },
+            onCompleted: goNext,
+            onError: (error) => displayError(error),
+          })
+        } else {
+          goNext()
+        }
+
+        setIsLoading(false)
+        break
+      }
+
       case AccountSetupStep.SUCCESS:
         onFinish()
         navigate('/profile')
@@ -190,7 +247,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         steps={[
           // Names step
           <ScrollView
-            ref={scrollViewRef}
+            ref={namesScrollViewRef}
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="names"
             testID="account-setup-names-step"
@@ -199,7 +256,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             <NamesStep
               names={names}
               onChange={onNamesChange}
-              scrollToInputWithId={scrollToInputWithIdValidateOnBlur}
+              scrollToInputWithId={scrollToNamesInputWithIdValidateOnBlur}
               fieldErrors={fieldErrors}
             />
           </ScrollView>,
@@ -236,9 +293,27 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             />
           </ScrollView>,
 
+          // Location step
+          <ScrollView
+            contentContainerStyle={[mixins.container, styles.stepContainer]}
+            key="location"
+            testID="account-setup-location-step"
+          >
+            <HoliBox padding={[40, 0, 0, 0]} />
+            <LocationStep
+              selected={location}
+              value={locationQuery}
+              onClose={onLocationClose}
+              onChangeText={setLocationQuery}
+              validationErrorText={fieldErrors?.location?.join()}
+              scrollToInputWithId={scrollToLocationInputWithId}
+            />
+          </ScrollView>,
+
           // Success step
           <ScrollView
             contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
+            ref={locationScrollViewRef}
             key="success"
             testID="account-setup-success-step"
           >
