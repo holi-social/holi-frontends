@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -155,7 +155,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 8,
     flex: 1,
-    minWidth: 'fit-content',
+    ...Platform.select({
+      web: {
+        minWidth: 'fit-content',
+      },
+    }),
     maxWidth: '33%',
   },
   buttonSelected: {
