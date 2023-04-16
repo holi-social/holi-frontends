@@ -191,6 +191,7 @@
   "notifications.space.connection.message": "You requested to join the space {{space}}",
   "notifications.space.connection.requested.message": "<0>{{user}}</0> requested to join the space {{space}}",
   "notifications.title": "Notifications",
+  "oauth2.loggedOut": "Already logged out",
   "oauth2.logout": "Logging out...",
   "oauth2.redirect.error": "Redirect failed",
   "oauth2.redirecting": "Redirecting...",
