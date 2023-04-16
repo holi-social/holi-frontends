@@ -28,9 +28,7 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    const listItemsBefore = await assertDisplaysMultipleProjects()
-
-    await assertAllowsPagination(listItemsBefore)
+    await assertAllowsPagination()
 
     const resultCountGermany = await assertFilterDonationsByLocation()
 
@@ -85,9 +83,11 @@ const assertProjectDetails = async () => {
   await tapOnElementWithTestId('nav-button-back')
 }
 
-const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]) => {
+const assertAllowsPagination = async () => {
   // scroll to button and count elements in viewport
   await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 20 })
+  // get current number of visible items
+  const listItemsBefore = await assertDisplaysMultipleProjects()
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item

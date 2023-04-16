@@ -16,7 +16,7 @@ export type GeolocationSuggestion = Suggestion & {
   coordinates?: Geolocation
 }
 
-interface PlacesAutocompleteProps {
+export interface PlacesAutocompleteProps {
   selected?: GeolocationSuggestion
   onChangeText?: (text: string) => void
   onSubmit?: (selected: GeolocationSuggestion) => void

@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -10,16 +12,26 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
+
+import DeleteTaskButton from './DeleteTaskButton'
 
 export type SpaceTaskTileProps = {
   task: Task
+  spaceId: string
   isAdmin?: boolean
   showFullView?: boolean
 }
 
-const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, isAdmin, showFullView = true }: SpaceTaskTileProps) => {
+const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
+  task,
+  spaceId,
+  isAdmin,
+  showFullView = true,
+}: SpaceTaskTileProps) => {
   const { t } = useTranslation()
+  const { visible, show, hide } = useModalState()
 
   const goToDetailView = () => {
     console.log('detail view is on wip')
@@ -68,9 +80,34 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, isAdmin, showFullV
           </HoliText>
         </HoliButton>
         {isAdmin && (
-          <HoliButton transparent inline label={t('global.moreOptions')} style={styles.moreOptionsButton}>
-            <HoliIcon icon="more" size={16} color={colors.foreground30} />
-          </HoliButton>
+          <MoreOptionsButtonWithModal
+            label={t('global.moreOptions')}
+            showOptions={visible}
+            onModalDismiss={hide}
+            iconSize={16}
+            tintColor={colors.foreground30}
+            testID="btn-task-more-options"
+            onPress={() => {
+              visible && hide()
+              show()
+            }}
+          >
+            <MoreOptionItem
+              icon="edit-2"
+              label={t('global.edit')}
+              onPress={() => visible && hide()}
+              contentStyle={styles.buttonWithIcon}
+              testID="btn-to-edit-task"
+            />
+            <DeleteTaskButton
+              taskId={task.id || ''}
+              spaceIdOrName={spaceId}
+              onDelete={() => {
+                hide()
+              }}
+              style={styles.buttonWithIcon}
+            />
+          </MoreOptionsButtonWithModal>
         )}
       </View>
       <View style={styles.iconsContainer}>
@@ -286,6 +323,12 @@ const styles = StyleSheet.create({
   },
   contactInformation: {
     marginLeft: 10,
+  },
+  buttonWithIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    marginBottom: 12,
   },
 })
 
