@@ -16,12 +16,42 @@ import { colors } from '@holi/ui/styles/globalVars'
 export const COLLECTION_TYPES: HoliSelectOption[] = [
   {
     id: CollaborationType.COLLABORATION,
-    title: 'Collaboration',
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
     selected: false,
   },
   {
     id: CollaborationType.COMMUNICATION,
-    title: 'Communication',
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.CALENDARS,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.SURVEYS,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.GOOD_TO_KNOW,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.INFO_MATERIAL,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.USED_SERVICES,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
+    selected: false,
+  },
+  {
+    id: CollaborationType.OTHERS,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
     selected: false,
   },
 ]
@@ -59,7 +89,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   useEffect(() => {
     if (selectedCollection) {
       const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
-        collectionOption.title === selectedCollection.title
+        collectionOption.id === selectedCollection.id
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
