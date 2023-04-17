@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     //  using negative margin on parent and margin on children for mobile
     //  remove workaround when updated to RN 0.71.0
     gap: 8,
-    margin: 4,
   },
   text: {
     color: colors.foreground20,
