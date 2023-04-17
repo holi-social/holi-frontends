@@ -65,13 +65,19 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
 
+  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
+  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+
   await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   await emailInput.fill(email)
@@ -237,4 +243,9 @@ export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId:
 export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elementId: string, toastId: string) => {
   await clickElementByTestIdAndWaitForToast(page, elementId, toastId)
   await page.waitForSelector(byTestId(toastId), { state: 'detached' })
+}
+
+export const waitForAnimationEnd = async (locator: Locator): Promise<void> => {
+  await locator.waitFor()
+  await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
