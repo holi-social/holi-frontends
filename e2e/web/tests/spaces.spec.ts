@@ -383,7 +383,7 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
     await clickElementByTestId(page, 'tool-edit-btn') // Edit on modal
     const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
     await toolTitleInput.fill('Edited Tool Name')
-    await clickElementByTestId(page, `digital-tool-edit-modal-save-btn`)
+    await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
     const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
     await expect(editedToolName).toBe('Edited Tool Name')
   })
@@ -392,9 +392,9 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
 // Create a space with a name, goal, topics and a cover image
 const createSpace = async (
   page: Page,
-  numberOfInitialTerms: number = 3,
-  initialName: string = 'e2e space name',
-  initialGoal: string = 'e2e space goal'
+  numberOfInitialTerms = 3,
+  initialName = 'e2e space name',
+  initialGoal = 'e2e space goal'
 ) => {
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
@@ -416,14 +416,15 @@ const createSpace = async (
   await checkConfirmButtonIsDisabled(page)
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'space-onBoard-content')
 }
 
 // Add a digital tool to a space (Linkhub)
 const addDigitalTool = async (
   page: Page,
-  url: string = 'https://www.holi.community',
-  name: string = 'Team Chat',
-  desc: string = 'A Place for our Community'
+  url = 'https://www.holi.community',
+  name = 'Team Chat',
+  desc = 'A Place for our Community'
 ) => {
   await checkAccessibility(page)
   const toolUrlInput = await page.waitForSelector(byTestId('tool-url-input'))
@@ -434,5 +435,5 @@ const addDigitalTool = async (
   await toolDescriptionInput.fill(desc)
   await clickElementByTestId(page, 'digital-tool-collection-input')
   await clickElementByTestId(page, 'digital-tool-collection-item')
-  await clickElementByTestId(page, `digital-tool-add-modal-save-btn`)
+  await clickElementByTestId(page, 'digital-tool-add-modal-save-btn')
 }
