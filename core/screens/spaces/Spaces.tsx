@@ -32,6 +32,7 @@ const Spaces: React.VFC = () => {
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+  // This is added to keep the reference of the current tab to handle the active tab in back navigation
   global.spaceDetailInitialTabIndex = 0
 
   let hasOwnSpaces = false

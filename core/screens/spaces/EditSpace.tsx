@@ -152,7 +152,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
-  const handleOnBoardingModalClose = () => {
+  const handleOnboardingModalClose = () => {
     setIsOnboarding(false)
     hide()
   }
@@ -180,11 +180,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     )
   }
 
-  type OnBoardCardProps = {
+  type OnboardCardProps = {
     content: OnboardingCard
   }
 
-  const OnBoardCard = ({ content }: OnBoardCardProps) => {
+  const OnboardCard = ({ content }: OnboardCardProps) => {
     return (
       <View style={styles.onboardCardContainer}>
         <HoliLocalImage
@@ -204,11 +204,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     )
   }
 
-  const OnBoardContent = () => {
+  const OnboardContent = () => {
     return (
       <HoliModalContentWrapper
         actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={() => handleOnBoardingModalClose()}
+        onActionButtonPress={() => handleOnboardingModalClose()}
         headlineText={t('spaces.edit.onboarding.header')}
         testID={'space-onBoard-content'}
         style={[styles.modalContentWrapper]}
@@ -218,7 +218,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           slides={onboardingContentList.map((content: OnboardingCard) => ({
             children: (
               <View style={styles.carouselContainer}>
-                <OnBoardCard content={content} />
+                <OnboardCard content={content} />
               </View>
             ),
           }))}
@@ -397,7 +397,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         headerStyle={styles.modalHeader}
       >
         {isEdit && <EditFieldContent />}
-        {isOnboarding && <OnBoardContent />}
+        {isOnboarding && <OnboardContent />}
       </HoliModal>
     </SpaceTermContextProvider>
   )
@@ -505,6 +505,7 @@ const getStyles = (statusBarHeight: number) =>
     },
     carouselContainer: {
       width: '100%',
+      marginBottom: Platform.OS === 'web' ? 54 : 0,
     },
     onboardCardContainer: {
       padding: 24,
