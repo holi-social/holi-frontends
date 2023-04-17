@@ -486,6 +486,8 @@
   "spaces.tasks.delete.confirmation.title": "Aufgabe löschen",
   "spaces.tasks.delete.error": "Es gab einen Fehler beim Löschen der Aufgabe. Bitte probiere es später nochmal.",
   "spaces.tasks.delete.success": "Aufgabe erfolgreich gelöscht",
+  "spaces.tasks.details.title": "Aufgabendetails",
+  "spaces.tasks.notFound": "Aufgabe {{taskId}} nicht gefunden",
   "spaces.tasks.published.by.title": "Aufgabe herausgegeben von",
   "spaces.tasks.spots_claimed": "{{taken}} von {{available}} Plätzen vergeben",
   "spaces.tasks.thumbnail.label": "Thumbnail",
