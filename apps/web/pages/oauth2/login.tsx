@@ -1,7 +1,7 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/login.ts
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
-import { deleteCookie, getCookie } from 'cookies-next'
+import { getCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
@@ -77,8 +77,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         return acceptLoginRequest(loginChallenge, subjectId)
       }
     }
-
-    deleteCookie(cookieNameForceLogout, { req, res })
 
     // Redirect to login UI if authentication can't be skipped and user is not logged in.
     return serverSideRedirect(`/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`)
