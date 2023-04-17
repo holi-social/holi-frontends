@@ -16,6 +16,7 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -61,10 +62,11 @@ const Login: React.VFC<ScreenProps> = () => {
     })
   }, [setOptions, t])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // OAuth2 needs initial redirect
     // see: See apps/web/pages/oauth2/login.tsx
     if (Platform.OS === 'web' && isLoggedIn && return_to) {
+      confirmOAuth2Login()
       window.location.href = return_to
     }
   }, [return_to, isLoggedIn])
@@ -91,6 +93,7 @@ const Login: React.VFC<ScreenProps> = () => {
         await client.clearStore()
         await setUserLoggedIn(data as OrySessionContext)
         await finishOnboarding()
+        confirmOAuth2Login()
 
         if (Platform.OS === 'web' && return_to) {
           // server side redirect, see: See apps/web/pages/oauth2/login.tsx
