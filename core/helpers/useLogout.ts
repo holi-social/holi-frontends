@@ -5,7 +5,7 @@ import client from '@holi/api/graphql/client'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { clearWebviewCookies } from '@holi/core/helpers/webview'
+import { ensureOauth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -28,7 +28,7 @@ export const useLogout = () => {
             }
           })
           .then(() => client.clearStore())
-          .then(() => clearWebviewCookies())
+          .then(() => ensureOauth2Logout())
           .then(() => setUserLoggedOut())
           .then(() => {
             console.info('[Logout] logout successful')
