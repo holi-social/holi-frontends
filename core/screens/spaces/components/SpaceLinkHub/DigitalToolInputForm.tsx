@@ -13,48 +13,15 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const COLLECTION_TYPES: HoliSelectOption[] = [
-  {
-    id: CollaborationType.COLLABORATION,
+export const COLLECTION_TYPES: HoliSelectOption[] = (
+  Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
+).map((collaborationType) => {
+  return {
+    id: collaborationType,
     keyPrefix: 'spaces.toolKit.linkhub.collection.',
     selected: false,
-  },
-  {
-    id: CollaborationType.COMMUNICATION,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.CALENDARS,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.SURVEYS,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.GOOD_TO_KNOW,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.INFO_MATERIAL,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.USED_SERVICES,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-  {
-    id: CollaborationType.OTHERS,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  },
-]
+  }
+})
 
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
