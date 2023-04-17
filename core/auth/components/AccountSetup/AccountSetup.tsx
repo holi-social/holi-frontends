@@ -55,7 +55,7 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
   },
   [AccountSetupStep.SUCCESS]: {
     skipable: false,
-    isBackButtonAvailable: true,
+    isBackButtonAvailable: false,
   },
 }
 
@@ -146,9 +146,10 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             latitude: location?.coordinates?.latitude,
             longitude: location?.coordinates?.longitude,
           }
+          const locationLabel = location?.label
 
           await updateUser({
-            variables: { input: { geolocation } },
+            variables: { input: { geolocation, location: locationLabel } },
             onCompleted: goNext,
             onError: (error) => displayError(error),
           })
@@ -162,7 +163,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
       case AccountSetupStep.SUCCESS:
         onFinish()
-        navigate('/profile')
+        navigate('/')
         break
 
       default:
