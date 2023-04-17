@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import DeleteTaskButton from '@holi/core/screens/spaces/components/DeleteTaskButton'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
@@ -36,10 +37,10 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
   const { visible, show, hide } = useModalState()
   const { navigate, navigateBack } = useRouting()
 
-  const goToDetailView = () => {
-    navigate(`/spaces/${space.name}/tasks/${task.id}`)
-    console.log('detail view is on wip')
-  }
+  // TODO: remove after implementing the edit task feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
+  const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
@@ -105,7 +106,10 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
             <MoreOptionItem
               icon="edit-2"
               label={t('global.edit')}
-              onPress={() => visible && hide()}
+              onPress={() => {
+                visible && hide()
+                showFeatureNotImplementedToast()
+              }}
               contentStyle={styles.buttonWithIcon}
               testID="btn-to-edit-task"
             />
@@ -188,7 +192,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
           </HoliText>
           <View style={styles.contactContainer}>
             <HoliIcon icon="at" size={24} color={colors.foreground20} filled />
-            <HoliText style={styles.contactInformation} size="extrasmall">
+            <HoliText style={styles.contactInformation} size="small">
               {task.contactEmail}
             </HoliText>
           </View>
@@ -196,7 +200,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
           {!!task.contactPhone && (
             <View style={styles.contactContainer}>
               <HoliIcon icon="phone" size={24} color={colors.foreground20} filled />
-              <HoliText style={styles.contactInformation} size="extrasmall">
+              <HoliText style={styles.contactInformation} size="small">
                 {task.contactPhone}
               </HoliText>
             </View>
