@@ -23,6 +23,12 @@ export enum SpaceLinkType {
 export enum CollaborationType {
   COLLABORATION = 'COLLABORATION',
   COMMUNICATION = 'COMMUNICATION',
+  CALENDARS = 'CALENDARS',
+  SURVEYS = 'SURVEYS',
+  GOOD_TO_KNOW = 'GOOD_TO_KNOW',
+  INFO_MATERIAL = 'INFO_MATERIAL',
+  USED_SERVICES = 'USED_SERVICES',
+  OTHERS = 'OTHERS',
 }
 
 export interface SpaceLink {
