@@ -178,10 +178,13 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       justifyContent: 'space-between',
       flexWrap: 'wrap',
       marginTop: 24,
-      gap: 14, // TODO: remove this comment once upgraded to React-Native >= 0.71: (only works for web for versions below it)
+      gap: 14,
     },
     buttonContainerSmall: {
-      // TODO: remove mobile button margins once upgraded to React-Native >= 0.71 (gap property should solve it)
+      // FIXME: gap not supported in current react-native version for mobile
+      //  using negative margin on parent and margin on children for mobile
+      //  and different styling for small devices
+      //  remove workaround when updated to RN 0.71.0
       margin: -7,
       ...Platform.select({
         web: {
