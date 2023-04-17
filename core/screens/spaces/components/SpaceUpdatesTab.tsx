@@ -50,11 +50,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   //  using different stylings for platforms and param for checking if item is last in row
   //  remove workaround when updated to RN 0.71.0
   const setButtonStyles = (isSelected: boolean, isLast: boolean) =>
-    StyleSheet.flatten([
-      Platform.OS === 'web' ? styles.buttonSpacingWeb : styles.buttonSpacing,
-      isLast ? {} : styles.buttonGap,
-      isSelected ? styles.buttonSelected : {},
-    ])
+    StyleSheet.flatten([styles.buttonSpacing, isLast ? {} : styles.buttonGap, isSelected ? styles.buttonSelected : {}])
 
   return (
     <>
@@ -185,13 +181,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 8,
     flex: 1,
-  },
-  buttonSpacingWeb: {
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    flex: 1,
-    minWidth: 'fit-content',
-    maxWidth: '33%',
+    ...Platform.select({
+      web: {
+        minWidth: 'fit-content',
+        maxWidth: '33%',
+      },
+    }),
   },
   buttonSelected: {
     backgroundColor: colors.foreground30,

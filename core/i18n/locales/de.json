@@ -192,6 +192,8 @@
   "notifications.space.connection.message": "Du hast die Migliedschaft im Space {{space}} angefragt",
   "notifications.space.connection.requested.message": "<0>{{user}}<0> hat die Migliedschaft im Space {{space}} angefragt",
   "notifications.title": "Benachrichtigungen",
+  "oauth2.loggedOut": "Bereits abgemeldet",
+  "oauth2.logout": "Abmelden...",
   "oauth2.redirect.error": "Weiterleitung fehlgeschlagen",
   "oauth2.redirecting": "Weiterleitung...",
   "photosPermission": "Die App greift auf deine Fotos zu, damit du sie veröffentlichen kannst.",
