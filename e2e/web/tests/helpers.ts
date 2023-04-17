@@ -65,10 +65,12 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
 
+  await new Promise((f) => setTimeout(f, 1000))
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
+  await new Promise((f) => setTimeout(f, 1000))
   await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
