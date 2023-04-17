@@ -416,7 +416,7 @@ const createSpace = async (
   await checkConfirmButtonIsDisabled(page)
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await clickElementByTestId(page, 'space-onBoard-content')
+  await clickElementByTestId(page, 'space-onBoard-content-close-btn')
 }
 
 // Add a digital tool to a space (Linkhub)
