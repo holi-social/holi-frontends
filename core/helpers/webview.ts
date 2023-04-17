@@ -2,8 +2,6 @@
 export const clearWebviewCookies = () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const RCTNetworking = require('react-native/Libraries/Network/RCTNetworking')
-  console.log('RCTNetworking')
-  console.log(RCTNetworking)
   RCTNetworking.clearCookies(() => {
     // no-op
   })
