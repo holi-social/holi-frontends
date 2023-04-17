@@ -212,6 +212,8 @@ export const withRandomUserSession = async (
 
   await registerAsNewUser(context, page, email, password)
   // wait for login to complete
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
   await actions(page)
   return async () => {
