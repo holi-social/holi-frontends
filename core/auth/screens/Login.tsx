@@ -61,7 +61,7 @@ const Login: React.VFC<ScreenProps> = () => {
     })
   }, [setOptions, t])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // OAuth2 needs initial redirect
     // see: See apps/web/pages/oauth2/login.tsx
     if (Platform.OS === 'web' && isLoggedIn && return_to) {

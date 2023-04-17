@@ -1,11 +1,11 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/logout.ts
 import { OAuth2Api } from '@ory/client'
-import { deleteCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
 
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
-import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const logger = pino()
@@ -23,16 +23,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     }
   }
 
+  // Set cookie to prevent automatic relogin
+  setCookie(cookieNameForceLogout, 'true', { req, res, maxAge: 60 * 60 * 24 })
   try {
     const { data: acceptResponse } = await oauth2Api.acceptOAuth2LogoutRequest({
       logoutChallenge,
-    })
-
-    // Delete all ory cookies to force logout from HOLI
-    Object.keys(req.cookies).map((key) => {
-      if (key.startsWith('ory_')) {
-        deleteCookie(key, { req, res })
-      }
     })
 
     return serverSideRedirect(acceptResponse.redirect_to)

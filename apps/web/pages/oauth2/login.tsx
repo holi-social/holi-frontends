@@ -1,12 +1,13 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/login.ts
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
+import { deleteCookie, getCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
-import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
@@ -45,7 +46,7 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
   return serverSideRedirect(acceptResponse.redirect_to)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const loginChallenge = extractQueryParameter(req.url || '', 'login_challenge')
   // The challenge is used to fetch information about the login request from ORY Hydra.
   if (!loginChallenge) {
@@ -59,19 +60,25 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
 
-    // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
-    // the user.
-    if (loginRequest.skip) {
-      // User is already authenticated, don't show the login form and simply accept the login request.
-      return acceptLoginRequest(loginChallenge, loginRequest.subject)
+    // Check if user wanted to logout before
+    const forceLogout = getCookie(cookieNameForceLogout, { req, res })
+    if (!forceLogout) {
+      // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
+      // the user.
+      if (loginRequest.skip) {
+        // User is already authenticated, don't show the login form and simply accept the login request.
+        return acceptLoginRequest(loginChallenge, loginRequest.subject)
+      }
+
+      // Check if user is already logged in
+      const subjectId = await getSubjectIdIfLoggedIn(req.cookies)
+      if (subjectId) {
+        // User was authenticated successfully,
+        return acceptLoginRequest(loginChallenge, subjectId)
+      }
     }
 
-    // Check if user is already logged in
-    const subjectId = await getSubjectIdIfLoggedIn(req.cookies)
-    if (subjectId) {
-      // User was authenticated successfully,
-      return acceptLoginRequest(loginChallenge, subjectId)
-    }
+    deleteCookie(cookieNameForceLogout, { req, res })
 
     // Redirect to login UI if authentication can't be skipped and user is not logged in.
     return serverSideRedirect(`/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`)
