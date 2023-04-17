@@ -60,26 +60,30 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
 
-    // Check if user wanted to logout before
-    const forceLogout = getCookie(cookieNameForceLogout, { req, res })
-    if (!forceLogout) {
-      // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
-      // the user.
-      if (loginRequest.skip) {
-        // User is already authenticated, don't show the login form and simply accept the login request.
-        return acceptLoginRequest(loginChallenge, loginRequest.subject)
-      }
+    const loginFormUrl = `/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`
 
-      // Check if user is already logged in
-      const subjectId = await getSubjectIdIfLoggedIn(req.cookies)
-      if (subjectId) {
-        // User was authenticated successfully,
-        return acceptLoginRequest(loginChallenge, subjectId)
-      }
+    // Check if user wanted to logout before and force display of login form
+    const forceLogout = getCookie(cookieNameForceLogout, { req, res })
+    if (forceLogout) {
+      return serverSideRedirect(loginFormUrl)
+    }
+
+    // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
+    // the user.
+    if (loginRequest.skip) {
+      // User is already authenticated, don't show the login form and simply accept the login request.
+      return acceptLoginRequest(loginChallenge, loginRequest.subject)
+    }
+
+    // Check if user is already logged in
+    const subjectId = await getSubjectIdIfLoggedIn(req.cookies)
+    if (subjectId) {
+      // User was authenticated successfully,
+      return acceptLoginRequest(loginChallenge, subjectId)
     }
 
     // Redirect to login UI if authentication can't be skipped and user is not logged in.
-    return serverSideRedirect(`/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`)
+    return serverSideRedirect(loginFormUrl)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
