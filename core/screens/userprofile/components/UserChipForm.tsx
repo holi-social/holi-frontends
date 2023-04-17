@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
   subline: {
     marginBottom: 24,
+    textAlign: 'center',
   },
   input: {
     marginBottom: 16,
