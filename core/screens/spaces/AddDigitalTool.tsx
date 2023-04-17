@@ -227,6 +227,9 @@ const styles = StyleSheet.create({
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // FIXME: gap not supported in current react-native version for mobile
+    //  using negative margin on parent and margin on children for mobile
+    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({

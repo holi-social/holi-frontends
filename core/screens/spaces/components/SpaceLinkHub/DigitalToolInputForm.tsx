@@ -13,18 +13,15 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const COLLECTION_TYPES: HoliSelectOption[] = [
-  {
-    id: CollaborationType.COLLABORATION,
-    title: 'Collaboration',
+export const COLLECTION_TYPES: HoliSelectOption[] = (
+  Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
+).map((collaborationType) => {
+  return {
+    id: collaborationType,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
     selected: false,
-  },
-  {
-    id: CollaborationType.COMMUNICATION,
-    title: 'Communication',
-    selected: false,
-  },
-]
+  }
+})
 
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
@@ -59,7 +56,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   useEffect(() => {
     if (selectedCollection) {
       const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
-        collectionOption.title === selectedCollection.title
+        collectionOption.id === selectedCollection.id
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
