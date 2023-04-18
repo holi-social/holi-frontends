@@ -52,6 +52,7 @@ export const memberSpacesFragment = gql`
             avatarDefaultColor
           }
         }
+        totalResults
       }
     }
     totalResults

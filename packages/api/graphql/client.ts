@@ -88,14 +88,6 @@ const createCache = () =>
           },
         },
       },
-      Space: {
-        fields: {
-          members: {
-            // fixes warning "Cache data may be lost when replacing the members field of a Space object."
-            merge: (existing, incoming) => incoming,
-          },
-        },
-      },
       SpacePaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
