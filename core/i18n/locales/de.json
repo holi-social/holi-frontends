@@ -558,6 +558,8 @@
   "user.interests.form.subline": "Du wirst empfohlene Optionen anhand deiner persönlichen Auswahl erhalten.",
   "user.profile.validation.avatar.invalid_image": "Die hochgeladene Datei ist entweder kein valides Bild oder die Datei ist beschädigt.",
   "user.profile.validation.avatar.max_upload_size": "Die hochgeladene Datei ist größer als 10MB",
+  "user.profile.validation.firstName.maxCharacters": "Vorname darf maximal {{value}} Zeichen lang sein",
+  "user.profile.validation.firstName.minCharacters": "Vorname sollte mindestens {{value}} Zeichen haben",
   "user.profileForm.aboutMe": "Über mich",
   "user.profileForm.aboutMePlaceholder": "Erzähle ein wenig über dich...",
   "user.profileForm.firstName": "Vorname",
