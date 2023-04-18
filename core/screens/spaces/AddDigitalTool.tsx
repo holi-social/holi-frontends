@@ -70,7 +70,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
     space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { handleGraphQLError } = useFieldErrors({
-    handledFieldErrors: ['url', 'title', 'description', 'collectionType'],
+    handledFieldErrors: ['url', 'title', 'description'],
   })
 
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
