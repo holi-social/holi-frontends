@@ -397,7 +397,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         headerStyle={styles.modalHeader}
       >
         {isEdit && <EditFieldContent />}
-        {isOnboarding && <OnboardContent />}
+        {isOnboarding && !isEdit && <OnboardContent />}
       </HoliModal>
     </SpaceTermContextProvider>
   )
