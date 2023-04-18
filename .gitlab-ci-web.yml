@@ -49,7 +49,7 @@ default:
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
     - cd e2e/web
     - yarn install
-    - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test tests/registration.spec.ts
+    - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
     - holi-big
