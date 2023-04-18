@@ -7,6 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacePermissions from '@holi/core/screens/spaces/components/SpacePermissions'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -32,6 +33,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const [selectedUser, setSelectedUser] = useState<User>()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
+  const { user: loggedInUser } = useLoggedInUser()
 
   const [adminMemberships, regularMemberships] = useMemo(
     () => partition(space.members.data, 'isAdministrator'),
@@ -86,12 +88,12 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   inline
                   transparent
                   label={
-                    isSpaceAdmin
+                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
                       ? t('spaces.collaborators.permissions.label')
                       : t('user.visitProfile', { name: collaborator.fullName })
                   }
                   onPress={
-                    isSpaceAdmin
+                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
                       ? () => {
                           showPermissions()
                           setSelectedUser(collaborator)
