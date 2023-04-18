@@ -248,7 +248,4 @@ export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elem
 
 export const waitForAnimationEnd = async (page: Page, locatorString: string): Promise<void> => {
   await (await page.waitForSelector(locatorString)).waitForElementState('stable')
-  await page
-    .locator(locatorString)
-    .evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
