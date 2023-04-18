@@ -56,7 +56,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) =
   return (
     <View style={styles.container}>
       {hasVisibilityIcon ? (
-        <HoliColumns padding={[0, 0, 16, 0]}>
+        <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
           <HoliIcon icon={visibilityIcon} size={12} filled={true} />
           <HoliBox padding={[0, 0, 0, 6]}>
             <HoliText size="extrasmall">{visibilityIconText}</HoliText>
