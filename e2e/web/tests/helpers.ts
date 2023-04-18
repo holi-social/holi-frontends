@@ -65,19 +65,19 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
 
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   await emailInput.fill(email)
@@ -245,7 +245,9 @@ export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elem
   await page.waitForSelector(byTestId(toastId), { state: 'detached' })
 }
 
-export const waitForAnimationEnd = async (locator: Locator): Promise<void> => {
-  await locator.waitFor()
-  await locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
+export const waitForAnimationEnd = async (page: Page, locatorString: string): Promise<void> => {
+  await (await page.waitForSelector(locatorString)).waitForElementState('stable')
+  await page
+    .locator(locatorString)
+    .evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }

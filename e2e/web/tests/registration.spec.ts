@@ -31,14 +31,14 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   // make sure we have started the wizard
   await clickElementByTestId(page, 'community-guidelines-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   await clickElementByTestId(page, 'privacy-policy-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   // switch to login
   await clickElementByTestId(page, 'btn-to-login-form')
@@ -46,7 +46,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page.locator(byTestId('stepper-scrollview')))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   await page.waitForSelector(byTestId('community-guidelines-checkbox'))
 }
 
