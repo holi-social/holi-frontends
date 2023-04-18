@@ -68,7 +68,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 
@@ -145,12 +145,12 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isAdmin) {
+  if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
   }
 
