@@ -88,9 +88,6 @@ const createCache = () =>
           },
         },
       },
-      SpaceMemberPaged: {
-        keyFields: ['data', ['id']],
-      },
       SpacePaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
