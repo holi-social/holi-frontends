@@ -68,12 +68,12 @@ export const gotoFillAndSubmitRegistration = async (
   await new Promise((f) => setTimeout(f, 1000))
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
 
   await new Promise((f) => setTimeout(f, 1000))
   await clickElementByTestId(page, 'privacy-policy-checkbox')
 
-  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   await emailInput.fill(email)

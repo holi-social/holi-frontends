@@ -49,9 +49,9 @@ export const defaultAuthSteps = async (
   } else {
     await tapOnElementWithTestId(buttonId)
     await tapOnElementWithTestId('community-guidelines-checkbox')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('community-guidelines-navbtn-next-btn')
     await tapOnElementWithTestId('privacy-policy-checkbox')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('privacy-policy-navbtn-next-btn')
   }
 
   // inspect login modal

@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { scrollDown, scrollUp } from '../../helpers/gestures'
 import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   scrollToElementWithTestId,
@@ -12,7 +11,7 @@ import {
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
-  itif(platform !== 'ios', 'creates a comment and displays it in the post page.', async () => {
+  it('creates a comment and displays it in the post page.', async () => {
     await registerNewUser()
 
     // go to home feed
