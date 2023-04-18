@@ -61,9 +61,9 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
 
   useEffect(() => {
-    setUrlError(fieldErrors?.url?.length ? fieldErrors.url[0] : undefined)
-    setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
-    setTitleError(fieldErrors?.title?.length ? fieldErrors.title[0] : undefined)
+    setUrlError(fieldErrors?.url?.[0])
+    setDescriptionError(fieldErrors?.description?.[0])
+    setTitleError(fieldErrors?.title?.[0])
   }, [fieldErrors])
 
   useEffect(() => {
