@@ -103,7 +103,7 @@ const config: PlaywrightTestConfig = {
      * We prioritize debuggability over saving storage space here. With a setting of
      * on-first-retry, we might not get a trace for flaky tests and would be less able to debug.
      */
-    trace: 'retain-on-failure',
+    trace: 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
