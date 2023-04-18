@@ -162,7 +162,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     // edit space topics
     await clickElementByTestId(page, 'btn-space-edit-topics')
-    await waitForAnimationEnd(page, byTestId('undefined-animatedview'))
+    await waitForAnimationEnd(page, byTestId('space-chips-modal-animatedview'))
     await selectSomeTerms(page, numberOfEditedTerms)
     await saveAndWaitForModalClosed(page)
 
@@ -181,7 +181,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
-    await waitForAnimationEnd(page, byTestId('undefined-animatedview'))
+    await waitForAnimationEnd(page, byTestId('space-chips-modal-animatedview'))
     await selectSomeTerms(page, numberOfEditedTerms)
     await saveAndWaitForModalClosed(page)
 
@@ -265,7 +265,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
 
   // select some skills
   await clickElementByTestId(page, 'btn-task-edit-skills-modal')
-  await waitForAnimationEnd(page, byTestId('undefined-animatedview'))
+  await waitForAnimationEnd(page, byTestId('task-skills-modal-animatedview'))
   await selectSomeTerms(page, 1)
   await clickElementByTestId(page, 'create-task-skills-modal-wrapper-close-btn')
 

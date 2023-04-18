@@ -283,6 +283,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         relativeHeight={1}
         autoHeight={false}
         headerStyle={styles.modalHeader}
+        testID="space-chips-modal"
       >
         {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
         {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
