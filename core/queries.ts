@@ -44,7 +44,6 @@ export const memberSpacesFragment = gql`
       cover
       name
       members {
-        id
         data {
           user {
             id
