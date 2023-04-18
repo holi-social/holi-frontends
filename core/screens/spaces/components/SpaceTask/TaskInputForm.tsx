@@ -299,6 +299,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           onChange={onChangeLocationType}
           isRequired
           testID="task-locationType"
+          variant="dense"
         />
 
         {locationType && locationType.id !== LocationType.REMOTE && (
@@ -330,6 +331,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           onChange={onChangeRegularity}
           isRequired
           testID="task-regularity"
+          variant="dense"
         />
       </View>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -12,16 +12,6 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
-
-export const COLLECTION_TYPES: HoliModalSelectOption[] = (
-  Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
-).map((collaborationType) => {
-  return {
-    id: collaborationType,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  }
-})
 
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
@@ -50,19 +40,30 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   thumbnail,
   isEdit = false,
 }: DigitalToolInputFormProps) => {
-  const [collectionOptions, setCollectionOptions] = useState<HoliModalSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
+  const collectionTypes = useMemo(
+    () =>
+      (Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>).map((collaborationType) => {
+        return {
+          id: collaborationType,
+          title: t(`spaces.toolKit.linkhub.collection.${collaborationType}`),
+          selected: false,
+        }
+      }),
+    [t]
+  )
+  const [collectionOptions, setCollectionOptions] = useState<HoliModalSelectOption[]>(collectionTypes)
 
   useEffect(() => {
     if (selectedCollection) {
-      const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
+      const updatedCollectionsList = collectionTypes.map((collectionOption) =>
         collectionOption.id === selectedCollection.id
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
       setCollectionOptions(updatedCollectionsList)
     }
-  }, [selectedCollection])
+  }, [selectedCollection, collectionTypes])
 
   const ThumbnailUploader = () => {
     return (
@@ -146,8 +147,8 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         onChange={onSelectCollection}
         isRequired={true}
         testID="digital-tool-collection"
+        variant="dense"
       />
-
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}
         inputLabel={t('spaces.input.digitalTool.description.label')}

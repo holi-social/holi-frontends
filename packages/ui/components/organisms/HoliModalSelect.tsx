@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -11,10 +10,12 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
+export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
+
 export type HoliModalSelectOption = {
   id: string
-  title?: string
-  keyPrefix?: string
+  title: string
   description?: string
   icon?: string
   selected?: boolean
@@ -29,6 +30,7 @@ export type HoliModalSelectProps = {
   style?: StyleProp<ViewStyle>
   testID?: string
   isRequired?: boolean
+  variant?: HoliModalSelectVariant
 }
 
 const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
@@ -40,15 +42,15 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   style,
   testID = 'holi-modal-select',
   isRequired,
+  variant = 'normal',
 }: HoliModalSelectProps) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption | undefined>()
   const [hovered, setHovered] = useState(false)
 
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
-
-  const { t } = useTranslation()
-  options = options.map((option) => (!option.title ? { ...option, title: t(option.keyPrefix + option.id) } : option))
+  const isDense = variant === 'dense'
+  const styles = getStyles(isDense)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -63,7 +65,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
     (option: HoliModalSelectOption) => (
       <HoliButton
         contentStyle={styles.optionCardContent}
-        style={styles.optionCard}
+        style={[!isDense && styles.optionCard]}
         label={option.title}
         key={option.id}
         transparent
@@ -73,10 +75,10 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         }}
         testID={`item-${testID}`}
       >
-        <HoliIcon icon={option.icon || 'global'} size={22} />
+        {!isDense && <HoliIcon icon={option.icon || 'global'} size={22} />}
         <View style={styles.optionTextContainer}>
           <HoliText bold>{option.title}</HoliText>
-          <HoliText style={styles.optionDescription}>{option.description}</HoliText>
+          {!isDense && option.description && <HoliText style={styles.optionDescription}>{option.description}</HoliText>}
         </View>
         <HoliCheckbox
           shape="round"
@@ -86,7 +88,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         />
       </HoliButton>
     ),
-    [onChange, testID, hide]
+    [onChange, testID, hide, isDense, styles]
   )
 
   return (
@@ -127,7 +129,9 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         testID={testID}
       >
         <ScrollView style={mixins.container}>
-          <HoliHeading level="2">{label}</HoliHeading>
+          <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
+            {label}
+          </HoliHeading>
 
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
         </ScrollView>
@@ -138,58 +142,72 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
 
 export default HoliModalSelect
 
-const styles = StyleSheet.create({
-  labelWrapper: {
-    marginBottom: 6,
-    flexDirection: 'row',
-  },
-  label: {
-    color: colors.foreground30,
-  },
-  button: {
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: colors.background10,
-    color: colors.foreground30,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: colors.background30,
-  },
-  buttonHovered: {
-    borderColor: colors.foreground20,
-  },
-  placeholder: {
-    color: colors.foreground20,
-  },
-  modal: {
-    backgroundColor: colors.background30,
-  },
-  optionsContainer: {
-    marginTop: 16,
-    paddingBottom: 24,
-  },
-  optionCard: {
-    marginTop: 16,
-  },
-  optionCardContent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    padding: 16,
-    backgroundColor: colors.background10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.background30,
-  },
-  optionTextContainer: {
-    flex: 1,
-    marginTop: 2,
-    paddingHorizontal: 8,
-  },
-  optionDescription: {
-    marginTop: 4,
-    color: colors.foreground20,
-  },
-})
+const getStyles = (isDense: boolean) =>
+  StyleSheet.create({
+    labelWrapper: {
+      marginBottom: 6,
+      flexDirection: 'row',
+    },
+    label: {
+      color: colors.foreground30,
+    },
+    button: {
+      paddingVertical: 16,
+      paddingHorizontal: 12,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: colors.background10,
+      color: colors.foreground30,
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: colors.background30,
+    },
+    buttonHovered: {
+      borderColor: colors.foreground20,
+    },
+    placeholder: {
+      color: colors.foreground20,
+    },
+    modal: {
+      backgroundColor: isDense ? colors.background10 : colors.background30,
+    },
+    heading: {
+      fontWeight: '400',
+    },
+    headingDense: {
+      width: '100%',
+      marginTop: 16,
+      paddingBottom: 24,
+      marginBottom: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.background30,
+    },
+    optionsContainer: {
+      marginTop: isDense ? 8 : 16,
+      paddingBottom: 24,
+    },
+    optionCard: {
+      marginTop: 16,
+    },
+    optionCardContent: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      padding: isDense ? undefined : 16,
+      paddingVertical: isDense ? 12 : undefined,
+      backgroundColor: colors.background10,
+      borderRadius: 16,
+      borderWidth: isDense ? 0 : 1,
+      borderColor: colors.background30,
+    },
+    optionTextContainer: {
+      flex: 1,
+      marginTop: 2,
+      paddingLeft: isDense ? 0 : 8,
+      paddingRight: 8,
+    },
+    optionDescription: {
+      marginTop: 4,
+      color: colors.foreground20,
+    },
+  })
