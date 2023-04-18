@@ -172,9 +172,13 @@ const styles = StyleSheet.create({
   readMoreBottom: {
     color: colors.foreground30,
   },
+  imageContainer: {
+    width: '100%',
+  },
   linkPreview: {
     paddingTop: 16,
-    maxWidth: 320,
+    maxWidth: 420,
+    alignSelf: 'center',
   },
   reactionsBar: {
     paddingTop: 21,
