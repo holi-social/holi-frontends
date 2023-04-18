@@ -48,9 +48,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
     return membership?.isAdministrator
   }
 
-  const isSpaceAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useEffect(() => {
     if (show) {
