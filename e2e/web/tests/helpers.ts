@@ -170,8 +170,8 @@ export const registerAsNewUser = async (
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
   await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
-  // wait for profile - registration succeeded
-  await page.waitForSelector(byTestId('user-profile-full-name'))
+  // wait for home feed - registration succeeded
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -217,7 +217,8 @@ export const withRandomUserSession = async (
   const page = await context.newPage()
 
   await registerAsNewUser(context, page, email, password)
-  // wait for login to complete
+  // goto profile to simulate old behaviour for now
+  await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
   await actions(page)
   return async () => {

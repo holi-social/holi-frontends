@@ -46,7 +46,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState<string>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
@@ -61,10 +61,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 
@@ -89,7 +86,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     !loadingSpace &&
-      isAdmin &&
+      isMember &&
       setOptions({
         animation: 'slide_from_bottom',
         title: '',
@@ -100,7 +97,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isAdmin])
+  }, [setOptions, t, loadingSpace, isMember])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection) {
@@ -117,19 +114,19 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   }
 
   const onChangeDescription = (description: string) => {
-    setDescription(description)
+    setDescription(description ? description : undefined)
   }
 
   if (errorSpace) {
     logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isAdmin) {
+  if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
   }
 
@@ -227,6 +224,9 @@ const styles = StyleSheet.create({
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // FIXME: gap not supported in current react-native version for mobile
+    //  using negative margin on parent and margin on children for mobile
+    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({
