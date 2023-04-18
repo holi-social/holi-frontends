@@ -61,10 +61,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 
@@ -89,7 +86,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     !loadingSpace &&
-      isAdmin &&
+      isMember &&
       setOptions({
         animation: 'slide_from_bottom',
         title: '',
@@ -100,7 +97,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isAdmin])
+  }, [setOptions, t, loadingSpace, isMember])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection) {
@@ -124,12 +121,12 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
     logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isAdmin) {
+  if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
   }
 
