@@ -158,7 +158,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} />
                   </HoliGridCell>
                 ))
               }
@@ -225,10 +225,6 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
-  },
-  postItem: {
-    borderRadius: 12,
-    paddingVertical: 24,
   },
 })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -24,10 +24,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type PostPreviewProps = {
   post: Post
   insightId?: string
-  style?: StyleProp<ViewStyle>
 }
 
-const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
+const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId }) => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
@@ -47,7 +46,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   }
 
   return (
-    <View style={[styles.wrapper, style]}>
+    <View style={styles.container}>
       <View style={styles.paddingHorizontal}>
         <View style={styles.header}>
           <View style={styles.mediaHeaderLink}>
@@ -140,8 +139,10 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
     backgroundColor: colors.background10,
+    borderRadius: 12,
+    paddingVertical: 24,
   },
   paddingHorizontal: {
     paddingHorizontal: 24,

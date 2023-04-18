@@ -146,7 +146,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                   /** FIXME convert to VirtualizedList, FlatList or SectionList */
                   posts.map((post) => (
                     <HoliGridCell key={post.id}>
-                      <PostPreview post={post} style={styles.postItem} />
+                      <PostPreview post={post} />
                     </HoliGridCell>
                   ))
                 }
@@ -160,10 +160,6 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
 }
 
 const styles = StyleSheet.create({
-  postItem: {
-    borderRadius: 12,
-    paddingVertical: 24,
-  },
   buttonContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
