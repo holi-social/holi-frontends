@@ -104,6 +104,7 @@
   "global.seeMore": "See more",
   "global.skip": "Skip",
   "global.technicalError": "Oops! A technical error occurred!",
+  "global.validation.url.invalid": "The link cannot be posted as it was detected as malicious",
   "global.yes": "Yes",
   "help.title": "Help",
   "homeFeed.headerTitle.goodAfternoon": "Good afternoon",
