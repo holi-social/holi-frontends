@@ -8,7 +8,7 @@ import {
 } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { itif } from '../../helpers/platform'
-import { waitForElementWithTestId } from '../../helpers/selectors'
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 const goFromRegistrationToHome = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
@@ -19,6 +19,7 @@ describe('@Registration - smoke', () => {
     // successful registration
     const email = await registerNewUser()
 
+    await tapOnElementWithTestId('btn-to-profile-view')
     // wait for profile page to be loaded
     await waitForElementWithTestId('user-profile-full-name')
 
