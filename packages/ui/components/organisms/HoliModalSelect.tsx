@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -12,7 +13,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliModalSelectOption = {
   id: string
-  title: string
+  title?: string
+  keyPrefix?: string
   description?: string
   icon?: string
   selected?: boolean
@@ -44,6 +46,9 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
 
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
+
+  const { t } = useTranslation()
+  options = options.map((option) => (!option.title ? { ...option, title: t(option.keyPrefix + option.id) } : option))
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 

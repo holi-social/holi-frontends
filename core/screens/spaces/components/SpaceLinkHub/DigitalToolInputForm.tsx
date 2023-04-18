@@ -7,13 +7,13 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const COLLECTION_TYPES: HoliSelectOption[] = (
+export const COLLECTION_TYPES: HoliModalSelectOption[] = (
   Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
 ).map((collaborationType) => {
   return {
@@ -27,12 +27,12 @@ export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
   onChangeTitle: (title: string) => void
   onChangeDescription: (description: string) => void
-  onSelectCollection: (option: HoliSelectOption) => void
+  onSelectCollection: (option: HoliModalSelectOption) => void
   onChangeThumbnail: (thumbnail: ImageInfo) => void
   url: string
   title: string
   description?: string
-  selectedCollection?: HoliSelectOption
+  selectedCollection?: HoliModalSelectOption
   thumbnail?: ImageInfo | undefined
   isEdit?: boolean
 }
@@ -50,7 +50,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   thumbnail,
   isEdit = false,
 }: DigitalToolInputFormProps) => {
-  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
+  const [collectionOptions, setCollectionOptions] = useState<HoliModalSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -67,13 +67,13 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   const ThumbnailUploader = () => {
     return (
       <View style={styles.thumbnailContainer}>
-        {(thumbnail && (
+        {thumbnail?.uri ? (
           <HoliImage
             source={{ uri: thumbnail?.uri ?? '' }}
             label={t('spaces.input.digitalTool.thumbnail.label')}
             style={styles.thumbnail}
           />
-        )) || (
+        ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
             <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
           </View>
@@ -137,15 +137,14 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         isRequired={true}
         maxNoOfCharacters={50}
       />
-      <HoliSelect
+      <HoliModalSelect
         options={collectionOptions}
-        inputLabel={t('spaces.input.digitalTool.collection.label')}
-        accessibilityLabel={t('spaces.input.digitalTool.collection.label')}
+        title={t('spaces.input.digitalTool.collection.label')}
+        label={t('spaces.input.digitalTool.collection.label')}
         placeholder={t('spaces.input.digitalTool.collection.placeholder')}
-        style={[styles.collectionOption, { zIndex: 1 }]}
+        style={styles.collectionOption}
         onChange={onSelectCollection}
         isRequired={true}
-        id="digital-tool-collection"
         testID="digital-tool-collection"
       />
 

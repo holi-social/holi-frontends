@@ -20,7 +20,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -35,9 +34,9 @@ export interface TaskInputFormProps {
   contactEmail: string
   skills: Skill[]
   slotsAvailable?: number
-  visibility?: HoliSelectOption
-  locationType?: HoliSelectOption
-  regularity?: HoliSelectOption
+  visibility?: HoliModalSelectOption
+  locationType?: HoliModalSelectOption
+  regularity?: HoliModalSelectOption
   thumbnail?: ImageInfo
   location?: string
   geolocation?: Geolocation
@@ -45,9 +44,9 @@ export interface TaskInputFormProps {
   selectedLocation?: GeolocationSuggestion
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
-  onChangeVisibility: (_: HoliSelectOption) => void
-  onChangeLocationType: (_: HoliSelectOption) => void
-  onChangeRegularity: (_: HoliSelectOption) => void
+  onChangeVisibility: (_: HoliModalSelectOption) => void
+  onChangeLocationType: (_: HoliModalSelectOption) => void
+  onChangeRegularity: (_: HoliModalSelectOption) => void
   onChangeContactEmail: (_: string) => void
   onChangeSlotsAvailable: (_: number) => void
   onChangeThumbnail: (_: ImageInfo) => void
@@ -85,8 +84,8 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   fieldErrors = {},
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
-  const [locationTypeOptions, setLocationTypeOptions] = useState<HoliSelectOption[]>(LOCATION_TYPE_OPTIONS)
-  const [regularityOptions, setRegularityOptions] = useState<HoliSelectOption[]>(REGULARITY_OPTIONS)
+  const [locationTypeOptions, setLocationTypeOptions] = useState<HoliModalSelectOption[]>(LOCATION_TYPE_OPTIONS)
+  const [regularityOptions, setRegularityOptions] = useState<HoliModalSelectOption[]>(REGULARITY_OPTIONS)
 
   const [nameError, setNameError] = useState<string | undefined>()
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
@@ -166,13 +165,13 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   const ThumbnailUploader = () => {
     return (
       <View style={styles.thumbnailContainer}>
-        {(thumbnail && (
+        {thumbnail?.uri ? (
           <HoliImage
             source={{ uri: thumbnail?.uri ?? '' }}
             label={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
-        )) || (
+        ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
             <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
           </View>
@@ -291,15 +290,14 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
 
       <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
         <HoliText size="large">{t('spaces.input.task.section.location')}</HoliText>
-        <HoliSelect
+        <HoliModalSelect
           options={locationTypeOptions}
-          inputLabel={t('spaces.input.task.locationType.label')}
-          accessibilityLabel={t('spaces.input.task.locationType.label')}
+          title={t('spaces.input.task.locationType.label')}
+          label={t('spaces.input.task.locationType.label')}
           placeholder={t('spaces.input.task.locationType.placeholder')}
-          style={[styles.marginSeparator, { zIndex: 2 }]}
+          style={styles.marginSeparator}
           onChange={onChangeLocationType}
           isRequired
-          id="task-locationType"
           testID="task-locationType"
         />
 
@@ -323,15 +321,14 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
 
       <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
         <HoliText size="large">{t('spaces.input.task.section.involvement')}</HoliText>
-        <HoliSelect
+        <HoliModalSelect
           options={regularityOptions}
-          inputLabel={t('spaces.input.task.regularity.label')}
-          accessibilityLabel={t('spaces.input.task.regularity.label')}
+          title={t('spaces.input.task.regularity.label')}
+          label={t('spaces.input.task.regularity.label')}
           placeholder={t('spaces.input.task.regularity.placeholder')}
           style={styles.marginSeparator}
           onChange={onChangeRegularity}
           isRequired
-          id="task-regularity"
           testID="task-regularity"
         />
       </View>
