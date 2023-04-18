@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, waitForAnimationEnd } from './helpers'
 import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -73,6 +73,7 @@ const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await clickElementByTestId(page, `user-profile-${what}-edit`)
+  await waitForAnimationEnd(page, byTestId('user-profile-modal-animatedview'))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
@@ -102,6 +103,7 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await clickElementByTestId(page, `user-profile-${what}-edit`)
+  await waitForAnimationEnd(page, byTestId('user-profile-modal-animatedview'))
   // first make sure the modal dialog is fully loaded
   const countOfChips = () => page.locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`).count()
   await expect.poll(countOfChips).toBeGreaterThan(0)
