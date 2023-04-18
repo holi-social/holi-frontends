@@ -46,7 +46,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState<string>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
@@ -114,7 +114,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   }
 
   const onChangeDescription = (description: string) => {
-    setDescription(description)
+    setDescription(description ? description : undefined)
   }
 
   if (errorSpace) {
