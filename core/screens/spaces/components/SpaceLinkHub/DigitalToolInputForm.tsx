@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -35,6 +36,7 @@ export interface DigitalToolInputFormProps {
   selectedCollection?: HoliSelectOption
   thumbnail?: ImageInfo | undefined
   isEdit?: boolean
+  fieldErrors?: TranslatedFieldErrors
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -49,9 +51,20 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   selectedCollection,
   thumbnail,
   isEdit = false,
+  fieldErrors = {},
 }: DigitalToolInputFormProps) => {
   const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
+
+  const [urlError, setUrlError] = useState<string | undefined>()
+  const [titleError, setTitleError] = useState<string | undefined>()
+  const [descriptionError, setDescriptionError] = useState<string | undefined>()
+
+  useEffect(() => {
+    setUrlError(fieldErrors?.url?.length ? fieldErrors.url[0] : undefined)
+    setDescriptionError(fieldErrors?.description?.length ? fieldErrors.description[0] : undefined)
+    setTitleError(fieldErrors?.title?.length ? fieldErrors.title[0] : undefined)
+  }, [fieldErrors])
 
   useEffect(() => {
     if (selectedCollection) {
@@ -117,7 +130,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={'https://...'}
         inputLabel={t('spaces.input.digitalTool.url.label')}
-        validationErrorText={''}
+        validationErrorText={urlError}
         value={url}
         onChange={onChangeUrl}
         accessibilityLabel={t('spaces.input.digitalTool.url.label')}
@@ -128,7 +141,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.title.placeholder')}
         inputLabel={t('spaces.input.digitalTool.title.label')}
-        validationErrorText={''}
+        validationErrorText={titleError}
         value={title}
         onChange={onChangeTitle}
         accessibilityLabel={t('spaces.input.digitalTool.title.label')}
@@ -152,7 +165,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}
         inputLabel={t('spaces.input.digitalTool.description.label')}
-        validationErrorText={''}
+        validationErrorText={descriptionError}
         value={description}
         onChange={onChangeDescription}
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}
