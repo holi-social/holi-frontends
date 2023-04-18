@@ -25,8 +25,8 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
   const [deleteSpace, { loading }] = useMutation<DeleteSpaceResponse>(deleteSpaceMutation, {
     variables: { id: spaceId },
     onCompleted: () => {
-      openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
       onDelete()
+      openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
     },
     onError: (error) => displayError(error, t('spaces.delete.error')),
     refetchQueries: [{ query: mySpaceQuery }],
