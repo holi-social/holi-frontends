@@ -76,8 +76,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { handleGraphQLError } = useFieldErrors({
-    i18nPrefix: 'global',
-    handledFieldErrors: ['url'],
+    handledFieldErrors: ['url', 'title', 'description', 'collectionType'],
   })
 
   const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
