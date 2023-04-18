@@ -1,9 +1,14 @@
+import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
+import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,6 +20,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePermissionsProps = {
+  space: Space
   user: User
   isAdmin: (user: User) => boolean | undefined
   handleNavigation: (id: string) => void
@@ -23,6 +29,7 @@ type SpacePermissionsProps = {
 }
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
+  space,
   user,
   isAdmin,
   handleNavigation,
@@ -31,9 +38,44 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
 }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { displayError } = useErrorHandling()
   const [showRemoveFromSpaceConfirmationModal, setShowRemoveFromSpaceConfirmationModal] = useState(false)
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
+
+  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+    updateSpaceUserConnectionMutation,
+    {
+      variables: {
+        spaceId: space.id,
+        userId: user.id,
+      },
+      onError(error) {
+        displayError(error)
+      },
+      onCompleted() {
+        hidePermissions()
+      },
+    }
+  )
+
+  const grantAdminRights = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.GRANT_ADMIN_ACCESS,
+        connectionType: SpaceConnectionType.ADMINISTRATOR,
+      },
+    }).then(() => setShowGrantAdminConfirmationModal(false))
+  }
+
+  const revokeAdminRights = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.REVOKE_ADMIN_ACCESS,
+        connectionType: SpaceConnectionType.ADMINISTRATOR,
+      },
+    }).then(() => setshowRevokeAdminConfirmationModal(false))
+  }
 
   return (
     <>
@@ -67,6 +109,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 contentStyle={styles.actionsItem}
                 inline
                 transparent
+                disabled={loading}
                 label={t('spaces.collaborators.permissions.revokeAdmin.label')}
                 onPress={() => setshowRevokeAdminConfirmationModal(true)}
                 testID={'spaces-collaborators-revoke-admin-btn'}
@@ -81,6 +124,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 contentStyle={styles.actionsItem}
                 inline
                 transparent
+                disabled={loading}
                 label={t('spaces.collaborators.permissions.grantAdmin.label')}
                 onPress={() => setShowGrantAdminConfirmationModal(true)}
                 testID={'spaces-collaborators-grant-admin-btn'}
@@ -96,6 +140,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               contentStyle={styles.actionsItem}
               inline
               transparent
+              disabled={loading}
               label={t('spaces.collaborators.permissions.removeFromSpace.label')}
               onPress={() => setShowRemoveFromSpaceConfirmationModal(true)}
               testID={'spaces-collaborators-remove-from-space-btn'}
@@ -126,6 +171,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               contentStyle={styles.actionsItem}
               inline
               transparent
+              disabled={loading}
               label={t('spaces.collaborators.permissions.viewProfile')}
               onPress={() => handleNavigation(user.id)}
               testID={'spaces-collaborators-view-profile-btn'}
@@ -148,9 +194,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             confirmText={t('spaces.collaborators.permissions.confirm.yes')}
             testID="spaces-collaborators-grant-admin-confirmation"
             onConfirm={() => {
-              // ToDo: grantAdminRightsToUser(user)
-              console.warn('grantAdminRightsToUser:', user)
-              setShowGrantAdminConfirmationModal(false)
+              grantAdminRights()
             }}
           />
 
@@ -167,9 +211,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             confirmText={t('spaces.collaborators.permissions.confirm.yes')}
             testID="spaces-collaborators-revoke-admin-confirmation"
             onConfirm={() => {
-              // ToDo: revokeAdminRightsFromUser(user)
-              console.warn('revokeAdminRightsFromUser:', user)
-              setshowRevokeAdminConfirmationModal(false)
+              revokeAdminRights()
             }}
           />
 
