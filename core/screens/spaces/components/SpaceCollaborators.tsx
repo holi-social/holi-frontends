@@ -4,12 +4,15 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import SpacePermissions from '@holi/core/screens/spaces/components/SpacePermissions'
 import { Space } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -26,9 +29,11 @@ const sortUsersByFirstName = (users: User[]) =>
 const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
+  const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
+  const [selectedUser, setSelectedUser] = useState<User>()
   const { navigate } = useRouting()
-
   const mixins = useStyleMixins()
+  const { user: loggedInUser } = useLoggedInUser()
 
   const [adminMemberships, regularMemberships] = useMemo(
     () => partition(space.members.data, 'isAdministrator'),
@@ -44,6 +49,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
     const membership = space.members.data.find((membership) => membership.user.id === collaborator.id)
     return membership?.isAdministrator
   }
+
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useEffect(() => {
     if (show) {
@@ -80,8 +87,19 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   contentStyle={styles.collaborators}
                   inline
                   transparent
-                  label={t('user.visitProfile', { name: collaborator.fullName })}
-                  onPress={() => handleNavigation(collaborator.id)}
+                  label={
+                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
+                      ? t('spaces.collaborators.permissions.label')
+                      : t('user.visitProfile', { name: collaborator.fullName })
+                  }
+                  onPress={
+                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
+                      ? () => {
+                          showPermissions()
+                          setSelectedUser(collaborator)
+                        }
+                      : () => handleNavigation(collaborator.id)
+                  }
                   key={index}
                   testID={'spaces-collaborators-item'}
                 >
@@ -108,6 +126,16 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
             }
           </ScrollView>
         </View>
+
+        {selectedUser && (
+          <SpacePermissions
+            user={selectedUser}
+            isAdmin={isAdmin}
+            handleNavigation={handleNavigation}
+            permissionsVisible={permissionsVisible}
+            hidePermissions={hidePermissions}
+          />
+        )}
       </HoliModal>
     </>
   )
