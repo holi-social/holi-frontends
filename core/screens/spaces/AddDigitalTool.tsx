@@ -61,10 +61,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
 
