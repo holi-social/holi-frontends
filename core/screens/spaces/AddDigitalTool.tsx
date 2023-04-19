@@ -155,7 +155,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View>
+      <View style={styles.footerContainer}>
         <View style={[mixins.container, styles.footer]}>
           <HoliButton
             label={t('global.dismiss')}
@@ -167,7 +167,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
             {t('global.dismiss')}
           </HoliButton>
           <HoliButtonLoading
-            disabled={saveButtonDisabled || !inputValid}
+            disabled={saveButtonDisabled || !inputValid || loading}
             label={t('global.save')}
             icon={loading ? 'loader-4' : undefined}
             iconSpinning={loading}
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     marginTop: 16,
     color: colors.foreground20,
+  },
+  footerContainer: {
+    width: '100%',
   },
   footer: {
     position: 'absolute',

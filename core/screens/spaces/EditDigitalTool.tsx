@@ -30,7 +30,7 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditDigitalToolParams = {
@@ -188,7 +188,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View>
+      <View style={styles.footerContainer}>
         <View style={[mixins.container, styles.footer]}>
           <HoliButton
             label={t('global.dismiss')}
@@ -215,8 +215,10 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <View
+          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
+        >
           <HoliText size="large" style={styles.title}>
             {t('spaces.digitalTool.edit.title')}
           </HoliText>
@@ -278,19 +280,20 @@ const styles = StyleSheet.create({
   title: {
     marginVertical: 24,
   },
+  footerContainer: {
+    width: '100%',
+  },
   footer: {
-    position: 'fixed',
     bottom: 40,
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // FIXME: gap not supported in current react-native version for mobile
-    //  using negative margin on parent and margin on children for mobile
-    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({
       web: {
         alignSelf: 'center',
+        position: 'fixed',
       },
     }),
   },

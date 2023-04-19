@@ -197,25 +197,27 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton
-          label={t('global.dismiss')}
-          type="secondary"
-          inline
-          style={styles.footerButton}
-          onPress={() => setShowConfirmationModal(true)}
-        >
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled || loading || !inputValid}
-          icon={loading ? 'loader-4' : undefined}
-          iconSpinning={loading}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="create-task-modal-save-btn"
-          style={styles.footerButton}
-        />
+      <View style={styles.footerContainer}>
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={() => setShowConfirmationModal(true)}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled || loading || !inputValid}
+            icon={loading ? 'loader-4' : undefined}
+            iconSpinning={loading}
+            label={t('global.save')}
+            onPress={onSave}
+            testID="create-task-modal-save-btn"
+            style={styles.footerButton}
+          />
+        </View>
       </View>
     )
   }
@@ -262,9 +264,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           />
         </View>
       </DefaultScrollHeaderLayout>
-      <View>
-        <Footer />
-      </View>
+      <Footer />
 
       <HoliConfirmation
         show={showConfirmationModal}
@@ -303,14 +303,14 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  footerContainer: {
+    width: '100%',
+  },
   footer: {
     position: 'absolute',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // FIXME: gap not supported in current react-native version for mobile
-    //  using negative margin on parent and margin on children for mobile
-    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({
