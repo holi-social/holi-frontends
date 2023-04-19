@@ -26,6 +26,10 @@ export const notificationsQuery = gql`
           post {
             id
             title
+            isPublic
+            creator {
+              ...UserAvatar
+            }
           }
           user {
             ...UserAvatar
@@ -42,6 +46,7 @@ export const notificationsQuery = gql`
             avatar
             avatarDefaultColor
           }
+          teaser
         }
       }
       totalResults

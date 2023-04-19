@@ -80,9 +80,18 @@ export interface NotificationSpaceConnection extends NotificationBase {
   }
 }
 
+export interface NotificationSpacePost extends NotificationBase {
+  notificationType: NotificationType.COMMUNITY_NEW_POST
+  options: {
+    space: Space
+    post: Post
+    teaser: string
+  }
+}
+
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
 export type NotificationWithUser = NotificationConnection | NotificationPost | NotificationSpaceConnection
-export type Notification = NotificationWithUser | NotificationReleaseInfo
+export type Notification = NotificationWithUser | NotificationReleaseInfo | NotificationSpacePost
 
 export interface NotificationProps<T = Notification> {
   notification: T

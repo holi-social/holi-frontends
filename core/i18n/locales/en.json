@@ -192,6 +192,8 @@
   "notifications.space.connection.joined.message": "<0>{{user}}</0> is now a member of the space {{space}}",
   "notifications.space.connection.message": "You requested to join the space {{space}}",
   "notifications.space.connection.requested.message": "<0>{{user}}</0> requested to join the space {{space}}",
+  "notifications.space.post.private.created.message": "{{user}} posted {{post}} in {{space}}",
+  "notifications.space.post.public.created.message": "{{space}} posted {{post}}",
   "notifications.title": "Notifications",
   "oauth2.loggedOut": "Already logged out",
   "oauth2.logout": "Logging out...",
