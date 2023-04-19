@@ -87,10 +87,12 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
   await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
 
-  // check if on click the user profile is displayed
+  // check if space collaborator is displayed
   await page.waitForSelector(byTestId('spaces-collaborators-item'))
 
+  // close modal and wait until closed
   await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
+  await page.waitForSelector(byTestId('btn-to-open-space-collaborators-modal'))
 
   await checkAccessibility(page)
 
@@ -273,32 +275,31 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await page.waitForSelector(byTestId('create-task-skills-modal-wrapper-close-btn'), { state: 'hidden' })
 
   // open locationType dropdown
-  await clickElementByTestId(page, 'task-visibility-title')
-  await page.waitForSelector(byTestId('task-locationType-input'))
-  await clickElementByTestId(page, 'task-locationType-input')
-
-  // click on first locationType in the list
-  await clickElementByTestId(page, 'task-locationType-item')
+  await page.waitForSelector(byTestId('btn-task-locationType'))
+  await clickElementByTestId(page, 'btn-task-locationType')
+  await clickElementByTestId(page, 'item-task-locationType', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-locationType')
 
   // select location
   const locationInput = await locateElementByTestId(page, 'task-location-input')
   await locationInput.fill('Hamburg')
-  // expect suggestions
-  await clickElement(page.locator('[role="menuitem"]'))
-
-  // select commitment level
-  const commitmentLevelInput = await locateElementByTestId(page, 'task-regularity-input')
-  await commitmentLevelInput.fill('Regularly')
-  // expect suggestions
-  await clickElementByTestId(page, 'task-regularity-item', 0)
 
   // add contact information
   const contactEmail = 'e2e@holi.team'
   const contactPhone = '+49 164 4344 434'
   const taskContactEmail = await locateElementByTestId(page, 'task-contactEmail-input')
+  await clickElementByTestId(page, 'task-contactEmail-input')
   await taskContactEmail.fill(contactEmail)
   const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
   await taskContactPhone.fill(contactPhone)
+
+  // select commitment level
+  await page.waitForSelector(byTestId('btn-task-regularity'))
+  await clickElementByTestId(page, 'btn-task-regularity')
+  await clickElementByTestId(page, 'item-task-regularity', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-regularity')
 
   // add thumbnail image
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
@@ -437,7 +438,13 @@ const addDigitalTool = async (
   await toolUrlInput.fill(url)
   await toolTitleInput.fill(name)
   await toolDescriptionInput.fill(desc)
-  await clickElementByTestId(page, 'digital-tool-collection-input')
-  await clickElementByTestId(page, 'digital-tool-collection-item')
+
+  // select collection
+  await page.waitForSelector(byTestId('btn-digital-tool-collection'))
+  await clickElementByTestId(page, 'btn-digital-tool-collection')
+  await clickElementByTestId(page, 'item-digital-tool-collection', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-digital-tool-collection')
+
   await clickElementByTestId(page, 'digital-tool-add-modal-save-btn')
 }
