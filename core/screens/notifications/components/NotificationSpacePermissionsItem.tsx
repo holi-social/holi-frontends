@@ -16,15 +16,19 @@ const NotificationSpacePermissionsItem: React.VFC<NotificationProps<Notification
 }) => {
   const { userId } = useAuth()
 
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  const assertUnreachable = (_: never): never => {
+    throw new Error('Should not have reached here!')
+  }
+
   const getI18Key = () => {
     switch (notification.notificationType) {
       case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED:
         return 'notifications.space.permissions.admin.granted.message'
       case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED:
         return 'notifications.space.permissions.admin.revoked.message'
-
       default:
-        break
+        return assertUnreachable(notification.notificationType)
     }
   }
 
