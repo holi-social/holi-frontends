@@ -221,6 +221,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           // Interests step
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="interests"
             testID="account-setup-interests-step"
@@ -238,6 +239,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           // Location step
           <ScrollView
+            keyboardShouldPersistTaps="always"
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="location"
             testID="account-setup-location-step"
