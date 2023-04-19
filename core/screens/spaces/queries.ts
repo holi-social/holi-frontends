@@ -193,8 +193,6 @@ export type SpaceByIdResponse = {
 }
 
 export const updateSpaceUserConnectionMutation = gql`
-  ${SpaceFragment}
-
   mutation UpdateSpaceUserConnection(
     $connectAction: UpdateConnectionAction!
     $connectionType: SpaceUserConnectionType!
@@ -207,7 +205,8 @@ export const updateSpaceUserConnectionMutation = gql`
       spaceId: $spaceId
       userId: $userId
     ) {
-      ...FullSpace
+      id
+      connectionStatusToMyself
     }
   }
 `
