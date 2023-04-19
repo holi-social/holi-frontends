@@ -327,7 +327,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -1396,7 +1396,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
