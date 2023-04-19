@@ -1,40 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const COLLECTION_TYPES: HoliSelectOption[] = (
-  Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
-).map((collaborationType) => {
-  return {
-    id: collaborationType,
-    keyPrefix: 'spaces.toolKit.linkhub.collection.',
-    selected: false,
-  }
-})
-
+export const COLLECTION_TYPES = Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
   onChangeTitle: (title: string) => void
   onChangeDescription: (description: string) => void
-  onSelectCollection: (option: HoliSelectOption) => void
+  onSelectCollection: (option: HoliModalSelectOption) => void
   onChangeThumbnail: (thumbnail: ImageInfo) => void
   url: string
   title: string
   description?: string
-  selectedCollection?: HoliSelectOption
+  selectedCollection?: HoliModalSelectOption
   thumbnail?: ImageInfo | undefined
   isEdit?: boolean
+  fieldErrors?: TranslatedFieldErrors
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -49,31 +42,53 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   selectedCollection,
   thumbnail,
   isEdit = false,
+  fieldErrors = {},
 }: DigitalToolInputFormProps) => {
-  const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
+  const collectionTypes = useMemo(
+    () =>
+      COLLECTION_TYPES.map((collectionType) => {
+        return {
+          id: collectionType,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+          selected: false,
+        }
+      }),
+    [t]
+  )
+  const [collectionOptions, setCollectionOptions] = useState<HoliModalSelectOption[]>(collectionTypes)
+
+  const [urlError, setUrlError] = useState<string | undefined>()
+  const [titleError, setTitleError] = useState<string | undefined>()
+  const [descriptionError, setDescriptionError] = useState<string | undefined>()
+
+  useEffect(() => {
+    setUrlError(fieldErrors?.url?.[0])
+    setDescriptionError(fieldErrors?.description?.[0])
+    setTitleError(fieldErrors?.title?.[0])
+  }, [fieldErrors])
 
   useEffect(() => {
     if (selectedCollection) {
-      const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
+      const updatedCollectionsList = collectionTypes.map((collectionOption) =>
         collectionOption.id === selectedCollection.id
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
       setCollectionOptions(updatedCollectionsList)
     }
-  }, [selectedCollection])
+  }, [selectedCollection, collectionTypes])
 
   const ThumbnailUploader = () => {
     return (
       <View style={styles.thumbnailContainer}>
-        {(thumbnail && (
+        {thumbnail?.uri ? (
           <HoliImage
             source={{ uri: thumbnail?.uri ?? '' }}
             label={t('spaces.input.digitalTool.thumbnail.label')}
             style={styles.thumbnail}
           />
-        )) || (
+        ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
             <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
           </View>
@@ -117,7 +132,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={'https://...'}
         inputLabel={t('spaces.input.digitalTool.url.label')}
-        validationErrorText={''}
+        validationErrorText={urlError}
         value={url}
         onChange={onChangeUrl}
         accessibilityLabel={t('spaces.input.digitalTool.url.label')}
@@ -128,7 +143,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.title.placeholder')}
         inputLabel={t('spaces.input.digitalTool.title.label')}
-        validationErrorText={''}
+        validationErrorText={titleError}
         value={title}
         onChange={onChangeTitle}
         accessibilityLabel={t('spaces.input.digitalTool.title.label')}
@@ -137,22 +152,21 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         isRequired={true}
         maxNoOfCharacters={50}
       />
-      <HoliSelect
+      <HoliModalSelect
         options={collectionOptions}
-        inputLabel={t('spaces.input.digitalTool.collection.label')}
-        accessibilityLabel={t('spaces.input.digitalTool.collection.label')}
+        title={t('spaces.input.digitalTool.collection.label')}
+        label={t('spaces.input.digitalTool.collection.label')}
         placeholder={t('spaces.input.digitalTool.collection.placeholder')}
-        style={[styles.collectionOption, { zIndex: 1 }]}
+        style={styles.collectionOption}
         onChange={onSelectCollection}
         isRequired={true}
-        id="digital-tool-collection"
         testID="digital-tool-collection"
+        variant="dense"
       />
-
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}
         inputLabel={t('spaces.input.digitalTool.description.label')}
-        validationErrorText={''}
+        validationErrorText={descriptionError}
         value={description}
         onChange={onChangeDescription}
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}

@@ -129,6 +129,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
         {selectedUser && (
           <SpacePermissions
+            space={space}
             user={selectedUser}
             isAdmin={isAdmin}
             handleNavigation={handleNavigation}

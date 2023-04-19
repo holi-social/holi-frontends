@@ -108,8 +108,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             <DeleteSpaceButton
               spaceId={space?.id || ''}
               onDelete={() => {
-                replaceRoute('/spaces/')
                 hide()
+                replaceRoute('/spaces/')
               }}
               style={styles.buttonWithIcon}
             />

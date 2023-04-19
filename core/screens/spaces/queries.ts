@@ -193,8 +193,6 @@ export type SpaceByIdResponse = {
 }
 
 export const updateSpaceUserConnectionMutation = gql`
-  ${SpaceFragment}
-
   mutation UpdateSpaceUserConnection(
     $connectAction: UpdateConnectionAction!
     $connectionType: SpaceUserConnectionType!
@@ -207,7 +205,8 @@ export const updateSpaceUserConnectionMutation = gql`
       spaceId: $spaceId
       userId: $userId
     ) {
-      ...FullSpace
+      id
+      connectionStatusToMyself
     }
   }
 `
@@ -259,8 +258,8 @@ export const createSpaceMutation = gql`
 `
 
 export const AddCollaborationToolSchema = z.object({
-  url: z.string().url().max(500),
-  title: z.string().trim().min(3).max(50),
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
   collectionType: z.string() /* UUID */,
@@ -287,8 +286,8 @@ export type AddCollaborationToolResponse = {
 
 export const UpdateCollaborationToolSchema = z.object({
   id: z.string() /* UUID */,
-  url: z.string().url().max(500),
-  title: z.string().trim().min(3).max(50),
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   collectionType: z.string(),
 })

@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -17,6 +17,7 @@ import DigitalToolInputForm, {
 import {
   SpaceByIdResponse,
   UpdateCollaborationToolResponse,
+  UpdateCollaborationToolSchema,
   spaceByIdQuery,
   updateCollaborationToolMutation,
 } from '@holi/core/screens/spaces/queries'
@@ -56,6 +57,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const { openToast } = useToast()
 
   const {
@@ -70,14 +72,16 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
-  const { displayError } = useErrorHandling()
+  const { handleGraphQLError } = useFieldErrors({
+    handledFieldErrors: ['url', 'title', 'description'],
+  })
 
   const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
     onCompleted: () => {
       openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    onError: (error) => displayError(error, error.message),
+    onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
@@ -119,15 +123,37 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
         const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
-        const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
-        const toolCollectionType = { ...collectionType, selected: true }
+        const collectionType = COLLECTION_TYPES.filter(
+          (collection_type) => collection_type === digitalTool.collectionType
+        )[0]
+        const toolCollectionType = {
+          id: collectionType,
+          selected: true,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+        }
         setUrl(digitalTool.url)
         setTitle(digitalTool.title)
         setDescription(digitalTool.description)
         setSelectedCollection(toolCollectionType)
       }
     }
-  }, [space, toolIdOrName])
+  }, [space, toolIdOrName, t])
+
+  useEffect(() => {
+    const resultSchema = UpdateCollaborationToolSchema.safeParse({
+      spaceId: space?.id,
+      ...(title ? { title } : {}),
+      ...(url ? { url } : {}),
+      ...(selectedCollection?.id ? { collectionType: selectedCollection?.id } : {}),
+      ...(description ? { description } : {}),
+    })
+
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+    } else {
+      setFieldErrors({})
+    }
+  }, [description, selectedCollection?.id, space?.id, title, url])
 
   const onChangeUrl = (url: string) => {
     setUrl(url)
@@ -196,6 +222,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
             description={description}
             thumbnail={thumbnail}
             isEdit={true}
+            fieldErrors={fieldErrors}
           />
         </View>
       </DefaultScrollHeaderLayout>

@@ -259,6 +259,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         "width": "100%",
       }
     }
+    testID="stepper-scrollview"
   >
     <View>
       <View
