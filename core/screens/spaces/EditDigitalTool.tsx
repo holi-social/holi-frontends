@@ -123,15 +123,21 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
         const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
-        const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
-        const toolCollectionType = { ...collectionType, selected: true }
+        const collectionType = COLLECTION_TYPES.filter(
+          (collection_type) => collection_type === digitalTool.collectionType
+        )[0]
+        const toolCollectionType = {
+          id: collectionType,
+          selected: true,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+        }
         setUrl(digitalTool.url)
         setTitle(digitalTool.title)
         setDescription(digitalTool.description)
         setSelectedCollection(toolCollectionType)
       }
     }
-  }, [space, toolIdOrName])
+  }, [space, toolIdOrName, t])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({
