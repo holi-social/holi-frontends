@@ -86,10 +86,12 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
   await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
 
-  // check if on click the user profile is displayed
+  // check if space collaborator is displayed
   await page.waitForSelector(byTestId('spaces-collaborators-item'))
 
+  // close modal and wait until closed
   await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
+  await page.waitForSelector(byTestId('btn-to-open-space-collaborators-modal'))
 
   await checkAccessibility(page)
 
@@ -279,20 +281,21 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   const locationInput = await locateElementByTestId(page, 'task-location-input')
   await locationInput.fill('Hamburg')
 
+  // add contact information
+  const contactEmail = 'e2e@holi.team'
+  const contactPhone = '+49 164 4344 434'
+  const taskContactEmail = await locateElementByTestId(page, 'task-contactEmail-input')
+  await clickElementByTestId(page, 'task-contactEmail-input')
+  await taskContactEmail.fill(contactEmail)
+  const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
+  await taskContactPhone.fill(contactPhone)
+
   // select commitment level
   await page.waitForSelector(byTestId('btn-task-regularity'))
   await clickElementByTestId(page, 'btn-task-regularity')
   await clickElementByTestId(page, 'item-task-regularity', 0)
   // check if it closed
   await locateElementByTestId(page, 'btn-task-regularity')
-
-  // add contact information
-  const contactEmail = 'e2e@holi.team'
-  const contactPhone = '+49 164 4344 434'
-  const taskContactEmail = await locateElementByTestId(page, 'task-contactEmail-input')
-  await taskContactEmail.fill(contactEmail)
-  const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
-  await taskContactPhone.fill(contactPhone)
 
   // add thumbnail image
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
