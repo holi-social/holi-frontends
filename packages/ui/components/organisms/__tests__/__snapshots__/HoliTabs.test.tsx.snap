@@ -7,6 +7,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       "alignContent": "center",
       "alignItems": "center",
       "justifyContent": "flex-start",
+      "width": "100%",
     }
   }
   testID="tabs-module"
@@ -227,9 +228,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     bounces={false}
     contentContainerStyle={
       {
-        "alignContent": "flex-start",
-        "alignItems": "flex-start",
-        "justifyContent": "flex-start",
+        "flexGrow": 1,
       }
     }
     dataSet={
@@ -238,6 +237,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       }
     }
     horizontal={true}
+    onLayout={[Function]}
     onScroll={[Function]}
     pagingEnabled={true}
     scrollEnabled={false}
@@ -246,7 +246,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     style={
       {
         "flex": 1,
-        "flexDirection": "row",
+        "height": "100%",
         "minHeight": "100%",
         "width": "100%",
       }

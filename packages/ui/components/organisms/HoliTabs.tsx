@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { StyleProp, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
@@ -7,7 +8,7 @@ import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepp
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type HoliTabsProps = {
+interface Props {
   id: string
   initialStep?: number
   tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
@@ -20,7 +21,7 @@ export type HoliTabsProps = {
   stepper?: boolean
 }
 
-const HoliTabs: React.FC<HoliTabsProps> = ({
+const HoliTabs = ({
   id,
   tabs,
   initialStep,
@@ -30,9 +31,9 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   onChangeTab,
   testID = 'tabs-module',
   stepper = true,
-}: HoliTabsProps) => {
-  const { width: screenWidth } = useWindowDimensions()
-  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
+}: Props) => {
+  const [viewWidth, setViewWidth] = useState(750)
+  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(viewWidth, initialStep)
   const [activeTab, setActiveTab] = useState(currentStep)
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
@@ -45,6 +46,11 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
     },
     [setStep, currentStep, onChangeTab]
   )
+
+  const handleLayout = (e: LayoutChangeEvent) => {
+    const width = e.nativeEvent.layout.width
+    setViewWidth(width)
+  }
 
   const renderedTabs = useMemo(
     () =>
@@ -101,10 +107,11 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
         <HoliStepper
           ref={stepperRef}
           currentStep={currentStep}
-          screenWidth={screenWidth}
+          width={viewWidth}
           steps={renderedTabs}
           scrollEnabled={scrollEnabled}
           onScroll={onScroll}
+          onLayout={handleLayout}
         />
       ) : (
         renderedTabs
@@ -113,14 +120,13 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   )
 }
 
-export default HoliTabs
-
 const getStyles = (centeredButtons = false) =>
   StyleSheet.create({
     holiTabs: {
       justifyContent: 'flex-start',
       alignItems: 'center',
       alignContent: 'center',
+      width: '100%',
     },
     headerContainer: {
       width: '100%',
@@ -156,3 +162,5 @@ const getStyles = (centeredButtons = false) =>
       fontWeight: '500',
     },
   })
+
+export default HoliTabs
