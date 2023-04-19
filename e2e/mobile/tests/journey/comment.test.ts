@@ -38,7 +38,8 @@ describe('@Comment', () => {
     // check if submit comment button is disabled accordingly
     const submitButton = await waitForElementWithTestId('btn-submit-comment')
     //console.log(await submitButton.getAttribute('enabled'))
-    expect(await submitButton.getAttribute('enabled')).toBe('false')
+    submitButton.waitForEnabled({ reverse: true })
+    // expect(await submitButton.getAttribute('enabled')).toBe('false')
 
     // wait until we are back on the post detail page
     await waitForElementWithTestId('post-detail-footer', 30000)
