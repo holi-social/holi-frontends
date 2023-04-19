@@ -53,7 +53,8 @@ describe('@Spaces', () => {
   const assertFilteringWorks = async () => {
     await tapOnElementWithTestId('btn-filter-spaces')
 
-    const locationFilterValue = 'Berlin'
+    // Force no results screen to be able to reset filter later
+    const locationFilterValue = 'nwqekjnk23jn4k23'
     await fillFieldByTestId('spaces-filter-location-input', locationFilterValue)
 
     // open topics dropdown
@@ -116,6 +117,8 @@ describe('@Spaces', () => {
   }
 
   const assertSharingSpaceWorks = async () => {
+    // scroll to header with optons menu
+    await scrollToElementWithTestId('space-options-btn', 'up', { maxAttempts: 3 })
     // open options menu
     await tapOnElementWithTestId('space-options-btn')
 
@@ -154,12 +157,13 @@ describe('@Spaces', () => {
   const assertEditingSpace = async () => {
     // check if edit space page has correct information
     await seeTextWithTestId(initialName, 'space-edit-title')
-    await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
+    await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 
     // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
+    await scrollToElementWithTestId('btn-space-edit-name', 'up', { maxAttempts: 2 })
     await tapOnElementWithTestId('btn-space-edit-name')
     await inputSpaceNameAndGoal(editedName, editedGoal)
     await tapOnElementWithTestId('space-edit-modal-save-btn')
@@ -199,6 +203,7 @@ describe('@Spaces', () => {
 
     // check if the correct number of sdgs have been selected
     await delay(1)
+    await scrollToElementWithTestId('space-edit-sdgs-chip', 'down', { maxAttempts: 1 })
     const numberOfEditedSdgs = (await locateMultipleElementsWithTestId('space-edit-sdgs-chip')).length
     expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
   }
@@ -227,6 +232,7 @@ describe('@Spaces', () => {
     // Click on the title (or anywhere outside the keyboard) to close the keyboard
     // There is no safe way to close the keyboard on iOS, so it's recommended to do it ourselves
     // https://github.com/appium/appium/issues/15073
+    await scrollToElementWithTestId('space-name-and-goal-title', 'up', { maxAttempts: 2 })
     await tapOnElementWithTestId('space-name-and-goal-title')
   }
 

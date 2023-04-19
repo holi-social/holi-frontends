@@ -66,9 +66,8 @@ const Spaces: React.VFC = () => {
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>
-          {/* TODO(SF): changed order to make e2e test work on android */}
-          <NotificationSearchButtons {...props} />
           <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
+          <NotificationSearchButtons {...props} />
         </HoliHorizontalRow>
       ),
     })
