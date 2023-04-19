@@ -47,7 +47,7 @@ const HoliWizardNaviagtionButtons = ({
           label={t('global.back')}
           disabled={false}
           onPress={onBackPress}
-          testID="holi-wizard-back-btn"
+          testID={testID ? `${testID}-back-btn` : 'holi-wizard-back-btn'}
           style={styles.backButton}
         >
           <HoliIcon icon={'arrow-left'} size={24} color={colors.foreground30} />
@@ -59,7 +59,7 @@ const HoliWizardNaviagtionButtons = ({
           disabled={!isNextButtonEnabled || isLoading}
           label={isLoading ? t('global.loading') : isLastStep ? submitButtonLabel : t('global.next')}
           onPress={onNextPress}
-          testID="holi-wizard-next-btn"
+          testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
           style={styles.nextButton}
           icon={isLoading ? 'loader-4' : undefined}
           iconSpinning={isLoading}

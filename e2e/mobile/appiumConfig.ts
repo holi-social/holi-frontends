@@ -74,6 +74,7 @@ const browserStackCapabilities = () => {
       'appium:automationVersion': 'latest',
       // BrowserStack options builder: https://www.browserstack.com/app-automate/capabilities#
       'appium:app': requireEnvVar('BROWSERSTACK_APP_URL'),
+      'appium:settings[snapshotMaxDepth]': '100',
       'bstack:options': {
         appiumVersion: '2.0.0',
         projectName: gitlabBranchName || localGitInfo.branch,
@@ -118,6 +119,7 @@ const localIOSSimulator = () => ({
     'appium:udid': requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     //bundleId: process.env.APP_PATH ? appId : undefined,
     'appium:showIOSLog': false,
+    'appium:settings[snapshotMaxDepth]': '100',
   },
 })
 
