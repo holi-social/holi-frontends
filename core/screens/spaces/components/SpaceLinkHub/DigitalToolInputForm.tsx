@@ -13,6 +13,7 @@ import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
+export const COLLECTION_TYPES = Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
   onChangeTitle: (title: string) => void
@@ -43,10 +44,10 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   const { t } = useTranslation()
   const collectionTypes = useMemo(
     () =>
-      (Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>).map((collaborationType) => {
+      COLLECTION_TYPES.map((collectionType) => {
         return {
-          id: collaborationType,
-          title: t(`spaces.toolKit.linkhub.collection.${collaborationType}`),
+          id: collectionType,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
           selected: false,
         }
       }),
