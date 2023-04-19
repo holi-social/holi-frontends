@@ -239,7 +239,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
           // Location step
           <ScrollView
-            keyboardShouldPersistTaps="always"
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="location"
             testID="account-setup-location-step"
