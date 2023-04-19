@@ -1,5 +1,4 @@
 import { LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
 export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
@@ -17,12 +16,7 @@ export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
   },
 ]
 
-export const LOCATION_TYPE_OPTIONS: HoliSelectOption[] = [
-  {
-    id: LocationType.HYBRID,
-    title: 'Hybrid',
-    selected: false,
-  },
+export const LOCATION_TYPE_OPTIONS: HoliModalSelectOption[] = [
   {
     id: LocationType.ONSITE,
     title: 'On-site',
@@ -33,9 +27,14 @@ export const LOCATION_TYPE_OPTIONS: HoliSelectOption[] = [
     title: 'Remote',
     selected: false,
   },
+  {
+    id: LocationType.HYBRID,
+    title: 'Hybrid',
+    selected: false,
+  },
 ]
 
-export const REGULARITY_OPTIONS: HoliSelectOption[] = [
+export const REGULARITY_OPTIONS: HoliModalSelectOption[] = [
   {
     id: Regularity.ONE_TIME,
     title: 'One time',

@@ -27,8 +27,8 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -53,9 +53,9 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   // input fields
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [visibility, setVisibility] = useState<HoliSelectOption | undefined>()
-  const [locationType, setLocationType] = useState<HoliSelectOption | undefined>()
-  const [regularity, setRegularity] = useState<HoliSelectOption | undefined>()
+  const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
+  const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
+  const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
@@ -222,7 +222,12 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <DefaultScrollHeaderLayout
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+        keyboardShouldPersistTaps="handled"
+      >
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >

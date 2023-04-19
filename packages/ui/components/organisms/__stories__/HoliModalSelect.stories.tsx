@@ -1,7 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React, { useState } from 'react'
 
-import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import HoliModalSelect, {
+  HoliModalSelectOption,
+  HoliModalSelectVariants,
+} from '@holi/ui/components/organisms/HoliModalSelect'
 
 const defaultOptions = [
   {
@@ -38,6 +41,11 @@ Example.argTypes = {
   placeholder: { description: 'Modal button placeholder', required: false },
   isRequired: { description: 'Boolean to set this form field as required', required: false },
   options: { description: 'Select options', required: true, control: { type: 'object' } },
+  variant: {
+    options: HoliModalSelectVariants,
+    control: { type: 'select' },
+    description: 'normal or dense',
+  },
 }
 
 Example.args = {
@@ -46,4 +54,5 @@ Example.args = {
   placeholder: 'Select one...',
   isRequired: false,
   options: defaultOptions,
+  variant: 'normal',
 }

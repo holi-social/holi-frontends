@@ -7,6 +7,7 @@ import {
   goodnewsRequestTimeout,
   proceedAsGuest,
   volunteeringRequestTimeout,
+  waitForAnimationEnd,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -27,6 +28,8 @@ const openAppAndReturn = async (page: Page, appName: string, appTimeout: number)
 
   // apps drawer is open and contain apps
   await page.waitForSelector(byTestId('apps-drawer-modal'))
+
+  await waitForAnimationEnd(page, byTestId('apps-drawer-modal-animatedview'))
 
   // open the app
   await clickElementByTestId(page, `app-tile-${appName}`)
