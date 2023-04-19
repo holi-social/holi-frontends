@@ -104,6 +104,7 @@
   "global.seeMore": "Weitere Vorschläge",
   "global.skip": "Überspringen",
   "global.technicalError": "Ups! Da ist ein technisches Problem aufgetreten!",
+  "global.validation.url.invalid": "Der Link wurde als unsicher eingestuft und kann nicht freigegeben werden.",
   "global.yes": "Ja",
   "help.title": "Hilfe",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
