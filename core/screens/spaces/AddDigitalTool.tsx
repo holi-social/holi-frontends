@@ -7,13 +7,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalToolInputForm'
 import {
   AddCollaborationToolResponse,
+  AddCollaborationToolSchema,
   SpaceByIdResponse,
   addCollaborationToolMutation,
   spaceByIdQuery,
@@ -51,6 +52,8 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [inputValid, setInputValid] = useState(true)
 
   const {
     data,
@@ -63,11 +66,13 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const space = data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
-  const { displayError } = useErrorHandling()
+  const { handleGraphQLError } = useFieldErrors({
+    handledFieldErrors: ['url', 'title', 'description'],
+  })
 
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
-    onError: (error) => displayError(error, error.message),
+    onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
@@ -104,6 +109,23 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
       setSaveButtonDisabled(false)
     }
   }, [url, title, selectedCollection])
+
+  useEffect(() => {
+    const resultSchema = AddCollaborationToolSchema.safeParse({
+      spaceId: space?.id,
+      ...(title ? { title } : {}),
+      ...(url ? { url } : {}),
+      ...(selectedCollection?.id ? { collectionType: selectedCollection?.id } : {}),
+      ...(description ? { description } : {}),
+    })
+    setInputValid(resultSchema.success)
+
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+    } else {
+      setFieldErrors({})
+    }
+  }, [description, selectedCollection?.id, space?.id, title, url])
 
   const onChangeUrl = (url: string) => {
     setUrl(url)
@@ -143,7 +165,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
           {t('global.dismiss')}
         </HoliButton>
         <HoliButtonLoading
-          disabled={saveButtonDisabled}
+          disabled={saveButtonDisabled || !inputValid}
           label={t('global.save')}
           onPress={onSave}
           testID="digital-tool-add-modal-save-btn"
@@ -172,6 +194,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
             title={title}
             description={description}
             thumbnail={thumbnail}
+            fieldErrors={fieldErrors}
           />
         </View>
       </DefaultScrollHeaderLayout>
