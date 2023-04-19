@@ -6,7 +6,11 @@ import { StyleSheet, View } from 'react-native'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
-import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import {
+  UpdateSpaceUserConnectionResponse,
+  spaceByIdQuery,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -39,7 +43,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
-  const [showRemoveFromSpaceConfirmationModal, setShowRemoveFromSpaceConfirmationModal] = useState(false)
+  // const [showRemoveFromSpaceConfirmationModal, setShowRemoveFromSpaceConfirmationModal] = useState(false)
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
 
@@ -56,6 +60,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       onCompleted() {
         hidePermissions()
       },
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
     }
   )
 
@@ -136,7 +141,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
-            <HoliButton
+            {/* <HoliButton
               contentStyle={styles.actionsItem}
               inline
               transparent
@@ -149,7 +154,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               <HoliText style={styles.actionsItemText}>
                 {t('spaces.collaborators.permissions.removeFromSpace.label')}
               </HoliText>
-            </HoliButton>
+            </HoliButton> */}
 
             <ReportBlockOptionButton
               action="report"
@@ -185,7 +190,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             show={showGrantAdminConfirmationModal}
             label={t('spaces.collaborators.permissions.grantAdmin.label')}
             title={t('spaces.collaborators.permissions.grantAdmin.label')}
-            confirmationButtonType="warning"
             description={t('spaces.collaborators.permissions.grantAdmin.confirm', {
               user: user.fullName,
             })}
@@ -202,7 +206,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             show={showRevokeAdminConfirmationModal}
             label={t('spaces.collaborators.permissions.revokeAdmin.label')}
             title={t('spaces.collaborators.permissions.revokeAdmin.label')}
-            confirmationButtonType="warning"
             description={t('spaces.collaborators.permissions.revokeAdmin.confirm', {
               user: user.fullName,
             })}
@@ -215,11 +218,10 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             }}
           />
 
-          <HoliConfirmation
+          {/* <HoliConfirmation
             show={showRemoveFromSpaceConfirmationModal}
             label={t('spaces.collaborators.permissions.removeFromSpace.label')}
             title={t('spaces.collaborators.permissions.removeFromSpace.label')}
-            confirmationButtonType="warning"
             description={t('spaces.collaborators.permissions.removeFromSpace.confirm', {
               user: user.fullName,
             })}
@@ -232,7 +234,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               console.warn('removeUserFromSpace')
               setShowRemoveFromSpaceConfirmationModal(false)
             }}
-          />
+          /> */}
         </View>
       </HoliModal>
     </>
