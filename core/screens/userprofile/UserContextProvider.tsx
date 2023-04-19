@@ -39,8 +39,8 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
   })
 
   if (error) {
-    displayError(error)
     setUserLoggedOut()
+    displayError(error)
   }
 
   const user = data?.authenticatedUser
