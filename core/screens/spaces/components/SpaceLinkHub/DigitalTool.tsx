@@ -54,7 +54,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
       />
       <View style={styles.imageContainer} testID="tool-icon">
         {tool.thumbnail ? (
-          <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} />
+          <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} style={styles.thumbnail} />
         ) : imageSource ? (
           <View style={styles.iconContainer}>
             <HoliLocalImage imageSource={imageSource} width={40} height={40} label={toolName} />
@@ -201,6 +201,11 @@ const styles = StyleSheet.create({
   imageContainer: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  thumbnail: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
   },
   iconContainer: {
     position: 'relative',

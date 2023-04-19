@@ -25,8 +25,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -50,7 +50,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   const [description, setDescription] = useState<string>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
-  const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
+  const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [inputValid, setInputValid] = useState(true)
@@ -70,7 +70,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
     handledFieldErrors: ['url', 'title', 'description'],
   })
 
-  const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
+  const [addCollaborationTool, { loading }] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
@@ -85,6 +85,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
           title,
           description,
           collectionType: selectedCollection?.id,
+          thumbnail: thumbnail?.blob,
         },
       },
     })
@@ -154,23 +155,27 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton
-          label={t('global.dismiss')}
-          type="secondary"
-          inline
-          style={styles.footerButton}
-          onPress={() => navigateBack()}
-        >
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled || !inputValid}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="digital-tool-add-modal-save-btn"
-          style={styles.footerButton}
-        />
+      <View>
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={() => navigateBack()}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled || !inputValid}
+            label={t('global.save')}
+            icon={loading ? 'loader-4' : undefined}
+            iconSpinning={loading}
+            onPress={onSave}
+            testID="digital-tool-add-modal-save-btn"
+            style={styles.footerButton}
+          />
+        </View>
       </View>
     )
   }
@@ -247,9 +252,6 @@ const styles = StyleSheet.create({
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // FIXME: gap not supported in current react-native version for mobile
-    //  using negative margin on parent and margin on children for mobile
-    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({
