@@ -2259,7 +2259,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
