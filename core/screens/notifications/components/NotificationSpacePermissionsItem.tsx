@@ -8,6 +8,7 @@ import {
   NotificationSpacePermissions,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
+import { assertUnreachable } from '@holi/ui/helper/assertUnreachable'
 
 const NotificationSpacePermissionsItem: React.VFC<NotificationProps<NotificationSpacePermissions>> = ({
   notification,
@@ -15,11 +16,6 @@ const NotificationSpacePermissionsItem: React.VFC<NotificationProps<Notification
   testID,
 }) => {
   const { userId } = useAuth()
-
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  const assertUnreachable = (_: never): never => {
-    throw new Error('Should not have reached here!')
-  }
 
   const getI18Key = () => {
     switch (notification.notificationType) {
