@@ -42,6 +42,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
         initialStep={initialTabIndex}
         style={{ flex: 1 }}
         onChangeTab={onChangeTab}
+        backgroundColor={colors.background20}
         tabs={[
           {
             title: t('spaces.tab.info'),

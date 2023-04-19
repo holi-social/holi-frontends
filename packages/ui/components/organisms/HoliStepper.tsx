@@ -85,10 +85,14 @@ interface Props extends ScrollViewProps {
   currentStep: number
   width: number
   lazy?: boolean
+  backgroundColor?: string
 }
 
 export const HoliStepper = forwardRef<ScrollView, Props>(
-  ({ steps, currentStep, width, lazy = false, scrollEnabled = true, ...scrollViewProps }, carouselRef) => {
+  (
+    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = true, ...scrollViewProps },
+    carouselRef
+  ) => {
     const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
 
     const renderStep = (step: ReactNode, stepIdx: number) => {
@@ -105,6 +109,8 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
 
       return renderedSteps.get(stepIdx) ? step : null
     }
+
+    const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
 
     return (
       <ScrollView
@@ -124,7 +130,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         {steps.map((step, idx) => (
           <View
             key={idx}
-            style={StyleSheet.flatten([styles.tabWrapper, { width: width }])}
+            style={StyleSheet.flatten([styles.tabWrapper, backgroundColorStyle, { width: width }])}
             testID="stepper-step"
             dataSet={{ stepperStep: true }}
           >

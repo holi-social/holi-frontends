@@ -19,6 +19,7 @@ interface Props {
   tabBarWidth?: number
   tabBarStyle?: StyleProp<ViewStyle>
   stepper?: boolean
+  backgroundColor?: string
 }
 
 const HoliTabs = ({
@@ -29,6 +30,7 @@ const HoliTabs = ({
   style,
   tabBarStyle,
   onChangeTab,
+  backgroundColor,
   testID = 'tabs-module',
   stepper = true,
 }: Props) => {
@@ -112,6 +114,7 @@ const HoliTabs = ({
           scrollEnabled={scrollEnabled}
           onScroll={onScroll}
           onLayout={handleLayout}
+          backgroundColor={backgroundColor}
         />
       ) : (
         renderedTabs
