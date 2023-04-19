@@ -112,6 +112,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         horizontal
         pagingEnabled
         scrollEnabled={scrollEnabled} // Necessary to be `true` on Safari for scroll animations
+        testID="stepper-scrollview"
       >
         {steps.map((step, idx) => (
           <View

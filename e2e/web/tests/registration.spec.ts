@@ -6,12 +6,14 @@ import {
   clickElementByTestId,
   gotoFillAndSubmitRegistration,
   proceedAsGuest,
+  waitForAnimationEnd,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
+test.setTimeout(120000)
 test.describe('@Registration', () => {
   test('user journey', async ({ context, page, userHandler }) => {
     await proceedAsGuest(page)
@@ -29,11 +31,14 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   // make sure we have started the wizard
   await clickElementByTestId(page, 'community-guidelines-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   await clickElementByTestId(page, 'privacy-policy-checkbox')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   // switch to login
   await clickElementByTestId(page, 'btn-to-login-form')
@@ -41,6 +46,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 
   // switch to registration again
   await clickElementByTestId(page, 'btn-to-registration-form')
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
   await page.waitForSelector(byTestId('community-guidelines-checkbox'))
 }
 
