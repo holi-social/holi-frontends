@@ -246,6 +246,11 @@ export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elem
   await page.waitForSelector(byTestId(toastId), { state: 'detached' })
 }
 
+/*
+ * This function will wait for any movement or resizing of the element(s) matching the passed in locator.
+ * This will NOT WAIT for fading in and out, because it does only measure changes in the bounding box of the
+ * elements.
+ */
 export const waitForAnimationEnd = async (page: Page, locatorString: string): Promise<void> => {
   await (await page.waitForSelector(locatorString)).waitForElementState('stable')
 }
