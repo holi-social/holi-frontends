@@ -34,7 +34,6 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
   const [activeTab, setActiveTab] = useState(currentStep)
-
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
@@ -68,9 +67,9 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
   )
 
   return (
-    <View style={[styles.holiTabs, style]} testID={testID}>
+    <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
+        <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
           {tabs.map((tab, index) => {
             const isActive = activeTab === index
             return (

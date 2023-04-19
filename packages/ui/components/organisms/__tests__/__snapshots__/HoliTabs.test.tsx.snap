@@ -3,14 +3,11 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    [
-      {
-        "alignContent": "center",
-        "alignItems": "center",
-        "justifyContent": "flex-start",
-      },
-      undefined,
-    ]
+    {
+      "alignContent": "center",
+      "alignItems": "center",
+      "justifyContent": "flex-start",
+    }
   }
   testID="tabs-module"
 >
@@ -27,19 +24,14 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View
       style={
-        [
-          {
-            "alignSelf": "center",
-            "maxWidth": 1200,
-            "paddingHorizontal": 20,
-            "width": "100%",
-          },
-          {
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-          },
-          undefined,
-        ]
+        {
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "maxWidth": 1200,
+          "paddingHorizontal": 20,
+          "width": "100%",
+        }
       }
     >
       <View
