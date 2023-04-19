@@ -65,15 +65,19 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
 
-  await new Promise((f) => setTimeout(f, 1000))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
   await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
 
-  await new Promise((f) => setTimeout(f, 1000))
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+
   await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
+
+  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   await emailInput.fill(email)
@@ -240,4 +244,13 @@ export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId:
 export const clickElementByTestIdAndWaitForToastFinish = async (page: Page, elementId: string, toastId: string) => {
   await clickElementByTestIdAndWaitForToast(page, elementId, toastId)
   await page.waitForSelector(byTestId(toastId), { state: 'detached' })
+}
+
+/*
+ * This function will wait for any movement or resizing of the element(s) matching the passed in locator.
+ * This will NOT WAIT for fading in and out, because it does only measure changes in the bounding box of the
+ * elements.
+ */
+export const waitForAnimationEnd = async (page: Page, locatorString: string): Promise<void> => {
+  await (await page.waitForSelector(locatorString)).waitForElementState('stable')
 }
