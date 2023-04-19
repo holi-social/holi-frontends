@@ -36,6 +36,9 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
   const initializeFlow = useCallback(() => {
     if (userId) return
 
@@ -91,9 +94,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
     }
   }
 
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
-
   return (
     <HoliKeyboardSaveView>
       <CenteredContentLayout ref={scrollViewRef}>
@@ -102,7 +102,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
             {t('registration.signUp.heading')}
           </HoliHeading>
 
-          <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+          <HoliText style={styles.description}>{t('registration.signUp.description')}</HoliText>
           <FormBuilder
             flow={flow}
             onSubmit={onSubmit}

@@ -37,7 +37,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
 }: SpaceContactFormProps) => {
   const { t } = useTranslation()
   return (
-    <View style={style}>
+    <View style={[styles.container, style]}>
       <View style={styles.title}>
         <HoliText size="extralarge">{title}</HoliText>
       </View>
@@ -71,6 +71,9 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
 export default SpaceContactForm
 
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 320,
+  },
   info: {
     alignItems: 'center',
     flexDirection: 'row',

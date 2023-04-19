@@ -32,6 +32,8 @@ const Spaces: React.VFC = () => {
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+  // This is added to keep the reference of the current tab to handle the active tab in back navigation
+  global.spaceDetailInitialTabIndex = 0
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -42,6 +44,7 @@ const Spaces: React.VFC = () => {
   } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
+  global.hasOwnSpaces = hasOwnSpaces
 
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
@@ -154,7 +157,6 @@ const Spaces: React.VFC = () => {
               },
             ]}
             testID="spaces-tab-navigation"
-            scrollEnabled={Platform.OS !== 'android'}
           />
         )}
       </DefaultScrollHeaderLayout>

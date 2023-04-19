@@ -20,11 +20,11 @@ const DataConsent = ({ onNextPress, onBackPress, ...agreementProps }: DataConsen
       imageSource={require('@holi/ui/assets/img/illustrations/registration_consent_data.svg')}
       imageLabelText={t('registration.dataconsent.imageLabel')}
       headlineText={t('registration.dataconsent.heading')}
-      descriptionText={t('registration.dataconsent.describtion')}
+      descriptionText={t('registration.dataconsent.description')}
       checkboxLabelTranslation="registration.dataconsent.checkboxLabel"
       documentNavPath="/communityGuidelines"
       modalLabelText={t('registration.dataconsent')}
-      testID="privicy-policy"
+      testID="privacy-policy"
     >
       <DataConsentDocument />
     </AcceptDocumentLayout>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
 import LinkHubWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/components/SpaceLinkHub/StorageWidget'
@@ -23,6 +24,7 @@ export type SpaceTaskListProps = {
 
 const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -35,10 +37,6 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     [+vars.breakpointL, 3],
     [+vars.breakpointXxl, 4],
   ])
-
-  const navigateToAddTasksScreen = () => {
-    //TODO: add navigation
-  }
 
   const CollaborationArea = () => {
     return (
@@ -53,7 +51,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
   const NewToolsTeaser = () => {
     return (
-      <View>
+      <View style={styles.illustrationContainer}>
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_tools.svg')}
           width={96}
@@ -73,7 +71,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const NoTasks = () => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
     }
 
     return (
@@ -82,6 +80,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={[style, styles.empty]}>
@@ -121,14 +120,11 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksList = ({ tasks }: TasksListProps) => {
     return (
       <HoliGridWrapper itemsInRow={itemsInRow}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          tasks.map((task) => (
-            <HoliGridCell key={task.id}>
-              <SpaceTaskTile task={task} style={styles.taskTile} />
-            </HoliGridCell>
-          ))
-        }
+        {tasks.map((task) => (
+          <HoliGridCell key={task.id}>
+            <SpaceTaskTile task={task} showFullView={false} isAdmin={isAdmin} space={space} />
+          </HoliGridCell>
+        ))}
       </HoliGridWrapper>
     )
   }
@@ -140,7 +136,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksCard = ({ tasks }: TasksCardProps) => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigateToAddTasksScreen() : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
     }
 
     return (
@@ -149,6 +145,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
           <CollaboratorAreaCard
             headerLeftIcon="checkbox"
             title={t('spaces.spaceDetails.tasks.header.title')}
+            testID="space-tasks-card"
             {...cardProps}
           >
             <View style={styles.tasksListContainer}>
@@ -184,15 +181,19 @@ const styles = StyleSheet.create({
     marginTop: 12,
     color: colors.foreground30,
   },
-  tasksListContainer: { padding: 8 },
-  taskTile: {
-    flex: 1,
+  tasksListContainer: {
+    padding: 8,
   },
   collaborationAreaContainer: {
     marginBottom: 16,
   },
-  illustration: {
+  illustrationContainer: {
     marginTop: 32,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
+  illustration: {
+    marginBottom: 8,
   },
 })
 

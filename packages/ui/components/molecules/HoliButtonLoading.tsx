@@ -35,13 +35,8 @@ const HoliButtonLoading = ({
       </HoliText>
 
       {!!icon && (
-        <View style={styles.icon}>
-          <HoliIcon
-            spinning={!!icon && iconSpinning}
-            icon={icon}
-            size={16}
-            testID={testID + (iconSpinning ? '-processing' : '-idle')}
-          />
+        <View style={styles.icon} testID={testID + (iconSpinning ? '-processing' : '-idle')}>
+          <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />
         </View>
       )}
     </HoliButton>

@@ -65,11 +65,13 @@ export const gotoFillAndSubmitRegistration = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
 
+  await new Promise((f) => setTimeout(f, 1000))
   await clickElementByTestId(page, 'community-guidelines-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
-  await clickElementByTestId(page, 'privicy-policy-checkbox')
+  await new Promise((f) => setTimeout(f, 1000))
+  await clickElementByTestId(page, 'privacy-policy-checkbox')
 
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
@@ -106,10 +108,20 @@ export const finishAccountSetup = async (
   // provide user name
   const pronounsInput = await locateElementByTestId(page, 'pronouns-input')
   await pronounsInput.fill(pronouns)
-
   // submit name
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  // finish accound setup
+
+  // submit pre-success step
+  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  // skip interests step
+  await page.waitForSelector(byTestId('account-setup-interests-step'))
+  await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  // skip location step
+  await page.waitForSelector(byTestId('account-setup-location-step'))
+  await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  // skip interests step
+  await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 }
 
@@ -154,8 +166,8 @@ export const registerAsNewUser = async (
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
   await gotoFillAndSubmitRegistration(context, page, emailToUse, passwordToUse)
-  // wait for profile - registration succeeded
-  await page.waitForSelector(byTestId('user-profile-full-name'))
+  // wait for home feed - registration succeeded
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
 
 export const checkAccessibility = async (page: Page) => {
@@ -201,7 +213,8 @@ export const withRandomUserSession = async (
   const page = await context.newPage()
 
   await registerAsNewUser(context, page, email, password)
-  // wait for login to complete
+  // goto profile to simulate old behaviour for now
+  await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
   await actions(page)
   return async () => {

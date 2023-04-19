@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -13,18 +14,15 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const COLLECTION_TYPES: HoliSelectOption[] = [
-  {
-    id: CollaborationType.COLLABORATION,
-    title: 'Collaboration',
+export const COLLECTION_TYPES: HoliSelectOption[] = (
+  Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
+).map((collaborationType) => {
+  return {
+    id: collaborationType,
+    keyPrefix: 'spaces.toolKit.linkhub.collection.',
     selected: false,
-  },
-  {
-    id: CollaborationType.COMMUNICATION,
-    title: 'Communication',
-    selected: false,
-  },
-]
+  }
+})
 
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
@@ -38,6 +36,7 @@ export interface DigitalToolInputFormProps {
   selectedCollection?: HoliSelectOption
   thumbnail?: ImageInfo | undefined
   isEdit?: boolean
+  fieldErrors?: TranslatedFieldErrors
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -52,14 +51,25 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   selectedCollection,
   thumbnail,
   isEdit = false,
+  fieldErrors = {},
 }: DigitalToolInputFormProps) => {
   const [collectionOptions, setCollectionOptions] = useState<HoliSelectOption[]>(COLLECTION_TYPES)
   const { t } = useTranslation()
 
+  const [urlError, setUrlError] = useState<string | undefined>()
+  const [titleError, setTitleError] = useState<string | undefined>()
+  const [descriptionError, setDescriptionError] = useState<string | undefined>()
+
+  useEffect(() => {
+    setUrlError(fieldErrors?.url?.[0])
+    setDescriptionError(fieldErrors?.description?.[0])
+    setTitleError(fieldErrors?.title?.[0])
+  }, [fieldErrors])
+
   useEffect(() => {
     if (selectedCollection) {
       const updatedCollectionsList = COLLECTION_TYPES.map((collectionOption) =>
-        collectionOption.title === selectedCollection.title
+        collectionOption.id === selectedCollection.id
           ? { ...collectionOption, selected: true }
           : { ...collectionOption, selected: false }
       )
@@ -120,22 +130,22 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={'https://...'}
         inputLabel={t('spaces.input.digitalTool.url.label')}
-        validationErrorText={''}
+        validationErrorText={urlError}
         value={url}
         onChange={onChangeUrl}
         accessibilityLabel={t('spaces.input.digitalTool.url.label')}
-        testID="digital-tool-url"
+        testID="tool-url"
         isRequired={true}
         maxNoOfCharacters={500}
       />
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.title.placeholder')}
         inputLabel={t('spaces.input.digitalTool.title.label')}
-        validationErrorText={''}
+        validationErrorText={titleError}
         value={title}
         onChange={onChangeTitle}
         accessibilityLabel={t('spaces.input.digitalTool.title.label')}
-        testID="digital-tool-title"
+        testID="tool-title"
         style={{ marginTop: 16 }}
         isRequired={true}
         maxNoOfCharacters={50}
@@ -155,11 +165,11 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}
         inputLabel={t('spaces.input.digitalTool.description.label')}
-        validationErrorText={''}
+        validationErrorText={descriptionError}
         value={description}
         onChange={onChangeDescription}
         accessibilityLabel={t('spaces.input.digitalTool.description.label')}
-        testID="digital-tool-title"
+        testID="tool-description"
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
       />

@@ -1,5 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -17,7 +17,9 @@ const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 
-const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+// There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
+const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   // Do not log "not found" or "bad user input" errors
   if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT'])) {
@@ -40,8 +42,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-export const createCache = () =>
+const createCache = () =>
   new InMemoryCache({
+    // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
         fields: {
@@ -82,6 +85,14 @@ export const createCache = () =>
           articles: {
             merge: (existing, incoming) => (existing || []).concat(incoming),
             read: (existing) => existing,
+          },
+        },
+      },
+      Space: {
+        fields: {
+          members: {
+            // fixes warning "Cache data may be lost when replacing the `members` field of a Space object."
+            merge: (existing, incoming) => incoming,
           },
         },
       },

@@ -1,0 +1,101 @@
+import React, { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, View } from 'react-native'
+
+import { ScrollToProps, useScrollToInputOnFocus } from '@holi//ui/helper/useScrollToInputOnFocus'
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, {
+  GeolocationSuggestion,
+  PlacesAutocompleteProps,
+} from '@holi/core/location/components/PlacesAutocomplete'
+import { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
+
+export interface LocationStepProps
+  extends Pick<
+    PlacesAutocompleteProps,
+    'selected' | 'onChangeText' | 'onClose' | 'value' | 'validationErrorText' | 'testID'
+  > {
+  scrollToInputWithId: (id: string) => ScrollToProps
+}
+
+export const useLocationStep = (user: User | undefined) => {
+  const { t } = useTranslation()
+  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  )
+
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  const resetErrorsForField = useCallback(
+    (fieldName: string) =>
+      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [fieldName]: _, ...otherErrors } = currentErrors
+        return otherErrors
+      }),
+    []
+  )
+
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setLocation(selectedSuggestion)
+
+      if (!selectedSuggestion && locationQuery.length) {
+        setFieldErrors({ location: [t('profile.location.validation.error')] })
+      } else {
+        resetErrorsForField('location')
+      }
+    },
+    [locationQuery.length, t, resetErrorsForField]
+  )
+
+  const locationScrollViewRef = useRef<ScrollView>(null)
+  const scrollToLocationInputWithId = useScrollToInputOnFocus(locationScrollViewRef)
+
+  return {
+    locationQuery,
+    onLocationQueryChange: setLocationQuery,
+    location,
+    onLocationClose,
+    scrollToLocationInputWithId,
+    locationScrollViewRef,
+    locationValidationErrorText: fieldErrors?.location?.join(),
+  }
+}
+
+const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps }: LocationStepProps) => {
+  const { t } = useTranslation()
+
+  return (
+    <View testID={testID}>
+      <HoliHeading level="1" size="large" testID="headline">
+        {t('registration.accountSetup.location.heading')}
+      </HoliHeading>
+
+      <HoliBox padding={[16, 0, 0, 0]}>
+        <HoliText>{t('registration.accountSetup.location.describtion')}</HoliText>
+      </HoliBox>
+
+      <HoliBox padding={[24, 0, 0, 0]}>
+        <PlacesAutocomplete
+          label={t('user.profileForm.location')}
+          placeholder={t('user.profileForm.locationPlaceholder')}
+          id="user-location-input"
+          testID="user-location"
+          suggestionsStyle={{ backgroundColor: colors.background10 }}
+          helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
+          withCoordinates
+          {...placesAutocompleteProps}
+          {...scrollToInputWithId('location')}
+        />
+      </HoliBox>
+    </View>
+  )
+}
+
+export default LocationStep

@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   container: {
-    paddingBottom: 132,
     flex: 1,
     paddingTop: vars.topBarHeight,
     width: '100%',

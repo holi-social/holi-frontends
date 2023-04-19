@@ -18,6 +18,8 @@ export enum RouteName {
   SpaceStorage = 'SpaceStorage',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
+  CreateTask = 'CreateTask',
+  TaskDetails = 'TaskDetails',
 
   // Chat Stack
   ChatHome = 'ChatHome',

@@ -23,6 +23,12 @@ export enum SpaceLinkType {
 export enum CollaborationType {
   COLLABORATION = 'COLLABORATION',
   COMMUNICATION = 'COMMUNICATION',
+  CALENDARS = 'CALENDARS',
+  SURVEYS = 'SURVEYS',
+  GOOD_TO_KNOW = 'GOOD_TO_KNOW',
+  INFO_MATERIAL = 'INFO_MATERIAL',
+  USED_SERVICES = 'USED_SERVICES',
+  OTHERS = 'OTHERS',
 }
 
 export interface SpaceLink {
@@ -91,8 +97,31 @@ export interface Task {
   slotsAvailable: number
   slotsTaken: number
   location: string
-  regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
+  locationType: LocationType
+  regularity: Regularity
   skills: Skill[]
+  visibility: VisibilityType
+  contactEmail: string
+  contactPhone?: string
+  geolocation?: Geolocation
+  thumbnail?: string
+}
+
+export enum VisibilityType {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+}
+
+export enum Regularity {
+  REGULARLY = 'REGULARLY',
+  PROJECT_BASED = 'PROJECT_BASED',
+  ONE_TIME = 'ONE_TIME',
+}
+
+export enum LocationType {
+  HYBRID = 'HYBRID',
+  REMOTE = 'REMOTE',
+  ONSITE = 'ONSITE',
 }
 
 export enum SpaceConnectionType {
@@ -106,6 +135,8 @@ export enum SpaceConnectionType {
 export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+  GRANT_ADMIN_ACCESS = 'GRANT_ADMIN_ACCESS',
+  REVOKE_ADMIN_ACCESS = 'REVOKE_ADMIN_ACCESS',
 }
 export enum VisibilityFilter {
   MEMBERS = 'MEMBERS',

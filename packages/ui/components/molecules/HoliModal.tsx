@@ -259,7 +259,6 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 40,
-    backgroundColor: colors.background10,
     alignItems: 'center',
   },
   lineButton: {

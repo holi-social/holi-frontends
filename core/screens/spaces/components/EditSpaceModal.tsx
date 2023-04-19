@@ -16,6 +16,7 @@ type EditSpaceModalProps = {
   saveButtonDisabled?: boolean
   loading?: boolean
   scrollable?: boolean
+  keyboardShouldPersistTaps?: boolean | 'always' | 'never' | 'handled' | undefined
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -25,10 +26,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   loading = false,
   children,
   scrollable = true,
+  keyboardShouldPersistTaps = 'always',
 }: EditSpaceModalProps) => {
-  const { keyboardIsOpen } = useKeyboard()
-  const { softkeyboardIsOpen } = useSoftKeyboard()
-  const showFooter = !keyboardIsOpen && !softkeyboardIsOpen
+  const { isKeyboardOpen } = useKeyboard()
+  const { isSoftkeyboardOpen } = useSoftKeyboard()
+  const showFooter = !isKeyboardOpen && !isSoftkeyboardOpen
 
   const mixins = useStyleMixins()
 
@@ -41,7 +43,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       contentStyle={styles.contentStyle}
       scrollable={scrollable}
     >
-      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps="always">
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
         {children}
       </ScrollView>
       {showFooter && (
@@ -89,6 +91,9 @@ const styles = StyleSheet.create({
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // FIXME: gap not supported in current react-native version for mobile
+    //  using negative margin on parent and margin on children for mobile
+    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({

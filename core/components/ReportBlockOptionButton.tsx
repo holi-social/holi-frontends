@@ -25,6 +25,7 @@ interface BaseProps {
   label?: string
   icon?: string
   tintColor?: string
+  bold?: boolean
   onConfirm?: () => void
   confirmationModalProps: Pick<HoliConfirmationProps, 'title' | 'description'>
   successMessage: string
@@ -50,6 +51,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   label,
   icon = 'flag',
   tintColor,
+  bold = true,
   onConfirm,
   confirmationModalProps,
   successMessage,
@@ -97,6 +99,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         loading={loading}
         onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
         contentStyle={style}
+        bold={bold}
         testID={testID}
       />
 

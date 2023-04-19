@@ -1,12 +1,13 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/login.ts
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
+import { getCookie } from 'cookies-next'
 import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
-import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
@@ -45,7 +46,7 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
   return serverSideRedirect(acceptResponse.redirect_to)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const loginChallenge = extractQueryParameter(req.url || '', 'login_challenge')
   // The challenge is used to fetch information about the login request from ORY Hydra.
   if (!loginChallenge) {
@@ -58,6 +59,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   try {
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
+
+    const loginFormUrl = `/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`
+
+    // Check if user wanted to logout before and force display of login form
+    const forceLogout = getCookie(cookieNameForceLogout, { req, res })
+    if (forceLogout) {
+      return serverSideRedirect(loginFormUrl)
+    }
 
     // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
     // the user.
@@ -74,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     }
 
     // Redirect to login UI if authentication can't be skipped and user is not logged in.
-    return serverSideRedirect(`/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`)
+    return serverSideRedirect(loginFormUrl)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -84,26 +93,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       message,
       error: error?.response?.data || error,
     })
-    return await oauth2Api
-      .rejectOAuth2LoginRequest({
+    try {
+      const { data: rejectResponse } = await oauth2Api.rejectOAuth2LoginRequest({
         loginChallenge,
         rejectOAuth2Request: {
           error: 'invalid_request',
           error_description: message,
         },
       })
-      .then(({ data: rejectResponse }) => serverSideRedirect(rejectResponse.redirect_to))
-      .catch((error) => {
-        logger.error({
-          message: 'Error rejecting login request',
-          error: error?.response?.data || error,
-        })
-        return {
-          props: {
-            error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
-          },
-        }
+      return serverSideRedirect(rejectResponse.redirect_to)
+    } catch (error) {
+      logger.error({
+        message: 'Error rejecting login request',
+        error: error?.response?.data || error,
       })
+      return {
+        props: {
+          error: error?.response?.data ? JSON.stringify(error?.response?.data) : error.toString(),
+        },
+      }
+    }
   }
 }
 

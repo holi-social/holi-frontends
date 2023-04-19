@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
@@ -29,6 +29,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
   // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
+  const { width: screenWidth } = useWindowDimensions()
 
   let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
 
@@ -38,7 +39,13 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
   }
 
-  const { currentStep, goNext, goBack } = useStepper(initialStep)
+  const { currentStep, goNext, goBack, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(
+    screenWidth,
+    initialStep
+  )
+
+  // we can get initialStep asynchronously, so, react on it and set step
+  useEffect(() => setStep(initialStep), [initialStep, setStep])
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
@@ -87,6 +94,8 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     <View style={[styles.container, style]}>
       <HoliStepper
         currentStep={currentStep}
+        ref={stepperRef}
+        screenWidth={screenWidth}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
@@ -113,9 +122,10 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           // Create Account step
           <CreateAccount onRegister={goToNextStep} key="registration" />,
           // Account Setup
-          <AccountSetup key="account-setup" onFinish={onOnboardingStateChange} />,
+          <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
-        scrollEnabled={false}
+        scrollEnabled={scrollEnabled}
+        onScroll={onScroll}
         lazy
       />
     </View>

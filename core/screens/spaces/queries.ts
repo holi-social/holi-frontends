@@ -2,8 +2,8 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
-import { PostFragment } from '@holi/core/screens/posts/queries'
-import type { Space, SpaceCollaborationTool, SpaceSection } from '@holi/core/screens/spaces/types'
+import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
+import type { Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -63,6 +63,11 @@ const SpaceFragment = gql`
       slotsTaken
       location
       regularity
+      visibility
+      locationType
+      thumbnail
+      contactEmail
+      contactPhone
       creator {
         ...UserAvatar
       }
@@ -254,8 +259,8 @@ export const createSpaceMutation = gql`
 `
 
 export const AddCollaborationToolSchema = z.object({
-  url: z.string().url().max(500),
-  title: z.string().trim().min(3).max(50),
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
   collectionType: z.string() /* UUID */,
@@ -282,8 +287,8 @@ export type AddCollaborationToolResponse = {
 
 export const UpdateCollaborationToolSchema = z.object({
   id: z.string() /* UUID */,
-  url: z.string().url().max(500),
-  title: z.string().trim().min(3).max(50),
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   collectionType: z.string(),
 })
@@ -360,6 +365,55 @@ export type UpdateSpaceResponse = {
   updateSpace: Partial<Space>
 }
 
+export const CreateTaskSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  visibility: z.string() /* VisibilityType */,
+  name: z.string().min(2).max(128).optional(),
+  description: z.string().trim().max(1200).optional(),
+  locationType: z.string() /* LocationType */,
+  regularity: z.string() /* Regularity */,
+  contactEmail: z.string().email().optional(),
+  location: z.string().optional(),
+  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  contactPhone: z.string().optional(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
+
+export const createTaskMutation = gql`
+  mutation CreateTask($input: CreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      name
+      description
+      visibility
+      regularity
+      locationType
+      location
+      contactEmail
+      contactPhone
+      thumbnail
+    }
+  }
+`
+
+export type CreateTaskResponse = {
+  createTask: Task
+}
+
+export interface DeleteTaskResponse {
+  success: boolean
+}
+
+export const deleteTaskMutation = gql`
+  mutation DeleteTask($id: UUID!) {
+    deleteTask(id: $id) {
+      success
+    }
+  }
+`
+
 export const mySpaceQuery = gql`
   ${SpaceOverviewFragment}
 
@@ -419,14 +473,55 @@ export const spacesByMemberIdQuery = gql`
     }
   }
 `
+
+export const SpaceUpdatePostFragment = gql`
+  ${userAvatarFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
+
+  fragment SpaceUpdatePostFragment on Post {
+    id
+    title
+    text
+    created
+    creator {
+      ...UserAvatar
+    }
+    numberOfComments
+    commenters {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
+    }
+    isPublic
+  }
+`
+
 export const spacePostsQuery = gql`
-  ${PostFragment}
+  ${SpaceUpdatePostFragment}
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id
       posts(offset: $offset, limit: $limit, visibility: $visibility) {
         data {
-          ...PostFragment
+          ...SpaceUpdatePostFragment
         }
       }
     }
