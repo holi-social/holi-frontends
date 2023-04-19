@@ -101,7 +101,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
 
     return (
       <ScrollView
-        keyboardShouldPersistTaps="always"
+        keyboardShouldPersistTaps="handled"
         ref={carouselRef}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContainer}
