@@ -448,7 +448,7 @@
   "spaces.join.btnRequest": "Beitreten",
   "spaces.join.error": "Es gab einen Fehler beim Beitritt zu diesem Space. Bitte probiere es später nochmal.",
   "spaces.join.error.already-revoked": "Deine Anfrage wurde bereits beantwortet. Bitte lade die Seite neu.",
-  "spaces.join.loginRedirect.text": "Um dem Space beizutreten, musst du dich erst anmelden",
+  "spaces.join.loginRedirect.text": "Um {{spaceName}} beizutreten, musst du dich erst anmelden",
   "spaces.join.withdraw.confirm.headline": "Anfrage zurückziehen",
   "spaces.join.withdraw.confirm.text": "Möchtest du die Beitrittsanfrage zum Space zurückziehen?",
   "spaces.link.DISCORD": "Discord",
