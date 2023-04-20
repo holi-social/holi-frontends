@@ -26,8 +26,8 @@ export interface DigitalToolInputFormProps {
   description?: string
   selectedCollection?: HoliModalSelectOption
   thumbnail?: ImageInfo | undefined
-  isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
+  currentThumbnail?: string
 }
 
 const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
@@ -41,8 +41,8 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
-  isEdit = false,
   fieldErrors = {},
+  currentThumbnail,
 }: DigitalToolInputFormProps) => {
   const { t } = useTranslation()
   const collectionTypes = useMemo(
@@ -82,9 +82,9 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   const ThumbnailUploader = () => {
     return (
       <View style={styles.thumbnailContainer}>
-        {thumbnail?.uri ? (
+        {currentThumbnail || thumbnail ? (
           <HoliImage
-            source={{ uri: thumbnail?.uri ?? '' }}
+            source={{ uri: thumbnail?.uri || currentThumbnail }}
             label={t('spaces.input.digitalTool.thumbnail.label')}
             style={styles.thumbnail}
           />
@@ -174,12 +174,8 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         style={{ marginTop: 16 }}
         maxNoOfCharacters={100}
       />
-      {!isEdit && (
-        <>
-          <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
-          <ThumbnailUploader />
-        </>
-      )}
+      <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
+      <ThumbnailUploader />
     </>
   )
 }
