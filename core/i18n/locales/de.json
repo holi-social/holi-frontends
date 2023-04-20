@@ -194,6 +194,8 @@
   "notifications.space.connection.requested.message": "<0>{{user}}<0> hat die Migliedschaft im Space {{space}} angefragt",
   "notifications.space.permissions.admin.granted.message": "Du bist jetzt Admin von {{space}}",
   "notifications.space.permissions.admin.revoked.message": "Du bist kein Admin von {{space}} mehr",
+  "notifications.space.post.private.created.message": "{{user}} hat {{post}} in {{space}} gepostet",
+  "notifications.space.post.public.created.message": "{{space}} hat {{post}} gepostet",
   "notifications.title": "Benachrichtigungen",
   "oauth2.loggedOut": "Bereits abgemeldet",
   "oauth2.logout": "Abmelden...",
