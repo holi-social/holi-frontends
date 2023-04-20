@@ -159,7 +159,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                   /** FIXME convert to VirtualizedList, FlatList or SectionList */
                   posts.map((post) => (
                     <HoliGridCell key={post.id}>
-                      <PostPreview post={post} hasVisibilityIcon />
+                      <PostPreview post={post} spaceIdOrName={space.id} hasVisibilityIcon />
                     </HoliGridCell>
                   ))
                 }
