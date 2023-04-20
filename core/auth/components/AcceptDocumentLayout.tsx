@@ -51,6 +51,7 @@ const AcceptDocumentLayout = ({
       onBackPress={onBackPress}
       isNextButtonEnabled={agreementValue}
       style={styles.buttonContainer}
+      testID={`${testID}-navbtn`}
     />
   )
 

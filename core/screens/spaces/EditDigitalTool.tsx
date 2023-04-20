@@ -27,10 +27,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditDigitalToolParams = {
@@ -55,9 +55,10 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
-  const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
+  const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const { openToast } = useToast()
 
   const {
@@ -76,14 +77,17 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     handledFieldErrors: ['url', 'title', 'description'],
   })
 
-  const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
-    onCompleted: () => {
-      openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
-      navigateBack()
-    },
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
-  })
+  const [updateCollaborationTool, { loading }] = useMutation<UpdateCollaborationToolResponse>(
+    updateCollaborationToolMutation,
+    {
+      onCompleted: () => {
+        openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
+        navigateBack()
+      },
+      onError: (error) => setFieldErrors(handleGraphQLError(error)),
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    }
+  )
 
   const onSave = () =>
     updateCollaborationTool({
@@ -94,6 +98,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           title,
           description,
           collectionType: selectedCollection?.id,
+          thumbnail: thumbnail?.blob,
         },
       },
     })
@@ -123,15 +128,22 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
         const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
-        const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
-        const toolCollectionType = { ...collectionType, selected: true }
+        const collectionType = COLLECTION_TYPES.filter(
+          (collection_type) => collection_type === digitalTool.collectionType
+        )[0]
+        const toolCollectionType = {
+          id: collectionType,
+          selected: true,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+        }
         setUrl(digitalTool.url)
         setTitle(digitalTool.title)
         setDescription(digitalTool.description)
         setSelectedCollection(toolCollectionType)
+        setCurrentThumbnail(digitalTool.thumbnail)
       }
     }
-  }, [space, toolIdOrName])
+  }, [space, toolIdOrName, t])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({
@@ -176,31 +188,37 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton
-          label={t('global.dismiss')}
-          type="secondary"
-          inline
-          style={styles.footerButton}
-          onPress={() => navigateBack()}
-        >
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="digital-tool-edit-modal-save-btn"
-          style={styles.footerButton}
-        />
+      <View style={styles.footerContainer}>
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={() => navigateBack()}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled || loading}
+            icon={loading ? 'loader-4' : undefined}
+            iconSpinning={loading}
+            label={t('global.save')}
+            onPress={onSave}
+            testID="digital-tool-edit-modal-save-btn"
+            style={styles.footerButton}
+          />
+        </View>
       </View>
     )
   }
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <View
+          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
+        >
           <HoliText size="large" style={styles.title}>
             {t('spaces.digitalTool.edit.title')}
           </HoliText>
@@ -215,15 +233,13 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
             title={title}
             description={description}
             thumbnail={thumbnail}
-            isEdit={true}
             fieldErrors={fieldErrors}
+            currentThumbnail={currentThumbnail}
           />
         </View>
       </DefaultScrollHeaderLayout>
 
-      <View>
-        <Footer />
-      </View>
+      <Footer />
 
       <HoliConfirmation
         show={showConfirmationModal}
@@ -264,19 +280,20 @@ const styles = StyleSheet.create({
   title: {
     marginVertical: 24,
   },
+  footerContainer: {
+    width: '100%',
+  },
   footer: {
-    position: 'fixed',
     bottom: 40,
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // FIXME: gap not supported in current react-native version for mobile
-    //  using negative margin on parent and margin on children for mobile
-    //  remove workaround when updated to RN 0.71.0
     gap: 10,
     margin: -7,
     ...Platform.select({
       web: {
         alignSelf: 'center',
+        position: 'fixed',
       },
     }),
   },

@@ -23,6 +23,8 @@ export enum NotificationType {
   COMMUNITY_MEMBERSHIP_REQUEST = 'CMR',
   COMMUNITY_MEMBERSHIP_APPROVED = 'CMRA',
   RELEASE_INFO = 'REL',
+  COMMUNITY_ADMIN_PRIVILEGES_GRANTED = 'CAPG',
+  COMMUNITY_ADMIN_PRIVILEGES_REVOKED = 'CAPR',
 }
 
 // interface all Notifications extend
@@ -89,8 +91,22 @@ export interface NotificationSpacePost extends NotificationBase {
   }
 }
 
+export interface NotificationSpacePermissions extends NotificationBase {
+  notificationType:
+    | NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED
+    | NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED
+  options: {
+    user: User
+    space: Space
+  }
+}
+
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
-export type NotificationWithUser = NotificationConnection | NotificationPost | NotificationSpaceConnection
+export type NotificationWithUser =
+  | NotificationConnection
+  | NotificationPost
+  | NotificationSpaceConnection
+  | NotificationSpacePermissions
 export type Notification = NotificationWithUser | NotificationReleaseInfo | NotificationSpacePost
 
 export interface NotificationProps<T = Notification> {

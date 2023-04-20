@@ -395,6 +395,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         relativeHeight={isEdit ? 1 : undefined}
         autoHeight={isEdit ? false : true}
         headerStyle={styles.modalHeader}
+        testID="space-chips-modal"
       >
         {isEdit && <EditFieldContent />}
         {isOnboarding && !isEdit && <OnboardContent />}

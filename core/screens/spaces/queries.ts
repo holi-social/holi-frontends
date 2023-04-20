@@ -51,6 +51,7 @@ const SpaceFragment = gql`
       description
       title
       collectionType
+      thumbnail
     }
     members {
       ...FullSpaceMember
@@ -193,8 +194,6 @@ export type SpaceByIdResponse = {
 }
 
 export const updateSpaceUserConnectionMutation = gql`
-  ${SpaceFragment}
-
   mutation UpdateSpaceUserConnection(
     $connectAction: UpdateConnectionAction!
     $connectionType: SpaceUserConnectionType!
@@ -207,7 +206,8 @@ export const updateSpaceUserConnectionMutation = gql`
       spaceId: $spaceId
       userId: $userId
     ) {
-      ...FullSpace
+      id
+      connectionStatusToMyself
     }
   }
 `
@@ -264,6 +264,7 @@ export const AddCollaborationToolSchema = z.object({
   description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
   collectionType: z.string() /* UUID */,
+  thumbnail: z.instanceof(Object).optional(),
 })
 
 export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
@@ -277,6 +278,7 @@ export const addCollaborationToolMutation = gql`
       domain
       description
       collectionType
+      thumbnail
     }
   }
 `
@@ -291,6 +293,7 @@ export const UpdateCollaborationToolSchema = z.object({
   title: z.string().trim().min(3).max(50).optional(),
   description: z.string().trim().min(3).max(100).optional(),
   collectionType: z.string(),
+  thumbnail: z.instanceof(Object).optional(),
 })
 
 export type UpdateCollaborationToolInput = z.infer<typeof UpdateCollaborationToolSchema>
@@ -307,6 +310,7 @@ export const updateCollaborationToolMutation = gql`
       title
       description
       collectionType
+      thumbnail
     }
   }
 `

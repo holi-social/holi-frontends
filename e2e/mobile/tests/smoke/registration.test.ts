@@ -7,7 +7,6 @@ import {
   registerNewUser,
 } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 const goFromRegistrationToHome = async () => {
@@ -15,7 +14,7 @@ const goFromRegistrationToHome = async () => {
 }
 
 describe('@Registration - smoke', () => {
-  itif(platform !== 'ios', 'Registration - Logout', async () => {
+  it('Registration - Logout', async () => {
     // successful registration
     const email = await registerNewUser()
 
