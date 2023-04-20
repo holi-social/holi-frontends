@@ -6,11 +6,8 @@ import { StyleSheet, View } from 'react-native'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
-import {
-  UpdateSpaceUserConnectionResponse,
-  spaceByIdQuery,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/queries'
+import type { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
