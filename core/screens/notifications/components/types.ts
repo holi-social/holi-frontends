@@ -82,6 +82,15 @@ export interface NotificationSpaceConnection extends NotificationBase {
   }
 }
 
+export interface NotificationSpacePost extends NotificationBase {
+  notificationType: NotificationType.COMMUNITY_NEW_POST
+  options: {
+    space: Space
+    post: Post
+    teaser: string
+  }
+}
+
 export interface NotificationSpacePermissions extends NotificationBase {
   notificationType:
     | NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED
@@ -98,7 +107,7 @@ export type NotificationWithUser =
   | NotificationPost
   | NotificationSpaceConnection
   | NotificationSpacePermissions
-export type Notification = NotificationWithUser | NotificationReleaseInfo
+export type Notification = NotificationWithUser | NotificationReleaseInfo | NotificationSpacePost
 
 export interface NotificationProps<T = Notification> {
   notification: T

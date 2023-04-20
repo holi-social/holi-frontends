@@ -194,6 +194,8 @@
   "notifications.space.connection.requested.message": "<0>{{user}}</0> requested to join the space {{space}}",
   "notifications.space.permissions.admin.granted.message": "You are an admin of {{space}} now",
   "notifications.space.permissions.admin.revoked.message": "You are no longer an admin of {{space}}",
+  "notifications.space.post.private.created.message": "{{user}} posted {{post}} in {{space}}",
+  "notifications.space.post.public.created.message": "{{space}} posted {{post}}",
   "notifications.title": "Notifications",
   "oauth2.loggedOut": "Already logged out",
   "oauth2.logout": "Logging out...",
