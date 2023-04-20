@@ -11,11 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const NotificationSpacePostItem: React.VFC<NotificationProps<NotificationSpacePost>> = ({
-  notification,
-  style,
-  testID = '',
-}) => {
+const NotificationSpacePostItem = ({ notification, style, testID = '' }: NotificationProps<NotificationSpacePost>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { space, teaser, post } = notification.options
@@ -25,7 +21,8 @@ const NotificationSpacePostItem: React.VFC<NotificationProps<NotificationSpacePo
 
   const getI18Key = () => {
     if (post.isPublic) return 'notifications.space.post.public.created.message'
-    else return 'notifications.space.post.private.created.message'
+
+    return 'notifications.space.post.private.created.message'
   }
 
   return (
