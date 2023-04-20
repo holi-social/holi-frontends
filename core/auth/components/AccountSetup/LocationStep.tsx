@@ -51,7 +51,7 @@ export const useLocationStep = (user: User | undefined) => {
         resetErrorsForField('location')
       }
     },
-    [locationQuery.length, t, resetErrorsForField]
+    [locationQuery, t, resetErrorsForField]
   )
 
   const locationScrollViewRef = useRef<ScrollView>(null)

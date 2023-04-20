@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -87,6 +88,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [editField, setEditField] = useState<EditFields | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isOnboarding, setIsOnboarding] = useState<boolean>(true)
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
@@ -364,7 +368,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                   </View>
                 ) : null}
               </SpaceSection>
-              <SpaceSection title={t('spaces.links.heading')} editable>
+              <SpaceSection
+                title={t('spaces.links.heading')}
+                editable
+                onPressEdit={() => showFeatureNotImplementedToast()}
+              >
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
                     {space.links.map((link, index) => (
