@@ -6,7 +6,8 @@ import { StyleSheet, View } from 'react-native'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
-import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import type { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -39,7 +40,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
-  const [showRemoveFromSpaceConfirmationModal, setShowRemoveFromSpaceConfirmationModal] = useState(false)
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
 
@@ -56,6 +56,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       onCompleted() {
         hidePermissions()
       },
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
     }
   )
 
@@ -136,21 +137,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
-            <HoliButton
-              contentStyle={styles.actionsItem}
-              inline
-              transparent
-              disabled={loading}
-              label={t('spaces.collaborators.permissions.removeFromSpace.label')}
-              onPress={() => setShowRemoveFromSpaceConfirmationModal(true)}
-              testID={'spaces-collaborators-remove-from-space-btn'}
-            >
-              <HoliIcon icon="user-unfollow" style={styles.actionsItemIcon} />
-              <HoliText style={styles.actionsItemText}>
-                {t('spaces.collaborators.permissions.removeFromSpace.label')}
-              </HoliText>
-            </HoliButton>
-
             <ReportBlockOptionButton
               action="report"
               label={'Report user'}
@@ -185,7 +171,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             show={showGrantAdminConfirmationModal}
             label={t('spaces.collaborators.permissions.grantAdmin.label')}
             title={t('spaces.collaborators.permissions.grantAdmin.label')}
-            confirmationButtonType="warning"
             description={t('spaces.collaborators.permissions.grantAdmin.confirm', {
               user: user.fullName,
             })}
@@ -202,7 +187,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             show={showRevokeAdminConfirmationModal}
             label={t('spaces.collaborators.permissions.revokeAdmin.label')}
             title={t('spaces.collaborators.permissions.revokeAdmin.label')}
-            confirmationButtonType="warning"
             description={t('spaces.collaborators.permissions.revokeAdmin.confirm', {
               user: user.fullName,
             })}
@@ -212,25 +196,6 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             testID="spaces-collaborators-revoke-admin-confirmation"
             onConfirm={() => {
               revokeAdminRights()
-            }}
-          />
-
-          <HoliConfirmation
-            show={showRemoveFromSpaceConfirmationModal}
-            label={t('spaces.collaborators.permissions.removeFromSpace.label')}
-            title={t('spaces.collaborators.permissions.removeFromSpace.label')}
-            confirmationButtonType="warning"
-            description={t('spaces.collaborators.permissions.removeFromSpace.confirm', {
-              user: user.fullName,
-            })}
-            onDismiss={() => setShowRemoveFromSpaceConfirmationModal(false)}
-            dismissText={t('spaces.collaborators.permissions.confirm.no')}
-            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
-            testID="spaces-collaborators-remove-from-space-confirmation"
-            onConfirm={() => {
-              // ToDo: removeUserFromSpace(user)
-              console.warn('removeUserFromSpace')
-              setShowRemoveFromSpaceConfirmationModal(false)
             }}
           />
         </View>
