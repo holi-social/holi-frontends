@@ -107,7 +107,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) =
 
       <HoliReadMore
         numberOfLines={10}
-        fontStyle={styles.readMoreText}
+        fontStyle=HoliReadMoreText}
         buttonStyle={styles.readMoreBottom}
         color="gray300"
         bold={false}
