@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
@@ -13,7 +13,7 @@ import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/mol
  * Most accessibility props are already present in the HoliText component itself.
  */
 const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: PropsWithChildren<ReadMoreProps>) => {
-  const [truncatedText, setTruncatedText] = useState(children || '')
+  const [truncatedText, setTruncatedText] = useState(() => children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
   // remember line lengths to keep track of layout changes
   const [allowedLineLength, setAllowedLineLength] = useState(0)
@@ -33,75 +33,65 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
   const { length: ellipsisLength } = ellipsis
 
   // for mobile only: onTextLayout is not supported on web - https://github.com/necolas/react-native-web/issues/1685
-  const handleTextLayoutEvent = useCallback(
-    ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
-      if (!lines.length) {
-        return
+  const handleTextLayoutEvent = ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
+    if (!lines.length) return
+
+    // get the length of the first line as a base to truncate the text
+    const firstLineLength = lines[0].text.length
+    const maxAllowedLineLength = Math.round(
+      firstLineLength - readMoreButtonTextLength * bufferTextFactor - ellipsisLength
+    )
+
+    // Check if there have been layout changes (impacting the width of the rendered text)
+    if (maxAllowedLineLength === allowedLineLength) return
+
+    setAllowedLineLength(maxAllowedLineLength)
+    const lastLineLength = lines[lines.length - 1].text.length
+
+    // ignore truncating when there is no hidden text (no need for a Read more button)
+    if (lines.length <= numberOfLines && lastLineLength <= maxAllowedLineLength) {
+      if (buttonState !== 'hidden') {
+        // if the text was truncated before, reset allowed line length
+        // > let next text layout event (triggered by change of button state) decide on button state
+        setAllowedLineLength(0)
+        setButtonState('hidden')
       }
+      return
+    }
 
-      // get the length of the first line as a base to truncate the text
-      const firstLineLength = lines[0].text.length
-      const maxAllowedLineLength = firstLineLength - readMoreButtonTextLength * bufferTextFactor - ellipsisLength
+    // check whether truncating is necessary
+    let truncated = false
 
-      // Check if there have been layout changes (impacting the width of the rendered text)
-      if (maxAllowedLineLength === allowedLineLength) {
-        // Keep text and button state as they are
-        return
-      }
+    const truncatedText = lines
+      .map((line: TextLayoutLine, index: number) => {
+        const { text } = line
 
-      setAllowedLineLength(maxAllowedLineLength)
-      const lastLineLength = lines[lines.length - 1].text.length
+        // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
+        if (numberOfLines - 1 === index && text.length >= maxAllowedLineLength) {
+          // only display Read More button if truncating was needed
+          truncated = true
 
-      // ignore truncating when there is no hidden text (no need for a Read more button)
-      if (lines.length <= numberOfLines && lastLineLength <= maxAllowedLineLength) {
-        if (buttonState !== 'hidden') {
-          // if the text was truncated before, reset allowed line length
-          // > let next text layout event (triggered by change of button state) decide on button state
-          setAllowedLineLength(0)
-          setButtonState('hidden')
+          return text.substring(0, maxAllowedLineLength) + ellipsis
         }
-        return
-      }
 
-      // check whether truncating is necessary
-      let truncated = false
+        // disconsider any lines beyond numberOfLines for the truncated text
+        if (index > numberOfLines - 1) return ''
 
-      const truncatedText = lines
-        .map((line: TextLayoutLine, index: number) => {
-          const { text } = line
+        return text
+      })
+      .join('')
 
-          // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-          if (numberOfLines - 1 === index && text.length >= maxAllowedLineLength) {
-            // only display Read More button if truncating was needed
-            truncated = true
+    // if truncating the text is required and button was hidden before, set the button state to 'readMore'
+    if (truncated && buttonState === 'hidden') {
+      setButtonState('readMore')
+    }
 
-            return text.substring(0, maxAllowedLineLength) + ellipsis
-          }
+    setTruncatedText(truncatedText)
+  }
 
-          // disconsider any lines beyond numberOfLines for the truncated text
-          if (index > numberOfLines - 1) {
-            return ''
-          }
-
-          return text
-        })
-        .join('')
-
-      // if truncating the text is required and button was hidden before, set the button state to 'readMore'
-      if (truncated) {
-        if (buttonState === 'hidden') {
-          setButtonState('readMore')
-        }
-      }
-
-      setTruncatedText(truncatedText)
-    },
-    [buttonState, allowedLineLength, ellipsisLength, numberOfLines, readMoreButtonTextLength]
-  )
-
-  const toggleButtonState = useCallback(() => {
+  const toggleButtonState = () => {
     setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
-  }, [])
+  }
 
   return (
     <View testID={testID}>
