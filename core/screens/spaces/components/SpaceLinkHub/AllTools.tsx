@@ -19,15 +19,8 @@ interface AllToolsProps {
   spaceIdOrName: string | undefined
 }
 
-const TOOL_COLLECTIONS = [
-  { id: '0', type: CollaborationType.COLLABORATION, name: 'Collaboration' },
-  { id: '1', type: CollaborationType.COMMUNICATION, name: 'Communication' },
-]
-
 type CategorizedToolsListProps = {
-  [CollaborationType: string]: {
-    tools: SpaceCollaborationTool[]
-  }
+  [CollaborationType: string]: SpaceCollaborationTool[]
 }
 
 type ToolWidgetProps = {
@@ -51,22 +44,18 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   })
 
   const space = data?.spaceById
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useEffect(() => {
     if (space) {
       const allTools = space.collaborationTools
 
       if (allTools && allTools.length > 0) {
-        const collaborationTools = allTools.filter((tool) => tool.collectionType === CollaborationType.COLLABORATION)
-        const communicationTools = allTools.filter((tool) => tool.collectionType === CollaborationType.COMMUNICATION)
-        const toolsList = {
-          [CollaborationType.COLLABORATION]: { tools: collaborationTools },
-          [CollaborationType.COMMUNICATION]: { tools: communicationTools },
-        }
+        const toolsList = allTools.reduce((acc, curr) => {
+          acc[curr.collectionType] = acc[curr.collectionType] || []
+          acc[curr.collectionType].push(curr)
+          return acc
+        }, {})
         setCategorizedToolsList(toolsList)
       }
     }
@@ -123,7 +112,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   const ToolWidget = ({ widgetTitle, toolsList }: ToolWidgetProps) => {
     return (
-      <CollaboratorAreaCard title={widgetTitle} style={styles.widgetContainer}>
+      <CollaboratorAreaCard title={widgetTitle} style={styles.widgetContainer} testID="space-tools-card">
         <View style={{ paddingHorizontal: 7.5 }}>
           {toolsList.map((tool) => {
             return (
@@ -146,10 +135,16 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   return (
     <View style={[mixins.container, styles.container]}>
       {(categorizedToolsList &&
-        TOOL_COLLECTIONS.map((collectionType) => {
-          const tools = categorizedToolsList ? categorizedToolsList[collectionType.type].tools : []
+        (Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>).map((collaborationType) => {
+          const tools = categorizedToolsList[collaborationType]
           if (tools && tools.length > 0) {
-            return <ToolWidget key={collectionType.id} widgetTitle={collectionType.name} toolsList={tools} />
+            return (
+              <ToolWidget
+                key={collaborationType}
+                widgetTitle={t('spaces.toolKit.linkhub.collection.' + collaborationType)}
+                toolsList={tools}
+              />
+            )
           }
         })) || <NoTools />}
     </View>

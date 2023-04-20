@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
 import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
@@ -107,11 +107,20 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    // FIXME: gap not supported in current react-native version for mobile
+    //  using negative margin on parent and margin on children for mobile
+    //  remove workaround when updated to RN 0.71.0
     gap: 8,
   },
   text: {
     color: colors.foreground20,
     lineHeight: 24,
     marginBottom: -2,
+    marginRight: 8,
+    ...Platform.select({
+      web: {
+        marginRight: 0,
+      },
+    }),
   },
 })

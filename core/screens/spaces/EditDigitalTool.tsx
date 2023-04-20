@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -17,6 +17,7 @@ import DigitalToolInputForm, {
 import {
   SpaceByIdResponse,
   UpdateCollaborationToolResponse,
+  UpdateCollaborationToolSchema,
   spaceByIdQuery,
   updateCollaborationToolMutation,
 } from '@holi/core/screens/spaces/queries'
@@ -26,10 +27,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditDigitalToolParams = {
@@ -54,8 +55,10 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
-  const [selectedCollection, setSelectedCollection] = useState<HoliSelectOption | undefined>()
+  const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const { openToast } = useToast()
 
   const {
@@ -68,21 +71,23 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
 
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
-  const { displayError } = useErrorHandling()
-
-  const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
-    onCompleted: () => {
-      openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
-      navigateBack()
-    },
-    onError: (error) => displayError(error, error.message),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+  const { handleGraphQLError } = useFieldErrors({
+    handledFieldErrors: ['url', 'title', 'description'],
   })
+
+  const [updateCollaborationTool, { loading }] = useMutation<UpdateCollaborationToolResponse>(
+    updateCollaborationToolMutation,
+    {
+      onCompleted: () => {
+        openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
+        navigateBack()
+      },
+      onError: (error) => setFieldErrors(handleGraphQLError(error)),
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    }
+  )
 
   const onSave = () =>
     updateCollaborationTool({
@@ -93,6 +98,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
           title,
           description,
           collectionType: selectedCollection?.id,
+          thumbnail: thumbnail?.blob,
         },
       },
     })
@@ -122,15 +128,38 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
         const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
-        const collectionType = COLLECTION_TYPES.filter((collection) => collection.id === digitalTool.collectionType)[0]
-        const toolCollectionType = { ...collectionType, selected: true }
+        const collectionType = COLLECTION_TYPES.filter(
+          (collection_type) => collection_type === digitalTool.collectionType
+        )[0]
+        const toolCollectionType = {
+          id: collectionType,
+          selected: true,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+        }
         setUrl(digitalTool.url)
         setTitle(digitalTool.title)
         setDescription(digitalTool.description)
         setSelectedCollection(toolCollectionType)
+        setCurrentThumbnail(digitalTool.thumbnail)
       }
     }
-  }, [space, toolIdOrName])
+  }, [space, toolIdOrName, t])
+
+  useEffect(() => {
+    const resultSchema = UpdateCollaborationToolSchema.safeParse({
+      spaceId: space?.id,
+      ...(title ? { title } : {}),
+      ...(url ? { url } : {}),
+      ...(selectedCollection?.id ? { collectionType: selectedCollection?.id } : {}),
+      ...(description ? { description } : {}),
+    })
+
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+    } else {
+      setFieldErrors({})
+    }
+  }, [description, selectedCollection?.id, space?.id, title, url])
 
   const onChangeUrl = (url: string) => {
     setUrl(url)
@@ -148,42 +177,48 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isAdmin) {
+  if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
   }
 
   const Footer = () => {
     return (
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton
-          label={t('global.dismiss')}
-          type="secondary"
-          inline
-          style={styles.footerButton}
-          onPress={() => navigateBack()}
-        >
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="digital-tool-edit-modal-save-btn"
-          style={styles.footerButton}
-        />
+      <View style={styles.footerContainer}>
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={() => navigateBack()}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled || loading}
+            icon={loading ? 'loader-4' : undefined}
+            iconSpinning={loading}
+            label={t('global.save')}
+            onPress={onSave}
+            testID="digital-tool-edit-modal-save-btn"
+            style={styles.footerButton}
+          />
+        </View>
       </View>
     )
   }
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle}>
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <View
+          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
+        >
           <HoliText size="large" style={styles.title}>
             {t('spaces.digitalTool.edit.title')}
           </HoliText>
@@ -198,14 +233,13 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
             title={title}
             description={description}
             thumbnail={thumbnail}
-            isEdit={true}
+            fieldErrors={fieldErrors}
+            currentThumbnail={currentThumbnail}
           />
         </View>
       </DefaultScrollHeaderLayout>
 
-      <View>
-        <Footer />
-      </View>
+      <Footer />
 
       <HoliConfirmation
         show={showConfirmationModal}
@@ -246,9 +280,12 @@ const styles = StyleSheet.create({
   title: {
     marginVertical: 24,
   },
+  footerContainer: {
+    width: '100%',
+  },
   footer: {
-    position: 'fixed',
     bottom: 40,
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
@@ -256,6 +293,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         alignSelf: 'center',
+        position: 'fixed',
       },
     }),
   },

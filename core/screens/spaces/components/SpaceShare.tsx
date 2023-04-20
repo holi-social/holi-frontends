@@ -42,8 +42,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const onShareMobile = async () => {
     try {
       const result = await Share.share({
-        message: space.title,
-        title: space.title,
+        message: space.title + (Platform.OS === 'android' ? `: ${prefix.current}` : ''),
         url: prefix.current,
       })
       if (result.action === Share.sharedAction) {

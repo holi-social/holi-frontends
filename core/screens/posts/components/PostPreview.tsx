@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -10,7 +10,11 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
+import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -24,10 +28,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type PostPreviewProps = {
   post: Post
   insightId?: string
-  style?: StyleProp<ViewStyle>
+  hasVisibilityIcon?: boolean
 }
 
-const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) => {
+const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
@@ -38,6 +42,9 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
   const commentUrl = `${postUrl}/comment`
 
+  const visibilityIcon = post.isPublic ? 'global' : 'lock'
+  const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
+
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
       openLoginModal()
@@ -47,29 +54,32 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
   }
 
   return (
-    <View style={[styles.wrapper, style]}>
-      <View style={styles.paddingHorizontal}>
-        <View style={styles.header}>
-          <View style={styles.mediaHeaderLink}>
-            <HoliLink
-              href={`/profile/${post.creator.id}`}
-              label={post.creator.fullName}
-              testID="btn-to-post-creator-profile"
-            >
-              <HoliMediaHeader
-                title={post.creator.fullName}
-                author={post.creator}
-                date={post.created}
-                isPublic={post.isPublic}
-              />
-            </HoliLink>
-          </View>
+    <View style={styles.container}>
+      {hasVisibilityIcon ? (
+        <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
+          <HoliIcon icon={visibilityIcon} size={12} filled={true} />
+          <HoliBox padding={[0, 0, 0, 6]}>
+            <HoliText size="extrasmall">{visibilityIconText}</HoliText>
+          </HoliBox>
+        </HoliColumns>
+      ) : null}
+
+      <HoliColumns>
+        <HoliColumn flex={2}>
+          <HoliLink
+            href={`/profile/${post.creator.id}`}
+            label={post.creator.fullName}
+            testID="btn-to-post-creator-profile"
+          >
+            <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} boldTitle />
+          </HoliLink>
+        </HoliColumn>
+        <HoliColumn>
           <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
             showOptions={visible}
             onPress={show}
             onModalDismiss={hide}
-            style={styles.moreButton}
           >
             <ReportBlockOptionButton
               action="report"
@@ -84,33 +94,37 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>
-        </View>
+        </HoliColumn>
+      </HoliColumns>
 
-        <View style={styles.postTitleLink}>
-          <HoliLink href={postUrl} label={post.title} testID="btn-to-post">
-            <HoliHeading size="small" style={styles.postTitle}>
-              {post.title}
-            </HoliHeading>
-          </HoliLink>
-        </View>
-
-        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
-          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
-        </HoliReadMore>
+      <View style={styles.postTitleLink}>
+        <HoliLink href={postUrl} label={post.title} testID="btn-to-post">
+          <HoliHeading level="3" size="small">
+            {post.title}
+          </HoliHeading>
+        </HoliLink>
       </View>
+
+      <HoliReadMore
+        numberOfLines={10}
+        fontStyle={styles.readMoreText}
+        buttonStyle={styles.readMoreBottom}
+        color="gray300"
+        bold={false}
+      >
+        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
+      </HoliReadMore>
 
       {post.image && (
         <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
       )}
 
       {!!post.links?.length && (
-        <View style={styles.paddingHorizontal}>
-          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
-        </View>
+        <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
       )}
 
-      <View style={[styles.paddingHorizontal, styles.reactionsBar]}>
-        {post.numberOfComments > 0 && (
+      <View style={styles.reactionsBar}>
+        {post.numberOfComments > 0 ? (
           <View style={styles.reactionsLink}>
             <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
               <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
@@ -118,8 +132,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
               </HoliUserAvatarPile>
             </HoliLink>
           </View>
-        )}
-        {post.numberOfComments < 1 && (
+        ) : (
           <View style={styles.noCommentsYetMessage}>
             <HoliLink
               href={commentUrl}
@@ -140,44 +153,35 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, insightId, style }) =>
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
+    padding: 16,
+    border: `1px solid ${colors.background30}`,
+    borderRadius: 12,
     backgroundColor: colors.background10,
-  },
-  paddingHorizontal: {
-    paddingHorizontal: 24,
-  },
-  header: {
-    flexDirection: 'row',
-  },
-  mediaHeaderLink: {
-    flexShrink: 1,
-    flexGrow: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
   },
   moreOptionItem: {
     justifyContent: 'center',
     paddingVertical: 18,
   },
   postTitleLink: {
-    display: 'flex',
     marginBottom: 8,
   },
-  postTitle: {
-    color: colors.foreground20,
-  },
   readMoreText: {
+    lineHeight: 16 * 1.5,
+  },
+  readMoreBottom: {
     color: colors.foreground30,
-    lineHeight: 20,
+  },
+  imageContainer: {
+    width: '100%',
   },
   linkPreview: {
-    marginTop: 16,
-    maxWidth: 320,
+    paddingTop: 16,
+    maxWidth: 420,
+    alignSelf: 'center',
   },
   reactionsBar: {
-    marginTop: 21,
+    paddingTop: 21,
     alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',

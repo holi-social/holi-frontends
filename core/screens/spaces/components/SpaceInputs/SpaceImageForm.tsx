@@ -37,7 +37,6 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         id="upload-image-tabs"
         style={styles.holiTabs}
         tabBarStyle={styles.tabBar}
-        stepper={false}
         tabs={[
           {
             title: t('spaces.input.coverImage.tab.upload.title'),

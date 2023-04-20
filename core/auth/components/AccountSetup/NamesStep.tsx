@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ScrollView, View } from 'react-native'
 
-import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import { FieldError } from '@holi/core/errors/helpers'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { onlyCharacters } from '@holi/core/helpers'
+import { UpdateAuthenticatedUserInputSchema } from '@holi/core/screens/userprofile/queries'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
+import { Position } from '@holi/ui/helper'
+import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 
 export interface NamesValues {
   firstName: string
@@ -33,6 +39,73 @@ export interface NamesStepProps {
   testID?: string
 }
 
+interface UseNamesStepOptions {
+  user: User | undefined
+  onValidate: (valid: boolean) => void
+}
+
+export const useNamesStep = ({ user, onValidate }: UseNamesStepOptions) => {
+  const [names, setNames] = useState({
+    firstName: user?.firstName ?? '',
+    lastName: user?.lastName ?? '',
+    pronouns: user?.pronouns ?? '',
+  })
+
+  const { translateFieldErrors } = useFieldErrors({
+    i18nPrefix: 'registration.accountSetup.names',
+    handledFieldErrors: ['firstName', 'lastName', 'pronouns'],
+  })
+
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  const resetErrorsForField = useCallback(
+    (fieldName: string) =>
+      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [fieldName]: _, ...otherErrors } = currentErrors
+        return otherErrors
+      }),
+    []
+  )
+
+  const onNamesChange = (fieldName: keyof NamesValues, value: string) => {
+    // set new value
+    setNames((names) => ({
+      ...names,
+      [fieldName]: onlyCharacters(value),
+    }))
+
+    // reset error for this field
+    resetErrorsForField(fieldName)
+  }
+
+  const validateOnBlur = (_: Position, __: View, id: string) => {
+    const valueObj = { [id]: names[id as keyof NamesValues]?.trim() }
+    const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(valueObj)
+
+    if (!resultSchema.success) {
+      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+      setFieldErrors(translateFieldErrors(fieldErrors))
+    } else {
+      onValidate(true)
+    }
+  }
+
+  const namesScrollViewRef = useRef<ScrollView>(null)
+  const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
+
+  const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesValues) =>
+    scrollToNamesInputWithId(fieldName, undefined, validateOnBlur)
+
+  return {
+    names,
+    namesScrollViewRef,
+    scrollToNamesInputWithId: scrollToNamesInputWithIdValidateOnBlur,
+    onNamesChange,
+    namesFieldErrors: fieldErrors,
+  }
+}
+
 const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.PropsWithChildren<NamesStepProps>) => {
   const { t } = useTranslation()
 
@@ -40,7 +113,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
 
   return (
     <>
-      <HoliHeading level="1" size="large" testID="headline">
+      <HoliHeading level="1" size="large" testID="account-setup-names-step-headline">
         {t('registration.accountSetup.names.heading')}
       </HoliHeading>
 

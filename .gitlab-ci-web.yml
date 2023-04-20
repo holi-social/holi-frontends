@@ -40,8 +40,8 @@ default:
     expose_as: 'web e2e test report'
     expire_in: 1 month
     paths:
-      - e2e/web/playwright-report
-      - e2e/web/test-results
+      - e2e/web/playwright-report # report including traces
+      # - e2e/web/test-results # contains artifacts (videos, screenshots, traces) organized by test case/run, redundant to playwright-report and doubling the artifacts size
       - e2e/web/artifacts # accessibility reports
     when: always
   script:

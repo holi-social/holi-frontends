@@ -1,15 +1,14 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
-import NamesStep, { NamesValues, trimNames } from '@holi/core/auth/components/AccountSetup/NamesStep'
+import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
+import NamesStep, { trimNames, useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
-import { FieldError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useErrorHandling, useFieldErrors } from '@holi/core/errors/hooks'
-import { onlyCharacters } from '@holi/core/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -23,14 +22,13 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
 import HoliWizard, { HoliWizardCurrentStepOptions } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
-import { Position } from '@holi/ui/helper'
-import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum AccountSetupStep {
   'NAMES',
   'PRE_SUCCESS',
   'INTERESTS',
+  'LOCATION',
   'SUCCESS',
 }
 
@@ -51,9 +49,13 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
     skipable: true,
     isBackButtonAvailable: true,
   },
+  [AccountSetupStep.LOCATION]: {
+    skipable: true,
+    isBackButtonAvailable: true,
+  },
   [AccountSetupStep.SUCCESS]: {
     skipable: false,
-    isBackButtonAvailable: true,
+    isBackButtonAvailable: false,
   },
 }
 
@@ -74,51 +76,10 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
 
   // User Names step logic
-  const [names, setNames] = useState({
-    firstName: user?.firstName ?? '',
-    lastName: user?.lastName ?? '',
-    pronouns: user?.pronouns ?? '',
+  const { names, namesScrollViewRef, scrollToNamesInputWithId, onNamesChange, namesFieldErrors } = useNamesStep({
+    user,
+    onValidate: setIsNextButtonEnabled,
   })
-
-  const { translateFieldErrors } = useFieldErrors({
-    i18nPrefix: 'registration.accountSetup.names',
-    handledFieldErrors: ['firstName'],
-  })
-
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-
-  const onNamesChange = (fieldName: keyof NamesValues, value: string) => {
-    // set new value
-    setNames((names) => ({
-      ...names,
-      [fieldName]: onlyCharacters(value),
-    }))
-
-    // reset error for this field
-    setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [fieldName]: _, ...otherErrors } = currentErrors
-      return otherErrors
-    })
-  }
-
-  const validateOnBlur = (_: Position, __: View, id: string) => {
-    const valueObj = { [id]: names[id as keyof NamesValues]?.trim() }
-    const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(valueObj)
-
-    if (!resultSchema.success) {
-      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
-      setFieldErrors(translateFieldErrors(fieldErrors))
-    } else {
-      setIsNextButtonEnabled(true)
-    }
-  }
-
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
-
-  const scrollToInputWithIdValidateOnBlur = (fieldName: keyof NamesValues) =>
-    scrollToInputWithId(fieldName, undefined, validateOnBlur)
 
   // Interests step logic
   const keyInUserObject = 'interests'
@@ -129,6 +90,17 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     onTermSelect,
     loading: loadingUserInterests,
   } = useUserChips({ user, queryToUse: interestsQuery, keyInUserObject })
+
+  // Location step logic
+  const {
+    locationQuery,
+    location,
+    onLocationQueryChange,
+    onLocationClose,
+    scrollToLocationInputWithId,
+    locationScrollViewRef,
+    locationValidationErrorText,
+  } = useLocationStep(user)
 
   // HoliWizard event handlers
   const onNextPress = async () => {
@@ -166,9 +138,32 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
       }
 
+      case AccountSetupStep.LOCATION: {
+        setIsLoading(true)
+
+        if (location?.coordinates) {
+          const geolocation = location?.coordinates && {
+            latitude: location?.coordinates?.latitude,
+            longitude: location?.coordinates?.longitude,
+          }
+          const locationLabel = location?.label
+
+          await updateUser({
+            variables: { input: { geolocation, location: locationLabel } },
+            onCompleted: goNext,
+            onError: (error) => displayError(error),
+          })
+        } else {
+          goNext()
+        }
+
+        setIsLoading(false)
+        break
+      }
+
       case AccountSetupStep.SUCCESS:
         onFinish()
-        navigate('/profile')
+        navigate('/')
         break
 
       default:
@@ -184,13 +179,18 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
 
   if (!user) return null
 
+  const wizardSubmitButtonLabel =
+    currentStep === AccountSetupStep.SUCCESS
+      ? t('registration.accountSetup.success.submitButtonText')
+      : t('global.next')
+
   return (
     <HoliKeyboardSaveView>
       <HoliWizard
         steps={[
           // Names step
           <ScrollView
-            ref={scrollViewRef}
+            ref={namesScrollViewRef}
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="names"
             testID="account-setup-names-step"
@@ -199,8 +199,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             <NamesStep
               names={names}
               onChange={onNamesChange}
-              scrollToInputWithId={scrollToInputWithIdValidateOnBlur}
-              fieldErrors={fieldErrors}
+              scrollToInputWithId={scrollToNamesInputWithId}
+              fieldErrors={namesFieldErrors}
             />
           </ScrollView>,
 
@@ -212,15 +212,16 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           >
             <CenteredImageHeadlineDescriptionLayout
               imageSource={require('@holi/ui/assets/img/illustrations/registration_pre_success.svg')}
-              imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.firstSuccess.describtion')}
+              imageLabelText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
+              headlineText={t('registration.accountSetup.firstSuccess.heading', { name: names.firstName })}
+              descriptionText={t('registration.accountSetup.firstSuccess.description')}
               contentStyle={styles.stepContainer}
             />
           </ScrollView>,
 
           // Interests step
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="interests"
             testID="account-setup-interests-step"
@@ -236,9 +237,28 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             />
           </ScrollView>,
 
+          // Location step
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={[mixins.container, styles.stepContainer]}
+            key="location"
+            testID="account-setup-location-step"
+          >
+            <HoliBox padding={[40, 0, 0, 0]} />
+            <LocationStep
+              selected={location}
+              value={locationQuery}
+              onClose={onLocationClose}
+              onChangeText={onLocationQueryChange}
+              validationErrorText={locationValidationErrorText}
+              scrollToInputWithId={scrollToLocationInputWithId}
+            />
+          </ScrollView>,
+
           // Success step
           <ScrollView
             contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
+            ref={locationScrollViewRef}
             key="success"
             testID="account-setup-success-step"
           >
@@ -246,7 +266,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               imageSource={require('@holi/ui/assets/img/illustrations/registration_success.svg')}
               imageLabelText={t('registration.accountSetup.success.heading', { name: names.firstName })}
               headlineText={t('registration.accountSetup.success.heading', { name: names.firstName })}
-              descriptionText={t('registration.accountSetup.success.describtion')}
+              descriptionText={t('registration.accountSetup.success.description')}
               contentStyle={styles.stepContainer}
             />
           </ScrollView>,
@@ -254,7 +274,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         currentStep={currentStep}
         currentStepOptions={currentStepOptions}
         screenWidth={screenWidth}
-        submitButtonLabel={t('global.next')}
+        submitButtonLabel={wizardSubmitButtonLabel}
         onNextPress={onNextPress}
         onBackPress={goBack}
         onSkipPress={goNext}

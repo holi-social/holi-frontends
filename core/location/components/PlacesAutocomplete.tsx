@@ -16,7 +16,11 @@ export type GeolocationSuggestion = Suggestion & {
   coordinates?: Geolocation
 }
 
-interface PlacesAutocompleteProps {
+export enum GeolocationLevel {
+  CITY = 'city',
+}
+
+export interface PlacesAutocompleteProps {
   selected?: GeolocationSuggestion
   onChangeText?: (text: string) => void
   onSubmit?: (selected: GeolocationSuggestion) => void
@@ -33,6 +37,7 @@ interface PlacesAutocompleteProps {
   suggestionsStyle?: StyleProp<ViewStyle>
   withCoordinates?: boolean
   value?: string
+  level?: GeolocationLevel
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -54,6 +59,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       suggestionsStyle,
       withCoordinates,
       value,
+      level,
     },
     ref
   ) => {
@@ -61,6 +67,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
     const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
       variables: {
         limit: PLACE_SUGGESTION_MAX_COUNT,
+        level,
       },
     })
     const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)

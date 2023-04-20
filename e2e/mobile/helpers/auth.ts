@@ -49,18 +49,15 @@ export const defaultAuthSteps = async (
   } else {
     await tapOnElementWithTestId(buttonId)
     await tapOnElementWithTestId('community-guidelines-checkbox')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('community-guidelines-navbtn-next-btn')
     await tapOnElementWithTestId('privacy-policy-checkbox')
-    await tapOnElementWithTestId('holi-wizard-next-btn')
+    await tapOnElementWithTestId('privacy-policy-navbtn-next-btn')
   }
 
   // inspect login modal
   await waitForElementWithTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
-
-  // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-password')
 
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
@@ -89,8 +86,8 @@ export const finishAccountSetup = async ({
   // provide user name
   await fillFieldByTestId('pronouns-input', pronouns)
   // submit name changes
-  // first tap to hide keyboard
-  await tapOnElementWithTestId('holi-wizard-next-btn')
+  // tap headline to hide keyboard
+  await tapOnElementWithTestId('account-setup-names-step-headline')
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   // Pre-success step
@@ -98,6 +95,9 @@ export const finishAccountSetup = async ({
   await tapOnElementWithTestId('holi-wizard-next-btn')
   // Interests step
   await waitForElementWithTestId('account-setup-interests-step')
+  await tapOnElementWithTestId('holi-wizard-skip-btn')
+  // Location step
+  await waitForElementWithTestId('account-setup-location-step')
   await tapOnElementWithTestId('holi-wizard-skip-btn')
   // Success step
   await waitForElementWithTestId('account-setup-success-step')

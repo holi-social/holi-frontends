@@ -27,8 +27,8 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -53,9 +53,9 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   // input fields
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [visibility, setVisibility] = useState<HoliSelectOption | undefined>()
-  const [locationType, setLocationType] = useState<HoliSelectOption | undefined>()
-  const [regularity, setRegularity] = useState<HoliSelectOption | undefined>()
+  const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
+  const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
+  const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
@@ -80,10 +80,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-  const isAdmin =
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR) ||
-    space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { displayError } = useErrorHandling()
 
@@ -200,32 +197,39 @@ const CreateTask: React.VFC<ScreenProps> = () => {
 
   const Footer = () => {
     return (
-      <View style={[mixins.container, styles.footer]}>
-        <HoliButton
-          label={t('global.dismiss')}
-          type="secondary"
-          inline
-          style={styles.footerButton}
-          onPress={() => setShowConfirmationModal(true)}
-        >
-          {t('global.dismiss')}
-        </HoliButton>
-        <HoliButtonLoading
-          disabled={saveButtonDisabled || loading || !inputValid}
-          icon={loading ? 'loader-4' : undefined}
-          iconSpinning={loading}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="create-task-modal-save-btn"
-          style={styles.footerButton}
-        />
+      <View style={styles.footerContainer}>
+        <View style={[mixins.container, styles.footer]}>
+          <HoliButton
+            label={t('global.dismiss')}
+            type="secondary"
+            inline
+            style={styles.footerButton}
+            onPress={() => setShowConfirmationModal(true)}
+          >
+            {t('global.dismiss')}
+          </HoliButton>
+          <HoliButtonLoading
+            disabled={saveButtonDisabled || loading || !inputValid}
+            icon={loading ? 'loader-4' : undefined}
+            iconSpinning={loading}
+            label={t('global.save')}
+            onPress={onSave}
+            testID="create-task-modal-save-btn"
+            style={styles.footerButton}
+          />
+        </View>
       </View>
     )
   }
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <DefaultScrollHeaderLayout
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+        keyboardShouldPersistTaps="handled"
+      >
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >
@@ -260,9 +264,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
           />
         </View>
       </DefaultScrollHeaderLayout>
-      <View>
-        <Footer />
-      </View>
+      <Footer />
 
       <HoliConfirmation
         show={showConfirmationModal}
@@ -300,6 +302,9 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
       },
     }),
+  },
+  footerContainer: {
+    width: '100%',
   },
   footer: {
     position: 'absolute',

@@ -3,9 +3,13 @@ import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { onlyCharacters } from '@holi/core/helpers'
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, {
+  GeolocationLevel,
+  GeolocationSuggestion,
+} from '@holi/core/location/components/PlacesAutocomplete'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -46,7 +50,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const scrollViewRef = useRef<ScrollView>(null)
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
-  const { handleGraphQLError } = useFieldErrors({
+  const { handleGraphQLError, translateFieldErrors } = useFieldErrors({
     i18nPrefix: 'user.profile',
     handledFieldErrors: ['firstName', 'lastName', 'aboutMe', 'pronouns', 'location'],
   })
@@ -82,7 +86,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
     if (!resultSchema.success) {
-      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+      setFieldErrors(translateFieldErrors(fieldErrors))
       return
     }
     await updateUser({
@@ -252,6 +257,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           helperText={location ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
           withCoordinates
+          level={GeolocationLevel.CITY}
           {...scrollToPropsFor('location')}
         />
       </View>

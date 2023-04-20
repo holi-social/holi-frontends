@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Platform,
@@ -67,6 +68,13 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
     const { skipable = false, isBackButtonAvailable = true } = currentStepOptions
     const progress = ((currentStep + 1) / stepCount) * 100
 
+    const keyboardDismissWrapper = (fn?: () => void) => {
+      return () => {
+        Keyboard.dismiss()
+        fn?.()
+      }
+    }
+
     return (
       <SafeAreaView style={{ flex: 1 }} testID={testID}>
         <View style={[mixins.container, styles.progressBarContainer]}>
@@ -83,7 +91,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
                 inline
                 transparent
                 variant="small"
-                onPress={onSkipPress}
+                onPress={keyboardDismissWrapper(onSkipPress)}
                 testID={`${testID}-skip-btn`}
               >
                 <HoliText size="extrasmall">{t('global.skip')}</HoliText>
@@ -95,7 +103,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
         <HoliStepper
           steps={steps}
           currentStep={currentStep}
-          screenWidth={screenWidth}
+          width={screenWidth}
           ref={ref}
           style={{ flexGrow: 1, flexShrink: 1 }}
           scrollEnabled={scrollEnabled}
@@ -104,8 +112,8 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
         />
 
         <HoliWizardNaviagtionButtons
-          onNextPress={onNextPress}
-          onBackPress={onBackPress}
+          onNextPress={keyboardDismissWrapper(onNextPress)}
+          onBackPress={keyboardDismissWrapper(onBackPress)}
           submitButtonLabel={submitButtonLabel}
           isBackButtonAvailable={isBackButtonAvailable && !!currentStep}
           isNextButtonEnabled={isNextButtonEnabled}

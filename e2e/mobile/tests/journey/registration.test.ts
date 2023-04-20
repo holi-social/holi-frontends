@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker'
 
 import { defaultAuthSteps } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import { waitForElementWithTestId } from '../../helpers/selectors'
 
 const goFromRegistrationToHome = async () => {
@@ -13,7 +12,7 @@ describe('@Registration - journey', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
-  itif(platform !== 'ios', 'validates Email and password fields', async () => {
+  it('validates Email and password fields', async () => {
     // no password and no email
     await defaultAuthSteps({ email: '', password: '' }, 'registration', false)
 

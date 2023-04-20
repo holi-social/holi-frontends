@@ -122,7 +122,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
       <HoliGridWrapper itemsInRow={itemsInRow}>
         {tasks.map((task) => (
           <HoliGridCell key={task.id}>
-            <SpaceTaskTile task={task} showFullView={false} isAdmin={isAdmin} spaceId={space.id} />
+            <SpaceTaskTile task={task} showFullView={false} isAdmin={isAdmin} space={space} />
           </HoliGridCell>
         ))}
       </HoliGridWrapper>

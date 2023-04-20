@@ -96,13 +96,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   return (
     <HoliKeyboardSaveView>
-      <CenteredContentLayout ref={scrollViewRef}>
+      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="always">
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}
           </HoliHeading>
 
-          <HoliText style={styles.description}>{t('registration.signUp.describtion')}</HoliText>
+          <HoliText style={styles.description}>{t('registration.signUp.description')}</HoliText>
           <FormBuilder
             flow={flow}
             onSubmit={onSubmit}
