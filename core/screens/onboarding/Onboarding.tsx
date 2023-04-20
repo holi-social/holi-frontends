@@ -95,7 +95,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
       <HoliStepper
         currentStep={currentStep}
         ref={stepperRef}
-        screenWidth={screenWidth}
+        width={screenWidth}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
