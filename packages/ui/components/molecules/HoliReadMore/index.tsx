@@ -1,24 +1,18 @@
 import React, { useCallback, useState } from 'react'
+import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
+import { styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
+import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
  * This component returns a View which encapsulates HoliText components.
  * Most accessibility props are already present in the HoliText component itself.
  */
-const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
-  children,
-  numberOfLines = 3,
-  style = {},
-  fontStyle = {},
-  buttonStyle = {},
-  testID,
-  ...textProps
-}) => {
+const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: PropsWithChildren<ReadMoreProps>) => {
   const [truncatedText, setTruncatedText] = useState(children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
   // remember line lengths to keep track of layout changes
@@ -110,7 +104,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   }, [])
 
   return (
-    <View style={style} testID={testID}>
+    <View testID={testID}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -120,20 +114,13 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText size="small" style={[styles.text, fontStyle]} {...textProps}>
+        <HoliText color="gray300" {...textProps}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
         {/* using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549 */}
         {buttonState !== 'hidden' && (
-          <HoliText
-            onPress={toggleButtonState}
-            accessible={true}
-            accessibilityRole="button"
-            size="small"
-            {...textProps}
-            style={[styles.text, buttonStyle]}
-          >
+          <HoliText color="black300" accessible={true} accessibilityRole="button" onPress={toggleButtonState} bold>
             {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
           </HoliText>
         )}

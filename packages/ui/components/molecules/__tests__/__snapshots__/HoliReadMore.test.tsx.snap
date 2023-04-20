@@ -2,9 +2,7 @@
 
 exports[`renders correctly renders correctly with long text 1`] = `
 <View>
-  <View
-    style={{}}
-  >
+  <View>
     <Text
       ellipsizeMode="tail"
       numberOfLines={3}
@@ -23,9 +21,9 @@ exports[`renders correctly renders correctly with long text 1`] = `
           {
             "color": "#787777",
             "fontFamily": "Circular Std Book",
-            "fontSize": 14,
+            "fontSize": 16,
             "fontWeight": "400",
-            "lineHeight": 16.8,
+            "lineHeight": 19.2,
           }
         }
       >
@@ -39,9 +37,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
 
 exports[`renders correctly renders correctly with short text 1`] = `
 <View>
-  <View
-    style={{}}
-  >
+  <View>
     <Text
       ellipsizeMode="tail"
       numberOfLines={3}
@@ -60,9 +56,9 @@ exports[`renders correctly renders correctly with short text 1`] = `
           {
             "color": "#787777",
             "fontFamily": "Circular Std Book",
-            "fontSize": 14,
+            "fontSize": 16,
             "fontWeight": "400",
-            "lineHeight": 16.8,
+            "lineHeight": 19.2,
           }
         }
       >
