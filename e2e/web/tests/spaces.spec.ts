@@ -281,6 +281,9 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // check if it closed
   await locateElementByTestId(page, 'btn-task-locationType')
 
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-task-locationType-modal'), { state: 'hidden' })
+
   // select location
   const locationInput = await locateElementByTestId(page, 'task-location-input')
   await locationInput.fill('Hamburg')
