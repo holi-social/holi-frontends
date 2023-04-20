@@ -43,7 +43,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
     try {
       const result = await Share.share({
         message: space.title,
-        title: space.title,
+        title: prefix.current,
         url: prefix.current,
       })
       if (result.action === Share.sharedAction) {
