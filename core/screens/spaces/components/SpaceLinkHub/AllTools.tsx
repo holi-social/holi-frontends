@@ -112,7 +112,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   const ToolWidget = ({ widgetTitle, toolsList }: ToolWidgetProps) => {
     return (
-      <CollaboratorAreaCard title={widgetTitle} style={styles.widgetContainer} testID="space-tools-card">
+      <CollaboratorAreaCard title={widgetTitle} style={styles.widgetContainer}>
         <View style={{ paddingHorizontal: 7.5 }}>
           {toolsList.map((tool) => {
             return (
