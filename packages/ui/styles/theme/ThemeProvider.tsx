@@ -20,7 +20,7 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
       } else {
         delete currentMap[modalId]
       }
-      return currentMap
+      return { ...currentMap }
     })
   }, [])
 
