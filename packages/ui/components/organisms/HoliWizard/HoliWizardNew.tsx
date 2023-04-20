@@ -95,7 +95,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
         <HoliStepper
           steps={steps}
           currentStep={currentStep}
-          screenWidth={screenWidth}
+          width={screenWidth}
           ref={ref}
           style={{ flexGrow: 1, flexShrink: 1 }}
           scrollEnabled={scrollEnabled}
