@@ -47,7 +47,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const submitJoinRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginModal({
-        description: t('spaces.join.loginRedirect.text'),
+        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
       })
     }
     updateSpaceUserConnection({
@@ -57,7 +57,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id])
+  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id, space.title])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
