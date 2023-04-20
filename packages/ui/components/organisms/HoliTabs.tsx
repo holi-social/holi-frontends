@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
@@ -44,10 +44,15 @@ const HoliTabs = ({
     (index: number) => {
       setActiveTab(index)
       setStep(index)
-      onChangeTab?.(currentStep)
     },
-    [setStep, currentStep, onChangeTab]
+    [setStep]
   )
+
+  // TODO - Handle state changes in one handler
+  useEffect(() => {
+    handleTabChange(currentStep)
+    onChangeTab?.(currentStep)
+  }, [currentStep, onChangeTab, handleTabChange])
 
   const handleLayout = (e: LayoutChangeEvent) => {
     const width = e.nativeEvent.layout.width
