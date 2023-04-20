@@ -18,10 +18,10 @@
   "filter.result_plural": "{{count}} Freiwillenangebote",
   "filter.submitButton": "Freiwilligenarbeit anzeigen",
   "listing.error": "Laden von Projekten ist fehlgeschlagen",
-  "listing.headline": "Interessante Freiwilligenarbeit für dich",
+  "listing.headline": "Interessante Aufgaben für dich",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weitere Projekte",
-  "listing.loading": "Lädt Freiwilligenangebote...",
+  "listing.loading": "Lädt Freiwilligenangebote…",
   "filter.category.label": "Themen, die mich interessieren",
   "filter.category.placeholder": "Thema auswählen"
 }

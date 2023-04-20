@@ -18,10 +18,10 @@
   "filter.result_plural": "{{count}} opportunities",
   "filter.submitButton": "Show opportunities",
   "listing.error": "Loading opportunities failed",
-  "listing.headline": "Interesting opportunities for you",
+  "listing.headline": "Interesting tasks for you",
   "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "See more",
-  "listing.loading": "Loading volunteering opportunities...",
+  "listing.loading": "Loading volunteering opportunities…",
   "filter.category.label": "Topics you are interested in",
   "filter.category.placeholder": "Select topic"
 }
