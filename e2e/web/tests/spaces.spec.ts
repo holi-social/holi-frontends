@@ -347,7 +347,7 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
 
     // Test adding a tool from a space's Get Involved tab
     await clickElementByTestId(page, 'space-tabs-button-2-inactive') // Get involved
-    await clickElementByTestId(page, 'btn-right-collaboration-area-card') // Little + button
+    await clickElementByTestId(page, 'btn-right-space-tools-card') // Little + button
     await addDigitalTool(page)
     const toolIcon = await locateElementByTestId(page, 'tool-icon')
     const toolName = await locateElementByTestId(page, 'tool-title')
@@ -359,8 +359,7 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
     await expect.poll(numberOfTools).toBe(1)
 
     // Test adding a tool from the Linkhub
-    await clickElementByTestId(page, 'space-add-tool-button') // Toolkit
-    await clickElementByTestId(page, 'resource-category-tile-digital-tool') // Linkhub
+    await clickElementByTestId(page, 'btn-left-space-tools-card')
     await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
     await addDigitalTool(page)
     await clickElementByTestId(page, 'nav-button-back')
