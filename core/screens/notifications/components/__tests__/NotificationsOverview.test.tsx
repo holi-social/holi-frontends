@@ -127,6 +127,33 @@ const MOCKS_WITH_NOTIFICATIONS = [
                 },
               },
             },
+            {
+              id: '93fab88d-7288-437d-89c1-c98239bf07be',
+              notificationType: 'CNP',
+              owner: {
+                id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
+              },
+              created: '2023-04-11T07:14:47.182499+00:00',
+              read: true,
+              options: {
+                post: {
+                  id: '9f7b6baa-9987-43ed-8202-ee9a9f2b0c96',
+                  title: '',
+                  isPublic: true,
+                  creator: {
+                    id: '84727e70-2b1c-4b44-b7c3-3b6d08362ab7',
+                    fullName: 'Mr. Foo Bar',
+                  },
+                },
+                user: null,
+                postComment: null,
+                space: {
+                  id: '2a64b5ad-399c-42c9-bf10-19ab82c16591',
+                  title: 'Test space',
+                },
+                teaser: 'Test space post...',
+              },
+            },
           ],
         },
       },
@@ -183,7 +210,7 @@ describe('Notifications.tsx', () => {
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
   })
 
-  it('renders a PostCommentMention and Release notification', async () => {
+  it('renders a PostCommentMention, a SpacePost and a Release notification', async () => {
     useAuthMock.mockImplementation(loggedIn)
 
     render(
@@ -196,5 +223,6 @@ describe('Notifications.tsx', () => {
 
     expect(await screen.findByTestId('post-comment-mention'))
     expect(await screen.findByTestId('release-info'))
+    expect(await screen.findByTestId('space-post'))
   })
 })
