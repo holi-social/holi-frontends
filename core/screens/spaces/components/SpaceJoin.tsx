@@ -57,7 +57,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id])
+  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id, space.title])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
