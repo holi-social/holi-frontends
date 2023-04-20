@@ -66,7 +66,6 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
       title={t('spaces.digitalToolKit.title')}
       onPressHeaderLeft={navigateToLinkHubPage}
       onPressHeaderRight={navigateToAddToolPage}
-      testID="space-tools-card"
     >
       <View style={styles.toolKitContainer}>
         {(collaborationTools.length > 0 &&
