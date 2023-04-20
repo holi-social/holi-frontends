@@ -59,9 +59,6 @@ export const defaultAuthSteps = async (
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
-  // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-password')
-
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
 
