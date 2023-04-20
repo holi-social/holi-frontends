@@ -1,4 +1,5 @@
 import React from 'react'
+import type { PropsWithChildren } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -13,7 +14,7 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliTabButtonProps = {
+interface Props {
   label: string
   id?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
@@ -31,7 +32,7 @@ const HoliTabButton = ({
   accessibilitySelected = false,
   accessibilityControls,
   ...props
-}: React.PropsWithChildren<HoliTabButtonProps>) => {
+}: PropsWithChildren<Props>) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: 'tab',
@@ -67,8 +68,6 @@ const HoliTabButton = ({
   )
 }
 
-export default HoliTabButton
-
 const styles = StyleSheet.create({
   base: {
     ...Platform.select({
@@ -85,3 +84,5 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
 })
+
+export default HoliTabButton

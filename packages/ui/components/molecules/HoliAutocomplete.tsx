@@ -131,7 +131,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
 
                 // @Todo remove this asap and think about a different implementation alltogether - the hack also necessitates to delay the event handler call to the next rendercycle (on mobile)
                 requestAnimationFrame(() => {
-                  onClose?.()
+                  onClose?.(suggestions.find((i) => i.label === searchText))
                 })
                 return null
               }
@@ -140,7 +140,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
           })
         }
       },
-      [isOpened, onClose]
+      [isOpened, onClose, searchText, suggestions]
     )
 
     const setFocusAndOpen = useCallback((focusId: string) => {
@@ -196,11 +196,12 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
               suggestions.map((suggestion, index) => (
                 <HoliAutocompleteItem
                   key={suggestion.id}
+                  suggestion={suggestion}
                   isLast={index === suggestions.length - 1}
                   onBlur={onTextinputBlur}
                   onFocus={() => setFocusAndOpen('suggestion-' + suggestion.id)}
                   onPress={handleItemSelection}
-                  {...{ testID, suggestion }}
+                  testID={testID}
                 />
               ))
             ) : (

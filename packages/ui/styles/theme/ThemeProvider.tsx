@@ -1,37 +1,41 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Platform } from 'react-native'
 
 import { HoliTheme } from '.'
 import { useStyleMixins } from './mixins'
 import defaultTheme, { ThemeContext } from './theme'
 
+type ModalState = { [key: string]: boolean }
+
 export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
   const [isDark, toggleDarkMode] = React.useReducer((isDark) => !isDark, defaultTheme.dark)
-  const [openModalList, setOpenModalList] = React.useState<string[]>([])
-  const modalIsOpen = !!openModalList.length
+  const [modalCurrentStatus, setModalCurrentStatus] = React.useState<ModalState>({})
+  const anyModalOpen = useMemo(() => Object.values(modalCurrentStatus).some((value) => value), [modalCurrentStatus])
   const mixins = useStyleMixins()
 
   const setModalIsOpen = useCallback((modalId: string, isOpen: boolean) => {
-    setOpenModalList((currentList) => {
-      // use Set to avoid duplications
-      const modalSet = new Set(currentList)
-      isOpen ? modalSet.add(modalId) : modalSet.delete(modalId)
-      return Array.from(modalSet)
+    setModalCurrentStatus((currentMap: ModalState) => {
+      if (isOpen) {
+        currentMap[modalId] = isOpen
+      } else {
+        delete currentMap[modalId]
+      }
+      return { ...currentMap }
     })
   }, [])
 
   useEffect(() => {
     if (Platform.OS === 'web') {
-      document.body.style.overflow = modalIsOpen ? 'hidden' : ''
+      document.body.style.overflow = anyModalOpen ? 'hidden' : ''
     }
-  }, [modalIsOpen])
+  }, [anyModalOpen])
 
   return (
     <ThemeContext.Provider
       value={{
         theme: { ...theme, dark: isDark, mixins },
         toggleDarkMode,
-        modalIsOpen,
+        modalIsOpen: anyModalOpen,
         setModalIsOpen,
       }}
     >

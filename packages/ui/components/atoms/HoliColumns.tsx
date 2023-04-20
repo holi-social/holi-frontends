@@ -6,6 +6,8 @@ import type { FlexAlignType, FlexStyle } from 'react-native'
 import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
 interface Props {
+  /** The factor of remaining space should be given to this node */
+  flex?: FlexStyle['flex']
   /** Aligns child nodes along the x-axis. Defaults to flex-start  */
   justifyContent?: FlexStyle['justifyContent']
   /** Aligns child nodes along the cross y-axis  */
@@ -47,7 +49,6 @@ export default HoliColumns
 
 interface DefaultStyles {
   default: {
-    flex: number
     flexDirection: 'row'
     justifyContent: 'flex-start'
     alignItems: 'stretch'
@@ -57,7 +58,6 @@ interface DefaultStyles {
 
 const styles = StyleSheet.create({
   default: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'stretch',

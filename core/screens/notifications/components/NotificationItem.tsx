@@ -4,6 +4,8 @@ import NotificationConnectionItem from '@holi/core/screens/notifications/compone
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
+import NotificationSpacePermissionsItem from '@holi/core/screens/notifications/components/NotificationSpacePermissionsItem'
+import NotificationSpacePostItem from '@holi/core/screens/notifications/components/NotificationSpacePostItem'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
 /**
@@ -19,7 +21,10 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.POST_COMMENT_USER_MENTION,
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
+  NotificationType.COMMUNITY_NEW_POST,
   NotificationType.RELEASE_INFO,
+  NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED,
+  NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -35,8 +40,13 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
       return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
+    case NotificationType.COMMUNITY_NEW_POST:
+      return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
     case NotificationType.RELEASE_INFO:
       return <NotificationReleaseInfoItem notification={notification} {...props} testID="release-info" />
+    case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED:
+    case NotificationType.COMMUNITY_ADMIN_PRIVILEGES_REVOKED:
+      return <NotificationSpacePermissionsItem notification={notification} {...props} testID="space-permissions" />
 
     default:
       return null

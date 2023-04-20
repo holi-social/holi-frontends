@@ -16,14 +16,10 @@ interface Props {
   testID?: string
 }
 
-const generateStyles = (
-  styles: DefaultStyles,
-  padding: number | number[] | undefined,
-  layout: Omit<Props, 'padding' | 'testID'>
-) => {
+const generateStyles = (padding: number | number[] | undefined, layout: Omit<Props, 'padding' | 'testID'>) => {
   const boxStyles = padding ? createBoxPadding(padding) : null
   const layoutStyles = StyleSheet.create({ columnLayout: { ...layout } })
-  return StyleSheet.flatten<FlexStyle>([styles.default, boxStyles?.boxPadding, layoutStyles.columnLayout])
+  return StyleSheet.flatten<FlexStyle>([boxStyles?.boxPadding, layoutStyles.columnLayout])
 }
 
 /**
@@ -33,21 +29,9 @@ const generateStyles = (
  * `align-self`. It also accepts a padding like the `HoliBox`.
  */
 const HoliColumn = ({ children, padding, testID, ...laoutProps }: PropsWithChildren<Props>) => (
-  <View style={generateStyles(styles, padding, laoutProps)} testID={testID}>
+  <View style={generateStyles(padding, laoutProps)} testID={testID}>
     {children}
   </View>
 )
 
 export default HoliColumn
-
-interface DefaultStyles {
-  default: {
-    flex: FlexStyle['flex']
-  }
-}
-
-const styles = StyleSheet.create({
-  default: {
-    flex: 1,
-  },
-})

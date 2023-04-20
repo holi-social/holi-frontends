@@ -4,22 +4,20 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type MediaHeaderProps = {
+interface Props {
   title: string
   author: User
   boldTitle?: boolean
   date?: string
   style?: StyleProp<ViewStyle>
   testID?: string
-  isPublic?: boolean
 }
 
-const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle, date, style, testID, isPublic }) => {
+const HoliMediaHeader = ({ title, author, boldTitle, date, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
@@ -31,44 +29,26 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
   const authorName = author.fullName || t('user.profileView.anonymous')
 
   return (
-    <>
-      {isPublic !== undefined &&
-        (isPublic ? (
-          <View style={styles.row}>
-            <HoliIcon icon={'global'} size={12} filled={true} style={styles.visibility} />
-            <HoliText size="extrasmall" style={styles.visibility}>
-              {t('spaces.updates.filter.public')}
-            </HoliText>
-          </View>
-        ) : (
-          <View style={styles.row}>
-            <HoliIcon icon={'lock'} size={12} filled={true} style={styles.visibility} />
-            <HoliText size="extrasmall" style={styles.visibility}>
-              {t('spaces.updates.filter.members')}
-            </HoliText>
-          </View>
-        ))}
-      <View style={[styles.row, style]} testID={testID}>
-        <HoliAvatar
-          imageSrc={author.avatar}
-          label={authorName}
-          initials={author.avatarLabel || ''}
-          defaultColor={author.avatarDefaultColor || ''}
-          size="small"
-        />
+    <View style={[styles.row, style]} testID={testID}>
+      <HoliAvatar
+        imageSrc={author.avatar}
+        label={authorName}
+        initials={author.avatarLabel || ''}
+        defaultColor={author.avatarDefaultColor || ''}
+        size="small"
+      />
 
-        <View style={[styles.titleContainer]}>
-          <HoliText bold={boldTitle}>{title}</HoliText>
-          <View style={styles.row}>
-            {!!formattedDate && (
-              <HoliText size="small" style={styles.date}>
-                {formattedDate}
-              </HoliText>
-            )}
-          </View>
+      <View style={[styles.titleContainer]}>
+        <HoliText bold={boldTitle}>{title}</HoliText>
+        <View style={styles.row}>
+          {!!formattedDate && (
+            <HoliText size="small" style={styles.date}>
+              {formattedDate}
+            </HoliText>
+          )}
         </View>
       </View>
-    </>
+    </View>
   )
 }
 

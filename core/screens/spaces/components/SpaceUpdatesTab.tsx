@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
@@ -7,8 +7,10 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
+import type { Post } from '@holi/core/screens/posts/types'
 import { SpaceByIdResponse, spacePostsQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -25,9 +27,11 @@ export interface SpaceUpdatesTabProps {
 }
 
 const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
+  const hasPostFilterRef = useRef(false)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const postGridItemsInRow = useBreakpointMatcher()
+
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
   const { error, data, loading } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
     variables: { idOrName: space.id, offset: 0, limit: 10, visibility: filter },
@@ -35,12 +39,21 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const headline = isMember ? t('spaces.updates.noResults.headline.member') : t('spaces.updates.noResults.headline')
+  const hasPostFilter = hasPostFilterRef.current
+  const postData = data?.spaceById.posts?.data
+  const posts = useMemo(() => postData || [], [postData])
+
+  // TODO: the filtering of public posts should be marked/flagged on the backend.
+  useEffect(() => {
+    if (hasPostFilterRef.current) return
+
+    hasPostFilterRef.current = hasPublicAndPrivatePosts(posts)
+    ;() => (hasPostFilterRef.current = false)
+  }, [posts, postData])
 
   if (error) {
     displayError(error, t('spaces.updates.error'))
   }
-
-  const posts = data?.spaceById.posts?.data || []
 
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
@@ -72,7 +85,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
         </HoliBox>
       ) : (
         <HoliBox padding={[12, 0, 0, 0]}>
-          {isMember && (
+          {isMember && hasPostFilter && (
             <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.buttonWrapper}>
               <HoliButton
                 type="secondary"
@@ -146,7 +159,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                   /** FIXME convert to VirtualizedList, FlatList or SectionList */
                   posts.map((post) => (
                     <HoliGridCell key={post.id}>
-                      <PostPreview post={post} style={styles.postItem} />
+                      <PostPreview post={post} hasVisibilityIcon />
                     </HoliGridCell>
                   ))
                 }
@@ -160,10 +173,6 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
 }
 
 const styles = StyleSheet.create({
-  postItem: {
-    borderRadius: 12,
-    paddingVertical: 24,
-  },
   buttonContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
@@ -196,6 +205,23 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
 })
+
+// TODO: the filtering of public posts should be marked/flagged on the backend.
+function hasPublicAndPrivatePosts(posts: Post[]) {
+  let hasPublicPost = false
+  let hasPrivatePost = false
+
+  for (const post of posts) {
+    if (hasPublicPost && hasPrivatePost) break
+    if (post.isPublic) {
+      hasPublicPost = true
+      continue
+    }
+    hasPrivatePost = true
+  }
+
+  return hasPublicPost && hasPrivatePost
+}
 
 export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
   () => import('@holi/core/screens/spaces/components/SpaceUpdatesTab')
