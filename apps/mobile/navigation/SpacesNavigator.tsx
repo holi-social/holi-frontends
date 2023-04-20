@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import AddDigitalTool, { AddDigitalToolParams } from '@holi/core/screens/spaces/AddDigitalTool'
 import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/CreateTask'
+import CreateUpdate from '@holi/core/screens/spaces/CreateUpdate'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/EditDigitalTool'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
 import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/LinkHub'
@@ -52,6 +53,7 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
+      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateUpdate} />
     </SpacesStack.Navigator>
   )
 }

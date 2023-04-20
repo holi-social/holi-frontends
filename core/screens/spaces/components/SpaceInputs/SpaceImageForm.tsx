@@ -11,8 +11,9 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceImageFormProps = {
-  title: string
+  title?: string
   description?: string
+  instructions?: string
   onUploadImage: (image: ImageInfo | undefined) => void
   image: ImageInfo | undefined
   style?: ViewStyle
@@ -21,6 +22,7 @@ export type SpaceImageFormProps = {
 const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   title,
   description,
+  instructions,
   onUploadImage,
   image,
   style,
@@ -101,7 +103,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
     return (
       <View style={styles.instructionsContainer}>
         <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.input.coverImage.upload.hint')}
+          {instructions ? instructions : t('spaces.input.coverImage.upload.hint')}
         </HoliText>
       </View>
     )
@@ -109,9 +111,11 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
 
   return (
     <View style={[styles.container, style]}>
-      <HoliText size="extralarge" style={styles.title}>
-        {title}
-      </HoliText>
+      {!!title && (
+        <HoliText size="extralarge" style={styles.title}>
+          {title}
+        </HoliText>
+      )}
       {!!description && <HoliText style={styles.subTitle}>{description}</HoliText>}
       <ImageUploader />
     </View>
