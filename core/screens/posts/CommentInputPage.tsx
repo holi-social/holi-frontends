@@ -35,7 +35,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
-  insightId: string
+  insightId?: string
+  spaceIdOrName?: string
   postId: string
 }
 
@@ -43,7 +44,8 @@ type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()
-  const [insightId] = useParam('insightId')
+  const [insightId = ''] = useParam('insightId')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
@@ -133,7 +135,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   if (!user) {
-    navigate(`/insights/${insightId}/posts/${postId}`)
+    if (insightId !== '') navigate(`/insights/${insightId}/posts/${postId}`)
+    else if (spaceIdOrName !== '') navigate(`/spaces/${spaceIdOrName}/updates/${postId}`)
+    else navigate(`/posts/${postId}`)
     return null
   }
 
