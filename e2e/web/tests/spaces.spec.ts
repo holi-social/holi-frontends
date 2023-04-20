@@ -359,7 +359,7 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
     await expect.poll(numberOfTools).toBe(1)
 
     // Test adding a tool from the Linkhub
-    await clickElementByTestId(page, 'space-resources-add-button') // Toolkit
+    await clickElementByTestId(page, 'space-add-tool-button') // Toolkit
     await clickElementByTestId(page, 'resource-category-tile-digital-tool') // Linkhub
     await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
     await addDigitalTool(page)
