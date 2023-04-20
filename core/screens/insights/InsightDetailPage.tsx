@@ -62,23 +62,13 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
     [setOptions, t, insight?.title]
   )
 
-  if (error) {
-    console.log('######## InsightDetailPage load error')
-    logError(error, `[InsightDetailPage.tsx] ${error.message}`)
-  }
+  if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
-  }
-
-  // Important: `insights.find() should be called after useEffect() or useLayoutEffet()
-  // A hard reload will cause an error.
-  // see here: https://reactjs.org/docs/hooks-rules.html
+  if (loading || error) return null
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
   const posts: Post[] = insight.posts || []
-
   const author = insight.creator
 
   return (
@@ -158,7 +148,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} />
                   </HoliGridCell>
                 ))
               }
@@ -225,10 +215,6 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
-  },
-  postItem: {
-    borderRadius: 12,
-    paddingVertical: 24,
   },
 })
 

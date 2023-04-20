@@ -3,14 +3,12 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    [
-      {
-        "alignContent": "center",
-        "alignItems": "center",
-        "justifyContent": "flex-start",
-      },
-      undefined,
-    ]
+    {
+      "alignContent": "center",
+      "alignItems": "center",
+      "justifyContent": "flex-start",
+      "width": "100%",
+    }
   }
   testID="tabs-module"
 >
@@ -27,19 +25,14 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View
       style={
-        [
-          {
-            "alignSelf": "center",
-            "maxWidth": 1200,
-            "paddingHorizontal": 20,
-            "width": "100%",
-          },
-          {
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-          },
-          undefined,
-        ]
+        {
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "maxWidth": 1200,
+          "paddingHorizontal": 20,
+          "width": "100%",
+        }
       }
     >
       <View
@@ -235,9 +228,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     bounces={false}
     contentContainerStyle={
       {
-        "alignContent": "flex-start",
-        "alignItems": "flex-start",
-        "justifyContent": "flex-start",
+        "flexGrow": 1,
       }
     }
     dataSet={
@@ -247,6 +238,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
     horizontal={true}
     keyboardShouldPersistTaps="always"
+    onLayout={[Function]}
     onScroll={[Function]}
     pagingEnabled={true}
     scrollEnabled={false}
@@ -255,7 +247,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     style={
       {
         "flex": 1,
-        "flexDirection": "row",
+        "height": "100%",
         "minHeight": "100%",
         "width": "100%",
       }

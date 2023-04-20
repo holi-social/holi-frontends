@@ -33,7 +33,7 @@ const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: b
     <View>
       <HoliStepper
         ref={stepperRef}
-        screenWidth={424}
+        width={424}
         currentStep={currentStep}
         scrollEnabled={false}
         steps={steps.map(([id, idx]) => (
