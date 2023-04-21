@@ -74,11 +74,11 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
         console.info('[Registration.tsx] registration was successful.')
 
-        await onRegister('accountSetup')
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
+        await onRegister('accountSetup')
 
         redirect()
       } catch (err) {

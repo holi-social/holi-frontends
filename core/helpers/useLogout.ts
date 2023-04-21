@@ -23,7 +23,7 @@ export const useLogout = () => {
 
         getSessionFromStorage()
           .then((session) => {
-            if (!skipLogoutFlow) {
+            if (!skipLogoutFlow && session) {
               return submitLogoutFlow({ session_token: session ? session.session_token : '' })
             }
           })
