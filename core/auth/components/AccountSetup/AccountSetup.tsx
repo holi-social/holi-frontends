@@ -20,6 +20,7 @@ import {
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
