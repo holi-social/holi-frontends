@@ -47,7 +47,7 @@ const SuggestedTools: React.FC = () => {
     {
       id: '3',
       name: t('spaces.toolKit.toolIdeas.tool.interactivePolls'),
-      org: 'Nuudle',
+      org: 'Nuudel',
       url: 'https://nuudel.digitalcourage.de/',
       icon: 'chat-poll',
     },
