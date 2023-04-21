@@ -10,6 +10,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
   arrowRight?: boolean
+  outlink?: boolean
   tintColor?: string
   bold?: boolean
   loading?: boolean
@@ -18,6 +19,7 @@ export interface MoreOptionItemProps extends HoliButtonProps {
 const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
   arrowRight = false,
+  outlink = false,
   tintColor = colors.foreground30,
   loading = false,
   label,
@@ -43,7 +45,10 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
         </HoliText>
 
         {arrowRight && (
-          <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.arrowRight} />
+          <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+        )}
+        {outlink && (
+            <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
         )}
       </HoliButton>
       {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 10,
   },
-  arrowRight: {
+  iconRight: {
     marginLeft: 'auto',
   },
 })

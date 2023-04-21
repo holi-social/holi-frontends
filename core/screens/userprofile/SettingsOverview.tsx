@@ -62,6 +62,7 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('profile.settings.overview.help')}
             icon="help"
+            outlink
             onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
           />
