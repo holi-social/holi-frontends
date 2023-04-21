@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
@@ -23,7 +24,7 @@ export const useLogout = () => {
 
         getSessionFromStorage()
           .then((session) => {
-            if (!skipLogoutFlow && session) {
+            if (!skipLogoutFlow) {
               return submitLogoutFlow({ session_token: session ? session.session_token : '' })
             }
           })
