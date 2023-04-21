@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -37,7 +38,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
 
   return (
-    <View style={[styles.wrapper, style]}>
+    <View style={[styles.wrapper, style]} testID="post-content-container">
       <View style={styles.paddingHorizontal}>
         <View style={styles.headerContainer}>
           <HoliColumns>
@@ -57,26 +58,28 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
             </HoliColumn>
 
             <HoliColumn>
-              <MoreOptionsButtonWithModal
-                label={t('insights.post.preview.more')}
-                showOptions={visible}
-                onPress={show}
-                onModalDismiss={hide}
-                style={styles.moreButton}
-              >
-                <ReportBlockOptionButton
-                  action="report"
-                  objectId={post.id}
-                  contentType={ContentType.POST}
-                  style={styles.moreOptionItem}
-                  confirmationModalProps={{
-                    title: t('insights.post.report.confirmation.title'),
-                    description: t('insights.post.report.confirmation.description'),
-                  }}
-                  successMessage={t('global.report.successMessage')}
-                  onConfirm={hide}
-                />
-              </MoreOptionsButtonWithModal>
+              <SafeAreaProvider>
+                <MoreOptionsButtonWithModal
+                  label={t('insights.post.preview.more')}
+                  showOptions={visible}
+                  onPress={show}
+                  onModalDismiss={hide}
+                  style={styles.moreButton}
+                >
+                  <ReportBlockOptionButton
+                    action="report"
+                    objectId={post.id}
+                    contentType={ContentType.POST}
+                    style={styles.moreOptionItem}
+                    confirmationModalProps={{
+                      title: t('insights.post.report.confirmation.title'),
+                      description: t('insights.post.report.confirmation.description'),
+                    }}
+                    successMessage={t('global.report.successMessage')}
+                    onConfirm={hide}
+                  />
+                </MoreOptionsButtonWithModal>
+              </SafeAreaProvider>
             </HoliColumn>
           </HoliColumns>
         </View>
