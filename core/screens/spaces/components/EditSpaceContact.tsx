@@ -17,7 +17,7 @@ interface EditSpaceContactProps {
 const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }: EditSpaceContactProps) => {
   const [contactDescription, setContactDescription] = useState<string>(space.contactDescription || '')
   const [contactPhone, setContactPhone] = useState<string>(space.contactPhone || '')
-  const [contactEmail, setContactMail] = useState<string>(space.contactEmail || '')
+  const [contactEmail, setContactEmail] = useState<string>(space.contactEmail || '')
 
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
@@ -77,12 +77,12 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
         title={t('space.input.contact.title')}
         onChangeContactDescription={setContactDescription}
         onChangeContactPhone={setContactPhone}
-        onChangeContactMail={setContactMail}
+        onChangeContactEmail={setContactEmail}
         contactDescription={contactDescription}
         contactEmail={contactEmail}
         contactPhone={contactPhone}
         contactDescriptionErrors={fieldErrors.contactDescription}
-        contactMailErrors={fieldErrors.contactEmail}
+        contactEmailErrors={fieldErrors.contactEmail}
         contactPhoneErrors={fieldErrors.contactPhone}
       />
     </EditSpaceModal>
