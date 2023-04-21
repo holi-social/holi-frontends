@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
@@ -58,12 +58,11 @@ const SettingsOverview: React.VFC = () => {
             tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
+          {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
           <MoreOptionItem
-            label={t('help.title')}
+            label={t('profile.settings.overview.help')}
             icon="help"
-            arrowRight
-            onPress={showFeatureNotImplementedToast}
-            tintColor={colors.foreground20}
+            onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
           />
         </View>
