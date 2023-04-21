@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 
 import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -38,10 +38,12 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
     fetchPolicy: 'network-only',
   })
 
-  if (error) {
-    setUserLoggedOut()
-    displayError(error)
-  }
+  useEffect(() => {
+    if (error) {
+      setUserLoggedOut()
+      displayError(error)
+    }
+  }, [displayError, error])
 
   const user = data?.authenticatedUser
 
