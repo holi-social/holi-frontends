@@ -22,7 +22,7 @@ const SuggestedTools: React.FC = () => {
   const mixins = useStyleMixins()
   const imageWidth = 210
 
-  const recommandedToolList: Tool[] = [
+  const recommendedToolList: Tool[] = [
     {
       id: '0',
       name: t('spaces.toolKit.toolIdeas.tool.impactTools'),
@@ -57,7 +57,7 @@ const SuggestedTools: React.FC = () => {
     Linking.openURL(url)
   }
 
-  const RecommandedTool = ({ tool }: { tool: Tool }) => {
+  const RecommendedTool = ({ tool }: { tool: Tool }) => {
     return (
       <HoliButton
         label={t('spaces.toolKit.toolIdeas.tool.open.button.label')}
@@ -100,8 +100,8 @@ const SuggestedTools: React.FC = () => {
         <HoliText style={styles.description}>{t('spaces.toolKit.toolIdeas.description')}</HoliText>
       </View>
       <View style={styles.toolsContainer}>
-        {recommandedToolList.map((item) => {
-          return <RecommandedTool key={item.id} tool={item} />
+        {recommendedToolList.map((item) => {
+          return <RecommendedTool key={item.id} tool={item} />
         }) || null}
       </View>
     </View>
