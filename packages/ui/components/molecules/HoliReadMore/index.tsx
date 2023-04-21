@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
@@ -7,16 +7,18 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 import type { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
+const MIN_LINE_LENGTH = 10
+
 /**
  *
  * This component returns a View which encapsulates HoliText components.
  * Most accessibility props are already present in the HoliText component itself.
  */
 const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: PropsWithChildren<ReadMoreProps>) => {
+  const allowedLineLengthRef = useRef(MIN_LINE_LENGTH)
   const [truncatedText, setTruncatedText] = useState(() => children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
-  // remember line lengths to keep track of layout changes
-  const [allowedLineLength, setAllowedLineLength] = useState(0)
+
   const { t } = useTranslation()
 
   const readLessButtonText = t('component.readMore.readLess')
@@ -43,19 +45,13 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
     )
 
     // Check if there have been layout changes (impacting the width of the rendered text)
-    if (maxAllowedLineLength === allowedLineLength) return
+    if (maxAllowedLineLength === allowedLineLengthRef.current) return
 
-    setAllowedLineLength(maxAllowedLineLength)
+    allowedLineLengthRef.current = maxAllowedLineLength
     const lastLineLength = lines[lines.length - 1].text.length
 
     // ignore truncating when there is no hidden text (no need for a Read more button)
     if (lines.length <= numberOfLines && lastLineLength <= maxAllowedLineLength) {
-      if (buttonState !== 'hidden') {
-        // if the text was truncated before, reset allowed line length
-        // > let next text layout event (triggered by change of button state) decide on button state
-        setAllowedLineLength(0)
-        setButtonState('hidden')
-      }
       return
     }
 
@@ -89,7 +85,7 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
     setTruncatedText(truncatedText)
   }
 
-  const toggleButtonState = () => {
+  const handleButtonPress = () => {
     setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
   }
 
@@ -110,7 +106,7 @@ const HoliReadMore = ({ children, testID, numberOfLines = 3, ...textProps }: Pro
 
         {/* using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549 */}
         {buttonState !== 'hidden' && (
-          <HoliText color="black300" accessible={true} accessibilityRole="button" onPress={toggleButtonState} bold>
+          <HoliText color="black300" accessible={true} accessibilityRole="button" onPress={handleButtonPress} bold>
             {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
           </HoliText>
         )}
