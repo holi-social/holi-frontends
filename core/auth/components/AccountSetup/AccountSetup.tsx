@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
@@ -20,6 +20,7 @@ import {
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
@@ -68,6 +69,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { displayError } = useErrorHandling()
   const { user, isLoading: userLoading } = useLoggedInUser()
   const mixins = useStyleMixins()
+  const { openToast } = useToast()
   const [inLogout, setInLogout] = useState(false)
   const { logout } = useLogout()
   const { onOnboardingStateChange: finishOnboarding } = useOnboarding()
@@ -185,10 +187,10 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   useEffect(() => {
     if (!userLoading && !user && !inLogout) {
       setInLogout(true)
-      Keyboard.dismiss()
-      finishOnboarding().finally(() => logout().finally(() => navigate('/')))
+      finishOnboarding()
+      logout()
     }
-  }, [userLoading, user, inLogout, finishOnboarding, logout, navigate])
+  }, [finishOnboarding, inLogout, logout, openToast, t, user, userLoading])
 
   if (!user) return null
 
