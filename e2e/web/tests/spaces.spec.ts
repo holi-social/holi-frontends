@@ -380,7 +380,7 @@ const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler
     await expect(toolDetailModal).toBeVisible()
     await expect(editButton).toBeVisible()
     await expect(toolUrl).toBe('Open https://www.holi.community')
-    await clickElementByTestId(page, 'btn-to-close-tool-details-modal-modal')
+    await clickElementByTestId(page, 'btn-to-close-tool-details-modal')
     await expect(toolDetailModal).not.toBeVisible()
 
     // Test editing a tool
