@@ -70,12 +70,11 @@ const SettingsOverview: React.VFC = () => {
 
         <View style={styles.separator} />
 
-        <View style={mixins.container}>
+        <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
             label={t('profile.logout')}
             onPress={() => setShowLogoutConfirmation(true)}
-            contentStyle={styles.logoutButton}
-            tintColor={colors.error30}
+            contentStyle={styles.settingsItem}
             testID="btn-to-logout"
           />
 
@@ -100,7 +99,7 @@ export default memo(SettingsOverview)
 
 const styles = StyleSheet.create({
   settingsOverview: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
   },
   settingsItem: {
     marginVertical: 24,
@@ -109,11 +108,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
-    marginTop: -9,
-    marginBottom: 14,
-    height: 10,
-  },
-  logoutButton: {
-    margin: 10,
+    height: 1,
   },
 })
