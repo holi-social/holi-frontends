@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceContactDescriptionInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactDescriptionInput'
-import SpaceContactMailInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactMailInput'
+import SpaceContactEmailInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactEmailInput'
 import SpaceContactPhoneInputWeb from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactPhoneInputWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,26 +11,26 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceContactFormProps = {
   onChangeContactDescription: (contactDescription: string) => void
-  onChangeContactMail: (contactEmail: string) => void
+  onChangeContactEmail: (contactEmail: string) => void
   onChangeContactPhone: (contactPhone: string) => void
   contactDescription: string
   contactEmail: string
   contactPhone: string
   contactDescriptionErrors?: string[]
-  contactMailErrors?: string[]
+  contactEmailErrors?: string[]
   contactPhoneErrors?: string[]
   title: string
   style?: StyleProp<ViewStyle>
 }
 const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
   onChangeContactDescription,
-  onChangeContactMail,
+  onChangeContactEmail,
   onChangeContactPhone,
   contactDescription,
   contactEmail,
   contactPhone,
   contactDescriptionErrors,
-  contactMailErrors,
+  contactEmailErrors,
   contactPhoneErrors,
   title,
   style,
@@ -51,10 +51,10 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
         errorMessage={contactDescriptionErrors?.length ? contactDescriptionErrors[0] : undefined}
       />
       <View style={styles.inputContainer}>
-        <SpaceContactMailInput
+        <SpaceContactEmailInput
           value={contactEmail}
-          onChange={onChangeContactMail}
-          errorMessage={contactMailErrors?.length ? contactMailErrors[0] : undefined}
+          onChange={onChangeContactEmail}
+          errorMessage={contactEmailErrors?.length ? contactEmailErrors[0] : undefined}
         />
       </View>
       <View style={styles.inputContainer}>

@@ -33,7 +33,7 @@
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
   "donationListing.loadMoreButton.loading": "Lädt",
   "donationListing.loadMoreButton.text": "Weitere Projekte",
-  "donationListing.loading": "Lädt Spendenprojekte...",
+  "donationListing.loading": "Lädt Spendenprojekte…",
   "donationListing.search.heading": "Suchergebnisse für <0>{{location}}</0>",
   "donationListing.search.noResults": "Versuche, die Anzahl an Filtern zu verringern oder den Ort zu ändern.",
   "donationListing.search.resultCount": "{{count}} Möglichkeit",
@@ -52,6 +52,6 @@
   "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden",
   "search.heading": "Suche",
   "search.location.label": "Ort",
-  "search.location.placeholder": "Ort eingeben...",
+  "search.location.placeholder": "Ort eingeben…",
   "search.submitButton": "Passende Projekte anzeigen"
 }

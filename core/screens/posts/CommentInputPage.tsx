@@ -20,6 +20,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -35,7 +36,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
-  insightId: string
+  insightId?: string
+  spaceIdOrName?: string
   postId: string
 }
 
@@ -43,7 +45,8 @@ type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()
-  const [insightId] = useParam('insightId')
+  const [insightId = ''] = useParam('insightId')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
@@ -133,7 +136,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   if (!user) {
-    navigate(`/insights/${insightId}/posts/${postId}`)
+    navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
     return null
   }
 

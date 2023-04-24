@@ -177,6 +177,14 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     setIsNextButtonEnabled(success)
   }, [names])
 
+  // useEffect(() => {
+  //   if (!userLoading && !user && !inLogout) {
+  //     setInLogout(true)
+  //     finishOnboarding()
+  //     logout()
+  //   }
+  // }, [finishOnboarding, inLogout, logout, openToast, t, user, userLoading])
+
   if (!user) return null
 
   const wizardSubmitButtonLabel =
