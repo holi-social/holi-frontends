@@ -23,7 +23,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
-  onRegister: CallableFunction
+  onRegister: () => void
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
@@ -78,7 +78,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-        await onRegister('accountSetup')
+        onRegister()
 
         redirect()
       } catch (err) {

@@ -162,7 +162,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       }
 
       case AccountSetupStep.SUCCESS:
-        onFinish()
+        // wait for AsyncStorage to be set
+        await onFinish()
         navigate('/')
         break
 
