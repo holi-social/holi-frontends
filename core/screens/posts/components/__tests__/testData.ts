@@ -1,6 +1,6 @@
 import { Comment, Post } from '@holi/core/screens/posts/types'
 
-const comment: Comment = {
+export const comment: Comment = {
   id: '1',
   text: 'Test Comment 1',
   created: '2023-04-20T14:20:35.453272+00:00',

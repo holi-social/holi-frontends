@@ -20,6 +20,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -135,9 +136,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   if (!user) {
-    if (insightId !== '') navigate(`/insights/${insightId}/posts/${postId}`)
-    else if (spaceIdOrName !== '') navigate(`/spaces/${spaceIdOrName}/updates/${postId}`)
-    else navigate(`/posts/${postId}`)
+    navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
     return null
   }
 

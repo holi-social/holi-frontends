@@ -25,6 +25,7 @@ import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
@@ -116,10 +117,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const hasVisibilityIcon = spaceIdOrName !== ''
 
   const getPostCommentUrl = () => {
-    if (insightId) return `/insights/${insightId}/posts/${post.id}/comment`
-    else if (spaceIdOrName) return `/spaces/${spaceIdOrName}/updates/${post.id}/comment`
-
-    return `/posts/${post.id}/comment`
+    return `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
   }
 
   return (
