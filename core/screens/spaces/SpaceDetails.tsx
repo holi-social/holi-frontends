@@ -43,7 +43,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { navigate, replaceRoute } = useRouting()
   const [currentTabIndex, setCurrentTabIndex] = useState<number>()
-  console.log('currentTabIndex --->', currentTabIndex)
 
   const { setOptions } = useUnifiedNavigation()
 

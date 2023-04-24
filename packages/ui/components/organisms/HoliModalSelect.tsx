@@ -26,6 +26,7 @@ export type HoliModalSelectProps = {
   onChange: (option: HoliModalSelectOption) => void
   title: string
   label: string
+  description?: string
   placeholder?: string
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -38,6 +39,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   onChange = () => null,
   title,
   label,
+  description,
   placeholder,
   style,
   testID = 'holi-modal-select',
@@ -132,6 +134,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
             {label}
           </HoliHeading>
+          {!!description && <HoliText style={styles.description}>{description}</HoliText>}
 
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
         </ScrollView>
@@ -209,5 +212,9 @@ const getStyles = (isDense: boolean) =>
     optionDescription: {
       marginTop: 4,
       color: colors.foreground20,
+    },
+    description: {
+      color: colors.foreground20,
+      marginTop: 8,
     },
   })
