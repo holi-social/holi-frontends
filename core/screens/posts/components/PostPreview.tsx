@@ -8,6 +8,7 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -28,10 +29,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type PostPreviewProps = {
   post: Post
   insightId?: string
+  spaceIdOrName?: string
   hasVisibilityIcon?: boolean
 }
 
-const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) => {
+const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: PostPreviewProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
@@ -39,11 +41,10 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) =
   const commenters = post.commenters.data
   const { visible, show, hide } = useModalState()
 
-  const postUrl = insightId ? `/insights/${insightId}/posts/${post.id}` : `/posts/${post.id}`
-  const commentUrl = `${postUrl}/comment`
-
   const visibilityIcon = post.isPublic ? 'global' : 'lock'
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
+
+  const commentUrl = `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
@@ -98,21 +99,15 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) =
       </HoliColumns>
 
       <View style={styles.postTitleLink}>
-        <HoliLink href={postUrl} label={post.title} testID="btn-to-post">
+        <HoliLink href={getPostUrl(post.id, insightId, spaceIdOrName)} label={post.title} testID="btn-to-post">
           <HoliHeading level="3" size="small">
             {post.title}
           </HoliHeading>
         </HoliLink>
       </View>
 
-      <HoliReadMore
-        numberOfLines={10}
-        fontStyle={styles.readMoreText}
-        buttonStyle={styles.readMoreBottom}
-        color="gray300"
-        bold={false}
-      >
-        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
+      <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
+        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="default" color="gray300" />
       </HoliReadMore>
 
       {post.image && (
@@ -126,7 +121,10 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post }: PostPreviewProps) =
       <View style={styles.reactionsBar}>
         {post.numberOfComments > 0 ? (
           <View style={styles.reactionsLink}>
-            <HoliLink href={`${postUrl}?commentId=first`} label={t('insights.posts.comments.link')}>
+            <HoliLink
+              href={`${getPostUrl(post.id, insightId, spaceIdOrName)}?commentId=first`}
+              label={t('insights.posts.comments.link')}
+            >
               <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
                 {t('insights.post.response', { count: post.numberOfComments })}
               </HoliUserAvatarPile>
@@ -165,12 +163,6 @@ const styles = StyleSheet.create({
   },
   postTitleLink: {
     marginBottom: 8,
-  },
-  readMoreText: {
-    lineHeight: 16 * 1.5,
-  },
-  readMoreBottom: {
-    color: colors.foreground30,
   },
   imageContainer: {
     width: '100%',

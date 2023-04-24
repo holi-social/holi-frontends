@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -45,7 +46,11 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
           )}
         </View>
       </View>
-      {!!user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
+      {!!user.aboutMe && (
+        <HoliBox padding={[16, 0, 0, 0]}>
+          <HoliReadMore>{user.aboutMe}</HoliReadMore>
+        </HoliBox>
+      )}
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
           <UserConnectionButtons style={styles.profileButton} user={user} />
@@ -88,9 +93,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     flexShrink: 1,
     flex: 1,
-  },
-  aboutMe: {
-    marginTop: 16,
   },
 })
 
