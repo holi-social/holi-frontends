@@ -32,16 +32,20 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
     pollInterval: NOTIFICATION_POLLING_INTERVAL,
   })
 
+  const handleLogout = () => {
+    client.clearStore()
+    ensureOAuth2Logout()
+    setUserLoggedOut()
+    console.info('[Logout] logout successful')
+    navigate('/profile')
+  }
+
   if (hasNewNotificationsError) {
-    const networkError = hasNewNotificationsError.networkError
-    console.dir((networkError as ServerError).statusCode)
-    if (networkError && (networkError as ServerError).statusCode === 401) {
-      client.clearStore()
-      ensureOAuth2Logout()
-      setUserLoggedOut()
-      console.info('[Logout] logout successful')
-      navigate('/profile')
+    const networkError = hasNewNotificationsError?.networkError
+    if ((networkError as ServerError)?.statusCode === 401) {
+      handleLogout()
     }
+
     logError(hasNewNotificationsError, `[NotificationSearchButtons.tsx] ${hasNewNotificationsError.message}`)
   }
 
