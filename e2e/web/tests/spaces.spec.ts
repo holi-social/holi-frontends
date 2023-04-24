@@ -24,7 +24,6 @@ test.describe('@Spaces', () => {
     await testDisplaysSpaceDetails(page)
     await testShareSpace(page)
     await testCreatingEditingDeletingASpace(context, page, userHandler)
-    await testAddEditDeleteDigitalTool(page, userHandler)
   })
 })
 const testAccessibleFromHomeScreen = async (page: Page) => {
@@ -208,6 +207,9 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await checkAccessibility(page)
     await inputTaskInfo(page, taskTitle, taskDescription)
 
+    // test digital tools
+    await testAddEditDeleteDigitalTool(page)
+
     // delete space
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
@@ -339,61 +341,56 @@ const inputSpaceLocation = async (page: Page, location: string) => {
   await locationInput.fill(location)
 }
 
-const testAddEditDeleteDigitalTool = async (page: Page, userHandler: UserHandler) => {
-  await userHandler.asRandomUser(async (page) => {
-    await createSpace(page)
-    await checkAccessibility(page)
-    await clickElementByTestId(page, 'space-edit-close')
+const testAddEditDeleteDigitalTool = async (page: Page) => {
+  // Test adding a tool from a space's Get Involved tab
+  await clickElementByTestId(page, 'btn-right-space-tools-card') // Little + button
+  await addDigitalTool(page)
+  const toolIcon = await locateElementByTestId(page, 'tool-icon')
+  const toolName = await locateElementByTestId(page, 'tool-title')
+  const toolContextBtn = await locateElementByTestId(page, 'digital-toolkit-btn')
+  await expect(toolIcon).toBeVisible()
+  await expect(toolName).toBeVisible()
+  await expect(toolContextBtn).toBeVisible()
+  let numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
+  await expect.poll(numberOfTools).toBe(1)
 
-    // Test adding a tool from a space's Get Involved tab
-    await clickElementByTestId(page, 'space-tabs-button-2-inactive') // Get involved
-    await clickElementByTestId(page, 'btn-right-space-tools-card') // Little + button
-    await addDigitalTool(page)
-    const toolIcon = await locateElementByTestId(page, 'tool-icon')
-    const toolName = await locateElementByTestId(page, 'tool-title')
-    const toolContextBtn = await locateElementByTestId(page, 'digital-toolkit-btn')
-    await expect(toolIcon).toBeVisible()
-    await expect(toolName).toBeVisible()
-    await expect(toolContextBtn).toBeVisible()
-    let numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
-    await expect.poll(numberOfTools).toBe(1)
+  // Test adding a tool from the Linkhub
+  await clickElementByTestId(page, 'btn-left-space-tools-card')
+  await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
+  await addDigitalTool(page)
+  await clickElementByTestId(page, 'nav-button-back')
+  numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
+  await expect.poll(numberOfTools).toBe(2)
 
-    // Test adding a tool from the Linkhub
-    await clickElementByTestId(page, 'btn-left-space-tools-card')
-    await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
-    await addDigitalTool(page)
-    await clickElementByTestId(page, 'nav-button-back')
-    numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
-    await expect.poll(numberOfTools).toBe(2)
+  // Test deleting a tool
+  await clickElementByTestId(page, 'digital-toolkit-btn')
+  await clickElementByTestId(page, 'tool-delete-btn')
+  await clickElementByTestId(page, 'tool-delete-confirmation-confirm')
+  await expect.poll(numberOfTools).toBe(1)
 
-    // Test deleting a tool
-    await clickElementByTestId(page, 'digital-toolkit-btn')
-    await clickElementByTestId(page, 'tool-delete-btn')
-    await clickElementByTestId(page, 'tool-delete-confirmation-confirm')
-    await expect.poll(numberOfTools).toBe(1)
+  // Test Tool Details Modal
+  await clickElementByTestId(page, 'btn-show-tool-details')
+  const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
+  const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
+  const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
+  await expect(toolDetailModal).toBeVisible()
+  await expect(editButton).toBeVisible()
+  await expect(toolUrl).toBe('Open https://www.holi.community')
+  await clickElementByTestId(page, 'btn-to-close-tool-details-modal-modal')
+  await expect(toolDetailModal).not.toBeVisible()
 
-    // Test Tool Details Modal
-    await clickElementByTestId(page, 'btn-show-tool-details')
-    const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
-    const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
-    const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
-    await expect(toolDetailModal).toBeVisible()
-    await expect(editButton).toBeVisible()
-    await expect(toolUrl).toBe('Open https://www.holi.community')
-    await clickElementByTestId(page, 'btn-to-close-tool-details-modal-modal')
-    await expect(toolDetailModal).not.toBeVisible()
+  // Test editing a tool
+  await clickElementByTestId(page, 'digital-toolkit-btn')
+  const toolEditModal = await locateElementByTestId(page, 'more-options-modal-animatedview')
+  await expect(toolEditModal).toBeVisible()
+  await clickElementByTestId(page, 'tool-edit-btn') // Edit on modal
+  const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
+  await toolTitleInput.fill('Edited Tool Name')
+  await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
+  const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
+  await expect(editedToolName).toBe('Edited Tool Name')
 
-    // Test editing a tool
-    await clickElementByTestId(page, 'digital-toolkit-btn')
-    const toolEditModal = await locateElementByTestId(page, 'more-options-modal-animatedview')
-    await expect(toolEditModal).toBeVisible()
-    await clickElementByTestId(page, 'tool-edit-btn') // Edit on modal
-    const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
-    await toolTitleInput.fill('Edited Tool Name')
-    await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
-    const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
-    await expect(editedToolName).toBe('Edited Tool Name')
-  })
+  await clickElementByTestId(page, 'nav-button-back')
 }
 
 // Create a space with a name, goal, topics and a cover image
