@@ -26,7 +26,7 @@ export const useOnboarding = () => {
         return
       }
 
-      await onboardingStateVar(storedValue as OnboardingStateValue)
+      onboardingStateVar(storedValue as OnboardingStateValue)
     })
   }, [isLoggedIn, onOnboardingStateChange])
 
