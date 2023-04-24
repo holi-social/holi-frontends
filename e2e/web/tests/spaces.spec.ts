@@ -115,6 +115,13 @@ const testShareSpace = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
 }
 
+const saveAndWaitForModalClosed = async (page: Page) => {
+  await Promise.all([
+    page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' }),
+    clickElementByTestId(page, 'space-edit-modal-save-btn'),
+  ])
+}
+
 const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
   const numberOfInitialTerms = 3
   const numberOfEditedTerms = 2
@@ -130,13 +137,6 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     let editSpaceGoal = await locateElementByTestId(page, 'space-edit-goal')
     expect(editSpaceTitle).toContainText(initialName)
     expect(editSpaceGoal).toContainText(initialGoal)
-
-    const saveAndWaitForModalClosed = async (page: Page) => {
-      await Promise.all([
-        page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' }),
-        clickElementByTestId(page, 'space-edit-modal-save-btn'),
-      ])
-    }
 
     // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
@@ -191,12 +191,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
     // edit space contact info
-    const editedDescription = 'e2e edited space description'
-    const editedEmail = 'test@email.com'
-    const editedPhone = '123456789'
-    await clickElementByTestId(page, 'btn-space-edit-contact')
-    await inputSpaceContactInfo(page, editedDescription, editedEmail, editedPhone)
-    await saveAndWaitForModalClosed(page)
+    await editSpaceContactInfo(page)
 
     // create task
     const taskTitle = 'E2E task title'
@@ -209,6 +204,9 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     // test digital tools
     await testAddEditDeleteDigitalTool(page)
+
+    // Navigate back to space detail view
+    await clickElementByTestId(page, 'nav-button-back')
 
     // delete space
     await clickElementByTestId(page, 'space-options-btn')
@@ -233,20 +231,43 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
   await goalInput.fill(goal)
 }
 
-const inputSpaceContactInfo = async (
-  page: Page,
-  contactDescription: string,
-  contactEmail: string,
-  contactPhone: string
-) => {
+const editSpaceContactInfo = async (page: Page) => {
+  const contactDescription = 'e2e edited space description'
+  const contactEmail = 'test@email.com'
+  const contactPhone = '123456789'
+
+  await clickElementByTestId(page, 'btn-space-edit-contact')
+
   const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
   await contactDescriptionInput.fill(contactDescription)
-
-  const contactEmailInput = await locateElementByTestId(page, 'space-contact-mail-input')
-  await contactEmailInput.fill(contactEmail)
-
   const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
   await contactPhoneInput.fill(contactPhone)
+
+  // Testing field validation
+  // Enter invalid email
+  const contactEmailInput = await locateElementByTestId(page, 'space-contact-mail-input')
+  await contactEmailInput.fill('"@example.com')
+  // Expect frontend validation error
+  const errorMessageTestId = byTestId('space-contact-mail-input-error-message')
+  await page.waitForSelector(errorMessageTestId)
+  // Enter email that is valid for frontend but invalid for backend
+  await contactEmailInput.fill('" "@example.com')
+  // Expect frontend validation error to be gone
+  page.waitForSelector(errorMessageTestId, { state: 'detached' })
+  // Try to save contact
+  clickElementByTestId(page, 'space-edit-modal-save-btn')
+  // Expect backend validation error
+  await page.waitForSelector(errorMessageTestId)
+
+  // Enter valid email and save
+  await contactEmailInput.fill(contactEmail)
+  await saveAndWaitForModalClosed(page)
+
+  // check if space contact was updated
+  const contactContainer = await locateElementByTestId(page, 'space-edit-contact')
+  expect(contactContainer).toContainText(contactDescription)
+  expect(contactContainer).toContainText(contactEmail)
+  expect(contactContainer).toContainText(contactPhone)
 }
 
 const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: string) => {
@@ -389,8 +410,6 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
   const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
   await expect(editedToolName).toBe('Edited Tool Name')
-
-  await clickElementByTestId(page, 'nav-button-back')
 }
 
 // Create a space with a name, goal, topics and a cover image
