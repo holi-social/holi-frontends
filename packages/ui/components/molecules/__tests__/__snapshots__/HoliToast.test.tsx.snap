@@ -6,7 +6,19 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -74,9 +86,9 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
       </Text>
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight={20}
-        bbWidth={20}
-        color={4294967295}
+        bbHeight="20"
+        bbWidth="20"
+        color="#fff"
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -107,15 +119,15 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
             },
           ]
         }
-        tintColor={4294967295}
+        tintColor="#fff"
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            [
-              2,
-            ]
+            {
+              "type": 2,
+            }
           }
           propList={
             [
@@ -124,9 +136,9 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
             ]
           }
           stroke={
-            [
-              2,
-            ]
+            {
+              "type": 2,
+            }
           }
         >
           <RNSVGPath
@@ -145,7 +157,19 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -213,9 +237,9 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
       </Text>
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight={20}
-        bbWidth={20}
-        color={4294967295}
+        bbHeight="20"
+        bbWidth="20"
+        color="#fff"
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -246,15 +270,15 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
             },
           ]
         }
-        tintColor={4294967295}
+        tintColor="#fff"
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            [
-              2,
-            ]
+            {
+              "type": 2,
+            }
           }
           propList={
             [
@@ -263,9 +287,9 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
             ]
           }
           stroke={
-            [
-              2,
-            ]
+            {
+              "type": 2,
+            }
           }
         >
           <RNSVGPath

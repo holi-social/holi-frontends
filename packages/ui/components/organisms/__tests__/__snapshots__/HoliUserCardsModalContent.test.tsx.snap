@@ -25,7 +25,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   <RCTScrollView>
     <View>
       <Text
-        role="header"
+        role="heading"
         selectable={true}
         style={
           [
@@ -105,6 +105,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -247,6 +264,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -389,6 +423,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -531,6 +582,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -673,6 +741,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -815,6 +900,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -959,6 +1061,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessibilityLabel="user.visitProfile"
                   accessibilityRole="link"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   collapsable={false}
                   focusable={true}
@@ -1096,7 +1215,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={true}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1158,7 +1289,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1217,7 +1360,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1276,7 +1431,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1335,7 +1502,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1394,7 +1573,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1453,7 +1644,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilitySelected={false}
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -1535,7 +1738,19 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
