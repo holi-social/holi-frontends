@@ -44,11 +44,11 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
           {label}
         </HoliText>
 
-        {arrowRight && (
+        {!!arrowRight && (
           <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.iconRight} />
         )}
 
-        {outlink && <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />}
+        {!!outlink && <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />}
       </HoliButton>
       {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
     </>
