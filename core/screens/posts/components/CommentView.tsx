@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -39,35 +40,37 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
           </HoliLink>
         </View>
 
-        <MoreOptionsButtonWithModal
-          label={t('insights.post.preview.more')}
-          showOptions={visible}
-          onPress={show}
-          onModalDismiss={hide}
-          style={styles.moreButton}
-          testID="comment-three-dot-menu-button"
-        >
-          <ReportBlockOptionButton
-            action="report"
-            objectId={comment.id}
-            contentType={ContentType.POST_COMMENT}
-            style={styles.moreOptionItem}
-            confirmationModalProps={{
-              title: t('insights.posts.comment.report.confirmation.title'),
-              description: t('insights.posts.comment.report.confirmation.description'),
-            }}
-            successMessage={t('global.report.successMessage')}
-            onConfirm={hide}
-            testID="report-comment-button"
-          />
-          <CommentDeleteButton
-            comment={comment}
-            postId={postId}
-            onConfirm={hide}
-            style={styles.moreOptionItem}
-            testID="delete-comment-button"
-          />
-        </MoreOptionsButtonWithModal>
+        <SafeAreaProvider>
+          <MoreOptionsButtonWithModal
+            label={t('insights.post.preview.more')}
+            showOptions={visible}
+            onPress={show}
+            onModalDismiss={hide}
+            style={styles.moreButton}
+            testID="comment-three-dot-menu-button"
+          >
+            <ReportBlockOptionButton
+              action="report"
+              objectId={comment.id}
+              contentType={ContentType.POST_COMMENT}
+              style={styles.moreOptionItem}
+              confirmationModalProps={{
+                title: t('insights.posts.comment.report.confirmation.title'),
+                description: t('insights.posts.comment.report.confirmation.description'),
+              }}
+              successMessage={t('global.report.successMessage')}
+              onConfirm={hide}
+              testID="report-comment-button"
+            />
+            <CommentDeleteButton
+              comment={comment}
+              postId={postId}
+              onConfirm={hide}
+              style={styles.moreOptionItem}
+              testID="delete-comment-button"
+            />
+          </MoreOptionsButtonWithModal>
+        </SafeAreaProvider>
       </View>
 
       <View style={styles.body}>

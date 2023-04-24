@@ -20,6 +20,8 @@ export enum RouteName {
   EditDigitalTool = 'EditDigitalTool',
   CreateTask = 'CreateTask',
   TaskDetails = 'TaskDetails',
+  SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
+  SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
 
   // Chat Stack
   ChatHome = 'ChatHome',
