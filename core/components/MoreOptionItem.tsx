@@ -46,7 +46,7 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
           <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.iconRight} />
         )}
         {iconRight === 'outlink' && (
-            <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+          <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
         )}
       </HoliButton>
       {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
