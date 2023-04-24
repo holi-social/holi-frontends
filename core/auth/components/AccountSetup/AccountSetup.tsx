@@ -9,10 +9,8 @@ import LocationStep, { useLocationStep } from '@holi/core/auth/components/Accoun
 import NamesStep, { trimNames, useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLogout } from '@holi/core/helpers'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInputSchema,
@@ -20,7 +18,6 @@ import {
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
@@ -67,12 +64,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const { displayError } = useErrorHandling()
-  const { user, isLoading: userLoading } = useLoggedInUser()
+  const { user } = useLoggedInUser()
   const mixins = useStyleMixins()
-  const { openToast } = useToast()
-  const [inLogout, setInLogout] = useState(false)
-  const { logout } = useLogout()
-  const { onOnboardingStateChange: finishOnboarding } = useOnboarding()
 
   const [isLoading, setIsLoading] = useState(false)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
@@ -184,13 +177,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     setIsNextButtonEnabled(success)
   }, [names])
 
-  useEffect(() => {
-    if (!userLoading && !user && !inLogout) {
-      setInLogout(true)
-      finishOnboarding()
-      logout()
-    }
-  }, [finishOnboarding, inLogout, logout, openToast, t, user, userLoading])
+  // useEffect(() => {
+  //   if (!userLoading && !user && !inLogout) {
+  //     setInLogout(true)
+  //     finishOnboarding()
+  //     logout()
+  //   }
+  // }, [finishOnboarding, inLogout, logout, openToast, t, user, userLoading])
 
   if (!user) return null
 
