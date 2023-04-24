@@ -19,6 +19,7 @@ export enum RouteName {
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
   CreateTask = 'CreateTask',
+  EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',

@@ -61,6 +61,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/tools/:toolIdOrName/edit',
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/createTask',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
+        [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
         [RouteName.SpaceUpdateCommentInputPage]: 'spaces/:spaceIdOrName/updates/:postId/comment',
       },
