@@ -2,6 +2,8 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
+import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import AddDigitalTool, { AddDigitalToolParams } from '@holi/core/screens/spaces/AddDigitalTool'
 import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/CreateTask'
@@ -22,6 +24,8 @@ export type SpacesScreens = {
   [RouteName.AddDigitalTool]: AddDigitalToolParams
   [RouteName.CreateTask]: CreateTaskParams
   [RouteName.TaskDetails]: TaskDetailsParams
+  [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
+  [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
   [RouteName.SpaceStorage]: SpaceStorageParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
@@ -52,6 +56,8 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
+      <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
+      <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
     </SpacesStack.Navigator>
   )
 }
