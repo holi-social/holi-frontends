@@ -10,7 +10,8 @@
       "e2e/mobile"
     ],
     "nohoist": [
-      "**/jest-offline"
+      "**/jest-offline",
+      "**/@types/react"
     ]
   },
   "resolutions": {
