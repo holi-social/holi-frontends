@@ -84,6 +84,7 @@ const SettingsOverview: React.VFC = () => {
             description={t('auth.logout.heading')}
             dismissText={t('auth.logout.confirmation.dismiss')}
             confirmText={t('auth.logout.confirmation.confirm')}
+            confirmationButtonType="warning"
             {...logoutConfirmationProps}
             testID="modal-logout"
           />
