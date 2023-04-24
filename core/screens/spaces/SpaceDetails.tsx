@@ -142,7 +142,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         style={styles.overlayButton}
         onPress={onUpdateButtonPress}
       >
-        <HoliIcon icon="edit-2" size={20} />
+        <HoliIcon icon="pencil" size={20} />
       </HoliButton>
     )
   }

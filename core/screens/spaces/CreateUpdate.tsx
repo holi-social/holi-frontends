@@ -109,7 +109,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
       variables: {
         input: {
           spaceId: space?.id,
-          title: 'title',
+          title: title,
           text: content,
           image: image?.blob,
           visibility: visibility?.id,
