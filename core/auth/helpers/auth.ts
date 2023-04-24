@@ -43,8 +43,9 @@ export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowB
   )
 
 // Logout
-export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) =>
-  newKratosSdk().performNativeLogout({ performNativeLogoutBody: payload })
+export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
+  if (payload.session_token) newKratosSdk().performNativeLogout({ performNativeLogoutBody: payload })
+}
 
 // Re-Auth
 export const initReauthFlow = async (sessionToken?: string) =>
