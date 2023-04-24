@@ -6,6 +6,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -14,9 +15,11 @@ import SpaceUpdateInputForm from '@holi/core/screens/spaces/components/SpaceUpda
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { CreateSpacePostResponse, createSpacePostMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { VisibilityType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -36,6 +39,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -44,6 +48,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const {
     data,
@@ -72,7 +77,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
         title: t('spaces.createUpdate.title'),
         headerStyle: { backgroundColor: colors.background20 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+        headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -98,7 +103,9 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
   const onChangeImage = (image: ImageInfo | undefined) => {
     setImage(image)
   }
-
+  if (errorSpace) {
+    logError(errorSpace, `[CreateUpdate.tsx] ${errorSpace.message}`)
+  }
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
@@ -109,10 +116,10 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
       variables: {
         input: {
           spaceId: space?.id,
-          title: title,
+          title: title.length > 0 ? title : undefined,
           text: content,
           image: image?.blob,
-          visibility: visibility?.id,
+          visibility: visibility ? visibility?.id : VisibilityType.MEMBERS,
         },
       },
     })
@@ -137,7 +144,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
             iconSpinning={loading}
             label={t('global.save')}
             onPress={() => onSave()}
-            testID="digital-tool-add-modal-save-btn"
+            testID="create-post-modal-save-btn"
             style={styles.footerButton}
           />
         </View>
@@ -147,7 +154,12 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <DefaultScrollHeaderLayout
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+        keyboardShouldPersistTaps="handled"
+      >
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >
@@ -165,6 +177,20 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
       </DefaultScrollHeaderLayout>
 
       <Footer />
+      <HoliConfirmation
+        show={showConfirmationModal}
+        label={exitConfirmationTitle}
+        title={exitConfirmationTitle}
+        description={t('global.leavePage.confirmation.description')}
+        onDismiss={() => setShowConfirmationModal(false)}
+        dismissText={t('global.dismiss')}
+        confirmText={t('global.leavePage.confirmation.button')}
+        testID="exit-create-post-confirmation"
+        onConfirm={() => {
+          setShowConfirmationModal(false)
+          navigateBack()
+        }}
+      />
     </>
   )
 }

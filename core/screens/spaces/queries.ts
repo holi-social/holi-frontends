@@ -545,15 +545,11 @@ export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
 export const createSpacePostMutation = gql`
   mutation createSpacePost($input: CreatePostInput!) {
     createSpacePost(input: $input) {
-      spaceId
-      title
-      text
-      image
-      visibility
+      id
     }
   }
 `
 
 export type CreateSpacePostResponse = {
-  createPost: Post
+  createSpacePost: Post
 }
