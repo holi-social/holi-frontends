@@ -12,7 +12,7 @@ type HoliLinkVariant = 'primary' | 'secondary'
 
 export interface HoliTextLinkProps extends UseLinkProps {
   /** Children are optional when using it in combination with the <Trans> component. */
-  children?: string
+  children?: string | string[]
   label?: string
   size?: HoliLinkSize
   variant?: HoliLinkVariant

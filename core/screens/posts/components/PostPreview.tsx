@@ -106,14 +106,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliLink>
       </View>
 
-      <HoliReadMore
-        numberOfLines={10}
-        fontStyle={styles.readMoreText}
-        buttonStyle={styles.readMoreBottom}
-        color="gray300"
-        bold={false}
-      >
-        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="small" />
+      <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
+        <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="default" color="gray300" />
       </HoliReadMore>
 
       {post.image && (
@@ -169,12 +163,6 @@ const styles = StyleSheet.create({
   },
   postTitleLink: {
     marginBottom: 8,
-  },
-  readMoreText: {
-    lineHeight: 16 * 1.5,
-  },
-  readMoreBottom: {
-    color: colors.foreground30,
   },
   imageContainer: {
     width: '100%',
