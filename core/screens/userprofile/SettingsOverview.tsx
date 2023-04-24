@@ -45,7 +45,7 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('profile.settings.account.title')}
             icon="account-circle"
-            arrowRight
+            iconRight="arrow"
             onPress={goTo('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
@@ -53,7 +53,7 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('notifications.title')}
             icon="notification-2"
-            arrowRight
+            iconRight="arrow"
             onPress={showFeatureNotImplementedToast}
             tintColor={colors.foreground20}
             style={styles.settingsItem}
@@ -62,7 +62,7 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('profile.settings.overview.help')}
             icon="help"
-            outlink
+            iconRight="outlink"
             onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
           />
