@@ -66,6 +66,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -980,6 +981,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -1150,6 +1152,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -2000,6 +2003,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
