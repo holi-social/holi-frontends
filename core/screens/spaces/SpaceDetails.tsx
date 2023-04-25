@@ -138,7 +138,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
     return (
       <HoliButton
         label={t('spaces.toolKit.add.button.label')}
-        testID="space-add-tool-button"
+        testID="space-add-post-button"
         style={styles.overlayButton}
         onPress={onUpdateButtonPress}
       >
