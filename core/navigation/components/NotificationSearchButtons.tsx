@@ -1,11 +1,14 @@
-import { useQuery } from '@apollo/client'
+import { ServerError, useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
+import client from '@holi/api/graphql/client'
+import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
@@ -29,7 +32,20 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
     pollInterval: NOTIFICATION_POLLING_INTERVAL,
   })
 
+  const handleLogout = () => {
+    client.clearStore()
+    ensureOAuth2Logout()
+    setUserLoggedOut()
+    console.info('[Logout] logout successful')
+    navigate('/profile')
+  }
+
   if (hasNewNotificationsError) {
+    const networkError = hasNewNotificationsError?.networkError
+    if ((networkError as ServerError)?.statusCode === 401) {
+      handleLogout()
+    }
+
     logError(hasNewNotificationsError, `[NotificationSearchButtons.tsx] ${hasNewNotificationsError.message}`)
   }
 
