@@ -156,7 +156,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     <View style={styles.container} testID="volunteering-detailview-container">
       <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
+          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {(engagement.source === 'Aktion Mensch' || engagement.source === 'vostel.de') && (
