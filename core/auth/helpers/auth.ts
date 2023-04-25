@@ -1,5 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import { LoginFlow, PerformNativeLogoutBody, SettingsFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import {
+  LoginFlow,
+  PerformNativeLogoutBody,
+  SettingsFlow,
+  UpdateLoginFlowBody,
+  VerificationFlow,
+} from '@ory/kratos-client'
 import { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
@@ -75,3 +81,39 @@ export const submitSettingsFlow = async (flow: SettingsFlow, password: string, s
     { flow: flow.id, xSessionToken: sessionToken, updateSettingsFlowBody: { method: 'password', password } },
     { withCredentials: false }
   )
+
+const initVerificationFlow = async () => newKratosSdk().createNativeVerificationFlow()
+
+const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
+
+export const resendVerificationEmail = async (email: string) => {
+  const flow = await initVerificationFlow()
+  return submitVerificationFlow({ flow: flow.data, email })
+}
+
+export const submitExistingVerificationFlow = async (flowId: string, code: string) => {
+  const flow = await getVerificationFlow(flowId)
+  return submitVerificationFlow({ flow: flow.data, code })
+}
+
+export const submitVerificationFlow = async ({
+  flow,
+  code = '',
+  email = '',
+}: {
+  flow: VerificationFlow
+  code?: string
+  email?: string
+}) => {
+  const newFlow = await newKratosSdk().updateVerificationFlow({
+    flow: flow.id,
+    token: code,
+    updateVerificationFlowBody: {
+      flow: flow.id,
+      method: 'code',
+      email,
+      code,
+    },
+  })
+  return newFlow.data
+}
