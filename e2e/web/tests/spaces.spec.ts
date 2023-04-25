@@ -1,7 +1,5 @@
 import { BrowserContext, Page, expect } from '@playwright/test'
 
-import { VisibilityType } from '@holi/core/screens/spaces/types'
-
 import {
   byTestId,
   checkAccessibility,
