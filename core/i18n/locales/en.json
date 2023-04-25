@@ -525,6 +525,7 @@
   "spaces.tasks.delete.error": "There was an error deleting the task. Please retry later.",
   "spaces.tasks.delete.success": "Successfully deleted task",
   "spaces.tasks.details.title": "Task details",
+  "spaces.tasks.edit.title": "Edit task",
   "spaces.tasks.notFound": "Task {{taskId}} not found",
   "spaces.tasks.published.by.title": "Contact person for the task",
   "spaces.tasks.spots_claimed": "{{taken}} of {{available}} spots claimed",
