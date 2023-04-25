@@ -58,6 +58,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           onChangeText={(value) => setLocationInput(value)}
           onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.label)}
           onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.label)}
+          nameOnly
         />
       </View>
     </HoliModalContentWrapper>

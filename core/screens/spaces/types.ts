@@ -1,6 +1,6 @@
 import { Post } from '@holi/core/screens/posts/types'
 import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import { GeolocationPoint, Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -46,11 +46,6 @@ export interface SpaceCollaborationTool {
   thumbnail?: string
 }
 
-export interface Geolocation {
-  latitude: number
-  longitude: number
-}
-
 export interface Space {
   id: string
   title: string
@@ -62,7 +57,7 @@ export interface Space {
   contactPhone: string
   cover: string
   location: string
-  geolocation?: Geolocation
+  geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
@@ -103,7 +98,7 @@ export interface Task {
   visibility: VisibilityType
   contactEmail: string
   contactPhone?: string
-  geolocation?: Geolocation
+  geolocation?: GeolocationPoint
   thumbnail?: string
 }
 

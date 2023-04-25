@@ -21,7 +21,7 @@ import {
   createTaskMutation,
   spaceByIdQuery,
 } from '@holi/core/screens/spaces/queries'
-import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { GeolocationPoint, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -61,7 +61,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
-  const [geolocation, setGeolocation] = useState<Geolocation | undefined>()
+  const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
   const [contactPhone, setContactPhone] = useState<string | undefined>('')
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()

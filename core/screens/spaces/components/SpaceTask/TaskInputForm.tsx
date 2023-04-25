@@ -11,8 +11,9 @@ import {
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/components/SpaceTask/consts'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { Geolocation, LocationType } from '@holi/core/screens/spaces/types'
+import { LocationType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
+import { GeolocationPoint } from '@holi/core/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -39,7 +40,7 @@ export interface TaskInputFormProps {
   regularity?: HoliModalSelectOption
   thumbnail?: ImageInfo
   location?: string
-  geolocation?: Geolocation
+  geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
   onChangeName: (_: string) => void
@@ -52,7 +53,7 @@ export interface TaskInputFormProps {
   onChangeThumbnail: (_: ImageInfo) => void
   onChangeSkills: (_: Skill[]) => void
   onChangeLocation: (_: string) => void
-  onChangeGeolocation: (_: Geolocation) => void
+  onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   isEdit?: boolean
@@ -315,7 +316,6 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             style={[styles.marginSeparator, { zIndex: 1 }]}
             inputProps={{ autoFocus: true }}
             helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
-            withCoordinates
           />
         )}
       </View>

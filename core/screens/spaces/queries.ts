@@ -378,7 +378,12 @@ export const CreateTaskSchema = z.object({
   regularity: z.string() /* Regularity */,
   contactEmail: z.string().email().optional(),
   location: z.string().optional(),
-  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  geolocation: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
 })

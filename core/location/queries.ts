@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-import { Place } from '@holi/core/location/typings'
+import { Place, PlaceDetails } from '@holi/core/location/typings'
 
 export const geoPlacesQuery = gql`
   query PlacesSuggestions($text: String!, $limit: Int, $level: String) {
@@ -18,4 +18,18 @@ export const geoPlacesQuery = gql`
 
 export type GeoPlacesResponse = {
   geo_placesAutocomplete: Place[]
+}
+
+export const geoPlaceDetailsQuery = gql`
+  query PlaceDetails($id: String!) {
+    geo_placeDetails(id: $id) {
+      boundaries {
+        coordinates
+      }
+    }
+  }
+`
+
+export type GeoPlaceDetailsResponse = {
+  geo_placeDetails: PlaceDetails
 }
