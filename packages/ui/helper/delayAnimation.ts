@@ -24,8 +24,12 @@ export const delayAnimation = (
     const delta = Math.round(time - start)
 
     if (delta >= delay) {
-      const stopExecution = fn(props)
-      if (!stopExecution) return
+      try {
+        const stopExecution = fn(props)
+        if (!stopExecution) return
+      } catch (error) {
+        return
+      }
     }
 
     rAF = requestAnimationFrame(loop)

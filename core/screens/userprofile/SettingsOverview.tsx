@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
@@ -45,7 +45,7 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('profile.settings.account.title')}
             icon="account-circle"
-            arrowRight
+            iconRight="arrow"
             onPress={goTo('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
@@ -53,29 +53,28 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('notifications.title')}
             icon="notification-2"
-            arrowRight
+            iconRight="arrow"
             onPress={showFeatureNotImplementedToast}
             tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
+          {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
           <MoreOptionItem
-            label={t('help.title')}
+            label={t('profile.settings.overview.help')}
             icon="help"
-            arrowRight
-            onPress={showFeatureNotImplementedToast}
-            tintColor={colors.foreground20}
+            iconRight="outlink"
+            onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
           />
         </View>
 
         <View style={styles.separator} />
 
-        <View style={mixins.container}>
+        <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
             label={t('profile.logout')}
             onPress={() => setShowLogoutConfirmation(true)}
-            contentStyle={styles.logoutButton}
-            tintColor={colors.error30}
+            contentStyle={styles.settingsItem}
             testID="btn-to-logout"
           />
 
@@ -85,6 +84,7 @@ const SettingsOverview: React.VFC = () => {
             description={t('auth.logout.heading')}
             dismissText={t('auth.logout.confirmation.dismiss')}
             confirmText={t('auth.logout.confirmation.confirm')}
+            confirmationButtonType="warning"
             {...logoutConfirmationProps}
             testID="modal-logout"
           />
@@ -100,7 +100,7 @@ export default memo(SettingsOverview)
 
 const styles = StyleSheet.create({
   settingsOverview: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
   },
   settingsItem: {
     marginVertical: 24,
@@ -109,11 +109,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
-    marginTop: -9,
-    marginBottom: 14,
-    height: 10,
-  },
-  logoutButton: {
-    margin: 10,
+    height: 1,
   },
 })

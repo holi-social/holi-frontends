@@ -64,7 +64,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const { displayError } = useErrorHandling()
-  const { user } = useLoggedInUser()
+  const { user, isLoading: userLoading } = useLoggedInUser()
   const mixins = useStyleMixins()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -162,7 +162,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       }
 
       case AccountSetupStep.SUCCESS:
-        onFinish()
+        // wait for AsyncStorage to be set
+        await onFinish()
         navigate('/')
         break
 
@@ -176,6 +177,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     const { success } = UpdateAuthenticatedUserInputSchema.safeParse(trimNames(names))
     setIsNextButtonEnabled(success)
   }, [names])
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      onFinish()
+      navigate('/')
+    }
+  }, [userLoading, user, onFinish, navigate])
 
   if (!user) return null
 

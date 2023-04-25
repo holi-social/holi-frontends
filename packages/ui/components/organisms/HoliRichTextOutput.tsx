@@ -3,11 +3,12 @@ import { Platform, StyleProp, TextStyle, ViewStyle } from 'react-native'
 
 import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import { REGEX_URL, REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
 
-export interface HoliRichTextOutputProps extends HoliTextProps {
+export interface Props extends HoliTextProps {
   text: string
   users?: User[]
   links?: Link[]
@@ -16,7 +17,7 @@ export interface HoliRichTextOutputProps extends HoliTextProps {
   testID?: string
 }
 
-const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({ text, users = [], links = [], testID, ...props }) => {
+const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, ...props }: Props) => {
   /**
    * Replaces each @<USER-ID>
    * with the highlighted fullName
@@ -29,10 +30,11 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({ text, users = 
         const foundId = textPart.slice(1)
         const user = users?.find((user) => user.id === foundId)
         const replaced = user ? textPart.replace(REGEX_USER_MENTIONS, user.fullName) : undefined
+        const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
 
         return user && replaced ? (
-          <HoliTextLink label={user.fullName ?? ''} href={`/profile/${user.id}`} key={index}>
-            {Platform.OS !== 'web' && '@'}
+          <HoliTextLink label={user.fullName ?? ''} href={`/profile/${user.id}`} key={index} size={linkSize}>
+            {Platform.OS !== 'web' ? '@' : ''}
             {replaced}
           </HoliTextLink>
         ) : (
@@ -46,7 +48,7 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({ text, users = 
           const link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
           return link ? (
-            <HoliTextLink href={link.requestedUrl} external label={link.title} key={link.requestedUrl}>
+            <HoliTextLink href={link.requestedUrl} label={link.title} key={link.requestedUrl} external>
               {link.title}
             </HoliTextLink>
           ) : (
@@ -57,7 +59,7 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({ text, users = 
   })()
 
   return (
-    <HoliText testID={testID} {...props}>
+    <HoliText testID={testID} size={size} {...props}>
       {textWithMentions}
     </HoliText>
   )

@@ -1,35 +1,90 @@
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { View } from 'react-native'
-import renderer from 'react-test-renderer'
+import { TextLayoutLine, View } from 'react-native'
+import renderer, { ReactTestInstance } from 'react-test-renderer'
 
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 
-/**
- * These tests are limited to snapshot tests because this component heavily relies on an ellipsis (text-overflow)
- * and this rendering is not supported by the @testing-library - https://github.com/testing-library/react-testing-library/issues/751
- */
-describe('renders correctly', () => {
-  it('renders correctly with long text', () => {
-    const tree = renderer
-      .create(
-        <View>
-          <HoliReadMore>
-            I enjoy working on community projects during my spare time. This text cannot exceed three lines or else.
-            This text cannot exceed three lines or else. This text cannot exceed.
-          </HoliReadMore>
-        </View>
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-  it('renders correctly with short text', () => {
-    const tree = renderer
-      .create(
-        <View>
-          <HoliReadMore>I enjoy working on community projects.</HoliReadMore>
-        </View>
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+const convertTextLinesToText = (textLines: Pick<TextLayoutLine, 'text'>[]) => {
+  return textLines.map((line) => line.text).join('')
+}
+
+it('should display truncated and full text from children', async () => {
+  const containerTestId = 'holi-read-more'
+  const textViewTestId = 'holi-readmore-text'
+  const textLines = [
+    {
+      text: 'Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. ',
+    },
+    {
+      text: 'Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,',
+    },
+    {
+      text: 'a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up ',
+    },
+    {
+      text: 'the door. To new ideas, new ways to connect. A future we can’t yet predict. But in this world of endless streams. ',
+    },
+    {
+      text: 'We sometimes forget our human dreams. We seek for likes, for instant fame. We lose ourselves in the game So',
+    },
+    {
+      text: 'let us use technology well.And not become its endless spell. For in the end, it’s how we choose To make the most of this endless muse.',
+    },
+  ]
+  const fullText = convertTextLinesToText(textLines)
+
+  render(
+    <HoliReadMore numberOfLines={4} testID={containerTestId}>
+      {fullText}
+    </HoliReadMore>
+  )
+
+  const el = screen.queryByTestId(containerTestId) as ReactTestInstance
+  fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
+
+  const btn = await screen.findByRole('button')
+  const [readMorePath] = btn.children
+  expect(readMorePath).toBe('component.readMore.readMore')
+
+  const textView = screen.queryByTestId(textViewTestId)
+  const [text] = textView?.children ?? ''
+  expect(text).toMatchInlineSnapshot(
+    // eslint-disable-next-line quotes
+    `"Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up the door. To new ideas, new ways to connect. A futu... "`
+  )
+
+  fireEvent.press(btn)
+  const [readLessPath] = btn.children
+  fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
+  expect(readLessPath).toBe('component.readMore.readLess')
+
+  const textViewFull = screen.queryByTestId(textViewTestId)
+  const [textViewFullText] = textViewFull?.children ?? ''
+  expect(textViewFullText).toBe(fullText)
+})
+
+it('renders correctly with long text', () => {
+  const tree = renderer
+    .create(
+      <View>
+        <HoliReadMore>
+          I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This
+          text cannot exceed three lines or else. This text cannot exceed.
+        </HoliReadMore>
+      </View>
+    )
+    .toJSON()
+  expect(tree).toMatchSnapshot()
+})
+
+it('renders correctly with short text', () => {
+  const tree = renderer
+    .create(
+      <View>
+        <HoliReadMore>I enjoy working on community projects.</HoliReadMore>
+      </View>
+    )
+    .toJSON()
+  expect(tree).toMatchSnapshot()
 })
