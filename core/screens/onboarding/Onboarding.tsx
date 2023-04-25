@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
@@ -39,13 +39,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
   }
 
-  const { currentStep, goNext, goBack, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(
-    screenWidth,
-    initialStep
-  )
-
-  // we can get initialStep asynchronously, so, react on it and set step
-  useEffect(() => setStep(initialStep), [initialStep, setStep])
+  const { currentStep, goNext, goBack, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
