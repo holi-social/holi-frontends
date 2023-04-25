@@ -214,7 +214,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             iconSpinning={loading}
             label={t('global.save')}
             onPress={onSave}
-            testID="create-task-modal-save-btn"
+            testID="task-modal-save-btn"
             style={styles.footerButton}
           />
         </View>
