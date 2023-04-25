@@ -22,10 +22,11 @@ export enum RegistrationStep {
 }
 
 export interface OnboardingProps {
+  afterAccountCreated?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
+const Onboarding: React.VFC<OnboardingProps> = ({ afterAccountCreated, style }) => {
   // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
@@ -82,13 +83,17 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         privacyPolicy && goNext()
         break
       case RegistrationStep.CREATE_ACCOUNT:
+        goNext()
+        await onOnboardingStateChange('emailVerification')
+        afterAccountCreated?.()
+        break
         onOnboardingStateChange('accountSetup')
         goNext()
         break
       default:
         return
     }
-  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
+  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
 
   return (
     <View style={[styles.container, style]}>
