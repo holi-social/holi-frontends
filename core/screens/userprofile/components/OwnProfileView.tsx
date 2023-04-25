@@ -46,7 +46,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
                 <HoliChipRow
                   editButtonLabel={t('profile.engagementLevel.edit')}
-                  editable={!user?.engagementLevel}
+                  editable={true}
                   title={t('profile.engagementLevel')}
                   onPressEdit={() => toggleEditMode('engagementLevel')}
                 >
