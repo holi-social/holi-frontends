@@ -19,11 +19,10 @@ export interface EmailVerificationProps {
   code: string
   onCodeChange: (value: string) => void
   onDismiss: () => void
-  onVerifyEmail: () => Promise<void>
-  onResendEmail: () => void
+  onSuccess: () => void
 }
 
-const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onResendEmail }: EmailVerificationProps) => {
+const EmailVerification = ({ code, onCodeChange, onDismiss, onSuccess }: EmailVerificationProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
@@ -51,6 +50,7 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onRes
           inputProps={{
             keyboardType: 'numeric',
           }}
+          style={[styles.limitedBox, { alignSelf: 'center' }]}
           {...scrollToInputWithId('code')}
         />
 
@@ -59,7 +59,7 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onRes
             label={t('registration.emailVerification.resendEmail')}
             href="/"
             onPress={() => {
-              onResendEmail()
+              // TODO: Resend Email logic
               return false
             }}
             variant="secondary"
@@ -76,7 +76,8 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onRes
             onPress={async () => {
               showLoader()
 
-              await onVerifyEmail()
+              // TODO: add Ory logic here
+              onSuccess()
 
               hideLoader()
             }}
