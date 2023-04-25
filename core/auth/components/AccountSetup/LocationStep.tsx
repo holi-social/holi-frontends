@@ -25,8 +25,9 @@ export interface LocationStepProps
 export const useLocationStep = (user: User | undefined) => {
   const { t } = useTranslation()
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
+  // TODO(SF) adjust
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+    user?.location && user?.geolocation ? { label: user.location, id: '0' } : undefined
   )
 
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -89,7 +90,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
           testID="user-location"
           suggestionsStyle={{ backgroundColor: colors.background10 }}
           helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
-          withCoordinates
+          fetchBoundariesOnClose
           {...placesAutocompleteProps}
           {...scrollToInputWithId('location')}
         />

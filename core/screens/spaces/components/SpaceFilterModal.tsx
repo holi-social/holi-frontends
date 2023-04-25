@@ -127,9 +127,11 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               value={location}
               id="spaces-filter-location"
               testID="spaces-filter-location"
+              // TODO(SF) onClose is missing
               onChangeText={setLocation}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
+              fetchBoundariesOnClose
             />
             <HoliSelect
               options={topicOptions}
