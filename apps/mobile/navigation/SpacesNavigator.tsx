@@ -7,6 +7,7 @@ import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/P
 import AddDigitalTool, { AddDigitalToolParams } from '@holi/core/screens/spaces/AddDigitalTool'
 import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/CreateTask'
+import CreateUpdate from '@holi/core/screens/spaces/CreateUpdate'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/EditDigitalTool'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/EditTask'
@@ -59,6 +60,7 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.EditTask} component={EditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
+      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
     </SpacesStack.Navigator>

@@ -145,3 +145,10 @@ export enum VisibilityFilter {
   PUBLIC = 'PUBLIC',
   ALL = 'ALL',
 }
+
+export interface Post {
+  id: string
+  title: string
+  text: string
+  created: Partial<User>
+}

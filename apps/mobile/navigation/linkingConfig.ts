@@ -62,6 +62,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/createTask',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
         [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
+        [RouteName.CreateUpdate]: 'spaces/:spaceIdOrName/createUpdate',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
         [RouteName.SpaceUpdateCommentInputPage]: 'spaces/:spaceIdOrName/updates/:postId/comment',
       },

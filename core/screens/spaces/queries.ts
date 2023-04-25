@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
 import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
-import type { Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
+import type { Post, Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -571,3 +571,25 @@ export const spacePostsQuery = gql`
     }
   }
 `
+
+export const CreateSpacePostSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  title: z.string().optional() /* Title */,
+  text: z.string() /* Content */,
+  image: z.instanceof(Object).optional(),
+  visibility: z.string() /* VisibilityType */,
+})
+
+export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
+
+export const createSpacePostMutation = gql`
+  mutation createSpacePost($input: CreatePostInput!) {
+    createSpacePost(input: $input) {
+      id
+    }
+  }
+`
+
+export type CreateSpacePostResponse = {
+  createSpacePost: Post
+}

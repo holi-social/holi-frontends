@@ -16,6 +16,21 @@ export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
   },
 ]
 
+export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
+  {
+    id: VisibilityType.MEMBERS,
+    title: 'Members',
+    selected: false,
+    icon: 'lock',
+  },
+  {
+    id: VisibilityType.PUBLIC,
+    title: 'Public',
+    selected: false,
+    icon: 'global',
+  },
+]
+
 export const LOCATION_TYPE_OPTIONS: HoliModalSelectOption[] = [
   {
     id: LocationType.ONSITE,
