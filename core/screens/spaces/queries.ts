@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { memberSpacesFragment } from '@holi/core/queries'
 import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
-import type { Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
+import type { Post, Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
@@ -406,6 +406,44 @@ export type CreateTaskResponse = {
   createTask: Task
 }
 
+export const UpdateTaskSchema = z.object({
+  taskId: z.string() /* UUID */,
+  spaceId: z.string() /* UUID */,
+  visibility: z.string() /* VisibilityType */,
+  name: z.string().min(2).max(128).optional(),
+  description: z.string().trim().max(1200).optional(),
+  locationType: z.string() /* LocationType */,
+  regularity: z.string() /* Regularity */,
+  contactEmail: z.string().email().optional(),
+  location: z.string().optional(),
+  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  contactPhone: z.string().optional(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>
+
+export const updateTaskMutation = gql`
+  mutation UpdateTask($input: UpdateTaskInput!) {
+    updateTask(input: $input) {
+      id
+      name
+      description
+      visibility
+      regularity
+      locationType
+      location
+      contactEmail
+      contactPhone
+      thumbnail
+    }
+  }
+`
+
+export type UpdateTaskResponse = {
+  updateTask: Task
+}
+
 export interface DeleteTaskResponse {
   success: boolean
 }
@@ -523,6 +561,8 @@ export const spacePostsQuery = gql`
   query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id
+      hasPublicPosts
+      hasPrivatePosts
       posts(offset: $offset, limit: $limit, visibility: $visibility) {
         data {
           ...SpaceUpdatePostFragment
@@ -531,3 +571,25 @@ export const spacePostsQuery = gql`
     }
   }
 `
+
+export const CreateSpacePostSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  title: z.string().optional() /* Title */,
+  text: z.string() /* Content */,
+  image: z.instanceof(Object).optional(),
+  visibility: z.string() /* VisibilityType */,
+})
+
+export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
+
+export const createSpacePostMutation = gql`
+  mutation createSpacePost($input: CreatePostInput!) {
+    createSpacePost(input: $input) {
+      id
+    }
+  }
+`
+
+export type CreateSpacePostResponse = {
+  createSpacePost: Post
+}

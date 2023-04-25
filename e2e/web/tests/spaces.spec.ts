@@ -193,14 +193,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // edit space contact info
     await editSpaceContactInfo(page)
 
-    // create task
-    const taskTitle = 'E2E task title'
-    const taskDescription = 'E2E task description'
-    await clickElementByTestId(page, 'space-edit-close')
-    await clickElementByTestId(page, 'space-tabs-button-2-inactive')
-    await clickElementByTestId(page, 'btn-right-space-tasks-card')
-    await checkAccessibility(page)
-    await inputTaskInfo(page, taskTitle, taskDescription)
+    await testAddEditDeleteTask(page)
 
     // test digital tools
     await testAddEditDeleteDigitalTool(page)
@@ -330,7 +323,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // add thumbnail image
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
 
-  await clickElementByTestId(page, 'create-task-modal-save-btn')
+  await clickElementByTestId(page, 'task-modal-save-btn')
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
@@ -360,6 +353,45 @@ const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
 const inputSpaceLocation = async (page: Page, location: string) => {
   const locationInput = await locateElementByTestId(page, 'spaces-location-input')
   await locationInput.fill(location)
+}
+
+const testAddEditDeleteTask = async (page: Page) => {
+  // create task
+  const taskTitle = 'E2E task'
+  const taskDescription = 'E2E task description'
+  await clickElementByTestId(page, 'space-edit-close')
+  await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+  await clickElementByTestId(page, 'btn-right-space-tasks-card')
+  await checkAccessibility(page)
+  await inputTaskInfo(page, taskTitle, taskDescription)
+  await expect(page.getByText(taskTitle)).toBeVisible()
+
+  // edit task
+  const editedTaskTitle = 'E2E edited task'
+  const editedTaskDescription = 'E2E edited description'
+  await clickElementByTestId(page, 'btn-task-more-options')
+  await clickElementByTestId(page, 'btn-to-edit-task')
+  await checkAccessibility(page)
+  await inputTaskInfo(page, editedTaskTitle, editedTaskDescription)
+
+  // edit task title
+  const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
+  await taskTitleInput.fill(editedTaskTitle)
+
+  // edit task description
+  const taskDescriptionInput = await locateElementByTestId(page, 'task-description-input')
+  await taskDescriptionInput.fill(editedTaskDescription)
+
+  // save edited task
+  await clickElementByTestId(page, 'task-modal-save-btn')
+  await expect(page.getByText(editedTaskTitle)).toBeVisible()
+
+  // delete task
+  await clickElementByTestId(page, 'btn-task-more-options')
+  await clickElementByTestId(page, 'btn-to-delete-task')
+  await clickElementByTestId(page, 'task-delete-confirmation-confirm')
+  await page.waitForSelector(byTestId('task-delete-confirmation-confirm'), { state: 'hidden' })
+  await expect(page.getByText(editedTaskTitle).count()).toEqual(0)
 }
 
 const testAddEditDeleteDigitalTool = async (page: Page) => {
