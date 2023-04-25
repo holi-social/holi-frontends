@@ -43,7 +43,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+    user?.location && user?.geolocation ? { label: user.location, id: '0' } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
@@ -69,9 +69,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const submit = async () => {
     // we need to explicitly perform a cleanup of the apollo __typename
-    const geolocation = location?.coordinates && {
-      latitude: location?.coordinates?.latitude,
-      longitude: location?.coordinates?.longitude,
+    const geolocation = location?.boundaries && {
+      boundaries: location?.boundaries,
     }
 
     const input: UpdateAuthenticatedUserInput = {
@@ -256,8 +255,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           suggestionsStyle={{ backgroundColor: colors.background10 }}
           helperText={location ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
-          withCoordinates
           level={GeolocationLevel.CITY}
+          fetchBoundariesOnClose
           {...scrollToPropsFor('location')}
         />
       </View>
