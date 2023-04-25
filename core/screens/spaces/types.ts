@@ -74,6 +74,8 @@ export interface Space {
   sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
   posts?: Paged<Post>
+  hasPublicPosts?: boolean
+  hasPrivatePosts?: boolean
 }
 
 export enum SpaceSectionType {
