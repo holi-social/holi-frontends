@@ -33,23 +33,6 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
     onUploadImage(undefined)
   }
 
-  const ImageUploader = () => {
-    return (
-      <HoliTabs
-        id="upload-image-tabs"
-        style={styles.holiTabs}
-        tabBarStyle={styles.tabBar}
-        tabs={[
-          {
-            title: t('spaces.input.coverImage.tab.upload.title'),
-            style: styles.tabStyle,
-            children: <Uploader />,
-          },
-        ]}
-      />
-    )
-  }
-
   const Uploader = () => {
     return (
       <View style={styles.imageUploader}>
@@ -117,7 +100,18 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         </HoliText>
       )}
       {!!description && <HoliText style={styles.subTitle}>{description}</HoliText>}
-      <ImageUploader />
+      <HoliTabs
+        id="upload-image-tabs"
+        style={styles.holiTabs}
+        tabBarStyle={styles.tabBar}
+        tabs={[
+          {
+            title: t('spaces.input.coverImage.tab.upload.title'),
+            style: styles.tabStyle,
+            children: <Uploader />,
+          },
+        ]}
+      />
     </View>
   )
 }
