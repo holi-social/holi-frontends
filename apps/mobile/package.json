@@ -5,6 +5,12 @@
   "resolutions": {
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
   },
+  "workspaces": {
+    "nohoist": [
+      "@types/react",
+      "@types/react/**"
+    ]
+  },
   "scripts": {
     "prestart": "yarn workspace @holi/ui run generate-style-vars",
     "preandroid": "yarn workspace @holi/ui run generate-style-vars",
