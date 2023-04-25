@@ -12,9 +12,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/components/SpaceUpdateInputForm'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery, spacePostsQuery } from '@holi/core/screens/spaces/queries'
 import { CreateSpacePostResponse, createSpacePostMutation } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -66,7 +66,12 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
   const [createSpacePost, { loading }] = useMutation<CreateSpacePostResponse>(createSpacePostMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => displayError(error, error.message),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    refetchQueries: [
+      {
+        query: spacePostsQuery,
+        variables: { idOrName: space?.id, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+      },
+    ],
   })
 
   useLayoutEffect(() => {
