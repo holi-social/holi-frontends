@@ -6,6 +6,7 @@ import {
   SettingsFlow,
   SuccessfulNativeLogin,
   UpdateLoginFlowBody,
+  VerificationFlow,
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise, AxiosResponse } from 'axios'
@@ -93,4 +94,41 @@ export const submitSettingsFlow = (flow: SettingsFlow, password: string): AxiosP
     { flow: flow.id, updateSettingsFlowBody: { method: 'password', password, csrf_token } },
     { withCredentials: true }
   )
+}
+
+const initVerificationFlow = async () => newKratosSdk().createBrowserVerificationFlow()
+
+const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
+
+export const resendVerificationEmail = async (email: string) => {
+  const flow = await initVerificationFlow()
+  return submitVerificationFlow({ flow: flow.data, email })
+}
+
+export const submitExistingVerificationFlow = async (flowId: string, code: string) => {
+  const flow = await getVerificationFlow(flowId)
+  return submitVerificationFlow({ flow: flow.data, code })
+}
+
+export const submitVerificationFlow = async ({
+  flow,
+  code = '',
+  email = '',
+}: {
+  flow: VerificationFlow
+  code?: string
+  email?: string
+}) => {
+  const csrf_token = extractValue(flow, 'csrf_token')
+  const newFlow = await newKratosSdk().updateVerificationFlow({
+    flow: flow.id,
+    token: code,
+    updateVerificationFlowBody: {
+      method: 'code',
+      csrf_token,
+      email,
+      code,
+    },
+  })
+  return newFlow.data
 }
