@@ -45,7 +45,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
   )
 
   // we can get initialStep asynchronously, so, react on it and set step
-  useEffect(() => setStep(initialStep), [initialStep, setStep])
+  useEffect(() => setStep(initialStep, false), [initialStep, setStep])
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
