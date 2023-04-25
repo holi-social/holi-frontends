@@ -5,7 +5,6 @@ import {
   checkAccessibility,
   clickElement,
   clickElementByTestId,
-  generateUUID,
   locateElementByTestId,
   proceedAsGuest,
   waitForAnimationEnd,
@@ -358,7 +357,7 @@ const inputSpaceLocation = async (page: Page, location: string) => {
 
 const testAddEditDeleteTask = async (page: Page) => {
   // create task
-  const taskTitle = `E2E ${generateUUID()}`
+  const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
   await clickElementByTestId(page, 'space-edit-close')
   await clickElementByTestId(page, 'space-tabs-button-2-inactive')
@@ -368,7 +367,7 @@ const testAddEditDeleteTask = async (page: Page) => {
   await expect(page.getByText(taskTitle)).toBeVisible()
 
   // edit task
-  const editedTaskTitle = `E2E edited ${generateUUID()}`
+  const editedTaskTitle = 'E2E edited task'
   const editedTaskDescription = 'E2E edited description'
   await clickElementByTestId(page, 'btn-task-more-options')
   await clickElementByTestId(page, 'btn-to-edit-task')
