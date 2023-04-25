@@ -8,7 +8,7 @@ const versions = {
 
 export default {
   expo: {
-    name: 'Project HOLI',
+    name: 'holi',
     slug: 'projectholi',
     owner: 'holistic-foundation',
     version: versions.version,
@@ -42,7 +42,7 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#F5F5F5',
       },
-      package: 'foundation.holistic.projectholi',
+      package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
     },
     plugins: [
