@@ -56,22 +56,26 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
           </View>
         </SpaceSection>
       )}
-      {space.contactDescription && space.contactEmail && space.contactPhone && (
+      {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
         <SpaceSection title={t('spaces.spaceDetails.contact')}>
           <View>
-            <HoliText>{space.contactDescription}</HoliText>
-            <View style={styles.contactContainer}>
-              <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
-              <HoliText size="small" bold>
-                {space.contactEmail}
-              </HoliText>
-            </View>
-            <View style={styles.contactContainer}>
-              <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
-              <HoliText size="small" bold>
-                {space.contactPhone}
-              </HoliText>
-            </View>
+            {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
+            {!!space.contactEmail && (
+              <View style={styles.contactContainer}>
+                <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+                <HoliText size="small" bold>
+                  {space.contactEmail}
+                </HoliText>
+              </View>
+            )}
+            {!!space.contactPhone && (
+              <View style={styles.contactContainer}>
+                <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+                <HoliText size="small" bold>
+                  {space.contactPhone}
+                </HoliText>
+              </View>
+            )}
           </View>
         </SpaceSection>
       )}
