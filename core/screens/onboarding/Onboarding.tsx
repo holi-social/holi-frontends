@@ -75,9 +75,6 @@ const Onboarding: React.VFC<OnboardingProps> = ({ afterAccountCreated, style }) 
     []
   )
 
-  // Email verification
-  const [verificationCode, setVerificationCode] = useState('')
-
   const goToNextStep = useCallback(async () => {
     switch (currentStep) {
       case RegistrationStep.PRE_REGISTRATION_LOGIN:
@@ -136,8 +133,6 @@ const Onboarding: React.VFC<OnboardingProps> = ({ afterAccountCreated, style }) 
           <CreateAccount onRegister={goToNextStep} key={RegistrationStep.CREATE_ACCOUNT} />,
           // Email Verification step
           <EmailVerification
-            code={verificationCode}
-            onCodeChange={setVerificationCode}
             onDismiss={onOnboardingStateChange}
             onSuccess={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}

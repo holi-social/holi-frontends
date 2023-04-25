@@ -6,7 +6,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
-export type OnboardingStateValue = 'onboarding' | 'accountSetup' | 'finished'
+export type OnboardingStateValue = 'onboarding' | 'emailVerification' | 'accountSetup' | 'finished'
 const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
 export const useOnboarding = () => {

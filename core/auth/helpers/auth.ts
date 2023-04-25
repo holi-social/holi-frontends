@@ -84,7 +84,7 @@ export const submitSettingsFlow = async (flow: SettingsFlow, password: string, s
 
 const initVerificationFlow = async () => newKratosSdk().createNativeVerificationFlow()
 
-const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
+export const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
 
 export const resendVerificationEmail = async (email: string) => {
   const flow = await initVerificationFlow()

@@ -1,10 +1,15 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import { submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
+// import { getVerificationFlow, submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
+// import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { useVerificationFlowId } from '@holi/core/auth/helpers/useAuth'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
@@ -16,19 +21,23 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const CODE_MAX_COUNT = 6
 
 export interface EmailVerificationProps {
-  code: string
-  onCodeChange: (value: string) => void
   onDismiss: () => void
   onSuccess: () => void
 }
 
-const EmailVerification = ({ code, onCodeChange, onDismiss, onSuccess }: EmailVerificationProps) => {
+const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+
+  const [code, setCode] = useState('')
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
+  const verificationFlowId = useVerificationFlowId() ?? ''
+  console.log(verificationFlowId)
 
   return (
     <HoliKeyboardSaveView>
@@ -42,7 +51,7 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onSuccess }: EmailVe
         <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
         <HoliTextInput
           value={code}
-          onChange={onCodeChange}
+          onChange={setCode}
           placeholder={t('registration.emailVerification.inputPlaceholder')}
           accessibilityLabel={t('registration.emailVerification.inputLabel')}
           maxNoOfCharacters={CODE_MAX_COUNT}
@@ -76,10 +85,37 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onSuccess }: EmailVe
             onPress={async () => {
               showLoader()
 
-              // TODO: add Ory logic here
-              onSuccess()
+              try {
+                const {
+                  ui: { messages },
+                } = await submitExistingVerificationFlow(verificationFlowId, code)
 
-              hideLoader()
+                if (messages?.length) {
+                  messages.forEach(({ id }) => {
+                    switch (id) {
+                      case 4070006:
+                        displayError(new Error(id.toString()), 'Wrong verification code')
+                        setCode('')
+                        break
+
+                      default:
+                        break
+                    }
+                  })
+                } else {
+                  onSuccess()
+                }
+              } catch (err) {
+                // TODO: error handling
+                // handleFormSubmitError(
+                //   setFlow,
+                //   () => getVerificationFlow(verificationFlowId),
+                //   (error) => displayError(error, t('auth.login.error.login')),
+                //   err
+                // )
+              } finally {
+                hideLoader()
+              }
             }}
             type="primary"
             testID="btn-to-continue-as-guest"

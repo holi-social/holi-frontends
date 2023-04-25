@@ -25,3 +25,11 @@ export const useAuth = () => {
   const userId = useReactiveVar(loggedInUserIdVar)
   return { userId }
 }
+
+const verificationFlowIdVar = makeVar<string | undefined>(undefined)
+
+export const setVerificationFlowId = verificationFlowIdVar
+
+export const useVerificationFlowId = () => {
+  return useReactiveVar(verificationFlowIdVar)
+}
