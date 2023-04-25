@@ -44,7 +44,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
           <HoliColumns>
             <HoliColumn flex={2}>
               {hasVisibilityIcon ? (
-                <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
+                <HoliColumns alignItems="center" padding={[0, 0, 8, 0]}>
                   <HoliIcon icon={visibilityIcon} size={12} filled={true} />
                   <HoliBox padding={[0, 0, 0, 6]}>
                     <HoliText size="extrasmall">{visibilityIconText}</HoliText>
