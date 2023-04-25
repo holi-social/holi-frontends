@@ -450,7 +450,7 @@
   "spaces.input.topics.title": "Topics",
   "spaces.input.update.content.label": "Update content",
   "spaces.input.update.content.placeholder": "What do you want to share?",
-  "spaces.input.update.image.upload.hint": ".jpg, .png or MP4 file up to 8 MB \n Files with horizontal orientation work best",
+  "spaces.input.update.image.upload.hint": ".jpg  or .png file up to 8 Mb \n Images with horizontal orientation work best",
   "spaces.input.update.title.label": "Update title",
   "spaces.input.update.title.placeholder": "A meaningful title",
   "spaces.input.update.visibility.description": "Your update will be visible on the Space page, collaborators area and notifications.",
