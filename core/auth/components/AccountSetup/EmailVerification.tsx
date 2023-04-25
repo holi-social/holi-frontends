@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
@@ -9,6 +9,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const CODE_MAX_COUNT = 6
@@ -26,14 +28,19 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onRes
   const { navigate } = useRouting()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
   return (
-    <CenteredImageHeadlineDescriptionLayout
-      imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
-      imageLabelText={t('registration.emailVerification.activateAccount')}
-      headlineText={t('registration.emailVerification.heading')}
-      descriptionText={t('registration.emailVerification.description')}
-    >
-      <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox}>
+    <HoliKeyboardSaveView>
+      <CenteredImageHeadlineDescriptionLayout
+        imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
+        imageLabelText={t('registration.emailVerification.activateAccount')}
+        headlineText={t('registration.emailVerification.heading')}
+        descriptionText={t('registration.emailVerification.description')}
+        ref={scrollViewRef}
+      >
+        <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
         <HoliTextInput
           value={code}
           onChange={onCodeChange}
@@ -44,58 +51,59 @@ const EmailVerification = ({ code, onCodeChange, onDismiss, onVerifyEmail, onRes
           inputProps={{
             keyboardType: 'numeric',
           }}
+          {...scrollToInputWithId('code')}
         />
-      </HoliBox>
 
-      <HoliBox padding={[16, 0, 0, 0]}>
-        <HoliTextLink
-          label={t('registration.emailVerification.resendEmail')}
-          href="/"
-          onPress={() => {
-            onResendEmail()
-            return false
-          }}
-          variant="secondary"
-          size="small"
-        >
-          {t('registration.emailVerification.resendEmail')}
-        </HoliTextLink>
-      </HoliBox>
+        <HoliBox padding={[16, 0, 0, 0]}>
+          <HoliTextLink
+            label={t('registration.emailVerification.resendEmail')}
+            href="/"
+            onPress={() => {
+              onResendEmail()
+              return false
+            }}
+            variant="secondary"
+            size="small"
+          >
+            {t('registration.emailVerification.resendEmail')}
+          </HoliTextLink>
+        </HoliBox>
 
-      <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-        <HoliButton
-          label={t('registration.emailVerification.activateAccount')}
-          disabled={code.length !== CODE_MAX_COUNT}
-          onPress={async () => {
-            showLoader()
+        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+          <HoliButton
+            label={t('registration.emailVerification.activateAccount')}
+            disabled={code.length !== CODE_MAX_COUNT}
+            onPress={async () => {
+              showLoader()
 
-            await onVerifyEmail()
+              await onVerifyEmail()
 
-            hideLoader()
-          }}
-          type="primary"
-          testID="btn-to-continue-as-guest"
-        >
-          {t('registration.emailVerification.activateAccount')}
-        </HoliButton>
-      </HoliBox>
+              hideLoader()
+            }}
+            type="primary"
+            testID="btn-to-continue-as-guest"
+          >
+            {t('registration.emailVerification.activateAccount')}
+          </HoliButton>
+        </HoliBox>
 
-      <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-        <HoliButton
-          label={t('auth.loginProtection.continueAsGuest')}
-          onPress={() => {
-            onDismiss?.()
-            navigate('/')
-          }}
-          type="secondary"
-          testID="btn-to-continue-as-guest"
-        >
-          {t('auth.loginProtection.continueAsGuest')}
-        </HoliButton>
-      </HoliBox>
+        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+          <HoliButton
+            label={t('auth.loginProtection.continueAsGuest')}
+            onPress={() => {
+              onDismiss?.()
+              navigate('/')
+            }}
+            type="secondary"
+            testID="btn-to-continue-as-guest"
+          >
+            {t('auth.loginProtection.continueAsGuest')}
+          </HoliButton>
+        </HoliBox>
 
-      {isLoaderShown && <HoliLoader />}
-    </CenteredImageHeadlineDescriptionLayout>
+        {isLoaderShown && <HoliLoader />}
+      </CenteredImageHeadlineDescriptionLayout>
+    </HoliKeyboardSaveView>
   )
 }
 
