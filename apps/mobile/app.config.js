@@ -61,7 +61,8 @@ export default {
           config: {
             organization: 'holistic-foundation',
             project: 'holi-app-mobile',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
+            authToken:
+              process.env.SENTRY_AUTH_TOKEN || '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
           },
         },
       ],
