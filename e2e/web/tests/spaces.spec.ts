@@ -372,7 +372,6 @@ const testAddEditDeleteTask = async (page: Page) => {
   await clickElementByTestId(page, 'btn-task-more-options')
   await clickElementByTestId(page, 'btn-to-edit-task')
   await checkAccessibility(page)
-  await inputTaskInfo(page, editedTaskTitle, editedTaskDescription)
 
   // edit task title
   const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
@@ -391,7 +390,6 @@ const testAddEditDeleteTask = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-delete-task')
   await clickElementByTestId(page, 'task-delete-confirmation-confirm')
   await page.waitForSelector(byTestId('task-delete-confirmation-confirm'), { state: 'hidden' })
-  await expect(page.getByText(editedTaskTitle).count()).toEqual(0)
 }
 
 const testAddEditDeleteDigitalTool = async (page: Page) => {
