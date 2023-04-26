@@ -74,13 +74,11 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     fetchDefault()
   }, [fetchUserSpecifc, fetchDefault, topics, user])
 
-  if (errorUserSpecific) {
-    displayError(errorUserSpecific, t('spaces.spaceListing.error'))
-  }
-
-  if (errorDefault) {
-    displayError(errorDefault, t('spaces.spaceListing.error'))
-  }
+  useEffect(() => {
+    if (errorUserSpecific || errorDefault) {
+      displayError(errorUserSpecific, t('spaces.spaceListing.error'))
+    }
+  }, [displayError, errorDefault, errorUserSpecific, t])
 
   if (loadingTopics || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
     // TODO: replace with proper loading indicator

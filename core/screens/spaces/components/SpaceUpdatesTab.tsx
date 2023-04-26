@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
@@ -43,9 +43,11 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const postData = data?.spaceById.posts?.data
   const posts = useMemo(() => postData || [], [postData])
 
-  if (error) {
-    displayError(error, t('spaces.updates.error'))
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error, t('spaces.updates.error'))
+    }
+  }, [error, displayError, t])
 
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
