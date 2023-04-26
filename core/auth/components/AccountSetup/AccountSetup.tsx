@@ -179,7 +179,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   }, [names])
 
   useEffect(() => {
-    if (!userLoading && !user) {
+    if (!userLoading && user === null) {
       onFinish()
       navigate('/')
     }
