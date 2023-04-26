@@ -75,11 +75,8 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   }, [fetchUserSpecifc, fetchDefault, topics, user])
 
   useEffect(() => {
-    if (errorUserSpecific) {
+    if (errorUserSpecific || errorDefault) {
       displayError(errorUserSpecific, t('spaces.spaceListing.error'))
-    }
-    if (errorDefault) {
-      displayError(errorDefault, t('spaces.spaceListing.error'))
     }
   }, [displayError, errorDefault, errorUserSpecific, t])
 
