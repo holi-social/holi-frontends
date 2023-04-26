@@ -18,7 +18,11 @@ export const useLogout = () => {
 
   return {
     logout: useCallback(
-      async ({ message, skipLogoutFlow = false }: { message?: string; skipLogoutFlow?: boolean } = {}) => {
+      async ({
+        message,
+        skipLogoutFlow = false,
+        afterLoggedOut,
+      }: { message?: string; skipLogoutFlow?: boolean; afterLoggedOut?: () => void } = {}) => {
         setIsLoggingOut(true)
 
         getSessionFromStorage()
@@ -32,7 +36,10 @@ export const useLogout = () => {
           .then(() => setUserLoggedOut())
           .then(() => {
             console.info('[Logout] logout successful')
-            navigate('/profile')
+
+            if (afterLoggedOut) afterLoggedOut()
+            else navigate('/profile')
+
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
           })
           .catch((e) => {
