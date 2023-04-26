@@ -32,6 +32,7 @@ export type HoliModalSelectProps = {
   testID?: string
   isRequired?: boolean
   variant?: HoliModalSelectVariant
+  showOptionIcon?: boolean
 }
 
 const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
@@ -45,6 +46,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   testID = 'holi-modal-select',
   isRequired,
   variant = 'normal',
+  showOptionIcon = false,
 }: HoliModalSelectProps) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption | undefined>()
   const [hovered, setHovered] = useState(false)
@@ -113,7 +115,10 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           {...hoverPropsForWeb}
         >
           {selectedOption ? (
-            <HoliText>{selectedOption.title}</HoliText>
+            <>
+              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={22} />}
+              <HoliText>{selectedOption.title}</HoliText>
+            </>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
