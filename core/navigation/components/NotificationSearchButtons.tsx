@@ -26,12 +26,6 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useLoggedInUser()
 
-  const { error: hasNewNotificationsError, data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
-    skip: !isLoggedIn,
-    fetchPolicy: 'network-only',
-    pollInterval: NOTIFICATION_POLLING_INTERVAL,
-  })
-
   const handleLogout = () => {
     client.clearStore()
     ensureOAuth2Logout()
@@ -40,14 +34,18 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
     navigate('/profile')
   }
 
-  if (hasNewNotificationsError) {
-    const networkError = hasNewNotificationsError?.networkError
-    if ((networkError as ServerError)?.statusCode === 401) {
-      handleLogout()
-    }
-
-    logError(hasNewNotificationsError, `[NotificationSearchButtons.tsx] ${hasNewNotificationsError.message}`)
-  }
+  const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
+    skip: !isLoggedIn,
+    fetchPolicy: 'network-only',
+    pollInterval: NOTIFICATION_POLLING_INTERVAL,
+    onError: (error) => {
+      const networkError = error?.networkError
+      if ((networkError as ServerError)?.statusCode === 401) {
+        handleLogout()
+      }
+      logError(error, `[NotificationSearchButtons.tsx] ${error?.message}`)
+    },
+  })
 
   const hasNewNotifications = !!data?.hasNewNotifications?.status
 
