@@ -115,10 +115,10 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           {...hoverPropsForWeb}
         >
           {selectedOption ? (
-            <>
+            <View style={styles.selectedOptionContainer}>
               {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={22} />}
-              <HoliText>{selectedOption.title}</HoliText>
-            </>
+              <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+            </View>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
@@ -221,5 +221,11 @@ const getStyles = (isDense: boolean) =>
     description: {
       color: colors.foreground20,
       marginTop: 8,
+    },
+    selectedOptionContainer: {
+      flexDirection: 'row',
+    },
+    selectedOptionTitle: {
+      marginLeft: 12,
     },
   })
