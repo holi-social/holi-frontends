@@ -13,6 +13,7 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -38,6 +39,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+  const { onOnboardingStateChange } = useOnboarding()
 
   const initializeFlow = useCallback(() => {
     if (userId) return
@@ -75,12 +77,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         console.info('[Registration.tsx] registration was successful.')
 
         // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
-        await onRegister()
+        onOnboardingStateChange('accountSetup')
         // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
+        await onRegister()
 
         redirect()
       } catch (err) {

@@ -33,7 +33,7 @@ export enum AccountSetupStep {
 }
 
 export interface AccountSetupProps {
-  onFinish: () => void
+  onFinish: () => Promise<void>
 }
 
 const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStepOptions> = {
@@ -179,9 +179,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   }, [names])
 
   useEffect(() => {
-    if (user === null) {
-      onFinish()
-      navigate('/')
+    if (!userLoading && !user) {
+      onFinish().then(() => navigate('/'))
     }
   }, [userLoading, user, onFinish, navigate])
 

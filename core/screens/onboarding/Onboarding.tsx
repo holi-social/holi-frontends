@@ -76,13 +76,12 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         privacyPolicy && goNext()
         break
       case RegistrationStep.CREATE_ACCOUNT:
-        await onOnboardingStateChange('accountSetup')
         goNext()
         break
       default:
         return
     }
-  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
+  }, [communityGuidelines, currentStep, goNext, privacyPolicy])
 
   return (
     <View style={[styles.container, style]}>
