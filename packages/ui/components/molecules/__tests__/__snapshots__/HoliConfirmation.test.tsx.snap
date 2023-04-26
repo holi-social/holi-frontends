@@ -27,23 +27,6 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
       accessible={true}
       collapsable={false}
       focusable={true}
@@ -145,19 +128,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityRole="button"
           accessibilityState={
             {
-              "busy": undefined,
-              "checked": undefined,
               "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
             }
           }
           accessible={true}
@@ -236,19 +207,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityRole="button"
           accessibilityState={
             {
-              "busy": undefined,
-              "checked": undefined,
               "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
             }
           }
           accessible={true}
@@ -348,23 +307,6 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
     }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
       accessible={true}
       collapsable={false}
       focusable={true}
@@ -466,19 +408,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           accessibilityRole="button"
           accessibilityState={
             {
-              "busy": undefined,
-              "checked": undefined,
               "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
             }
           }
           accessible={true}
@@ -557,19 +487,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           accessibilityRole="button"
           accessibilityState={
             {
-              "busy": undefined,
-              "checked": undefined,
               "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
             }
           }
           accessible={true}

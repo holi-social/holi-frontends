@@ -149,8 +149,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
+            bbHeight={22}
+            bbWidth={22}
+            color={4280689700}
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -180,15 +181,15 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 },
               ]
             }
-            tintColor="#262424"
+            tintColor={4280689700}
             vbHeight={1024}
             vbWidth={1024}
           >
             <RNSVGGroup
               fill={
-                {
-                  "type": 2,
-                }
+                [
+                  2,
+                ]
               }
               propList={
                 [
@@ -197,9 +198,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 ]
               }
               stroke={
-                {
-                  "type": 2,
-                }
+                [
+                  2,
+                ]
               }
             >
               <RNSVGPath
@@ -377,9 +378,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="16"
-            bbWidth="16"
-            color="#cc1820"
+            bbHeight={16}
+            bbWidth={16}
+            color={4291565600}
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -409,15 +410,15 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 },
               ]
             }
-            tintColor="#cc1820"
+            tintColor={4291565600}
             vbHeight={1024}
             vbWidth={1024}
           >
             <RNSVGGroup
               fill={
-                {
-                  "type": 2,
-                }
+                [
+                  2,
+                ]
               }
               propList={
                 [
@@ -426,9 +427,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 ]
               }
               stroke={
-                {
-                  "type": 2,
-                }
+                [
+                  2,
+                ]
               }
             >
               <RNSVGPath

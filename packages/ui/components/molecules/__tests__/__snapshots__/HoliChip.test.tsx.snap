@@ -27,19 +27,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
     accessibilityRole="checkbox"
     accessibilityState={
       {
-        "busy": undefined,
         "checked": true,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
       }
     }
     accessible={true}
@@ -94,9 +82,9 @@ exports[`renders correctly renders correctly when checked 1`] = `
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="15"
-        bbWidth="15"
-        color="#fff"
+        bbHeight={15}
+        bbWidth={15}
+        color={4294967295}
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -126,15 +114,15 @@ exports[`renders correctly renders correctly when checked 1`] = `
             },
           ]
         }
-        tintColor="#fff"
+        tintColor={4294967295}
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            {
-              "type": 2,
-            }
+            [
+              2,
+            ]
           }
           propList={
             [
@@ -143,9 +131,9 @@ exports[`renders correctly renders correctly when checked 1`] = `
             ]
           }
           stroke={
-            {
-              "type": 2,
-            }
+            [
+              2,
+            ]
           }
         >
           <RNSVGPath
@@ -181,19 +169,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     accessibilityRole="none"
     accessibilityState={
       {
-        "busy": undefined,
-        "checked": undefined,
         "disabled": true,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
       }
     }
     accessible={false}
@@ -267,19 +243,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     accessibilityRole="checkbox"
     accessibilityState={
       {
-        "busy": undefined,
         "checked": false,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
       }
     }
     accessible={true}
@@ -334,9 +298,9 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="15"
-        bbWidth="15"
-        color="#787777"
+        bbHeight={15}
+        bbWidth={15}
+        color={4286084983}
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -366,15 +330,15 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             },
           ]
         }
-        tintColor="#787777"
+        tintColor={4286084983}
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            {
-              "type": 2,
-            }
+            [
+              2,
+            ]
           }
           propList={
             [
@@ -383,9 +347,9 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             ]
           }
           stroke={
-            {
-              "type": 2,
-            }
+            [
+              2,
+            ]
           }
         >
           <RNSVGPath

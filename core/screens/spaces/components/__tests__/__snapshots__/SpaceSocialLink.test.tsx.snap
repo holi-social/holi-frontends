@@ -6,19 +6,7 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   accessibilityRole="link"
   accessibilityState={
     {
-      "busy": undefined,
-      "checked": undefined,
       "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
     }
   }
   accessible={true}
@@ -59,9 +47,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight="24"
-      bbWidth="24"
-      color="#787777"
+      bbHeight={24}
+      bbWidth={24}
+      color={4286084983}
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -91,15 +79,15 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           },
         ]
       }
-      tintColor="#787777"
+      tintColor={4286084983}
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          {
-            "type": 2,
-          }
+          [
+            2,
+          ]
         }
         propList={
           [
@@ -108,9 +96,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           ]
         }
         stroke={
-          {
-            "type": 2,
-          }
+          [
+            2,
+          ]
         }
       >
         <RNSVGPath
@@ -144,19 +132,7 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   accessibilityRole="link"
   accessibilityState={
     {
-      "busy": undefined,
-      "checked": undefined,
       "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
     }
   }
   accessible={true}
@@ -197,9 +173,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight="24"
-      bbWidth="24"
-      color="#787777"
+      bbHeight={24}
+      bbWidth={24}
+      color={4286084983}
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -229,15 +205,15 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           },
         ]
       }
-      tintColor="#787777"
+      tintColor={4286084983}
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          {
-            "type": 2,
-          }
+          [
+            2,
+          ]
         }
         propList={
           [
@@ -246,9 +222,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           ]
         }
         stroke={
-          {
-            "type": 2,
-          }
+          [
+            2,
+          ]
         }
       >
         <RNSVGPath
