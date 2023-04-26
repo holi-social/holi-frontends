@@ -125,7 +125,7 @@ const ChangePassword: React.VFC = () => {
   }
 
   return (
-    <DefaultLayout style={styles.layout}>
+    <DefaultLayout keyboardShouldPersistTaps="always" style={styles.layout}>
       <View style={[mixins.container, styles.formContainer]}>
         {!(reauthFlow && settingsFlow) ? (
           <HoliLoader />

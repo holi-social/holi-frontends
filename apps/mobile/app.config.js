@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.0.11', // user-facing value visible in stores
-  iosBuildNumber: '1.0.11', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 11, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.0.12', // user-facing value visible in stores
+  iosBuildNumber: '1.0.12', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 12, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -61,7 +61,8 @@ export default {
           config: {
             organization: 'holistic-foundation',
             project: 'holi-app-mobile',
-            authToken: '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
+            authToken:
+              process.env.SENTRY_AUTH_TOKEN || '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
           },
         },
       ],

@@ -89,8 +89,12 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
       })
   }, [setOptions, t, loadingSpace, isMember])
 
+  const isEmpty = (value: string) => {
+    return /^\s*$/.test(value)
+  }
+
   useEffect(() => {
-    if (content.length > 0) {
+    if (!isEmpty(content) && content.length > 0) {
       setSaveButtonDisabled(false)
     } else {
       setSaveButtonDisabled(true)
@@ -121,8 +125,8 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
       variables: {
         input: {
           spaceId: space?.id,
-          title: title.length > 0 ? title : undefined,
-          text: content,
+          title: title.trim() && title.length > 0 ? title : undefined,
+          text: content.trim(),
           image: image?.blob,
           visibility: visibility ? visibility?.id : VisibilityType.MEMBERS,
         },

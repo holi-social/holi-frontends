@@ -34,12 +34,11 @@ export const useStepper = (width: number, initialStep = 0): StepperController =>
 
   const handleNextStep = useCallback(
     (nextStep: number, animated = true) => {
-      const scrollTo = ref.current?.scrollTo
       scrollPoint.current = nextStep * width
       const scrollOptions = { x: scrollPoint.current, y: 0, animated }
       setScrollEnabled(true) // enable scrolling for correct Safari animation
-      if (!scrollTo) return nextStep
-      delayAnimation(scrollTo, scrollOptions, delay)
+      if (!ref.current?.scrollTo) return nextStep
+      delayAnimation(ref.current.scrollTo, scrollOptions, delay)
 
       return nextStep
     },

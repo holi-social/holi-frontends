@@ -12,7 +12,8 @@ export type DataConsentDocumentProps = {
 }
 
 const DataConsentDocument: React.VFC<DataConsentDocumentProps> = ({ style, testID }) => {
-  return <HoliHtmlView html={i18n.language === 'de' ? htmlDe : htmlEn} style={style} testID={testID} />
+  const language = i18n.language.split('-')[0]
+  return <HoliHtmlView html={language === 'de' ? htmlDe : htmlEn} style={style} testID={testID} />
 }
 
 export default DataConsentDocument
