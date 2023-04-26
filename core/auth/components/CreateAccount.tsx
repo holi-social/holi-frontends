@@ -8,7 +8,7 @@ import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, setVerificationFlowId, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { VerificationFlowAction, setUserLoggedIn, setVerificationFlow, useAuth } from '@holi/core/auth/helpers/useAuth'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -28,17 +28,15 @@ interface CreateAccountProps {
 
 interface VerificationAction {
   action?: 'show_verification_ui'
-  flow?: {
-    id: string
-  }
+  flow?: VerificationFlowAction
 }
 
 interface SuccessfulNativeRegistrationWithContinueFlow extends SuccessfulNativeRegistration {
   continue_with?: VerificationAction[]
 }
 
-const getVerificationFlowId = ({ continue_with }: SuccessfulNativeRegistrationWithContinueFlow) => {
-  return continue_with?.find(({ action }) => action === 'show_verification_ui')?.flow?.id
+const getVerificationFlow = ({ continue_with }: SuccessfulNativeRegistrationWithContinueFlow) => {
+  return continue_with?.find(({ action }) => action === 'show_verification_ui')?.flow
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
@@ -89,8 +87,8 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
         console.info('[Registration.tsx] registration was successful.')
 
-        const verificationFlowId = getVerificationFlowId(data as SuccessfulNativeRegistrationWithContinueFlow)
-        setVerificationFlowId(verificationFlowId)
+        const verificationFlow = getVerificationFlow(data as SuccessfulNativeRegistrationWithContinueFlow)
+        setVerificationFlow(verificationFlow)
 
         await setUserLoggedIn({
           session: data.session,

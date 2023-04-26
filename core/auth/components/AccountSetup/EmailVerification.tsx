@@ -8,7 +8,7 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
 // import { getVerificationFlow, submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
 // import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useVerificationFlowId } from '@holi/core/auth/helpers/useAuth'
+import { useVerificationFlow } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -36,8 +36,8 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
 
-  const verificationFlowId = useVerificationFlowId() ?? ''
-  console.log(verificationFlowId)
+  const verificationFlow = useVerificationFlow()
+  console.log(verificationFlow)
 
   return (
     <HoliKeyboardSaveView>
@@ -88,7 +88,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
               try {
                 const {
                   ui: { messages },
-                } = await submitExistingVerificationFlow(verificationFlowId, code)
+                } = await submitExistingVerificationFlow(verificationFlow?.id, code)
 
                 if (messages?.length) {
                   messages.forEach(({ id }) => {
@@ -118,7 +118,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
               }
             }}
             type="primary"
-            testID="btn-to-continue-as-guest"
+            testID="btn-submit-code"
           >
             {t('registration.emailVerification.activateAccount')}
           </HoliButton>

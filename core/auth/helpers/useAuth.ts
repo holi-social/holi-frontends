@@ -26,10 +26,15 @@ export const useAuth = () => {
   return { userId }
 }
 
-const verificationFlowIdVar = makeVar<string | undefined>(undefined)
+export interface VerificationFlowAction {
+  id: string
+  verifiable_address: string
+}
 
-export const setVerificationFlowId = verificationFlowIdVar
+const verificationFlowVar = makeVar<VerificationFlowAction | undefined>(undefined)
 
-export const useVerificationFlowId = () => {
-  return useReactiveVar(verificationFlowIdVar)
+export const setVerificationFlow = verificationFlowVar
+
+export const useVerificationFlow = () => {
+  return useReactiveVar(verificationFlowVar)
 }
