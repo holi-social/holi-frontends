@@ -303,6 +303,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           title={t('spaces.input.task.locationType.label')}
           label={t('spaces.input.task.locationType.label')}
           placeholder={t('spaces.input.task.locationType.placeholder')}
+          description={t('spaces.input.task.locationType.placeholder')}
           style={styles.marginSeparator}
           onChange={onChangeLocationType}
           isRequired
@@ -335,6 +336,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           title={t('spaces.input.task.regularity.label')}
           label={t('spaces.input.task.regularity.label')}
           placeholder={t('spaces.input.task.regularity.placeholder')}
+          description={t('spaces.input.task.regularity.placeholder')}
           style={styles.marginSeparator}
           onChange={onChangeRegularity}
           isRequired
