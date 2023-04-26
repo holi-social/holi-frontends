@@ -71,6 +71,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         label={t('spaces.input.update.visibility.label')}
         testID="update-visibility-input"
         isRequired
+        showOptionIcon
       />
 
       <HoliTextInput
@@ -82,6 +83,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         accessibilityLabel={t('spaces.input.update.title.label')}
         testID="update-title-input"
         style={{ marginTop: 24 }}
+        maxNoOfCharacters={128}
       />
 
       <HoliTextInput
