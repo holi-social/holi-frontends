@@ -116,7 +116,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         >
           {selectedOption ? (
             <View style={styles.selectedOptionContainer}>
-              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={22} />}
+              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={24} />}
               <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
             </View>
           ) : (
@@ -224,6 +224,7 @@ const getStyles = (isDense: boolean) =>
     },
     selectedOptionContainer: {
       flexDirection: 'row',
+      alignItems: 'center',
     },
     selectedOptionTitle: {
       marginLeft: 12,

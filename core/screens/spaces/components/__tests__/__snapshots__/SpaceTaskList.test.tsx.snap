@@ -114,19 +114,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             accessibilityRole="button"
             accessibilityState={
               {
-                "busy": undefined,
-                "checked": undefined,
                 "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
               }
             }
             accessible={true}
@@ -208,9 +196,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="12"
-                    bbWidth="12"
-                    color="#262424"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color={4280689700}
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -241,15 +229,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         },
                       ]
                     }
-                    tintColor="#262424"
+                    tintColor={4280689700}
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                       propList={
                         [
@@ -258,9 +246,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         ]
                       }
                       stroke={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                     >
                       <RNSVGPath
@@ -302,19 +290,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -390,9 +366,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -423,15 +399,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -440,9 +416,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -477,9 +453,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -510,15 +486,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -527,9 +503,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -569,19 +545,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -656,19 +620,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -794,19 +746,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             accessibilityRole="button"
             accessibilityState={
               {
-                "busy": undefined,
-                "checked": undefined,
                 "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
               }
             }
             accessible={true}
@@ -888,9 +828,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="12"
-                    bbWidth="12"
-                    color="#262424"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color={4280689700}
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -921,15 +861,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         },
                       ]
                     }
-                    tintColor="#262424"
+                    tintColor={4280689700}
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                       propList={
                         [
@@ -938,9 +878,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         ]
                       }
                       stroke={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                     >
                       <RNSVGPath
@@ -982,19 +922,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1070,9 +998,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1103,15 +1031,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -1120,9 +1048,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -1157,9 +1085,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1190,15 +1118,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -1207,9 +1135,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -1249,19 +1177,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1336,19 +1252,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1474,19 +1378,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             accessibilityRole="button"
             accessibilityState={
               {
-                "busy": undefined,
-                "checked": undefined,
                 "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
               }
             }
             accessible={true}
@@ -1568,9 +1460,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="12"
-                    bbWidth="12"
-                    color="#262424"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color={4280689700}
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -1601,15 +1493,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         },
                       ]
                     }
-                    tintColor="#262424"
+                    tintColor={4280689700}
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                       propList={
                         [
@@ -1618,9 +1510,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         ]
                       }
                       stroke={
-                        {
-                          "type": 2,
-                        }
+                        [
+                          2,
+                        ]
                       }
                     >
                       <RNSVGPath
@@ -1662,19 +1554,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1750,9 +1630,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1783,15 +1663,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -1800,9 +1680,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -1837,9 +1717,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="12"
-                bbWidth="12"
-                color="#787777"
+                bbHeight={12}
+                bbWidth={12}
+                color={4286084983}
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1870,15 +1750,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor="#787777"
+                tintColor={4286084983}
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                   propList={
                     [
@@ -1887,9 +1767,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    {
-                      "type": 2,
-                    }
+                    [
+                      2,
+                    ]
                   }
                 >
                   <RNSVGPath
@@ -1929,19 +1809,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
@@ -2016,19 +1884,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessibilityRole="button"
               accessibilityState={
                 {
-                  "busy": undefined,
-                  "checked": undefined,
                   "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
                 }
               }
               accessible={true}
