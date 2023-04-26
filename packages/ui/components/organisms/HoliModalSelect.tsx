@@ -52,7 +52,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense)
+  const styles = getStyles(isDense, description)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -131,11 +131,12 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         testID={testID}
       >
         <ScrollView style={mixins.container}>
-          <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
-            {label}
-          </HoliHeading>
-          {!!description && <HoliText style={styles.description}>{description}</HoliText>}
-
+          <View style={styles.separator}>
+            <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
+              {label}
+            </HoliHeading>
+            {!!description && <HoliText style={styles.description}>{description}</HoliText>}
+          </View>
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
         </ScrollView>
       </HoliModal>
@@ -145,7 +146,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
 
 export default HoliModalSelect
 
-const getStyles = (isDense: boolean) =>
+const getStyles = (isDense: boolean, description: boolean) =>
   StyleSheet.create({
     labelWrapper: {
       marginBottom: 6,
@@ -180,14 +181,11 @@ const getStyles = (isDense: boolean) =>
     headingDense: {
       width: '100%',
       marginTop: 16,
-      paddingBottom: 24,
-      marginBottom: 8,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.background30,
+      paddingBottom: description ? 12 : 24,
     },
     optionsContainer: {
-      marginTop: isDense ? 8 : 16,
-      paddingBottom: 24,
+      marginTop: isDense ? 12 : 16,
+      paddingBottom: 28,
     },
     optionCard: {
       marginTop: 16,
@@ -213,8 +211,12 @@ const getStyles = (isDense: boolean) =>
       marginTop: 4,
       color: colors.foreground20,
     },
+    separator: {
+      borderBottomWidth: 1,
+      borderBottomColor: colors.background30,
+    },
     description: {
       color: colors.foreground20,
-      marginTop: 8,
+      paddingBottom: 24,
     },
   })
