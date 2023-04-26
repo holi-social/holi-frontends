@@ -8,7 +8,7 @@ import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/sc
 import type { User } from '@holi/core/screens/userprofile/types'
 
 interface UserContext {
-  user: User | undefined
+  user: User | null | undefined
   isLoggedIn: boolean
   isLoading: boolean
 }
@@ -44,13 +44,15 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
     },
   })
 
-  const user = data?.authenticatedUser
+  // before `authenticatedUserQuery` has been resolved `currentUser` is `undefined`
+  // after resolving query `currentUser` becomes either `User` object or `null` if no user is logged-in
+  const currentUser: User | null | undefined = data ? data.authenticatedUser || null : undefined
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        isLoggedIn: !!user,
+        user: currentUser,
+        isLoggedIn: !!currentUser,
         isLoading: loading,
       }}
     >
