@@ -5,6 +5,23 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
     accessibilityRole="link"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -130,9 +147,9 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         </View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={18}
-          bbWidth={18}
-          color={4286084983}
+          bbHeight="18"
+          bbWidth="18"
+          color="#787777"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -164,15 +181,15 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
               },
             ]
           }
-          tintColor={4286084983}
+          tintColor="#787777"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -181,9 +198,9 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath

@@ -32,7 +32,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -108,9 +120,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
         </View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={22}
-          bbWidth={22}
-          color={4280689700}
+          bbHeight="22"
+          bbWidth="22"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -140,15 +151,15 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
               },
             ]
           }
-          tintColor={4280689700}
+          tintColor="#262424"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -157,9 +168,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -193,7 +204,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
         accessibilityRole="button"
         accessibilityState={
           {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -281,7 +304,6 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
         testID="holi-modal-select-animatedview"
       >
         <RCTSafeAreaView
-          emulateUnlessSupported={true}
           style={
             [
               {
@@ -310,7 +332,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -412,7 +446,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -464,9 +510,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight={22}
-                    bbWidth={22}
-                    color={4280689700}
+                    bbHeight="22"
+                    bbWidth="22"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -496,15 +541,15 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         },
                       ]
                     }
-                    tintColor={4280689700}
+                    tintColor="#262424"
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                       propList={
                         [
@@ -513,9 +558,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         ]
                       }
                       stroke={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                     >
                       <RNSVGPath
@@ -581,7 +626,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
@@ -627,9 +684,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         >
                           <RNSVGSvgView
                             align="xMidYMid"
-                            bbHeight={20}
-                            bbWidth={20}
-                            color={4294967295}
+                            bbHeight="20"
+                            bbWidth="20"
                             focusable={false}
                             meetOrSlice={0}
                             minX={0}
@@ -659,15 +715,15 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                                 },
                               ]
                             }
-                            tintColor={4294967295}
+                            tintColor="#fff"
                             vbHeight={1024}
                             vbWidth={1024}
                           >
                             <RNSVGGroup
                               fill={
-                                [
-                                  2,
-                                ]
+                                {
+                                  "type": 2,
+                                }
                               }
                               propList={
                                 [
@@ -676,9 +732,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                                 ]
                               }
                               stroke={
-                                [
-                                  2,
-                                ]
+                                {
+                                  "type": 2,
+                                }
                               }
                             >
                               <RNSVGPath
@@ -697,7 +753,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -749,9 +817,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight={22}
-                    bbWidth={22}
-                    color={4280689700}
+                    bbHeight="22"
+                    bbWidth="22"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -781,15 +848,15 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         },
                       ]
                     }
-                    tintColor={4280689700}
+                    tintColor="#262424"
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                       propList={
                         [
@@ -798,9 +865,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         ]
                       }
                       stroke={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                     >
                       <RNSVGPath
@@ -866,7 +933,19 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
@@ -956,7 +1035,19 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1020,9 +1111,8 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
         />
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={22}
-          bbWidth={22}
-          color={4280689700}
+          bbHeight="22"
+          bbWidth="22"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -1052,15 +1142,15 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
               },
             ]
           }
-          tintColor={4280689700}
+          tintColor="#262424"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -1069,9 +1159,9 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -1126,7 +1216,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1190,9 +1292,8 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
         />
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={22}
-          bbWidth={22}
-          color={4280689700}
+          bbHeight="22"
+          bbWidth="22"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -1222,15 +1323,15 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          tintColor={4280689700}
+          tintColor="#262424"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -1239,9 +1340,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -1275,7 +1376,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
         accessibilityRole="button"
         accessibilityState={
           {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -1363,7 +1476,6 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
         testID="holi-modal-select-animatedview"
       >
         <RCTSafeAreaView
-          emulateUnlessSupported={true}
           style={
             [
               {
@@ -1392,7 +1504,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1494,7 +1618,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -1546,9 +1682,8 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight={22}
-                    bbWidth={22}
-                    color={4280689700}
+                    bbHeight="22"
+                    bbWidth="22"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -1578,15 +1713,15 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor={4280689700}
+                    tintColor="#262424"
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                       propList={
                         [
@@ -1595,9 +1730,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         ]
                       }
                       stroke={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                     >
                       <RNSVGPath
@@ -1663,7 +1798,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
@@ -1717,7 +1864,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -1769,9 +1928,8 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 >
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight={22}
-                    bbWidth={22}
-                    color={4280689700}
+                    bbHeight="22"
+                    bbWidth="22"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -1801,15 +1959,15 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor={4280689700}
+                    tintColor="#262424"
                     vbHeight={1024}
                     vbWidth={1024}
                   >
                     <RNSVGGroup
                       fill={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                       propList={
                         [
@@ -1818,9 +1976,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         ]
                       }
                       stroke={
-                        [
-                          2,
-                        ]
+                        {
+                          "type": 2,
+                        }
                       }
                     >
                       <RNSVGPath
@@ -1886,7 +2044,19 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
@@ -1976,7 +2146,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -2040,9 +2222,8 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
         />
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={22}
-          bbWidth={22}
-          color={4280689700}
+          bbHeight="22"
+          bbWidth="22"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -2072,15 +2253,15 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               },
             ]
           }
-          tintColor={4280689700}
+          tintColor="#262424"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -2089,9 +2270,9 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -2125,7 +2306,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
         accessibilityRole="button"
         accessibilityState={
           {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -2213,7 +2406,6 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
         testID="holi-modal-select-animatedview"
       >
         <RCTSafeAreaView
-          emulateUnlessSupported={true}
           style={
             [
               {
@@ -2242,7 +2434,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -2351,7 +2555,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -2441,7 +2657,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
@@ -2495,7 +2723,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 accessibilityRole="button"
                 accessibilityState={
                   {
+                    "busy": undefined,
+                    "checked": undefined,
                     "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
                   }
                 }
                 accessible={true}
@@ -2585,7 +2825,19 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
+                            "busy": undefined,
+                            "checked": undefined,
                             "disabled": false,
+                            "expanded": undefined,
+                            "selected": undefined,
+                          }
+                        }
+                        accessibilityValue={
+                          {
+                            "max": undefined,
+                            "min": undefined,
+                            "now": undefined,
+                            "text": undefined,
                           }
                         }
                         accessible={true}
