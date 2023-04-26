@@ -16,7 +16,7 @@ import type { Paged } from '@holi/core/types'
 export type ChipUserField = 'interests' | 'sdgs' | 'skills'
 
 export interface UseUserChipsOptions {
-  user?: User
+  user?: User | null
   keyInUserObject: ChipUserField
   queryToUse: DocumentNode
   onSubmit?: (user: User) => void
