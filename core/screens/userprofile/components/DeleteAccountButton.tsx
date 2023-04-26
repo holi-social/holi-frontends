@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -34,9 +34,13 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
       onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
     }
   )
-  if (error) {
-    displayError(error, t('profile.settings.account.delete.error'))
-  }
+
+  useEffect(() => {
+    if (error) {
+      displayError(error, t('profile.settings.account.delete.error'))
+    }
+  }, [error, displayError, t])
+
   const label = t('profile.settings.account.delete')
   const confirmationTitle = t('profile.settings.account.delete.confirmation.title')
   return (
