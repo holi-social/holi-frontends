@@ -1,4 +1,4 @@
-import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -11,9 +11,10 @@ import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
-import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { handleFormSubmitError, isNotVerifiedUserError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
@@ -27,6 +28,10 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+
+const hasIdentifier = (loginFlowBody: UpdateLoginFlowBody): loginFlowBody is UpdateLoginFlowWithPasswordMethod => {
+  return Object.hasOwn(loginFlowBody, 'identifier')
+}
 
 export type LoginParams = {
   return_to?: string
@@ -42,11 +47,11 @@ const Login: React.VFC<ScreenProps> = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
   const [return_to] = useParam('return_to', singleParamConfig)
-  const { redirect } = useRouting()
+  const { navigate, redirect } = useRouting()
   const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { onOnboardingStateChange: finishOnboarding } = useOnboarding()
+  const { onOnboardingStateChange } = useOnboarding()
 
   const isLoggedIn = !!userId
 
@@ -85,27 +90,37 @@ const Login: React.VFC<ScreenProps> = () => {
   }, [isLoggedIn, initializeFlow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
-    if (flow) {
-      showLoader()
+    if (!flow) return
 
-      try {
-        const { data } = await submitLoginFlow(flow, payload, undefined)
-        await client.clearStore()
-        await setUserLoggedIn(data as OrySessionContext)
-        await finishOnboarding()
-        confirmOAuth2Login()
+    showLoader()
 
-        if (Platform.OS === 'web' && return_to) {
-          // server side redirect, see: See apps/web/pages/oauth2/login.tsx
-          window.location.href = return_to
-        } else {
-          redirect()
-        }
-      } catch (err) {
-        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
-      } finally {
-        hideLoader()
+    try {
+      const { data } = await submitLoginFlow(flow, payload, undefined)
+      await client.clearStore()
+      await setUserLoggedIn(data as OrySessionContext)
+      await onOnboardingStateChange('finished')
+      confirmOAuth2Login()
+
+      if (Platform.OS === 'web' && return_to) {
+        // server side redirect, see: See apps/web/pages/oauth2/login.tsx
+        window.location.href = return_to
+      } else {
+        redirect()
       }
+    } catch (err) {
+      if (isNotVerifiedUserError(err)) {
+        if (hasIdentifier(payload)) {
+          setVerificationFlowData({ email: payload.identifier })
+        }
+
+        await onOnboardingStateChange('emailVerification')
+        navigate(Platform.OS === 'web' ? '/' : '/onboarding')
+        return
+      } else {
+        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
+      }
+    } finally {
+      hideLoader()
     }
   }
 
