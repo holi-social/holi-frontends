@@ -54,7 +54,7 @@ export default memo(AccountSettings)
 
 const styles = StyleSheet.create({
   accountSettings: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
   },
   settingsItem: {
     marginVertical: 24,
