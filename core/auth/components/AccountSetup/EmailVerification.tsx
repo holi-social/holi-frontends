@@ -1,15 +1,15 @@
-import React, { useRef, useState } from 'react'
+import { VerificationFlow } from '@ory/kratos-client'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
-import { submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
-// import { getVerificationFlow, submitExistingVerificationFlow } from '@holi/core/auth/helpers/auth'
-// import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useVerificationFlow } from '@holi/core/auth/helpers/useAuth'
+import { getOrCreateVerificationFlow, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
+import { useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
@@ -30,14 +30,33 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+  const { logout } = useLogout()
 
   const [code, setCode] = useState('')
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
 
-  const verificationFlow = useVerificationFlow()
-  console.log(verificationFlow)
+  const verificationFlowData = useVerificationFlowData()
+  const [flow, setFlow] = useState<VerificationFlow | undefined>(undefined)
+
+  // get verification flow from Ory
+  useEffect(() => {
+    getOrCreateVerificationFlow(verificationFlowData).then((verificationFlow) => {
+      // finish Onboarding if no flow available
+      if (!verificationFlow) {
+        onDismiss()
+        logout({
+          afterLoggedOut: () => {
+            /* do nothing, override default redirect to `/profile` page */
+          },
+        })
+        return
+      }
+
+      setFlow(verificationFlow)
+    })
+  }, [logout, onDismiss, verificationFlowData])
 
   return (
     <HoliKeyboardSaveView>
@@ -83,15 +102,20 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
             label={t('registration.emailVerification.activateAccount')}
             disabled={code.length !== CODE_MAX_COUNT}
             onPress={async () => {
+              if (!flow) return
+
               showLoader()
 
               try {
                 const {
                   ui: { messages },
-                } = await submitExistingVerificationFlow(verificationFlow?.id, code)
+                  state,
+                } = await submitVerificationFlow({ flow, code })
 
-                if (messages?.length) {
-                  messages.forEach(({ id }) => {
+                if (state === 'passed_challenge') {
+                  onSuccess()
+                } else if (state === 'sent_email') {
+                  messages?.forEach(({ id }) => {
                     switch (id) {
                       case 4070006:
                         displayError(new Error(id.toString()), 'Wrong verification code')
@@ -102,8 +126,6 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
                         break
                     }
                   })
-                } else {
-                  onSuccess()
                 }
               } catch (err) {
                 // TODO: error handling
