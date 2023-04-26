@@ -64,7 +64,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     []
   )
 
-  const goToNextStep = useCallback(() => {
+  const goToNextStep = useCallback(async () => {
     switch (currentStep) {
       case RegistrationStep.PRE_REGISTRATION_LOGIN:
         goNext()
@@ -76,7 +76,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         privacyPolicy && goNext()
         break
       case RegistrationStep.CREATE_ACCOUNT:
-        onOnboardingStateChange('accountSetup')
+        await onOnboardingStateChange('accountSetup')
         goNext()
         break
       default:

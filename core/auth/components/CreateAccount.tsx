@@ -74,11 +74,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
         console.info('[Registration.tsx] registration was successful.')
 
+        // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
+        await onRegister()
+        // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-        onRegister()
 
         redirect()
       } catch (err) {
