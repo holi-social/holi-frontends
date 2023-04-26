@@ -408,36 +408,45 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
           }
         >
           <View>
-            <Text
-              role="heading"
-              selectable={true}
+            <View
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Medium",
-                    "fontWeight": "500",
-                  },
-                  {
-                    "fontSize": 21,
-                    "lineHeight": 25.2,
-                  },
-                  [
-                    {
-                      "fontWeight": "400",
-                    },
-                    false,
-                  ],
-                ]
+                {
+                  "borderBottomColor": "#ebebeb",
+                  "borderBottomWidth": 1,
+                }
               }
             >
-              test
-            </Text>
+              <Text
+                role="heading"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "Circular Std Medium",
+                      "fontWeight": "500",
+                    },
+                    {
+                      "fontSize": 21,
+                      "lineHeight": 25.2,
+                    },
+                    [
+                      {
+                        "fontWeight": "400",
+                      },
+                      false,
+                    ],
+                  ]
+                }
+              >
+                test
+              </Text>
+            </View>
             <View
               style={
                 {
                   "marginTop": 16,
-                  "paddingBottom": 24,
+                  "paddingBottom": 28,
                 }
               }
             >
@@ -1580,36 +1589,45 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
           }
         >
           <View>
-            <Text
-              role="heading"
-              selectable={true}
+            <View
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Medium",
-                    "fontWeight": "500",
-                  },
-                  {
-                    "fontSize": 21,
-                    "lineHeight": 25.2,
-                  },
-                  [
-                    {
-                      "fontWeight": "400",
-                    },
-                    false,
-                  ],
-                ]
+                {
+                  "borderBottomColor": "#ebebeb",
+                  "borderBottomWidth": 1,
+                }
               }
             >
-              test label
-            </Text>
+              <Text
+                role="heading"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "Circular Std Medium",
+                      "fontWeight": "500",
+                    },
+                    {
+                      "fontSize": 21,
+                      "lineHeight": 25.2,
+                    },
+                    [
+                      {
+                        "fontWeight": "400",
+                      },
+                      false,
+                    ],
+                  ]
+                }
+              >
+                test label
+              </Text>
+            </View>
             <View
               style={
                 {
                   "marginTop": 16,
-                  "paddingBottom": 24,
+                  "paddingBottom": 28,
                 }
               }
             >
@@ -2510,43 +2528,49 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
           }
         >
           <View>
-            <Text
-              role="heading"
-              selectable={true}
-              style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Medium",
-                    "fontWeight": "500",
-                  },
-                  {
-                    "fontSize": 21,
-                    "lineHeight": 25.2,
-                  },
-                  [
-                    {
-                      "fontWeight": "400",
-                    },
-                    {
-                      "borderBottomColor": "#ebebeb",
-                      "borderBottomWidth": 1,
-                      "marginBottom": 8,
-                      "marginTop": 16,
-                      "paddingBottom": 24,
-                      "width": "100%",
-                    },
-                  ],
-                ]
-              }
-            >
-              test label
-            </Text>
             <View
               style={
                 {
-                  "marginTop": 8,
-                  "paddingBottom": 24,
+                  "borderBottomColor": "#ebebeb",
+                  "borderBottomWidth": 1,
+                }
+              }
+            >
+              <Text
+                role="heading"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "Circular Std Medium",
+                      "fontWeight": "500",
+                    },
+                    {
+                      "fontSize": 21,
+                      "lineHeight": 25.2,
+                    },
+                    [
+                      {
+                        "fontWeight": "400",
+                      },
+                      {
+                        "marginTop": 16,
+                        "paddingBottom": 24,
+                        "width": "100%",
+                      },
+                    ],
+                  ]
+                }
+              >
+                test label
+              </Text>
+            </View>
+            <View
+              style={
+                {
+                  "marginTop": 12,
+                  "paddingBottom": 28,
                 }
               }
             >
