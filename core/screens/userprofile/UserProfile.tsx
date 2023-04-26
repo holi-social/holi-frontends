@@ -125,14 +125,13 @@ const UserProfile = () => {
     if (userId && !loading && !user) {
       fetchUser()
     }
-  }, [fetchUser, userId, loading, user])
-
-  if (error) {
-    if (isNotFoundError(error)) {
-      return <NotFound />
-    } else {
+    if (error && !isNotFoundError(error)) {
       displayError(error)
     }
+  }, [fetchUser, userId, loading, user, error, displayError])
+
+  if (error && isNotFoundError(error)) {
+    return <NotFound />
   }
 
   if (!userId || loading) {
