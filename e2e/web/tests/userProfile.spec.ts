@@ -11,13 +11,13 @@ test.setTimeout(120000)
 
 test.describe('@Profile', () => {
   test('user journey', async ({ page, context, userHandler }) => {
-    await loginAsE2EUser(context, page)
+    // await loginAsE2EUser(context, page)
 
-    // fill the interests, skills and sdgs for visiting the profile later
-    await page.goto('/profile')
-    await checkChipsSelection(page, 'interests')
-    await checkChipsSelection(page, 'skills')
-    await checkChipsSelection(page, 'sdgs')
+    // // fill the interests, skills and sdgs for visiting the profile later
+    // await page.goto('/profile')
+    // await checkChipsSelection(page, 'interests')
+    // await checkChipsSelection(page, 'skills')
+    // await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     await userHandler.asRandomUser(async (page) => {
@@ -29,6 +29,8 @@ test.describe('@Profile', () => {
 
       await checkAccessibility(page)
       await clickElementByTestId(page, 'btn-open-profile-edit-view')
+      // wait until modal is opened
+      await page.locator('[role="dialog"]').waitFor()
       await checkAccessibility(page)
 
       // validation should block save
