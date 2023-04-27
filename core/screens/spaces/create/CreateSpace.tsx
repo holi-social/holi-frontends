@@ -7,10 +7,10 @@ import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
-import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
-import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
+import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
+import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
 import {
   CreateSpaceResponse,
   ValidateSpaceResponse,

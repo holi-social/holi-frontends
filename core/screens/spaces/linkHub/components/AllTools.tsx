@@ -5,7 +5,7 @@ import { Linking, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
+import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'

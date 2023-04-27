@@ -2,24 +2,24 @@ import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
+import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
-type EditSpaceCoverImageProps = {
+type EditSpaceAvatarProps = {
   space: Space
   onDismiss: () => void
 }
 
-const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
-  const [coverImage, setCoverImage] = useState<ImageInfo | undefined>()
+const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
+  const [avatar, setAvatar] = useState<ImageInfo | undefined>()
   const { openToast } = useToast()
 
   const handleImageUpload = (image: ImageInfo | undefined) => {
-    setCoverImage(image)
+    setAvatar(image)
   }
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
@@ -32,18 +32,13 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
 
   const { t } = useTranslation()
 
-  const onSave = () => coverImage && updateSpace({ variables: { input: { id: space.id, cover: coverImage.blob } } })
+  const onSave = () => avatar && updateSpace({ variables: { input: { id: space.id, avatar: avatar.blob } } })
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
-      <SpaceImageForm
-        title={t('spaces.edit.mainImage')}
-        description={t('spaces.input.coverImage.remove.description')}
-        onUploadImage={handleImageUpload}
-        image={coverImage}
-      />
+      <SpaceImageForm title={t('spaces.edit.avatar')} onUploadImage={handleImageUpload} image={avatar} />
     </EditSpaceModal>
   )
 }
 
-export default EditSpaceCoverImage
+export default EditSpaceAvatar

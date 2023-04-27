@@ -2,24 +2,24 @@ import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import EditSpaceModal from '@holi/core/screens/spaces/components/EditSpaceModal'
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
+import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
-type EditSpaceAvatarProps = {
+type EditSpaceCoverImageProps = {
   space: Space
   onDismiss: () => void
 }
 
-const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
-  const [avatar, setAvatar] = useState<ImageInfo | undefined>()
+const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
+  const [coverImage, setCoverImage] = useState<ImageInfo | undefined>()
   const { openToast } = useToast()
 
   const handleImageUpload = (image: ImageInfo | undefined) => {
-    setAvatar(image)
+    setCoverImage(image)
   }
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
@@ -32,13 +32,18 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   const { t } = useTranslation()
 
-  const onSave = () => avatar && updateSpace({ variables: { input: { id: space.id, avatar: avatar.blob } } })
+  const onSave = () => coverImage && updateSpace({ variables: { input: { id: space.id, cover: coverImage.blob } } })
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
-      <SpaceImageForm title={t('spaces.edit.avatar')} onUploadImage={handleImageUpload} image={avatar} />
+      <SpaceImageForm
+        title={t('spaces.edit.mainImage')}
+        description={t('spaces.input.coverImage.remove.description')}
+        onUploadImage={handleImageUpload}
+        image={coverImage}
+      />
     </EditSpaceModal>
   )
 }
 
-export default EditSpaceAvatar
+export default EditSpaceCoverImage
