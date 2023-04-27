@@ -113,38 +113,41 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         renderedSteps.set(idx, currentStep === idx)
       })
 
-      return renderedSteps.get(stepIdx) ? step : null
+      return stepIdx === currentStep || (scrollEnabled && renderedSteps.get(stepIdx)) ? step : null
     }
 
     const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
 
+    // Somehow the outer view is necessary for accessibility, otherwise the rule "scrollable-region-focusable" is not fulfilled
     return (
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        ref={carouselRef}
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContainer}
-        showsHorizontalScrollIndicator={false}
-        dataSet={{ stepperWrapper: true }}
-        scrollEnabled={scrollEnabled} // Necessary to be `true` on Safari for scroll animations
-        testID="stepper-scrollview"
-        bounces={false}
-        scrollEventThrottle={16}
-        horizontal
-        pagingEnabled
-        {...scrollViewProps}
-      >
-        {steps.map((step, idx) => (
-          <View
-            key={idx}
-            style={StyleSheet.flatten([styles.tabWrapper, backgroundColorStyle, { width: width }])}
-            testID="stepper-step"
-            dataSet={{ stepperStep: true }}
-          >
-            {renderStep(step, idx)}
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.scrollView}>
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          ref={carouselRef}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContainer}
+          showsHorizontalScrollIndicator={false}
+          dataSet={{ stepperWrapper: true }}
+          scrollEnabled={scrollEnabled} // Necessary to be `true` on Safari for scroll animations
+          testID="stepper-scrollview"
+          bounces={false}
+          scrollEventThrottle={16}
+          horizontal
+          pagingEnabled
+          {...scrollViewProps}
+        >
+          {steps.map((step, idx) => (
+            <View
+              key={idx}
+              style={StyleSheet.flatten([styles.tabWrapper, backgroundColorStyle, { width: width }])}
+              testID="stepper-step"
+              dataSet={{ stepperStep: true }}
+            >
+              {renderStep(step, idx)}
+            </View>
+          ))}
+        </ScrollView>
+      </View>
     )
   }
 )
