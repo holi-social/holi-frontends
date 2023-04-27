@@ -4,14 +4,15 @@ import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type HoliTextSize = (typeof HoliTextSizes)[number]
 export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
+export type HoliTextSize = (typeof HoliTextSizes)[number]
+export type HoliTextColor = 'black300' | 'gray200' | 'gray300' | 'white100'
 
 // TODO: remove the style prop from the interface as it break design and
 // introduce bugs.
 export interface HoliTextProps extends TextProps {
   align?: TextStyle['textAlign']
-  color?: 'black300' | 'gray200' | 'gray300' | 'white100'
+  color?: HoliTextColor
   bold?: boolean
   size?: HoliTextSize
   selectable?: boolean

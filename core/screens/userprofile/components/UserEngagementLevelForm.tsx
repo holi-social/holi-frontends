@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -64,9 +64,11 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
     )
   }
 
-  if (error) {
-    displayError(error)
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error)
+    }
+  }, [error, displayError])
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>

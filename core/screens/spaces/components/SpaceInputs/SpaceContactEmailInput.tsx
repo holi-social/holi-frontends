@@ -3,17 +3,17 @@ import { useTranslation } from 'react-i18next'
 
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
-export type SpaceContactMailInputProps = {
+export type SpaceContactEmailInputProps = {
   onChange: (mail: string) => void
   value: string
   errorMessage?: string
 }
 
-const SpaceContactMailInput: React.VFC<SpaceContactMailInputProps> = ({
+const SpaceContactEmailInput: React.VFC<SpaceContactEmailInputProps> = ({
   onChange,
   value,
   errorMessage,
-}: SpaceContactMailInputProps) => {
+}: SpaceContactEmailInputProps) => {
   const { t } = useTranslation()
 
   return (
@@ -30,4 +30,4 @@ const SpaceContactMailInput: React.VFC<SpaceContactMailInputProps> = ({
   )
 }
 
-export default SpaceContactMailInput
+export default SpaceContactEmailInput

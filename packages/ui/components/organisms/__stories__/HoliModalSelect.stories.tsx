@@ -46,6 +46,7 @@ Example.argTypes = {
     control: { type: 'select' },
     description: 'normal or dense',
   },
+  showOptionIcon: { description: 'Display selected option icon along with the name', required: false },
 }
 
 Example.args = {
@@ -55,4 +56,5 @@ Example.args = {
   isRequired: false,
   options: defaultOptions,
   variant: 'normal',
+  showOptionIcon: true,
 }

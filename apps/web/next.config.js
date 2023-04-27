@@ -49,12 +49,15 @@ module.exports = withSentryConfig(
     [
       withTranspileModules(
         [
+          'react-native',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
           'react-native-webview',
           'react-native-render-html',
           'react-native-animated-pagination-dot',
+          'expo-modules-core',
+          'expo-constants',
           'expo-status-bar',
           '@jsamr/react-native-li',
           '@holi-apps/donations',

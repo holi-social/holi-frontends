@@ -74,6 +74,8 @@ export interface Space {
   sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
   posts?: Paged<Post>
+  hasPublicPosts?: boolean
+  hasPrivatePosts?: boolean
 }
 
 export enum SpaceSectionType {
@@ -142,4 +144,11 @@ export enum VisibilityFilter {
   MEMBERS = 'MEMBERS',
   PUBLIC = 'PUBLIC',
   ALL = 'ALL',
+}
+
+export interface Post {
+  id: string
+  title: string
+  text: string
+  created: Partial<User>
 }

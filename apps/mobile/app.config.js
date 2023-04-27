@@ -8,7 +8,7 @@ const versions = {
 
 export default {
   expo: {
-    name: 'Project HOLI',
+    name: 'holi',
     slug: 'projectholi',
     owner: 'holistic-foundation',
     version: versions.version,
@@ -42,7 +42,7 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#F5F5F5',
       },
-      package: 'foundation.holistic.projectholi',
+      package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
     },
     plugins: [
@@ -61,7 +61,8 @@ export default {
           config: {
             organization: 'holistic-foundation',
             project: 'holi-app-mobile',
-            authToken: '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
+            authToken:
+              process.env.SENTRY_AUTH_TOKEN || '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
           },
         },
       ],

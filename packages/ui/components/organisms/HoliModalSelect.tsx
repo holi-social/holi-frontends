@@ -26,11 +26,13 @@ export type HoliModalSelectProps = {
   onChange: (option: HoliModalSelectOption) => void
   title: string
   label: string
+  description?: string
   placeholder?: string
   style?: StyleProp<ViewStyle>
   testID?: string
   isRequired?: boolean
   variant?: HoliModalSelectVariant
+  showOptionIcon?: boolean
 }
 
 const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
@@ -38,11 +40,13 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   onChange = () => null,
   title,
   label,
+  description,
   placeholder,
   style,
   testID = 'holi-modal-select',
   isRequired,
   variant = 'normal',
+  showOptionIcon = false,
 }: HoliModalSelectProps) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption | undefined>()
   const [hovered, setHovered] = useState(false)
@@ -50,7 +54,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense)
+  const styles = getStyles(isDense, description)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -111,7 +115,10 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           {...hoverPropsForWeb}
         >
           {selectedOption ? (
-            <HoliText>{selectedOption.title}</HoliText>
+            <View style={styles.selectedOptionContainer}>
+              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={24} />}
+              <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
+            </View>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
@@ -129,10 +136,12 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         testID={testID}
       >
         <ScrollView style={mixins.container}>
-          <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
-            {label}
-          </HoliHeading>
-
+          <View style={styles.separator}>
+            <HoliHeading level="2" style={[styles.heading, isDense && styles.headingDense]}>
+              {label}
+            </HoliHeading>
+            {!!description && <HoliText style={styles.description}>{description}</HoliText>}
+          </View>
           <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
         </ScrollView>
       </HoliModal>
@@ -142,7 +151,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
 
 export default HoliModalSelect
 
-const getStyles = (isDense: boolean) =>
+const getStyles = (isDense: boolean, description: boolean) =>
   StyleSheet.create({
     labelWrapper: {
       marginBottom: 6,
@@ -177,14 +186,11 @@ const getStyles = (isDense: boolean) =>
     headingDense: {
       width: '100%',
       marginTop: 16,
-      paddingBottom: 24,
-      marginBottom: 8,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.background30,
+      paddingBottom: description ? 12 : 24,
     },
     optionsContainer: {
-      marginTop: isDense ? 8 : 16,
-      paddingBottom: 24,
+      marginTop: isDense ? 12 : 16,
+      paddingBottom: 28,
     },
     optionCard: {
       marginTop: 16,
@@ -209,5 +215,20 @@ const getStyles = (isDense: boolean) =>
     optionDescription: {
       marginTop: 4,
       color: colors.foreground20,
+    },
+    separator: {
+      borderBottomWidth: 1,
+      borderBottomColor: colors.background30,
+    },
+    description: {
+      color: colors.foreground20,
+      paddingBottom: 24,
+    },
+    selectedOptionContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    selectedOptionTitle: {
+      marginLeft: 12,
     },
   })

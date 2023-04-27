@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client'
 import React, { createContext, useContext } from 'react'
 
-import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useLogout } from '@holi/core/helpers'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
 interface UserContext {
-  user: User | undefined
+  user: User | null | undefined
   isLoggedIn: boolean
   isLoading: boolean
 }
@@ -32,24 +33,26 @@ export const useLoggedInUser = () => {
 const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { userId } = useAuth()
   const { displayError } = useErrorHandling()
+  const { logout } = useLogout()
 
-  const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
+  const { loading, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
     fetchPolicy: 'network-only',
+    onError: (error) => {
+      logout()
+      displayError(error)
+    },
   })
 
-  if (error) {
-    setUserLoggedOut()
-    displayError(error)
-  }
-
-  const user = data?.authenticatedUser
+  // before `authenticatedUserQuery` has been resolved `currentUser` is `undefined`
+  // after resolving query `currentUser` becomes either `User` object or `null` if no user is logged-in
+  const currentUser: User | null | undefined = data ? data.authenticatedUser || null : undefined
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        isLoggedIn: !!user,
+        user: currentUser,
+        isLoggedIn: !!currentUser,
         isLoading: loading,
       }}
     >

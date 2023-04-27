@@ -42,6 +42,7 @@ export interface TaskInputFormProps {
   geolocation?: Geolocation
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
+  currentThumbnail?: string
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeVisibility: (_: HoliModalSelectOption) => void
@@ -67,6 +68,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   regularity,
   contactEmail,
   thumbnail,
+  currentThumbnail,
   contactPhone,
   skills,
   selectedLocation,
@@ -168,6 +170,12 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         {thumbnail?.uri ? (
           <HoliImage
             source={{ uri: thumbnail?.uri ?? '' }}
+            label={t('spaces.input.task.thumbnail.label')}
+            style={styles.thumbnail}
+          />
+        ) : currentThumbnail ? (
+          <HoliImage
+            source={{ uri: currentThumbnail }}
             label={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
@@ -295,6 +303,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           title={t('spaces.input.task.locationType.label')}
           label={t('spaces.input.task.locationType.label')}
           placeholder={t('spaces.input.task.locationType.placeholder')}
+          description={t('spaces.input.task.locationType.placeholder')}
           style={styles.marginSeparator}
           onChange={onChangeLocationType}
           isRequired
@@ -313,7 +322,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             onChange={onChangeSelectedLocation}
             onSubmit={onChangeSelectedLocation}
             style={[styles.marginSeparator, { zIndex: 1 }]}
-            inputProps={{ autoFocus: true }}
+            inputProps={{ autoFocus: !isEdit }}
             helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
             withCoordinates
           />
@@ -327,6 +336,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           title={t('spaces.input.task.regularity.label')}
           label={t('spaces.input.task.regularity.label')}
           placeholder={t('spaces.input.task.regularity.placeholder')}
+          description={t('spaces.input.task.regularity.placeholder')}
           style={styles.marginSeparator}
           onChange={onChangeRegularity}
           isRequired
@@ -362,12 +372,10 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           maxNoOfCharacters={100}
         />
       </View>
-      {!isEdit && (
-        <View style={styles.sectionWrapper}>
-          <HoliText size="large">{t('spaces.input.task.section.thumbnail')}</HoliText>
-          <ThumbnailUploader />
-        </View>
-      )}
+      <View style={styles.sectionWrapper}>
+        <HoliText size="large">{t('spaces.input.task.section.thumbnail')}</HoliText>
+        <ThumbnailUploader />
+      </View>
 
       <HoliModal
         show={skillsFormVisibile}

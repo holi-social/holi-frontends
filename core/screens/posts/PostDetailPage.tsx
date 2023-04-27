@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { SpacesScreens } from 'apps/mobile/navigation/SpacesNavigator'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,6 +25,7 @@ import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
@@ -35,17 +37,19 @@ export type PostDetailPageParams = {
   postId: string
   commentId?: string
   insightId?: string
+  spaceIdOrName?: string
 }
 
 const { useParam } = createParam<PostDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens | SpacesScreens>
 
 const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   // `commentId` can be an UUID of a comment of hardcodded 'first' string value
   const [commentId] = useParam('commentId')
@@ -110,13 +114,19 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const comments = post.comments || []
 
+  const hasVisibilityIcon = spaceIdOrName !== ''
+
+  const getPostCommentUrl = () => {
+    return `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
+  }
+
   return (
     <>
       <StatusBar animated />
 
       <DefaultScrollHeaderLayout ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
-          <PostContent post={post} style={styles.postContent} />
+          <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
 
           {/* Post comments */}
           {comments.length > 0 && (
@@ -146,11 +156,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         <View style={styles.postCommentWrapper}>
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() =>
-              isLoggedIn
-                ? navigate(`${insightId && `/insights/${insightId}`}/posts/${post.id}/comment`)
-                : openLoginModal()
-            }
+            onPress={() => (isLoggedIn ? navigate(getPostCommentUrl()) : openLoginModal())}
           />
         </View>
       </SafeAreaView>
