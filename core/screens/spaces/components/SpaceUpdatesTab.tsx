@@ -53,11 +53,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  // FIXME: gap not supported in current react-native version for mobile
-  //  using different stylings for platforms and param for checking if item is last in row
-  //  remove workaround when updated to RN 0.71.0
-  const setButtonStyles = (isSelected: boolean, isLast: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isLast ? {} : styles.buttonGap, isSelected ? styles.buttonSelected : {}])
+  const setButtonStyles = (isSelected: boolean) =>
+    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
     <>
@@ -173,12 +170,10 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     paddingVertical: 12,
+    gap: 8,
   },
   wrapper: {
     paddingTop: 12,
-  },
-  buttonGap: {
-    marginRight: 8,
   },
   buttonSpacing: {
     paddingHorizontal: 6,
