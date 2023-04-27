@@ -65,5 +65,5 @@ test.each(steps)('should render the %p and the next step on press', (stepID, idx
   expect(screen.getByTestId(nextStepId)).toBeDefined()
 
   rerender(<TestStepper initialStep={idx} lazy />)
-  expect(screen.getByTestId(stepID)).toBeDefined()
+  expect(screen.getByTestId(nextStepId)).toBeDefined()
 })

@@ -61,8 +61,7 @@ test.describe('@Profile', () => {
       await page.waitForSelector(byTestId('user-profile-sdgs'))
       await page.waitForSelector(byTestId('user-profile-skills'))
 
-      // TODO(SF) uncommented for now as a11y violations in onboarding stepper are reported!
-      // await checkAccessibility(page)
+      await checkAccessibility(page)
     })
   })
 })
