@@ -287,7 +287,7 @@ mobile_production_build_ios:
   only:
     - production
 
-.mobile_production_submit_android:
+mobile_production_submit_android:
   needs: ['mobile_production_build_android']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
@@ -297,9 +297,10 @@ mobile_production_build_ios:
     - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
+  when: manual
   interruptible: false
 
-.mobile_production_submit_ios:
+mobile_production_submit_ios:
   needs: ['mobile_production_build_ios']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
@@ -309,4 +310,5 @@ mobile_production_build_ios:
     - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
+  when: manual
   interruptible: false
