@@ -107,7 +107,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
             {title}
           </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View style={[styles.buttonContainer, isSmallDevice && styles.buttonContainerSmall]}>
+          <View style={styles.buttonContainer}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -180,25 +180,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       marginTop: 24,
       gap: 14,
     },
-    buttonContainerSmall: {
-      // FIXME: gap not supported in current react-native version for mobile
-      //  using negative margin on parent and margin on children for mobile
-      //  and different styling for small devices
-      //  remove workaround when updated to RN 0.71.0
-      margin: -7,
-      ...Platform.select({
-        web: {
-          margin: 0,
-        },
-      }),
-    },
     button: {
-      margin: 7,
-      ...Platform.select({
-        web: {
-          margin: 0,
-        },
-      }),
       flex: 1,
       minWidth: 120,
       paddingHorizontal: 14,
