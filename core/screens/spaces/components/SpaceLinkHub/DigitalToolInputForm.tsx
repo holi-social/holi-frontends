@@ -7,7 +7,6 @@ import { CollaborationType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -93,25 +92,19 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
             <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
           </View>
         )}
-        <HoliImagePicker
-          maxFileSizeInMB={8}
-          buttonProps={{
-            label: t('spaces.input.digitalTool.upload.button.label'),
-            transparent: true,
-            inline: true,
-          }}
-          onPickImage={onChangeThumbnail}
-        >
-          <View style={styles.uploadButtonContainer}>
-            <HoliButton
-              label={t('spaces.input.digitalTool.upload.button.label')}
-              testID="space-upload-image-btn"
-              style={styles.imageUploadButton}
-            >
-              <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
-            </HoliButton>
-          </View>
-        </HoliImagePicker>
+        <View style={styles.uploadButtonContainer}>
+          <HoliImagePicker
+            maxFileSizeInMB={8}
+            buttonProps={{
+              label: t('spaces.input.digitalTool.upload.button.label'),
+              style: styles.imageUploadButton,
+              testID: 'space-upload-image-btn',
+            }}
+            onPickImage={onChangeThumbnail}
+          >
+            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
+          </HoliImagePicker>
+        </View>
         <Instructions />
       </View>
     )

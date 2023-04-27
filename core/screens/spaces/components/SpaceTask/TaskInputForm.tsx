@@ -184,25 +184,19 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
           </View>
         )}
-        <HoliImagePicker
-          maxFileSizeInMB={8}
-          buttonProps={{
-            label: t('spaces.input.task.upload.button.label'),
-            transparent: true,
-            inline: true,
-          }}
-          onPickImage={onChangeThumbnail}
-        >
-          <View style={styles.uploadButtonContainer}>
-            <HoliButton
-              label={t('spaces.input.task.upload.button.label')}
-              testID="space-upload-image-btn"
-              style={styles.imageUploadButton}
-            >
-              <HoliText>{t('spaces.input.task.upload.button.label')}</HoliText>
-            </HoliButton>
-          </View>
-        </HoliImagePicker>
+        <View style={styles.uploadButtonContainer}>
+          <HoliImagePicker
+            maxFileSizeInMB={8}
+            buttonProps={{
+              label: t('spaces.input.task.upload.button.label'),
+              testID: 'space-upload-image-btn',
+              style: styles.imageUploadButton,
+            }}
+            onPickImage={onChangeThumbnail}
+          >
+            <HoliText>{t('spaces.input.task.upload.button.label')}</HoliText>
+          </HoliImagePicker>
+        </View>
         <Instructions />
       </View>
     )

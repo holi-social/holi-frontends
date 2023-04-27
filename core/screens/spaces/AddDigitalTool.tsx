@@ -21,6 +21,7 @@ import {
 } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -186,7 +187,9 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >
-          <HoliText size="large">{t('spaces.digitalTool.add.title')}</HoliText>
+          <HoliHeading level="1" size="medium">
+            {t('spaces.digitalTool.add.title')}
+          </HoliHeading>
           <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
           <DigitalToolInputForm
             onChangeUrl={onChangeUrl}

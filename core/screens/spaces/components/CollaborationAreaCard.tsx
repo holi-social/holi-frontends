@@ -45,17 +45,19 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
             <HoliText>{title}</HoliText>
           </View>
         </HoliButton>
-        <View>
-          <HoliButton
-            transparent
-            style={styles.headerRightButton}
-            label={headerRightButtonLabel || ''}
-            onPress={onPressHeaderRight}
-            testID={`btn-right-${testID}`}
-          >
-            {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
-          </HoliButton>
-        </View>
+        {headerRightButtonLabel && (
+          <View>
+            <HoliButton
+              transparent
+              style={styles.headerRightButton}
+              label={headerRightButtonLabel}
+              onPress={onPressHeaderRight}
+              testID={`btn-right-${testID}`}
+            >
+              {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
+            </HoliButton>
+          </View>
+        )}
       </View>
     )
   }

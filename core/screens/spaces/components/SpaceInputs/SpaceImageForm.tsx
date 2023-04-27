@@ -57,25 +57,19 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             </View>
           </>
         )) || (
-          <HoliImagePicker
-            maxFileSizeInMB={8}
-            buttonProps={{
-              label: t('spaces.input.coverImage.upload.button.label'),
-              transparent: true,
-              inline: true,
-            }}
-            onPickImage={onUploadImage}
-          >
-            <View style={styles.uploadButtonContainer}>
-              <HoliButton
-                label={t('spaces.input.coverImage.upload.button.label')}
-                testID="space-upload-image-btn"
-                style={styles.imageUploadButton}
-              >
-                <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
-              </HoliButton>
-            </View>
-          </HoliImagePicker>
+          <View style={styles.uploadButtonContainer}>
+            <HoliImagePicker
+              maxFileSizeInMB={8}
+              buttonProps={{
+                label: t('spaces.input.coverImage.upload.button.label'),
+                testID: 'space-upload-image-btn',
+                style: styles.imageUploadButton,
+              }}
+              onPickImage={onUploadImage}
+            >
+              <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
+            </HoliImagePicker>
+          </View>
         )}
         <Instructions />
       </View>

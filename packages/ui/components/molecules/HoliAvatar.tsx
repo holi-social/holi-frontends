@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { AccessibilityProps, Image, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { transformSourcesURL } from '@holi/ui/components/utils/image'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
@@ -12,6 +12,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type AvatarProps = {
   imageSrc: string | undefined
   label: string
+  accessibilityLabel?: string
   defaultColor: string
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
@@ -27,16 +28,25 @@ export const sizes = {
   extralarge: 128,
 }
 
-const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, style, ...props }: AvatarProps) => {
+const HoliAvatar = ({
+  size = 'medium',
+  defaultColor,
+  imageSrc,
+  initials,
+  label,
+  accessibilityLabel,
+  style,
+  ...props
+}: AvatarProps) => {
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
   const imageUri: ImageSourcePropType = { uri: imageSrc, width }
   const sizeClass = size || 'medium'
 
-  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
+  const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    accessibilityLabel: label,
+    accessibilityLabel: label || accessibilityLabel,
     accessibilityRole: 'image',
   }
 
@@ -51,9 +61,9 @@ const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, 
       ]}
     >
       {hasImage ? (
-        <Image source={transformSourcesURL(imageUri)} style={styles.image} {...accessibilityProps} />
+        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="contain" />
       ) : (
-        <HoliText style={styles.inititals} {...accessibilityProps}>
+        <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
         </HoliText>
       )}

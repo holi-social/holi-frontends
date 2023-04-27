@@ -39,7 +39,7 @@ exports[`React tree renders correctly 1`] = `
   <Image
     accessibilityLabel="Space title"
     accessibilityRole="image"
-    accessible={false}
+    accessible={true}
     source={
       {
         "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-128",
@@ -47,11 +47,16 @@ exports[`React tree renders correctly 1`] = `
       }
     }
     style={
-      {
-        "height": "100%",
-        "resizeMode": "contain",
-        "width": "100%",
-      }
+      [
+        {
+          "height": "100%",
+          "resizeMode": "contain",
+          "width": "100%",
+        },
+        {
+          "resizeMode": "contain",
+        },
+      ]
     }
   />
 </View>
