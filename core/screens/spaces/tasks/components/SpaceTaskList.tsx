@@ -72,6 +72,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
       onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/tasks/create`) : undefined,
+      headerRightButtonLabel: isAdmin ? t('spaces.createTask.button') : undefined,
     }
 
     return (
@@ -137,6 +138,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
       onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/tasks/create`) : undefined,
+      headerRightButtonLabel: isAdmin ? t('spaces.createTask.button') : undefined,
     }
 
     return (

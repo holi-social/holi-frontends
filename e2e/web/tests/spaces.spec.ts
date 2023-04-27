@@ -455,6 +455,8 @@ const createSpace = async (
 ) => {
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
+  // wait until page is loaded
+  await page.waitForSelector(byTestId('holi-wizard-next-btn'))
 
   // Create space - name and goal
   await checkAccessibility(page)
