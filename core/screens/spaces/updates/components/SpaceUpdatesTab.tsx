@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
 })
 
 export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
-  () => import('@holi/core/screens/spaces/components/SpaceUpdatesTab')
+  () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
 )
 
 export default SpaceUpdatesTab
