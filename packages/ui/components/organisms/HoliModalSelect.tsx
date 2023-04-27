@@ -89,6 +89,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           checked={option.selected}
           autofocus={false}
           testID={`${option.selected ? 'checked-' : ''}${testID}`}
+          accessibilityLabel={option.title}
         />
       </HoliButton>
     ),
