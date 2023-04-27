@@ -107,20 +107,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    // FIXME: gap not supported in current react-native version for mobile
-    //  using negative margin on parent and margin on children for mobile
-    //  remove workaround when updated to RN 0.71.0
     gap: 8,
   },
   text: {
     color: colors.foreground20,
     lineHeight: 24,
     marginBottom: -2,
-    marginRight: 8,
-    ...Platform.select({
-      web: {
-        marginRight: 0,
-      },
-    }),
   },
 })
