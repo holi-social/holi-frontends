@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
+import { View } from 'react-native'
 
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 
@@ -15,7 +16,11 @@ export default {
 } as ComponentMeta<typeof HoliTabButton>
 
 const Template: ComponentStory<typeof HoliTabButton> = ({ ...args }) => {
-  return <HoliTabButton {...args} />
+  return (
+    <View accessibilityRole="tablist">
+      <HoliTabButton {...args} />
+    </View>
+  )
 }
 
 export const Primary: ComponentStory<typeof HoliTabButton> = Template.bind({})
