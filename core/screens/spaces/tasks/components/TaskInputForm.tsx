@@ -5,12 +5,12 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
+import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import {
   LOCATION_TYPE_OPTIONS,
   REGULARITY_OPTIONS,
   VISIBILITY_TYPE_OPTIONS,
-} from '@holi/core/screens/spaces/components/SpaceTask/consts'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+} from '@holi/core/screens/spaces/tasks/consts'
 import { Geolocation, LocationType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'

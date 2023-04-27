@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { task } from '@holi/core/screens/spaces/components/__tests__/testData'
+import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {

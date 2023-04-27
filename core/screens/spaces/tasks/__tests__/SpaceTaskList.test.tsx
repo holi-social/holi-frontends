@@ -1,8 +1,8 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
+import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 
 describe('SpaceTaskList', () => {
   it('renders correctly when there are tasks within space', () => {

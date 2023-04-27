@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import CreateTask from '@holi/core/screens/spaces/CreateTask'
+import CreateTask from '@holi/core/screens/spaces/tasks/CreateTask'
 
 const CreateTaskPage: NextPage = () => <CreateTask />
 

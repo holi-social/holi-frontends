@@ -5,9 +5,9 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
+import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, Task } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -71,7 +71,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const NoTasks = () => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/tasks/create`) : undefined,
     }
 
     return (
@@ -136,7 +136,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const TasksCard = ({ tasks }: TasksCardProps) => {
     const cardProps = {
       headerRightIcon: isAdmin ? 'add' : undefined,
-      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/createTask`) : undefined,
+      onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/tasks/create`) : undefined,
     }
 
     return (

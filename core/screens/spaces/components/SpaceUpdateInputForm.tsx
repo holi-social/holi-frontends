@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
-import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/components/SpaceTask/consts'
+import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'

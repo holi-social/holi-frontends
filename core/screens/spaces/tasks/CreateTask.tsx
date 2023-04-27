@@ -12,15 +12,15 @@ import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAuto
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import TaskInputForm from '@holi/core/screens/spaces/components/SpaceTask/TaskInputForm'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import {
+  CreateTaskResponse,
+  CreateTaskSchema,
   SpaceByIdResponse,
-  UpdateTaskResponse,
-  UpdateTaskSchema,
+  createTaskMutation,
   spaceByIdQuery,
-  updateTaskMutation,
 } from '@holi/core/screens/spaces/queries'
+import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
 import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -32,25 +32,23 @@ import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSe
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type EditTaskParams = {
+export type CreateTaskParams = {
   spaceIdOrName: string
-  taskId: string
 }
 
-const { useParam } = createParam<EditTaskParams>()
+const { useParam } = createParam<CreateTaskParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const DEFAULT_SLOTS_AVAILABLE = 1
 
-const EditTask: React.VFC<ScreenProps> = () => {
+const CreateTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
-  const [taskId] = useParam('taskId')
 
   // input fields
   const [name, setName] = useState('')
@@ -61,7 +59,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
-  const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>()
@@ -70,7 +67,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
@@ -84,21 +81,19 @@ const EditTask: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const task = (space?.tasks || []).find((t) => t.id === taskId)
 
   const { displayError } = useErrorHandling()
 
-  const [updateTask, { loading }] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
+  const [createTask, { loading }] = useMutation<CreateTaskResponse>(createTaskMutation, {
     onCompleted: () => navigateBack(),
     onError: (error) => displayError(error, error.message),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
   const onSave = () =>
-    updateTask({
+    createTask({
       variables: {
         input: {
-          taskId: task?.id,
           spaceId: space?.id,
           name,
           description,
@@ -133,16 +128,15 @@ const EditTask: React.VFC<ScreenProps> = () => {
   }, [selectedLocation, locationType])
 
   useEffect(() => {
-    const resultSchema = UpdateTaskSchema.safeParse({
-      taskId: task?.id,
+    const resultSchema = CreateTaskSchema.safeParse({
       spaceId: space?.id,
       visibility: visibility?.id,
       locationType: locationType?.id,
       regularity: regularity?.id,
-      name,
-      description,
-      contactEmail,
-      contactPhone,
+      ...(name ? { name } : {}),
+      ...(description ? { description } : {}),
+      ...(contactEmail ? { contactEmail } : {}),
+      ...(contactPhone ? { contactPhone } : {}),
     })
     setInputValid(resultSchema.success)
 
@@ -152,7 +146,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
       setFieldErrors({})
     }
   }, [
-    task?.id,
     space?.id,
     name,
     description,
@@ -168,41 +161,12 @@ const EditTask: React.VFC<ScreenProps> = () => {
     contactPhone,
   ])
 
-  useEffect(() => {
-    if (task) {
-      setName(task.name)
-      setDescription(task.description)
-      setVisibility({
-        id: task.visibility,
-        title: t(`spaces.input.task.visibility.${task.visibility}.title`),
-        description: t(`spaces.input.task.visibility.${task.visibility}.description`),
-      })
-      setLocationType({
-        id: task.locationType,
-        title: t(`spaces.input.task.locationType.${task.locationType}.title`),
-        description: t(`spaces.input.task.locationType.${task.locationType}.description`),
-      })
-      setRegularity({
-        id: task.regularity,
-        title: t(`spaces.input.task.regularity.${task.regularity}.title`),
-        description: t(`spaces.input.task.regularity.${task.regularity}.description`),
-      })
-      setContactEmail(task.contactEmail)
-      setSlotsAvailable(task.slotsAvailable)
-      setCurrentThumbnail(task.thumbnail)
-      setSkills(task.skills)
-      setLocation(task.location)
-      setGeolocation(task.geolocation)
-      setContactPhone(task.contactPhone)
-    }
-  }, [space, task, t])
-
   useLayoutEffect(() => {
     !loadingSpace &&
       isAdmin &&
       setOptions({
         animation: 'slide_from_bottom',
-        title: t('spaces.tasks.edit.title'),
+        title: t('spaces.tasks.add.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
@@ -219,7 +183,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   }, [name, description, visibility, locationType, regularity, contactEmail])
 
   if (errorSpace) {
-    logError(errorSpace, `[EditTask.tsx] ${errorSpace.message}`)
+    logError(errorSpace, `[CreateTask.tsx] ${errorSpace.message}`)
   }
 
   if (!loadingSpace && !isAdmin) {
@@ -283,7 +247,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
             geolocation={geolocation}
             selectedLocation={selectedLocation}
             contactPhone={contactPhone}
-            currentThumbnail={currentThumbnail}
             onChangeName={setName}
             onChangeDescription={setDescription}
             onChangeVisibility={setVisibility}
@@ -298,7 +261,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
             onChangeContactPhone={setContactPhone}
             onChangeSelectedLocation={setSelectedLocation}
             fieldErrors={fieldErrors}
-            isEdit
           />
         </View>
       </DefaultScrollHeaderLayout>
@@ -322,7 +284,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   )
 }
 
-export default EditTask
+export default CreateTask
 
 const styles = StyleSheet.create({
   defaultLayout: {
