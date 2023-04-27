@@ -114,6 +114,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
 
     const onAutocompleteClose = useCallback(
       (suggestion?: Suggestion) => {
+        // TODO(SF) await
         if (!onClose) {
           return
         }
@@ -127,6 +128,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
               })
             )
             .catch((error) => {
+              // TODO(SF) improve? display proper error message to the user?
               logError(error, `[PlacesAutocomplete.tsx]: Failed to fetch place details: ${error.message}`)
               return onClose(undefined)
             })

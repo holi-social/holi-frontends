@@ -26,6 +26,7 @@ export const geoPlaceDetailsQuery = gql`
       boundaries {
         coordinates
       }
+      name
     }
   }
 `

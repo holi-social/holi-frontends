@@ -1,14 +1,17 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { GeolocationMultiPolygon } from '@holi/core/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 /**
@@ -40,25 +43,42 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     [topics, userTopics]
   )
 
+  const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
+  // TODO(SF) combine in object
+  const [geolocation, setGeolocation] = useState<GeolocationMultiPolygon>()
+  const [locationName, setLocationName] = useState<string>()
+
+  useEffect(() => {
+    fetchPlaceDetails({ variables: { id: DEFAULT_LOCATION_ID } })
+      .then((response) => {
+        setGeolocation(response.data?.geo_placeDetails.boundaries?.coordinates)
+        setLocationName(response?.data?.geo_placeDetails.name)
+      })
+      .catch((error) => {
+        // TODO(SF) improve? display proper error message to the user?
+        logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details: ${error.message}`)
+      })
+  }, [fetchPlaceDetails])
+
   // user specific spaces suggestions
   const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: userTopics.map((t) => t.id),
         skillIds: userSkills.map((s) => s.id),
-        location: user?.location,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
 
+  // TODO(SF) delay until geolocation has been fetched?
   // default spaces suggestions
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
-        location:
-          (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
+        location: locationName, // TODO(SF) null if equal to user?.location_id
+        geolocation: geolocation,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',

@@ -1,9 +1,10 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { GeolocationMultiPolygon } from '@holi/core/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -15,20 +16,37 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilter = {
   topicSlug?: string
-  location?: string
+  locationId?: string
   skillSlugs?: string[]
 }
 
 type SpaceFilterModalProps = {
   filters?: SpaceFilter
+  initialLocationQuery?: string
+  initialGeolocation?: GeolocationMultiPolygon
   applyFilters: (filter: SpaceFilter) => void
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters }) => {
+const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
+  filters = {},
+  initialLocationQuery,
+  initialGeolocation,
+  applyFilters,
+}) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [topicSlug, setTopicSlug] = useState(filters.topicSlug)
-  const [location, setLocation] = useState(filters.location)
+
+  const [locationQuery, setLocationQuery] = useState(initialLocationQuery)
+  const initialSuggestion = useMemo(
+    () =>
+      initialLocationQuery && initialGeolocation
+        ? { label: initialLocationQuery, id: filters.locationId || '0', boundaries: initialGeolocation }
+        : undefined,
+    [filters.locationId, initialGeolocation, initialLocationQuery]
+  )
+
+  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(initialSuggestion)
   const [skillSlugs, setSkillSlugs] = useState(filters.skillSlugs)
 
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
@@ -39,14 +57,15 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   }, [setShowFilterModal])
   const openModal = useCallback(() => {
     setTopicSlug(filters.topicSlug)
-    setLocation(filters.location)
+    setLocationQuery(initialLocationQuery)
+    setLocation(initialSuggestion)
     setSkillSlugs(filters.skillSlugs)
     setShowFilterModal(true)
-  }, [setShowFilterModal, setTopicSlug, setLocation, setSkillSlugs, filters])
+  }, [filters.topicSlug, filters.skillSlugs, initialLocationQuery, initialSuggestion])
   const submit = useCallback(() => {
     applyFilters({
       topicSlug,
-      location,
+      locationId: location?.id,
       skillSlugs,
     })
     setShowFilterModal(false)
@@ -80,6 +99,22 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         return [...list]
       }),
     [setSkillSlugs]
+  )
+
+  const onLocationClose = useCallback(
+    (selectedSuggestion?: GeolocationSuggestion) => {
+      setLocation(selectedSuggestion)
+
+      // TODO(SF)
+      // if (!selectedSuggestion && locationQuery.length) {
+      //   setFieldErrors({ location: [t('profile.location.validation.error')] })
+      // } else {
+      //   resetErrorsForField('location')
+      // }
+    },
+    [
+      /*locationQuery, t, resetErrorsForField*/
+    ]
   )
 
   // Error state just hides the component
@@ -124,14 +159,18 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
-              value={location}
+              value={locationQuery}
               id="spaces-filter-location"
               testID="spaces-filter-location"
-              // TODO(SF) onClose is missing
-              onChangeText={setLocation}
+              selected={location}
+              onClose={onLocationClose}
+              onChangeText={setLocationQuery}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
               fetchBoundariesOnClose
+              // TODO(SF) add new translation
+              // TODO(SF) validationErrorText={fieldErrors?.location?.join()}
+              helperText={location ? undefined : t('profile.location.validation.helper')}
             />
             <HoliSelect
               options={topicOptions}

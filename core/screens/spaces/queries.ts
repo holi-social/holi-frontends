@@ -51,7 +51,6 @@ const SpaceFragment = gql`
       description
       title
       collectionType
-      thumbnail
     }
     members {
       ...FullSpaceMember
@@ -66,7 +65,6 @@ const SpaceFragment = gql`
       regularity
       visibility
       locationType
-      thumbnail
       contactEmail
       contactPhone
       creator {
@@ -278,7 +276,6 @@ export const addCollaborationToolMutation = gql`
       domain
       description
       collectionType
-      thumbnail
     }
   }
 `
@@ -310,7 +307,6 @@ export const updateCollaborationToolMutation = gql`
       title
       description
       collectionType
-      thumbnail
     }
   }
 `
@@ -402,7 +398,6 @@ export const createTaskMutation = gql`
       location
       contactEmail
       contactPhone
-      thumbnail
     }
   }
 `

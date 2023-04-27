@@ -84,8 +84,8 @@ const Spaces: React.VFC = () => {
       if (filters.topicSlug) {
         params.set('topic', filters.topicSlug)
       }
-      if (filters.location) {
-        params.set('location', filters.location)
+      if (filters.locationId) {
+        params.set('location', filters.locationId)
       }
       filters.skillSlugs?.forEach((skill) => {
         params.append('skill', skill)

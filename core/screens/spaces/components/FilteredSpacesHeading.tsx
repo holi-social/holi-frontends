@@ -5,7 +5,16 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 
-const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicSlug, location, skillSlugs = [] }) => {
+export interface FilteredSpacesHeadingProps extends SpaceFilter {
+  locationName?: string
+}
+
+const FilteredSpacesHeading: React.VFC<FilteredSpacesHeadingProps> = ({
+  topicSlug,
+  locationId,
+  skillSlugs = [],
+  locationName,
+}) => {
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
@@ -13,7 +22,7 @@ const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicSlug, location, sk
   const fallbackTitle = t('spaces.title.filtered')
   const topic = topics.find((topic) => topic.slug === topicSlug)
   const singleSkill = skillSlugs.length === 1 ? skills.find((skill) => skill.slug === skillSlugs[0]) : undefined
-  const titles = [location, topic?.title, singleSkill?.title].filter((title) => !!title)
+  const titles = [locationName || locationId, topic?.title, singleSkill?.title].filter((title) => !!title)
   // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
   const useFallbackTitle =
     loadingTopics || loadingSkills || failedTopics || failedSkills || skillSlugs.length > 1 || titles.length !== 1

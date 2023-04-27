@@ -141,11 +141,9 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.LOCATION: {
         setIsLoading(true)
 
-        // TODO(SF) adjust
-        if (location?.coordinates) {
-          const geolocation = location?.coordinates && {
-            latitude: location?.coordinates?.latitude,
-            longitude: location?.coordinates?.longitude,
+        if (location?.boundaries) {
+          const geolocation = location?.boundaries && {
+            boundaries: location?.boundaries,
           }
           const locationLabel = location?.label
 
@@ -257,7 +255,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             <LocationStep
               selected={location}
               value={locationQuery}
-              // TODO(SF) adjust
               onClose={onLocationClose}
               onChangeText={onLocationQueryChange}
               validationErrorText={locationValidationErrorText}

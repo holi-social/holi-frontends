@@ -15,4 +15,5 @@ export interface PlaceDetails {
   boundaries?: {
     coordinates: GeolocationMultiPolygon
   }
+  name: string
 }
