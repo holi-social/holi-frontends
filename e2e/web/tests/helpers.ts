@@ -187,7 +187,6 @@ export const checkAccessibility = async (page: Page) => {
   await configureAxe(page, {
     rules: [{ id: 'color-contrast', enabled: false }],
   })
-  // set skipFailures to true for now, so we can fix the issues in a planned task
   await checkA11y(page, undefined, axeOptions, false)
 }
 

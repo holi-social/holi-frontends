@@ -204,6 +204,8 @@ const filterForLocation = async (
 ) => {
   // open search modal
   await clickElementByTestId(page, 'donations-search-button')
+  // wait for modal to open
+  await page.locator('[role="dialog"]').waitFor()
 
   if (assertAccessibility) {
     await checkAccessibility(page)
@@ -223,7 +225,7 @@ const filterForLocation = async (
   }
 
   // close search modal
-  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+  await clickElementByTestId(page, 'donations-search-modal-content-close-btn')
 
   // wait for results
   await page.waitForSelector(byTestId('donations-list-container'))
@@ -255,7 +257,7 @@ const resetFilterInModal = async (page: Page) => {
   await clickElementByTestId(page, 'donations-search-form-reset')
 
   // close search modal
-  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+  await clickElementByTestId(page, 'donations-search-modal-content-close-btn')
 
   // wait for results
   await page.waitForSelector(byTestId('donations-list-container'))
