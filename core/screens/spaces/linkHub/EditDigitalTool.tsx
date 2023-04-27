@@ -13,7 +13,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DigitalToolInputForm, {
   COLLECTION_TYPES,
-} from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalToolInputForm'
+} from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
   SpaceByIdResponse,
   UpdateCollaborationToolResponse,

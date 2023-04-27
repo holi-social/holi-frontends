@@ -6,7 +6,7 @@ import { Linking, StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import DigitalTool from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalTool'
+import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -74,11 +74,11 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   }
 
   const navigateToEditToolPage = (toolIdOrName: string) => {
-    navigate(`/spaces/${spaceIdOrName}/tools/${toolIdOrName}/edit`)
+    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${toolIdOrName}/edit`)
   }
 
   const navigateToAddToolPage = () => {
-    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
+    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }
 
   const NoTools = () => {

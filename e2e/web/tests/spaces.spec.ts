@@ -395,7 +395,7 @@ const testAddEditDeleteTask = async (page: Page) => {
 const testAddEditDeleteDigitalTool = async (page: Page) => {
   // Test adding a tool from a space's Get Involved tab
   await clickElementByTestId(page, 'btn-right-space-tools-card') // Little + button
-  await addDigitalTool(page)
+  await createDigitalTool(page)
   const toolIcon = await locateElementByTestId(page, 'tool-icon')
   const toolName = await locateElementByTestId(page, 'tool-title')
   const toolContextBtn = await locateElementByTestId(page, 'digital-toolkit-btn')
@@ -408,7 +408,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   // Test adding a tool from the Linkhub
   await clickElementByTestId(page, 'btn-left-space-tools-card')
   await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
-  await addDigitalTool(page)
+  await createDigitalTool(page)
   await clickElementByTestId(page, 'nav-button-back')
   numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
   await expect.poll(numberOfTools).toBe(2)
@@ -473,7 +473,7 @@ const createSpace = async (
 }
 
 // Add a digital tool to a space (Linkhub)
-const addDigitalTool = async (
+const createDigitalTool = async (
   page: Page,
   url = 'https://www.holi.community',
   name = 'Team Chat',

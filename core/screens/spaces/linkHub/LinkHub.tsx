@@ -9,8 +9,8 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import AllTools from '@holi/core/screens/spaces/components/SpaceLinkHub/AllTools'
-import SuggestedTools from '@holi/core/screens/spaces/components/SpaceLinkHub/SuggestedTools'
+import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
+import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -46,7 +46,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
     [setOptions, t]
   )
   const onAddButtonPress = () => {
-    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
+    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }
 
   const AddButton = () => {

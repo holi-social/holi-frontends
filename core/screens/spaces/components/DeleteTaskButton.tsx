@@ -17,7 +17,7 @@ export interface DeleteTaskButtonProps {
   style?: StyleProp<ViewStyle>
 }
 
-export type AddDigitalToolParams = {
+export type CreateDigitalToolParams = {
   spaceIdOrName: string
 }
 

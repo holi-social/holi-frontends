@@ -6,7 +6,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/components/CollaborationAreaCard'
-import DigitalTool from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalTool'
+import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -32,7 +32,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   }
 
   const navigateToLinkHubPage = () => {
-    navigate(`/spaces/${space.name}/linkHub`)
+    navigate(`/spaces/${space.name}/linkhub`)
   }
 
   const navigateToEditToolPage = (toolIdOrName: string) => {
@@ -40,7 +40,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   }
 
   const navigateToAddToolPage = () => {
-    navigate(`/spaces/${spaceIdOrName}/addDigitalTool`)
+    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }
 
   const NoToolsAvailable = () => {

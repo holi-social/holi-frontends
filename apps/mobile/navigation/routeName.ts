@@ -14,7 +14,7 @@ export enum RouteName {
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',
-  AddDigitalTool = 'AddDigitalTool',
+  CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',

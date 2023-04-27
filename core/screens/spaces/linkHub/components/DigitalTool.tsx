@@ -141,7 +141,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
             )}
             <HoliButton
               onPress={() => {
-                navigate(`/spaces/${spaceId}/tools/${tool?.id}/edit`)
+                navigate(`/spaces/${spaceId}/linkhub/tools/${tool?.id}/edit`)
               }}
               inline
               label={t('global.edit')}

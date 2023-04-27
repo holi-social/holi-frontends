@@ -11,7 +11,7 @@ import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import DigitalToolInputForm from '@holi/core/screens/spaces/components/SpaceLinkHub/DigitalToolInputForm'
+import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
   AddCollaborationToolResponse,
   AddCollaborationToolSchema,
@@ -30,15 +30,15 @@ import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSe
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type AddDigitalToolParams = {
+export type CreateDigitalToolParams = {
   spaceIdOrName: string
 }
 
-const { useParam } = createParam<AddDigitalToolParams>()
+const { useParam } = createParam<CreateDigitalToolParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const AddDigitalTool: React.VFC<ScreenProps> = () => {
+const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
@@ -224,7 +224,7 @@ const AddDigitalTool: React.VFC<ScreenProps> = () => {
   )
 }
 
-export default AddDigitalTool
+export default CreateDigitalTool
 
 const styles = StyleSheet.create({
   defaultLayout: {
