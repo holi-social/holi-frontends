@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
+import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
