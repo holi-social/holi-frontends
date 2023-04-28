@@ -73,7 +73,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         show={visible}
         label={t('spaces.collaborators')}
         heading={t('spaces.collaborators')}
-        testID={'space-collaborators'}
+        testID={'space-collaborators-modal'}
         onDismiss={onDismiss}
         relativeHeight={1}
         autoHeight={false}
@@ -105,7 +105,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 >
                   <HoliAvatar
                     imageSrc={collaborator.avatar}
-                    label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
+                    label=""
+                    accessibilityLabel={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
                     initials={collaborator.avatarLabel}
                     defaultColor={collaborator.avatarDefaultColor}
                     size="small"
@@ -113,7 +114,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   />
                   <View style={styles.titleContainer}>
                     <HoliText ellipsizeMode="tail" numberOfLines={1}>
-                      {collaborator.fullName || 'Anonymous'}
+                      {collaborator.fullName || t('user.profileView.anonymous')}
                     </HoliText>
                   </View>
                   {isAdmin(collaborator) && (

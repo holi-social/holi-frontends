@@ -24,6 +24,7 @@ import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputF
 import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -166,7 +167,11 @@ const CreateTask: React.VFC<ScreenProps> = () => {
       isAdmin &&
       setOptions({
         animation: 'slide_from_bottom',
-        title: t('spaces.tasks.add.title'),
+        headerTitle: () => (
+          <HoliHeading level="1" size="small">
+            {t('spaces.tasks.add.title')}
+          </HoliHeading>
+        ),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,

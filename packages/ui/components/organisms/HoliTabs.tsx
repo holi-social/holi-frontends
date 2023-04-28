@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -68,6 +68,7 @@ const HoliTabs = ({
           nativeID={`${id}-panel-${i}`}
           testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
           key={i}
+          accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >
           {tab.children}
         </View>

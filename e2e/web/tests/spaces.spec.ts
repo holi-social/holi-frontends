@@ -47,6 +47,8 @@ const testDisplaysMultipleGroups = async (page: Page) => {
 
 const testFiltering = async (page: Page) => {
   await clickElementByTestId(page, 'btn-filter-spaces')
+  // wait until modal is opened
+  await page.locator('[role="dialog"]').waitFor()
 
   const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
   await locationInput.fill('nwqekjnk23jn4k23')
@@ -85,6 +87,8 @@ const testDisplaysSpaceDetails = async (page: Page) => {
   await page.waitForSelector(byTestId('space-description'))
 
   await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
+  // wait until modal is opened
+  await page.locator('[role="dialog"]').waitFor()
 
   // check if space collaborator is displayed
   await page.waitForSelector(byTestId('spaces-collaborators-item'))
@@ -112,7 +116,7 @@ const testShareSpace = async (page: Page) => {
   // copy link and close modal / options
   await clickElementByTestId(page, 'space-share-url-btn')
   await page.waitForSelector(byTestId('space-options-btn'))
-  await clickElementByTestId(page, 'btn-to-close-more-options-modal-modal')
+  await clickElementByTestId(page, 'btn-to-close-more-options-modal')
 }
 
 const saveAndWaitForModalClosed = async (page: Page) => {
@@ -271,7 +275,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await locateElementByTestId(page, 'btn-task-visibility-input')
 
   // make sure previous modal is closed
-  await page.waitForSelector(byTestId('btn-to-close-task-visibility-input-modal'), { state: 'hidden' })
+  await page.waitForSelector(byTestId('btn-to-close-task-visibility-input'), { state: 'hidden' })
 
   // add task title
   const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
@@ -298,7 +302,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await locateElementByTestId(page, 'btn-task-locationType')
 
   // make sure previous modal is closed
-  await page.waitForSelector(byTestId('btn-to-close-task-locationType-modal'), { state: 'hidden' })
+  await page.waitForSelector(byTestId('btn-to-close-task-locationType'), { state: 'hidden' })
 
   // select location
   const locationInput = await locateElementByTestId(page, 'task-location-input')
@@ -427,7 +431,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await expect(toolDetailModal).toBeVisible()
   await expect(editButton).toBeVisible()
   await expect(toolUrl).toBe('Open https://www.holi.community')
-  await clickElementByTestId(page, 'btn-to-close-tool-details-modal-modal')
+  await clickElementByTestId(page, 'btn-to-close-tool-details-modal')
   await expect(toolDetailModal).not.toBeVisible()
 
   // Test editing a tool
@@ -451,6 +455,8 @@ const createSpace = async (
 ) => {
   await clickElementByTestId(page, 'btn-to-spaces')
   await clickElementByTestId(page, 'btn-create-space')
+  // wait until page is loaded
+  await page.waitForSelector(byTestId('holi-wizard-next-btn'))
 
   // Create space - name and goal
   await checkAccessibility(page)

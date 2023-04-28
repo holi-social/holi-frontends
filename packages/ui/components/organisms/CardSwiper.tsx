@@ -1,8 +1,9 @@
 import React, { RefObject, createRef } from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -85,8 +86,8 @@ const CardSwiper = () => {
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           loadedData.map((card, index) => (
-            <Card style={styles.card} key={`sdfsdf${index}`}>
-              <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
+            <Card style={styles.card} key={`card-${index}`}>
+              <HoliImage label={card.title} style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
               <View style={styles.textContainer}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <HoliIcon icon="home-smile-2" size={25} color={colors.background10} style={{ marginRight: 6 }} />
