@@ -5,7 +5,6 @@ import React from 'react'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { notificationsQuery } from '@holi/core/screens/notifications/queries'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
 const loggedIn = () => ({ userId: '123' })
@@ -167,9 +166,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -182,9 +179,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -200,9 +195,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -215,9 +208,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
