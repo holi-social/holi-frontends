@@ -260,7 +260,26 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
     </View>
   </View>
-  <View
+  <RCTScrollView
+    bounces={false}
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+      }
+    }
+    dataSet={
+      {
+        "stepperWrapper": true,
+      }
+    }
+    horizontal={true}
+    keyboardShouldPersistTaps="always"
+    onLayout={[Function]}
+    onScroll={[Function]}
+    pagingEnabled={true}
+    scrollEnabled={false}
+    scrollEventThrottle={16}
+    showsHorizontalScrollIndicator={false}
     style={
       {
         "flex": 1,
@@ -269,157 +288,127 @@ exports[`renders correctly renders correctly when open 1`] = `
         "width": "100%",
       }
     }
+    testID="stepper-scrollview"
   >
-    <RCTScrollView
-      bounces={false}
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
+    <View>
+      <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
         }
-      }
-      dataSet={
-        {
-          "stepperWrapper": true,
+        style={
+          {
+            "flex": 1,
+            "width": 750,
+          }
         }
-      }
-      horizontal={true}
-      keyboardShouldPersistTaps="always"
-      onLayout={[Function]}
-      onScroll={[Function]}
-      pagingEnabled={true}
-      scrollEnabled={false}
-      scrollEventThrottle={16}
-      showsHorizontalScrollIndicator={false}
-      style={
-        {
-          "flex": 1,
-          "height": "100%",
-          "minHeight": "100%",
-          "width": "100%",
-        }
-      }
-      testID="stepper-scrollview"
-    >
-      <View>
+        testID="stepper-step"
+      >
         <View
-          dataSet={
-            {
-              "stepperStep": true,
-            }
-          }
-          style={
-            {
-              "flex": 1,
-              "width": 750,
-            }
-          }
-          testID="stepper-step"
+          accessibilityLabelledBy="test-tabs-tab-0"
+          nativeID="test-tabs-panel-0"
+          testID="tabs-module-panel-0-active"
         >
-          <View
-            accessibilityLabelledBy="test-tabs-tab-0"
-            nativeID="test-tabs-panel-0"
-            testID="tabs-module-panel-0-active"
-          >
-            <View>
-              <Text
-                accessible={false}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 19.2,
-                  }
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
                 }
-                testID="profileTab"
-              >
-                This is my profile.
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View
-          dataSet={
-            {
-              "stepperStep": true,
-            }
-          }
-          style={
-            {
-              "flex": 1,
-              "width": 750,
-            }
-          }
-          testID="stepper-step"
-        >
-          <View
-            accessibilityLabelledBy="test-tabs-tab-1"
-            nativeID="test-tabs-panel-1"
-            testID="tabs-module-panel-1-inactive"
-          >
-            <View>
-              <Text
-                accessible={false}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 19.2,
-                  }
-                }
-                testID="InsightsTab"
-              >
-                These are my insights.
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View
-          dataSet={
-            {
-              "stepperStep": true,
-            }
-          }
-          style={
-            {
-              "flex": 1,
-              "width": 750,
-            }
-          }
-          testID="stepper-step"
-        >
-          <View
-            accessibilityLabelledBy="test-tabs-tab-2"
-            nativeID="test-tabs-panel-2"
-            testID="tabs-module-panel-2-inactive"
-          >
-            <View>
-              <Text
-                accessible={false}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 19.2,
-                  }
-                }
-                testID="SpacesTab"
-              >
-                These are my spaces.
-              </Text>
-            </View>
+              }
+              testID="profileTab"
+            >
+              This is my profile.
+            </Text>
           </View>
         </View>
       </View>
-    </RCTScrollView>
-  </View>
+      <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
+        style={
+          {
+            "flex": 1,
+            "width": 750,
+          }
+        }
+        testID="stepper-step"
+      >
+        <View
+          accessibilityLabelledBy="test-tabs-tab-1"
+          nativeID="test-tabs-panel-1"
+          testID="tabs-module-panel-1-inactive"
+        >
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
+              }
+              testID="InsightsTab"
+            >
+              These are my insights.
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
+        style={
+          {
+            "flex": 1,
+            "width": 750,
+          }
+        }
+        testID="stepper-step"
+      >
+        <View
+          accessibilityLabelledBy="test-tabs-tab-2"
+          nativeID="test-tabs-panel-2"
+          testID="tabs-module-panel-2-inactive"
+        >
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
+              }
+              testID="SpacesTab"
+            >
+              These are my spaces.
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
 </View>
 `;
