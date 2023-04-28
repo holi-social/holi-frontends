@@ -1,6 +1,8 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
+import AsyncStore from '@react-native-async-storage/async-storage'
+import { AsyncStorageWrapper, persistCache } from 'apollo3-cache-persist'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
@@ -137,10 +139,12 @@ const isSSR = typeof window === 'undefined'
 const API_URL = process.env.HOLI_API_URL
 const httpLink = new HttpLink({ uri: API_URL, fetch })
 
+const cache = createCache()
+
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, httpLink]) : link
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
+  return new ApolloClient({ ssrMode, link: clientLink, cache })
 }
 
 // Web
@@ -167,6 +171,18 @@ export const initializeApolloSSRClient = (initState: SSRClientInitState = null) 
 
 // Mobile
 // TODO: rename to recognize its only for client-side JS
-export const client = createApolloClient({ ssrMode: false })
+let client = createApolloClient({ ssrMode: false })
+
+// `createApolloClientWithStoredCache` creates client async and override sync client in `client` variable
+export const createApolloClientWithStoredCache = async () => {
+  await persistCache({
+    cache,
+    storage: new AsyncStorageWrapper(AsyncStore),
+  })
+
+  client = new ApolloClient({ link, cache })
+
+  return client
+}
 
 export default client
