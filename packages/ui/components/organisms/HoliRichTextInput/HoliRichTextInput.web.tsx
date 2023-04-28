@@ -11,6 +11,7 @@ import { EditorState, LexicalEditor } from 'lexical'
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
@@ -57,10 +58,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     })
   }
 
-  const onError = (error: Error) => {
-    console.error(error)
-  }
-
   // TODO: How to insert inital content ?????????????
   // see https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
   // The json format works well, but how to create this nodes?
@@ -89,7 +86,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     //   // $getRoot().append(paragraph)
     //   // $getRoot().selectEnd()
     // },
-    onError,
+    logError,
   }
 
   return (

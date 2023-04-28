@@ -44,5 +44,6 @@ module.exports = {
         html: true,
       },
     ],
+    'no-console': ['error', { allow: ['debug'] }],
   },
 }

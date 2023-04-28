@@ -7,6 +7,7 @@ export const logError = (error: unknown, message?: string, stack?: string) => {
   // `console.error` is being thrown by React Native ExceptionManager in
   // production builds. We left it for development to recognize the urgency to
   // fix the error during development.
+  // eslint-disable-next-line no-console
   const consoleLog = isDevEnvironment ? console.error : console.warn
   const errorMessage = message ? ` ${message}:` : ''
 

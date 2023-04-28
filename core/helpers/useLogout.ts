@@ -31,12 +31,12 @@ export const useLogout = () => {
           .then(() => ensureOAuth2Logout())
           .then(() => setUserLoggedOut())
           .then(() => {
-            console.info('[Logout] logout successful')
+            console.debug('[Logout] logout successful')
             navigate('/profile')
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
           })
           .catch((e) => {
-            console.warn('[Logout] logout failed, removing session from storage')
+            console.debug('[Logout] logout failed, removing session from storage')
             setUserLoggedOut() // will remove session info from storage
             throw e // will be sent to Sentry so we're aware of it
             // not displaying an user-facing error messages as with the removal from the storage logout should be done
