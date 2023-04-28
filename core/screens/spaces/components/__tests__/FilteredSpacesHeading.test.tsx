@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
-import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
 const topics: Topic[] = [

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
 const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicSlug, location, skillSlugs = [] }) => {
   const { t } = useTranslation()
