@@ -10,7 +10,7 @@ import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAuto
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/FormScreenLayout'
+import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import {
   SpaceByIdResponse,
   UpdateTaskResponse,

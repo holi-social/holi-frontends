@@ -9,7 +9,7 @@ import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/FormScreenLayout'
+import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import DigitalToolInputForm, {
   COLLECTION_TYPES,
 } from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
