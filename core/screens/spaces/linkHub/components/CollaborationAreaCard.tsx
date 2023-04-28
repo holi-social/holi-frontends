@@ -45,7 +45,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
             <HoliText>{title}</HoliText>
           </View>
         </HoliButton>
-        {headerRightButtonLabel && (
+        {!!headerRightButtonLabel && (
           <View>
             <HoliButton
               transparent
