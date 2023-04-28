@@ -4,6 +4,7 @@ import React, { createContext, useContext } from 'react'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
@@ -34,11 +35,13 @@ const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => 
   const { userId } = useAuth()
   const { displayError } = useErrorHandling()
   const { logout } = useLogout()
+  const { onOnboardingStateChange } = useOnboarding()
 
   const { loading, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !userId,
     fetchPolicy: 'network-only',
     onError: (error) => {
+      onOnboardingStateChange('finished')
       logout()
       displayError(error)
     },
