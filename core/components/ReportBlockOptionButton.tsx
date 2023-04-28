@@ -12,7 +12,7 @@ import {
   ReportContentMutation,
   ReportContentResponse,
 } from '@holi/core/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliConfirmation, {
   HoliConfirmationProps,
   useConfirmationState,
