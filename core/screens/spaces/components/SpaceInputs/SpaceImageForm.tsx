@@ -41,6 +41,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             <View style={styles.imageContainer}>
               <HoliImage
                 source={{ uri: image?.uri ?? '' }}
+                blurHash={image?.blurHash}
                 label={t('spaces.input.coverImage.label')}
                 style={styles.spaceImage}
               />

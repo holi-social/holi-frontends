@@ -16,6 +16,7 @@ export interface HoliImageProps {
    * The default value assumes the image will span the whole screen width until maxScreenWidth.
    */
   sizes?: string
+  blurHash?: string
 }
 
 // These modes work the same across web and mobile and therefore are the only ones we allow.
