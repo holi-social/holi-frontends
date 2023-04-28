@@ -18,17 +18,10 @@ export interface HoliImageProps {
   sizes?: string
 }
 
-/**
- * These modes work the same across web and mobile and therefore are the only ones we allow.
- */
-export const ResizeModes = [
-  'cover',
-  'contain',
-  'stretch', // fill in web
-  // center and repeat have no web equivalent
-] as const
-
-export type ResizeMode = (typeof ResizeModes)[number]
+// These modes work the same across web and mobile and therefore are the only ones we allow.
+// center and repeat have no web equivalent
+// stretch fill in web
+export type ResizeMode = 'cover' | 'contain' | 'stretch'
 
 export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
   switch (resizeMode) {
