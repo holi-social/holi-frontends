@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'

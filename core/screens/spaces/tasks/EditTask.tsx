@@ -12,7 +12,7 @@ import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAuto
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   SpaceByIdResponse,
   UpdateTaskResponse,

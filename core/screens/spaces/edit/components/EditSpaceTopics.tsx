@@ -4,12 +4,11 @@ import { useTranslation } from 'react-i18next'
 
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-
-import { SpaceTermContext } from './SpaceTermContextProvider'
 
 type EditSpaceTopicsProps = {
   space: Space

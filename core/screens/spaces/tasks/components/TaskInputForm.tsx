@@ -5,7 +5,7 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   LOCATION_TYPE_OPTIONS,
   REGULARITY_OPTIONS,
