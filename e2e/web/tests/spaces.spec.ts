@@ -323,7 +323,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // add thumbnail image
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
 
-  await clickElementByTestId(page, 'task-modal-save-btn')
+  await clickElementByTestId(page, 'form-modal-save-btn')
 }
 
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
@@ -382,7 +382,7 @@ const testAddEditDeleteTask = async (page: Page) => {
   await taskDescriptionInput.fill(editedTaskDescription)
 
   // save edited task
-  await clickElementByTestId(page, 'task-modal-save-btn')
+  await clickElementByTestId(page, 'form-modal-save-btn')
   await expect(page.getByText(editedTaskTitle)).toBeVisible()
 
   // delete task
@@ -494,5 +494,5 @@ const createDigitalTool = async (
   // check if it closed
   await locateElementByTestId(page, 'btn-digital-tool-collection')
 
-  await clickElementByTestId(page, 'digital-tool-add-modal-save-btn')
+  await clickElementByTestId(page, 'form-modal-save-btn')
 }

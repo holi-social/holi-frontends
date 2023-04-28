@@ -5,6 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -12,6 +13,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceFormScreenLayoutProps {
+  title?: string
+  description?: string
   onDismiss: () => void
   onSave: () => void
   showConfirmationModal: boolean
@@ -45,6 +48,8 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >
+          {!!title && <HoliText size="large">{title}</HoliText>}
+          {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {children}
         </View>
       </DefaultScrollHeaderLayout>
@@ -67,7 +72,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
             iconSpinning={saveButtonLoading}
             label={t('global.save')}
             onPress={onSave}
-            testID="task-modal-save-btn"
+            testID="form-modal-save-btn"
             style={styles.footerButton}
           />
         </View>
@@ -81,7 +86,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         onDismiss={onDismiss}
         dismissText={t('global.dismiss')}
         confirmText={t('global.leavePage.confirmation.button')}
-        testID="exit-create-task-confirmation"
+        testID="form-modal-exit-confirmation"
         onConfirm={() => {
           onDismiss()
           navigateBack()
@@ -109,6 +114,11 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
       },
     }),
+  },
+  description: {
+    marginBottom: 32,
+    marginTop: 16,
+    color: colors.foreground20,
   },
   footerContainer: {
     width: '100%',
