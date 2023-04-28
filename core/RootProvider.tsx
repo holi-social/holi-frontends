@@ -1,15 +1,14 @@
-import { ApolloProvider } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
 
-import client from '@holi/api/graphql/client'
+import ApolloProviderWrapper from '@holi/core/ApolloProviderWrapper'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
@@ -32,12 +31,12 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
       <Suspense
         fallback={
           <SafeArea style={styles.loadingContainer}>
-            <HoliText style={{ textAlign: 'center' }}>Loading...</HoliText>
+            <HoliLoader />
           </SafeArea>
         }
       >
         <ErrorBoundary>
-          <ApolloProvider client={client}>
+          <ApolloProviderWrapper>
             <ToastProvider>
               <PortalProvider>
                 <NavigationContextProvider>
@@ -45,7 +44,7 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
                 </NavigationContextProvider>
               </PortalProvider>
             </ToastProvider>
-          </ApolloProvider>
+          </ApolloProviderWrapper>
         </ErrorBoundary>
       </Suspense>
     </ThemeProvider>
