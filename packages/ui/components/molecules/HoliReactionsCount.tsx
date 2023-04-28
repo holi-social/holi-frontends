@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleSheet, ViewStyle } from 'react-native'
 
 import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
 import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
