@@ -167,10 +167,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
+    gap: 8,
   },
   buttonWrapper: {
     paddingVertical: 12,
-    gap: 8,
   },
   wrapper: {
     paddingTop: 12,
