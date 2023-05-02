@@ -82,7 +82,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.all')}
                 onPress={() => setFilter(VisibilityFilter.ALL)}
-                style={setButtonStyles(isFilterAll, false)}
+                style={setButtonStyles(isFilterAll)}
               >
                 <HoliText
                   size="small"
@@ -97,7 +97,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.public')}
                 onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                style={setButtonStyles(isFilterPublic, false)}
+                style={setButtonStyles(isFilterPublic)}
               >
                 <HoliIcon
                   icon={'global'}
@@ -119,7 +119,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.members')}
                 onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                style={setButtonStyles(isFilterMembers, true)}
+                style={setButtonStyles(isFilterMembers)}
               >
                 <HoliIcon
                   icon="lock"
