@@ -18,7 +18,8 @@
     "**/ts-invariant": "0.10.3",
     "**/tslib": "2.5.0",
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
-    "**/@types/react": "18.0.0"
+    "**/@types/react": "18.0.0",
+    "**/@babel/core": "7.21.4"
   },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
