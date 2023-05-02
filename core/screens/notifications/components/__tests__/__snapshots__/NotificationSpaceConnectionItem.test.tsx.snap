@@ -99,7 +99,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
             <Image
               accessibilityLabel="Foo"
               accessibilityRole="image"
-              accessible={false}
+              accessible={true}
               source={
                 {
                   "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80",
@@ -107,11 +107,16 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 }
               }
               style={
-                {
-                  "height": "100%",
-                  "resizeMode": "contain",
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": "100%",
+                    "resizeMode": "contain",
+                    "width": "100%",
+                  },
+                  {
+                    "resizeMode": "contain",
+                  },
+                ]
               }
             />
           </View>

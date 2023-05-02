@@ -5,6 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -24,6 +25,8 @@ interface SpaceFormScreenLayoutProps {
 }
 
 const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
+  title,
+  description,
   onDismiss,
   onSave,
   saveButtonDisabled,
@@ -48,7 +51,11 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         <View
           style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
         >
-          {!!title && <HoliText size="large">{title}</HoliText>}
+          {!!title && (
+            <HoliHeading level="1" size="medium">
+              {title}
+            </HoliHeading>
+          )}
           {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {children}
         </View>

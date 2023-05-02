@@ -183,6 +183,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -371,7 +372,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -631,7 +632,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       <View
                         accessibilityChecked={true}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -938,7 +939,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -1183,6 +1184,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1364,6 +1366,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1552,7 +1555,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -1812,7 +1815,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -2058,7 +2061,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -2303,6 +2306,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -2491,7 +2495,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -2677,7 +2681,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -2845,7 +2849,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
