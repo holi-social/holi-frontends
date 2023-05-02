@@ -30,7 +30,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       actionButtonText={t('donations:search.submitButton')}
       onActionButtonPress={() => onSubmit(locationInput)}
       style={styles.modalWrapper}
-      testID="donations-search-modal"
+      testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
     >
       <View style={styles.container}>

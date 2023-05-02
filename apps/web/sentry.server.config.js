@@ -12,7 +12,7 @@ Sentry.init({
   dsn: SENTRY_DSN || 'https://25eadef1cf0444c6bab1eec8d9acaacc@o949544.ingest.sentry.io/6396737',
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 0.05,
-  enabled: ['staging', 'production'].includes(SENTRY_ENVIRONMENT),
+  enabled: false, // don't track server side stuff, e.g. page impressions. Server side is logged and monitored in google cloud
   environment: SENTRY_ENVIRONMENT,
   // ...
   // Note: if you want to override the automatic release value, do not set a

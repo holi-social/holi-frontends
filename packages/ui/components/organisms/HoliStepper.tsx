@@ -113,7 +113,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         renderedSteps.set(idx, currentStep === idx)
       })
 
-      return renderedSteps.get(stepIdx) ? step : null
+      return stepIdx === currentStep || (scrollEnabled && renderedSteps.get(stepIdx)) ? step : null
     }
 
     const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
