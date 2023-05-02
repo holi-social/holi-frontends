@@ -128,16 +128,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       </Text>
       <View
         style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "gap": 14,
-              "justifyContent": "space-between",
-              "marginTop": 24,
-            },
-            false,
-          ]
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": 14,
+            "justifyContent": "space-between",
+            "marginTop": 24,
+          }
         }
       >
         <View
@@ -193,7 +190,6 @@ exports[`renders correctly renders correctly when open 1`] = `
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
@@ -287,7 +283,6 @@ exports[`renders correctly renders correctly when open 1`] = `
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
@@ -449,16 +444,13 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
       </Text>
       <View
         style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "gap": 14,
-              "justifyContent": "space-between",
-              "marginTop": 24,
-            },
-            false,
-          ]
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": 14,
+            "justifyContent": "space-between",
+            "marginTop": 24,
+          }
         }
       >
         <View
@@ -514,7 +506,6 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
@@ -605,7 +596,6 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
