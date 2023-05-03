@@ -57,7 +57,9 @@ describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
     render(
       <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
-        <Spaces />
+        <ToastProvider>
+          <Spaces />
+        </ToastProvider>
       </MockedProvider>
     )
 
