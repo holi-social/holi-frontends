@@ -12,7 +12,7 @@ import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifi
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import { LastSeenNotificationMutation, lastSeenNotificationResponse } from '@holi/core/screens/notifications/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'

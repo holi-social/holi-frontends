@@ -27,7 +27,7 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'

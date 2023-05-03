@@ -8,7 +8,6 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -40,13 +39,11 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
         <ErrorBoundary>
           <ApolloProvider client={client}>
             <ToastProvider>
-              <UserContextProvider>
-                <PortalProvider>
-                  <NavigationContextProvider>
-                    <LoginModalProvider>{children}</LoginModalProvider>
-                  </NavigationContextProvider>
-                </PortalProvider>
-              </UserContextProvider>
+              <PortalProvider>
+                <NavigationContextProvider>
+                  <LoginModalProvider>{children}</LoginModalProvider>
+                </NavigationContextProvider>
+              </PortalProvider>
             </ToastProvider>
           </ApolloProvider>
         </ErrorBoundary>
