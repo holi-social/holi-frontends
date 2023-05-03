@@ -16,8 +16,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface SpaceFormScreenLayoutProps {
   title?: string
   description?: string
-  onDismiss: () => void
   onSave: () => void
+  toggleConfirmationModal: (showConfirmation: boolean) => void
   showConfirmationModal: boolean
   saveButtonDisabled: boolean
   saveButtonLoading: boolean
@@ -27,7 +27,7 @@ interface SpaceFormScreenLayoutProps {
 const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   title,
   description,
-  onDismiss,
+  toggleConfirmationModal,
   onSave,
   saveButtonDisabled,
   saveButtonLoading,
@@ -69,7 +69,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
             type="secondary"
             inline
             style={styles.footerButton}
-            onPress={onDismiss}
+            onPress={() => toggleConfirmationModal(true)}
           >
             {t('global.dismiss')}
           </HoliButton>
@@ -90,12 +90,12 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         label={exitConfirmationTitle}
         title={exitConfirmationTitle}
         description={t('global.leavePage.confirmation.description')}
-        onDismiss={onDismiss}
+        onDismiss={() => toggleConfirmationModal(false)}
         dismissText={t('global.dismiss')}
         confirmText={t('global.leavePage.confirmation.button')}
         testID="form-modal-exit-confirmation"
         onConfirm={() => {
-          onDismiss()
+          toggleConfirmationModal(false)
           navigateBack()
         }}
       />

@@ -203,7 +203,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     <SpaceFormScreenLayout
       saveButtonDisabled={saveButtonDisabled}
       saveButtonLoading={loading}
-      onDismiss={() => setShowConfirmationModal(true)}
+      toggleConfirmationModal={(showConfirmation: boolean) => setShowConfirmationModal(showConfirmation)}
       onSave={onSave}
       showConfirmationModal={showConfirmationModal}
     >
