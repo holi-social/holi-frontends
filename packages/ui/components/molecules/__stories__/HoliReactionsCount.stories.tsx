@@ -17,7 +17,7 @@ export const Preview = ({ ...args }) => (
   <>
     <HoliReactionsCount
       onPress={() => {
-        console.log('click !!!!!')
+        console.debug('click !!!!!')
       }}
       type={args.type}
       count={args.count}

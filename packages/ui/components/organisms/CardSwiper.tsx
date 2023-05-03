@@ -16,7 +16,7 @@ const CardSwiper = () => {
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
-    console.log('*** onSwipe', index, direction)
+    console.debug('*** onSwipe', index, direction)
     lastIndex = index
   }
 
@@ -27,7 +27,7 @@ const CardSwiper = () => {
       const swipeX = swiper.current.state.drag.x._value
       // @ts-ignore
       const swipeY = swiper.current.state.drag.y._value
-      console.log('*** onSwiped end', swipeX, swipeY)
+      console.debug('*** onSwiped end', swipeX, swipeY)
     }
   }
 
