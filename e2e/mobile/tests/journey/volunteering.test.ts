@@ -38,10 +38,10 @@ const assertListItemExisting = async () => {
 
 const assertFilteringWorks = async ({ keepLocation = false }: { keepLocation?: boolean } = {}) => {
   // swipe up to make header visible again
-  await scrollToElementWithTestId('btn-to-volunteering-filter', 'up', { maxAttempts: 5 })
+  await scrollToElementWithTestId('btn-to-volunteering-filter-modal', 'up', { maxAttempts: 5 })
 
   // open filter modal
-  await tapOnElementWithTestId('btn-to-volunteering-filter')
+  await tapOnElementWithTestId('btn-to-volunteering-filter-modal')
 
   if (keepLocation) {
     // open location dropdown

@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,6 +11,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
+import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   CreateSpaceResponse,
@@ -39,6 +41,14 @@ const CreateSpace: React.VFC = () => {
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
+
+  // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
+  const { userId } = useAuth()
+  useEffect(() => {
+    mockImageUploadForE2E(userId).then((spaceCoverImage) => {
+      spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
+    })
+  }, [userId])
 
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),

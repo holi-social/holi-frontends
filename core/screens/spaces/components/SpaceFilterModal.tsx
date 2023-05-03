@@ -108,7 +108,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         label={t('spaces.filter.heading')}
         show={showFilterModal}
         onDismiss={closeModal}
-        testID="space-filter-modal"
+        testID="spaces-filter-modal"
         relativeHeight={1}
         autoHeight={false}
         heading={t('spaces.filter.heading')}

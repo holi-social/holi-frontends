@@ -74,7 +74,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
           showFilterModal && setShowFilterModal(false)
           setShowFilterModal(true)
         }}
-        testID="btn-to-volunteering-filter"
+        testID="btn-to-volunteering-filter-modal"
       >
         <HoliIcon icon="filter-3" size={24} />
         {isFiltering && <View style={styles.dot} />}
@@ -104,7 +104,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       <HoliModal
         show={showFilterModal}
         onDismiss={closeModal}
-        testID="volunteering-filter"
+        testID="volunteering-filter-modal"
         label={t('volunteering:filter.heading')}
         autoHeight={false}
         relativeHeight={1}

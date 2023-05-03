@@ -67,7 +67,7 @@ const testFiltering = async (page: Page) => {
   // check if the filtered spaces container is shown
   await page.waitForSelector(byTestId('filtered-spaces-container'))
 
-  // reset the filter and wait for it
+  // reset the filter and wait for unfiltered results
   await clickElementByTestId(page, 'spaces-filter-reset')
   await page.waitForSelector(byTestId('spaces-container'))
 }
@@ -385,9 +385,22 @@ const testAddEditDeleteTask = async (page: Page) => {
   const taskDescriptionInput = await locateElementByTestId(page, 'task-description-input')
   await taskDescriptionInput.fill(editedTaskDescription)
 
+<<<<<<< HEAD
   // save edited task
   await clickElementByTestId(page, 'form-modal-save-btn')
   await expect(page.getByText(editedTaskTitle)).toBeVisible()
+=======
+    // Test Tool Details Modal
+    await clickElementByTestId(page, 'btn-show-tool-details')
+    const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
+    const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
+    const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
+    await expect(toolDetailModal).toBeVisible()
+    await expect(editButton).toBeVisible()
+    await expect(toolUrl).toBe('Open https://www.holi.community')
+    await clickElementByTestId(page, 'btn-to-close-tool-details-modal')
+    await expect(toolDetailModal).not.toBeVisible()
+>>>>>>> 649c62955a7c2765272a25030a37a996841a42f3
 
   // delete task
   await clickElementByTestId(page, 'btn-task-more-options')

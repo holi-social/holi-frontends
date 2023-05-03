@@ -281,9 +281,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 editable
                 style={styles.noBorderSection}
                 onPressEdit={() => openEditModal(EditFields.NAME)}
-                testID="space-edit-goal"
               >
-                {!!space.description && <HoliText>{space.description}</HoliText>}
+                {!!space.description && <HoliText testID="space-edit-goal">{space.description}</HoliText>}
               </SpaceSection>
 
               <SpaceSection
