@@ -62,6 +62,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           errorMessage={validationError()}
           style={style}
           testID={testID}
+          accessibilityLabel={t(`${translationPrefix}checkbox.hint-Consent`)}
         >
           <View style={{ maxWidth: 300 }}>
             <HoliText size="small">
@@ -95,6 +96,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   return (
     <HoliCheckbox
       label={t(`auth.login.checkbox.label-${fieldLabel}`)}
+      accessibilityLabel={t(`auth.login.checkbox.label-${fieldLabel}`)}
       checked={value}
       onSelect={onChange}
       errorMessage={validationError()}

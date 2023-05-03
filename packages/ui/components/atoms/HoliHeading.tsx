@@ -51,7 +51,7 @@ const HoliHeading = ({
       accessibilityLevel: Number(level),
     },
     default: {
-      role: 'header',
+      role: 'heading',
     },
   })
 

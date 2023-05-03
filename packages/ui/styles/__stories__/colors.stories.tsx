@@ -15,7 +15,11 @@ const allColors = [
   {
     familyName: 'Background',
     colors: [
-      { name: '$background30', code: colors.background30, description: 'Background details: input borders, button borders' },
+      {
+        name: '$background30',
+        code: colors.background30,
+        description: 'Background details: input borders, button borders',
+      },
       { name: '$background20', code: colors.background20, description: 'Large areas: pages, main divs' },
       { name: '$background10', code: colors.background10, description: 'Small areas: buttons, pills, tags, cells' },
     ],
@@ -79,8 +83,18 @@ const allColors = [
   {
     familyName: 'Gradient',
     colors: [
-      { name: '$foreground30Top', code: colors.foreground30, description: 'Overlays, Drawers', cssClass: 'gradient-top' },
-      { name: '$foreground30Bottom', code: colors.foreground30, description: 'Details, Overlays', cssClass: 'gradient-bottom' },
+      {
+        name: '$foreground30Top',
+        code: colors.foreground30,
+        description: 'Overlays, Drawers',
+        cssClass: 'gradient-top',
+      },
+      {
+        name: '$foreground30Bottom',
+        code: colors.foreground30,
+        description: 'Details, Overlays',
+        cssClass: 'gradient-bottom',
+      },
     ],
   },
 ]

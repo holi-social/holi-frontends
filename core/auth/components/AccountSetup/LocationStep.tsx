@@ -23,7 +23,7 @@ export interface LocationStepProps
   scrollToInputWithId: (id: string) => ScrollToProps
 }
 
-export const useLocationStep = (user: User | undefined) => {
+export const useLocationStep = (user?: User | null) => {
   const { t } = useTranslation()
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(

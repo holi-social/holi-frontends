@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import Constants from 'expo-constants'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -64,6 +64,12 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
     }
   }, [fetchProjectById, projectId, loading, project])
 
+  useEffect(() => {
+    if (error) {
+      displayError(error, t('donations:donationListing.error'))
+    }
+  }, [error, displayError, t])
+
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
     return (
@@ -73,10 +79,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
         </View>
       </DefaultLayout>
     )
-  }
-
-  if (error) {
-    displayError(error, t('donations:donationListing.error'))
   }
 
   if (!project) {

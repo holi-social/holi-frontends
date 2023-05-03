@@ -23,7 +23,9 @@ import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -128,6 +130,23 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
     setCurrentTabIndex(index)
   }
 
+  const onUpdateButtonPress = () => {
+    navigate(`/spaces/${spaceIdOrName}/updates/create`)
+  }
+
+  const UpdateButton = () => {
+    return (
+      <HoliButton
+        label={t('spaces.toolKit.add.button.label')}
+        testID="space-add-post-button"
+        style={styles.overlayButton}
+        onPress={onUpdateButtonPress}
+      >
+        <HoliIcon icon="pencil" size={20} />
+      </HoliButton>
+    )
+  }
+
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
       <DefaultLayout style={styles.defaultLayout} contentStyle={[styles.contentStyle, styles.messageContainer]}>
@@ -155,6 +174,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         />
       </DefaultScrollHeaderLayout>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+      {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
     </>
   )
 }
@@ -208,6 +228,19 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingHorizontal: 24,
+    justifyContent: 'center',
+  },
+  overlayButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 1,
+    marginRight: 10,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    bottom: vars.topBarHeight,
+    right: 24,
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
   },
 })

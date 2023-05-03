@@ -3,9 +3,11 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
+  testID="test-modal"
   transparent={true}
   visible={false}
 />
@@ -14,9 +16,11 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
+  testID="test-modal"
   transparent={true}
   visible={true}
 >
@@ -34,7 +38,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -68,7 +84,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           },
         ]
       }
-      testID="undefined-backdrop"
+      testID="test-modal-backdrop"
     >
       <View
         pointerEvents="none"
@@ -119,10 +135,9 @@ exports[`renders correctly renders correctly when open 1`] = `
           ],
         }
       }
-      testID="undefined-animatedview"
+      testID="test-modal-animatedview"
     >
       <RCTSafeAreaView
-        emulateUnlessSupported={true}
         style={
           [
             {
@@ -151,7 +166,19 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
@@ -178,7 +205,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ]
             }
-            testID="btn-to-close-undefined-modal"
+            testID="btn-to-close-test-modal"
           >
             <View
               pointerEvents="none"

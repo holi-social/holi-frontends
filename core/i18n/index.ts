@@ -21,6 +21,7 @@ export const initI18n = (): Promise<TFunction> => {
         // Use browser language to determine the language
         order: ['navigator'],
       },
+      load: 'languageOnly',
       returnNull: false,
     })
 }

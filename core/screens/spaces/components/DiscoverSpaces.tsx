@@ -7,8 +7,8 @@ import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import { GeolocationMultiPolygon } from '@holi/core/types'
@@ -94,13 +94,11 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     fetchDefault()
   }, [fetchUserSpecifc, fetchDefault, topics, user])
 
-  if (errorUserSpecific) {
-    displayError(errorUserSpecific, t('spaces.spaceListing.error'))
-  }
-
-  if (errorDefault) {
-    displayError(errorDefault, t('spaces.spaceListing.error'))
-  }
+  useEffect(() => {
+    if (errorUserSpecific || errorDefault) {
+      displayError(errorUserSpecific, t('spaces.spaceListing.error'))
+    }
+  }, [displayError, errorDefault, errorUserSpecific, t])
 
   if (loadingTopics || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
     // TODO: replace with proper loading indicator
