@@ -40,7 +40,7 @@ export interface NamesStepProps {
 }
 
 interface UseNamesStepOptions {
-  user: User | undefined
+  user?: User | null
   onValidate: (valid: boolean) => void
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -35,9 +35,11 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
-  if (error) {
-    displayError(error)
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error)
+    }
+  }, [displayError, error])
 
   const getI18Key = () => {
     // this message is for 'CONNECTION_REQUEST' notification before user does any action

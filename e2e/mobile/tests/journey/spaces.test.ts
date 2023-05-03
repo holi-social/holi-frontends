@@ -107,7 +107,7 @@ describe('@Spaces', () => {
     await waitForElementWithTestId('space-share-btn')
 
     // close options menu
-    await tapOnElementWithTestId('btn-to-close-more-options-modal-modal')
+    await tapOnElementWithTestId('btn-to-close-more-options-modal')
 
     // close space details page
     await tapOnElementWithTestId('nav-button-back')

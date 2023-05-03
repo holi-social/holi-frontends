@@ -131,7 +131,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   }
 
   const onUpdateButtonPress = () => {
-    navigate(`/spaces/${spaceIdOrName}/createUpdate`)
+    navigate(`/spaces/${spaceIdOrName}/updates/create`)
   }
 
   const UpdateButton = () => {

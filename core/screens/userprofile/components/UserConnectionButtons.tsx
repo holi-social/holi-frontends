@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
@@ -26,9 +26,11 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
 
   const { openLoginModal } = useLoginModal()
 
-  if (error) {
-    displayError(error)
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error)
+    }
+  }, [error, displayError])
 
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_CONNECTED
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
