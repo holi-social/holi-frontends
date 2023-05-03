@@ -66,15 +66,6 @@ describe('@Spaces', () => {
     // make sure dropdown is closed by tapping the heading
     await tapOnElementWithTestId('spaces-filter-modal-heading')
 
-    // open skills dropdown
-    await tapOnElementWithTestId('spaces-filter-skills-input')
-
-    // click on first skill in the list
-    await tapOnElementWithTestId('spaces-filter-skills-item')
-
-    // close skills dropdown
-    await tapOnElementWithTestId('spaces-filter-skills-toggle-menu')
-
     // click filter confirmation button
     await tapOnElementWithTestId('holi-modal-content-close-btn')
 
