@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
 
 import { HoliTheme } from '.'
 import { useStyleMixins } from './mixins'
@@ -23,12 +22,6 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
       return { ...currentMap }
     })
   }, [])
-
-  useEffect(() => {
-    if (Platform.OS === 'web') {
-      document.body.style.overflow = anyModalOpen ? 'hidden' : ''
-    }
-  }, [anyModalOpen])
 
   return (
     <ThemeContext.Provider
