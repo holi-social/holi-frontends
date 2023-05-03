@@ -6,6 +6,7 @@ import { Platform } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
+import { logError } from '@holi/core/errors/helpers'
 import { initI18n } from '@holi/core/i18n'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
@@ -39,8 +40,8 @@ const App: React.VoidFunctionComponent = () => {
         initI18n(),
         initAuth(),
       ])
-    } catch (e) {
-      console.warn(e)
+    } catch (error) {
+      logError(error, '[App.tsx]: Error initializing the app')
     } finally {
       setIsReady(true)
       await SplashScreen.hideAsync()
