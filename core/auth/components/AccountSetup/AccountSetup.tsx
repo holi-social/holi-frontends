@@ -141,10 +141,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.LOCATION: {
         setIsLoading(true)
 
-        if (location?.boundaries) {
-          const geolocation = location?.boundaries && {
-            boundaries: location?.boundaries,
-          }
+        if (location?.geometry) {
+          const geolocation = location?.geometry
           const locationLabel = location?.label
 
           await updateUser({

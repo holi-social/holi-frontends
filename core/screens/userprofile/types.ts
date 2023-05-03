@@ -1,4 +1,4 @@
-import { GeolocationBoundaries } from '@holi/core/types'
+import { GeolocationGeometry } from '@holi/core/types'
 
 export interface Term {
   id: string
@@ -30,7 +30,7 @@ export interface User {
   aboutMe?: string
   pronouns?: string
   location?: string
-  geolocation?: GeolocationBoundaries
+  geolocation?: GeolocationGeometry
   engagementLevel?: string
   interests?: Topic[]
   sdgs?: SDG[]

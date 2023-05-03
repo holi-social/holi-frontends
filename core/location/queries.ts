@@ -23,10 +23,8 @@ export type GeoPlacesResponse = {
 export const geoPlaceDetailsQuery = gql`
   query PlaceDetails($id: String!) {
     geo_placeDetails(id: $id) {
-      boundaries {
-        coordinates
-      }
       name
+      geometry
     }
   }
 `

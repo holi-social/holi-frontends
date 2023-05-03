@@ -10,7 +10,7 @@ import {
   geoPlaceDetailsQuery,
   geoPlacesQuery,
 } from '@holi/core/location/queries'
-import { GeolocationMultiPolygon, GeolocationPoint } from '@holi/core/types'
+import { GeolocationGeometry, GeolocationPoint } from '@holi/core/types'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
@@ -19,7 +19,7 @@ const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
   coordinates?: GeolocationPoint
-  boundaries?: GeolocationMultiPolygon
+  geometry?: GeolocationGeometry
 }
 
 export enum GeolocationLevel {
@@ -44,7 +44,7 @@ export interface PlacesAutocompleteProps {
   nameOnly?: boolean
   value?: string
   level?: GeolocationLevel
-  fetchBoundariesOnClose?: boolean
+  fetchGeometryOnClose?: boolean
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -67,7 +67,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       nameOnly,
       value,
       level,
-      fetchBoundariesOnClose,
+      fetchGeometryOnClose,
     },
     ref
   ) => {
@@ -119,12 +119,12 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
           return
         }
         const selection = placeSuggestions.find((s) => s.id == suggestion?.id)
-        if (selection && fetchBoundariesOnClose) {
+        if (selection && fetchGeometryOnClose) {
           return fetchPlaceDetails({ variables: { id: selection.id } })
             .then((response) =>
               onClose({
                 ...selection,
-                boundaries: response.data?.geo_placeDetails.boundaries?.coordinates,
+                geometry: response.data?.geo_placeDetails.geometry,
               })
             )
             .catch((error) => {
@@ -135,7 +135,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         }
         return onClose(selection)
       },
-      [placeSuggestions, onClose, fetchBoundariesOnClose, fetchPlaceDetails]
+      [placeSuggestions, onClose, fetchGeometryOnClose, fetchPlaceDetails]
     )
 
     const submit = useCallback(

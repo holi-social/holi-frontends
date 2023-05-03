@@ -90,7 +90,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
           testID="user-location"
           suggestionsStyle={{ backgroundColor: colors.background10 }}
           helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
-          fetchBoundariesOnClose
+          fetchGeometryOnClose
           level={GeolocationLevel.CITY}
           {...placesAutocompleteProps}
           {...scrollToInputWithId('location')}

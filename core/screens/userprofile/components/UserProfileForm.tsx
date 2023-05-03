@@ -69,9 +69,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const submit = async () => {
     // we need to explicitly perform a cleanup of the apollo __typename
-    const geolocation = location?.boundaries && {
-      boundaries: location?.boundaries,
-    }
+    const geolocation = location?.geometry
 
     const input: UpdateAuthenticatedUserInput = {
       firstName,
@@ -256,7 +254,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           helperText={location ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
           level={GeolocationLevel.CITY}
-          fetchBoundariesOnClose
+          fetchGeometryOnClose
           {...scrollToPropsFor('location')}
         />
       </View>
