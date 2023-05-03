@@ -128,7 +128,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }
 
   if (!articles || !articles.length) {
-    console.error('[GoodNewsCarousel.tsx] articles array is empty')
+    console.debug('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
   const carouselItems: CarouselItem[] = articles

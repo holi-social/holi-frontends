@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "resolutions": {
-    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
+    "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
+    "**@babel/core": "7.21.4"
   },
   "scripts": {
     "predev": "yarn workspace @holi/ui run generate-style-vars",
@@ -17,11 +18,9 @@
     "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
-    "@babel/preset-typescript": "^7.16.7",
     "@lexical/react": "^0.6.0",
     "@ory/integrations": "^0.2.6",
     "@sentry/nextjs": "^7.31.0",
-    "babel-plugin-react-native-web": "^0.18.7",
     "cookies": "^0.8.0",
     "cookies-next": "^2.1.1",
     "http-proxy": "^1.18.1",
@@ -29,7 +28,6 @@
     "lexical": "^0.6.0",
     "lottie-react": "^2.3.1",
     "next": "^12.3.4",
-    "next-compose-plugins": "^2.2.1",
     "next-http-proxy-middleware": "^1.2.4",
     "next-transpile-modules": "^9.0.0",
     "pino": "^8.8.0",
@@ -43,13 +41,10 @@
     "sharp": "^0.32.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@blunck/next-html": "^1.0.0",
     "@types/react": "~18.0.27",
     "@types/react-dom": "~18.0.11",
     "@types/react-native": "^0.71.6",
-    "babel-loader": "^8.2.5",
     "eslint": "^8.33.0",
     "eslint-config-next": "12.0.10",
     "typescript": "^4.6.3"

@@ -1,16 +1,15 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
   AddCollaborationToolResponse,
@@ -21,15 +20,9 @@ import {
 } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -41,14 +34,11 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
-  const [description, setDescription] = useState<string>()
+  const [description, setDescription] = useState<string | undefined>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
@@ -107,10 +97,10 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   }, [setOptions, t, loadingSpace, isMember])
 
   useEffect(() => {
-    if (url.length > 0 && title.length > 0 && !!selectedCollection) {
+    if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
       setSaveButtonDisabled(false)
     }
-  }, [url, title, selectedCollection])
+  }, [url, title, selectedCollection, inputValid])
 
   useEffect(() => {
     const resultSchema = AddCollaborationToolSchema.safeParse({
@@ -129,20 +119,8 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     }
   }, [description, selectedCollection?.id, space?.id, title, url])
 
-  const onChangeUrl = (url: string) => {
-    setUrl(url)
-  }
-
-  const onChangeTitle = (title: string) => {
-    setTitle(title)
-  }
-
-  const onChangeDescription = (description: string) => {
-    setDescription(description ? description : undefined)
-  }
-
   if (errorSpace) {
-    logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
+    logError(errorSpace, `[CreateDigitalTool.tsx] ${errorSpace.message}`)
   }
 
   if (!loadingSpace && !isMember) {
@@ -154,126 +132,31 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
-  const Footer = () => {
-    return (
-      <View style={styles.footerContainer}>
-        <View style={[mixins.container, styles.footer]}>
-          <HoliButton
-            label={t('global.dismiss')}
-            type="secondary"
-            inline
-            style={styles.footerButton}
-            onPress={() => navigateBack()}
-          >
-            {t('global.dismiss')}
-          </HoliButton>
-          <HoliButtonLoading
-            disabled={saveButtonDisabled || !inputValid || loading}
-            label={t('global.save')}
-            icon={loading ? 'loader-4' : undefined}
-            iconSpinning={loading}
-            onPress={onSave}
-            testID="digital-tool-add-modal-save-btn"
-            style={styles.footerButton}
-          />
-        </View>
-      </View>
-    )
-  }
-
   return (
-    <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
-        <View
-          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
-        >
-          <HoliHeading level="1" size="medium">
-            {t('spaces.digitalTool.add.title')}
-          </HoliHeading>
-          <HoliText style={styles.subTitle}>{t('spaces.digitalTool.add.subTitle')}</HoliText>
-          <DigitalToolInputForm
-            onChangeUrl={onChangeUrl}
-            onChangeTitle={onChangeTitle}
-            onChangeDescription={onChangeDescription}
-            onSelectCollection={setSelectedCollection}
-            selectedCollection={selectedCollection}
-            onChangeThumbnail={setThumbnail}
-            url={url}
-            title={title}
-            description={description}
-            thumbnail={thumbnail}
-            fieldErrors={fieldErrors}
-          />
-        </View>
-      </DefaultScrollHeaderLayout>
-
-      <Footer />
-
-      <HoliConfirmation
-        show={showConfirmationModal}
-        label={exitConfirmationTitle}
-        title={exitConfirmationTitle}
-        description={t('global.leavePage.confirmation.description')}
-        onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('spaces.digitalTool.add.close.dialog.cancel.button.label')}
-        confirmText={t('spaces.digitalTool.add.close.dialog.confirm.button.label')}
-        testID="exit-add-digitalTool-confirmation"
-        onConfirm={() => {
-          setShowConfirmationModal(false)
-          navigateBack()
-        }}
+    <SpaceFormScreenLayout
+      title={t('spaces.digitalTool.add.title')}
+      description={t('spaces.digitalTool.add.description')}
+      saveButtonDisabled={saveButtonDisabled}
+      saveButtonLoading={loading}
+      toggleConfirmationModal={setShowConfirmationModal}
+      onSave={onSave}
+      showConfirmationModal={showConfirmationModal}
+    >
+      <DigitalToolInputForm
+        onChangeUrl={setUrl}
+        onChangeTitle={setTitle}
+        onChangeDescription={setDescription}
+        onSelectCollection={setSelectedCollection}
+        selectedCollection={selectedCollection}
+        onChangeThumbnail={setThumbnail}
+        url={url}
+        title={title}
+        description={description}
+        thumbnail={thumbnail}
+        fieldErrors={fieldErrors}
       />
-    </>
+    </SpaceFormScreenLayout>
   )
 }
 
 export default CreateDigitalTool
-
-const styles = StyleSheet.create({
-  defaultLayout: {
-    backgroundColor: colors.background20,
-  },
-  contentStyle: {
-    paddingBottom: 0,
-  },
-  container: {
-    flex: 1,
-    paddingBottom: 132,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  subTitle: {
-    marginBottom: 32,
-    marginTop: 16,
-    color: colors.foreground20,
-  },
-  footerContainer: {
-    width: '100%',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-    margin: -7,
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        alignSelf: 'center',
-      },
-    }),
-  },
-  footerButton: {
-    flex: 1,
-    margin: 7,
-    ...Platform.select({
-      web: {
-        margin: 0,
-      },
-    }),
-  },
-})

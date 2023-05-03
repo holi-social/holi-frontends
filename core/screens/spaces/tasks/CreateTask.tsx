@@ -1,18 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import {
   CreateTaskResponse,
   CreateTaskSchema,
@@ -25,13 +23,9 @@ import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/scree
 import { Skill } from '@holi/core/screens/userprofile/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -45,11 +39,8 @@ const DEFAULT_SLOTS_AVAILABLE = 1
 
 const CreateTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { height: deviceHeight } = useWindowDimensions()
   const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
 
   // input fields
   const [name, setName] = useState('')
@@ -182,10 +173,18 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   }, [setOptions, t, loadingSpace, isAdmin])
 
   useEffect(() => {
-    if (name.length > 0 && description.length > 0 && !!visibility && !!locationType && !!regularity && !!contactEmail) {
+    if (
+      name.length > 0 &&
+      description.length > 0 &&
+      !!visibility &&
+      !!locationType &&
+      !!regularity &&
+      !!contactEmail &&
+      inputValid
+    ) {
       setSaveButtonDisabled(false)
     }
-  }, [name, description, visibility, locationType, regularity, contactEmail])
+  }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
 
   if (errorSpace) {
     logError(errorSpace, `[CreateTask.tsx] ${errorSpace.message}`)
@@ -200,138 +199,45 @@ const CreateTask: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
-  const Footer = () => {
-    return (
-      <View style={styles.footerContainer}>
-        <View style={[mixins.container, styles.footer]}>
-          <HoliButton
-            label={t('global.dismiss')}
-            type="secondary"
-            inline
-            style={styles.footerButton}
-            onPress={() => setShowConfirmationModal(true)}
-          >
-            {t('global.dismiss')}
-          </HoliButton>
-          <HoliButtonLoading
-            disabled={saveButtonDisabled || loading || !inputValid}
-            icon={loading ? 'loader-4' : undefined}
-            iconSpinning={loading}
-            label={t('global.save')}
-            onPress={onSave}
-            testID="task-modal-save-btn"
-            style={styles.footerButton}
-          />
-        </View>
-      </View>
-    )
-  }
-
   return (
-    <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
-        keyboardShouldPersistTaps="handled"
-      >
-        <View
-          style={[mixins.container, styles.container, { minHeight: deviceHeight, paddingTop: vars.topBarHeight + 40 }]}
-        >
-          <TaskInputForm
-            name={name}
-            description={description}
-            visibility={visibility}
-            locationType={locationType}
-            regularity={regularity}
-            contactEmail={contactEmail}
-            slotsAvailable={slotsAvailable}
-            thumbnail={thumbnail}
-            skills={skills}
-            location={location}
-            geolocation={geolocation}
-            selectedLocation={selectedLocation}
-            contactPhone={contactPhone}
-            onChangeName={setName}
-            onChangeDescription={setDescription}
-            onChangeVisibility={setVisibility}
-            onChangeLocationType={setLocationType}
-            onChangeRegularity={setRegularity}
-            onChangeContactEmail={setContactEmail}
-            onChangeSlotsAvailable={setSlotsAvailable}
-            onChangeThumbnail={setThumbnail}
-            onChangeSkills={setSkills}
-            onChangeLocation={setLocation}
-            onChangeGeolocation={setGeolocation}
-            onChangeContactPhone={setContactPhone}
-            onChangeSelectedLocation={setSelectedLocation}
-            fieldErrors={fieldErrors}
-          />
-        </View>
-      </DefaultScrollHeaderLayout>
-      <Footer />
-
-      <HoliConfirmation
-        show={showConfirmationModal}
-        label={exitConfirmationTitle}
-        title={exitConfirmationTitle}
-        description={t('global.leavePage.confirmation.description')}
-        onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('global.dismiss')}
-        confirmText={t('global.leavePage.confirmation.button')}
-        testID="exit-create-task-confirmation"
-        onConfirm={() => {
-          setShowConfirmationModal(false)
-          navigateBack()
-        }}
+    <SpaceFormScreenLayout
+      saveButtonDisabled={saveButtonDisabled}
+      saveButtonLoading={loading}
+      toggleConfirmationModal={setShowConfirmationModal}
+      onSave={onSave}
+      showConfirmationModal={showConfirmationModal}
+    >
+      <TaskInputForm
+        name={name}
+        description={description}
+        visibility={visibility}
+        locationType={locationType}
+        regularity={regularity}
+        contactEmail={contactEmail}
+        slotsAvailable={slotsAvailable}
+        thumbnail={thumbnail}
+        skills={skills}
+        location={location}
+        geolocation={geolocation}
+        selectedLocation={selectedLocation}
+        contactPhone={contactPhone}
+        onChangeName={setName}
+        onChangeDescription={setDescription}
+        onChangeVisibility={setVisibility}
+        onChangeLocationType={setLocationType}
+        onChangeRegularity={setRegularity}
+        onChangeContactEmail={setContactEmail}
+        onChangeSlotsAvailable={setSlotsAvailable}
+        onChangeThumbnail={setThumbnail}
+        onChangeSkills={setSkills}
+        onChangeLocation={setLocation}
+        onChangeGeolocation={setGeolocation}
+        onChangeContactPhone={setContactPhone}
+        onChangeSelectedLocation={setSelectedLocation}
+        fieldErrors={fieldErrors}
       />
-    </SpaceTermContextProvider>
+    </SpaceFormScreenLayout>
   )
 }
 
 export default CreateTask
-
-const styles = StyleSheet.create({
-  defaultLayout: {
-    backgroundColor: colors.background20,
-    paddingTop: 16,
-  },
-  contentStyle: {
-    paddingBottom: 0,
-  },
-  container: {
-    flex: 1,
-    paddingBottom: 132,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  footerContainer: {
-    width: '100%',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 10,
-    margin: -7,
-    ...Platform.select({
-      web: {
-        alignSelf: 'center',
-        position: 'fixed',
-      },
-    }),
-  },
-  footerButton: {
-    flex: 1,
-    margin: 7,
-    ...Platform.select({
-      web: {
-        margin: 0,
-      },
-    }),
-  },
-})

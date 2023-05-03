@@ -36,7 +36,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   }
 
   const navigateToEditToolPage = (toolIdOrName: string) => {
-    navigate(`/spaces/${spaceIdOrName}/tools/${toolIdOrName}/edit`)
+    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${toolIdOrName}/edit`)
   }
 
   const navigateToAddToolPage = () => {

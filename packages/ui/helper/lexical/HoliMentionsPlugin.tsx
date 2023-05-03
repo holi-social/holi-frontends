@@ -15,6 +15,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import React from 'react'
 
+import { logError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/provider/PortalProvider'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -48,7 +49,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     findUsersByName(keyword)
       .then(setSafeResult)
       .catch((error) => {
-        console.error('[HoliMentionsPlugin] ', error)
+        logError(error, '[HoliMentionsPlugin] Error finding users')
         setSafeResult([])
       })
       .finally(() => setSelectedOptionIndex(0))
