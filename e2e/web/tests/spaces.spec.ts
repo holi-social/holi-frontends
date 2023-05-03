@@ -205,6 +205,10 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // Navigate back to space detail view
     await clickElementByTestId(page, 'nav-button-back')
 
+    // test space posts
+    await clickElementByTestId(page, 'space-tabs-button-1-inactive')
+    await testAddEditDeleteSpacePost(page)
+
     // delete space
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
@@ -501,4 +505,38 @@ const createDigitalTool = async (
   await locateElementByTestId(page, 'btn-digital-tool-collection')
 
   await clickElementByTestId(page, 'form-modal-save-btn')
+}
+
+const testAddEditDeleteSpacePost = async (page: Page) => {
+  // test adding a post from a space's Update tab
+  await clickElementByTestId(page, 'space-add-post-button') // Big yellow button
+  // create a space post
+  await createSpacePost(page)
+  const numberOfPosts = () => page.locator(byTestId('btn-to-post-creator-profile')).count()
+  await expect.poll(numberOfPosts).toBe(1)
+}
+
+// Create a post
+const createSpacePost = async (page: Page, title = 'e2e space post title', content = 'e2e space post content') => {
+  await checkAccessibility(page)
+  // choose first option on visibility
+  await clickElementByTestId(page, 'btn-update-visibility-input')
+  await clickElementByTestId(page, 'item-update-visibility-input', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-update-visibility-input')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-update-visibility-input-modal'), { state: 'hidden' })
+
+  // add post title
+  const postTitleInput = await locateElementByTestId(page, 'update-title-input')
+  await postTitleInput.fill(title)
+
+  // add post content
+  const postContentInput = await locateElementByTestId(page, 'update-content-input')
+  await postContentInput.fill(content)
+
+  // add image
+  await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+  await clickElementByTestId(page, 'create-post-modal-save-btn')
 }

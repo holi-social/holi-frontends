@@ -81,7 +81,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         value={title}
         onChange={onChangeTitle}
         accessibilityLabel={t('spaces.input.update.title.label')}
-        testID="update-title-input"
+        testID="update-title"
         style={{ marginTop: 24 }}
         maxNoOfCharacters={128}
       />
@@ -93,7 +93,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         value={content}
         onChange={onChangeContent}
         accessibilityLabel={t('spaces.input.update.content.label')}
-        testID="update-content-input"
+        testID="update-content"
         style={{ marginTop: 24 }}
         isRequired={true}
         noOfVisibleLines={5}
