@@ -44,5 +44,7 @@ module.exports = {
         html: true,
       },
     ],
+    // Use logError hook for errors; debug logs are only visible in development builds
+    'no-console': ['error', { allow: ['debug'] }],
   },
 }

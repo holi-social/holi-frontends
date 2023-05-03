@@ -6,6 +6,7 @@ import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
+import { logError } from '@holi/core/errors/helpers'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import { featureFlag } from '@holi/web/environment'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
@@ -30,11 +31,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
 
   useEffect(() => {
     // Init authencation
-    try {
-      initAuth()
-    } catch (e) {
-      console.error(e)
-    }
+    initAuth().catch((error) => logError(error, '[_app.tsx] Error initializing authentication'))
   }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix

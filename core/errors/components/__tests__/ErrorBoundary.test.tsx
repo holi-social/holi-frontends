@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { fireEvent, render } from '@testing-library/react-native'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'

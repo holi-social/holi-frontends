@@ -7,6 +7,7 @@ const HoliSeparatedList: React.VFC<HoliTextProps> = ({ children, ...props }) => 
   const { t } = useTranslation()
 
   if (!children) {
+    // eslint-disable-next-line no-console
     console.warn('HoliSeparatedList component expects at least one child component')
     return null
   }
