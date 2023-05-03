@@ -175,7 +175,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       title={t('spaces.digitalTool.edit.title')}
       saveButtonDisabled={saveButtonDisabled}
       saveButtonLoading={loading}
-      toggleConfirmationModal={(showConfirmation: boolean) => setShowConfirmationModal(showConfirmation)}
+      toggleConfirmationModal={setShowConfirmationModal}
       onSave={onSave}
       showConfirmationModal={showConfirmationModal}
     >
