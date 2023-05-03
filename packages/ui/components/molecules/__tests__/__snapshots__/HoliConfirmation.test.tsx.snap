@@ -3,6 +3,7 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   transparent={true}
@@ -13,6 +14,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   transparent={true}
@@ -329,6 +331,7 @@ exports[`renders correctly renders correctly when open 1`] = `
 exports[`renders correctly renders correctly when open and confirmationButtonType is danger 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   transparent={true}

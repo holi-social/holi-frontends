@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { logError } from '@holi/core/errors/helpers'
 
 it('should track errors in sentry', () => {

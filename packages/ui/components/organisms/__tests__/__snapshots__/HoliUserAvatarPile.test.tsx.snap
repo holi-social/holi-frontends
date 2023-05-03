@@ -45,7 +45,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
-      accessible={false}
+      accessible={true}
       source={
         {
           "uri": "avatar-1",
@@ -53,11 +53,16 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         }
       }
       style={
-        {
-          "height": "100%",
-          "resizeMode": "contain",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "resizeMode": "contain",
+            "width": "100%",
+          },
+          {
+            "resizeMode": "contain",
+          },
+        ]
       }
     />
   </View>
@@ -141,7 +146,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Thomas Mueller"
       accessibilityRole="image"
-      accessible={false}
+      accessible={true}
       source={
         {
           "uri": "avatar-2",
@@ -149,11 +154,16 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         }
       }
       style={
-        {
-          "height": "100%",
-          "resizeMode": "contain",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "resizeMode": "contain",
+            "width": "100%",
+          },
+          {
+            "resizeMode": "contain",
+          },
+        ]
       }
     />
   </View>
@@ -237,7 +247,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Peter Pan"
       accessibilityRole="image"
-      accessible={false}
+      accessible={true}
       source={
         {
           "uri": "avatar-3",
@@ -245,11 +255,16 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         }
       }
       style={
-        {
-          "height": "100%",
-          "resizeMode": "contain",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "resizeMode": "contain",
+            "width": "100%",
+          },
+          {
+            "resizeMode": "contain",
+          },
+        ]
       }
     />
   </View>

@@ -1,6 +1,7 @@
 # holi-frontends
 
 <!-- TOC -->
+
 - [holi-frontends](#holi-frontends)
   - [Development](#development)
     - [Prerequisites](#prerequisites)
@@ -61,7 +62,7 @@
       - [Configuration for mobile builds](#configuration-for-mobile-builds)
   - [sentry.io logging/tracing](#sentryio-loggingtracing)
   - [Accessibility testing](#accessibility-testing)
-<!-- /TOC -->
+  <!-- /TOC -->
 
 ## Development
 
@@ -155,7 +156,7 @@ yarn test
 # or
 yarn test:watch myFileName
 # or
-yarn test:watchAll 
+yarn test:watchAll
 ```
 
 Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
@@ -288,6 +289,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
 - File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
   - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase and might start with an underscore.
 - Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
+
   - E.g.
 
     ```ts
@@ -299,6 +301,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
     ```
 
   - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
+
 - For very complex components that span over multiple files (e.g. screens or platform specific variants), group all files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and hides the complexity of the component itself.
   - Example:
     - `foobar` - see `core/navigation/hooks/useRouting` as example
@@ -530,11 +533,11 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 
-- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage example)
+- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
 - and `useErrorHandling` provides a function to display error messages as toasts.
 
 For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
@@ -594,14 +597,14 @@ Please note that `ssr` will only be set to true when decided to use SSR in the w
 ##### `apps/web/pages/quote.tsx`
 
 ```tsx
+import { ApolloClient, gql } from '@apollo/client'
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
-import { ApolloClient, gql } from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: API_URL
-});
+  uri: API_URL,
+})
 
 const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
 
@@ -615,7 +618,7 @@ export const getServerSideProps = async () => {
         }
       }
     `,
-  });
+  })
 
   return { props: { ssrData: data } }
 }

@@ -47,7 +47,7 @@ const HoliUserAvatarPile = ({
               <HoliAvatar
                 key={`${testID}-${user.id}`}
                 imageSrc={user.avatar}
-                label={user.fullName || t('navigation.headerRight.avatarFallbackLabel')}
+                label={user.fullName || t('user.profileView.anonymous')}
                 initials={user.avatarLabel}
                 defaultColor={user.avatarDefaultColor}
                 size={size}
