@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
@@ -23,6 +23,7 @@ export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxProps = {
   label?: string
   shape?: HoliCheckboxShape
+  accessibilityLabel: string
   accessibilityRole?: AccessibilityRole
   checked?: boolean
   errorMessage?: string
@@ -37,7 +38,8 @@ export type HoliCheckboxProps = {
 
 const HoliCheckbox = ({
   children,
-  label = '',
+  label,
+  accessibilityLabel,
   shape = 'box',
   accessibilityRole = 'checkbox',
   checked = false,
@@ -51,7 +53,6 @@ const HoliCheckbox = ({
   testID,
 }: React.PropsWithChildren<HoliCheckboxProps>) => {
   const checkboxRef = useRef(null)
-  const [isChecked, setIsChecked] = useState(checked)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
 
@@ -64,16 +65,15 @@ const HoliCheckbox = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
     accessibilityRole: disabled ? 'none' : accessibilityRole,
-    accessibilityLabel: label,
-    accessibilityChecked: disabled ? false : isChecked,
+    accessibilityLabel: accessibilityLabel,
+    accessibilityChecked: disabled ? false : checked,
   }
 
   const onPress = useCallback(
     (event: GestureResponderEvent) => {
-      setIsChecked(!isChecked)
-      onSelect(!isChecked, event)
+      onSelect(!checked, event)
     },
-    [isChecked, setIsChecked, onSelect]
+    [checked, onSelect]
   )
 
   const runAnimation = (value: number, velocity: number) => {
@@ -94,12 +94,8 @@ const HoliCheckbox = ({
           disabled={disabled}
           onFocus={onFocus}
           onBlur={onBlur}
-          onPressIn={() => {
-            runAnimation(0.8, 0.1)
-          }}
-          onPressOut={() => {
-            runAnimation(1, 0.4)
-          }}
+          onPressIn={() => runAnimation(0.8, 0.1)}
+          onPressOut={() => runAnimation(1, 0.4)}
           onPress={onPress}
           style={styles.checkboxContainer}
           testID={testID}
@@ -107,14 +103,14 @@ const HoliCheckbox = ({
           <Animated.View
             style={[
               styles.checkbox,
-              isChecked && styles.checkboxSelected,
+              checked && styles.checkboxSelected,
               disabled && styles.checkboxDisabled,
               hasError && styles.checkboxError,
               shape === 'round' && styles.shapeRound,
               { transform: [{ scale: scaleFactor }] },
             ]}
           >
-            {isChecked && (
+            {checked && (
               <HoliIcon
                 icon="check"
                 size={20}
@@ -123,7 +119,7 @@ const HoliCheckbox = ({
             )}
           </Animated.View>
 
-          {!children && (
+          {!children && !!label && (
             <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
               {label}
             </HoliText>
@@ -153,6 +149,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 5,
     borderWidth: 1,
+    backgroundColor: colors.background10,
     borderColor: colors.background30Darker,
     alignItems: 'center',
     justifyContent: 'center',
@@ -187,8 +184,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginLeft: 12,
-    // maxWidth: '100%',
-    flex: 1,
+    flexShrink: 1,
   },
   labelDisabled: {
     opacity: 0.6,

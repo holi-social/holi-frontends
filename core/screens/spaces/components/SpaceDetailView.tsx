@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
-import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
+import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { Space } from '@holi/core/screens/spaces/types'
+import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -13,11 +15,19 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type SpaceDetailViewProps = {
   space: Space
   style?: StyleProp<ViewStyle>
+  initialTabIndex?: number
+  onChangeTab?: (index: number) => void
 }
 
-const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
+const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
+  space,
+  style,
+  initialTabIndex,
+  onChangeTab = () => null,
+}) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
+
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
       {/* Header */}
@@ -27,14 +37,28 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
 
       <HoliTabs
         id="space-tabs"
+        testID="space-tabs"
         centeredButtons
+        initialStep={initialTabIndex}
         style={{ flex: 1 }}
+        onChangeTab={onChangeTab}
+        backgroundColor={colors.background20}
         tabs={[
           {
             title: t('spaces.tab.info'),
             titleIcon: 'pushpin',
             style: styles.tabStyle,
             children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
+          },
+          {
+            title: t('spaces.tab.updates'),
+            titleIcon: 'flag-2',
+            style: styles.tabStyle,
+            children: (
+              <Suspense fallback={<HoliLoader />}>
+                <SpaceUpdatesTabLazy space={space} />
+              </Suspense>
+            ),
           },
           {
             title: t('spaces.tab.action'),

@@ -6,10 +6,9 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -42,7 +41,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -64,36 +62,20 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
     [setOptions, t, insight?.title]
   )
 
-  if (error) {
-    console.log('######## InsightDetailPage load error')
-    logError(error, `[InsightDetailPage.tsx] ${error.message}`)
-  }
+  if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
-  }
-
-  // Important: `insights.find() should be called after useEffect() or useLayoutEffet()
-  // A hard reload will cause an error.
-  // see here: https://reactjs.org/docs/hooks-rules.html
+  if (loading || error) return null
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
   const posts: Post[] = insight.posts || []
-
   const author = insight.creator
 
   return (
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout
-        bounces={false}
-        style={styles.wrapper}
-        headerOverlap
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-      >
+      <DefaultScrollHeaderLayout bounces={false} style={styles.wrapper} headerOverlap>
         {/* Image section */}
         <ImageBackground
           source={{ uri: insight?.headerImage }}
@@ -159,7 +141,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           )}
         </View>
 
-        {/* Dummy list of posts */}
         {!!posts.length && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
@@ -167,14 +148,14 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} insightId={insightId} style={styles.postItem} />
+                    <PostPreview post={post} insightId={insightId} />
                   </HoliGridCell>
                 ))
               }
             </HoliGridWrapper>
           </View>
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
     </>
   )
 }
@@ -234,10 +215,6 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
-  },
-  postItem: {
-    borderRadius: 12,
-    paddingVertical: 24,
   },
 })
 

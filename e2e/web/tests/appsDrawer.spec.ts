@@ -1,36 +1,43 @@
-import { expect, test } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, waitForAnimationEnd, waitForElementByTestId } from './helpers'
-
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
-})
+import {
+  byTestId,
+  clickElementByTestId,
+  donationsRequestTimeout,
+  goodnewsRequestTimeout,
+  proceedAsGuest,
+  volunteeringRequestTimeout,
+  waitForAnimationEnd,
+} from './helpers'
+import { test } from './testmaster'
 
 test.describe('@AppsDrawer', () => {
-  test('should be visible and opens drawer', async ({ page }) => {
-    // find and click apps button
-    await waitForElementByTestId(page, 'home-apps-button')
-    await clickElementByTestId(page, 'home-apps-button')
+  test('user journey', async ({ page }) => {
+    // prepare
+    await proceedAsGuest(page)
 
-    // apps drawer is open and contain apps
-    await waitForAnimationEnd(page.locator(byTestId('apps-drawer-modal-animatedview')))
-    await waitForElementByTestId(page, 'apps-drawer-modal')
-    await waitForElementByTestId(page, 'app-tile-donations')
-
-    // open an app
-    await clickElementByTestId(page, 'app-tile-donations')
-
-    // app is open, apps button has disappeared and drawer is gone
-    await waitForElementByTestId(page, 'donations-list-container')
-    expect(page.url()).toContain('/apps/donations')
-    const appsButtonIsVisible = await page.locator(byTestId('home-apps-button')).isVisible()
-    expect(appsButtonIsVisible).not.toBeTruthy()
-    const modalIsOpen = await page.locator(byTestId('apps-drawer-modal')).isVisible()
-    expect(modalIsOpen).not.toBeTruthy()
-
-    // go back home and see apps button again
-    await clickElementByTestId(page, 'nav-button-back')
-    await waitForElementByTestId(page, 'home-apps-button')
+    await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
+    await openAppAndReturn(page, 'goodnews', goodnewsRequestTimeout)
+    await openAppAndReturn(page, 'donations', donationsRequestTimeout)
   })
 })
+
+const openAppAndReturn = async (page: Page, appName: string, appTimeout: number) => {
+  // find and click apps button
+  await clickElementByTestId(page, 'home-apps-button')
+
+  // apps drawer is open and contain apps
+  await page.waitForSelector(byTestId('apps-drawer-modal'))
+
+  await waitForAnimationEnd(page, byTestId('apps-drawer-modal-animatedview'))
+
+  // open the app
+  await clickElementByTestId(page, `app-tile-${appName}`)
+
+  // app is open
+  await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })
+  expect(page.url()).toContain(`/apps/${appName}`)
+
+  // go back home
+  await clickElementByTestId(page, 'nav-button-back')
+}

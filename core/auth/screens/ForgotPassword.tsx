@@ -35,8 +35,8 @@ const ForgotPassword: React.VFC<ScreenProps> = () => {
   )
 
   return (
-    <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer>
+    <DefaultLayout keyboardShouldPersistTaps="always" headerOverlap={true}>
+      <LoginRegistrationContainer style={{ paddingHorizontal: 24 }}>
         {success ? <RecoverPasswordSent /> : <RecoverPasswordForm onSubmit={setSuccuss} />}
       </LoginRegistrationContainer>
     </DefaultLayout>

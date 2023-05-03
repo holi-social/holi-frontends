@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
@@ -20,9 +20,10 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -35,7 +36,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CommentInputPageParams = {
-  insightId: string
+  insightId?: string
+  spaceIdOrName?: string
   postId: string
 }
 
@@ -43,7 +45,8 @@ type ScreenProps = NativeStackScreenProps<InsightsScreens>
 
 const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CommentInputPageParams>()
-  const [insightId] = useParam('insightId')
+  const [insightId = ''] = useParam('insightId')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
@@ -54,7 +57,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
-  const { user } = useContext(UserContext)
+  const { user } = useLoggedInUser()
   const { height: screenHeight } = useWindowDimensions()
   const styles = useMemo(() => getStyles(screenHeight), [screenHeight])
 
@@ -133,7 +136,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   if (!user) {
-    navigate(`/insights/${insightId}/posts/${postId}`)
+    navigate(`${getPostUrl(postId, insightId, spaceIdOrName)}`)
     return null
   }
 

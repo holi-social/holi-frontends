@@ -26,19 +26,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 16.8,
+        }
       }
     >
       Test
@@ -48,7 +42,19 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -88,24 +94,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           accessible={false}
           selectable={false}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              {
-                "color": "#787777",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16.8,
+            }
           }
         >
           global.edit
@@ -128,19 +123,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 19.2,
+        }
       }
     >
       Testing
@@ -175,19 +164,13 @@ exports[`renders correctly renders correctly when there is no title, not editabl
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 16.8,
+        }
       }
     />
   </View>

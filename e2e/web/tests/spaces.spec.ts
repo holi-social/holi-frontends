@@ -1,132 +1,140 @@
-import { Page, expect, test } from '@playwright/test'
+import { BrowserContext, Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   checkAccessibility,
+  clickElement,
   clickElementByTestId,
-  defaultAuthSteps,
-  delay,
   locateElementByTestId,
-  waitForElementByTestId,
+  proceedAsGuest,
+  waitForAnimationEnd,
 } from './helpers'
+import { UserHandler, test } from './testmaster'
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/spaces')
-  await expect.poll(() => page.url()).toContain('/spaces')
-})
+test.setTimeout(180000)
 
 test.describe('@Spaces', () => {
-  test('should be accessible from home screen', async ({ page }) => {
-    await page.goto('/')
-    await clickElementByTestId(page, 'btn-to-continue-as-guest')
-    await clickElementByTestId(page, 'btn-to-spaces')
+  test('user journey', async ({ context, page, userHandler }) => {
+    // prepare
+    await proceedAsGuest(page)
 
-    await waitForElementByTestId(page, 'spaces-container')
-    expect(page.url()).toContain('/spaces')
+    await testAccessibleFromHomeScreen(page)
+    await testDisplaysMultipleGroups(page)
+    await testFiltering(page)
+    await testDisplaysSpaceDetails(page)
+    await testShareSpace(page)
+    await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
+})
+const testAccessibleFromHomeScreen = async (page: Page) => {
+  await clickElementByTestId(page, 'btn-to-spaces')
 
-  test('should display multiple groups with spaces', async ({ page }) => {
-    const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
-    const countSpaces = async () => await (await locateElementByTestId(page, 'space-link')).count()
+  await expect(page.getByTestId('spaces-container')).toBeVisible({ timeout: 20000 })
+  expect(page.url()).toContain('/spaces')
+}
 
-    await waitForElementByTestId(page, 'spaces-container')
+const testDisplaysMultipleGroups = async (page: Page) => {
+  const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
+  const countSpaces = async () => await (await locateElementByTestId(page, 'space-link')).count()
 
-    await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
-    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
+  await page.waitForSelector(byTestId('spaces-container'))
 
-    await checkAccessibility(page)
-  })
+  await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
+  await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
 
-  test('should open the spaces filter menu and filter spaces with multiple filters', async ({ page }) => {
-    await clickElementByTestId(page, 'btn-filter-spaces')
+  await checkAccessibility(page)
+}
 
-    const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
-    await locationInput.fill('Berlin')
+const testFiltering = async (page: Page) => {
+  await clickElementByTestId(page, 'btn-filter-spaces')
+  // wait until modal is opened
+  await page.locator('[role="dialog"]').waitFor()
 
-    // open topics dropdown
-    await clickElementByTestId(page, 'spaces-filter-interests-input')
+  const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
+  await locationInput.fill('nwqekjnk23jn4k23')
 
-    // click on first topic in the list
-    await clickElementByTestId(page, 'spaces-filter-interests-item')
+  await checkAccessibility(page)
 
-    // open skills dropdown
-    await clickElementByTestId(page, 'spaces-filter-skills-input')
+  // close skills dropdown
+  await clickElementByTestId(page, 'spaces-filter-skills-toggle-menu')
 
-    // click on first skill in the list
-    await clickElementByTestId(page, 'spaces-filter-skills-item')
+  // click filter confirmation button and check if we are in the correct page with the filter queries
+  await Promise.all([
+    clickElementByTestId(page, 'holi-modal-content-close-btn'),
+    page.waitForNavigation({ url: '**/spaces/**' }),
+  ])
 
-    await checkAccessibility(page)
+  // check if the filtered spaces container is shown
+  await page.waitForSelector(byTestId('filtered-spaces-container'))
 
-    // close skills dropdown
-    await clickElementByTestId(page, 'spaces-filter-skills-toggle-menu')
+  // reset the filter and wait for it
+  await clickElementByTestId(page, 'spaces-filter-reset')
+  await page.waitForSelector(byTestId('spaces-container'))
+}
 
-    // click filter confirmation button and check if we are in the correct page with the filter queries
-    await Promise.all([
-      await clickElementByTestId(page, 'holi-modal-content-close-btn'),
-      page.waitForNavigation({ url: '**/spaces/**' }),
-    ])
+const testDisplaysSpaceDetails = async (page: Page) => {
+  // click first element on page
+  await clickElementByTestId(page, 'space-link')
 
-    // check if the filtered spaces container is shown
-    await waitForElementByTestId(page, 'filtered-spaces-container')
-  })
+  await page.waitForSelector(byTestId('space-details-container'))
 
-  test('should display space details', async ({ page }) => {
-    await waitForElementByTestId(page, 'spaces-container')
-    // click first element on page
-    await clickElementByTestId(page, 'space-link')
+  await page.waitForSelector(byTestId('space-header'))
 
-    await waitForElementByTestId(page, 'space-details-container')
+  await page.waitForSelector(byTestId('space-avatar'))
 
-    await waitForElementByTestId(page, 'space-header')
+  await page.waitForSelector(byTestId('space-title'))
 
-    await waitForElementByTestId(page, 'space-avatar')
+  await page.waitForSelector(byTestId('space-description'))
 
-    await waitForElementByTestId(page, 'space-title')
+  await clickElementByTestId(page, 'btn-to-open-space-collaborators-modal')
+  // wait until modal is opened
+  await page.locator('[role="dialog"]').waitFor()
 
-    await waitForElementByTestId(page, 'space-description')
+  // check if space collaborator is displayed
+  await page.waitForSelector(byTestId('spaces-collaborators-item'))
 
-    // check if collaborators are displayed
-    await clickElementByTestId(page, 'space-members')
+  // close modal and wait until closed
+  await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
+  await page.waitForSelector(byTestId('btn-to-open-space-collaborators-modal'))
 
-    // check if on click the user profile is displayed
-    await waitForElementByTestId(page, 'spaces-collaborators-item')
+  await checkAccessibility(page)
 
-    await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
+  const spaceUrlPrefix = '/spaces/'
+  expect(page.url()).toContain(spaceUrlPrefix)
+}
 
-    await checkAccessibility(page)
+const testShareSpace = async (page: Page) => {
+  // open space share modal
+  await clickElementByTestId(page, 'space-options-btn')
+  await clickElementByTestId(page, 'space-share-btn')
 
-    const spaceUrlPrefix = '/spaces/'
-    expect(page.url()).toContain(spaceUrlPrefix)
-  })
+  //check if shared link is correct
+  const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
+  const spaceShareLinkText = await spaceShareLink.innerText()
+  expect(spaceShareLinkText).toBe(page.url())
 
-  test('should be able to create, edit and delete a space', async ({ page, context }) => {
-    const numberOfInitialTerms = 3
-    const numberOfEditedTerms = 2
+  // copy link and close modal / options
+  await clickElementByTestId(page, 'space-share-url-btn')
+  await page.waitForSelector(byTestId('space-options-btn'))
+  await clickElementByTestId(page, 'btn-to-close-more-options-modal')
+}
 
-    await page.goto('/')
-    await defaultAuthSteps({ page, context })
-    await clickElementByTestId(page, 'btn-to-spaces')
-    await clickElementByTestId(page, 'btn-create-space')
+const saveAndWaitForModalClosed = async (page: Page) => {
+  await Promise.all([
+    page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' }),
+    clickElementByTestId(page, 'space-edit-modal-save-btn'),
+  ])
+}
 
-    // create space - name and goal
-    const initialName = 'e2e space name'
-    const initialGoal = 'e2e space goal'
-    await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page)
-    await inputSpaceNameAndGoal(page, initialName, initialGoal)
-    await clickElementByTestId(page, 'holi-wizard-next-btn')
+const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
+  const numberOfInitialTerms = 3
+  const numberOfEditedTerms = 2
+  const initialName = 'e2e space name'
+  const initialGoal = 'e2e space goal'
 
-    // create space - topics
-    await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page)
-    await selectSomeTerms(page, numberOfInitialTerms)
-    await clickElementByTestId(page, 'holi-wizard-next-btn')
-
-    // create space - cover image
-    await checkAccessibility(page)
-    await checkConfirmButtonIsDisabled(page)
-    await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
-    await clickElementByTestId(page, 'holi-wizard-next-btn')
+  // create the space as a random user, so it gets cleaned up together with the user after the test, even if it fails
+  await userHandler.asRandomUser(async (page) => {
+    await createSpace(page, numberOfInitialTerms, initialName, initialGoal)
 
     // check if edit space page has correct information
     let editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
@@ -134,12 +142,12 @@ test.describe('@Spaces', () => {
     expect(editSpaceTitle).toContainText(initialName)
     expect(editSpaceGoal).toContainText(initialGoal)
 
-    // // edit space name and goal
+    // edit space name and goal
     const editedName = 'e2e edited space name HELLO THERE'
     const editedGoal = 'e2e edited space goal'
     await clickElementByTestId(page, 'btn-space-edit-name')
     await inputSpaceNameAndGoal(page, editedName, editedGoal)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if space name and goal were updated
     editSpaceTitle = await locateElementByTestId(page, 'space-edit-title')
@@ -150,43 +158,62 @@ test.describe('@Spaces', () => {
     // edit space avatar
     await clickElementByTestId(page, 'btn-space-edit-avatar')
     await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // edit space cover image
     await clickElementByTestId(page, 'btn-space-edit-cover')
     await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // edit space topics
     await clickElementByTestId(page, 'btn-space-edit-topics')
+    await waitForAnimationEnd(page, byTestId('space-chips-modal-animatedview'))
     await selectSomeTerms(page, numberOfEditedTerms)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if the correct number of topics have been selected
-    await delay(1)
-    const numberOfEditedTopics = await page.locator(byTestId('space-edit-topics-chip')).count()
-    expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
+    const numberOfEditedTopics = () => page.locator(byTestId('space-edit-topics-chip')).count()
+    await expect.poll(numberOfEditedTopics).toBe(numberOfEditedTerms)
+
+    // edit space - update location
+    const editedLocation = 'Berlin'
+    await clickElementByTestId(page, 'btn-space-edit-location')
+    await inputSpaceLocation(page, editedLocation)
+
+    // expect suggestions
+    await clickElement(page.locator('[role="menuitem"]'))
+    await saveAndWaitForModalClosed(page)
 
     // edit space sdgs
     await clickElementByTestId(page, 'btn-space-edit-sdgs')
+    await waitForAnimationEnd(page, byTestId('space-chips-modal-animatedview'))
     await selectSomeTerms(page, numberOfEditedTerms)
-    await clickElementByTestId(page, 'space-edit-modal-save-btn')
+    await saveAndWaitForModalClosed(page)
 
     // check if the correct number of sdgs have been selected
-    await delay(1)
-    const numberOfEditedSdgs = await page.locator(byTestId('space-edit-sdgs-chip')).count()
-    expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+    const numberOfEditedSdgs = () => page.locator(byTestId('space-edit-sdgs-chip')).count()
+    await expect.poll(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+
+    // edit space contact info
+    await editSpaceContactInfo(page)
+
+    await testAddEditDeleteTask(page)
+
+    // test digital tools
+    await testAddEditDeleteDigitalTool(page)
+
+    // Navigate back to space detail view
+    await clickElementByTestId(page, 'nav-button-back')
 
     // delete space
-    await clickElementByTestId(page, 'space-edit-close')
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
 
     // check if after deletion we are at the spaces dashboard (mine/discover)
-    await waitForElementByTestId(page, 'spaces-tab-navigation')
+    await page.waitForSelector(byTestId('btn-create-space'))
   })
-})
+}
 
 const checkConfirmButtonIsDisabled = async (page: Page) => {
   const nextButton = await locateElementByTestId(page, 'holi-wizard-next-btn')
@@ -201,22 +228,277 @@ const inputSpaceNameAndGoal = async (page: Page, name: string, goal: string) => 
   await goalInput.fill(goal)
 }
 
+const editSpaceContactInfo = async (page: Page) => {
+  const contactDescription = 'e2e edited space description'
+  const contactEmail = 'test@email.com'
+  const contactPhone = '123456789'
+
+  await clickElementByTestId(page, 'btn-space-edit-contact')
+
+  const contactDescriptionInput = await locateElementByTestId(page, 'space-contact-description-input')
+  await contactDescriptionInput.fill(contactDescription)
+  const contactPhoneInput = await locateElementByTestId(page, 'space-contact-phone-input')
+  await contactPhoneInput.fill(contactPhone)
+
+  // Testing field validation
+  // Enter invalid email
+  const contactEmailInput = await locateElementByTestId(page, 'space-contact-mail-input')
+  await contactEmailInput.fill('"@example.com')
+  // Expect frontend validation error
+  const errorMessageTestId = byTestId('space-contact-mail-input-error-message')
+  await page.waitForSelector(errorMessageTestId)
+  // Enter email that is valid for frontend but invalid for backend
+  await contactEmailInput.fill('" "@example.com')
+  // Expect frontend validation error to be gone
+  page.waitForSelector(errorMessageTestId, { state: 'detached' })
+  // Try to save contact
+  clickElementByTestId(page, 'space-edit-modal-save-btn')
+  // Expect backend validation error
+  await page.waitForSelector(errorMessageTestId)
+
+  // Enter valid email and save
+  await contactEmailInput.fill(contactEmail)
+  await saveAndWaitForModalClosed(page)
+
+  // check if space contact was updated
+  const contactContainer = await locateElementByTestId(page, 'space-edit-contact')
+  expect(contactContainer).toContainText(contactDescription)
+  expect(contactContainer).toContainText(contactEmail)
+  expect(contactContainer).toContainText(contactPhone)
+}
+
+const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: string) => {
+  // choose first option on visibility
+  await clickElementByTestId(page, 'btn-task-visibility-input')
+  await clickElementByTestId(page, 'item-task-visibility-input', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-visibility-input')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-task-visibility-input'), { state: 'hidden' })
+
+  // add task title
+  const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
+  await taskTitleInput.fill(taskTitle)
+
+  // add task description
+  const taskDescriptionInput = await locateElementByTestId(page, 'task-description-input')
+  await taskDescriptionInput.fill(taskDescription)
+
+  // select some skills
+  await clickElementByTestId(page, 'btn-task-edit-skills-modal')
+  await waitForAnimationEnd(page, byTestId('task-skills-modal-animatedview'))
+  await selectSomeTerms(page, 1)
+  await clickElementByTestId(page, 'create-task-skills-modal-wrapper-close-btn')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('create-task-skills-modal-wrapper-close-btn'), { state: 'hidden' })
+
+  // open locationType dropdown
+  await page.waitForSelector(byTestId('btn-task-locationType'))
+  await clickElementByTestId(page, 'btn-task-locationType')
+  await clickElementByTestId(page, 'item-task-locationType', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-locationType')
+
+  // make sure previous modal is closed
+  await page.waitForSelector(byTestId('btn-to-close-task-locationType'), { state: 'hidden' })
+
+  // select location
+  const locationInput = await locateElementByTestId(page, 'task-location-input')
+  await locationInput.fill('Hamburg')
+
+  // add contact information
+  const contactEmail = 'e2e@holi.team'
+  const contactPhone = '+49 164 4344 434'
+  const taskContactEmail = await locateElementByTestId(page, 'task-contactEmail-input')
+  await clickElementByTestId(page, 'task-contactEmail-input')
+  await taskContactEmail.fill(contactEmail)
+  const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
+  await taskContactPhone.fill(contactPhone)
+
+  // select commitment level
+  await page.waitForSelector(byTestId('btn-task-regularity'))
+  await clickElementByTestId(page, 'btn-task-regularity')
+  await clickElementByTestId(page, 'item-task-regularity', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-task-regularity')
+
+  // add thumbnail image
+  await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+
+  await clickElementByTestId(page, 'form-modal-save-btn')
+}
+
 const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
-  const locator = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
-  const numberOfTotalTerms = await locator.count()
-  const numberOfSelectedTerms = await page
-    .locator(`${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`)
-    .count()
+  const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+  const locatorForSelectedTerms = page.locator(
+    `${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`
+  )
+  const numberOfTotalTerms = await locatorForAllTerms.count()
+  const numberOfInitiallySelectedTerms = await locatorForSelectedTerms.count()
 
   // unselect all
-  for (let i = 0; i < numberOfSelectedTerms; i++) {
-    // the selected terms are always sorted as first, thus nth(0)
-    await locator.nth(0).click()
+  for (let i = 1; i <= numberOfInitiallySelectedTerms; i++) {
+    await locatorForSelectedTerms.nth(0).click()
+    // wait until the click is handled
+    await expect.poll(() => locatorForSelectedTerms.count()).toBe(numberOfInitiallySelectedTerms - i)
   }
 
   // select new terms
-  for (let i = 0; i < numberOfTermsToSelect; i++) {
+  for (let i = 1; i <= numberOfTermsToSelect; i++) {
     // the selected terms are always sorted as first, so we select the last ones to avoid unselection
-    await locator.nth(numberOfTotalTerms - 1).click()
+    await locatorForAllTerms.nth(numberOfTotalTerms - 1).click()
+    // wait until the click is handled
+    await expect.poll(() => locatorForSelectedTerms.count()).toBe(i)
   }
+}
+
+const inputSpaceLocation = async (page: Page, location: string) => {
+  const locationInput = await locateElementByTestId(page, 'spaces-location-input')
+  await locationInput.fill(location)
+}
+
+const testAddEditDeleteTask = async (page: Page) => {
+  // create task
+  const taskTitle = 'E2E task'
+  const taskDescription = 'E2E task description'
+  await clickElementByTestId(page, 'space-edit-close')
+  await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+  await clickElementByTestId(page, 'btn-right-space-tasks-card')
+  await checkAccessibility(page)
+  await inputTaskInfo(page, taskTitle, taskDescription)
+  await expect(page.getByText(taskTitle)).toBeVisible()
+
+  // edit task
+  const editedTaskTitle = 'E2E edited task'
+  const editedTaskDescription = 'E2E edited description'
+  await clickElementByTestId(page, 'btn-task-more-options')
+  await clickElementByTestId(page, 'btn-to-edit-task')
+  await checkAccessibility(page)
+
+  // edit task title
+  const taskTitleInput = await locateElementByTestId(page, 'task-name-input')
+  await taskTitleInput.fill(editedTaskTitle)
+
+  // edit task description
+  const taskDescriptionInput = await locateElementByTestId(page, 'task-description-input')
+  await taskDescriptionInput.fill(editedTaskDescription)
+
+  // save edited task
+  await clickElementByTestId(page, 'form-modal-save-btn')
+  await expect(page.getByText(editedTaskTitle)).toBeVisible()
+
+  // delete task
+  await clickElementByTestId(page, 'btn-task-more-options')
+  await clickElementByTestId(page, 'btn-to-delete-task')
+  await clickElementByTestId(page, 'task-delete-confirmation-confirm')
+  await page.waitForSelector(byTestId('task-delete-confirmation-confirm'), { state: 'hidden' })
+}
+
+const testAddEditDeleteDigitalTool = async (page: Page) => {
+  // Test adding a tool from a space's Get Involved tab
+  await clickElementByTestId(page, 'btn-right-space-tools-card') // Little + button
+  await createDigitalTool(page)
+  const toolIcon = await locateElementByTestId(page, 'tool-icon')
+  const toolName = await locateElementByTestId(page, 'tool-title')
+  const toolContextBtn = await locateElementByTestId(page, 'digital-toolkit-btn')
+  await expect(toolIcon).toBeVisible()
+  await expect(toolName).toBeVisible()
+  await expect(toolContextBtn).toBeVisible()
+  let numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
+  await expect.poll(numberOfTools).toBe(1)
+
+  // Test adding a tool from the Linkhub
+  await clickElementByTestId(page, 'btn-left-space-tools-card')
+  await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
+  await createDigitalTool(page)
+  await clickElementByTestId(page, 'nav-button-back')
+  numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
+  await expect.poll(numberOfTools).toBe(2)
+
+  // Test deleting a tool
+  await clickElementByTestId(page, 'digital-toolkit-btn')
+  await clickElementByTestId(page, 'tool-delete-btn')
+  await clickElementByTestId(page, 'tool-delete-confirmation-confirm')
+  await expect.poll(numberOfTools).toBe(1)
+
+  // Test Tool Details Modal
+  await clickElementByTestId(page, 'btn-show-tool-details')
+  const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
+  const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
+  const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
+  await expect(toolDetailModal).toBeVisible()
+  await expect(editButton).toBeVisible()
+  await expect(toolUrl).toBe('Open https://www.holi.community')
+  await clickElementByTestId(page, 'btn-to-close-tool-details-modal')
+  await expect(toolDetailModal).not.toBeVisible()
+
+  // Test editing a tool
+  await clickElementByTestId(page, 'digital-toolkit-btn')
+  const toolEditModal = await locateElementByTestId(page, 'more-options-modal-animatedview')
+  await expect(toolEditModal).toBeVisible()
+  await clickElementByTestId(page, 'tool-edit-btn') // Edit on modal
+  const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
+  await toolTitleInput.fill('Edited Tool Name')
+  await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
+  const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
+  await expect(editedToolName).toBe('Edited Tool Name')
+}
+
+// Create a space with a name, goal, topics and a cover image
+const createSpace = async (
+  page: Page,
+  numberOfInitialTerms = 3,
+  initialName = 'e2e space name',
+  initialGoal = 'e2e space goal'
+) => {
+  await clickElementByTestId(page, 'btn-to-spaces')
+  await clickElementByTestId(page, 'btn-create-space')
+  // wait until page is loaded
+  await page.waitForSelector(byTestId('holi-wizard-next-btn'))
+
+  // Create space - name and goal
+  await checkAccessibility(page)
+  await checkConfirmButtonIsDisabled(page)
+  await inputSpaceNameAndGoal(page, initialName, initialGoal)
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  // Create space - topics
+  await checkAccessibility(page)
+  await checkConfirmButtonIsDisabled(page)
+  await selectSomeTerms(page, numberOfInitialTerms)
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+
+  // Create space - cover image
+  await checkAccessibility(page)
+  await checkConfirmButtonIsDisabled(page)
+  await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
+  await clickElementByTestId(page, 'holi-wizard-next-btn')
+  await clickElementByTestId(page, 'space-onBoard-content-close-btn')
+}
+
+// Add a digital tool to a space (Linkhub)
+const createDigitalTool = async (
+  page: Page,
+  url = 'https://www.holi.community',
+  name = 'Team Chat',
+  desc = 'A Place for our Community'
+) => {
+  await checkAccessibility(page)
+  const toolUrlInput = await page.waitForSelector(byTestId('tool-url-input'))
+  const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
+  const toolDescriptionInput = await page.waitForSelector(byTestId('tool-description-input'))
+  await toolUrlInput.fill(url)
+  await toolTitleInput.fill(name)
+  await toolDescriptionInput.fill(desc)
+
+  // select collection
+  await page.waitForSelector(byTestId('btn-digital-tool-collection'))
+  await clickElementByTestId(page, 'btn-digital-tool-collection')
+  await clickElementByTestId(page, 'item-digital-tool-collection', 0)
+  // check if it closed
+  await locateElementByTestId(page, 'btn-digital-tool-collection')
+
+  await clickElementByTestId(page, 'form-modal-save-btn')
 }

@@ -1,5 +1,14 @@
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
+import {
+  LocationType,
+  Regularity,
+  Space,
+  SpaceLink,
+  SpaceLinkType,
+  SpaceMember,
+  Task,
+  VisibilityType,
+} from '@holi/core/screens/spaces/types'
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
@@ -55,7 +64,11 @@ export const task: Task = {
   slotsAvailable: 3,
   slotsTaken: 1,
   location: 'Hamburg, Germany',
-  regularity: 'PROJECT_BASED',
+  locationType: LocationType.ONSITE,
+  regularity: Regularity.PROJECT_BASED,
+  visibility: VisibilityType.PUBLIC,
+  contactEmail: 'test@email.com',
+  thumbnail: 'https://www.example.com/avatar.jpg?tr=w-48',
   skills: [
     { id: 'COMMUNICATION_SKILLS', title: 'Communication skills', slug: 'communication-skills' },
     { id: 'CREATIVITY', title: 'Creativity', slug: 'creativity' },

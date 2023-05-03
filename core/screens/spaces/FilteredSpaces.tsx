@@ -3,15 +3,14 @@ import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -51,7 +50,6 @@ const FilteredSpaces: React.VFC = () => {
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -97,12 +95,7 @@ const FilteredSpaces: React.VFC = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={styles.wrapper}
-        testID="filtered-spaces-container"
-      >
+      <DefaultScrollHeaderLayout style={styles.wrapper} testID="filtered-spaces-container">
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {spaces.length > 0 && !loading && <SpacesGrid style={styles.grid} spaces={spaces} />}
@@ -118,7 +111,12 @@ const FilteredSpaces: React.VFC = () => {
                 secondText={t('spaces.filter.notFound.description')}
                 style={styles.noResults}
               >
-                <HoliButton label={t('search.filter.reset')} onPress={() => navigate('/spaces')} inline>
+                <HoliButton
+                  label={t('search.filter.reset')}
+                  onPress={() => navigate('/spaces')}
+                  inline
+                  testID="spaces-filter-reset"
+                >
                   {t('search.filter.reset')}
                 </HoliButton>
               </HoliNoResults>
@@ -133,7 +131,8 @@ const FilteredSpaces: React.VFC = () => {
             </View>
           )}
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <SpaceFilterModal filters={filters} applyFilters={applyFilters} />
     </SpaceTermContextProvider>
   )

@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
+import { memberSpacesFragment } from '@holi/core/queries'
 import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
   fragment UserAvatar on User {
@@ -12,6 +13,7 @@ export const userAvatarFragment = gql`
     avatarDefaultColor
     fullName
     aboutMe
+    pronouns
   }
 `
 
@@ -25,6 +27,10 @@ export const userFragment = gql`
     aboutMe
     pronouns
     location
+    geolocation {
+      latitude
+      longitude
+    }
     avatarDefaultColor
     avatarLabel
     engagementLevel
@@ -58,6 +64,10 @@ export type AuthenticatedUserResponse = {
   authenticatedUser: User
 }
 
+export interface UserByIdResponse {
+  userById: User
+}
+
 export const userByIdQuery = gql`
   ${userFragment}
 
@@ -68,9 +78,24 @@ export const userByIdQuery = gql`
   }
 `
 
-export type UserByIdResponse = {
+export interface UserbyIdWithSpacesResponse {
   userById: User
+  spaces: MemberSpaces
 }
+
+export const userByIdWithSpacesQuery = gql`
+  ${userFragment}
+  ${memberSpacesFragment}
+
+  query UserByIdWithSpaces($userId: UUID!) {
+    userById(id: $userId) {
+      ...FullUser
+    }
+    spaces(memberId: $userId) {
+      ...MemberSpaces
+    }
+  }
+`
 
 export const userByNameQuery = gql`
   ${userAvatarFragment}
@@ -89,11 +114,17 @@ export type UserByNameResponse = {
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
-  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).max(192).optional(),
-  lastName: z.string().max(192).optional(),
-  aboutMe: z.string().max(3000).optional(),
-  pronouns: z.string().max(192).optional(),
-  location: z.string().max(192).optional(),
+  firstName: z.string().min(2, { message: 'minCharacters---2' }).max(192, { message: 'maxCharacters---192' }),
+  lastName: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
+  aboutMe: z.string().max(3000, { message: 'maxCharacters---3000' }).optional(),
+  pronouns: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
+  location: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
+  geolocation: z
+    .object({
+      latitude: z.number().optional(),
+      longiture: z.number().optional(),
+    })
+    .optional(),
   engagementLevel: z.string().optional(),
   interests: z.array(z.string() /* UUID */).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),

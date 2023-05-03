@@ -3,7 +3,7 @@ import * as webdriverio from 'webdriverio'
 import appiumConfig, { target } from './appiumConfig'
 import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
-import { resetImplicitTimeout } from './helpers/selectors'
+import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 global.platform = appiumConfig.platform
 global.target = target
@@ -16,7 +16,7 @@ beforeEach(async () => {
   global.Appium = await webdriverio.remote(appiumConfig)
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await resetImplicitTimeout()
-  if (appiumConfig.capabilities.app) {
+  if (appiumConfig.capabilities['appium:app']) {
     let numAttempts = 5
     let appRunning = false
     // Installing and starting the app on local emulator might take very long
@@ -25,12 +25,14 @@ beforeEach(async () => {
     while (!appRunning && numAttempts) {
       // Wait for the app to start
       try {
-        await waitForHomeScreen(homeScreenTimeout)
+        await waitForElementWithTestId('btn-to-continue-as-guest', homeScreenTimeout)
         appRunning = true
       } catch (e) {
         numAttempts--
       }
     }
+    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await waitForHomeScreen(homeScreenTimeout)
   } else {
     // Logout + navigate back to the home screen before each test
     await navigateBackToHomeScreen()
@@ -42,6 +44,7 @@ jest.setTimeout(240000) // a normal test runs up to 2 minutes, but give some tim
 
 afterEach(async () => {
   if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {
+    if (!global.sessionHolder) global.sessionHolder = {}
     global.sessionHolder.id = Appium.sessionId
   }
   await global.Appium?.deleteSession()

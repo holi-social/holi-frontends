@@ -1,6 +1,7 @@
 # holi-frontends
 
 <!-- TOC -->
+
 - [holi-frontends](#holi-frontends)
   - [Development](#development)
     - [Prerequisites](#prerequisites)
@@ -11,6 +12,7 @@
     - [Automated Testing](#automated-testing)
       - [Unit tests](#unit-tests)
         - [Execution](#execution)
+        - [Local Execution](#local-execution)
         - [Conventions](#conventions)
       - [Web e2e tests](#web-e2e-tests)
       - [Mobile e2e tests](#mobile-e2e-tests)
@@ -44,6 +46,7 @@
   - [Authentication](#authentication)
     - [Mobile](#mobile-1)
     - [Web](#web-1)
+    - [OAuth2](#oauth2)
   - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
   - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
     - [Feature Branches \& Environments](#feature-branches--environments)
@@ -59,7 +62,7 @@
       - [Configuration for mobile builds](#configuration-for-mobile-builds)
   - [sentry.io logging/tracing](#sentryio-loggingtracing)
   - [Accessibility testing](#accessibility-testing)
-<!-- /TOC -->
+  <!-- /TOC -->
 
 ## Development
 
@@ -86,6 +89,7 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
   - _Note that the **Pixel 4 API 32** was throwing a permissions error in **macOS Ventura 13.1**. We corrected the error by installing a different device, for example, the **Pixel 5 API 31**._
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Add `<path-to-android-sdk>/platform-tools` to your `PATH` environment variable to access the `adb` command.
+- For Gnu Bash or Zsh run `export ANDROID_HOME ~/Library/Android/sdk` and `export PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools`
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
 - `yarn mobile:dev` > `a`
@@ -138,6 +142,24 @@ yarn test -t SpaceTaskTile
 # or
 yarn test -t 'SpaceTaskTile renders correctly'
 ```
+
+##### Local Execution
+
+You can also run some of the tests locally. Currently, only Core, but more is to come.
+
+```sh
+# just navigate to the package, for example:
+cd core
+
+# and execute
+yarn test
+# or
+yarn test:watch myFileName
+# or
+yarn test:watchAll
+```
+
+Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
 
 ##### Conventions
 
@@ -267,6 +289,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
 - File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
   - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase and might start with an underscore.
 - Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
+
   - E.g.
 
     ```ts
@@ -278,6 +301,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
     ```
 
   - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
+
 - For very complex components that span over multiple files (e.g. screens or platform specific variants), group all files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and hides the complexity of the component itself.
   - Example:
     - `foobar` - see `core/navigation/hooks/useRouting` as example
@@ -509,11 +533,11 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 
-- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage example)
+- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
 - and `useErrorHandling` provides a function to display error messages as toasts.
 
 For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
@@ -573,14 +597,14 @@ Please note that `ssr` will only be set to true when decided to use SSR in the w
 ##### `apps/web/pages/quote.tsx`
 
 ```tsx
+import { ApolloClient, gql } from '@apollo/client'
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
-import { ApolloClient, gql } from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: API_URL
-});
+  uri: API_URL,
+})
 
 const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
 
@@ -594,7 +618,7 @@ export const getServerSideProps = async () => {
         }
       }
     `,
-  });
+  })
 
   return { props: { ssrData: data } }
 }
@@ -622,6 +646,18 @@ request header `Authorization: Bearer $TOKEN`.
 During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
 secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
 the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
+
+### OAuth2
+
+In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://owncloud.dev/ocis/)) there are some web specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
+
+The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
+
+```sh
+127.0.0.1 staging.web.project-holi.org
+```
+
+However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
 
 ## Exploring the GraphQL API (via graphiql)
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -8,11 +8,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceImageFormProps = {
-  title: string
+  title?: string
   description?: string
+  instructions?: string
   onUploadImage: (image: ImageInfo | undefined) => void
   image: ImageInfo | undefined
   style?: ViewStyle
@@ -21,33 +22,15 @@ export type SpaceImageFormProps = {
 const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   title,
   description,
+  instructions,
   onUploadImage,
   image,
   style,
 }: SpaceImageFormProps) => {
-  const { width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
-  const containerPadding = deviceWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20
 
   const removeImage = () => {
     onUploadImage(undefined)
-  }
-
-  const ImageUploader = () => {
-    return (
-      <HoliTabs
-        id="upload-image-tabs"
-        style={styles.holiTabs}
-        tabBarStyle={styles.tabBar}
-        tabs={[
-          {
-            title: t('spaces.input.coverImage.tab.upload.title'),
-            style: { ...styles.tabStyle, width: Platform.OS === 'web' ? '100%' : deviceWidth - containerPadding * 2 },
-            children: <Uploader />,
-          },
-        ]}
-      />
-    )
   }
 
   const Uploader = () => {
@@ -74,25 +57,19 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             </View>
           </>
         )) || (
-          <HoliImagePicker
-            maxFileSizeInMB={8}
-            buttonProps={{
-              label: t('spaces.input.coverImage.upload.button.label'),
-              transparent: true,
-              inline: true,
-            }}
-            onPickImage={onUploadImage}
-          >
-            <View style={styles.uploadButtonContainer}>
-              <HoliButton
-                label={t('spaces.input.coverImage.upload.button.label')}
-                testID="space-upload-image-btn"
-                style={styles.imageUploadButton}
-              >
-                <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
-              </HoliButton>
-            </View>
-          </HoliImagePicker>
+          <View style={styles.uploadButtonContainer}>
+            <HoliImagePicker
+              maxFileSizeInMB={8}
+              buttonProps={{
+                label: t('spaces.input.coverImage.upload.button.label'),
+                testID: 'space-upload-image-btn',
+                style: styles.imageUploadButton,
+              }}
+              onPickImage={onUploadImage}
+            >
+              <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
+            </HoliImagePicker>
+          </View>
         )}
         <Instructions />
       </View>
@@ -103,7 +80,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
     return (
       <View style={styles.instructionsContainer}>
         <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.input.coverImage.upload.hint')}
+          {instructions ? instructions : t('spaces.input.coverImage.upload.hint')}
         </HoliText>
       </View>
     )
@@ -111,11 +88,24 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
 
   return (
     <View style={[styles.container, style]}>
-      <HoliText size="extralarge" style={styles.title}>
-        {title}
-      </HoliText>
+      {!!title && (
+        <HoliText size="extralarge" style={styles.title}>
+          {title}
+        </HoliText>
+      )}
       {!!description && <HoliText style={styles.subTitle}>{description}</HoliText>}
-      <ImageUploader />
+      <HoliTabs
+        id="upload-image-tabs"
+        style={styles.holiTabs}
+        tabBarStyle={styles.tabBar}
+        tabs={[
+          {
+            title: t('spaces.input.coverImage.tab.upload.title'),
+            style: styles.tabStyle,
+            children: <Uploader />,
+          },
+        ]}
+      />
     </View>
   )
 }
@@ -124,7 +114,7 @@ export default SpaceImageForm
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 132,
+    paddingBottom: 42,
   },
   title: {
     marginTop: 40,
@@ -163,6 +153,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   tabStyle: {
+    width: '100%',
     backgroundColor: colors.background10,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
@@ -179,8 +170,12 @@ const styles = StyleSheet.create({
   imageUploader: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 42,
-    paddingTop: 16,
+    paddingVertical: 16,
+    ...Platform.select({
+      web: {
+        paddingVertical: 42,
+      },
+    }),
   },
   uploadButtonContainer: {
     alignItems: 'center',

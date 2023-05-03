@@ -1,13 +1,14 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import Constants from 'expo-constants'
+import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { DonationsAppScreensList } from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -37,9 +38,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   const [projectId] = useParam('projectId')
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
   const { displayError } = useErrorHandling()
+  const statusBarHeight = Constants.statusBarHeight
+  const styles = getStyles(statusBarHeight)
 
   const mixins = useStyleMixins()
 
@@ -62,6 +64,12 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
     }
   }, [fetchProjectById, projectId, loading, project])
 
+  useEffect(() => {
+    if (error) {
+      displayError(error, t('donations:donationListing.error'))
+    }
+  }, [error, displayError, t])
+
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
     return (
@@ -71,10 +79,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
         </View>
       </DefaultLayout>
     )
-  }
-
-  if (error) {
-    displayError(error, t('donations:donationListing.error'))
   }
 
   if (!project) {
@@ -92,11 +96,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
       style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
       testID="donations-detailview-container"
     >
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={{ backgroundColor: colors.background30 }}
-      >
+      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
@@ -132,7 +132,8 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
             />
           )}
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View style={[mixins.container, styles.donateButton]}>
         <HoliButtonLoading
           icon="share-box"
@@ -147,56 +148,61 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
 
 export default memo(DonationsAppProjectDetail)
 
-const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
-  },
-  container: {
-    paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  donateButton: {
-    bottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-  },
-  image: {
-    aspectRatio: 375 / 240,
-    width: '100%',
-  },
-  header: {
-    paddingHorizontal: 24,
-    paddingTop: 40,
-    paddingBottom: 24,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-    backgroundColor: colors.background10,
-  },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 14,
-  },
-  card: {
-    paddingHorizontal: 24,
-    borderRadius: 32,
-    backgroundColor: colors.background10,
-    marginTop: 2,
-    paddingVertical: 16,
-  },
-})
+const getStyles = (statusBarHeight: number) =>
+  StyleSheet.create({
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: vars.topBarHeight + 50,
+    },
+    container: {
+      paddingBottom: 132,
+      paddingHorizontal: 0,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+          paddingTop: vars.topBarHeight + 40,
+        },
+        web: {
+          paddingTop: statusBarHeight + vars.topBarHeight,
+        },
+      }),
+    },
+    donateButton: {
+      bottom: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      ...Platform.select({
+        native: {
+          position: 'absolute',
+        },
+        default: {
+          position: 'fixed',
+        },
+      }),
+    },
+    image: {
+      aspectRatio: 375 / 240,
+      width: '100%',
+    },
+    header: {
+      paddingHorizontal: 24,
+      paddingTop: 40,
+      paddingBottom: 24,
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+      backgroundColor: colors.background10,
+    },
+    location: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 14,
+    },
+    card: {
+      paddingHorizontal: 24,
+      borderRadius: 32,
+      backgroundColor: colors.background10,
+      marginTop: 2,
+      paddingVertical: 16,
+    },
+  })

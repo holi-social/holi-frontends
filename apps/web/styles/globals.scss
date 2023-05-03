@@ -80,3 +80,18 @@ li {
 [role=checkbox]:focus > div {
   border: solid 1px $brandColorB30 !important;
 }
+
+// "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
+// set 100% height for next three levels of children
+[data-stepper-wrapper="true"] {
+  & > *,
+  & > * > *,
+  & > * > * > * {
+    height: 100%;
+  }
+}
+
+// do not display header, if it does not have any children
+header:empty {
+  display: none;
+}

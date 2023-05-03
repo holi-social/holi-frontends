@@ -6,7 +6,24 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
 >
   <View
     accessibilityLabel="Some User"
-    accessibilityRole="button"
+    accessibilityRole="link"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -19,15 +36,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "color": "#6267e7",
-        },
-        undefined,
-        undefined,
-      ]
-    }
     testID="text-link"
   >
     <View
@@ -48,6 +56,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
               "justifyContent": "center",
               "overflow": "hidden",
             },
+            false,
             undefined,
             {
               "height": 40,
@@ -62,25 +71,14 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 16,
-                "lineHeight": 19.2,
-              },
-              false,
-              {
-                "color": "#262424",
-                "fontSize": 18,
-                "fontWeight": "bold",
-                "lineHeight": 21.599999999999998,
-                "textTransform": "uppercase",
-              },
-            ]
+            {
+              "color": "#262424",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "lineHeight": 21.599999999999998,
+              "textTransform": "uppercase",
+            }
           }
         >
           SU
@@ -100,40 +98,26 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 14,
-                "lineHeight": 16.8,
-              },
-              false,
-              {
-                "color": "#787777",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 16.8,
+            }
           }
         >
           <Text
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 14,
-                  "lineHeight": 16.8,
-                },
-                false,
-                undefined,
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 16.8,
+              }
             }
           />
         </Text>
@@ -141,26 +125,14 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           accessible={false}
           selectable={true}
           style={
-            [
-              {
-                "color": "#262424",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
-              },
-              false,
-              [
-                {
-                  "color": "#787777",
-                },
-                {
-                  "marginTop": 4,
-                },
-              ],
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "Circular Std Book",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+              "marginTop": 4,
+            }
           }
         >
           2 weeks ago
@@ -168,16 +140,41 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
       </View>
       <View
         style={
-          {
-            "backgroundColor": "#6267e7",
-            "borderRadius": 4,
-            "height": 8,
-            "marginLeft": 12,
-            "marginTop": 4,
-            "width": 8,
-          }
+          [
+            {
+              "minWidth": 12,
+              "position": "relative",
+            },
+            {
+              "marginLeft": 12,
+            },
+          ]
         }
-      />
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#6267e7",
+                "borderRadius": 6,
+                "borderWidth": 2,
+                "height": 12,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+                "width": 12,
+              },
+              {
+                "top": 4,
+              },
+              {
+                "borderColor": "#ebebeb",
+              },
+              {},
+            ]
+          }
+        />
+      </View>
     </View>
   </View>
 </View>

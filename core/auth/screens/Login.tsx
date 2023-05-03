@@ -1,34 +1,54 @@
-import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
+import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
-import { initLoginFlow } from '@holi/core/auth/helpers/auth'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
+import { initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useSafeDispatch } from '@holi/core/helpers'
+import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
+import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+
+export type LoginParams = {
+  return_to?: string
+}
+
+const { useParam } = createParam<LoginParams>()
 
 type ScreenProps = NativeStackScreenProps<RootStackScreens>
 
 const Login: React.VFC<ScreenProps> = () => {
-  const { isLoggedIn, setUserLoggedIn } = useAuth()
-  const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
+  const { userId } = useAuth()
+  const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
+  const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
+  const [return_to] = useParam('return_to', singleParamConfig)
+  const { redirect } = useRouting()
+  const { setOptions } = useUnifiedNavigation()
   const { displayError } = useErrorHandling()
+  const { isLoaderShown, showLoader, hideLoader } = useLoader()
+  const { onOnboardingStateChange: finishOnboarding } = useOnboarding()
+
+  const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
     setOptions({
@@ -42,78 +62,80 @@ const Login: React.VFC<ScreenProps> = () => {
     })
   }, [setOptions, t])
 
+  useLayoutEffect(() => {
+    // OAuth2 needs initial redirect
+    // see: See apps/web/pages/oauth2/login.tsx
+    if (Platform.OS === 'web' && isLoggedIn && return_to) {
+      confirmOAuth2Login()
+      window.location.href = return_to
+    }
+  }, [return_to, isLoggedIn])
+
   const initializeFlow = useCallback(() => {
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
-        setFlow(flow)
+        safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }, [t, displayError])
+  }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
     !isLoggedIn && initializeFlow()
   }, [isLoggedIn, initializeFlow])
 
-  const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
-    if (flow)
-      return newKratosSdk()
-        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-        .then(({ data }) =>
-          client.clearStore().then(() => {
-            setUserLoggedIn(data as OrySessionContext)
-          })
-        )
-        .catch(handleFormSubmitError(setFlow, initializeFlow))
-        .catch((error) => displayError(error, t('auth.login.error.login')))
-    return Promise.resolve()
+  const performLogin = async (payload: UpdateLoginFlowBody) => {
+    if (flow) {
+      showLoader()
+
+      try {
+        const { data } = await submitLoginFlow(flow, payload, undefined)
+        await client.clearStore()
+        await setUserLoggedIn(data as OrySessionContext)
+        await finishOnboarding()
+        confirmOAuth2Login()
+
+        if (Platform.OS === 'web' && return_to) {
+          // server side redirect, see: See apps/web/pages/oauth2/login.tsx
+          window.location.href = return_to
+        } else {
+          redirect()
+        }
+      } catch (err) {
+        handleFormSubmitError(safeSetFlow, initializeFlow, (err) => displayError(err, t('auth.login.error.login')), err)
+      } finally {
+        hideLoader()
+      }
+    }
   }
 
   return (
-    <DefaultLayout headerOverlap={true}>
-      <LoginRegistrationContainer>
-        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+    <DefaultLayout headerOverlap={true} keyboardShouldPersistTaps="always">
+      <HoliBox padding={[0, 24]}>
+        <LoginRegistrationContainer>
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
 
-        <HoliButton
-          transparent
-          inline
-          label={t('auth.login.link.forgotPassword')}
-          variant="small"
-          style={styles.button}
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/forgotPassword')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/forgotPassword'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          testID="btn-to-forgot-password-form"
-        >
-          {t('auth.login.link.forgotPassword')}
-        </HoliButton>
+          <View style={styles.formItemContainer}>
+            <HoliTextLink
+              label={t('auth.login.link.forgotPassword')}
+              href="/forgotPassword"
+              size="small"
+              variant="secondary"
+              mobileNavigateBackFirst
+              testID="btn-to-forgot-password-form"
+            >
+              {t('auth.login.link.forgotPassword')}
+            </HoliTextLink>
+          </View>
 
-        <HoliHeading level="2" style={styles.headline2}>
-          {t('auth.login.signUp.link.headline')}
-        </HoliHeading>
+          <HoliHeading level="2" style={styles.headline2}>
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
 
-        <HoliButton
-          onPress={() => {
-            if (Platform.OS === 'web') {
-              replaceRoute('/registration')
-            } else {
-              navigateBack()
-              setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
-            }
-          }}
-          label={t('auth.loginProtection.registration')}
-          type="secondary"
-          style={styles.button}
-          testID="btn-to-registration-form"
-        >
-          {t('auth.loginProtection.registration')}
-        </HoliButton>
-      </LoginRegistrationContainer>
+          <RegistrationButton style={styles.formItemContainer} />
+        </LoginRegistrationContainer>
+      </HoliBox>
+      {isLoaderShown && <HoliLoader />}
     </DefaultLayout>
   )
 }
@@ -126,7 +148,7 @@ const styles = StyleSheet.create({
     minHeight: 235,
     width: '100%',
   },
-  button: {
+  formItemContainer: {
     marginTop: 20,
   },
   headline2: {

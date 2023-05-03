@@ -1,35 +1,29 @@
-import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { useWindowDimensions } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import type { AuthStackScreensList } from '@holi/mobile/navigation/AuthNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-type ScreenProps = NativeStackScreenProps<AuthStackScreensList>
-
-const OwnProfile: React.VFC<ScreenProps> = () => {
+const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -38,18 +32,23 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const { isLoggedIn } = useAuth()
-  const { user } = useContext(UserContext)
-
-  const mixins = useStyleMixins()
+  const { user, isLoggedIn } = useLoggedInUser()
+  const { onboardingState } = useOnboarding()
+  const isOnboardingFinished = onboardingState === 'finished'
 
   const { setOptions, navigate } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
 
-  const toggleEditMode = useCallback((editMode: EditModeState) => {
-    setEditMode(editMode)
-    setShowModal(true)
-  }, [])
+  const toggleEditMode = useCallback(
+    (newEditMode: EditModeState) => {
+      setEditMode(newEditMode)
+      // if pressed too soon, the state is set to true, but the modal is not shown.
+      // crude mechanism to recover from this state.
+      // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+      showModal && setShowModal(false)
+      setShowModal(true)
+    },
+    [showModal]
+  )
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -57,13 +56,12 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     const title = t('profile.title')
 
-    if (isLoggedIn) {
+    if (isLoggedIn && isOnboardingFinished) {
       setOptions({
         title,
         headerShown: true,
         headerBackTitleVisible: true,
         headerBackVisible: true,
-        headerTransparent: true,
         headerStyle: { backgroundColor: colors.background10 },
         headerTitle: () => null,
         headerLeft: ({ tintColor }) => (
@@ -106,11 +104,11 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
         headerShown: false,
       })
     }
-  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
+  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished])
 
   return (
     <LoginProtection>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultScrollHeaderLayout keyboardShouldPersistTaps="handled">
         {user ? (
           <>
             {editMode && (
@@ -134,7 +132,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                   {editMode === 'interests' && (
                     <UserChipLoader
                       user={user}
-                      onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
                       queryToUse={interestsQuery}
@@ -143,20 +140,13 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                   {editMode === 'skills' && (
                     <UserChipLoader
                       user={user}
-                      onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'skills'}
                       queryToUse={skillsQuery}
                     />
                   )}
                   {editMode === 'sdgs' && (
-                    <UserChipLoader
-                      user={user}
-                      onCancel={closeModal}
-                      onSubmit={closeModal}
-                      keyInUserObject={'sdgs'}
-                      queryToUse={sdgsQuery}
-                    />
+                    <UserChipLoader user={user} onSubmit={closeModal} keyInUserObject={'sdgs'} queryToUse={sdgsQuery} />
                   )}
                 </HoliKeyboardSaveView>
               </HoliModal>
@@ -164,23 +154,11 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
           </>
         ) : (
-          <View style={[mixins.container, styles.container]}>
-            <HoliText>{t('user.profileView.noUser')}</HoliText>
-          </View>
+          <HoliLoader />
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
     </LoginProtection>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  headerEditButton: {
-    marginLeft: 24,
-    marginRight: Platform.OS === 'web' ? 24 : 0,
-  },
-})
 
 export default memo(OwnProfile)

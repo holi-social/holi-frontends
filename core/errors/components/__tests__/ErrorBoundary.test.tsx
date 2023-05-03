@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { fireEvent, render } from '@testing-library/react-native'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
@@ -54,7 +55,24 @@ describe('renders correctly', () => {
     expect(queryByText('Child Content')).toBeFalsy()
   })
 
+  it('warn logs and tracks error with sentry in production', () => {
+    render(
+      <ErrorBoundary>
+        <ErrorComponent />
+      </ErrorBoundary>
+    )
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '[logError.ts] [ErrorBoundary.tsx]:',
+      new Error('Test'),
+      expect.any(String)
+    )
+    expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
+  })
+
   it('logs and tracks error with sentry', () => {
+    // @ts-ignore
+    process.env.NODE_ENV = 'development'
     render(
       <ErrorBoundary>
         <ErrorComponent />

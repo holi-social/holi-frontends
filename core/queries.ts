@@ -1,5 +1,8 @@
 import { gql } from '@apollo/client'
 
+import { Insight } from '@holi/core/screens/insights/types'
+import { Paged } from '@holi/core/types'
+
 // Report Content query
 export enum ContentType {
   POST = 'POST',
@@ -32,3 +35,51 @@ export const BlockUserMutation = gql`
 export interface BlockUserResponse {
   success: boolean
 }
+
+export const memberSpacesFragment = gql`
+  fragment MemberSpaces on SpacePaged {
+    data {
+      id
+      title
+      cover
+      name
+      members {
+        data {
+          user {
+            id
+            avatar
+            avatarLabel
+            avatarDefaultColor
+          }
+        }
+      }
+    }
+    totalResults
+  }
+`
+
+export interface InsightsByUserIdResponse {
+  insightsByUserId: Paged<Insight>
+}
+
+export const insightsByUserIdQuery = gql`
+  query InsightsByUserIdQuery($userId: UUID!) {
+    insightsByUserId(id: $userId) {
+      data {
+        title
+        headerImage
+        id
+        posts {
+          id
+          image {
+            id
+            url
+            width
+          }
+          title
+        }
+      }
+      totalResults
+    }
+  }
+`

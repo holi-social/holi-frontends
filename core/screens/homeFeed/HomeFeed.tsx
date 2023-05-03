@@ -4,9 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -15,6 +13,7 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,10 +31,9 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
-  const onScreenScroll = useScrollYHandler()
 
   const mixins = useStyleMixins()
 
@@ -54,11 +52,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
       headerLeft: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/holi/holi_alpha.svg')}
+            imageSource={require('@holi/ui/assets/img/holi/holi_beta.svg')}
             isSvg
-            width={82}
+            width={78}
             height={24}
-            label="Holi"
+            label={t('navigation.title')}
           />
         </HoliButton>
       ),
@@ -68,16 +66,20 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultScrollHeaderLayout style={styles.layout}>
         {Platform.OS === 'web' && (
           <View style={[mixins.container, styles.testingBannerWrapper]}>
             <TestingBanner />
           </View>
         )}
+
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />
     </>
@@ -85,6 +87,9 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 }
 
 const styles = StyleSheet.create({
+  layout: {
+    paddingBottom: 80,
+  },
   testingBannerWrapper: {
     marginTop: 24,
   },
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   userSuggestionsContainer: {
-    marginTop: 88,
+    marginTop: 64,
   },
 })
 

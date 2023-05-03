@@ -1,93 +1,93 @@
-import React, { useEffect } from 'react'
-import {
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
+import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type HoliTabsProps = {
+interface Props {
   id: string
+  initialStep?: number
   tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
   centeredButtons?: boolean
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
   testID?: string
-  scrollEnabled?: boolean
   tabBarWidth?: number
   tabBarStyle?: StyleProp<ViewStyle>
+  stepper?: boolean
+  backgroundColor?: string
 }
 
-const isWeb = Platform.OS === 'web'
-
-const HoliTabs: React.FC<HoliTabsProps> = ({
+const HoliTabs = ({
   id,
   tabs,
+  initialStep,
   centeredButtons,
-  onChangeTab = () => null,
   style,
-  scrollEnabled = true,
-  testID = 'tabs-module',
-  tabBarWidth,
   tabBarStyle,
-}: HoliTabsProps) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0)
-  const carousel = React.useRef<ScrollView | null>(null)
-
-  const { width: screenWidth } = useWindowDimensions()
-  const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
+  onChangeTab,
+  backgroundColor,
+  testID = 'tabs-module',
+  stepper = true,
+}: Props) => {
+  const [viewWidth, setViewWidth] = useState(750)
+  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(viewWidth, initialStep)
+  const [activeTab, setActiveTab] = useState(currentStep)
   const mixins = useStyleMixins()
-  const styles = getStyles(tabScreenWidth, centeredButtons)
+  const styles = getStyles(centeredButtons)
 
+  const handleTabChange = useCallback(
+    (index: number) => {
+      setActiveTab(index)
+      setStep(index)
+    },
+    [setStep]
+  )
+
+  // TODO - Handle state changes in one handler
   useEffect(() => {
-    onChangeTab(currentSlide)
-  }, [currentSlide, onChangeTab])
+    handleTabChange(currentStep)
+    onChangeTab?.(currentStep)
+  }, [currentStep, onChangeTab, handleTabChange])
 
-  const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent || !nativeEvent.contentOffset) {
-      return
-    }
-
-    // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / tabScreenWidth))
+  const handleLayout = (e: LayoutChangeEvent) => {
+    const width = e.nativeEvent.layout.width
+    setViewWidth(width)
   }
 
-  const goToIndex = (index: number) => {
-    if (isWeb) {
-      setCurrentSlide(index)
-      return
-    }
-    if (!carousel || !carousel.current) {
-      return
-    }
-
-    const scrollPoint = index * tabScreenWidth
-    carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
-    setCurrentSlide(index)
-  }
+  const renderedTabs = useMemo(
+    () =>
+      tabs.map((tab, i) => (
+        <View
+          style={tab.style}
+          accessibilityLabelledBy={`${id}-tab-${i}`}
+          nativeID={`${id}-panel-${i}`}
+          testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
+          key={i}
+          accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
+        >
+          {tab.children}
+        </View>
+      )),
+    [tabs, testID, currentStep, id]
+  )
 
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
+        <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
           {tabs.map((tab, index) => {
-            const isActive = currentSlide === index
+            const isActive = activeTab === index
             return (
               <HoliTabButton
                 label={tab.title}
                 id={`${id}-tab-${index}`}
-                style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
-                onPress={() => goToIndex(index)}
+                style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
+                onPress={() => handleTabChange(index)}
                 key={index}
                 accessibilitySelected={isActive}
                 accessibilityControls={`${id}-panel-${index}`}
@@ -102,66 +102,40 @@ const HoliTabs: React.FC<HoliTabsProps> = ({
                     filled={isActive}
                   />
                 )}
-                <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
+                <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
+                  {tab.title}
+                </Text>
               </HoliTabButton>
             )
           })}
         </View>
       </View>
-      {!isWeb && (
-        <ScrollView
-          ref={carousel}
-          contentContainerStyle={styles.scrollViewContainerStyle}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleScrollEnd}
-          scrollEnabled={scrollEnabled}
-        >
-          <View style={styles.tabContainer}>
-            {tabs.map((tab, i) => (
-              <View
-                style={[styles.tab, tab.style]}
-                accessibilityLabelledBy={`${id}-tab-${i}`}
-                nativeID={`${id}-panel-${i}`}
-                testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
-                key={i}
-              >
-                {tab.children}
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-      )}
 
-      {isWeb && (
-        <View
-          style={[styles.tabContainer, tabs[currentSlide].style]}
-          accessibilityRole="tabpanel"
-          accessibilityLabelledBy={`${id}-tab-${currentSlide}`}
-          nativeID={`${id}-panel-${currentSlide}`}
-          testID={`${testID}-panel-${currentSlide}-active`}
-        >
-          {tabs[currentSlide].children}
-        </View>
+      {stepper ? (
+        <HoliStepper
+          ref={stepperRef}
+          currentStep={currentStep}
+          width={viewWidth}
+          steps={renderedTabs}
+          scrollEnabled={scrollEnabled}
+          onScroll={onScroll}
+          onLayout={handleLayout}
+          backgroundColor={backgroundColor}
+        />
+      ) : (
+        renderedTabs
       )}
     </View>
   )
 }
 
-export default HoliTabs
-
-const getStyles = (screenWidth: number, centeredButtons = false) =>
+const getStyles = (centeredButtons = false) =>
   StyleSheet.create({
-    container: {
-      justifyContent: 'center',
+    holiTabs: {
+      justifyContent: 'flex-start',
       alignItems: 'center',
       alignContent: 'center',
-    },
-    scrollViewContainerStyle: {
-      alignContent: 'flex-start',
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
+      width: '100%',
     },
     headerContainer: {
       width: '100%',
@@ -196,16 +170,6 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
       color: colors.foreground30,
       fontWeight: '500',
     },
-    tabContainer: {
-      flex: 1,
-      width: '100%',
-      ...Platform.select({
-        native: {
-          flexDirection: 'row',
-        },
-      }),
-    },
-    tab: {
-      width: screenWidth,
-    },
   })
+
+export default HoliTabs

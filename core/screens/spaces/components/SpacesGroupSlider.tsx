@@ -2,10 +2,10 @@ import React, { memo, useContext, useMemo } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -91,24 +91,20 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
           ) : undefined
         }
       >
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          spacesData.map((space) => (
-            <HoliBlockItem
-              key={space.id}
-              label={space.title}
-              title={space.title}
-              subtitle={space.location}
-              description={space.description}
-              imageSrc={space.cover}
-              users={space.members.data.map((membership) => membership.user)}
-              href={`/spaces/${space.id}`}
-              size="large"
-              style={styles.backgroundWhite}
-              testID="space-link"
-            />
-          ))
-        }
+        {spacesData.map((space) => (
+          <HoliBlockItem
+            key={space.id}
+            label={space.title}
+            title={space.title}
+            subtitle={space.location}
+            description={space.description}
+            imageSrc={space.cover}
+            users={space.members.data.map((membership) => membership.user)}
+            href={`/spaces/${space.name}`}
+            size="large"
+            testID="space-link"
+          />
+        ))}
       </SpacesHorizontalSlider>
     </View>
   )

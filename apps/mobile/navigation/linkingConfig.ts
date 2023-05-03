@@ -34,6 +34,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.Profile]: 'profile',
             [RouteName.SettingsOverview]: 'profile/settings',
             [RouteName.AccountSettings]: 'profile/settings/account',
+            [RouteName.ChangePassword]: 'profile/settings/changePassword',
           },
         },
       },
@@ -51,10 +52,19 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
 
     [RouteName.Spaces]: {
       screens: {
-        [RouteName.SpaceDetails]: 'spaces/:spaceId',
+        [RouteName.SpaceDetails]: 'spaces/:spaceIdOrName',
         [RouteName.CreateSpace]: 'spaces/create',
-        [RouteName.EditSpace]: 'spaces/:spaceId/edit',
-        [RouteName.CollaboratorArea]: 'spaces/:spaceId/collaboratorArea',
+        [RouteName.EditSpace]: 'spaces/:spaceIdOrName/edit',
+        [RouteName.LinkHub]: 'spaces/:spaceIdOrName/linkhub',
+        [RouteName.CreateDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/create',
+        [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/:toolIdOrName/edit',
+        [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
+        [RouteName.CreateTask]: 'spaces/:spaceIdOrName/tasks/create',
+        [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
+        [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
+        [RouteName.CreateUpdate]: 'spaces/:spaceIdOrName/updates/create',
+        [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
+        [RouteName.SpaceUpdateCommentInputPage]: 'spaces/:spaceIdOrName/updates/:postId/comment',
       },
     },
 

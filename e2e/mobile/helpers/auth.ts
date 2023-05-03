@@ -5,6 +5,7 @@ import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
   tapOnElementWithTestId,
+  tapOnLoginLinkInText,
   waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from './selectors'
@@ -33,7 +34,8 @@ export const defaultAuthSteps = async (
     email = process.env.E2E_USER_USERNAME || 'empty',
     password = process.env.E2E_USER_PASSWORD || 'empty',
   }: DefaultAuthStepsProps = {},
-  mode: AuthMode = 'login'
+  mode: AuthMode = 'login',
+  withAccountSetup = true
 ) => {
   const isLogin = mode === 'login'
 
@@ -41,27 +43,65 @@ export const defaultAuthSteps = async (
   await tapOnElementWithTestId('btn-to-profile-view', 10000)
 
   // hit login
-  const buttonId = isLogin ? 'btn-to-login-form' : 'btn-to-registration-form'
-  const buttonExists = await checkIfElementWithTestIdExists(buttonId)
-  if (!isLogin || buttonExists) {
+  const buttonId = isLogin ? 'already-have-account-text' : 'btn-to-registration-form'
+  if (isLogin) {
+    await tapOnLoginLinkInText()
+  } else {
     await tapOnElementWithTestId(buttonId)
+    await tapOnElementWithTestId('community-guidelines-checkbox')
+    await tapOnElementWithTestId('community-guidelines-navbtn-next-btn')
+    await tapOnElementWithTestId('privacy-policy-checkbox')
+    await tapOnElementWithTestId('privacy-policy-navbtn-next-btn')
   }
 
   // inspect login modal
   await waitForElementWithTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
-
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
-  // close keyboard by touching the submit button (outside of the keyboad)
-  await tapOnElementWithTestId('ory-submit-method')
+  // Submit the form
+  await tapOnElementWithTestId('ory-submit-password')
 
-  if (!isLogin) {
-    const consentCheckbox = await waitForElementWithTestId('ory-checkbox-traits_consent')
-    consentCheckbox.click()
+  if (!isLogin && withAccountSetup) {
+    await finishAccountSetup()
   }
+}
 
-  await tapOnElementWithTestId('ory-submit-method')
+export const finishAccountSetup = async ({
+  firstName = faker.name.firstName(),
+  lastName = faker.name.lastName(),
+  pronouns = '',
+}: {
+  firstName?: string
+  lastName?: string
+  pronouns?: string
+} = {}) => {
+  // go through accound setup
+  // Names step
+  await waitForElementWithTestId('account-setup-names-step')
+  // provide user name
+  await fillFieldByTestId('first-name-input', firstName)
+  // provide user name
+  await fillFieldByTestId('last-name-input', lastName)
+  // provide user name
+  await fillFieldByTestId('pronouns-input', pronouns)
+  // submit name changes
+  // tap headline to hide keyboard
+  await tapOnElementWithTestId('account-setup-names-step-headline')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
+
+  // Pre-success step
+  await waitForElementWithTestId('account-setup-pre-registration-success-step')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
+  // Interests step
+  await waitForElementWithTestId('account-setup-interests-step')
+  await tapOnElementWithTestId('holi-wizard-skip-btn')
+  // Location step
+  await waitForElementWithTestId('account-setup-location-step')
+  await tapOnElementWithTestId('holi-wizard-skip-btn')
+  // Success step
+  await waitForElementWithTestId('account-setup-success-step')
+  await tapOnElementWithTestId('holi-wizard-next-btn')
 }
 
 export const logout = async () => {
@@ -83,7 +123,7 @@ export const deleteAccount = async () => {
   await tapOnElementWithTestId('btn-delete-account')
   await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
 
-  await waitForElementWithTestId('btn-to-login-form')
+  await waitForElementWithTestId('already-have-account-text')
   await tapOnElementWithTestId('btn-to-home-view')
 }
 
@@ -98,7 +138,7 @@ const gotoProfileSettingsOrLogin = async () => {
   }
   if (await checkIfElementWithTestIdExists('btn-to-profile-view')) {
     await tapOnElementWithTestId('btn-to-profile-view')
-    await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+    await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
     if (await checkIfElementWithTestIdExists('btn-to-settings')) {
       await tapOnElementWithTestId('btn-to-settings')
       await waitForElementWithTestId('btn-to-logout')
@@ -107,7 +147,7 @@ const gotoProfileSettingsOrLogin = async () => {
   }
   await navigateBackToHomeScreen()
   await tapOnElementWithTestId('btn-to-profile-view')
-  await waitForAnyElementWithTestId(['btn-to-login-form', 'btn-to-settings'])
+  await waitForAnyElementWithTestId(['already-have-account-text', 'btn-to-settings'])
   if (await checkIfElementWithTestIdExists('btn-to-settings')) {
     await tapOnElementWithTestId('btn-to-settings')
     await waitForElementWithTestId('btn-to-logout')

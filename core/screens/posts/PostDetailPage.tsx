@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
+import { SpacesScreens } from 'apps/mobile/navigation/SpacesNavigator'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useContext, useLayoutEffect, useRef } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -14,19 +15,19 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -36,23 +37,25 @@ export type PostDetailPageParams = {
   postId: string
   commentId?: string
   insightId?: string
+  spaceIdOrName?: string
 }
 
 const { useParam } = createParam<PostDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens>
+type ScreenProps = NativeStackScreenProps<InsightsScreens | SpacesScreens>
 
 const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const [postId] = useParam('postId')
   // `commentId` can be an UUID of a comment of hardcodded 'first' string value
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
-  const { isLoggedIn } = useContext(AuthContext)
-  const { openLoginDialog } = useLoginRedirect()
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -66,8 +69,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
   })
-
-  const onScreenScroll = useScrollYHandler()
 
   const title = data?.postById?.title
 
@@ -113,13 +114,19 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const comments = post.comments || []
 
+  const hasVisibilityIcon = spaceIdOrName !== ''
+
+  const getPostCommentUrl = () => {
+    return `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
+  }
+
   return (
     <>
       <StatusBar animated />
 
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
+      <DefaultScrollHeaderLayout ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
-          <PostContent post={post} style={styles.postContent} />
+          <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
 
           {/* Post comments */}
           {comments.length > 0 && (
@@ -134,6 +141,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
                   <CommentView
                     key={comment.id}
                     comment={comment}
+                    postId={post.id}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
                   />
@@ -142,17 +150,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             </View>
           )}
         </View>
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.postCommentWrapper}>
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() =>
-              isLoggedIn
-                ? navigate(`${insightId && `/insights/${insightId}`}/posts/${post.id}/comment`)
-                : openLoginDialog()
-            }
+            onPress={() => (isLoggedIn ? navigate(getPostCommentUrl()) : openLoginModal())}
           />
         </View>
       </SafeAreaView>

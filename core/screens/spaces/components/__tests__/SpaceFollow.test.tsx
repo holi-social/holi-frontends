@@ -2,17 +2,50 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import SpaceDetails from '@holi/core/screens/spaces/SpaceDetails'
 import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
-import { joinSpaceMutation, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
+import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+
+jest.mock('@holi/core/auth/helpers/useAuth', () => ({
+  useAuth: () => ({ userId: '123' }),
+  setUserLoggedOut: jest.fn(),
+}))
+
+jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
+  useErrorHandling: () => ({
+    displayError: jest.fn(),
+  }),
+}))
+
+const authenticatedUserRequest = {
+  request: {
+    query: authenticatedUserQuery,
+    variables: {},
+  },
+  result: {
+    data: {
+      authenticatedUser: {
+        id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: "I'm the User that is visited in E2E tests!",
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+      },
+    },
+  },
+}
 
 const SPACE_ID = '1'
 const followSpaceMutation = {
   request: {
-    query: joinSpaceMutation,
+    query: updateSpaceUserConnectionMutation,
     variables: {
       connectAction: SpaceConnectionAction.CONNECT,
       connectionType: SpaceConnectionType.FOLLOWER,
@@ -34,7 +67,7 @@ const followSpaceMutation = {
 
 const unfollowSpaceMutation = {
   request: {
-    query: joinSpaceMutation,
+    query: updateSpaceUserConnectionMutation,
     variables: {
       connectAction: SpaceConnectionAction.DISCONNECT,
       connectionType: SpaceConnectionType.FOLLOWER,
@@ -58,7 +91,7 @@ const spaceByIdRequest = {
   request: {
     query: spaceByIdQuery,
     variables: {
-      id: SPACE_ID,
+      idOrName: SPACE_ID,
     },
   },
   result: {
@@ -87,16 +120,8 @@ const spaceByIdRequestFollowing = {
   },
 }
 
-const MOCKS_NOT_FOLLOWING = [spaceByIdRequest, followSpaceMutation]
-const MOCKS_FOLLOWING = [spaceByIdRequestFollowing, unfollowSpaceMutation]
-
-const AUTH_CONTEXT = {
-  isLoading: false,
-  isLoggedIn: false,
-  userId: '123',
-  setUserLoggedIn: jest.fn(),
-  setUserLoggedOut: jest.fn(),
-}
+const MOCKS_NOT_FOLLOWING = [authenticatedUserRequest, spaceByIdRequest, followSpaceMutation]
+const MOCKS_FOLLOWING = [authenticatedUserRequest, spaceByIdRequestFollowing, unfollowSpaceMutation]
 
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: () => [SPACE_ID, jest.fn()],
@@ -109,16 +134,11 @@ describe('Space follow button', () => {
       connectionStatusToMyself: [],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: false,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
           <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
@@ -130,16 +150,11 @@ describe('Space follow button', () => {
       connectionStatusToMyself: [],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
           <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
@@ -151,16 +166,11 @@ describe('Space follow button', () => {
       connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
     }
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={[]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <UserContextProvider>
           <SpaceFollow space={aSpace} />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.unfollow'))
@@ -168,16 +178,11 @@ describe('Space follow button', () => {
 
   it('changes the button text after clicking follow-button', async () => {
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
+      <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
+        <UserContextProvider>
           <SpaceDetails />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
@@ -187,16 +192,11 @@ describe('Space follow button', () => {
 
   it('it shows already following button', async () => {
     render(
-      <AuthContext.Provider
-        value={{
-          ...AUTH_CONTEXT,
-          isLoggedIn: true,
-        }}
-      >
-        <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
+      <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
+        <UserContextProvider>
           <SpaceDetails />
-        </MockedProvider>
-      </AuthContext.Provider>
+        </UserContextProvider>
+      </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.unfollow'))

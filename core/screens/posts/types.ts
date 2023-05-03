@@ -1,12 +1,27 @@
 import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
+export enum ReactionType {
+  HEART = 'HEART',
+}
+
+export enum ReactionAction {
+  'SET' = 'SET',
+  'REMOVE' = 'REMOVE',
+}
+
+export interface ReactionCounts {
+  HEART: number
+}
+
 export interface Comment {
   id: string
   text: string
   creator: User
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   mentions?: User[]
+  myReaction: ReactionCounts
+  reactions: ReactionCounts
 }
 
 export interface PostImage {
@@ -15,6 +30,7 @@ export interface PostImage {
   height: number
   width: number
 }
+
 export interface Link {
   requestedUrl: string
   url: string
@@ -48,4 +64,7 @@ export interface Post {
   mentions?: User[]
   numberOfComments: number
   commenters: Paged<User>
+  myReaction: ReactionCounts
+  reactions: ReactionCounts
+  isPublic?: boolean
 }

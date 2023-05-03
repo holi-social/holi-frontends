@@ -33,7 +33,7 @@
   "donationListing.error": "Loading donation projects failed",
   "donationListing.loadMoreButton.loading": "Loading",
   "donationListing.loadMoreButton.text": "See more",
-  "donationListing.loading": "Loading donation projects...",
+  "donationListing.loading": "Loading donation projects…",
   "donationListing.search.heading": "Search results for <0>{{location}}</0>",
   "donationListing.search.noResults": "Try reducing the amount of filters or changing the location.",
   "donationListing.search.resultCount": "{{count}} opportunity",
@@ -52,6 +52,6 @@
   "projectDetail.notFound": "Project with ID {{projectId}} could not be found",
   "search.heading": "Search",
   "search.location.label": "Location",
-  "search.location.placeholder": "Start typing a location...",
+  "search.location.placeholder": "Start typing a location…",
   "search.submitButton": "Show matching projects"
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -19,7 +19,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
   locationQuery,
 }: DonationSearchFormProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(locationQuery || '')
+  const [locationInput, setLocationInput] = useState(locationQuery)
 
   const reset = useCallback(() => {
     setLocationInput('')
@@ -30,7 +30,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       actionButtonText={t('donations:search.submitButton')}
       onActionButtonPress={() => onSubmit(locationInput)}
       style={styles.modalWrapper}
-      testID="donations-search-modal"
+      testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
     >
       <View style={styles.container}>
@@ -55,8 +55,9 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           inputProps={{ autoFocus: true }}
           testID="donations-search-location"
           id="donations-search-location"
-          onSubmit={onSubmit}
-          onChange={setLocationInput}
+          onChangeText={(value) => setLocationInput(value)}
+          onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.label)}
+          onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.label)}
         />
       </View>
     </HoliModalContentWrapper>

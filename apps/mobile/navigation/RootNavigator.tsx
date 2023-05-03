@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import Registration from '@holi/core/auth/screens/Registration'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -13,6 +12,7 @@ import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
+import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type RootStackScreens = {
@@ -35,7 +35,12 @@ const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 const RootNavigator: React.VFC = () => {
   return (
-    <RootStack.Navigator initialRouteName={RouteName.BottomTabs}>
+    <RootStack.Navigator
+      initialRouteName={RouteName.BottomTabs}
+      screenOptions={{
+        header: HeaderAnimated,
+      }}
+    >
       <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} options={{ headerShown: false }} />
 
       {/* HomeFeed (InsightsHome) is in BottomTabs */}
@@ -57,15 +62,6 @@ const RootNavigator: React.VFC = () => {
       <RootStack.Screen
         name={RouteName.Login}
         component={Login}
-        options={{
-          presentation: 'containedModal',
-          animation: 'slide_from_bottom',
-          headerShown: true,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.Registration}
-        component={Registration}
         options={{
           presentation: 'containedModal',
           animation: 'slide_from_bottom',

@@ -53,8 +53,11 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 You need to install [Appium](https://appium.io/docs/en/about-appium/getting-started/) in order to run the tests locally.
 
-1. `npm i -g appium appium-doctor`
-2. run `appium-doctor`
+1. `npm i -g appium@next`
+2. `npm install @appium/doctor --location=global`
+3. `appium driver install xcuitest`
+4. `appium driver install uiautomator2`
+5. run `appium-doctor`
    (Then do all the things appium-doctor tells you to do / shows as error.)
    (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
 
@@ -65,7 +68,8 @@ You need to install [Appium](https://appium.io/docs/en/about-appium/getting-star
 
 When appium-doctor is successful, you can run appium:
 
-3. run `appium`
+6. run `appium`
+7. On some systems it might be necessary to add `export APPIUM_PATH='/wd/hub'` to the `.envrc.local` file (if you see errors like `No route found for /session` while executing the tests).
 
 ### Local Test Execution Against Expo Dev Mode
 

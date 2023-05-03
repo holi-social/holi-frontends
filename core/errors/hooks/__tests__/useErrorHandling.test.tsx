@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
@@ -36,7 +37,9 @@ describe('displays errors correctly', () => {
     screen.findByText('Custom Error')
   })
 
-  it('logs displayed errors', () => {
+  it('warn logs and tracks error with sentry in development', () => {
+    // @ts-ignore
+    process.env.NODE_ENV = 'development'
     render(
       <ToastProvider>
         <ErrorComponent message="Custom Error" />
@@ -44,6 +47,19 @@ describe('displays errors correctly', () => {
     )
 
     expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new Error('Test Error'), undefined)
+    expect(captureSentryException).toHaveBeenCalledWith(new Error('Test Error'))
+  })
+
+  it('warn logs and tracks error with sentry in production', () => {
+    // @ts-ignore
+    process.env.NODE_ENV = 'production'
+    render(
+      <ToastProvider>
+        <ErrorComponent message="Custom Error" />
+      </ToastProvider>
+    )
+
+    expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new Error('Test Error'), undefined)
     expect(captureSentryException).toHaveBeenCalledWith(new Error('Test Error'))
   })
 })

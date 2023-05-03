@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type MediaHeaderProps = {
+interface Props {
   title: string
   author: User
   boldTitle?: boolean
@@ -17,7 +17,7 @@ export type MediaHeaderProps = {
   testID?: string
 }
 
-const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle, date, style, testID }) => {
+const HoliMediaHeader = ({ title, author, boldTitle, date, style, testID }: Props) => {
   const { t, i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
@@ -40,11 +40,13 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle
 
       <View style={[styles.titleContainer]}>
         <HoliText bold={boldTitle}>{title}</HoliText>
-        {!!formattedDate && (
-          <HoliText size="small" style={styles.date}>
-            {formattedDate}
-          </HoliText>
-        )}
+        <View style={styles.row}>
+          {!!formattedDate && (
+            <HoliText size="small" style={styles.date}>
+              {formattedDate}
+            </HoliText>
+          )}
+        </View>
       </View>
     </View>
   )
@@ -57,11 +59,16 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     marginHorizontal: 16,
+    marginBottom: 16,
     flex: 1,
   },
   date: {
     marginTop: 4,
     color: colors.foreground20,
+  },
+  visibility: {
+    marginRight: 4,
+    marginBottom: 16,
   },
 })
 

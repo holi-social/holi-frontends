@@ -23,6 +23,14 @@ export const notificationsQuery = gql`
         created
         read
         options {
+          post {
+            id
+            title
+            isPublic
+            creator {
+              ...UserAvatar
+            }
+          }
           user {
             ...UserAvatar
           }
@@ -36,7 +44,9 @@ export const notificationsQuery = gql`
             id
             title
             avatar
+            avatarDefaultColor
           }
+          teaser
         }
       }
       totalResults
@@ -46,4 +56,35 @@ export const notificationsQuery = gql`
 
 export type NotificationsResponse = {
   notifications: Paged<Notification>
+}
+
+export type NewNotificationStatus = {
+  id: string
+  status: boolean
+}
+
+export const HasNewNotifcationsQuery = gql`
+  query hasNewNotifications {
+    hasNewNotifications {
+      id
+      status
+    }
+  }
+`
+
+export type HasNewNotifcationsResponse = {
+  hasNewNotifications: NewNotificationStatus
+}
+
+export const LastSeenNotificationMutation = gql`
+  mutation LastSeenNotificationMutation($notificationId: UUID!) {
+    lastSeenNotification(notificationId: $notificationId) {
+      id
+      status
+    }
+  }
+`
+
+export type lastSeenNotificationResponse = {
+  lastSeenNotification: NewNotificationStatus
 }

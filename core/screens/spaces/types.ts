@@ -1,3 +1,4 @@
+import { Post } from '@holi/core/screens/posts/types'
 import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
@@ -19,9 +20,35 @@ export enum SpaceLinkType {
   WHATSAPP = 'WHATSAPP',
 }
 
+export enum CollaborationType {
+  COLLABORATION = 'COLLABORATION',
+  COMMUNICATION = 'COMMUNICATION',
+  CALENDARS = 'CALENDARS',
+  SURVEYS = 'SURVEYS',
+  GOOD_TO_KNOW = 'GOOD_TO_KNOW',
+  INFO_MATERIAL = 'INFO_MATERIAL',
+  USED_SERVICES = 'USED_SERVICES',
+  OTHERS = 'OTHERS',
+}
+
 export interface SpaceLink {
   url: string
   type: SpaceLinkType
+}
+
+export interface SpaceCollaborationTool {
+  id: string
+  url: string
+  domain: string
+  title: string
+  collectionType: CollaborationType
+  description?: string
+  thumbnail?: string
+}
+
+export interface Geolocation {
+  latitude: number
+  longitude: number
 }
 
 export interface Space {
@@ -30,16 +57,25 @@ export interface Space {
   description: string
   created: string
   creator: User
+  contactDescription: string
+  contactEmail: string
+  contactPhone: string
   cover: string
   location: string
+  geolocation?: Geolocation
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
+  name: string
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
+  collaborationTools?: SpaceCollaborationTool[]
+  posts?: Paged<Post>
+  hasPublicPosts?: boolean
+  hasPrivatePosts?: boolean
 }
 
 export enum SpaceSectionType {
@@ -63,8 +99,31 @@ export interface Task {
   slotsAvailable: number
   slotsTaken: number
   location: string
-  regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
+  locationType: LocationType
+  regularity: Regularity
   skills: Skill[]
+  visibility: VisibilityType
+  contactEmail: string
+  contactPhone?: string
+  geolocation?: Geolocation
+  thumbnail?: string
+}
+
+export enum VisibilityType {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+}
+
+export enum Regularity {
+  REGULARLY = 'REGULARLY',
+  PROJECT_BASED = 'PROJECT_BASED',
+  ONE_TIME = 'ONE_TIME',
+}
+
+export enum LocationType {
+  HYBRID = 'HYBRID',
+  REMOTE = 'REMOTE',
+  ONSITE = 'ONSITE',
 }
 
 export enum SpaceConnectionType {
@@ -78,4 +137,18 @@ export enum SpaceConnectionType {
 export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+  GRANT_ADMIN_ACCESS = 'GRANT_ADMIN_ACCESS',
+  REVOKE_ADMIN_ACCESS = 'REVOKE_ADMIN_ACCESS',
+}
+export enum VisibilityFilter {
+  MEMBERS = 'MEMBERS',
+  PUBLIC = 'PUBLIC',
+  ALL = 'ALL',
+}
+
+export interface Post {
+  id: string
+  title: string
+  text: string
+  created: Partial<User>
 }

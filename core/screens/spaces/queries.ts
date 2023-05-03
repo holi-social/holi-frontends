@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
+import { memberSpacesFragment } from '@holi/core/queries'
+import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
+import type { Post, Space, SpaceCollaborationTool, SpaceSection, Task } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { Paged } from '@holi/core/types'
+import type { MemberSpaces, Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
@@ -24,15 +26,32 @@ const SpaceFragment = gql`
     id
     title
     description
+    contactEmail
+    contactPhone
+    contactDescription
     created
     avatar
     cover
+    name
     avatarDefaultColor
     location
+    geolocation {
+      latitude
+      longitude
+    }
     connectionStatusToMyself
     links {
       type
       url
+    }
+    collaborationTools {
+      id
+      domain
+      url
+      description
+      title
+      collectionType
+      thumbnail
     }
     members {
       ...FullSpaceMember
@@ -45,6 +64,11 @@ const SpaceFragment = gql`
       slotsTaken
       location
       regularity
+      visibility
+      locationType
+      thumbnail
+      contactEmail
+      contactPhone
       creator {
         ...UserAvatar
       }
@@ -75,6 +99,9 @@ const SpaceOverviewFragment = gql`
     created
     cover
     location
+    avatar
+    avatarDefaultColor
+    name
     members {
       ...FullSpaceMember
     }
@@ -155,8 +182,8 @@ export type DiscoverSpacesResponse = {
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
-  query SpaceById($id: UUID!) {
-    spaceById(id: $id) {
+  query SpaceById($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
       ...FullSpace
     }
   }
@@ -166,9 +193,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const joinSpaceMutation = gql`
-  ${SpaceFragment}
-
+export const updateSpaceUserConnectionMutation = gql`
   mutation UpdateSpaceUserConnection(
     $connectAction: UpdateConnectionAction!
     $connectionType: SpaceUserConnectionType!
@@ -181,12 +206,13 @@ export const joinSpaceMutation = gql`
       spaceId: $spaceId
       userId: $userId
     ) {
-      ...FullSpace
+      id
+      connectionStatusToMyself
     }
   }
 `
 
-export type JoinSpaceResponse = {
+export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
@@ -232,6 +258,63 @@ export const createSpaceMutation = gql`
   }
 `
 
+export const AddCollaborationToolSchema = z.object({
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
+  description: z.string().trim().min(3).max(100).optional(),
+  spaceId: z.string() /* UUID */,
+  collectionType: z.string() /* UUID */,
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type AddCollaborationToolInput = z.infer<typeof AddCollaborationToolSchema>
+
+export const addCollaborationToolMutation = gql`
+  mutation AddCollaborationTool($input: AddCollaborationToolInput!) {
+    addCollaborationTool(input: $input) {
+      id
+      url
+      title
+      domain
+      description
+      collectionType
+      thumbnail
+    }
+  }
+`
+
+export type AddCollaborationToolResponse = {
+  addCollaborationTool: SpaceCollaborationTool
+}
+
+export const UpdateCollaborationToolSchema = z.object({
+  id: z.string() /* UUID */,
+  url: z.string().url().max(500).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
+  description: z.string().trim().min(3).max(100).optional(),
+  collectionType: z.string(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type UpdateCollaborationToolInput = z.infer<typeof UpdateCollaborationToolSchema>
+
+export type UpdateCollaborationToolResponse = {
+  updateCollaborationTool: SpaceCollaborationTool
+}
+
+export const updateCollaborationToolMutation = gql`
+  mutation UpdateCollaborationTool($input: UpdateCollaborationToolInput!) {
+    updateCollaborationTool(input: $input) {
+      id
+      url
+      title
+      description
+      collectionType
+      thumbnail
+    }
+  }
+`
+
 export type CreateSpaceResponse = {
   createSpace: Space
 }
@@ -244,6 +327,9 @@ export const UpdateSpaceInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
   topics: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
+  contactDescription: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+  contactPhone: z.string().optional(),
 })
 
 export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
@@ -258,6 +344,14 @@ export const updateSpaceMutation = gql`
       cover
       location
       avatarDefaultColor
+      name
+      contactDescription
+      contactEmail
+      contactPhone
+      geolocation {
+        latitude
+        longitude
+      }
       topics {
         id
         title
@@ -274,6 +368,93 @@ export const updateSpaceMutation = gql`
 export type UpdateSpaceResponse = {
   updateSpace: Partial<Space>
 }
+
+export const CreateTaskSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  visibility: z.string() /* VisibilityType */,
+  name: z.string().min(2).max(128).optional(),
+  description: z.string().trim().max(1200).optional(),
+  locationType: z.string() /* LocationType */,
+  regularity: z.string() /* Regularity */,
+  contactEmail: z.string().email().optional(),
+  location: z.string().optional(),
+  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  contactPhone: z.string().optional(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
+
+export const createTaskMutation = gql`
+  mutation CreateTask($input: CreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      name
+      description
+      visibility
+      regularity
+      locationType
+      location
+      contactEmail
+      contactPhone
+      thumbnail
+    }
+  }
+`
+
+export type CreateTaskResponse = {
+  createTask: Task
+}
+
+export const UpdateTaskSchema = z.object({
+  taskId: z.string() /* UUID */,
+  spaceId: z.string() /* UUID */,
+  visibility: z.string() /* VisibilityType */,
+  name: z.string().min(2).max(128).optional(),
+  description: z.string().trim().max(1200).optional(),
+  locationType: z.string() /* LocationType */,
+  regularity: z.string() /* Regularity */,
+  contactEmail: z.string().email().optional(),
+  location: z.string().optional(),
+  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  contactPhone: z.string().optional(),
+  thumbnail: z.instanceof(Object).optional(),
+})
+
+export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>
+
+export const updateTaskMutation = gql`
+  mutation UpdateTask($input: UpdateTaskInput!) {
+    updateTask(input: $input) {
+      id
+      name
+      description
+      visibility
+      regularity
+      locationType
+      location
+      contactEmail
+      contactPhone
+      thumbnail
+    }
+  }
+`
+
+export type UpdateTaskResponse = {
+  updateTask: Task
+}
+
+export interface DeleteTaskResponse {
+  success: boolean
+}
+
+export const deleteTaskMutation = gql`
+  mutation DeleteTask($id: UUID!) {
+    deleteTask(id: $id) {
+      success
+    }
+  }
+`
 
 export const mySpaceQuery = gql`
   ${SpaceOverviewFragment}
@@ -303,9 +484,112 @@ export interface DeleteSpaceResponse {
 }
 
 export const deleteSpaceMutation = gql`
-  mutation DeleteSpace($id: UUID) {
+  mutation DeleteSpace($id: UUID!) {
     deleteSpace(id: $id) {
       success
     }
   }
 `
+
+export interface DeleteCollaborationToolResponse {
+  success: boolean
+}
+
+export const deleteCollaborationToolMutation = gql`
+  mutation DeleteCollaborationTool($id: UUID!) {
+    deleteCollaborationTool(id: $id) {
+      success
+    }
+  }
+`
+
+export interface SpacesByMemberIdResponse {
+  spaces: MemberSpaces
+}
+
+export const spacesByMemberIdQuery = gql`
+  ${memberSpacesFragment}
+  query SpacesByMember($memberId: UUID) {
+    spaces(memberId: $memberId) {
+      ...MemberSpaces
+    }
+  }
+`
+
+export const SpaceUpdatePostFragment = gql`
+  ${userAvatarFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
+
+  fragment SpaceUpdatePostFragment on Post {
+    id
+    title
+    text
+    created
+    creator {
+      ...UserAvatar
+    }
+    numberOfComments
+    commenters {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+    myReaction {
+      HEART
+    }
+    reactions {
+      HEART
+    }
+    isPublic
+  }
+`
+
+export const spacePostsQuery = gql`
+  ${SpaceUpdatePostFragment}
+  query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
+    spaceById(idOrName: $idOrName) {
+      id
+      hasPublicPosts
+      hasPrivatePosts
+      posts(offset: $offset, limit: $limit, visibility: $visibility) {
+        data {
+          ...SpaceUpdatePostFragment
+        }
+      }
+    }
+  }
+`
+
+export const CreateSpacePostSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  title: z.string().optional() /* Title */,
+  text: z.string() /* Content */,
+  image: z.instanceof(Object).optional(),
+  visibility: z.string() /* VisibilityType */,
+})
+
+export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
+
+export const createSpacePostMutation = gql`
+  mutation createSpacePost($input: CreatePostInput!) {
+    createSpacePost(input: $input) {
+      id
+    }
+  }
+`
+
+export type CreateSpacePostResponse = {
+  createSpacePost: Post
+}

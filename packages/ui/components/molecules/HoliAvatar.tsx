@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { AccessibilityProps, Image, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -11,6 +12,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type AvatarProps = {
   imageSrc: string | undefined
   label: string
+  accessibilityLabel?: string
   defaultColor: string
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
@@ -26,25 +28,42 @@ export const sizes = {
   extralarge: 128,
 }
 
-const HoliAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, style, ...props }: AvatarProps) => {
+const HoliAvatar = ({
+  size = 'medium',
+  defaultColor,
+  imageSrc,
+  initials,
+  label,
+  accessibilityLabel,
+  style,
+  ...props
+}: AvatarProps) => {
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
-  const imageUri: ImageSourcePropType = { uri: imageSrc }
+  const imageUri: ImageSourcePropType = { uri: imageSrc, width }
   const sizeClass = size || 'medium'
 
-  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
+  const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    accessibilityLabel: label,
+    accessibilityLabel: label || accessibilityLabel,
     accessibilityRole: 'image',
   }
 
   return (
-    <View {...props} style={[styles.wrapper, style, styles[sizeClass]]}>
+    <View
+      {...props}
+      style={[
+        styles.wrapper,
+        (size === 'large' || size === 'extralarge') && { borderColor: colors.foreground30 },
+        style,
+        styles[sizeClass],
+      ]}
+    >
       {hasImage ? (
-        <Image source={imageUri} style={styles.image} {...accessibilityProps} />
+        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="contain" />
       ) : (
-        <HoliText style={styles.inititals} {...accessibilityProps}>
+        <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
         </HoliText>
       )}
@@ -80,17 +99,16 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.foreground30,
     },
     extralarge: {
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.foreground30,
     },
     image: {
       height: '100%',
       width: '100%',
+      resizeMode: 'contain',
     },
     inititals: {
       fontSize: initialsFontSize,

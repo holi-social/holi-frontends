@@ -45,8 +45,10 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
     This order is kept until the selection process is done and the layer is closed.
     */
     const unselected = terms && terms.filter((term) => !selected.find((item) => item.id === term.id))
+    const copyOfSelected = [...selected] // make a hard copy of the selected items (for immutability)
+
     setOrderedTerms([
-      ...selected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
+      ...copyOfSelected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
       ...unselected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
     ])
   }, [terms, selected, showSortNumber])

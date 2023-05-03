@@ -3,14 +3,12 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    [
-      {
-        "alignContent": "center",
-        "alignItems": "center",
-        "justifyContent": "center",
-      },
-      undefined,
-    ]
+    {
+      "alignContent": "center",
+      "alignItems": "center",
+      "justifyContent": "flex-start",
+      "width": "100%",
+    }
   }
   testID="tabs-module"
 >
@@ -27,19 +25,14 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View
       style={
-        [
-          {
-            "alignSelf": "center",
-            "maxWidth": 1200,
-            "paddingHorizontal": 20,
-            "width": "100%",
-          },
-          {
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-          },
-          undefined,
-        ]
+        {
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "maxWidth": 1200,
+          "paddingHorizontal": 20,
+          "width": "100%",
+        }
       }
     >
       <View
@@ -49,7 +42,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         accessibilitySelected={true}
         accessibilityState={
           {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -67,21 +72,16 @@ exports[`renders correctly renders correctly when open 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           [
-            [
-              {
-                "alignItems": "center",
-                "borderBottomColor": "transparent",
-                "borderBottomWidth": 2,
-                "justifyContent": "center",
-                "marginRight": 20,
-                "paddingVertical": 12,
-                "top": 2,
-                "width": "auto",
-              },
-              {
-                "borderBottomColor": "#262424",
-              },
-            ],
+            {
+              "alignItems": "center",
+              "borderBottomColor": "#262424",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginRight": 20,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
             {
               "width": "auto",
             },
@@ -99,16 +99,11 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <Text
             style={
-              [
-                {
-                  "color": "#787777",
-                  "fontSize": 16,
-                },
-                {
-                  "color": "#262424",
-                  "fontWeight": "500",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontSize": 16,
+                "fontWeight": "500",
+              }
             }
           >
             Profile
@@ -122,7 +117,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         accessibilitySelected={false}
         accessibilityState={
           {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
@@ -140,19 +147,16 @@ exports[`renders correctly renders correctly when open 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           [
-            [
-              {
-                "alignItems": "center",
-                "borderBottomColor": "transparent",
-                "borderBottomWidth": 2,
-                "justifyContent": "center",
-                "marginRight": 20,
-                "paddingVertical": 12,
-                "top": 2,
-                "width": "auto",
-              },
-              {},
-            ],
+            {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginRight": 20,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
             {
               "width": "auto",
             },
@@ -170,56 +174,140 @@ exports[`renders correctly renders correctly when open 1`] = `
         >
           <Text
             style={
-              [
-                {
-                  "color": "#787777",
-                  "fontSize": 16,
-                },
-                {},
-              ]
+              {
+                "color": "#787777",
+                "fontSize": 16,
+              }
             }
           >
             Insights
           </Text>
         </View>
       </View>
+      <View
+        accessibilityControls="test-tabs-panel-2"
+        accessibilityLabel="Spaces"
+        accessibilityRole="tab"
+        accessibilitySelected={false}
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        nativeID="test-tabs-tab-2"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginRight": 20,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
+            {
+              "width": "auto",
+            },
+          ]
+        }
+        testID="tabs-module-button-2-inactive"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#787777",
+                "fontSize": 16,
+              }
+            }
+          >
+            Spaces
+          </Text>
+        </View>
+      </View>
     </View>
   </View>
   <RCTScrollView
+    bounces={false}
     contentContainerStyle={
       {
-        "alignContent": "flex-start",
-        "alignItems": "flex-start",
-        "justifyContent": "flex-start",
+        "flexGrow": 1,
+      }
+    }
+    dataSet={
+      {
+        "stepperWrapper": true,
       }
     }
     horizontal={true}
-    onMomentumScrollEnd={[Function]}
+    keyboardShouldPersistTaps="always"
+    onLayout={[Function]}
+    onScroll={[Function]}
     pagingEnabled={true}
-    scrollEnabled={true}
+    scrollEnabled={false}
+    scrollEventThrottle={16}
     showsHorizontalScrollIndicator={false}
+    style={
+      {
+        "flex": 1,
+        "height": "100%",
+        "minHeight": "100%",
+        "width": "100%",
+      }
+    }
+    testID="stepper-scrollview"
   >
     <View>
       <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
         style={
           {
             "flex": 1,
-            "flexDirection": "row",
-            "width": "100%",
+            "width": 750,
           }
         }
+        testID="stepper-step"
       >
         <View
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-0-active"
         >
           <View>
@@ -227,19 +315,13 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
               testID="profileTab"
             >
@@ -247,17 +329,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             </Text>
           </View>
         </View>
+      </View>
+      <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
+        style={
+          {
+            "flex": 1,
+            "width": 750,
+          }
+        }
+        testID="stepper-step"
+      >
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
-          style={
-            [
-              {
-                "width": 750,
-              },
-              undefined,
-            ]
-          }
           testID="tabs-module-panel-1-inactive"
         >
           <View>
@@ -265,23 +354,56 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  undefined,
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
               }
               testID="InsightsTab"
             >
               These are my insights.
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        dataSet={
+          {
+            "stepperStep": true,
+          }
+        }
+        style={
+          {
+            "flex": 1,
+            "width": 750,
+          }
+        }
+        testID="stepper-step"
+      >
+        <View
+          accessibilityLabelledBy="test-tabs-tab-2"
+          nativeID="test-tabs-panel-2"
+          testID="tabs-module-panel-2-inactive"
+        >
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                }
+              }
+              testID="SpacesTab"
+            >
+              These are my spaces.
             </Text>
           </View>
         </View>

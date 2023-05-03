@@ -12,11 +12,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliSelectOption = {
   id: string
-  title: string
+  title?: string
+  keyPrefix?: string
   selected?: boolean
 }
 
-export type HoliSelectProps = {
+export interface HoliSelectProps {
   inputLabel?: string
   accessibilityLabel: string
   placeholder?: string
@@ -30,6 +31,7 @@ export type HoliSelectProps = {
   id: string
   multiSelect?: boolean
   multiSelectionLabel?: string
+  isRequired?: boolean
 }
 
 const HoliSelect = ({
@@ -46,8 +48,10 @@ const HoliSelect = ({
   options,
   id,
   testID,
+  isRequired,
 }: HoliSelectProps) => {
   const { t } = useTranslation()
+  options = options.map((option) => (!option.title ? { ...option, title: t(option.keyPrefix + option.id) } : option))
   const [searchText, setSearchText] = useState('')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
@@ -211,7 +215,7 @@ const HoliSelect = ({
       ? selectedOptions[0].title
       : selectedOptions.length > 1 && `${multiSelectionLabel || inputLabel} · ${selectedOptions.length}`
   const filteredOptions = useMemo(
-    () => options.filter((option) => !regex || option.title.match(regex)),
+    () => options.filter((option) => !regex || option.title?.match(regex)),
     [options, regex]
   )
 
@@ -245,6 +249,7 @@ const HoliSelect = ({
         onChange={onChangeText}
         onBlur={() => clearFocus('input')}
         onFocus={() => setFocusAndOpen('input')}
+        isRequired={isRequired}
         testID={testID}
       />
       {isOpened && (

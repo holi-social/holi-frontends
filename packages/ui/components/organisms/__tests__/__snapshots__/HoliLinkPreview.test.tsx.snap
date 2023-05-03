@@ -4,7 +4,24 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
-    accessibilityRole="button"
+    accessibilityRole="link"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -17,15 +34,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "color": "#6267e7",
-        },
-        undefined,
-        undefined,
-      ]
-    }
     testID="text-link"
   >
     <View
@@ -44,7 +52,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
       <Image
         accessibilityLabel="Donate to animals on betterplace.org"
         accessibilityRole="image"
-        accessible={false}
+        accessible={true}
         source={
           {
             "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
@@ -82,7 +90,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <Text
             numberOfLines={3}
-            role="header"
+            role="heading"
             selectable={true}
             style={
               [
@@ -108,26 +116,14 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             numberOfLines={2}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 12,
-                  "lineHeight": 14.399999999999999,
-                },
-                false,
-                [
-                  {
-                    "color": "#787777",
-                  },
-                  {
-                    "marginTop": 8,
-                  },
-                ],
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 14.399999999999999,
+                "marginTop": 8,
+              }
             }
           >
             Discover projects that help animals. Whether it's dogs, elephant babies, cheetahs or squirrels – your donation saves animals' lives!
@@ -136,29 +132,14 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 12,
-                  "lineHeight": 14.399999999999999,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                [
-                  {
-                    "color": "#787777",
-                  },
-                  {
-                    "marginTop": 8,
-                  },
-                ],
-              ]
+              {
+                "color": "#787777",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 12,
+                "fontWeight": "500",
+                "lineHeight": 14.399999999999999,
+                "marginTop": 8,
+              }
             }
           >
             http://betterplace.org
@@ -166,9 +147,9 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         </View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={18}
-          bbWidth={18}
-          color={4286084983}
+          bbHeight="18"
+          bbWidth="18"
+          color="#787777"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -200,15 +181,15 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
               },
             ]
           }
-          tintColor={4286084983}
+          tintColor="#787777"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
               [
@@ -217,9 +198,9 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
               ]
             }
             stroke={
-              [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath

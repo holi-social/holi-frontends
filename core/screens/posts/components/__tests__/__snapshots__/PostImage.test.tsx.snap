@@ -7,7 +7,19 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
     accessibilityRole="button"
     accessibilityState={
       {
+        "busy": undefined,
+        "checked": undefined,
         "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
       }
     }
     accessible={true}
@@ -46,7 +58,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
       <Image
         accessibilityLabel="insights.posts.image"
         accessibilityRole="image"
-        accessible={false}
+        accessible={true}
         onLayout={[Function]}
         sizes="(min-width: 1200px) 588px, (min-width: 992px) 484px, (min-width: 768px) 728px, (min-width: 576px) 536px, (min-width: 375px) 335px, 100wv"
         source={
@@ -72,6 +84,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
   </View>,
   <Modal
     accessibilityLabel="insights.posts.image.modal"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}

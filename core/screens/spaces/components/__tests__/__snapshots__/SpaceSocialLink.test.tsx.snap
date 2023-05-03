@@ -6,7 +6,19 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   accessibilityRole="link"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -47,9 +59,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight={24}
-      bbWidth={24}
-      color={4286084983}
+      bbHeight="24"
+      bbWidth="24"
+      color="#787777"
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -79,15 +91,15 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           },
         ]
       }
-      tintColor={4286084983}
+      tintColor="#787777"
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          [
-            2,
-          ]
+          {
+            "type": 2,
+          }
         }
         propList={
           [
@@ -96,9 +108,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           ]
         }
         stroke={
-          [
-            2,
-          ]
+          {
+            "type": 2,
+          }
         }
       >
         <RNSVGPath
@@ -110,24 +122,14 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          {
-            "marginLeft": 8,
-          },
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "marginLeft": 8,
+        }
       }
     >
       spaces.link.OTHER
@@ -142,7 +144,19 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   accessibilityRole="link"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -183,9 +197,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight={24}
-      bbWidth={24}
-      color={4286084983}
+      bbHeight="24"
+      bbWidth="24"
+      color="#787777"
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -215,15 +229,15 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           },
         ]
       }
-      tintColor={4286084983}
+      tintColor="#787777"
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          [
-            2,
-          ]
+          {
+            "type": 2,
+          }
         }
         propList={
           [
@@ -232,9 +246,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           ]
         }
         stroke={
-          [
-            2,
-          ]
+          {
+            "type": 2,
+          }
         }
       >
         <RNSVGPath
@@ -246,24 +260,14 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
       accessible={false}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          {
-            "marginLeft": 8,
-          },
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "marginLeft": 8,
+        }
       }
     >
       spaces.link.FACEBOOK

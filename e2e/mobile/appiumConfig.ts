@@ -41,8 +41,8 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   // timeout in ms for the waitFor... commands
   waitforTimeout: 10000, // ms
   // TODO (OL) trying if this stabilizes tests
-  connectionRetryCount: 3,
-  connectionRetryTimeout: 200000, // ms
+  connectionRetryCount: 1,
+  connectionRetryTimeout: 600000, // ms
 }
 
 const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', { defaultValue: undefined })
@@ -74,12 +74,13 @@ const browserStackCapabilities = () => {
       'appium:automationVersion': 'latest',
       // BrowserStack options builder: https://www.browserstack.com/app-automate/capabilities#
       'appium:app': requireEnvVar('BROWSERSTACK_APP_URL'),
+      'appium:settings[snapshotMaxDepth]': '100',
       'bstack:options': {
         appiumVersion: '2.0.0',
         projectName: gitlabBranchName || localGitInfo.branch,
         buildName: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
         sessionName: 'undefined',
-        idleTimeout: '30', // seconds, should be short in order to fail early and keep queue slots open
+        idleTimeout: '60', // seconds, should be short in order to fail early and keep queue slots open
         networkLogs: 'true',
         consoleLogs: 'info',
         disableAnimations: 'true',
@@ -118,6 +119,7 @@ const localIOSSimulator = () => ({
     'appium:udid': requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     //bundleId: process.env.APP_PATH ? appId : undefined,
     'appium:showIOSLog': false,
+    'appium:settings[snapshotMaxDepth]': '100',
   },
 })
 
@@ -125,6 +127,7 @@ const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
   host: process.env.APPIUM_HOST || 'localhost', // host ist correct, even though the webdriver.io type has hostname
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
+  path: process.env.APPIUM_PATH || '/',
 }
 
 const localCapabilities = () => {

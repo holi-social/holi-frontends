@@ -10,20 +10,23 @@ import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 const goFromRegistrationToHome = async () => {
-  await tapOnElementWithTestId('nav-button-back')
   await navigateBackToHomeScreen('btn-to-home-view')
 }
 
-describe('@Registration', () => {
+describe('@Registration - smoke', () => {
   it('Registration - Logout', async () => {
     // successful registration
     const email = await registerNewUser()
+
+    await tapOnElementWithTestId('btn-to-profile-view')
+    // wait for profile page to be loaded
+    await waitForElementWithTestId('user-profile-full-name')
 
     // logout
     await logout()
 
     // try to create a new user with the same credentials
-    await defaultAuthSteps({ email, password: defaultPassword }, 'registration')
+    await defaultAuthSteps({ email, password: defaultPassword }, 'registration', false)
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 

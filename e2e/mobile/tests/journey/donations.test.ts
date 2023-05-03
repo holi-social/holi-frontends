@@ -28,9 +28,7 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    const listItemsBefore = await assertDisplaysMultipleProjects()
-
-    await assertAllowsPagination(listItemsBefore)
+    await assertAllowsPagination()
 
     const resultCountGermany = await assertFilterDonationsByLocation()
 
@@ -85,13 +83,15 @@ const assertProjectDetails = async () => {
   await tapOnElementWithTestId('nav-button-back')
 }
 
-const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]) => {
+const assertAllowsPagination = async () => {
   // scroll to button and count elements in viewport
   await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 20 })
+  // get current number of visible items
+  const listItemsBefore = await assertDisplaysMultipleProjects()
   // load more
   await tapOnElementWithTestId('btn-donation-list-load-more')
   // wait until "load more" button has been replaced by next list item
-  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more')
+  await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing')
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
@@ -146,6 +146,7 @@ const filterForLocation = async (location: string) => {
   // submit form
   // Not using suggestions here, as they can not be easily identified and selected
   await pressEnter('donations-search-location-input')
+  await tapOnElementWithTestId('donations-search-modal-close-btn')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')

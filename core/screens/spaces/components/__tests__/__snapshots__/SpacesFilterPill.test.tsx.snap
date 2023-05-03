@@ -6,7 +6,19 @@ exports[`SpacesFilterPill renders correctly 1`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -60,19 +72,13 @@ exports[`SpacesFilterPill renders correctly 1`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 19.2,
+        }
       }
     >
       generic filter
@@ -87,7 +93,19 @@ exports[`SpacesFilterPill renders correctly 2`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -141,19 +159,13 @@ exports[`SpacesFilterPill renders correctly 2`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 19.2,
+        }
       }
     >
       location filter
@@ -168,7 +180,19 @@ exports[`SpacesFilterPill renders correctly 3`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -222,19 +246,13 @@ exports[`SpacesFilterPill renders correctly 3`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 19.2,
+        }
       }
     >
       topic filter
@@ -249,7 +267,19 @@ exports[`SpacesFilterPill renders correctly 4`] = `
   accessibilityRole="button"
   accessibilityState={
     {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
@@ -303,19 +333,13 @@ exports[`SpacesFilterPill renders correctly 4`] = `
       numberOfLines={1}
       selectable={true}
       style={
-        [
-          {
-            "color": "#262424",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          {
-            "fontSize": 16,
-            "lineHeight": 19.2,
-          },
-          false,
-          undefined,
-        ]
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Book",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 19.2,
+        }
       }
     >
       skill filter

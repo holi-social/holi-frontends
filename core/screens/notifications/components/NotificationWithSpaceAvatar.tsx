@@ -1,15 +1,16 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationWithSpaceAvatarProps<T = NotificationSpaceConnection> extends NotificationProps<T> {
+interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
   href?: string
   content?: React.ReactNode
   i18nKey?: string
@@ -26,17 +27,16 @@ const NotificationWithSpaceAvatar = ({
 }: React.PropsWithChildren<NotificationWithSpaceAvatarProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
-  const { fullName } = notification.options.user
-  const { id: spaceId, title, avatar } = notification.options.space
-  href = href || `/spaces/${spaceId}`
-  const imageUri: ImageSourcePropType = { uri: avatar }
+  const fullName = notification.options.user?.fullName || t('user.profileView.anonymous')
+  const { id, title } = notification.options.space
+  href = href || `/spaces/${id}`
 
   return (
     <View style={style} testID={testID}>
       <HoliLink href={href} label={title} mobileNavigateBackFirst>
         <View style={styles.link}>
           <View style={styles.imageContainer}>
-            <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
+            <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
           </View>
           <View style={styles.content}>
             {content || (
@@ -54,7 +54,7 @@ const NotificationWithSpaceAvatar = ({
             )}
           </View>
 
-          {!read && <View style={styles.readStatus} />}
+          <NotificationBadge visible={!read} backgroundColor={colors.background30} style={styles.readStatus} />
         </View>
       </HoliLink>
 
@@ -81,11 +81,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   readStatus: {
-    backgroundColor: colors.brandColorB30,
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-    marginTop: 4,
     marginLeft: 12,
   },
   imageContainer: {

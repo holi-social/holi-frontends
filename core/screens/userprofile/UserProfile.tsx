@@ -1,48 +1,56 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { FeedStackScreens } from '@holi/mobile/navigation/FeedNavigator'
+import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
+import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+/** TODO: Suspence currently only works on web. To make it work for
+ * mobile we need to move to the new React Native architecture */
+const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
+const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
+
 export type UserProfileParams = {
   userId: string
 }
+
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<FeedStackScreens>
-
-const UserProfile: React.VFC<ScreenProps> = () => {
+const UserProfile = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const { isLoggedIn, userId: authenticatedUserId } = useAuth()
+  const { userId: authenticatedUserId } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const [userId = ''] = useParam('userId')
 
   useLayoutEffect(() => {
@@ -60,8 +68,8 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
 
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   const { visible, show, hide } = useModalState()
+
   useLayoutEffect(
     () =>
       setOptions({
@@ -113,18 +121,17 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   // TODO: workaround for params always being undefined on initial page load
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (userId && !loading && !user) {
       fetchUser()
     }
-  }, [fetchUser, userId, loading, user])
-
-  if (error) {
-    if (isNotFoundError(error)) {
-      return <NotFound />
-    } else {
+    if (error && !isNotFoundError(error)) {
       displayError(error)
     }
+  }, [fetchUser, userId, loading, user, error, displayError])
+
+  if (error && isNotFoundError(error)) {
+    return <NotFound />
   }
 
   if (!userId || loading) {
@@ -154,7 +161,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -202,14 +209,25 @@ const UserProfile: React.VFC<ScreenProps> = () => {
           {
             title: t('profile.tabs.insight'),
             children: (
-              <View style={styles.infoContainer}>
-                <HoliText style={styles.infoText}>{t('profile.tabs.insight.empty')}</HoliText>
-              </View>
+              <Suspense fallback={<HoliLoader />}>
+                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+              </Suspense>
+            ),
+          },
+          {
+            title: t('profile.tabs.spaces'),
+            children: (
+              <Suspense fallback={<HoliLoader />}>
+                <SpacesTab
+                  emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
+                  memberId={user.id}
+                />
+              </Suspense>
             ),
           },
         ]}
       />
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

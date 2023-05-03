@@ -47,9 +47,9 @@ const HoliModalContentWrapper = (
   }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
-  const { keyboardIsOpen } = useKeyboard()
-  const { softkeyboardIsOpen } = useSoftKeyboard()
-  const showFooter = !hideFooterWhenKeyboardIsOpen || !(keyboardIsOpen || softkeyboardIsOpen)
+  const { isKeyboardOpen } = useKeyboard()
+  const { isSoftkeyboardOpen } = useSoftKeyboard()
+  const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
   const mixins = useStyleMixins()
   const content = (
     <>
@@ -67,7 +67,9 @@ const HoliModalContentWrapper = (
         </TouchableWithoutFeedback>
       )}
 
-      <View style={styles.placeHolder} />
+      {isSoftkeyboardOpen && <View style={styles.keyboardPlaceHolder} />}
+
+      {showFooter && <View style={styles.actionButtonPlaceholder} />}
     </>
   )
 
@@ -75,7 +77,7 @@ const HoliModalContentWrapper = (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
 
-      {loading && <HoliLoader style={styles.saveLoaderContainer} />}
+      {loading && <HoliLoader style={styles.saveLoaderContainer} testID={`${testID}-loader`} />}
 
       {scrollable ? (
         <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
@@ -117,14 +119,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 24,
   },
-  placeHolder: {
-    // space behind the action button
-    // and room when the keyboard is open
+  keyboardPlaceHolder: {
+    // room when the softkeyboard is open
     zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
     height: 120,
   },
+  actionButtonPlaceholder: {
+    height: 80,
+  },
   actionButtonContainer: {
     position: 'absolute',
+    zIndex: 1,
     bottom: 32,
     right: 0,
     left: 0,

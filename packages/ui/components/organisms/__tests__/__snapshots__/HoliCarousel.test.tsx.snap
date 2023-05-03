@@ -75,9 +75,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -88,17 +90,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             <Image
               accessibilityLabel="Dima Rosmait"
               accessibilityRole="image"
-              accessible={false}
+              accessible={true}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
-                {
-                  "height": "100%",
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": "100%",
+                    "resizeMode": "contain",
+                    "width": "100%",
+                  },
+                  {
+                    "resizeMode": "contain",
+                  },
+                ]
               }
             />
           </View>
@@ -106,25 +115,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Dima Rosmait
@@ -141,21 +140,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -207,9 +199,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -223,25 +217,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#fff",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#fff",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               M
@@ -251,25 +234,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Max Mustermann
@@ -286,21 +259,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -352,9 +318,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -365,17 +333,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             <Image
               accessibilityLabel="Thomas Mueller"
               accessibilityRole="image"
-              accessible={false}
+              accessible={true}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
-                {
-                  "height": "100%",
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": "100%",
+                    "resizeMode": "contain",
+                    "width": "100%",
+                  },
+                  {
+                    "resizeMode": "contain",
+                  },
+                ]
               }
             />
           </View>
@@ -383,25 +358,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Thomas Mueller
@@ -418,21 +383,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -484,9 +442,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -500,25 +460,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#262424",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               S
@@ -528,25 +477,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Sandra Kasandra
@@ -563,21 +502,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -629,9 +561,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -642,17 +576,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             <Image
               accessibilityLabel="Peter Pan"
               accessibilityRole="image"
-              accessible={false}
+              accessible={true}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
-                {
-                  "height": "100%",
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": "100%",
+                    "resizeMode": "contain",
+                    "width": "100%",
+                  },
+                  {
+                    "resizeMode": "contain",
+                  },
+                ]
               }
             />
           </View>
@@ -660,25 +601,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Peter Pan
@@ -695,21 +626,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -761,9 +685,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -777,25 +703,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "color": "#fff",
-                    "fontSize": 57.6,
-                    "fontWeight": "bold",
-                    "lineHeight": 69.12,
-                    "textTransform": "uppercase",
-                  },
-                ]
+                {
+                  "color": "#fff",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 57.6,
+                  "fontWeight": "bold",
+                  "lineHeight": 69.12,
+                  "textTransform": "uppercase",
+                }
               }
             >
               D
@@ -805,25 +720,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Donald Duck
@@ -840,21 +745,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -908,9 +806,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "justifyContent": "center",
                   "overflow": "hidden",
                 },
-                undefined,
                 {
                   "borderColor": "#262424",
+                },
+                undefined,
+                {
                   "borderWidth": 2,
                   "height": 128,
                   "width": 128,
@@ -921,17 +821,24 @@ exports[`renders correctly renders correctly when open 1`] = `
             <Image
               accessibilityLabel="Lionel Messi"
               accessibilityRole="image"
-              accessible={false}
+              accessible={true}
               source={
                 {
-                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+                  "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+                  "width": 128,
                 }
               }
               style={
-                {
-                  "height": "100%",
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": "100%",
+                    "resizeMode": "contain",
+                    "width": "100%",
+                  },
+                  {
+                    "resizeMode": "contain",
+                  },
+                ]
               }
             />
           </View>
@@ -939,25 +846,15 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessible={false}
             selectable={true}
             style={
-              [
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontWeight": "400",
-                },
-                {
-                  "fontSize": 16,
-                  "lineHeight": 19.2,
-                },
-                {
-                  "fontFamily": "Circular Std Medium",
-                  "fontWeight": "500",
-                },
-                {
-                  "marginVertical": 8,
-                  "textAlign": "center",
-                },
-              ]
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Medium",
+                "fontSize": 16,
+                "fontWeight": "500",
+                "lineHeight": 19.2,
+                "marginVertical": 8,
+                "textAlign": "center",
+              }
             }
           >
             Lionel Messi
@@ -974,21 +871,14 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "Circular Std Book",
-                    "fontWeight": "400",
-                  },
-                  {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
-                  },
-                  false,
-                  {
-                    "textAlign": "center",
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "Circular Std Book",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 19.2,
+                  "textAlign": "center",
+                }
               }
             >
               Lorem ipsum dolor sit amet, consectetur adipisici elit.
@@ -1017,7 +907,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={true}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1079,7 +981,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1138,7 +1052,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1197,7 +1123,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1256,7 +1194,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1315,7 +1265,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -1374,7 +1336,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilitySelected={false}
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}

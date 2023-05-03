@@ -1,43 +1,54 @@
 import { faker } from '@faker-js/faker'
-import { expect, test } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 
-import { clickElementByTestId, deleteAccount, locateElementByTestId, registerNewUser } from './helpers'
+import { byTestId, clickElementByTestId, clickElementByTestIdAndWaitForToast, locateElementByTestId } from './helpers'
+import { test } from './testmaster'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
-
 test.describe('@Comment', () => {
-  test('creates a comment and displays it in the post page.', async ({ context, page }) => {
-    // login
-    await registerNewUser({ context, page })
+  test('creates a comment and displays it in the post page.', async ({ userHandler }) => {
+    await userHandler.asRandomUser(async (page) => {
+      // go to home feed
+      await clickElementByTestId(page, 'btn-to-home-view')
 
-    // go to home feed
-    await clickElementByTestId(page, 'btn-to-home-view')
+      await goToPost(page)
+      await clickElementByTestId(page, 'post-detail-footer')
 
-    // click first insight image link
-    await clickElementByTestId(page, 'feed-insight-image-link')
+      // create e2e comment and fill the textinput
+      const input = await locateElementByTestId(page, 'post-comment-input')
+      const commentText = `e2e comment ${faker.random.alphaNumeric(5)}`
+      await input.fill(commentText)
 
-    // click first post within the insight
-    await clickElementByTestId(page, 'btn-to-post')
+      // submit comment
+      await clickElementByTestIdAndWaitForToast(page, 'btn-submit-comment', 'toast-SUCCESS')
+      // wait until submit succeeded
+      await page.waitForSelector(byTestId('btn-to-commenter-profile'))
 
-    // click the comment footer button
-    await clickElementByTestId(page, 'post-detail-footer')
+      // check if comment is present in the comments page
+      await expect(page.getByText(commentText)).toBeVisible()
 
-    // create e2e comment and fill the textinput
-    const input = await locateElementByTestId(page, 'post-comment-input')
-    const comment = `e2e comment ${faker.random.alphaNumeric(5)}`
-    await input.fill(comment)
+      // delete comment
+      clickTreeDotsMenu(page, commentText)
+      await clickElementByTestId(page, 'delete-comment-button')
+      await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
 
-    // submit comment
-    await clickElementByTestId(page, 'btn-submit-comment')
-
-    // check if comment is present in the comments page
-    await expect(page.getByText(comment)).toBeVisible()
-
-    await deleteAccount(page)
+      await expect(page.getByText(commentText)).toBeHidden()
+    })
   })
 })
+
+const goToPost = async (page: Page) => {
+  await clickElementByTestId(page, 'feed-insight-image-link')
+  await clickElementByTestId(page, 'btn-to-post')
+  await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
+}
+
+const clickTreeDotsMenu = async (page: Page, commentText: string) => {
+  const commentView = page.locator(byTestId('comment-item'), { has: page.locator(`text="${commentText}"`) })
+  await expect(commentView.first()).toBeVisible()
+  const threeDotMenuButton = commentView.first().locator(byTestId('comment-three-dot-menu-button'))
+  await expect(threeDotMenuButton).toBeVisible()
+  threeDotMenuButton.click()
+}

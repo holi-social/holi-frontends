@@ -1,4 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
+import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -7,9 +8,9 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -40,12 +41,12 @@ type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppS
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
 const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
+const VOSTEL_URL = 'https://vostel.de/de/ueber_vostel'
 
 const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -55,6 +56,8 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation)
   const engagement = data?.appVolunteering_engagement
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
+  const statusBarHeight = Constants.statusBarHeight
+  const styles = getStyles(statusBarHeight)
 
   useLayoutEffect(() => {
     if (engagementId && !loading && !engagement) {
@@ -102,10 +105,13 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           label={t('volunteering:engagementDetail.provider.link.btn', { source })}
         >
           <View style={styles.providerInfoRow}>
-            {/* local image until we have multiple providers / correct provider image */}
             <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/aktion-mensch-logo.svg')}
-              isSvg
+              imageSource={
+                engagement.source === 'Aktion Mensch'
+                  ? require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg')
+                  : require('@holi/ui/assets/img/volunteering/vostel-logo.png')
+              }
+              isSvg={engagement.source === 'Aktion Mensch' ? true : false}
               width={40}
               height={40}
               style={styles.providerImage}
@@ -138,7 +144,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={styles.cardContainer}>
+      <View style={[styles.cardContainer, { maxWidth: deviceWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
         {organizer && <Organizer organizer={organizer} />}
@@ -148,21 +154,21 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   return (
     <View style={styles.container} testID="volunteering-detailview-container">
-      <DefaultLayout
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        style={{ backgroundColor: colors.background30 }}
-      >
+      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
+          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {engagement.source === 'Aktion Mensch' && (
-              <ProviderContainer source={engagement.source} url={AKTION_MENSCH_URL} />
+            {(engagement.source === 'Aktion Mensch' || engagement.source === 'vostel.de') && (
+              <ProviderContainer
+                source={engagement.source}
+                url={engagement.source === 'Aktion Mensch' ? AKTION_MENSCH_URL : VOSTEL_URL}
+              />
             )}
           </View>
         )}
-      </DefaultLayout>
+      </DefaultScrollHeaderLayout>
+
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading
           icon="share-box"
@@ -177,68 +183,73 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
 export default memo(VolunteeringEngagementDetail)
 
-const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
-  },
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: colors.background30,
-  },
-  wrapper: {
-    paddingBottom: 132,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  cardContainer: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: 32,
-    padding: 24,
-    marginTop: 2,
-  },
-  organizerInfoRow: {
-    display: 'flex',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  organizerLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 16,
-  },
-  providerImage: {
-    marginRight: 16,
-  },
-  providerInfoRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-  },
+const getStyles = (statusBarHeight: number) =>
+  StyleSheet.create({
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: vars.topBarHeight + 50,
+    },
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: colors.background30,
+    },
+    wrapper: {
+      paddingBottom: 132,
+      paddingHorizontal: 0,
+      ...Platform.select({
+        native: {
+          maxWidth: '100%',
+          paddingTop: vars.topBarHeight + 40,
+        },
+        web: {
+          paddingTop: vars.topBarHeight + statusBarHeight,
+        },
+      }),
+    },
+    cardContainer: {
+      width: '100%',
+      backgroundColor: 'white',
+      borderRadius: 32,
+      padding: 24,
+      marginTop: 2,
+    },
+    organizerInfoRow: {
+      display: 'flex',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    organizerLogo: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      marginRight: 16,
+    },
+    providerImage: {
+      marginRight: 16,
+    },
+    providerInfoRow: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 16,
+    },
 
-  volunteeringButton: {
-    bottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-  },
-})
+    volunteeringButton: {
+      bottom: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      ...Platform.select({
+        native: {
+          position: 'absolute',
+        },
+        default: {
+          position: 'fixed',
+        },
+      }),
+    },
+  })

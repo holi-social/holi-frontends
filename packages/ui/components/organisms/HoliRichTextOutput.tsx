@@ -3,12 +3,12 @@ import { Platform, StyleProp, TextStyle, ViewStyle } from 'react-native'
 
 import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import { REGEX_URL, REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
-import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliRichTextOutputProps extends HoliTextProps {
+export interface Props extends HoliTextProps {
   text: string
   users?: User[]
   links?: Link[]
@@ -17,14 +17,7 @@ export interface HoliRichTextOutputProps extends HoliTextProps {
   testID?: string
 }
 
-const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
-  text,
-  users = [],
-  links = [],
-  mentionStyle = { color: colors.brandColorB30 },
-  testID,
-  ...props
-}) => {
+const HoliRichTextOutput = ({ text, users = [], links = [], testID, size, ...props }: Props) => {
   /**
    * Replaces each @<USER-ID>
    * with the highlighted fullName
@@ -37,17 +30,13 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
         const foundId = textPart.slice(1)
         const user = users?.find((user) => user.id === foundId)
         const replaced = user ? textPart.replace(REGEX_USER_MENTIONS, user.fullName) : undefined
+        const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
 
         return user && replaced ? (
-          <HoliLink
-            label={user.fullName ?? ''}
-            href={`/profile/${user.id}`}
-            key={index}
-            style={[props.style, mentionStyle]}
-          >
-            {Platform.OS !== 'web' && '@'}
+          <HoliTextLink label={user.fullName ?? ''} href={`/profile/${user.id}`} key={index} size={linkSize}>
+            {Platform.OS !== 'web' ? '@' : ''}
             {replaced}
-          </HoliLink>
+          </HoliTextLink>
         ) : (
           textPart
         )
@@ -59,15 +48,9 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
           const link = links.find(({ requestedUrl }) => textPart === requestedUrl)
 
           return link ? (
-            <HoliLink
-              href={link.requestedUrl}
-              external
-              label={link.title}
-              key={link.requestedUrl}
-              style={[props.style, mentionStyle]}
-            >
+            <HoliTextLink href={link.requestedUrl} label={link.title} key={link.requestedUrl} external>
               {link.title}
-            </HoliLink>
+            </HoliTextLink>
           ) : (
             textPart
           )
@@ -76,7 +59,7 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
   })()
 
   return (
-    <HoliText testID={testID} {...props}>
+    <HoliText testID={testID} size={size} {...props}>
       {textWithMentions}
     </HoliText>
   )

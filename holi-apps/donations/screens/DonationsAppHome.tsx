@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
@@ -7,15 +8,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
-import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { DonationsAppScreensList } from '@holi/mobile/navigation/DonationsAppNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
@@ -34,19 +34,19 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
+  const statusBarHeight = Constants.statusBarHeight
   const [showSearchModal, setShowSearchModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
   }, [])
   const [locationQuery, setLocationQuery] = useParam('location')
   const submitSearch = useCallback(
-    (location) => {
+    (location?: string) => {
       setLocationQuery(location)
       closeModal()
     },
     [setLocationQuery, closeModal]
   )
-  const onScreenScroll = useScrollYHandler()
   const resetSearch = useCallback(() => {
     setLocationQuery(undefined)
     closeModal()
@@ -68,6 +68,9 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     )
 
     setOptions({
+      navigationCustomOptions: {
+        footerShown: false,
+      },
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {title}
@@ -82,11 +85,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout keyboardShouldPersistTaps="always" onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout keyboardShouldPersistTaps="always" headerOverlap>
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
-        testID="donations-search"
+        testID="donations-search-modal"
         label={t('donations:search.heading')}
         autoHeight={false}
         // Smaller devides use the whole screen and
@@ -95,10 +98,13 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       >
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
-      <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
+      <View
+        style={[mixins.container, { paddingTop: statusBarHeight + vars.topBarHeight }]}
+        testID={'donations-list-container'}
+      >
         <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
       </View>
-    </DefaultLayout>
+    </DefaultScrollHeaderLayout>
   )
 }
 

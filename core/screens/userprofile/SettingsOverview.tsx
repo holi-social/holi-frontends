@@ -1,15 +1,16 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -18,9 +19,12 @@ const SettingsOverview: React.VFC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
-  const onScreenScroll = useScrollYHandler()
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
-  const logout = useLogout()
+  const { logout, isLoggingOut } = useLogout()
+  const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
+    onConfirm: () => {
+      logout()
+    },
+  })
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
@@ -35,13 +39,13 @@ const SettingsOverview: React.VFC = () => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultScrollHeaderLayout>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
             label={t('profile.settings.account.title')}
             icon="account-circle"
-            arrowRight
+            iconRight="arrow"
             onPress={goTo('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
@@ -49,44 +53,46 @@ const SettingsOverview: React.VFC = () => {
           <MoreOptionItem
             label={t('notifications.title')}
             icon="notification-2"
-            arrowRight
+            iconRight="arrow"
             onPress={showFeatureNotImplementedToast}
+            tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
+          {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
           <MoreOptionItem
-            label={t('help.title')}
+            label={t('profile.settings.overview.help')}
             icon="help"
-            arrowRight
-            onPress={showFeatureNotImplementedToast}
+            iconRight="outlink"
+            onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
           />
         </View>
 
         <View style={styles.separator} />
 
-        <View style={mixins.container}>
+        <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
             label={t('profile.logout')}
             onPress={() => setShowLogoutConfirmation(true)}
-            contentStyle={styles.logoutButton}
-            tintColor={colors.error30}
+            contentStyle={styles.settingsItem}
             testID="btn-to-logout"
           />
 
           <HoliConfirmation
-            show={showLogoutConfirmation}
             label={t('auth.logout.button')}
             title={t('auth.logout.button')}
             description={t('auth.logout.heading')}
-            onDismiss={() => setShowLogoutConfirmation(false)}
             dismissText={t('auth.logout.confirmation.dismiss')}
             confirmText={t('auth.logout.confirmation.confirm')}
+            confirmationButtonType="warning"
+            {...logoutConfirmationProps}
             testID="modal-logout"
-            onConfirm={logout}
           />
         </View>
       </LoginProtection>
-    </DefaultLayout>
+
+      {isLoggingOut && <HoliLoader />}
+    </DefaultScrollHeaderLayout>
   )
 }
 
@@ -94,7 +100,7 @@ export default memo(SettingsOverview)
 
 const styles = StyleSheet.create({
   settingsOverview: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
   },
   settingsItem: {
     marginVertical: 24,
@@ -103,11 +109,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: colors.background30,
-    marginTop: -9,
-    marginBottom: 14,
-    height: 10,
-  },
-  logoutButton: {
-    margin: 10,
+    height: 1,
   },
 })
