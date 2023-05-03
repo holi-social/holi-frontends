@@ -53,11 +53,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
 
-  // FIXME: gap not supported in current react-native version for mobile
-  //  using different stylings for platforms and param for checking if item is last in row
-  //  remove workaround when updated to RN 0.71.0
-  const setButtonStyles = (isSelected: boolean, isLast: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isLast ? {} : styles.buttonGap, isSelected ? styles.buttonSelected : {}])
+  const setButtonStyles = (isSelected: boolean) =>
+    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
     <>
@@ -85,7 +82,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.all')}
                 onPress={() => setFilter(VisibilityFilter.ALL)}
-                style={setButtonStyles(isFilterAll, false)}
+                style={setButtonStyles(isFilterAll)}
               >
                 <HoliText
                   size="small"
@@ -100,7 +97,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.public')}
                 onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-                style={setButtonStyles(isFilterPublic, false)}
+                style={setButtonStyles(isFilterPublic)}
               >
                 <HoliIcon
                   icon={'global'}
@@ -122,7 +119,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 type="secondary"
                 label={t('spaces.updates.filter.members')}
                 onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-                style={setButtonStyles(isFilterMembers, true)}
+                style={setButtonStyles(isFilterMembers)}
               >
                 <HoliIcon
                   icon="lock"
@@ -170,15 +167,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
+    gap: 8,
   },
   buttonWrapper: {
     paddingVertical: 12,
   },
   wrapper: {
     paddingTop: 12,
-  },
-  buttonGap: {
-    marginRight: 8,
   },
   buttonSpacing: {
     paddingHorizontal: 6,
