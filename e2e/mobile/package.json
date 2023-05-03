@@ -3,6 +3,8 @@
     "@faker-js/faker": "^7.6.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "ts-jest": "^29.1.0",
     "webdriverio": "^7.30.1"
   },
   "name": "@holi/e2e-mobile",
