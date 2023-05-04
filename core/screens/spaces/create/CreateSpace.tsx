@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -13,11 +13,13 @@ import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/Creat
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   CreateSpaceResponse,
+  MySpacesResponse,
   ValidateSpaceResponse,
   createSpaceMutation,
   mySpaceQuery,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -38,14 +40,22 @@ const CreateSpace: React.VFC = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const { isLoggedIn } = useLoggedInUser()
   const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
+
+  let hasOwnSpaces = false
+  // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
+  const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  const mySpaces = mySpacesData?.mySpaces || []
+  hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
   })
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
-    onCompleted: (data) => replaceRoute(`/spaces/${data.createSpace.name}/edit`),
+    onCompleted: (data) =>
+      replaceRoute(`/spaces/${data.createSpace.name}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],
   })
