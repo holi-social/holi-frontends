@@ -29,8 +29,17 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => {
   }
 })
 
+let mockIsLoggedIn = true
+
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({
+    isLoggedIn: mockIsLoggedIn,
+  }),
+}))
+
 describe('OwnProfile', () => {
   it('renders profile when logged in', () => {
+    mockIsLoggedIn = true
     const { queryByText } = render(<OwnProfile />)
 
     expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
@@ -38,6 +47,7 @@ describe('OwnProfile', () => {
   })
 
   it('renders login hint when logged out', () => {
+    mockIsLoggedIn = false
     mockUseAuthReturn = useAuth.logout
     const { queryByText } = render(<OwnProfile />)
 

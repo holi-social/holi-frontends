@@ -9,7 +9,6 @@ import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -33,15 +32,13 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
       >
         <ErrorBoundary>
           <ApolloProvider client={apolloWebClient}>
-            <UserContextProvider>
-              <PortalProvider>
-                <ToastProvider>
-                  <NavigationContextProvider>
-                    <LoginModalProvider>{children}</LoginModalProvider>
-                  </NavigationContextProvider>
-                </ToastProvider>
-              </PortalProvider>
-            </UserContextProvider>
+            <PortalProvider>
+              <ToastProvider>
+                <NavigationContextProvider>
+                  <LoginModalProvider>{children}</LoginModalProvider>
+                </NavigationContextProvider>
+              </ToastProvider>
+            </PortalProvider>
           </ApolloProvider>
         </ErrorBoundary>
       </Suspense>
