@@ -1,5 +1,3 @@
-## these dns changes are done in the infra shared project
-
 locals {
   # effectively, this is app.holi.social
   app_environments_zone_dns_name = "app.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}."

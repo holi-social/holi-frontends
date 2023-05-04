@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "ORY_BASE_URL"
-          value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
+          value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
@@ -67,7 +67,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
-          value = local.environment == "production" ? "https://production.cloud.project-holi.org" : "https://development.cloud.project-holi.org"
+          value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
 
         resources {

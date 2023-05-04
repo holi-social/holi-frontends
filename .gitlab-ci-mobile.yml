@@ -4,9 +4,9 @@
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
-    HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
-    ORY_BASE_URL: https://dev-auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://development.cloud.project-holi.org
+    HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
+    ORY_BASE_URL: https://dev-auth.holi.social
+    OWNCLOUD_BASE_URL: https://development.cloud.holi.social
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -247,9 +247,9 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_ID: production
-    HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
-    ORY_BASE_URL: https://auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://production.cloud.project-holi.org
+    HOLI_API_URL: https://production.unified.apis.holi.social/graphql
+    ORY_BASE_URL: https://auth.holi.social
+    OWNCLOUD_BASE_URL: https://production.cloud.holi.social
   only:
     - production
 
