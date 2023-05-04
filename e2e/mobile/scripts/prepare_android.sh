@@ -12,4 +12,4 @@ echo 'starting appium...'
 npx appium &
 
 echo 'starting local env...'
-HOLI_API_URL=https://staging.unified.apis.project-holi.org/graphql yarn workspace @holi/mobile android
+HOLI_API_URL=https://staging.unified.apis.holi.social/graphql yarn workspace @holi/mobile android
