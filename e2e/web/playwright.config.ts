@@ -7,7 +7,7 @@ import { devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
-const baseURL = process.env.BASE_URL || 'https://staging.web.holi.social'
+const baseURL = process.env.BASE_URL || 'https://staging.app.holi.social'
 
 /**
  * We need retries due to flakyness caused by unknown reasons.
