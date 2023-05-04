@@ -654,7 +654,7 @@ In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://o
 The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
 
 ```sh
-127.0.0.1 staging.web.holi.social
+127.0.0.1 staging.app.holi.social
 ```
 
 However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
@@ -662,16 +662,16 @@ However, as the locally running web frontend only answers to http and port 3000,
 ## Exploring the GraphQL API (via graphiql)
 
 For exploring our GraphQL API we have a running instance
-of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at <https://staging.web.holi.social/>
+of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at <https://staging.app.holi.social/>
 
 If all your requests don't need user authentication you can do them right away. Currently we don't have any GraphQL
 queries that work without authentication but there will be some in the future.
 
 If you need authentication (example for staging):
 
-1. Go to our [web deployment](https://staging.web.holi.social/)) and log in with your user.
+1. Go to our [web deployment](https://staging.app.holi.social/)) and log in with your user.
 2. From the network view of the Browser, check the request that went to the GraphQL API
-   (`https://staging.web.holi.social/api/graphql`) and copy the value from the Cookie request header.
+   (`https://staging.app.holi.social/api/graphql`) and copy the value from the Cookie request header.
 3. Go to the [staging graphiql instance](https://staging.unified.apis.holi.social/graphql), open the "Request
    Headers" tab in the lower left and add the previously copied cookie values like so:
 
@@ -695,7 +695,7 @@ alternative.
 
 When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
-When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.web.holi.social>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.app.holi.social>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
 ### Skipping parts of CI
 
