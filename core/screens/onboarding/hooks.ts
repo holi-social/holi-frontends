@@ -11,7 +11,6 @@ const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
 export const useOnboarding = () => {
   const { userId } = useAuth()
-  const isLoggedIn = !!userId
 
   const onOnboardingStateChange = useCallback(async (value: OnboardingStateValue = 'finished') => {
     onboardingStateVar(value)
@@ -19,16 +18,29 @@ export const useOnboarding = () => {
   }, [])
 
   useEffect(() => {
-    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-      // if user is not logged in and there is no onboarding state is AsyncStore, then it is freshly installed app, so show Onboarding
-      if (!storedValue) {
-        await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
-        return
-      }
+    // prevent race condition if `usedId` has not been read from the AsyncStorage yet
+    if (userId === undefined) return
 
-      onboardingStateVar(storedValue as OnboardingStateValue)
+    const isLoggedIn = !!userId
+
+    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
+      const value = storedValue as OnboardingStateValue | null
+
+      switch (value) {
+        case 'onboarding':
+        case 'finished':
+          onboardingStateVar(value)
+          break
+
+        case 'accountSetup':
+          await onOnboardingStateChange(isLoggedIn ? 'accountSetup' : 'finished')
+          break
+
+        default:
+          await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
+      }
     })
-  }, [isLoggedIn, onOnboardingStateChange])
+  }, [userId, onOnboardingStateChange])
 
   return {
     onboardingState: useReactiveVar(onboardingStateVar),

@@ -6,6 +6,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
   accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={false}
 />
@@ -17,6 +18,7 @@ exports[`renders correctly renders correctly when open 1`] = `
   accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={true}
 >
@@ -69,6 +71,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "top": 0,
         }
       }
+      testID="holi-confirmation-backdrop"
     />
     <View
       style={
@@ -197,6 +200,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               },
             ]
           }
+          testID="holi-confirmation-dismiss"
         >
           <View
             pointerEvents="none"
@@ -290,6 +294,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               },
             ]
           }
+          testID="holi-confirmation-confirm"
         >
           <View
             pointerEvents="none"
@@ -334,6 +339,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
   accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={true}
 >
@@ -386,6 +392,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           "top": 0,
         }
       }
+      testID="holi-confirmation-backdrop"
     />
     <View
       style={
@@ -514,6 +521,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               },
             ]
           }
+          testID="holi-confirmation-dismiss"
         >
           <View
             pointerEvents="none"
@@ -604,6 +612,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               },
             ]
           }
+          testID="holi-confirmation-confirm"
         >
           <View
             pointerEvents="none"

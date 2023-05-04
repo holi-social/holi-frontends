@@ -9,6 +9,12 @@ import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
+interface LogoutOptions {
+  message?: string
+  skipLogoutFlow?: boolean
+  redirectPath?: string
+}
+
 export const useLogout = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const { navigate } = useRouting()
@@ -18,7 +24,7 @@ export const useLogout = () => {
 
   return {
     logout: useCallback(
-      async ({ message, skipLogoutFlow = false }: { message?: string; skipLogoutFlow?: boolean } = {}) => {
+      async ({ message, skipLogoutFlow = false, redirectPath = '/profile' }: LogoutOptions = {}) => {
         setIsLoggingOut(true)
 
         getSessionFromStorage()
@@ -32,8 +38,8 @@ export const useLogout = () => {
           .then(() => setUserLoggedOut())
           .then(() => {
             console.debug('[Logout] logout successful')
-            navigate('/profile')
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+            navigate(redirectPath)
           })
           .catch((e) => {
             console.debug('[Logout] logout failed, removing session from storage')
