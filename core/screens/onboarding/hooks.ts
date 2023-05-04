@@ -24,7 +24,16 @@ export const useOnboarding = () => {
     const isLoggedIn = !!userId
 
     AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-      const value = storedValue as OnboardingStateValue | null
+// Bind the values to a const assertion
+const onboardingValues = <const>['onboarding', 'accountSetup', 'finished']
+export type OnboardingStateValue = (typeof onboardingValues)[number]
+
+// Create a type guard to validate the string
+const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue => !!onboardingValues.find(v => value === v)
+
+....
+
+const value = isOnboardingStateValue(storedValue) ? storedValue : null
 
       switch (value) {
         case 'onboarding':
