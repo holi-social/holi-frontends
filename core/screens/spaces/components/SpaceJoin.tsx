@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -9,10 +9,13 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
   space: Space
@@ -25,6 +28,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { openLoginModal } = useLoginModal()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
+  const { show: showsJoinModal, hide: hideJoinModal, props: joinModalProps } = useModalState()
+
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
@@ -32,6 +37,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       update: (cache) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
       },
+
       onError(error) {
         client.cache.evict({ id: client.cache.identify(space) })
 
@@ -45,19 +51,21 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   )
 
   const submitJoinRequest = useCallback(() => {
-    if (!isLoggedIn) {
-      return openLoginModal({
-        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
-      })
-    }
-    updateSpaceUserConnection({
-      variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        spaceId: space.id,
-      },
-    })
-  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id, space.title])
+    // if (!isLoggedIn) {
+    //   return openLoginModal({
+    //     description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+    //   })
+    // }
+    showsJoinModal()
+
+    // updateSpaceUserConnection({
+    //   variables: {
+    //     connectAction: SpaceConnectionAction.CONNECT,
+    //     connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+    //     spaceId: space.id,
+    //   },
+    // })
+  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id, space.title, showsJoinModal])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -72,6 +80,28 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
+
+  const SpaceJoinOverlay = () => {
+    return (
+      <HoliModal label={'space.join.overlay'} {...joinModalProps} testID="space-join-overlay">
+        <View style={styles.modalContentWrapper}>
+          <HoliHeading size={'large'} style={styles.heading}>
+            {t('spaces.join.overlay.title')}
+          </HoliHeading>
+          <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
+          <HoliButton
+            label={t('spaces.join.overlay.button')}
+            onPress={hideJoinModal}
+            testID="space-join-overlay-button"
+            style={styles.overlayButton}
+          >
+            {t('spaces.join.overlay.button')}
+          </HoliButton>
+        </View>
+      </HoliModal>
+    )
+  }
+
   return (
     <>
       {!isRequestor && !isMember && (
@@ -110,8 +140,37 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
         onConfirm={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
+      <SpaceJoinOverlay />
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  heading: {
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  text: {
+    color: colors.foreground20,
+  },
+  modalContentWrapper: {
+    paddingHorizontal: 24,
+    marginBottom: 40,
+  },
+  link: {
+    display: 'flex',
+    flex: 1,
+  },
+  userCard: {
+    flex: 1,
+  },
+  moreButton: {
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
+  },
+  overlayButton: {
+    marginTop: 40,
+  },
+})
 
 export default SpaceJoin
