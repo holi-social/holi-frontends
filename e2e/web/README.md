@@ -51,7 +51,7 @@ E2E_USER_USERNAME=... E2E_USER_PASSWORD=... E2E_USER_ID=... yarn test:localhost
 For testing a deployed app, use the following command:
 
 ```sh
-BASE_URL=https://staging.web.project-holi.org yarn test
+BASE_URL=https://staging.web.holi.social yarn test
 ```
 
 In order to debug failing tests, you can have a look at the trace that playwright saves for every test. The local command is:
