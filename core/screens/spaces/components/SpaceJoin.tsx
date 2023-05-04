@@ -28,7 +28,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { openLoginModal } = useLoginModal()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
-  const { show: showsJoinModal, hide: hideJoinModal, props: joinModalProps } = useModalState()
+  const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -51,21 +51,22 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   )
 
   const submitJoinRequest = useCallback(() => {
-    // if (!isLoggedIn) {
-    //   return openLoginModal({
-    //     description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
-    //   })
-    // }
-    showsJoinModal()
+    if (!isLoggedIn) {
+      return openLoginModal({
+        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+      })
+    }
 
-    // updateSpaceUserConnection({
-    //   variables: {
-    //     connectAction: SpaceConnectionAction.CONNECT,
-    //     connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-    //     spaceId: space.id,
-    //   },
-    // })
-  }, [isLoggedIn, openLoginModal, t, updateSpaceUserConnection, space.id, space.title, showsJoinModal])
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.CONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        spaceId: space.id,
+      },
+    }).then(() => {
+      showJoinOverlay()
+    })
+  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, showJoinOverlay, openLoginModal, t])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -83,7 +84,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 
   const SpaceJoinOverlay = () => {
     return (
-      <HoliModal label={'space.join.overlay'} {...joinModalProps} testID="space-join-overlay">
+      <HoliModal label={'space.join.overlay'} {...joinOverlayProps} testID="space-join-overlay">
         <View style={styles.modalContentWrapper}>
           <HoliHeading size={'large'} style={styles.heading}>
             {t('spaces.join.overlay.title')}
@@ -91,7 +92,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
           <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
           <HoliButton
             label={t('spaces.join.overlay.button')}
-            onPress={hideJoinModal}
+            onPress={hideJoinOverlay}
             testID="space-join-overlay-button"
             style={styles.overlayButton}
           >
