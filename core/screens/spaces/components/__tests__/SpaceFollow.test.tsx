@@ -193,7 +193,7 @@ describe('Space follow button', () => {
     expect(await screen.findByText('spaces.follow.btn.unfollow'))
     fireEvent.press(await screen.findByTestId('unfollow-btn'))
     expect(await screen.findByTestId('unfollow-confirm-confirmation-dialog'))
-    fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
+    await fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
     expect(await unfollowSpaceMutation.newData).toHaveBeenCalled()
   })
 })

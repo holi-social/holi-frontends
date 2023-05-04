@@ -100,11 +100,26 @@ resource "google_cloud_run_service" "mvp_web" {
   depends_on = [google_project_service.service]
 }
 
-resource "google_cloud_run_domain_mapping" "mvp_web" {
+resource "google_cloud_run_domain_mapping" "app_web" {
   project = google_cloud_run_service.mvp_web.project
   # location needs to be the same as the service's
   location = google_cloud_run_service.mvp_web.location
   name     = local.dns_name
+
+  metadata {
+    namespace = google_cloud_run_service.mvp_web.project
+  }
+
+  spec {
+    route_name = google_cloud_run_service.mvp_web.name
+  }
+}
+
+resource "google_cloud_run_domain_mapping" "mvp_web" {
+  project = google_cloud_run_service.mvp_web.project
+  # location needs to be the same as the service's
+  location = google_cloud_run_service.mvp_web.location
+  name     = local.project_holi_dns_name
 
   metadata {
     namespace = google_cloud_run_service.mvp_web.project
