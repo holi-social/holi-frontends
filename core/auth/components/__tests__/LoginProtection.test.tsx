@@ -5,7 +5,6 @@ import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection.web'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
 const loggedIn = () => ({ userId: '123' })
@@ -44,11 +43,9 @@ describe('renders correctly', () => {
 
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <UserContextProvider>
-          <LoginProtection>
-            <Text>Protected Content</Text>
-          </LoginProtection>
-        </UserContextProvider>
+        <LoginProtection>
+          <Text>Protected Content</Text>
+        </LoginProtection>
       </MockedProvider>
     )
 
@@ -63,9 +60,7 @@ describe('renders correctly', () => {
 
     const { queryByText } = render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <UserContextProvider>
-          <LoginProtection>Protected Content</LoginProtection>
-        </UserContextProvider>
+        <LoginProtection>Protected Content</LoginProtection>
       </MockedProvider>
     )
 
@@ -80,9 +75,7 @@ describe('renders correctly', () => {
 
       const { getByText } = render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <UserContextProvider>
-            <LoginProtection>Protected Content</LoginProtection>
-          </UserContextProvider>
+          <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
 
@@ -97,9 +90,7 @@ describe('renders correctly', () => {
 
       const { getByTestId } = render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <UserContextProvider>
-            <LoginProtection>Protected Content</LoginProtection>
-          </UserContextProvider>
+          <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
 
@@ -113,9 +104,7 @@ describe('renders correctly', () => {
 
       const { getByText } = render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <UserContextProvider>
-            <LoginProtection>Protected Content</LoginProtection>
-          </UserContextProvider>
+          <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
 

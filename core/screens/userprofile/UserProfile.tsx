@@ -18,11 +18,11 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -125,14 +125,13 @@ const UserProfile = () => {
     if (userId && !loading && !user) {
       fetchUser()
     }
-  }, [fetchUser, userId, loading, user])
-
-  if (error) {
-    if (isNotFoundError(error)) {
-      return <NotFound />
-    } else {
+    if (error && !isNotFoundError(error)) {
       displayError(error)
     }
+  }, [fetchUser, userId, loading, user, error, displayError])
+
+  if (error && isNotFoundError(error)) {
+    return <NotFound />
   }
 
   if (!userId || loading) {

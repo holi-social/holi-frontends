@@ -86,16 +86,18 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        console.info('[Registration.tsx] registration was successful.')
+        console.debug('[Registration.tsx] registration was successful.')
 
         const verificationFlow = getVerificationFlow(data as SuccessfulNativeRegistrationWithContinueFlow)
         setVerificationFlowData(verificationFlow)
 
+        // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
+        await onRegister()
+        // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-        onRegister()
 
         redirect()
       } catch (err) {

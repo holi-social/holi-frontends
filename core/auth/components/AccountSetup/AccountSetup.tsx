@@ -11,13 +11,13 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserChips } from '@holi/core/helpers/useUserChips'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   interestsQuery,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
@@ -179,7 +179,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   }, [names])
 
   useEffect(() => {
-    if (!userLoading && user === null) {
+    if (user === null) {
       onFinish()
       navigate('/')
     }

@@ -90,14 +90,12 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         <View style={[styles.modalContent, mixins.container]}>
           <HoliAvatar
             imageSrc={user.avatar}
-            label={user.fullName || t('navigation.headerRight.avatarFallbackLabel')}
+            label={user.fullName || t('user.profileView.anonymous')}
             initials={user.avatarLabel}
             defaultColor={user.avatarDefaultColor}
             style={[styles.avatar, styles.avatar]}
           />
-          <HoliText style={{ marginBottom: 4 }}>
-            {user.fullName || t('navigation.headerRight.avatarFallbackLabel')}
-          </HoliText>
+          <HoliText style={{ marginBottom: 4 }}>{user.fullName || t('user.profileView.anonymous')}</HoliText>
           <HoliText size="small" style={{ color: colors.foreground20 }}>
             {user.pronouns || ''}
             {user.pronouns && <> &#183; </>}

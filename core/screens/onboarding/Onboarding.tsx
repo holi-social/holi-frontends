@@ -86,7 +86,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ afterAccountCreated, style }) 
         afterAccountCreated?.()
         break
       case RegistrationStep.EMAIL_VERIFICATION:
-        onOnboardingStateChange('accountSetup')
+        await onOnboardingStateChange('accountSetup')
         goNext()
         break
       default:

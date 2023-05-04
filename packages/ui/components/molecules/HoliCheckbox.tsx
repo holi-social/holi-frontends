@@ -23,6 +23,7 @@ export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxProps = {
   label?: string
   shape?: HoliCheckboxShape
+  accessibilityLabel: string
   accessibilityRole?: AccessibilityRole
   checked?: boolean
   errorMessage?: string
@@ -37,7 +38,8 @@ export type HoliCheckboxProps = {
 
 const HoliCheckbox = ({
   children,
-  label = '',
+  label,
+  accessibilityLabel,
   shape = 'box',
   accessibilityRole = 'checkbox',
   checked = false,
@@ -63,7 +65,7 @@ const HoliCheckbox = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
     accessibilityRole: disabled ? 'none' : accessibilityRole,
-    accessibilityLabel: label,
+    accessibilityLabel: accessibilityLabel,
     accessibilityChecked: disabled ? false : checked,
   }
 

@@ -13,6 +13,8 @@ import {
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
+import { logError } from '@holi/core/errors/helpers'
+
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name']
 
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
@@ -131,10 +133,10 @@ export const handleFormSubmitError = (
     switch (err.response?.status) {
       case 400: {
         if (typeof err.response.data.error === 'object') {
-          console.error('[auth/helpers/form.ts] 400 error:', err.response)
+          logError(err.response, '[auth/helpers/form.ts] 400 error')
         }
 
-        console.info('[auth/helpers/form.ts] Form validation failed.')
+        console.debug('[auth/helpers/form.ts] Form validation failed.')
         // The error response data contains a flow with error messages.
         // With this data, the view can display the errors.
         setFlow(err.response.data)
@@ -150,7 +152,7 @@ export const handleFormSubmitError = (
       case 410:
         // This happens when the flow is, for example, expired or was deleted.
         // We simply re-initialize the flow if that happens!
-        console.error('[auth] Flow could not be found, reloading page: ', err.response)
+        logError(err.response, '[auth] Flow could not be found, reloading page')
         initializeFlow()
         return
     }

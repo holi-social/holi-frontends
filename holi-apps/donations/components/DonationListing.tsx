@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -56,9 +56,11 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
     ? t('donations:donationListing.loadMoreButton.loading')
     : t('donations:donationListing.loadMoreButton.text')
 
-  if (error) {
-    displayError(error, t('donations:donationListing.error'))
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error, t('donations:donationListing.error'))
+    }
+  }, [error, displayError, t])
 
   if (loading) {
     // TODO: replace with proper loading indicator

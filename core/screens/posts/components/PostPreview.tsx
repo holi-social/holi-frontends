@@ -10,7 +10,7 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
@@ -98,13 +98,15 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliColumn>
       </HoliColumns>
 
-      <View style={styles.postTitleLink}>
-        <HoliLink href={getPostUrl(post.id, insightId, spaceIdOrName)} label={post.title} testID="btn-to-post">
-          <HoliHeading level="3" size="small">
-            {post.title}
-          </HoliHeading>
-        </HoliLink>
-      </View>
+      {post.title && (
+        <View style={styles.postTitleLink}>
+          <HoliLink href={getPostUrl(post.id, insightId, spaceIdOrName)} label={post.title} testID="btn-to-post">
+            <HoliHeading level="3" size="small">
+              {post.title}
+            </HoliHeading>
+          </HoliLink>
+        </View>
+      )}
 
       <HoliReadMore numberOfLines={10} color="gray300" bold={false}>
         <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} size="default" color="gray300" />
