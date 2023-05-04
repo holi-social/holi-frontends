@@ -3,7 +3,6 @@ import React from 'react'
 
 import type { HoliImageProps, ImageSource } from '@holi/ui/components/utils/image'
 import { setImageKitParams } from '@holi/ui/components/utils/image'
-import { resizeModeForWeb } from '@holi/ui/components/utils/image'
 import { vars } from '@holi/ui/styles/globalVars'
 
 import styles from './HoliImage.module.scss'
@@ -37,7 +36,7 @@ const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: Props)
       src={src.uri}
       sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
       alt={label}
-      style={{ ...style, ...aspectRatio, objectFit: resizeModeForWeb(resizeMode) }}
+      style={{ ...style, ...aspectRatio, objectFit: resizeMode }}
     />
   )
 }

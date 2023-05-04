@@ -12,7 +12,7 @@ const allSources = [
   { uri: 'http://placekitten.com/1200/800', width: 1200, height: 800 },
 ]
 
-const ResizeModes = ['cover', 'contain', 'stretch'] as const
+const ResizeModes = ['cover', 'contain', 'fill'] as const
 
 describe('renders correctly for web', () => {
   beforeEach(() => {

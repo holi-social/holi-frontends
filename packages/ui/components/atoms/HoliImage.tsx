@@ -1,6 +1,7 @@
 import { Image } from 'expo-image'
+import type { ImageProps } from 'expo-image'
 import React from 'react'
-import type { AccessibilityProps, ImageProps } from 'react-native'
+import type { AccessibilityProps } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import type { HoliImageProps } from '@holi/ui/components/utils/image'
@@ -16,7 +17,7 @@ const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliI
   return (
     <Image
       source={transformSourcesURL(source)}
-      style={[style]}
+      style={style}
       contentFit={resizeMode}
       testID={testID}
       {...accessibilityProps}

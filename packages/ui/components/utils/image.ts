@@ -1,3 +1,4 @@
+import type { ImageContentFit } from 'expo-image'
 import type { ImageURISource } from 'react-native'
 import { PixelRatio, Platform } from 'react-native'
 
@@ -10,26 +11,12 @@ export interface ImageSource {
 export interface HoliImageProps {
   source: ImageSource[] | ImageURISource
   label: string
-  resizeMode?: ResizeMode
+  resizeMode?: ImageContentFit
   /**
    * Source sizes for web, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-sizes
    * The default value assumes the image will span the whole screen width until maxScreenWidth.
    */
   sizes?: string
-}
-
-// These modes work the same across web and mobile and therefore are the only ones we allow.
-// center and repeat have no web equivalent
-// stretch fill in web
-export type ResizeMode = 'cover' | 'contain' | 'stretch'
-
-export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
-  switch (resizeMode) {
-    case 'stretch':
-      return 'fill'
-    default:
-      return resizeMode
-  }
 }
 
 /** @description It handles the correct pixel density for native host platforms.
