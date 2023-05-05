@@ -34,7 +34,6 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
       <View style={styles.header}>
         <SpaceHeader space={space} style={mixins.container} />
       </View>
-
       <HoliTabs
         id="space-tabs"
         testID="space-tabs"
