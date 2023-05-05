@@ -12,4 +12,4 @@ export interface GeolocationPoint {
   longitude: number
 }
 
-export type GeolocationGeometry = object
+export type GeolocationGeometry = object // TODO(SF) rename to feature?

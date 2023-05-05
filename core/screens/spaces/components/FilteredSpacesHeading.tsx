@@ -13,7 +13,7 @@ const FilteredSpacesHeading: React.VFC<FilteredSpacesHeadingProps> = ({
   topicSlug,
   locationId,
   skillSlugs = [],
-  locationName,
+  locationName, // TODO(SF) load using query
 }) => {
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()

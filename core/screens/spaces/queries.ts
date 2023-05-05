@@ -134,8 +134,8 @@ export const sdgsQuery = gql`
 export const spacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topicSlug: String, $location: String, $skillSlugs: [String], $offset: Int, $limit: Int) {
-    spaces(topicSlug: $topicSlug, location: $location, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
+  query Spaces($topicSlug: String, $geolocation: GeoJSON, $skillSlugs: [String], $offset: Int, $limit: Int) {
+    spaces(topicSlug: $topicSlug, geolocation: $geolocation, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
       totalResults
       data {
         ...FullSpace
@@ -151,10 +151,16 @@ export type SpacesResponse = {
 export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}
 
-  query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
-    discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
+  query DiscoverSpaces($topicIds: [UUID], $geolocation: GeoJSON, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    discoverSpaces(
+      topicIds: $topicIds
+      geolocation: $geolocation
+      skillIds: $skillIds
+      offset: $offset
+      limit: $limit
+    ) {
       topicId
-      location
+      locationId
       skillId
       spaces {
         totalResults
@@ -169,6 +175,7 @@ export const discoverSpacesQuery = gql`
 export type DiscoverSpacesGroup = {
   topicId?: string
   location?: string
+  locationId?: string
   skillId?: string
   spaces: Paged<Space>
 }
@@ -416,7 +423,12 @@ export const UpdateTaskSchema = z.object({
   regularity: z.string() /* Regularity */,
   contactEmail: z.string().email().optional(),
   location: z.string().optional(),
-  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  geolocation: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
 })

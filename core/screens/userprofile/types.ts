@@ -31,6 +31,7 @@ export interface User {
   pronouns?: string
   location?: string
   geolocation?: GeolocationGeometry
+  geolocationId?: string
   engagementLevel?: string
   interests?: Topic[]
   sdgs?: SDG[]

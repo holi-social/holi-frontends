@@ -43,7 +43,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    user?.location && user?.geolocation ? { label: user.location, id: '0' } : undefined
+    user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
@@ -68,16 +68,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 
   const submit = async () => {
-    // we need to explicitly perform a cleanup of the apollo __typename
-    const geolocation = location?.geometry
-
+    const locationUpdate =
+      locationQuery !== user?.location
+        ? {
+            location: location?.label || locationQuery,
+            geolocation: location?.geometry,
+          }
+        : {}
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
       aboutMe,
       pronouns,
-      location: location?.label,
-      geolocation,
+      ...locationUpdate,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 

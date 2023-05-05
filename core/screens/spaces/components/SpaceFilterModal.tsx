@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { PlaceDetails } from '@holi/core/location/typings'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { GeolocationMultiPolygon } from '@holi/core/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,28 +22,22 @@ export type SpaceFilter = {
 
 type SpaceFilterModalProps = {
   filters?: SpaceFilter
-  initialLocationQuery?: string
-  initialGeolocation?: GeolocationMultiPolygon
+  initialLocation?: PlaceDetails
   applyFilters: (filter: SpaceFilter) => void
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
-  filters = {},
-  initialLocationQuery,
-  initialGeolocation,
-  applyFilters,
-}) => {
+const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, initialLocation, applyFilters }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [topicSlug, setTopicSlug] = useState(filters.topicSlug)
 
-  const [locationQuery, setLocationQuery] = useState(initialLocationQuery)
+  const [locationQuery, setLocationQuery] = useState(initialLocation?.name)
   const initialSuggestion = useMemo(
     () =>
-      initialLocationQuery && initialGeolocation
-        ? { label: initialLocationQuery, id: filters.locationId || '0', boundaries: initialGeolocation }
+      initialLocation && initialLocation.geometry
+        ? { label: initialLocation.name, id: filters.locationId || '0', geometry: initialLocation.geometry }
         : undefined,
-    [filters.locationId, initialGeolocation, initialLocationQuery]
+    [filters.locationId, initialLocation]
   )
 
   const [location, setLocation] = useState<GeolocationSuggestion | undefined>(initialSuggestion)
@@ -57,11 +51,11 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
   }, [setShowFilterModal])
   const openModal = useCallback(() => {
     setTopicSlug(filters.topicSlug)
-    setLocationQuery(initialLocationQuery)
+    setLocationQuery(initialLocation?.name)
     setLocation(initialSuggestion)
     setSkillSlugs(filters.skillSlugs)
     setShowFilterModal(true)
-  }, [filters.topicSlug, filters.skillSlugs, initialLocationQuery, initialSuggestion])
+  }, [filters.topicSlug, filters.skillSlugs, initialLocation, initialSuggestion])
   const submit = useCallback(() => {
     applyFilters({
       topicSlug,
@@ -167,7 +161,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
               onChangeText={setLocationQuery}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
-              fetchBoundariesOnClose
+              fetchGeometryOnClose
               // TODO(SF) add new translation
               // TODO(SF) validationErrorText={fieldErrors?.location?.join()}
               helperText={location ? undefined : t('profile.location.validation.helper')}

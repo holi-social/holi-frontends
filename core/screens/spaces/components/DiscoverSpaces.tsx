@@ -6,12 +6,12 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { PlaceDetails } from '@holi/core/location/typings'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-import { GeolocationMultiPolygon } from '@holi/core/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 /**
@@ -44,19 +44,16 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   )
 
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-  // TODO(SF) combine in object
-  const [geolocation, setGeolocation] = useState<GeolocationMultiPolygon>()
-  const [locationName, setLocationName] = useState<string>()
+  const [defaultLocation, setDefaultLocation] = useState<PlaceDetails | undefined>()
 
   useEffect(() => {
     fetchPlaceDetails({ variables: { id: DEFAULT_LOCATION_ID } })
       .then((response) => {
-        setGeolocation(response.data?.geo_placeDetails.boundaries?.coordinates)
-        setLocationName(response?.data?.geo_placeDetails.name)
+        setDefaultLocation(response.data?.geo_placeDetails)
       })
       .catch((error) => {
         // TODO(SF) improve? display proper error message to the user?
-        logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details: ${error.message}`)
+        logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details for default geolocation: ${error.message}`)
       })
   }, [fetchPlaceDetails])
 
@@ -71,14 +68,15 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
       fetchPolicy: 'cache-and-network',
     })
 
+  // TODO(SF) actually pass location id for filter heading links
+  // TODO(SF) only pass full geo feature for user, "pure" geometry otherwise?
   // TODO(SF) delay until geolocation has been fetched?
   // default spaces suggestions
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
-        location: locationName, // TODO(SF) null if equal to user?.location_id
-        geolocation: geolocation,
+        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultLocation?.geometry : undefined,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',

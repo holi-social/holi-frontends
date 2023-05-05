@@ -6,6 +6,7 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { PlaceDetails } from '@holi/core/location/typings'
 import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
@@ -13,7 +14,6 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
-import { GeolocationMultiPolygon } from '@holi/core/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -60,21 +60,17 @@ const FilteredSpaces: React.VFC = () => {
   const [fetchingMore, setFetchingMore] = useState(false)
 
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-  // TODO(SF) combine in object
-  const [geolocation, setGeolocation] = useState<GeolocationMultiPolygon>()
-  const [locationName, setLocationName] = useState<string>()
+  const [location, setLocation] = useState<PlaceDetails>()
 
   useEffect(() => {
     if (locationId) {
       fetchPlaceDetails({ variables: { id: locationId } })
         .then((response) => {
-          const { boundaries, name } = response.data?.geo_placeDetails || {}
-          if (boundaries && name) {
-            setGeolocation(boundaries?.coordinates)
-            setLocationName(name)
+          const { geometry, name } = response.data?.geo_placeDetails || {}
+          if (geometry && name) {
+            setLocation(response.data?.geo_placeDetails)
           } else {
-            setGeolocation(undefined)
-            setLocationName(undefined)
+            setLocation(undefined)
           }
         })
         .catch((error) => {
@@ -82,8 +78,7 @@ const FilteredSpaces: React.VFC = () => {
           logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details: ${error.message}`)
         })
     } else {
-      setGeolocation(undefined)
-      setLocationName(undefined)
+      setLocation(undefined)
     }
   }, [locationId, fetchPlaceDetails])
 
@@ -91,8 +86,7 @@ const FilteredSpaces: React.VFC = () => {
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicSlug: topicSlug,
-      location: locationName,
-      geolocation: geolocation,
+      geolocation: location?.geometry,
       skillSlugs: skillSlugs,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
@@ -132,7 +126,7 @@ const FilteredSpaces: React.VFC = () => {
     <SpaceTermContextProvider>
       <DefaultScrollHeaderLayout style={styles.wrapper} testID="filtered-spaces-container">
         <View style={mixins.container}>
-          <FilteredSpacesHeading {...filters} locationName={locationName} />
+          <FilteredSpacesHeading {...filters} locationName={location?.name} />
           {spaces.length > 0 && !loading && <SpacesGrid style={styles.grid} spaces={spaces} />}
           {!spaces.length &&
             (loading ? (
@@ -168,12 +162,7 @@ const FilteredSpaces: React.VFC = () => {
         </View>
       </DefaultScrollHeaderLayout>
 
-      <SpaceFilterModal
-        filters={filters}
-        applyFilters={applyFilters}
-        initialGeolocation={geolocation}
-        initialLocationQuery={locationName}
-      />
+      <SpaceFilterModal filters={filters} applyFilters={applyFilters} initialLocation={location} />
     </SpaceTermContextProvider>
   )
 }
