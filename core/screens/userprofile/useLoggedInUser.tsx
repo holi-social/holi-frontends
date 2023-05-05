@@ -16,7 +16,7 @@ export const useLoggedInUser = () => {
       skip: !userId,
       fetchPolicy: 'cache-and-network',
       onError: (error) => {
-        logout()
+        logout({ redirectPath: '/' })
         displayError(error)
       },
     }

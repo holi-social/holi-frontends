@@ -15,6 +15,13 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   },
 }))
 
+jest.mock('@holi/core/helpers/useLogout', () => ({
+  useLogout: () => ({
+    logout: jest.fn(),
+    isLoggingOut: false,
+  }),
+}))
+
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,

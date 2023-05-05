@@ -25,7 +25,7 @@ export interface OnboardingProps {
   style?: StyleProp<ViewStyle>
 }
 
-const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
+const Onboarding = ({ style }: OnboardingProps) => {
   // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
