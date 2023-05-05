@@ -6,6 +6,9 @@ locals {
 
   # the dns name can be at most 64 chars in total
   dns_name           = local.environment == "production" ? "app.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}" : "${trimsuffix(substr(local.environment, 0, 39), ".-")}.${data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_app_domain}"
+  dev_dns_name       = "${trimsuffix(substr(local.environment, 0, 39), ".-")}.${data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_dev_domain}"
+  dns_managed_zone   = local.environment == "production" ? data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_name : data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_app_domain_name
+  dev_dns_managed_zone   = data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_dev_domain_name
   project_holi_dns_name   = "${trimsuffix(substr(local.environment, 0, 39), ".-")}.${data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_project_holi_web_domain}"
   # in production, we work against prod apis, in staging and feature envs, we use the staging apis
   holi_api_url       = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}/graphql"
