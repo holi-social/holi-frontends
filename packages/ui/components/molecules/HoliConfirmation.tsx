@@ -72,7 +72,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   onDismiss,
   confirmText,
   dismissText,
-  testID,
+  testID = 'holi',
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
@@ -93,14 +93,10 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
       show={show}
       transparent
       animationType="fade"
-      {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
+      testID={`${testID}-confirmation-dialog`}
     >
       <View style={styles.modalContainer}>
-        <Pressable
-          onPress={onDismiss}
-          style={styles.backdrop}
-          {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})}
-        />
+        <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
         <View style={styles.modalView}>
           <HoliHeading level="4" size="small">
@@ -115,7 +111,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={dismissText || t('confirmation.dismiss')}
                 onPress={onDismiss}
                 style={styles.button}
-                {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
+                testID={`${testID}-confirmation-dismiss`}
               >
                 {dismissText || t('confirmation.dismiss')}
               </HoliButton>
@@ -127,7 +123,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 onPress={onConfirm}
                 type={confirmationButtonType}
                 style={styles.button}
-                {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
+                testID={`${testID}-confirmation-confirm`}
               >
                 {confirmText || t('confirmation.confirm')}
               </HoliButton>
