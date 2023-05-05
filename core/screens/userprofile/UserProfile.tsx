@@ -18,7 +18,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
-import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
+import UserChipRow, { UserChipTypes } from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
@@ -185,18 +185,18 @@ const UserProfile = () => {
                 </View>
               ),
               hasInterests && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                  <UserChipRow user={user} keyInUserObject={'interests'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
                 </View>
               ),
               hasSdgs && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                  <UserChipRow user={user} keyInUserObject={'sdgs'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
                 </View>
               ),
               hasSkills && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                  <UserChipRow user={user} keyInUserObject={'skills'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
                 </View>
               ),
               !hasInfo && (

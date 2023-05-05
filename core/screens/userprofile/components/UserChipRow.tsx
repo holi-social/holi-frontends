@@ -2,13 +2,19 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { Term, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
+export enum UserChipTypes {
+  INTERESTS = 'interests',
+  SKILLS = 'skills',
+  SDGS = 'sdgs',
+}
+
 type UserChipRowProps = {
-  keyInUserObject: string
+  keyInUserObject: UserChipTypes
   onPressEdit?: () => void
   numberOfLines?: number
   user: User
@@ -20,7 +26,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   user,
   keyInUserObject,
 }: UserChipRowProps) => {
-  const terms = user ? (user[keyInUserObject as keyof User] as Term[]) : []
+  const terms = user ? user[keyInUserObject] || [] : []
   const sortedTerms = [...terms].sort(termsByTitleComparator)
   const { t } = useTranslation()
 
