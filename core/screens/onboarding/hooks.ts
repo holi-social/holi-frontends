@@ -42,7 +42,14 @@ const value = isOnboardingStateValue(storedValue) ? storedValue : null
           break
 
         case 'accountSetup':
-          await onOnboardingStateChange(isLoggedIn ? 'accountSetup' : 'finished')
+switch (value) {
+  default:
+    assertUnreachable(value);
+}
+
+function assertUnreachable(value: never): never {
+  throw new Error("Didn't expect to get here");
+}
           break
 
         default:
