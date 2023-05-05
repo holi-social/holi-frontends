@@ -132,7 +132,7 @@ web_review_deploy:
   needs: ['web_build_docker']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
-    url: https://$CI_ENVIRONMENT_SLUG.web.project-holi.org
+    url: https://$CI_ENVIRONMENT_SLUG.app.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   except:
@@ -192,7 +192,7 @@ web_staging_deploy:
   environment:
     name: web-staging
     deployment_tier: staging
-    url: https://staging.web.project-holi.org
+    url: https://staging.app.holi.social
   variables:
     ENVIRONMENT_ID: staging
   only:
@@ -215,7 +215,7 @@ web_production_deploy:
   environment:
     name: web-production
     deployment_tier: production
-    url: https://production.web.project-holi.org
+    url: https://production.app.holi.social
   variables:
     ENVIRONMENT_ID: production
   only:
