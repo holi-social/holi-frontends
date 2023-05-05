@@ -95,8 +95,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
             tintColor={colors.foreground30}
             testID="btn-task-more-options"
             onPress={() => {
-              visible && hide()
-              show()
+              visible ? hide() : show()
             }}
           >
             <MoreOptionItem
