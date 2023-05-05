@@ -19,8 +19,8 @@ import {
   mySpaceQuery,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -44,7 +44,6 @@ const CreateSpace: React.VFC = () => {
   const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
 
   let hasOwnSpaces = false
-  // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
   const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
