@@ -105,6 +105,7 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
 const testShareSpace = async (page: Page) => {
   // open space share modal
+  await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await clickElementByTestId(page, 'space-options-btn')
   await clickElementByTestId(page, 'space-share-btn')
 
@@ -208,6 +209,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     await clickElementByTestId(page, 'nav-button-back')
 
     // delete space
+    await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
