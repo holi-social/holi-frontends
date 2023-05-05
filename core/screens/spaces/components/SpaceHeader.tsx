@@ -1,5 +1,5 @@
 import partition from 'lodash.partition'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -35,6 +35,10 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
 
+  const openModal = useCallback(() => {
+    setModalVisible(true)
+  }, [setModalVisible])
+
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
@@ -47,6 +51,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           label={t('spaces.collaborators.showModal')}
           transparent
           inline
+          onPress={openModal}
           testID="btn-to-open-space-collaborators-modal"
         >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">

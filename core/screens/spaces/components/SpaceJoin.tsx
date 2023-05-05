@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -9,12 +9,12 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
@@ -85,20 +85,15 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const SpaceJoinOverlay = () => {
     return (
       <HoliModal label={'space.join.overlay'} {...joinOverlayProps} testID="space-join-overlay">
-        <View style={styles.modalContentWrapper}>
-          <HoliHeading size={'large'} style={styles.heading}>
-            {t('spaces.join.overlay.title')}
-          </HoliHeading>
+        <HoliModalContentWrapper
+          actionButtonText={t('spaces.join.overlay.button')}
+          onActionButtonPress={hideJoinOverlay}
+          headlineText={t('spaces.join.overlay.title')}
+          style={styles.modalContentWrapper}
+          headlineStyle={styles.headline}
+        >
           <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
-          <HoliButton
-            label={t('spaces.join.overlay.button')}
-            onPress={hideJoinOverlay}
-            testID="space-join-overlay-button"
-            style={styles.overlayButton}
-          >
-            {t('spaces.join.overlay.button')}
-          </HoliButton>
-        </View>
+        </HoliModalContentWrapper>
       </HoliModal>
     )
   }
@@ -147,16 +142,16 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    marginTop: 8,
-    marginBottom: 16,
+  headline: {
+    textAlign: 'left',
+    marginHorizontal: 0,
   },
   text: {
+    marginBottom: 40,
     color: colors.foreground20,
   },
   modalContentWrapper: {
     paddingHorizontal: 24,
-    marginBottom: 40,
   },
   link: {
     display: 'flex',
