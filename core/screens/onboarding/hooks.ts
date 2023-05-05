@@ -6,7 +6,12 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
-export type OnboardingStateValue = 'onboarding' | 'accountSetup' | 'finished'
+const onboardingValues = ['onboarding', 'accountSetup', 'finished'] as const
+export type OnboardingStateValue = (typeof onboardingValues)[number]
+
+const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
+  onboardingValues.some((v) => value === v)
+
 const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
 export const useOnboarding = () => {
@@ -24,16 +29,7 @@ export const useOnboarding = () => {
     const isLoggedIn = !!userId
 
     AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-// Bind the values to a const assertion
-const onboardingValues = <const>['onboarding', 'accountSetup', 'finished']
-export type OnboardingStateValue = (typeof onboardingValues)[number]
-
-// Create a type guard to validate the string
-const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue => !!onboardingValues.find(v => value === v)
-
-....
-
-const value = isOnboardingStateValue(storedValue) ? storedValue : null
+      const value = isOnboardingStateValue(storedValue) ? storedValue : null
 
       switch (value) {
         case 'onboarding':
@@ -42,18 +38,15 @@ const value = isOnboardingStateValue(storedValue) ? storedValue : null
           break
 
         case 'accountSetup':
-switch (value) {
-  default:
-    assertUnreachable(value);
-}
+          await onOnboardingStateChange(isLoggedIn ? 'accountSetup' : 'finished')
+          break
 
-function assertUnreachable(value: never): never {
-  throw new Error("Didn't expect to get here");
-}
+        case null:
+          await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
           break
 
         default:
-          await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
+          throw new Error(`[Onboarding] does not support "${value}" value`)
       }
     })
   }, [userId, onOnboardingStateChange])
