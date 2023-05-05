@@ -6,11 +6,7 @@ import { logError } from '@holi/core/errors/helpers'
  * executing your passed function with the passed arguments at the end of the
  * passed delayed time. Its used as a side-effect when the component has mounted.
  */
-export const delayAnimation = (
-  fn: CallableFunction | undefined,
-  props: unknown,
-  delay = 500
-): (() => void) | undefined => {
+export const delayAnimation = (fn: CallableFunction | undefined, props: unknown, delay = 500) => {
   if (!fn) {
     logError(new Error('[delayAnimation.ts]: received an undefined function'))
     return
@@ -25,8 +21,10 @@ export const delayAnimation = (
 
     if (delta >= delay) {
       try {
-        const stopExecution = fn(props)
-        if (!stopExecution) return
+        fn(props)
+        cancelAnimationFrame(rAF)
+
+        return
       } catch (error) {
         return
       }
@@ -36,6 +34,4 @@ export const delayAnimation = (
   }
 
   rAF = requestAnimationFrame(loop)
-
-  return () => cancelAnimationFrame(rAF)
 }
