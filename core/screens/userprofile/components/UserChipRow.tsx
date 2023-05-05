@@ -2,16 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-
-export enum UserChipTypes {
-  INTERESTS = 'interests',
-  SKILLS = 'skills',
-  SDGS = 'sdgs',
-}
 
 type UserChipRowProps = {
   keyInUserObject: UserChipTypes
