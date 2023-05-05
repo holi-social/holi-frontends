@@ -61,8 +61,13 @@ describe('SpacesGroupSlider', () => {
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
-    expect(coverImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
-    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
+    expect(coverImage.props.proxiedProperties.source).toEqual([{ uri: 'https://www.example.com/space1.jpg' }])
+    expect(avatarImage.props.proxiedProperties.source).toEqual([
+      {
+        uri: 'https://www.example.com/avatar.jpg?tr=w-48',
+        width: 24,
+      },
+    ])
   })
 
   it('does not display "see more" element if there is nothing more to see', () => {
