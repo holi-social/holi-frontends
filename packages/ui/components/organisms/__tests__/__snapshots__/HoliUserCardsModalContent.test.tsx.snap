@@ -38,11 +38,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "fontSize": 28,
               "lineHeight": 33.6,
             },
-            {
-              "marginBottom": 16,
-              "marginHorizontal": 24,
-              "textAlign": "center",
-            },
+            [
+              {
+                "marginBottom": 16,
+                "marginHorizontal": 24,
+                "textAlign": "center",
+              },
+              undefined,
+            ],
           ]
         }
         testID="holi-modal-content-heading"
