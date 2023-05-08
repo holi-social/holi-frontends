@@ -25,7 +25,7 @@ describe('HoliModalFullscreen.tsx', () => {
     expect(modal).toHaveProp('visible', false)
 
     const imageButton = getByRole('button', { name: /insights.posts.image.show/i })
-    fireEvent.press(imageButton)
+    await fireEvent.press(imageButton)
 
     expect(modal).toHaveProp('visible', true)
   })

@@ -65,7 +65,7 @@ test.each(steps)('should only render %p', (stepID, idx) => {
   expect(screen.getByTestId(stepID)).toBeDefined()
 })
 
-test.each(steps)('should render the %p and the next step on press', (stepID, idx) => {
+test.each(steps)('should render the %p and the next step on press', async (stepID, idx) => {
   const { rerender } = render(<TestStepper initialStep={idx} lazy />)
   const currentStep = screen.getByTestId(stepID)
   expect(currentStep).toBeDefined()
@@ -76,7 +76,7 @@ test.each(steps)('should render the %p and the next step on press', (stepID, idx
   const [nextStepId] = steps[next]
   expect(() => screen.getByTestId(nextStepId)).toThrow()
 
-  fireEvent.press(currentStep)
+  await fireEvent.press(currentStep)
   expect(screen.getByTestId(nextStepId)).toBeDefined()
 
   rerender(<TestStepper initialStep={idx} lazy />)
