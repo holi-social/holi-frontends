@@ -39,7 +39,6 @@ export interface TaskInputFormProps {
   locationType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: ImageInfo
-  location?: string
   geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
@@ -53,7 +52,6 @@ export interface TaskInputFormProps {
   onChangeSlotsAvailable: (_: number) => void
   onChangeThumbnail: (_: ImageInfo) => void
   onChangeSkills: (_: Skill[]) => void
-  onChangeLocation: (_: string) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void

@@ -1,11 +1,7 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
-import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
-import { GeoPlaceDetailsResponse } from '@holi/core/location/queries'
-import { PlaceDetails } from '@holi/core/location/typings'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
@@ -33,7 +29,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { topics, skills } = useContext(SpaceTermContext)
   const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
-  const { topicId, skillId, location, locationId, spaces } = group
+  const { topicId, skillId, locationId, spaces } = group
 
   const topic = useMemo(() => topics.find((topic) => topic.id === topicId), [topics, topicId])
   const skill = useMemo(() => skills.find((skill) => skill.id === skillId), [skills, skillId])
@@ -41,33 +37,15 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { totalResults = 0, data: spacesData = [] } = spaces || {}
   const hasMore = totalResults > SPACES_PAGE_SIZE
 
-  const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-  const [locationDetails, setLocationDetails] = useState<PlaceDetails | undefined>()
+  const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
-  useEffect(() => {
-    if (locationId) {
-      fetchPlaceDetails({ variables: { id: locationId } })
-        .then((response) => {
-          setLocationDetails(response.data?.geo_placeDetails)
-        })
-        .catch((error) => {
-          // TODO(SF) improve? display proper error message to the user?
-          logError(
-            error,
-            `[SpacesGroupSlider.tsx]: Failed to fetch place details for location ${locationId}: ${error.message}`
-          )
-        })
-    }
-  }, [fetchPlaceDetails, locationId])
-
-  if (!spacesData.length) {
+  if (!spacesData.length || loadingGeolocation) {
     return <></>
   }
 
   const topicQuery = topic ? 'topic=' + topic.slug : ''
   const skillQuery = skill ? 'skill=' + skill.slug : ''
-  const locationQuery = locationId || location ? 'location=' + (locationId || location) : ''
-  // TODO(SF) retrieve location name from location details query
+  const locationQuery = locationId ? 'location=' + locationId : ''
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
 
@@ -83,14 +61,13 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
-        {!!locationId && locationDetails && (
-          // TODO(SF) location id!
+        {!!locationId && geolocationDetails && (
           <SpacesFilterPill
             testID="spaces-location-title"
-            label={locationDetails.name}
+            label={geolocationDetails?.name}
             filterType="location"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?location=${locationId || location}`)}
+            onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
           />
         )}
         {skill && (

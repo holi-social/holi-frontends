@@ -1,12 +1,10 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
-import { PlaceDetails } from '@holi/core/location/typings'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -29,7 +27,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
-  const { loadingTopics, topics = [] } = useContext(SpaceTermContext)
+  const { loadingTopics, topics = [], loadingSkills } = useContext(SpaceTermContext)
 
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
   const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
@@ -43,19 +41,11 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     [topics, userTopics]
   )
 
-  const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-  const [defaultLocation, setDefaultLocation] = useState<PlaceDetails | undefined>()
-
-  useEffect(() => {
-    fetchPlaceDetails({ variables: { id: DEFAULT_LOCATION_ID } })
-      .then((response) => {
-        setDefaultLocation(response.data?.geo_placeDetails)
-      })
-      .catch((error) => {
-        // TODO(SF) improve? display proper error message to the user?
-        logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details for default geolocation: ${error.message}`)
-      })
-  }, [fetchPlaceDetails])
+  const {
+    geolocationDetails: defaultGeolocation,
+    loadingGeolocation: loadingDefaultGeolocation,
+    geolocationError: defaultGeolocationError,
+  } = useGeolocationDetails(DEFAULT_LOCATION_ID)
 
   // user specific spaces suggestions
   const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
@@ -68,37 +58,43 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
       fetchPolicy: 'cache-and-network',
     })
 
-  // TODO(SF) actually pass location id for filter heading links
-  // TODO(SF) only pass full geo feature for user, "pure" geometry otherwise?
-  // TODO(SF) delay until geolocation has been fetched?
   // default spaces suggestions
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
-        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultLocation?.geometry : undefined,
+        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geometry : undefined,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
 
   useEffect(() => {
-    if (!topics.length) return
+    if (!topics.length || !defaultGeolocation) return
 
     if (user) {
       fetchUserSpecifc()
     }
 
     fetchDefault()
-  }, [fetchUserSpecifc, fetchDefault, topics, user])
+  }, [fetchUserSpecifc, fetchDefault, topics, user, defaultGeolocation])
 
   useEffect(() => {
-    if (errorUserSpecific || errorDefault) {
-      displayError(errorUserSpecific, t('spaces.spaceListing.error'))
+    const anyError = errorUserSpecific || errorDefault || defaultGeolocationError
+    if (anyError) {
+      displayError(anyError, t('spaces.spaceListing.error'))
     }
-  }, [displayError, errorDefault, errorUserSpecific, t])
+  }, [displayError, errorDefault, errorUserSpecific, defaultGeolocationError, t])
 
-  if (loadingTopics || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
+  if (
+    loadingSkills ||
+    loadingTopics ||
+    !defaultGeolocation ||
+    loadingDefaultGeolocation ||
+    (!dataUserSpecific && loadingUserSpecific) ||
+    (!dataDefault && loadingDefaultData) ||
+    (!dataDefault && !dataUserSpecific)
+  ) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>

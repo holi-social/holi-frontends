@@ -249,7 +249,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             slotsAvailable={slotsAvailable}
             thumbnail={thumbnail}
             skills={skills}
-            location={location}
             geolocation={geolocation}
             selectedLocation={selectedLocation}
             contactPhone={contactPhone}
@@ -262,7 +261,6 @@ const CreateTask: React.VFC<ScreenProps> = () => {
             onChangeSlotsAvailable={setSlotsAvailable}
             onChangeThumbnail={setThumbnail}
             onChangeSkills={setSkills}
-            onChangeLocation={setLocation}
             onChangeGeolocation={setGeolocation}
             onChangeContactPhone={setContactPhone}
             onChangeSelectedLocation={setSelectedLocation}

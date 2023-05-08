@@ -42,7 +42,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
-  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -71,8 +71,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     const locationUpdate =
       locationQuery !== user?.location
         ? {
-            location: location?.label || locationQuery,
-            geolocation: location?.geometry,
+            location: selectedLocation?.label || locationQuery,
+            geolocation: selectedLocation?.geometry,
           }
         : {}
     const input: UpdateAuthenticatedUserInput = {
@@ -88,6 +88,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     if (!resultSchema.success) {
       const { fieldErrors } = resultSchema.error.flatten<FieldError>()
       setFieldErrors(translateFieldErrors(fieldErrors))
+      return
+    } else if (locationQuery.length && !selectedLocation) {
+      setFieldErrors({ location: [t('profile.location.validation.error')] })
       return
     }
     await updateUser({
@@ -159,7 +162,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const onLocationClose = useCallback(
     (selectedSuggestion?: GeolocationSuggestion) => {
-      setLocation(selectedSuggestion)
+      setSelectedLocation(selectedSuggestion)
 
       if (!selectedSuggestion && locationQuery.length) {
         setFieldErrors({ location: [t('profile.location.validation.error')] })
@@ -248,16 +251,16 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.locationPlaceholder')}
           id="user-location-input"
           testID="user-location"
-          selected={location}
+          selected={selectedLocation}
           value={locationQuery}
           onClose={onLocationClose}
           onChangeText={setLocationQuery}
           style={styles.input}
           suggestionsStyle={{ backgroundColor: colors.background10 }}
-          helperText={location ? undefined : t('profile.location.validation.helper')}
+          helperText={selectedLocation ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
           level={GeolocationLevel.CITY}
-          fetchGeometryOnClose
+          fetchDetailsOnClose
           {...scrollToPropsFor('location')}
         />
       </View>

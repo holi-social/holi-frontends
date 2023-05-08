@@ -1,31 +1,31 @@
 import React, { useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
-export interface FilteredSpacesHeadingProps extends SpaceFilter {
-  locationName?: string
-}
-
-const FilteredSpacesHeading: React.VFC<FilteredSpacesHeadingProps> = ({
-  topicSlug,
-  locationId,
-  skillSlugs = [],
-  locationName, // TODO(SF) load using query
-}) => {
+const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicSlug, locationId, skillSlugs = [] }) => {
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
+  const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
 
   const fallbackTitle = t('spaces.title.filtered')
   const topic = topics.find((topic) => topic.slug === topicSlug)
   const singleSkill = skillSlugs.length === 1 ? skills.find((skill) => skill.slug === skillSlugs[0]) : undefined
-  const titles = [locationName || locationId, topic?.title, singleSkill?.title].filter((title) => !!title)
+  const titles = [geolocationDetails?.name, topic?.title, singleSkill?.title].filter((title) => !!title)
   // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
   const useFallbackTitle =
-    loadingTopics || loadingSkills || failedTopics || failedSkills || skillSlugs.length > 1 || titles.length !== 1
+    loadingTopics ||
+    loadingSkills ||
+    loadingGeolocation ||
+    failedTopics ||
+    failedSkills ||
+    geolocationError ||
+    skillSlugs.length > 1 ||
+    titles.length !== 1
   const title = useFallbackTitle ? fallbackTitle : titles[0]
 
   useLayoutEffect(() => {

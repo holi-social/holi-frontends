@@ -94,7 +94,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   // Location step logic
   const {
     locationQuery,
-    location,
+    selectedLocation,
     onLocationQueryChange,
     onLocationClose,
     scrollToLocationInputWithId,
@@ -141,9 +141,9 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.LOCATION: {
         setIsLoading(true)
 
-        if (location?.geometry) {
-          const geolocation = location?.geometry
-          const locationLabel = location?.label
+        if (selectedLocation?.geometry) {
+          const geolocation = selectedLocation?.geometry
+          const locationLabel = selectedLocation?.label || locationQuery
 
           await updateUser({
             variables: { input: { geolocation, location: locationLabel } },
@@ -251,7 +251,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           >
             <HoliBox padding={[40, 0, 0, 0]} />
             <LocationStep
-              selected={location}
+              selected={selectedLocation}
               value={locationQuery}
               onClose={onLocationClose}
               onChangeText={onLocationQueryChange}

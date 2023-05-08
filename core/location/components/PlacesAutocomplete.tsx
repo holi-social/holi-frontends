@@ -10,7 +10,7 @@ import {
   geoPlaceDetailsQuery,
   geoPlacesQuery,
 } from '@holi/core/location/queries'
-import { GeolocationGeometry, GeolocationPoint } from '@holi/core/types'
+import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
@@ -19,7 +19,7 @@ const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
   coordinates?: GeolocationPoint
-  geometry?: GeolocationGeometry
+  geometry?: GeolocationGeoJSON
 }
 
 export enum GeolocationLevel {
@@ -44,7 +44,7 @@ export interface PlacesAutocompleteProps {
   nameOnly?: boolean
   value?: string
   level?: GeolocationLevel
-  fetchGeometryOnClose?: boolean
+  fetchDetailsOnClose?: boolean
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -67,7 +67,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       nameOnly,
       value,
       level,
-      fetchGeometryOnClose,
+      fetchDetailsOnClose,
     },
     ref
   ) => {
@@ -113,13 +113,12 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
     )
 
     const onAutocompleteClose = useCallback(
-      (suggestion?: Suggestion) => {
-        // TODO(SF) await
+      async (suggestion?: Suggestion) => {
         if (!onClose) {
           return
         }
         const selection = placeSuggestions.find((s) => s.id == suggestion?.id)
-        if (selection && fetchGeometryOnClose) {
+        if (selection && fetchDetailsOnClose) {
           return fetchPlaceDetails({ variables: { id: selection.id } })
             .then((response) =>
               onClose({
@@ -128,14 +127,13 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
               })
             )
             .catch((error) => {
-              // TODO(SF) improve? display proper error message to the user?
               logError(error, `[PlacesAutocomplete.tsx]: Failed to fetch place details: ${error.message}`)
               return onClose(undefined)
             })
         }
         return onClose(selection)
       },
-      [placeSuggestions, onClose, fetchGeometryOnClose, fetchPlaceDetails]
+      [placeSuggestions, onClose, fetchDetailsOnClose, fetchPlaceDetails]
     )
 
     const submit = useCallback(

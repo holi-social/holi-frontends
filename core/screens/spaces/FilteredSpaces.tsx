@@ -1,12 +1,12 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
-import { GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/location/queries'
-import { PlaceDetails } from '@holi/core/location/typings'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
@@ -37,6 +37,7 @@ const FilteredSpaces: React.VFC = () => {
   const [skillSlugs] = useParam('skill', arrayParamConfig)
   const updateParams = useUpdateParams()
   const { navigate } = useRouting()
+  const { displayError } = useErrorHandling()
 
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
@@ -59,50 +60,48 @@ const FilteredSpaces: React.VFC = () => {
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
 
-  const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
-  const [location, setLocation] = useState<PlaceDetails>()
+  const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
+  const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
+    return (
+      geolocationDetails && {
+        ...geolocationDetails,
+        label: geolocationDetails.name,
+      }
+    )
+  }, [geolocationDetails])
+
+  const [fetchSpaces, { loading: loadingSpaces, data, error: errorSpaces, fetchMore }] = useLazyQuery<SpacesResponse>(
+    spacesQuery,
+    {
+      variables: {
+        topicSlug: topicSlug,
+        geolocation: geolocationDetails?.geometry,
+        skillSlugs: skillSlugs,
+        limit: SPACES_PAGE_SIZE,
+        offset: 0,
+      },
+      fetchPolicy: 'cache-and-network',
+    }
+  )
 
   useEffect(() => {
-    if (locationId) {
-      fetchPlaceDetails({ variables: { id: locationId } })
-        .then((response) => {
-          const { geometry, name } = response.data?.geo_placeDetails || {}
-          if (geometry && name) {
-            setLocation(response.data?.geo_placeDetails)
-          } else {
-            setLocation(undefined)
-          }
-        })
-        .catch((error) => {
-          // TODO(SF) improve? display proper error message to the user?
-          logError(error, `[FilteredSpaces.tsx]: Failed to fetch place details: ${error.message}`)
-        })
-    } else {
-      setLocation(undefined)
+    if (locationId && !geolocationDetails) return
+
+    fetchSpaces()
+  }, [fetchSpaces, geolocationDetails, locationId])
+
+  useEffect(() => {
+    const anyError = errorSpaces || geolocationError
+    if (anyError) {
+      displayError(anyError, t('spaces.spaceListing.error'))
     }
-  }, [locationId, fetchPlaceDetails])
-
-  // TODO(SF) delay until geolocation has been fetched?
-  const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
-    variables: {
-      topicSlug: topicSlug,
-      geolocation: location?.geometry,
-      skillSlugs: skillSlugs,
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-    fetchPolicy: 'cache-and-network',
-  })
-
-  if (error) {
-    logError(error, `[FilteredSpaces.tsx] ${error.message}`)
-  }
+  }, [displayError, errorSpaces, geolocationError, t])
 
   const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
 
   const canFetchMore = spaces.length < totalResults
 
-  const memoizedFetchMore = useCallback(() => {
+  const memoizedFetchMore = useCallback(async () => {
     setFetchingMore(true)
     return fetchMore({
       variables: {
@@ -116,20 +115,22 @@ const FilteredSpaces: React.VFC = () => {
     : t('spaces.spaceListing.loadMoreButton.text')
 
   // Error state just hides the component
-  if (error) {
+  if (errorSpaces || geolocationError) {
     return <></>
   }
 
-  const filters = { topicSlug, location, skillSlugs }
+  const isLoading = loadingSpaces || loadingGeolocation
+
+  const filters = { topicSlug, locationId, skillSlugs }
 
   return (
     <SpaceTermContextProvider>
       <DefaultScrollHeaderLayout style={styles.wrapper} testID="filtered-spaces-container">
         <View style={mixins.container}>
-          <FilteredSpacesHeading {...filters} locationName={location?.name} />
-          {spaces.length > 0 && !loading && <SpacesGrid style={styles.grid} spaces={spaces} />}
+          <FilteredSpacesHeading {...filters} />
+          {spaces.length > 0 && !isLoading && <SpacesGrid style={styles.grid} spaces={spaces} />}
           {!spaces.length &&
-            (loading ? (
+            (isLoading ? (
               // TODO: replace with proper loading indicator
               <View style={styles.messageContainer}>
                 <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
@@ -162,7 +163,11 @@ const FilteredSpaces: React.VFC = () => {
         </View>
       </DefaultScrollHeaderLayout>
 
-      <SpaceFilterModal filters={filters} applyFilters={applyFilters} initialLocation={location} />
+      <SpaceFilterModal
+        filters={filters}
+        applyFilters={applyFilters}
+        initialLocationSelection={initialLocationSelection}
+      />
     </SpaceTermContextProvider>
   )
 }
