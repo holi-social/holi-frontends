@@ -8,6 +8,7 @@ import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
 import client from '@holi/api/graphql/client'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
+import { isDevelopment } from '@holi/core/auth/helpers/environment'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
@@ -21,6 +22,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+
+const VERIFICATION_ENABLED = !isDevelopment
 
 const CODE_MAX_COUNT = 6
 
@@ -50,19 +53,21 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
 
   // get verification flow from Ory
   useEffect(() => {
-    getOrCreateVerificationFlow(verificationFlowData)
-      .then(setFlow)
-      .catch((error) => {
-        displayError(error, t('auth.login.error.login'))
-        onDismiss()
-        isUserLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
-      })
+    if (VERIFICATION_ENABLED) {
+      getOrCreateVerificationFlow(verificationFlowData)
+        .then(setFlow)
+        .catch((error) => {
+          displayError(error, t('auth.login.error.login'))
+          onDismiss()
+          isUserLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+        })
+    }
     // do only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const resendEmail = async () => {
-    if (!verificationFlowData || !flow) return false
+    if (!VERIFICATION_ENABLED || !verificationFlowData || !flow) return false
 
     try {
       const email = hasIdentifier(verificationFlowData)
@@ -83,7 +88,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     toastMessage: string = t('registration.emailVerification.message.activated')
   ) => {
     // if we came to Email Verification from Login page, login the user after successful activation
-    if (verificationFlowData && hasIdentifier(verificationFlowData)) {
+    if (VERIFICATION_ENABLED && verificationFlowData && hasIdentifier(verificationFlowData)) {
       const session = await login({
         payload: verificationFlowData,
       })
@@ -96,6 +101,10 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   }
 
   const verifyEmail = async () => {
+    if (!VERIFICATION_ENABLED) {
+      await handleSuccessfulVerification()
+      return
+    }
     if (!flow) return
 
     showLoader()
