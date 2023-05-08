@@ -13,7 +13,8 @@ import { test } from './testmaster'
 require('dotenv').config({ path: '.envrc' })
 
 test.describe('@ChangePassword', () => {
-  test('user journey', async ({ userHandler, context }) => {
+  // TODO: Remove skip after disabling email verification on staging
+  test.skip('user journey', async ({ userHandler, context }) => {
     const email = newUserEmail()
     const oldPassword = 'whgr88234298wohfffwo'
     const newPassword = 'dlrnrf82840wnfw4o5'
