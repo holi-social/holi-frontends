@@ -29,7 +29,7 @@ export interface OnboardingProps {
 }
 
 const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
-  // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
+  // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
   const { width: screenWidth } = useWindowDimensions()
