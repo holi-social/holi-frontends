@@ -10,14 +10,21 @@ import {
   topics,
 } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { discoverSpacesQuery, mySpaceQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery, skillsQuery } from '@holi/core/screens/userprofile/queries'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: () => ({ userId: '123' }),
   setUserLoggedOut: async () => {
     null
   },
+}))
+
+jest.mock('@holi/core/helpers/useLogout', () => ({
+  useLogout: () => ({
+    logout: jest.fn(),
+    isLoggingOut: false,
+  }),
 }))
 
 const authenticatedUserRequest = {
@@ -129,9 +136,9 @@ describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
     render(
       <MockedProvider mocks={MOCKS_WITH_MY_SPACES} addTypename={false}>
-        <UserContextProvider>
+        <ToastProvider>
           <Spaces />
-        </UserContextProvider>
+        </ToastProvider>
       </MockedProvider>
     )
 
@@ -141,9 +148,9 @@ describe('Spaces screen', () => {
   it('shows discover-spaces-view, when user has no spaces', async () => {
     render(
       <MockedProvider mocks={MOCKS_WITHOUT_MY_SPACES} addTypename={false}>
-        <UserContextProvider>
+        <ToastProvider>
           <Spaces />
-        </UserContextProvider>
+        </ToastProvider>
       </MockedProvider>
     )
 

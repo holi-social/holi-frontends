@@ -14,15 +14,16 @@ import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -185,18 +186,18 @@ const UserProfile = () => {
                 </View>
               ),
               hasInterests && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                  <UserChipRow user={user} keyInUserObject={'interests'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
                 </View>
               ),
               hasSdgs && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                  <UserChipRow user={user} keyInUserObject={'sdgs'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
                 </View>
               ),
               hasSkills && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                  <UserChipRow user={user} keyInUserObject={'skills'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
                 </View>
               ),
               !hasInfo && (

@@ -5,6 +5,12 @@ import React from 'react'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { locationDetailsMock, spacesGroups } from '@holi/core/screens/spaces/components/__tests__/testData'
 
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({
+    isLoggedIn: false,
+  }),
+}))
+
 describe('DiscoverSpacesView', () => {
   it('renders titles and groups correctly when there are both default and user specific groups', async () => {
     const { getByTestId, getAllByTestId, findAllByTestId } = render(

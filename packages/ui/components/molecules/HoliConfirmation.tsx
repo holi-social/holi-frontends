@@ -72,7 +72,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   onDismiss,
   confirmText,
   dismissText,
-  testID,
+  testID = 'holi',
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
@@ -93,21 +93,17 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
       show={show}
       transparent
       animationType="fade"
-      {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
+      testID={`${testID}-confirmation-dialog`}
     >
       <View style={styles.modalContainer}>
-        <Pressable
-          onPress={onDismiss}
-          style={styles.backdrop}
-          {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})}
-        />
+        <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
         <View style={styles.modalView}>
           <HoliHeading level="4" size="small">
             {title}
           </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View style={[styles.buttonContainer, isSmallDevice && styles.buttonContainerSmall]}>
+          <View style={styles.buttonContainer}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -115,7 +111,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={dismissText || t('confirmation.dismiss')}
                 onPress={onDismiss}
                 style={styles.button}
-                {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
+                testID={`${testID}-confirmation-dismiss`}
               >
                 {dismissText || t('confirmation.dismiss')}
               </HoliButton>
@@ -127,7 +123,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 onPress={onConfirm}
                 type={confirmationButtonType}
                 style={styles.button}
-                {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
+                testID={`${testID}-confirmation-confirm`}
               >
                 {confirmText || t('confirmation.confirm')}
               </HoliButton>
@@ -180,25 +176,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       marginTop: 24,
       gap: 14,
     },
-    buttonContainerSmall: {
-      // FIXME: gap not supported in current react-native version for mobile
-      //  using negative margin on parent and margin on children for mobile
-      //  and different styling for small devices
-      //  remove workaround when updated to RN 0.71.0
-      margin: -7,
-      ...Platform.select({
-        web: {
-          margin: 0,
-        },
-      }),
-    },
     button: {
-      margin: 7,
-      ...Platform.select({
-        web: {
-          margin: 0,
-        },
-      }),
       flex: 1,
       minWidth: 120,
       paddingHorizontal: 14,

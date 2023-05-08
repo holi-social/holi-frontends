@@ -1,35 +1,61 @@
-## these dns changes are done in the infra shared project
-
 locals {
-  # effectively, this is web.project-holi.org
-  web_environments_zone_dns_name = "web.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}."
+  # effectively, these are app.holi.social and dev.holi.social
+  app_environments_zone_dns_name = "app.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}."
+  dev_environments_zone_dns_name = "dev.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}."
 }
 
-# web environments zone
-resource "google_dns_managed_zone" "web_environments_zone" {
+# app environments zone (production)
+resource "google_dns_managed_zone" "app_environments_zone" {
   project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
-  name     = "web-environments-zone"
-  dns_name = local.web_environments_zone_dns_name
+  name     = "app-environments-zone"
+  dns_name = local.app_environments_zone_dns_name
 }
 
-resource "google_dns_record_set" "web_environments_zone_entry" {
+resource "google_dns_record_set" "app_environments_zone_entry" {
   project = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
-  name    = local.web_environments_zone_dns_name
+  name    = local.app_environments_zone_dns_name
   type    = "NS"
   ttl     = 300
 
   managed_zone = data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_name
 
-  rrdatas = google_dns_managed_zone.web_environments_zone.name_servers
+  rrdatas = google_dns_managed_zone.app_environments_zone.name_servers
 }
 
-output "dns_web_domain" {
-  value = trim(google_dns_managed_zone.web_environments_zone.dns_name, ".")
+output "dns_app_domain" {
+  value = trim(google_dns_managed_zone.app_environments_zone.dns_name, ".")
 }
 
-output "dns_web_domain_name" {
-  value = google_dns_managed_zone.web_environments_zone.name
+output "dns_app_domain_name" {
+  value = google_dns_managed_zone.app_environments_zone.name
 }
+
+# dev environments zone (development)
+resource "google_dns_managed_zone" "dev_environments_zone" {
+  project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
+  name     = "dev-environments-zone"
+  dns_name = local.dev_environments_zone_dns_name
+}
+
+resource "google_dns_record_set" "dev_environments_zone_entry" {
+  project = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
+  name    = local.dev_environments_zone_dns_name
+  type    = "NS"
+  ttl     = 300
+
+  managed_zone = data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_name
+
+  rrdatas = google_dns_managed_zone.dev_environments_zone.name_servers
+}
+
+output "dns_dev_domain" {
+  value = trim(google_dns_managed_zone.dev_environments_zone.dns_name, ".")
+}
+
+output "dns_dev_domain_name" {
+  value = google_dns_managed_zone.dev_environments_zone.name
+}
+
 
 ### AUTH
 

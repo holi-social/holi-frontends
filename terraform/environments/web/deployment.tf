@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "ORY_BASE_URL"
-          value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
+          value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
@@ -67,7 +67,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
-          value = local.environment == "production" ? "https://production.cloud.project-holi.org" : "https://development.cloud.project-holi.org"
+          value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
 
         resources {
@@ -100,11 +100,26 @@ resource "google_cloud_run_service" "mvp_web" {
   depends_on = [google_project_service.service]
 }
 
-resource "google_cloud_run_domain_mapping" "mvp_web" {
+resource "google_cloud_run_domain_mapping" "app_web" {
   project = google_cloud_run_service.mvp_web.project
   # location needs to be the same as the service's
   location = google_cloud_run_service.mvp_web.location
   name     = local.dns_name
+
+  metadata {
+    namespace = google_cloud_run_service.mvp_web.project
+  }
+
+  spec {
+    route_name = google_cloud_run_service.mvp_web.name
+  }
+}
+
+resource "google_cloud_run_domain_mapping" "mvp_web" {
+  project = google_cloud_run_service.mvp_web.project
+  # location needs to be the same as the service's
+  location = google_cloud_run_service.mvp_web.location
+  name     = local.project_holi_dns_name
 
   metadata {
     namespace = google_cloud_run_service.mvp_web.project
