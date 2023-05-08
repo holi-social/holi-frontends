@@ -63,7 +63,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
-        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geometry : undefined,
+        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geolocation : undefined,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',

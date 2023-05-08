@@ -28,7 +28,7 @@ export const locationDetailsMock = {
     data: {
       geo_placeDetails: {
         name: 'Hamburg, Germany',
-        geometry: {},
+        geolocation: {},
       },
     },
   },
@@ -45,7 +45,7 @@ export const defaultlocationDetailsMock = {
     data: {
       geo_placeDetails: {
         name: 'Germany',
-        geometry: {},
+        geolocation: {},
       },
     },
   },

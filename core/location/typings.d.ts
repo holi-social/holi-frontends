@@ -1,4 +1,4 @@
-import type { GeolocationGeometry } from '@holi/core/types'
+import type { GeolocationGeoJSON } from '@holi/core/types'
 
 export interface Place {
   id: string
@@ -10,5 +10,5 @@ export interface Place {
 export interface PlaceDetails {
   id: string
   name: string
-  geometry: GeolocationGeometry
+  geolocation: GeolocationGeoJSON
 }

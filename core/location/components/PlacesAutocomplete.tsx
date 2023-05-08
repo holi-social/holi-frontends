@@ -19,7 +19,7 @@ const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
   coordinates?: GeolocationPoint
-  geometry?: GeolocationGeoJSON
+  geolocation?: GeolocationGeoJSON
 }
 
 export enum GeolocationLevel {
@@ -123,7 +123,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
             .then((response) =>
               onClose({
                 ...selection,
-                geometry: response.data?.geo_placeDetails.geometry,
+                geolocation: response.data?.geo_placeDetails.geolocation,
               })
             )
             .catch((error) => {

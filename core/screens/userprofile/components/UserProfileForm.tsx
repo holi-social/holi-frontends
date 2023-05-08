@@ -72,7 +72,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       locationQuery !== user?.location
         ? {
             location: selectedLocation?.label || locationQuery,
-            geolocation: selectedLocation?.geometry,
+            geolocation: selectedLocation?.geolocation,
           }
         : {}
     const input: UpdateAuthenticatedUserInput = {

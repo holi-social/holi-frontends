@@ -17,8 +17,8 @@ export const useGeolocationDetails = (geolocationId: string | undefined) => {
       setLoading(true)
       fetchPlaceDetails({ variables: { id: geolocationId } })
         .then((response) => {
-          const { geometry, name } = response.data?.geo_placeDetails || {}
-          setDetails(geometry && name ? response.data?.geo_placeDetails : undefined)
+          const { geolocation, name } = response.data?.geo_placeDetails || {}
+          setDetails(geolocation && name ? response.data?.geo_placeDetails : undefined)
           setError(undefined)
         })
         .catch((error) => {

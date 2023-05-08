@@ -75,7 +75,7 @@ const FilteredSpaces: React.VFC = () => {
     {
       variables: {
         topicSlug: topicSlug,
-        geolocation: geolocationDetails?.geometry,
+        geolocation: geolocationDetails?.geolocation,
         skillSlugs: skillSlugs,
         limit: SPACES_PAGE_SIZE,
         offset: 0,

@@ -141,8 +141,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.LOCATION: {
         setIsLoading(true)
 
-        if (selectedLocation?.geometry) {
-          const geolocation = selectedLocation?.geometry
+        if (selectedLocation?.geolocation) {
+          const geolocation = selectedLocation?.geolocation
           const locationLabel = selectedLocation?.label || locationQuery
 
           await updateUser({

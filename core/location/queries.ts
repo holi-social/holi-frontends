@@ -24,7 +24,7 @@ export const geoPlaceDetailsQuery = gql`
   query PlaceDetails($id: String!) {
     geo_placeDetails(id: $id) {
       name
-      geometry
+      geolocation
     }
   }
 `
