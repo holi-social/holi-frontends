@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
-    margin: -7,
     ...Platform.select({
       web: {
         alignSelf: 'center',
@@ -146,11 +145,5 @@ const styles = StyleSheet.create({
   },
   footerButton: {
     flex: 1,
-    margin: 7,
-    ...Platform.select({
-      web: {
-        margin: 0,
-      },
-    }),
   },
 })

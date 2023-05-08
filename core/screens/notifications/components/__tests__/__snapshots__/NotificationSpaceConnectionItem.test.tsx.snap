@@ -96,28 +96,40 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
             }
             testID="space-avatar"
           >
-            <Image
-              accessibilityLabel="Foo"
+            <ViewManagerAdapter_ExpoImage
               accessibilityRole="image"
-              accessible={true}
-              source={
+              height="100%"
+              onError={[Function]}
+              onLoad={[Function]}
+              onLoadStart={[Function]}
+              onProgress={[Function]}
+              proxiedProperties={
                 {
-                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80",
-                  "width": 40,
+                  "accessibilityLabel": "Foo",
+                  "accessible": true,
+                  "contentFit": "contain",
+                  "contentPosition": {
+                    "left": "50%",
+                    "top": "50%",
+                  },
+                  "placeholder": [],
+                  "source": [
+                    {
+                      "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80",
+                      "width": 40,
+                    },
+                  ],
+                  "tintColor": undefined,
+                  "transition": null,
                 }
               }
               style={
-                [
-                  {
-                    "height": "100%",
-                    "resizeMode": "contain",
-                    "width": "100%",
-                  },
-                  {
-                    "resizeMode": "contain",
-                  },
-                ]
+                {
+                  "height": "100%",
+                  "width": "100%",
+                }
               }
+              width="100%"
             />
           </View>
         </View>

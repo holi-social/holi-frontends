@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import SpaceDetails from '@holi/core/screens/spaces/SpaceDetails'
@@ -7,7 +7,6 @@ import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
@@ -135,9 +134,7 @@ describe('Space follow button', () => {
     }
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <UserContextProvider>
-          <SpaceFollow space={aSpace} />
-        </UserContextProvider>
+        <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
 
@@ -151,9 +148,7 @@ describe('Space follow button', () => {
     }
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <UserContextProvider>
-          <SpaceFollow space={aSpace} />
-        </UserContextProvider>
+        <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
 
@@ -167,9 +162,7 @@ describe('Space follow button', () => {
     }
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <UserContextProvider>
-          <SpaceFollow space={aSpace} />
-        </UserContextProvider>
+        <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
 
@@ -179,30 +172,31 @@ describe('Space follow button', () => {
   it('changes the button text after clicking follow-button', async () => {
     render(
       <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
-        <UserContextProvider>
-          <SpaceDetails />
-        </UserContextProvider>
+        <SpaceDetails />
       </MockedProvider>
     )
-
     expect(await screen.findByText('spaces.follow.btn.follow'))
-    fireEvent.press(await screen.findByTestId('follow-btn'))
+    await waitFor(() => expect(screen.getByTestId('follow-btn')).not.toBeDisabled(), {
+      timeout: 5000,
+    })
+    fireEvent.press(await screen.getByTestId('follow-btn'))
     expect(await followSpaceMutation.newData).toHaveBeenCalled()
   })
 
   it('it shows already following button', async () => {
     render(
       <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
-        <UserContextProvider>
-          <SpaceDetails />
-        </UserContextProvider>
+        <SpaceDetails />
       </MockedProvider>
     )
 
     expect(await screen.findByText('spaces.follow.btn.unfollow'))
-    fireEvent.press(await screen.findByTestId('unfollow-btn'))
+    await waitFor(() => expect(screen.getByTestId('unfollow-btn')).not.toBeDisabled(), {
+      timeout: 5000,
+    })
+    await fireEvent.press(await screen.findByTestId('unfollow-btn'))
     expect(await screen.findByTestId('unfollow-confirm-confirmation-dialog'))
-    fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
+    await fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
     expect(await unfollowSpaceMutation.newData).toHaveBeenCalled()
   })
 })

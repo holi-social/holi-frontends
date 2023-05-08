@@ -168,25 +168,38 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Image
-                  accessibilityLabel="spaces.task.thumbnail.label"
+                <ViewManagerAdapter_ExpoImage
                   accessibilityRole="image"
-                  accessible={true}
-                  source={
+                  borderRadius={8}
+                  height={166}
+                  onError={[Function]}
+                  onLoad={[Function]}
+                  onLoadStart={[Function]}
+                  onProgress={[Function]}
+                  proxiedProperties={
                     {
-                      "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessible": true,
+                      "contentFit": "cover",
+                      "contentPosition": {
+                        "left": "50%",
+                        "top": "50%",
+                      },
+                      "placeholder": [],
+                      "source": [
+                        {
+                          "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        },
+                      ],
+                      "tintColor": undefined,
+                      "transition": null,
                     }
                   }
                   style={
-                    [
-                      {
-                        "borderRadius": 8,
-                        "height": 166,
-                      },
-                      {
-                        "resizeMode": "cover",
-                      },
-                    ]
+                    {
+                      "borderRadius": 8,
+                      "height": 166,
+                    }
                   }
                 />
                 <View
@@ -848,25 +861,38 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Image
-                  accessibilityLabel="spaces.task.thumbnail.label"
+                <ViewManagerAdapter_ExpoImage
                   accessibilityRole="image"
-                  accessible={true}
-                  source={
+                  borderRadius={8}
+                  height={166}
+                  onError={[Function]}
+                  onLoad={[Function]}
+                  onLoadStart={[Function]}
+                  onProgress={[Function]}
+                  proxiedProperties={
                     {
-                      "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessible": true,
+                      "contentFit": "cover",
+                      "contentPosition": {
+                        "left": "50%",
+                        "top": "50%",
+                      },
+                      "placeholder": [],
+                      "source": [
+                        {
+                          "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        },
+                      ],
+                      "tintColor": undefined,
+                      "transition": null,
                     }
                   }
                   style={
-                    [
-                      {
-                        "borderRadius": 8,
-                        "height": 166,
-                      },
-                      {
-                        "resizeMode": "cover",
-                      },
-                    ]
+                    {
+                      "borderRadius": 8,
+                      "height": 166,
+                    }
                   }
                 />
                 <View
@@ -1528,25 +1554,38 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Image
-                  accessibilityLabel="spaces.task.thumbnail.label"
+                <ViewManagerAdapter_ExpoImage
                   accessibilityRole="image"
-                  accessible={true}
-                  source={
+                  borderRadius={8}
+                  height={166}
+                  onError={[Function]}
+                  onLoad={[Function]}
+                  onLoadStart={[Function]}
+                  onProgress={[Function]}
+                  proxiedProperties={
                     {
-                      "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessible": true,
+                      "contentFit": "cover",
+                      "contentPosition": {
+                        "left": "50%",
+                        "top": "50%",
+                      },
+                      "placeholder": [],
+                      "source": [
+                        {
+                          "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        },
+                      ],
+                      "tintColor": undefined,
+                      "transition": null,
                     }
                   }
                   style={
-                    [
-                      {
-                        "borderRadius": 8,
-                        "height": 166,
-                      },
-                      {
-                        "resizeMode": "cover",
-                      },
-                    ]
+                    {
+                      "borderRadius": 8,
+                      "height": 166,
+                    }
                   }
                 />
                 <View

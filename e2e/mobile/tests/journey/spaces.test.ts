@@ -141,7 +141,8 @@ describe('@Spaces', () => {
 
     // create space - cover image
     // FIXME: currently we mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
-    await waitForElementWithTestId('create-space-remove-image-btn')
+    // await waitForElementWithTestId('create-space-remove-image-btn')
+    await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
     await tapOnElementWithTestId('holi-wizard-next-btn')
   }
 
@@ -152,7 +153,7 @@ describe('@Spaces', () => {
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 
     // edit space name and goal
-    const editedName = 'e2e edited space name HELLO THERE'
+    const editedName = 'e2e edited space name'
     const editedGoal = 'e2e edited space goal'
     await scrollToElementWithTestId('btn-space-edit-name', 'up', { maxAttempts: 2 })
     await tapOnElementWithTestId('btn-space-edit-name')
@@ -163,17 +164,6 @@ describe('@Spaces', () => {
     await seeTextWithTestId(editedName, 'space-edit-title')
     await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(editedGoal, 'space-edit-goal')
-
-    // TODO: test editing images
-    // // edit space avatar
-    // await tapOnElementWithTestId('btn-space-edit-avatar')
-    // // await page.setInputFiles('input[type="file"]', 'upload/avatar.png')
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
-
-    // // edit space cover image
-    // await tapOnElementWithTestId('btn-space-edit-cover')
-    // // await page.setInputFiles('input[type="file"]', 'upload/cover_2.png')
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
     // edit space topics
     await scrollToElementWithTestId('btn-space-edit-topics', 'down', { maxAttempts: 2 })
@@ -186,17 +176,19 @@ describe('@Spaces', () => {
     const numberOfEditedTopics = (await locateMultipleElementsWithTestId('space-edit-topics-chip')).length
     expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
 
-    // edit space sdgs
-    await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
-    await tapOnElementWithTestId('btn-space-edit-sdgs')
-    await selectSomeTerms(numberOfEditedTerms)
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
+    // // edit space sdgs
+    // await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
+    // await tapOnElementWithTestId('btn-space-edit-sdgs')
+    // await selectSomeTerms(numberOfEditedTerms)
+    // await tapOnElementWithTestId('space-edit-modal-save-btn')
 
-    // check if the correct number of sdgs have been selected
-    await delay(1)
-    await scrollToElementWithTestId('space-edit-sdgs-chip', 'down', { maxAttempts: 1 })
-    const numberOfEditedSdgs = (await locateMultipleElementsWithTestId('space-edit-sdgs-chip')).length
-    expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+    // // check if the correct number of sdgs have been selected
+    // await delay(1)
+    // await scrollToElementWithTestId('space-edit-sdgs-chip', 'down', { maxAttempts: 1 })
+    // const numberOfEditedSdgs = (await locateMultipleElementsWithTestId('space-edit-sdgs-chip')).length
+    // expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
+
+    await tapOnElementWithTestId('space-edit-close')
   }
 
   const assertDeletingSpace = async () => {

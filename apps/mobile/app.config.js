@@ -61,15 +61,14 @@ export default {
           config: {
             organization: 'holistic-foundation',
             project: 'holi-app-mobile',
-            authToken:
-              process.env.SENTRY_AUTH_TOKEN || '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
           },
         },
       ],
     },
     extra: {
       ory: {
-        url: process.env.ORY_BASE_URL || 'https://dev-auth.project-holi.org',
+        url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
@@ -79,10 +78,10 @@ export default {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
       },
       owncloud: {
-        url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.project-holi.org',
+        url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
       },
       eas: {
-        projectId: process.env.EXPO_PROJECT_ID || '',
+        projectId: process.env.EXPO_PROJECT_ID,
       },
       e2e: {
         userId: process.env.E2E_USER_ID,
