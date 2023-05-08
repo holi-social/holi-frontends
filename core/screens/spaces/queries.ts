@@ -174,7 +174,6 @@ export const discoverSpacesQuery = gql`
 
 export type DiscoverSpacesGroup = {
   topicId?: string
-  location?: string
   locationId?: string
   skillId?: string
   spaces: Paged<Space>

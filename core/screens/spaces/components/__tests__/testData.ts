@@ -1,3 +1,5 @@
+import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
+import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import {
   LocationType,
@@ -13,7 +15,43 @@ import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
-const topics: Topic[] = [
+export const locationId = '123'
+
+export const locationDetailsMock = {
+  request: {
+    query: geoPlaceDetailsQuery,
+    variables: {
+      id: locationId,
+    },
+  },
+  result: {
+    data: {
+      geo_placeDetails: {
+        name: 'Hamburg, Germany',
+        geometry: {},
+      },
+    },
+  },
+}
+
+export const defaultlocationDetailsMock = {
+  request: {
+    query: geoPlaceDetailsQuery,
+    variables: {
+      id: DEFAULT_LOCATION_ID,
+    },
+  },
+  result: {
+    data: {
+      geo_placeDetails: {
+        name: 'Germany',
+        geometry: {},
+      },
+    },
+  },
+}
+
+export const topics: Topic[] = [
   { id: 'ANIMAL_WELFARE', title: 'Animal Welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: true },
   {
     id: 'ENVIRONMENTAL_PROTECTION',
@@ -44,6 +82,7 @@ export const membership: SpaceMember = {
 export const userWithLocation = {
   ...user,
   location: 'Hamburg, Germany',
+  geolocationId: locationId,
 }
 
 const members = [1, 2, 3].map((id) => ({
@@ -104,6 +143,8 @@ export const space: Space = {
   tasks,
   links,
   topics,
+  avatarDefaultColor: '#000',
+  name: 'space-title',
 }
 
 export const spaces = [1, 2, 3].map((id) => ({
@@ -127,7 +168,7 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
     },
   },
   {
-    location: 'test_location',
+    locationId: locationId,
     spaces: {
       data: spaces,
       totalResults: 10,
@@ -147,8 +188,6 @@ export const skill: Skill = {
   title: 'Skill title',
   slug: 'skill-title',
 }
-
-export const location = 'TEST_LOCATION'
 
 export const mySpaces: SpaceSection[] = [
   {

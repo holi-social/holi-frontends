@@ -1,14 +1,21 @@
+import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import { spacesGroups } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { locationDetailsMock, spacesGroups } from '@holi/core/screens/spaces/components/__tests__/testData'
 
 describe('DiscoverSpacesView', () => {
-  it('renders titles and groups correctly when there are both default and user specific groups', () => {
-    const { getByTestId, getAllByTestId } = render(
-      <DiscoverSpacesView userSpecificSpacesGroups={spacesGroups} defaultSpacesGroups={spacesGroups} />
+  it('renders titles and groups correctly when there are both default and user specific groups', async () => {
+    const { getByTestId, getAllByTestId, findAllByTestId } = render(
+      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+        <DiscoverSpacesView userSpecificSpacesGroups={spacesGroups} defaultSpacesGroups={spacesGroups} />
+      </MockedProvider>
     )
+
+    // Wait for location details to load
+    await findAllByTestId('spaces-location-title')
+
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')
     expect(getByTestId('discover-spaces-description')).toHaveTextContent('spaces.discover.description')
     expect(getByTestId('discover-spaces-others')).toHaveTextContent('spaces.discover.others')

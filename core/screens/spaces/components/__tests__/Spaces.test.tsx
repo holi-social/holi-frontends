@@ -3,10 +3,15 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import Spaces from '@holi/core/screens/spaces/Spaces'
-import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
-import { mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import {
+  defaultlocationDetailsMock,
+  locationDetailsMock,
+  mySpaces,
+  topics,
+} from '@holi/core/screens/spaces/components/__tests__/testData'
+import { discoverSpacesQuery, mySpaceQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
 import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
-import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserQuery, skillsQuery } from '@holi/core/screens/userprofile/queries'
 
 jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: () => ({ userId: '123' }),
@@ -48,10 +53,77 @@ const mySpacesRequestWithEmptyResult = {
   },
 }
 
-const mySpacesRequestWithResult = { ...mySpacesRequestWithEmptyResult, result: { data: { mySpaces: mySpaces } } }
+const mySpacesRequestWithResult = { ...mySpacesRequestWithEmptyResult, result: { data: { mySpaces } } }
 
-const MOCKS_WITH_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithResult]
-const MOCKS_WITHOUT_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithEmptyResult]
+const discoverSpacesUserSpecificMock = {
+  request: {
+    query: discoverSpacesQuery,
+    variables: {
+      topicIds: [],
+      skillIds: [],
+      limit: 10,
+    },
+  },
+  result: {
+    data: {
+      discoverSpaces: [],
+    },
+  },
+}
+
+const discoverSpacesDefaultMock = {
+  request: {
+    query: discoverSpacesQuery,
+    variables: {
+      topicIds: ['ANIMAL_WELFARE'],
+      geolocation: {},
+      limit: 10,
+    },
+  },
+  result: {
+    data: {
+      discoverSpaces: [],
+    },
+  },
+}
+
+const topicsMock = {
+  request: {
+    query: topicsQuery,
+  },
+  result: {
+    data: {
+      topics: {
+        totalResults: topics.length,
+        data: topics,
+      },
+    },
+  },
+}
+const skillsMock = {
+  request: {
+    query: skillsQuery,
+  },
+  result: {
+    data: {
+      skills: {
+        totalResults: [],
+        data: [],
+      },
+    },
+  },
+}
+const MOCKS_WITH_MY_SPACES = [authenticatedUserRequest, mySpacesRequestWithResult, locationDetailsMock]
+const MOCKS_WITHOUT_MY_SPACES = [
+  authenticatedUserRequest,
+  mySpacesRequestWithEmptyResult,
+  locationDetailsMock,
+  topicsMock,
+  skillsMock,
+  defaultlocationDetailsMock,
+  discoverSpacesUserSpecificMock,
+  discoverSpacesDefaultMock,
+]
 
 describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
