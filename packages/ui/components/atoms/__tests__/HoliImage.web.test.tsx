@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 import renderer from 'react-test-renderer'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage.web'
-import { ImageSource, ResizeModes } from '@holi/ui/components/utils/image'
+import { ImageSource } from '@holi/ui/components/utils/image'
 
 const allSources = [
   { uri: 'http://placekitten.com/320/213', width: 320, height: 213 },
@@ -11,6 +11,8 @@ const allSources = [
   { uri: 'http://placekitten.com/992/661', width: 992, height: 661 },
   { uri: 'http://placekitten.com/1200/800', width: 1200, height: 800 },
 ]
+
+const ResizeModes = ['cover', 'contain', 'fill'] as const
 
 describe('renders correctly for web', () => {
   beforeEach(() => {
