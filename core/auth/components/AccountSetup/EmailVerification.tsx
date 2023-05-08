@@ -5,15 +5,19 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
+import client from '@holi/api/graphql/client'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
-import { getOrCreateVerificationFlow, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
-import { useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
+import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -30,9 +34,13 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+  const { userId } = useAuth()
   const { logout } = useLogout()
+  const { openToast } = useToast()
 
   const [code, setCode] = useState('')
+
+  const isUserLoggedIn = !!userId
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
@@ -42,21 +50,107 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
 
   // get verification flow from Ory
   useEffect(() => {
-    getOrCreateVerificationFlow(verificationFlowData).then((verificationFlow) => {
-      // finish Onboarding if no flow available
-      if (!verificationFlow) {
+    getOrCreateVerificationFlow(verificationFlowData)
+      .then(setFlow)
+      .catch((error) => {
+        displayError(error, t('auth.login.error.login'))
         onDismiss()
-        logout({
-          afterLoggedOut: () => {
-            /* do nothing, override default redirect to `/profile` page */
-          },
-        })
-        return
-      }
+        isUserLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+      })
+    // do only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-      setFlow(verificationFlow)
-    })
-  }, [logout, onDismiss, verificationFlowData])
+  const resendEmail = async () => {
+    if (!verificationFlowData || !flow) return false
+
+    try {
+      const email = hasIdentifier(verificationFlowData)
+        ? verificationFlowData.identifier
+        : verificationFlowData.verifiable_address
+
+      await submitVerificationFlow({ flow, email })
+      openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)
+    } catch (error) {
+      displayError(error, t('registration.emailVerification.message.emailResent.error'))
+    }
+
+    // prevent HoliTextLink default behaviour
+    return false
+  }
+
+  const handleSuccessfulVerification = async (
+    toastMessage: string = t('registration.emailVerification.message.activated')
+  ) => {
+    // if we came to Email Verification from Login page, login the user after successful activation
+    if (verificationFlowData && hasIdentifier(verificationFlowData)) {
+      const session = await login({
+        payload: verificationFlowData,
+      })
+      await client.clearStore()
+      await setUserLoggedIn(session as OrySessionContext)
+    }
+
+    openToast(toastMessage, HoliToastType.SUCCESS)
+    onSuccess()
+  }
+
+  const verifyEmail = async () => {
+    if (!flow) return
+
+    showLoader()
+
+    try {
+      const {
+        ui: { messages },
+        state,
+      } = await submitVerificationFlow({ flow, code })
+
+      // on successful email verification
+      if (state === 'passed_challenge') {
+        await handleSuccessfulVerification()
+      } else if (state === 'sent_email') {
+        // on email verification error
+        messages?.forEach(async ({ id }) => {
+          switch (id) {
+            case 4070001:
+            case 4070003:
+              displayError(
+                new Error('[Onboarding] on verification flow error occurred'),
+                t('registration.emailVerification.message.cannotActivate')
+              )
+              break
+
+            case 4070002:
+              await handleSuccessfulVerification(t('registration.emailVerification.message.alreadyActivated'))
+              break
+
+            case 4070005:
+              displayError(
+                new Error('[Onboarding] on verification flow error occurred'),
+                t('registration.emailVerification.message.flowExpired')
+              )
+              break
+
+            case 4070006:
+              displayError(
+                new Error('[Onboarding] on verification flow error occurred'),
+                t('registration.emailVerification.message.invalidCode')
+              )
+              break
+
+            default:
+              break
+          }
+        })
+        setCode('')
+      }
+    } catch (error) {
+      displayError(error, t('auth.login.error.login'))
+    } finally {
+      hideLoader()
+    }
+  }
 
   return (
     <HoliKeyboardSaveView>
@@ -86,10 +180,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           <HoliTextLink
             label={t('registration.emailVerification.resendEmail')}
             href="/"
-            onPress={() => {
-              // TODO: Resend Email logic
-              return false
-            }}
+            onPress={resendEmail}
             variant="secondary"
             size="small"
           >
@@ -101,44 +192,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           <HoliButton
             label={t('registration.emailVerification.activateAccount')}
             disabled={code.length !== CODE_MAX_COUNT}
-            onPress={async () => {
-              if (!flow) return
-
-              showLoader()
-
-              try {
-                const {
-                  ui: { messages },
-                  state,
-                } = await submitVerificationFlow({ flow, code })
-
-                if (state === 'passed_challenge') {
-                  onSuccess()
-                } else if (state === 'sent_email') {
-                  messages?.forEach(({ id }) => {
-                    switch (id) {
-                      case 4070006:
-                        displayError(new Error(id.toString()), 'Wrong verification code')
-                        setCode('')
-                        break
-
-                      default:
-                        break
-                    }
-                  })
-                }
-              } catch (err) {
-                // TODO: error handling
-                // handleFormSubmitError(
-                //   setFlow,
-                //   () => getVerificationFlow(verificationFlowId),
-                //   (error) => displayError(error, t('auth.login.error.login')),
-                //   err
-                // )
-              } finally {
-                hideLoader()
-              }
-            }}
+            onPress={verifyEmail}
             type="primary"
             testID="btn-submit-code"
           >
@@ -149,9 +203,11 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
           <HoliButton
             label={t('auth.loginProtection.continueAsGuest')}
-            onPress={() => {
-              onDismiss?.()
+            onPress={async () => {
+              isUserLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
+              onDismiss()
               navigate('/')
+              setVerificationFlowData(undefined)
             }}
             type="secondary"
             testID="btn-to-continue-as-guest"
