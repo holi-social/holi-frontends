@@ -4,13 +4,14 @@ import {
   PerformNativeLogoutBody,
   SettingsFlow,
   UpdateLoginFlowBody,
+  UpdateLoginFlowWithPasswordMethod,
   VerificationFlow,
 } from '@ory/kratos-client'
-import { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
 import { extractValue } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { VerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 
 const userSessionName = 'user_session'
 
@@ -38,8 +39,15 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = (): AxiosPromise<LoginFlow> => {
-  return newKratosSdk().createNativeLoginFlow()
+export const hasIdentifier = (
+  loginFlowBody: UpdateLoginFlowBody | VerificationFlowData
+): loginFlowBody is UpdateLoginFlowWithPasswordMethod => {
+  return 'identifier' in loginFlowBody
+}
+
+export const initLoginFlow = async () => {
+  const { data } = await newKratosSdk().createNativeLoginFlow()
+  return data
 }
 
 export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
@@ -47,6 +55,39 @@ export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowB
     { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
     { withCredentials: false }
   )
+
+interface LoginOptions {
+  payload: UpdateLoginFlowWithPasswordMethod
+  flow?: LoginFlow
+  memoized?: boolean
+  onLoginError?: (error: unknown) => void
+  onLoginFlowError?: (error: unknown) => void
+}
+
+export const login = async ({
+  flow,
+  payload,
+  // default behaviour for Error callbacks to rethrow the error
+  onLoginError = (err) => {
+    throw err
+  },
+  onLoginFlowError = (err) => {
+    throw err
+  },
+}: LoginOptions) => {
+  try {
+    flow ??= await initLoginFlow()
+
+    try {
+      const { data } = await submitLoginFlow(flow, payload, undefined)
+      return data
+    } catch (error) {
+      onLoginFlowError(error)
+    }
+  } catch (error) {
+    onLoginError(error)
+  }
+}
 
 // Logout
 export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
@@ -87,12 +128,14 @@ const initVerificationFlow = async () => newKratosSdk().createNativeVerification
 
 export const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
 
-export const getOrCreateVerificationFlow = async ({ id, email }: { id?: string; email?: string } = {}) => {
-  if (id) {
-    const { data } = await getVerificationFlow(id)
+export const getOrCreateVerificationFlow = async (flowData?: VerificationFlowData) => {
+  if (!flowData) throw new Error('[Onboarding] no verification flow has been found')
+
+  if (hasIdentifier(flowData)) {
+    return resendVerificationEmail(flowData.identifier)
+  } else {
+    const { data } = await getVerificationFlow(flowData.id)
     return data
-  } else if (email) {
-    return resendVerificationEmail(email)
   }
 }
 
