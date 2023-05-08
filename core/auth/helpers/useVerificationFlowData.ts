@@ -1,9 +1,7 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
 
-export interface VerificationFlowData {
-  id?: string
-  email?: string
-}
+export type VerificationFlowData = UpdateLoginFlowWithPasswordMethod | { id: string; verifiable_address: string }
 
 const verificationFlowDataVar = makeVar<VerificationFlowData | undefined>(undefined)
 
