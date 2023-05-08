@@ -2,13 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { Term, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
 type UserChipRowProps = {
-  keyInUserObject: string
+  keyInUserObject: UserChipTypes
   onPressEdit?: () => void
   numberOfLines?: number
   user: User
@@ -20,7 +21,8 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   user,
   keyInUserObject,
 }: UserChipRowProps) => {
-  const terms = (user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []).sort(termsByTitleComparator)
+  const terms = user ? user[keyInUserObject] || [] : []
+  const sortedTerms = [...terms].sort(termsByTitleComparator)
   const { t } = useTranslation()
 
   const styles = getStyles()
@@ -33,9 +35,9 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       onPressEdit={onPressEdit}
       testID={`user-profile-${keyInUserObject}`}
     >
-      {terms.length > 0 ? (
+      {sortedTerms.length > 0 ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        terms.map((term) => (
+        sortedTerms.map((term) => (
           <HoliChip
             numberOfLines={numberOfLines}
             key={term.id}
