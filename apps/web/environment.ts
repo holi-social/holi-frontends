@@ -1,7 +1,7 @@
 export const environmentId = (() => {
   // client
   if (!(typeof window === 'undefined')) {
-    if (window.location.host.indexOf('production.') === 0) {
+    if (window.location.host.indexOf('production.') === 0 || window.location.host.indexOf('app.') === 0) {
       return 'production'
     } else if (window.location.host.indexOf('staging.') === 0) {
       return 'staging'
