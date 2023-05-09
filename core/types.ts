@@ -12,4 +12,15 @@ export interface GeolocationPoint {
   longitude: number
 }
 
-export type GeolocationGeoJSON = object
+export interface GeolocationGeometry {
+  type: string
+  coordinates: number[] | number[][] | number[][][] | number[][][][]
+}
+
+export interface GeolocationGeoJSON {
+  place_id: string
+  properties: {
+    formatted: string
+  }
+  geometry: GeolocationGeometry
+}

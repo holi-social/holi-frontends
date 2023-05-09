@@ -64,7 +64,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
         {!!locationId && geolocationDetails && (
           <SpacesFilterPill
             testID="spaces-location-title"
-            label={geolocationDetails?.name}
+            label={geolocationDetails.name}
             filterType="location"
             style={styles.pill}
             onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
