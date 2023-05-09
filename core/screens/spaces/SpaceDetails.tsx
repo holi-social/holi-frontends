@@ -8,7 +8,6 @@ import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import DeleteOptionButton from '@holi/core/components/DeleteOptionButton'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -121,11 +120,10 @@ const SpaceDetails = () => {
 
           {space && <SpaceShare space={space} />}
 
-          <ReportBlockOptionButton
+          <ActionDrawer.Report
             action="report"
             objectId={space?.id || ''}
             contentType={ContentType.SPACE}
-            style={styles.reportButton}
             confirmationModalProps={{
               title: t('spaces.spaceDetails.report.confirmation.title'),
               description: t('spaces.spaceDetails.report.confirmation.description'),
@@ -251,10 +249,6 @@ const styles = StyleSheet.create({
         paddingTop: 12,
       },
     }),
-  },
-  reportButton: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   messageContainer: {
     alignItems: 'center',

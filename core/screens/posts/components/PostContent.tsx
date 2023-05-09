@@ -4,7 +4,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import ActionDrawer from '@holi/core/components/ActionDrawer'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
@@ -64,13 +63,11 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
                   showOptions={visible}
                   onPress={show}
                   onModalDismiss={hide}
-                  style={styles.moreButton}
                 >
-                  <ReportBlockOptionButton
+                  <ActionDrawer.Report
                     action="report"
                     objectId={post.id}
                     contentType={ContentType.POST}
-                    style={styles.moreOptionItem}
                     confirmationModalProps={{
                       title: t('insights.post.report.confirmation.title'),
                       description: t('insights.post.report.confirmation.description'),
@@ -132,14 +129,6 @@ const styles = StyleSheet.create({
   header: {
     flexGrow: 1,
     flexShrink: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   description: {
     marginTop: 16,

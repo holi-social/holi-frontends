@@ -8,7 +8,6 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
@@ -85,12 +84,11 @@ const UserProfile = () => {
             onModalDismiss={hide}
             tintColor={tintColor}
           >
-            <ReportBlockOptionButton
+            <ActionDrawer.Report
               action="report"
               label={t('user.profileView.report.title', { name: userFullName })}
               objectId={userId}
               contentType={ContentType.USER}
-              style={styles.moreOptionItem}
               confirmationModalProps={{
                 title: t('user.profileView.report.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.report.confirmation.description', { name: userFullName }),
@@ -99,11 +97,10 @@ const UserProfile = () => {
               onConfirm={hide}
             />
 
-            <ReportBlockOptionButton
+            <ActionDrawer.Report
               action="block"
               label={t('profile.block', { name: userFullName })}
               objectId={userId}
-              style={styles.moreOptionItem}
               confirmationModalProps={{
                 title: t('user.profileView.block.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.block.confirmation.description', { name: userFullName }),
@@ -260,10 +257,6 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     color: colors.foreground20,
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
 })
 

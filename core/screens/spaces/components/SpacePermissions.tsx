@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import { Report as ReportButton } from '@holi/core/components/ActionDrawer/ReportButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
 import type { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/queries'
@@ -11,6 +11,7 @@ import { spaceByIdQuery, updateSpaceUserConnectionMutation } from '@holi/core/sc
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -135,21 +136,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
-            <ReportBlockOptionButton
-              action="report"
-              label={'Report user'}
-              objectId={user.id}
-              contentType={ContentType.USER}
-              style={styles.reportUser}
-              tintColor={colors.foreground20}
-              bold={false}
-              confirmationModalProps={{
-                title: t('user.profileView.report.confirmation.title', { name: user.fullName }),
-                description: t('user.profileView.report.confirmation.description', { name: user.fullName }),
-              }}
-              successMessage={t('global.report.successMessage')}
-              onConfirm={hidePermissions}
-            />
+            <HoliBox padding={[0, 0, 24, 0]}>
+              <ReportButton
+                action="report"
+                label={'Report user'}
+                objectId={user.id}
+                contentType={ContentType.USER}
+                tintColor={colors.foreground20}
+                bold={false}
+                confirmationModalProps={{
+                  title: t('user.profileView.report.confirmation.title', { name: user.fullName }),
+                  description: t('user.profileView.report.confirmation.description', { name: user.fullName }),
+                }}
+                successMessage={t('global.report.successMessage')}
+                onConfirm={hidePermissions}
+              />
+            </HoliBox>
 
             <HoliButton
               contentStyle={styles.actionsItem}
@@ -229,9 +231,6 @@ const styles = StyleSheet.create({
   },
   actionsItemIcon: {
     color: colors.foreground20,
-  },
-  reportUser: {
-    marginBottom: 24,
   },
 })
 

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import ActionDrawer from '@holi/core/components/ActionDrawer'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
@@ -82,11 +81,10 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
             onPress={show}
             onModalDismiss={hide}
           >
-            <ReportBlockOptionButton
+            <ActionDrawer.Report
               action="report"
               objectId={post.id}
               contentType={ContentType.POST}
-              style={styles.moreOptionItem}
               confirmationModalProps={{
                 title: t('insights.post.report.confirmation.title'),
                 description: t('insights.post.report.confirmation.description'),
@@ -158,10 +156,6 @@ const styles = StyleSheet.create({
     border: `1px solid ${colors.background30}`,
     borderRadius: 12,
     backgroundColor: colors.background10,
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   postTitleLink: {
     marginBottom: 8,
