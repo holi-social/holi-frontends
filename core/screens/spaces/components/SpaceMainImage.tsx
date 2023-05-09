@@ -4,11 +4,10 @@ import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliImageProps } from '@holi/ui/components/utils/image'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type SpaceMainImageProps = {
-  uri: string
-  label: string
+export interface SpaceMainImageProps extends Pick<HoliImageProps, 'source' | 'blurHash' | 'label'> {
   editable?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
@@ -16,12 +15,12 @@ type SpaceMainImageProps = {
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, editable, onPress, style }) => {
+const SpaceMainImage = ({ editable, onPress, style, ...imageProps }: SpaceMainImageProps) => {
   const { t } = useTranslation()
   return (
     <View style={[styles.imageContainer, style]}>
       <View style={styles.wrapper}>
-        <HoliImage source={{ uri }} style={styles.mainImage} label={label} />
+        <HoliImage {...imageProps} style={styles.mainImage} />
         {editable && (
           <>
             <View style={styles.editOverlay} />
