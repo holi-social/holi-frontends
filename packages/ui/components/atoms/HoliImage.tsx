@@ -7,7 +7,7 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import type { HoliImageProps } from '@holi/ui/components/utils/image'
 import { transformSourcesURL } from '@holi/ui/components/utils/image'
 
-const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliImageProps & ImageProps) => {
+const HoliImage = ({ source, label, style, resizeMode = 'cover', blurHash, testID }: HoliImageProps & ImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !!label,
     accessibilityRole: 'image',
@@ -17,8 +17,9 @@ const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliI
   return (
     <Image
       source={transformSourcesURL(source)}
-      style={style}
+      style={[style]}
       contentFit={resizeMode}
+      placeholder={blurHash}
       testID={testID}
       {...accessibilityProps}
     />
