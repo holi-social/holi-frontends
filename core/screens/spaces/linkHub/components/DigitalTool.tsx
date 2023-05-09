@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import DeleteCollaborationToolButton from '@holi/core/screens/spaces/linkHub/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
@@ -26,13 +26,7 @@ interface DigitalToolProps {
   onEditButtonPress: (toolId: string) => void
 }
 
-const DigitalTool: React.VFC<DigitalToolProps> = ({
-  tool,
-  isAdmin,
-  spaceId,
-  onShareButtonPress,
-  onEditButtonPress,
-}) => {
+const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonPress }: DigitalToolProps) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
@@ -84,7 +78,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         <View>
           {isAdmin && (
             <View style={{ paddingTop: 10 }}>
-              <MoreOptionsButtonWithModal
+              <ActionDrawer.Drawer
                 label={t('spaces.digitalTool.preview.more')}
                 showOptions={visible}
                 onModalDismiss={hide}
@@ -117,7 +111,7 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
                     style={styles.buttonWithIcon}
                   />
                 </>
-              </MoreOptionsButtonWithModal>
+              </ActionDrawer.Drawer>
             </View>
           )}
         </View>

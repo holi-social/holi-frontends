@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
@@ -76,7 +76,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
           </HoliLink>
         </HoliColumn>
         <HoliColumn>
-          <MoreOptionsButtonWithModal
+          <ActionDrawer.Drawer
             label={t('insights.post.preview.more')}
             showOptions={visible}
             onPress={show}
@@ -94,7 +94,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
               successMessage={t('global.report.successMessage')}
               onConfirm={hide}
             />
-          </MoreOptionsButtonWithModal>
+          </ActionDrawer.Drawer>
         </HoliColumn>
       </HoliColumns>
 

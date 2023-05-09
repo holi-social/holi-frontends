@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import DeleteOptionButton from '@holi/core/components/DeleteOptionButton'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
@@ -92,7 +92,7 @@ const SpaceDetails = () => {
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
       headerRight: ({ tintColor }) => (
-        <MoreOptionsButtonWithModal
+        <ActionDrawer.Drawer
           label={t('insights.post.preview.more')}
           showOptions={visible}
           onPress={() => {
@@ -145,7 +145,7 @@ const SpaceDetails = () => {
               />
             </HoliBox>
           )}
-        </MoreOptionsButtonWithModal>
+        </ActionDrawer.Drawer>
       ),
       navigationCustomOptions: {
         footerShown: false,

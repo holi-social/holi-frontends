@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import CommentDeleteButton from '@holi/core/screens/posts/components/CommentDeleteButton'
@@ -43,7 +43,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
 
         <HoliColumn>
           <SafeAreaProvider>
-            <MoreOptionsButtonWithModal
+            <ActionDrawer.Drawer
               label={t('insights.post.preview.more')}
               showOptions={visible}
               onPress={show}
@@ -71,7 +71,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
                 style={styles.moreOptionItem}
                 testID="delete-comment-button"
               />
-            </MoreOptionsButtonWithModal>
+            </ActionDrawer.Drawer>
           </SafeAreaProvider>
         </HoliColumn>
       </View>
