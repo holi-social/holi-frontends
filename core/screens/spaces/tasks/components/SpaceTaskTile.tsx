@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import DeleteTaskButton from '@holi/core/screens/spaces/tasks/components/DeleteTaskButton'
@@ -87,7 +87,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
           </HoliText>
         </HoliButton>
         {isAdmin && (
-          <MoreOptionsButtonWithModal
+          <ActionDrawer.Drawer
             label={t('global.moreOptions')}
             showOptions={visible}
             onModalDismiss={hide}
@@ -117,7 +117,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
               }}
               style={styles.buttonWithIcon}
             />
-          </MoreOptionsButtonWithModal>
+          </ActionDrawer.Drawer>
         )}
       </View>
       <View style={styles.iconsContainer}>

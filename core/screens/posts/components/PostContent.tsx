@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
@@ -59,7 +59,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
 
             <HoliColumn>
               <SafeAreaProvider>
-                <MoreOptionsButtonWithModal
+                <ActionDrawer.Drawer
                   label={t('insights.post.preview.more')}
                   showOptions={visible}
                   onPress={show}
@@ -78,7 +78,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
                     successMessage={t('global.report.successMessage')}
                     onConfirm={hide}
                   />
-                </MoreOptionsButtonWithModal>
+                </ActionDrawer.Drawer>
               </SafeAreaProvider>
             </HoliColumn>
           </HoliColumns>
