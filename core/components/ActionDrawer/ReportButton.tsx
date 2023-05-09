@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
 
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -13,6 +12,7 @@ import {
   ReportContentResponse,
 } from '@holi/core/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliConfirmation, {
   HoliConfirmationProps,
   useConfirmationState,
@@ -29,22 +29,21 @@ interface BaseProps {
   onConfirm?: () => void
   confirmationModalProps: Pick<HoliConfirmationProps, 'title' | 'description'>
   successMessage: string
-  style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-interface ReportOptionButtonProps extends BaseProps {
+interface ReportProps extends BaseProps {
   action: 'report' // if `action` is 'report' the 'contentType' is mandatory
   contentType: ContentType
 }
-interface BlockOptionButtonProps extends BaseProps {
+interface BlockProps extends BaseProps {
   action: 'block' // if `action` is 'block' we do not need to specify 'contentType' for the component
   contentType?: ContentType
 }
 
-export type ReportBlockOptionButtonProps = ReportOptionButtonProps | BlockOptionButtonProps
+export type ReportButtonProps = ReportProps | BlockProps
 
-const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
+export const Report = ({
   objectId,
   action,
   contentType,
@@ -55,12 +54,12 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   onConfirm,
   confirmationModalProps,
   successMessage,
-  style,
   testID = 'report-button',
-}) => {
+}: ReportButtonProps) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { openToast } = useToast()
+
   const title = (label || t('global.report')) as string
   const isReport = action === 'report'
 
@@ -92,16 +91,17 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
 
   return (
     <>
-      <MoreOptionItem
-        label={title}
-        icon={icon}
-        tintColor={tintColor}
-        loading={loading}
-        onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
-        contentStyle={style}
-        bold={bold}
-        testID={testID}
-      />
+      <HoliBox padding={[0, 0, 32, 0]} layout={{ display: 'flex', justifyContent: 'center' }}>
+        <MoreOptionItem
+          label={title}
+          icon={icon}
+          tintColor={tintColor}
+          loading={loading}
+          onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
+          bold={bold}
+          testID={testID}
+        />
+      </HoliBox>
 
       <LoginGuardModal {...loginGuardModalProps} />
 
@@ -115,5 +115,3 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
     </>
   )
 }
-
-export default ReportBlockOptionButton

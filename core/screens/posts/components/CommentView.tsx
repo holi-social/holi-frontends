@@ -4,12 +4,12 @@ import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import ActionDrawer from '@holi/core/components/ActionDrawer'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import CommentDeleteButton from '@holi/core/screens/posts/components/CommentDeleteButton'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -48,14 +48,12 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
               showOptions={visible}
               onPress={show}
               onModalDismiss={hide}
-              style={styles.moreButton}
               testID="comment-three-dot-menu-button"
             >
-              <ReportBlockOptionButton
+              <ActionDrawer.Report
                 action="report"
                 objectId={comment.id}
                 contentType={ContentType.POST_COMMENT}
-                style={styles.moreOptionItem}
                 confirmationModalProps={{
                   title: t('insights.posts.comment.report.confirmation.title'),
                   description: t('insights.posts.comment.report.confirmation.description'),
@@ -64,13 +62,14 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
                 onConfirm={hide}
                 testID="report-comment-button"
               />
-              <CommentDeleteButton
-                comment={comment}
-                postId={postId}
-                onConfirm={hide}
-                style={styles.moreOptionItem}
-                testID="delete-comment-button"
-              />
+              <HoliBox padding={[18, 0]}>
+                <CommentDeleteButton
+                  comment={comment}
+                  postId={postId}
+                  onConfirm={hide}
+                  testID="delete-comment-button"
+                />
+              </HoliBox>
             </ActionDrawer.Drawer>
           </SafeAreaProvider>
         </HoliColumn>
@@ -100,14 +99,6 @@ const styles = StyleSheet.create({
   mediaHeaderLink: {
     flexShrink: 1,
     flexGrow: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 12,
   },
   body: {
     flexDirection: 'row',
