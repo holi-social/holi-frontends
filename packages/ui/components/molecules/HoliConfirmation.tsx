@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
@@ -16,6 +17,18 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+
+export interface UseConfirmation {
+  show: boolean
+  setShow: Dispatch<SetStateAction<boolean>>
+  props: UseConfirmationProps
+}
+
+export interface UseConfirmationProps {
+  show: boolean
+  onConfirm: () => void
+  onDismiss: () => void
+}
 
 export interface HoliConfirmationProps extends ModalProps {
   show: boolean
