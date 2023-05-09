@@ -168,6 +168,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         imageLabelText={t('registration.emailVerification.activateAccount')}
         headlineText={t('registration.emailVerification.heading')}
         descriptionText={t('registration.emailVerification.description')}
+        testID="email-verification"
         ref={scrollViewRef}
       >
         <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
@@ -182,6 +183,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
             keyboardType: 'numeric',
           }}
           style={[styles.limitedBox, { alignSelf: 'center' }]}
+          testID="email-verification-code"
           {...scrollToInputWithId('code')}
         />
 
