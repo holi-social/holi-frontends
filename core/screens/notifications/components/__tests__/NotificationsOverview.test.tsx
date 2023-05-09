@@ -16,17 +16,6 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   setUserLoggedOut: jest.fn(),
 }))
 
-const mockOpenToast = jest.fn()
-jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
-  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
-  return {
-    ...original,
-    useToast: () => ({
-      openToast: mockOpenToast,
-    }),
-  }
-})
-
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,

@@ -4,7 +4,8 @@ import React from 'react'
 
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import { locationDetailsMock } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { locationDetailsMock } from '@holi/core/screens/spaces/components/__tests__/mocks'
+import { locationId } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
@@ -46,7 +47,7 @@ describe('FilteredSpacesHeading', () => {
     )
 
   it('applies correct title when filtering for location only', async () => {
-    renderHeading({ locationId: '123' })
+    renderHeading({ locationId })
 
     await waitFor(() => expect(mockSetOptions).toHaveBeenCalledTimes(2))
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
