@@ -1,63 +1,56 @@
-import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { DeleteSpaceResponse, deleteSpaceMutation, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface DeleteSpaceButtonProps {
-  spaceId: string
+interface DeleteSpaceButtonProps {
+  confirmationDesc: string
+  confirmationTitle: string
+  isLoading: boolean
   onDelete: () => void
-  style?: StyleProp<ViewStyle>
+  itemTestID?: string
+  confirmationTestID?: string
 }
 
-const DeleteOptionButton = ({ spaceId, onDelete, style }: DeleteSpaceButtonProps) => {
+const DeleteOptionButton = ({
+  confirmationDesc,
+  confirmationTitle,
+  confirmationTestID,
+  isLoading,
+  itemTestID,
+  onDelete,
+}: DeleteSpaceButtonProps) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const { displayError } = useErrorHandling()
-  const { openToast } = useToast()
 
-  const [deleteSpace, { loading }] = useMutation<DeleteSpaceResponse>(deleteSpaceMutation, {
-    variables: { id: spaceId },
-    onCompleted: () => {
-      onDelete()
-      openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
-    },
-    onError: (error) => displayError(error, t('spaces.delete.error')),
-    refetchQueries: [{ query: mySpaceQuery }],
-  })
+  const handleConfirmation = () => {
+    setShowConfirmationModal(false)
+    onDelete()
+  }
 
-  const confirmationTitle = t('spaces.delete.confirmation.title')
   return (
     <>
       <MoreOptionItem
         icon="delete"
-        label={t('spaces.delete.label')}
+        label={t('confirmation.delete')}
         onPress={() => setShowConfirmationModal(true)}
         tintColor={colors.error20}
-        contentStyle={style}
-        disabled={loading}
-        testID="space-delete-btn"
+        disabled={isLoading}
+        testID={itemTestID}
       />
       <HoliConfirmation
         show={showConfirmationModal}
         label={confirmationTitle}
         title={confirmationTitle}
         confirmationButtonType="warning"
-        description={t('spaces.delete.confirmation.description')}
+        description={confirmationDesc}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('confirmation.dismiss')}
         confirmText={t('spaces.delete.confirmation.confirm')}
-        testID="space-delete"
-        onConfirm={() => {
-          setShowConfirmationModal(false)
-          deleteSpace()
-        }}
+        testID={confirmationTestID}
+        onConfirm={handleConfirmation}
       />
     </>
   )
