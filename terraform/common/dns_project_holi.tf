@@ -21,6 +21,17 @@ resource "google_dns_record_set" "project_holi_web_environments_zone_entry" {
   rrdatas = google_dns_managed_zone.project_holi_web_environments_zone.name_servers
 }
 
+resource "google_dns_record_set" "project_holi_web_production_a" {
+  name         = "production.${local.project_holi_web_environments_zone_dns_name}"
+  project      = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
+  type         = "A"
+  ttl          = 300
+  managed_zone = google_dns_managed_zone.project_holi_web_environments_zone.name
+  rrdatas = [
+    "35.228.129.14"
+  ]
+}
+
 output "dns_project_holi_web_domain" {
   value = trim(google_dns_managed_zone.project_holi_web_environments_zone.dns_name, ".")
 }
