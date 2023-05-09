@@ -4,9 +4,9 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
-import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
-import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/components/SpaceUpdatesTab'
+import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { Space } from '@holi/core/screens/spaces/types'
+import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -34,7 +34,6 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
       <View style={styles.header}>
         <SpaceHeader space={space} style={mixins.container} />
       </View>
-
       <HoliTabs
         id="space-tabs"
         testID="space-tabs"

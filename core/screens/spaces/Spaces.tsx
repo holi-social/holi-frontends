@@ -13,9 +13,9 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -44,7 +44,6 @@ const Spaces: React.VFC = () => {
   } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
-  global.hasOwnSpaces = hasOwnSpaces
 
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()

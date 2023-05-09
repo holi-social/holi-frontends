@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -46,7 +47,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
                 <HoliChipRow
                   editButtonLabel={t('profile.engagementLevel.edit')}
-                  editable={!user?.engagementLevel}
+                  editable
                   title={t('profile.engagementLevel')}
                   onPressEdit={() => toggleEditMode('engagementLevel')}
                 >
@@ -66,27 +67,27 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                   )}
                 </HoliChipRow>
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="interests">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'interests'}
-                  onPressEdit={() => toggleEditMode('interests')}
+                  keyInUserObject={UserChipTypes.INTERESTS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)}
                   numberOfLines={1}
                 />
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'sdgs'}
-                  onPressEdit={() => toggleEditMode('sdgs')}
+                  keyInUserObject={UserChipTypes.SDGS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)}
                   numberOfLines={1}
                 />
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="skills">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'skills'}
-                  onPressEdit={() => toggleEditMode('skills')}
+                  keyInUserObject={UserChipTypes.SKILLS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)}
                   numberOfLines={1}
                 />
               </View>,

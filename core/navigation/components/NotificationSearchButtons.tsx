@@ -4,15 +4,12 @@ import { useTranslation } from 'react-i18next'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
-import client from '@holi/api/graphql/client'
-import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { logError } from '@holi/core/errors/helpers'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
+import { useLogout, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -25,14 +22,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useLoggedInUser()
-
-  const handleLogout = () => {
-    client.clearStore()
-    ensureOAuth2Logout()
-    setUserLoggedOut()
-    console.info('[Logout] logout successful')
-    navigate('/profile')
-  }
+  const { logout } = useLogout()
 
   const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     skip: !isLoggedIn,
@@ -41,7 +31,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
     onError: (error) => {
       const networkError = error?.networkError
       if ((networkError as ServerError)?.statusCode === 401) {
-        handleLogout()
+        logout()
       }
       logError(error, `[NotificationSearchButtons.tsx] ${error?.message}`)
     },

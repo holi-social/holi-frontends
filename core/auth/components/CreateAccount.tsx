@@ -72,7 +72,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        console.info('[Registration.tsx] registration was successful.')
+        console.debug('[Registration.tsx] registration was successful.')
 
         // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
         await onRegister()

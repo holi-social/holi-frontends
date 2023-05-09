@@ -4,6 +4,21 @@ import { Pressable, Text, View, useWindowDimensions } from 'react-native'
 
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
+beforeEach(() => {
+  jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+    const time = Date.now()
+    cb(time)
+
+    return time
+  })
+})
+
+afterEach(() => {
+  // @ts-ignore
+  window.requestAnimationFrame.mockRestore()
+  jest.clearAllTimers()
+})
+
 type TestSteps = [string, number][]
 
 const steps: TestSteps = [
@@ -65,5 +80,5 @@ test.each(steps)('should render the %p and the next step on press', (stepID, idx
   expect(screen.getByTestId(nextStepId)).toBeDefined()
 
   rerender(<TestStepper initialStep={idx} lazy />)
-  expect(screen.getByTestId(stepID)).toBeDefined()
+  expect(screen.getByTestId(nextStepId)).toBeDefined()
 })

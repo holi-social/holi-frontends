@@ -14,9 +14,11 @@ describe('SpacesGrid', () => {
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
-    expect(coverImage.props.proxiedProperties).toMatchObject({
-      source: [{ uri: 'https://www.example.com/space1.jpg' }],
-    })
-    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
+
+    let proxiedImgProps = coverImage.props.proxiedProperties
+    expect(proxiedImgProps.source).toStrictEqual([{ uri: 'https://www.example.com/space1.jpg' }])
+
+    proxiedImgProps = avatarImage.props.proxiedProperties
+    expect(proxiedImgProps.source).toStrictEqual([{ uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 }])
   })
 })

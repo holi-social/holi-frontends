@@ -1,9 +1,9 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
 import { location, spaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
@@ -61,10 +61,13 @@ describe('SpacesGroupSlider', () => {
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
-    expect(coverImage.props.proxiedProperties).toMatchObject({
-      source: [{ uri: 'https://www.example.com/space1.jpg' }],
-    })
-    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
+    expect(coverImage.props.proxiedProperties.source).toEqual([{ uri: 'https://www.example.com/space1.jpg' }])
+    expect(avatarImage.props.proxiedProperties.source).toEqual([
+      {
+        uri: 'https://www.example.com/avatar.jpg?tr=w-48',
+        width: 24,
+      },
+    ])
   })
 
   it('does not display "see more" element if there is nothing more to see', () => {

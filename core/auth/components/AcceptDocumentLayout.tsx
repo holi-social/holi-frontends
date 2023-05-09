@@ -68,6 +68,7 @@ const AcceptDocumentLayout = ({
         onSelect={onAgreementChange}
         style={styles.checkbox}
         testID={`${testID}-checkbox`}
+        accessibilityLabel={checkboxLabelTranslation}
       >
         <HoliText size="small">
           <Trans t={t} i18nKey={checkboxLabelTranslation}>
