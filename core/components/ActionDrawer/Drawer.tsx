@@ -1,6 +1,6 @@
 import React from 'react'
+import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -8,14 +8,14 @@ import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliB
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
+export interface Drawer extends Omit<HoliButtonProps, 'style'> {
   showOptions?: boolean
   onModalDismiss: () => void
   tintColor?: string
   iconSize?: number
 }
 
-const MoreOptionsButtonWithModal = ({
+export const Drawer = ({
   showOptions = false,
   onModalDismiss,
   tintColor = colors.foreground20,
@@ -25,7 +25,7 @@ const MoreOptionsButtonWithModal = ({
   children,
   iconSize,
   ...buttonProps
-}: React.PropsWithChildren<MoreOptionsButtonWithModalProps>) => {
+}: PropsWithChildren<Drawer>) => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
 
@@ -40,12 +40,10 @@ const MoreOptionsButtonWithModal = ({
         onDismiss={onModalDismiss}
         testID="more-options-modal"
         label={t('global.moreOptions')}
-        style={{ paddingHorizontal: 24 }}
+        style={{ display: 'flex', alignItems: 'center', paddingHorizontal: 24, paddingBottom: safeAreaBottom || 18 }}
       >
-        <View style={{ marginBottom: safeAreaBottom || 50 }}>{children}</View>
+        {children}
       </HoliModal>
     </>
   )
 }
-
-export default MoreOptionsButtonWithModal

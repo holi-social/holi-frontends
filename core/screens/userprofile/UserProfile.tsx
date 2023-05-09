@@ -5,9 +5,9 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
@@ -78,7 +78,7 @@ const UserProfile = () => {
         headerTransparent: true,
         headerStyle: { backgroundColor: colors.background10 },
         headerRight: ({ tintColor }) => (
-          <MoreOptionsButtonWithModal
+          <ActionDrawer.Drawer
             label={t('insights.post.preview.more')}
             showOptions={visible}
             onPress={show}
@@ -113,7 +113,7 @@ const UserProfile = () => {
               tintColor={colors.error30}
               onConfirm={hide}
             />
-          </MoreOptionsButtonWithModal>
+          </ActionDrawer.Drawer>
         ),
       }),
     [hide, setOptions, show, t, userFullName, userId, visible]
