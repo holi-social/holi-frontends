@@ -7,7 +7,6 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import DeleteOptionButton from '@holi/core/components/DeleteOptionButton'
-import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -106,16 +105,13 @@ const SpaceDetails = () => {
           testID="space-options-btn"
         >
           {isAdmin && (
-            <HoliBox padding={[18, 0]}>
-              <MoreOptionItem
-                icon="edit-2"
-                label={t('global.edit')}
-                onPress={() => {
-                  navigate(`/spaces/${spaceIdOrName}/edit`)
-                  hide()
-                }}
-              />
-            </HoliBox>
+            <ActionDrawer.Edit
+              label={t('global.edit')}
+              onPress={() => {
+                navigate(`/spaces/${spaceIdOrName}/edit`)
+                hide()
+              }}
+            />
           )}
 
           {space && <SpaceShare space={space} />}
