@@ -32,6 +32,7 @@ const SpaceFragment = gql`
     created
     avatar
     cover
+    coverBlurhash
     name
     avatarDefaultColor
     location
@@ -96,6 +97,7 @@ const SpaceOverviewFragment = gql`
     description
     created
     cover
+    coverBlurhash
     location
     avatar
     avatarDefaultColor
@@ -344,6 +346,7 @@ export const updateSpaceMutation = gql`
       description
       avatar
       cover
+      coverBlurhash
       location
       avatarDefaultColor
       name
