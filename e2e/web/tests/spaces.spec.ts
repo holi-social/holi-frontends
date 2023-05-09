@@ -105,6 +105,7 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 
 const testShareSpace = async (page: Page) => {
   // open space share modal
+  await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await clickElementByTestId(page, 'space-options-btn')
   await clickElementByTestId(page, 'space-share-btn')
 
@@ -202,10 +203,13 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // test digital tools
     await testAddEditDeleteDigitalTool(page)
 
+    await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
+
     // Navigate back to space detail view
     await clickElementByTestId(page, 'nav-button-back')
 
     // delete space
+    await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete-btn')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
@@ -441,7 +445,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await clickElementByTestId(page, 'tool-edit-btn') // Edit on modal
   const toolTitleInput = await page.waitForSelector(byTestId('tool-title-input'))
   await toolTitleInput.fill('Edited Tool Name')
-  await clickElementByTestId(page, 'digital-tool-edit-modal-save-btn')
+  await clickElementByTestId(page, 'form-modal-save-btn')
   const editedToolName = await (await locateElementByTestId(page, 'tool-title')).textContent()
   await expect(editedToolName).toBe('Edited Tool Name')
 }
@@ -475,7 +479,7 @@ const createSpace = async (
   await checkConfirmButtonIsDisabled(page)
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
   await clickElementByTestId(page, 'holi-wizard-next-btn')
-  await clickElementByTestId(page, 'space-onBoard-content-close-btn')
+  await clickElementByTestId(page, 'space-onboard-content-close-btn')
 }
 
 // Add a digital tool to a space (Linkhub)
