@@ -16,7 +16,7 @@ export interface DeleteSpaceButtonProps {
   style?: StyleProp<ViewStyle>
 }
 
-const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = ({ spaceId, onDelete, style }) => {
+const DeleteOptionButton = ({ spaceId, onDelete, style }: DeleteSpaceButtonProps) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { displayError } = useErrorHandling()
@@ -63,4 +63,4 @@ const DeleteSpaceButton: React.VoidFunctionComponent<DeleteSpaceButtonProps> = (
   )
 }
 
-export default DeleteSpaceButton
+export default DeleteOptionButton

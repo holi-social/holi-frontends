@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import DeleteOptionButton from '@holi/core/components/DeleteOptionButton'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
@@ -17,12 +18,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
 import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
-import DeleteSpaceButton from '@holi/core/screens/spaces/components/DeleteSpaceButton'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -82,16 +83,18 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           testID="space-options-btn"
         >
           {isAdmin && (
-            <MoreOptionItem
-              icon="edit-2"
-              label={t('global.edit')}
-              onPress={() => {
-                navigate(`/spaces/${spaceIdOrName}/edit`)
-                hide()
-              }}
-              contentStyle={styles.buttonWithIcon}
-            />
+            <HoliBox padding={[18, 0]}>
+              <MoreOptionItem
+                icon="edit-2"
+                label={t('global.edit')}
+                onPress={() => {
+                  navigate(`/spaces/${spaceIdOrName}/edit`)
+                  hide()
+                }}
+              />
+            </HoliBox>
           )}
+
           {space && <SpaceShare space={space} />}
 
           <ReportBlockOptionButton
@@ -107,14 +110,15 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             onConfirm={hide}
           />
           {isAdmin && (
-            <DeleteSpaceButton
-              spaceId={space?.id || ''}
-              onDelete={() => {
-                hide()
-                replaceRoute('/spaces/')
-              }}
-              style={styles.buttonWithIcon}
-            />
+            <HoliBox padding={[18, 0]}>
+              <DeleteOptionButton
+                spaceId={space?.id || ''}
+                onDelete={() => {
+                  hide()
+                  replaceRoute('/spaces/')
+                }}
+              />
+            </HoliBox>
           )}
         </MoreOptionsButtonWithModal>
       ),
@@ -208,11 +212,6 @@ const styles = StyleSheet.create({
         paddingTop: 12,
       },
     }),
-  },
-  buttonWithIcon: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   reportButton: {
     justifyContent: 'center',
