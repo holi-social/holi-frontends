@@ -16,7 +16,6 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { ContentType } from '@holi/core/queries'
 import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
-import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
 import {
   DeleteSpaceResponse,
   SpaceByIdResponse,
@@ -114,7 +113,7 @@ const SpaceDetails = () => {
             />
           )}
 
-          {space && <SpaceShare space={space} />}
+          {space && <ActionDrawer.Share slug={`/spaces/${space.name}`} title={space.title} />}
 
           <ActionDrawer.Report
             action="report"
@@ -127,6 +126,7 @@ const SpaceDetails = () => {
             successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
+
           {isAdmin && (
             <HoliBox padding={[18, 0]}>
               <DeleteOptionButton
