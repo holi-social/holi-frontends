@@ -1,9 +1,7 @@
-import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import { useMutation, useQuery } from '@apollo/client'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
-
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
@@ -12,6 +10,7 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -20,14 +19,20 @@ import { ContentType } from '@holi/core/queries'
 import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import SpaceShare from '@holi/core/screens/spaces/components/SpaceShare'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import {
+  DeleteSpaceResponse,
+  SpaceByIdResponse,
+  deleteSpaceMutation,
+  mySpaceQuery,
+  spaceByIdQuery,
+} from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
@@ -36,9 +41,7 @@ export type SpaceDetailsParams = {
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const SpaceDetails: React.VFC<ScreenProps> = () => {
+const SpaceDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
@@ -46,6 +49,9 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>()
 
   const { setOptions } = useUnifiedNavigation()
+  const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
+  const { visible, show, hide } = useModalState()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
@@ -53,13 +59,31 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
 
+  const [deleteSpace, { loading: loadingDeleteSpace }] = useMutation<DeleteSpaceResponse>(deleteSpaceMutation, {
+    variables: { id: space?.id },
+    onCompleted: () => {
+      openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
+    },
+    onError: (error) => displayError(error, t('spaces.delete.error')),
+    refetchQueries: [{ query: mySpaceQuery }],
+  })
+
+  const handleSpaceDelete = useCallback(async () => {
+    hide()
+    replaceRoute('/spaces/')
+
+    try {
+      await deleteSpace()
+    } catch (e) {
+      logError(e)
+    }
+  }, [deleteSpace, hide, replaceRoute])
+
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const { visible, show, hide } = useModalState()
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     setOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
@@ -112,11 +136,12 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           {isAdmin && (
             <HoliBox padding={[18, 0]}>
               <DeleteOptionButton
-                spaceId={space?.id || ''}
-                onDelete={() => {
-                  hide()
-                  replaceRoute('/spaces/')
-                }}
+                isLoading={loadingDeleteSpace}
+                itemTestID="space-delete-btn"
+                confirmationDesc={t('spaces.delete.confirmation.description')}
+                confirmationTitle={t('spaces.delete.confirmation.title')}
+                confirmationTestID="space-delete"
+                onDelete={handleSpaceDelete}
               />
             </HoliBox>
           )}
@@ -126,7 +151,21 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, t, visible, isAdmin, isMember, navigate, replaceRoute, spaceIdOrName, space])
+  }, [
+    hide,
+    show,
+    handleSpaceDelete,
+    isMember,
+    isAdmin,
+    loadingDeleteSpace,
+    navigate,
+    replaceRoute,
+    setOptions,
+    space,
+    spaceIdOrName,
+    t,
+    visible,
+  ])
 
   const handleTabChange = (index: number) => {
     global.spaceDetailInitialTabIndex = index

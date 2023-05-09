@@ -76,6 +76,7 @@
   "component.readMore.readMore": "Weiterlesen",
   "confirmation.confirm": "Ja",
   "confirmation.dismiss": "Nein, abbrechen",
+  "confirmation.delete": "Löschen",
   "date": "{{date, D. MMM}}",
   "error.errorBoundary.retry": "Erneut versuchen?",
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",

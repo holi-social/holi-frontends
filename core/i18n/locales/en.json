@@ -76,6 +76,7 @@
   "component.readMore.readMore": "Read more",
   "confirmation.confirm": "Yes",
   "confirmation.dismiss": "No, dismiss",
+  "confirmation.delete": "Delete",
   "date": "{{date, MMM, D}}",
   "error.errorBoundary.retry": "Try again?",
   "filePicker.error.maxFileSize": "The file you uploaded is bigger than {{size}}MB",
