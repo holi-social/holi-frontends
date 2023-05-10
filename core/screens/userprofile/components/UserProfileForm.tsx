@@ -23,7 +23,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { delayAnimation } from '@holi/ui/helper'
 import { Position, usePositions } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -46,7 +46,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-  const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
+  const [pickedAvatar, setPickedAvatar] = useState<HoliImageInfo>()
   const scrollViewRef = useRef<ScrollView>(null)
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()

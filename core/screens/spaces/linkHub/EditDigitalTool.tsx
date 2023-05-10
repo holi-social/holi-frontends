@@ -23,7 +23,7 @@ import {
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -45,7 +45,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
-  const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})

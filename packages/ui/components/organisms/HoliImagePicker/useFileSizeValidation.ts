@@ -8,7 +8,7 @@ export const useFileSizeValidation = () => {
   const { openToast } = useToast()
 
   return useCallback(
-    ({ fileSize, maxFileSizeInMB }) => {
+    ({ fileSize, maxFileSizeInMB }: { fileSize: number; maxFileSizeInMB: number }) => {
       const fileSizeValid = !maxFileSizeInMB || (fileSize && fileSize <= maxFileSizeInMB * 1024 * 1024)
       if (!fileSizeValid) {
         openToast(t('filePicker.error.maxFileSize', { size: maxFileSizeInMB }), HoliToastType.ERROR)

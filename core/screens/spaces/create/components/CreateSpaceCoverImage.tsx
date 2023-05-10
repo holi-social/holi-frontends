@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface CreateSpaceCoverImageProps {
-  onUploadImage: (image: ImageInfo | undefined) => void
-  coverImage: ImageInfo | undefined
+  onUploadImage: (image: HoliImageInfo | undefined) => void
+  coverImage: HoliImageInfo | undefined
 }
 
 const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
