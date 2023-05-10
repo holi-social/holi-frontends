@@ -141,7 +141,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           [
             {
-              "alignItems": "center",
+              "alignSelf": "center",
               "justifyContent": "flex-end",
             },
             undefined,

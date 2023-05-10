@@ -248,8 +248,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'flex-end',
+    ...Platform.select({
+      web: {
+        alignSelf: 'flex-end',
+      },
+    }),
   },
   handle: {
     height: 40,
