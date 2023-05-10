@@ -1,7 +1,11 @@
-import { render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing'
+import { render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
+import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import { locationDetailsMock } from '@holi/core/screens/spaces/components/__tests__/mocks'
+import { locationId } from '@holi/core/screens/spaces/components/__tests__/testData'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
@@ -16,8 +20,8 @@ const skills: Skill[] = [
 ]
 
 const sdgs: SDG[] = [
-  { id: '1', title: 'SDG 1', slug: 'SDG-1' },
-  { id: '2', title: 'SDG 2', slug: 'SDG-2' },
+  { id: '1', title: 'SDG 1', slug: 'SDG-1', number: 1 },
+  { id: '2', title: 'SDG 2', slug: 'SDG-2', number: 2 },
 ]
 
 const spaceTermContext: SpaceTermContextResult = {
@@ -33,72 +37,55 @@ const spaceTermContext: SpaceTermContextResult = {
 }
 
 describe('FilteredSpacesHeading', () => {
-  it('applies correct title when filtering for location only', () => {
+  const renderHeading = (props: SpaceFilter, contextProps: Partial<SpaceTermContextResult> = {}) =>
     render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <FilteredSpacesHeading location="Hamburg" />
-      </SpaceTermContext.Provider>
+      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+        <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
+          <FilteredSpacesHeading {...props} />
+        </SpaceTermContext.Provider>
+      </MockedProvider>
     )
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Hamburg' })
+  it('applies correct title when filtering for location only', async () => {
+    renderHeading({ locationId })
+
+    await waitFor(() => expect(mockSetOptions).toHaveBeenCalledTimes(2))
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Hamburg, Germany' })
   })
 
   it('applies correct title when filtering for topic only', () => {
-    render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <FilteredSpacesHeading topicSlug="topic-1" />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ topicSlug: 'topic-1' })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Topic 1' })
   })
 
   it('applies correct title when filtering for single skill', () => {
-    render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <FilteredSpacesHeading skillSlugs={['skill-1']} />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ skillSlugs: ['skill-1'] })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Skill 1' })
   })
 
   it('applies generic title when filtering for multiple skills', () => {
-    render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <FilteredSpacesHeading skillSlugs={['skill-1', 'skill-2']} />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ skillSlugs: ['skill-1', 'skill-2'] })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
 
   it('applies generic title when applying multiple filters', () => {
-    render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <FilteredSpacesHeading topicSlug="topic-1" location="Hamburg" />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ topicSlug: 'topic-1', locationId: '123' })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
 
   it('applies generic title while loading terms', () => {
-    render(
-      <SpaceTermContext.Provider value={{ ...spaceTermContext, loadingTopics: true }}>
-        <FilteredSpacesHeading topicSlug="topic-1" />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ topicSlug: 'topic-1' }, { loadingTopics: true })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
 
   it('applies generic title when loading of terms failed', () => {
-    render(
-      <SpaceTermContext.Provider value={{ ...spaceTermContext, failedTopics: true }}>
-        <FilteredSpacesHeading topicSlug="topic-1" />
-      </SpaceTermContext.Provider>
-    )
+    renderHeading({ topicSlug: 'topic-1' }, { failedTopics: true })
 
     expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
   })
