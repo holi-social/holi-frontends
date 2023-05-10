@@ -4,8 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
-import { Geolocation } from '@holi/core/types'
+import {
+  GeoPlaceDetailsResponse,
+  GeoPlacesResponse,
+  geoPlaceDetailsQuery,
+  geoPlacesQuery,
+} from '@holi/core/location/queries'
+import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
@@ -13,7 +18,8 @@ const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
 
 export type GeolocationSuggestion = Suggestion & {
-  coordinates?: Geolocation
+  coordinates?: GeolocationPoint
+  geolocation?: GeolocationGeoJSON
 }
 
 export enum GeolocationLevel {
@@ -35,9 +41,10 @@ export interface PlacesAutocompleteProps {
   helperText?: string
   style?: StyleProp<ViewStyle>
   suggestionsStyle?: StyleProp<ViewStyle>
-  withCoordinates?: boolean
+  nameOnly?: boolean
   value?: string
   level?: GeolocationLevel
+  fetchDetailsOnClose?: boolean
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -57,9 +64,10 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       onClose,
       style,
       suggestionsStyle,
-      withCoordinates,
+      nameOnly,
       value,
       level,
+      fetchDetailsOnClose,
     },
     ref
   ) => {
@@ -71,6 +79,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       },
     })
     const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
+    const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
 
     if (error) {
       logError(error, `[PlacesAutocomplete.tsx] ${error.message}`)
@@ -104,8 +113,27 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
     )
 
     const onAutocompleteClose = useCallback(
-      (suggestion?: Suggestion) => onClose?.(placeSuggestions.find((s) => s.id == suggestion?.id)),
-      [placeSuggestions, onClose]
+      async (suggestion?: Suggestion) => {
+        if (!onClose) {
+          return
+        }
+        const selection = placeSuggestions.find((s) => s.id == suggestion?.id)
+        if (selection && fetchDetailsOnClose) {
+          return fetchPlaceDetails({ variables: { id: selection.id } })
+            .then((response) =>
+              onClose({
+                ...selection,
+                geolocation: response.data?.geo_placeDetails.geolocation,
+              })
+            )
+            .catch((error) => {
+              logError(error, `[PlacesAutocomplete.tsx]: Failed to fetch place details: ${error.message}`)
+              return onClose(undefined)
+            })
+        }
+        return onClose(selection)
+      },
+      [placeSuggestions, onClose, fetchDetailsOnClose, fetchPlaceDetails]
     )
 
     const submit = useCallback(
@@ -140,7 +168,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         inputLabel={label}
         accessibilityLabel={label}
         placeholder={placeholder}
-        value={withCoordinates ? selected?.label : value}
+        value={nameOnly ? selected?.label : value}
         trailingIcon="search"
         inputProps={inputProps}
         onSubmit={submit}

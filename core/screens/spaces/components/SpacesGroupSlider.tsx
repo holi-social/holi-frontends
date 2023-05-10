@@ -1,6 +1,7 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
@@ -28,7 +29,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { topics, skills } = useContext(SpaceTermContext)
   const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
-  const { topicId, skillId, location, spaces } = group
+  const { topicId, skillId, locationId, spaces } = group
 
   const topic = useMemo(() => topics.find((topic) => topic.id === topicId), [topics, topicId])
   const skill = useMemo(() => skills.find((skill) => skill.id === skillId), [skills, skillId])
@@ -36,13 +37,15 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { totalResults = 0, data: spacesData = [] } = spaces || {}
   const hasMore = totalResults > SPACES_PAGE_SIZE
 
-  if (!spacesData.length) {
+  const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
+
+  if (!spacesData.length || loadingGeolocation) {
     return <></>
   }
 
   const topicQuery = topic ? 'topic=' + topic.slug : ''
   const skillQuery = skill ? 'skill=' + skill.slug : ''
-  const locationQuery = location ? 'location=' + location : ''
+  const locationQuery = locationId ? 'location=' + locationId : ''
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
 
@@ -58,13 +61,13 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
-        {!!location && (
+        {!!locationId && geolocationDetails && (
           <SpacesFilterPill
             testID="spaces-location-title"
-            label={location}
+            label={geolocationDetails.name}
             filterType="location"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?location=${location}`)}
+            onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
           />
         )}
         {skill && (

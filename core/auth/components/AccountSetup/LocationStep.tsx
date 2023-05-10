@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native'
 import { ScrollToProps, useScrollToInputOnFocus } from '@holi//ui/helper/useScrollToInputOnFocus'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
+  GeolocationLevel,
   GeolocationSuggestion,
   PlacesAutocompleteProps,
 } from '@holi/core/location/components/PlacesAutocomplete'
@@ -25,8 +26,8 @@ export interface LocationStepProps
 export const useLocationStep = (user?: User | null) => {
   const { t } = useTranslation()
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
-  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocationId ? { label: user.location, id: user?.geolocationId } : undefined
   )
 
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -43,7 +44,7 @@ export const useLocationStep = (user?: User | null) => {
 
   const onLocationClose = useCallback(
     (selectedSuggestion?: GeolocationSuggestion) => {
-      setLocation(selectedSuggestion)
+      setSelectedLocation(selectedSuggestion)
 
       if (!selectedSuggestion && locationQuery.length) {
         setFieldErrors({ location: [t('profile.location.validation.error')] })
@@ -60,7 +61,7 @@ export const useLocationStep = (user?: User | null) => {
   return {
     locationQuery,
     onLocationQueryChange: setLocationQuery,
-    location,
+    selectedLocation,
     onLocationClose,
     scrollToLocationInputWithId,
     locationScrollViewRef,
@@ -89,7 +90,8 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
           testID="user-location"
           suggestionsStyle={{ backgroundColor: colors.background10 }}
           helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
-          withCoordinates
+          fetchDetailsOnClose
+          level={GeolocationLevel.CITY}
           {...placesAutocompleteProps}
           {...scrollToInputWithId('location')}
         />

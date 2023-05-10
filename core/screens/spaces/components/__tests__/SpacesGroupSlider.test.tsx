@@ -1,9 +1,11 @@
+import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 
 import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
-import { location, spaces } from '@holi/core/screens/spaces/components/__tests__/testData'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { locationDetailsMock } from '@holi/core/screens/spaces/components/__tests__/mocks'
+import { locationId, spaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
@@ -24,11 +26,16 @@ const skills: Skill[] = [
   { id: '2', title: 'Skill 2', slug: 'skill-2' },
 ]
 
-const spaceTermContext = {
-  loading: false,
-  loadingFailed: false,
+const spaceTermContext: SpaceTermContextResult = {
+  loadingTopics: false,
+  loadingSkills: false,
+  loadingSdgs: false,
+  failedTopics: false,
+  failedSkills: false,
+  failedSdgs: false,
   topics,
   skills,
+  sdgs: [],
 }
 
 const groupWithTopicId: DiscoverSpacesGroup = {
@@ -42,17 +49,22 @@ const groupWithSkillId: DiscoverSpacesGroup = {
 }
 
 const groupWithLocation: DiscoverSpacesGroup = {
-  location,
+  locationId,
   spaces: pagedSpaces,
 }
 
 describe('SpacesGroupSlider', () => {
-  it('renders correctly', () => {
-    const { getByText, getAllByText, getAllByRole } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={groupWithTopicId} />
-      </SpaceTermContext.Provider>
+  const renderGroup = (group: DiscoverSpacesGroup) =>
+    render(
+      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+        <SpaceTermContext.Provider value={spaceTermContext}>
+          <SpacesGroupSlider group={group} />
+        </SpaceTermContext.Provider>
+      </MockedProvider>
     )
+
+  it('renders correctly', () => {
+    const { getByText, getAllByText, getAllByRole } = renderGroup(groupWithTopicId)
 
     expect(getByText('Topic 1')).toBeDefined()
     expect(getAllByText('Space title').length).toBe(3)
@@ -61,16 +73,17 @@ describe('SpacesGroupSlider', () => {
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
-    expect(coverImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
-    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg?tr=w-48', width: 24 })
+    expect(coverImage.props.proxiedProperties.source).toEqual([{ uri: 'https://www.example.com/space1.jpg' }])
+    expect(avatarImage.props.proxiedProperties.source).toEqual([
+      {
+        uri: 'https://www.example.com/avatar.jpg?tr=w-48',
+        width: 24,
+      },
+    ])
   })
 
   it('does not display "see more" element if there is nothing more to see', () => {
-    const { queryByTestId } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={groupWithTopicId} />
-      </SpaceTermContext.Provider>
-    )
+    const { queryByTestId } = renderGroup(groupWithTopicId)
 
     expect(queryByTestId('spaces-group-slider-see-more')).toBeFalsy()
   })
@@ -86,11 +99,7 @@ describe('SpacesGroupSlider', () => {
       spaces: pagedSpacesSeeMore,
     }
 
-    const { getByTestId } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={group} />
-      </SpaceTermContext.Provider>
-    )
+    const { getByTestId } = renderGroup(group)
 
     fireEvent.press(getByTestId('spaces-group-slider-see-more'))
 
@@ -98,11 +107,7 @@ describe('SpacesGroupSlider', () => {
   })
 
   it('navigates to topic filter screen if the user clicks the topic pill', () => {
-    const { getByTestId } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={groupWithTopicId} />
-      </SpaceTermContext.Provider>
-    )
+    const { getByTestId } = renderGroup(groupWithTopicId)
 
     fireEvent.press(getByTestId('spaces-topic-title'))
 
@@ -110,26 +115,18 @@ describe('SpacesGroupSlider', () => {
   })
 
   it('navigates to skill filter screen if the user clicks the skill pill', () => {
-    const { getByTestId } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={groupWithSkillId} />
-      </SpaceTermContext.Provider>
-    )
+    const { getByTestId } = renderGroup(groupWithSkillId)
 
     fireEvent.press(getByTestId('spaces-skill-title'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?skill=skill-1')
   })
 
-  it('navigates to location filter screen if the user clicks the location pill', () => {
-    const { getByTestId } = render(
-      <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider group={groupWithLocation} />
-      </SpaceTermContext.Provider>
-    )
+  it('navigates to location filter screen if the user clicks the location pill', async () => {
+    const { findByTestId } = renderGroup(groupWithLocation)
 
-    fireEvent.press(getByTestId('spaces-location-title'))
+    fireEvent.press(await findByTestId('spaces-location-title'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?location=TEST_LOCATION')
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?location=123')
   })
 })

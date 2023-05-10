@@ -13,7 +13,9 @@ import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
-const topics: Topic[] = [
+export const locationId = '123'
+
+export const topics: Topic[] = [
   { id: 'ANIMAL_WELFARE', title: 'Animal Welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: true },
   {
     id: 'ENVIRONMENTAL_PROTECTION',
@@ -34,6 +36,17 @@ export const user: User = {
   interests: topics,
 }
 
+export const authenticatedUser = {
+  id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+  avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+  fullName: 'EE. Visited',
+  firstName: 'EE.',
+  lastName: 'Visited',
+  aboutMe: "I'm the User that is visited in E2E tests!",
+  avatarDefaultColor: '#7571EC',
+  avatarLabel: 'EV',
+}
+
 export const membership: SpaceMember = {
   id: '1',
   user,
@@ -44,6 +57,7 @@ export const membership: SpaceMember = {
 export const userWithLocation = {
   ...user,
   location: 'Hamburg, Germany',
+  geolocationId: locationId,
 }
 
 const members = [1, 2, 3].map((id) => ({
@@ -104,6 +118,8 @@ export const space: Space = {
   tasks,
   links,
   topics,
+  avatarDefaultColor: '#000',
+  name: 'space-title',
 }
 
 export const spaces = [1, 2, 3].map((id) => ({
@@ -127,7 +143,7 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
     },
   },
   {
-    location: 'test_location',
+    locationId: locationId,
     spaces: {
       data: spaces,
       totalResults: 10,
@@ -147,8 +163,6 @@ export const skill: Skill = {
   title: 'Skill title',
   slug: 'skill-title',
 }
-
-export const location = 'TEST_LOCATION'
 
 export const mySpaces: SpaceSection[] = [
   {
