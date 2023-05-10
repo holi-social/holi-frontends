@@ -21,7 +21,6 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 
 interface BaseProps {
   objectId: string
-  action: 'report' | 'block'
   label?: string
   icon?: string
   tintColor?: string
