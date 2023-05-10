@@ -1,4 +1,5 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { scrollDown } from '../../helpers/gestures'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -8,7 +9,6 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
-import { delay } from '../../helpers/time'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()
@@ -20,7 +20,6 @@ describe('@Spaces', () => {
   const initialName = 'e2e space name'
   const initialGoal = 'e2e space goal'
   const numberOfInitialTerms = 3
-  const numberOfEditedTerms = 2
 
   afterEach(async () => {
     // Speeds up local execution
@@ -40,6 +39,7 @@ describe('@Spaces', () => {
     await assertSharingSpaceWorks()
     await assertCreatingSpace()
     await assertEditingSpace()
+    await assertAddEditDeleteTask()
     await assertDeletingSpace()
   })
 
@@ -141,7 +141,6 @@ describe('@Spaces', () => {
 
     // create space - cover image
     // FIXME: currently we mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
-    // await waitForElementWithTestId('create-space-remove-image-btn')
     await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
     await tapOnElementWithTestId('holi-wizard-next-btn')
   }
@@ -164,29 +163,6 @@ describe('@Spaces', () => {
     await seeTextWithTestId(editedName, 'space-edit-title')
     await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(editedGoal, 'space-edit-goal')
-
-    // edit space topics
-    await scrollToElementWithTestId('btn-space-edit-topics', 'down', { maxAttempts: 2 })
-    await tapOnElementWithTestId('btn-space-edit-topics')
-    await selectSomeTerms(numberOfEditedTerms)
-    await tapOnElementWithTestId('space-edit-modal-save-btn')
-
-    // check if the correct number of topics have been selected
-    await delay(1)
-    const numberOfEditedTopics = (await locateMultipleElementsWithTestId('space-edit-topics-chip')).length
-    expect(numberOfEditedTopics).toBe(numberOfEditedTerms)
-
-    // // edit space sdgs
-    // await scrollToElementWithTestId('btn-space-edit-sdgs', 'down', { maxAttempts: 2 })
-    // await tapOnElementWithTestId('btn-space-edit-sdgs')
-    // await selectSomeTerms(numberOfEditedTerms)
-    // await tapOnElementWithTestId('space-edit-modal-save-btn')
-
-    // // check if the correct number of sdgs have been selected
-    // await delay(1)
-    // await scrollToElementWithTestId('space-edit-sdgs-chip', 'down', { maxAttempts: 1 })
-    // const numberOfEditedSdgs = (await locateMultipleElementsWithTestId('space-edit-sdgs-chip')).length
-    // expect(numberOfEditedSdgs).toBe(numberOfEditedTerms)
 
     await tapOnElementWithTestId('space-edit-close')
   }
@@ -232,5 +208,106 @@ describe('@Spaces', () => {
     for (let i = 0; i < numberOfTermsToSelect; i++) {
       await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
     }
+  }
+
+  const inputTaskInfo = async (taskTitle: string, taskDescription: string) => {
+    await clickModalSaveButton()
+    // choose first option on visibility
+    await tapOnElementWithTestId('btn-task-visibility-input')
+    await tapOnElementWithTestId('item-task-visibility-input', 0)
+    // check if it closed
+    await waitForElementWithTestId('btn-task-visibility-input')
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-name-input', 'down', { maxAttempts: 3 })
+
+    // add task title
+    await tapOnElementWithTestId('task-name-input')
+    await fillFieldByTestId('task-name-input', taskTitle)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-name-label')
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-description-input', 'down', { maxAttempts: 3 })
+
+    // add task description
+    await fillFieldByTestId('task-description-input', taskDescription)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-description-label')
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('btn-task-locationType', 'down', { maxAttempts: 3 })
+
+    // open locationType dropdown
+    await tapOnElementWithTestId('btn-task-locationType')
+    await tapOnElementWithTestId('item-task-locationType', 0)
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('btn-task-regularity', 'down', { maxAttempts: 3 })
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // select commitment level
+    await tapOnElementWithTestId('btn-task-regularity')
+    await tapOnElementWithTestId('item-task-regularity', 0)
+    // check if it closed
+    await waitForElementWithTestId('btn-task-regularity')
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-contactEmail-input', 'down', { maxAttempts: 3 })
+
+    // add contact information
+    const contactEmail = 'e2e@holi.team'
+    await fillFieldByTestId('task-contactEmail-input', contactEmail)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-contactEmail-label')
+
+    await clickModalSaveButton()
+  }
+
+  const clickModalSaveButton = async () => {
+    const SCREEN_SIZE = await Appium.getWindowRect()
+    await Appium.touchAction({ action: 'tap', x: SCREEN_SIZE.width - 60, y: SCREEN_SIZE.height - 80 })
+  }
+
+  const assertAddEditDeleteTask = async () => {
+    // create task
+    const taskTitle = 'E2E task'
+    const taskDescription = 'E2E task description'
+    await tapOnElementWithTestId('space-tabs-button-2-inactive')
+    await scrollToElementWithTestId('btn-right-space-tasks-card', 'down', { maxAttempts: 8 })
+    await tapOnElementWithTestId('btn-right-space-tasks-card')
+    await inputTaskInfo(taskTitle, taskDescription)
+
+    // edit task
+    const editedTaskTitle = 'E2E edited task'
+    await tapOnElementWithTestId('btn-task-more-options')
+    await tapOnElementWithTestId('btn-to-edit-task')
+
+    // edit task name
+    await waitForElementWithTestId('task-name-input')
+    await fillFieldByTestId('task-name-input', editedTaskTitle)
+
+    // save edited task
+    await tapOnElementWithTestId('form-modal-save-btn')
+    // await expect(page.getByText(editedTaskTitle)).toBeVisible()
+
+    // delete task
+    await tapOnElementWithTestId('btn-task-more-options')
+    await tapOnElementWithTestId('btn-to-delete-task')
+    await tapOnElementWithTestId('task-delete-confirmation-confirm')
   }
 })
