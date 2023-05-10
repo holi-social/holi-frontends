@@ -7,7 +7,20 @@ export interface Paged<T> {
 
 export type MemberSpaces = Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'members'>>
 
-export interface Geolocation {
+export interface GeolocationPoint {
   latitude: number
   longitude: number
+}
+
+export interface GeolocationGeometry {
+  type: string
+  coordinates: number[] | number[][] | number[][][] | number[][][][]
+}
+
+export interface GeolocationGeoJSON {
+  place_id: string
+  properties: {
+    formatted: string
+  }
+  geometry: GeolocationGeometry
 }

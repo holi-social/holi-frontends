@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
@@ -26,7 +27,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
-  const { loadingTopics, topics = [] } = useContext(SpaceTermContext)
+  const { loadingTopics, topics = [], loadingSkills } = useContext(SpaceTermContext)
 
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
   const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
@@ -40,13 +41,18 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     [topics, userTopics]
   )
 
+  const {
+    geolocationDetails: defaultGeolocation,
+    loadingGeolocation: loadingDefaultGeolocation,
+    geolocationError: defaultGeolocationError,
+  } = useGeolocationDetails(DEFAULT_LOCATION_ID)
+
   // user specific spaces suggestions
   const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: userTopics.map((t) => t.id),
         skillIds: userSkills.map((s) => s.id),
-        location: user?.location,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
@@ -57,30 +63,38 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
-        location:
-          (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
+        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geolocation : undefined,
         limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
 
   useEffect(() => {
-    if (!topics.length) return
+    if (!topics.length || !defaultGeolocation) return
 
     if (user) {
       fetchUserSpecifc()
     }
 
     fetchDefault()
-  }, [fetchUserSpecifc, fetchDefault, topics, user])
+  }, [fetchUserSpecifc, fetchDefault, topics, user, defaultGeolocation])
 
   useEffect(() => {
-    if (errorUserSpecific || errorDefault) {
-      displayError(errorUserSpecific, t('spaces.spaceListing.error'))
+    const anyError = errorUserSpecific || errorDefault || defaultGeolocationError
+    if (anyError) {
+      displayError(anyError, t('spaces.spaceListing.error'))
     }
-  }, [displayError, errorDefault, errorUserSpecific, t])
+  }, [displayError, errorDefault, errorUserSpecific, defaultGeolocationError, t])
 
-  if (loadingTopics || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
+  if (
+    loadingSkills ||
+    loadingTopics ||
+    !defaultGeolocation ||
+    loadingDefaultGeolocation ||
+    (!dataUserSpecific && loadingUserSpecific) ||
+    (!dataDefault && loadingDefaultData) ||
+    (!dataDefault && !dataUserSpecific)
+  ) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>
