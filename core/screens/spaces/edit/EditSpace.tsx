@@ -266,7 +266,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           <View style={styles.body}>
             <View style={mixins.container}>
               <SpaceMainImage
-                uri={space.cover}
+                source={{ uri: space.cover }}
                 label={space.title}
                 onPress={() => openEditModal(EditFields.COVER_IMAGE)}
                 editable
