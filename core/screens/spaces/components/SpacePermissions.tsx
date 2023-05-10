@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { Report as ReportButton } from '@holi/core/components/ActionDrawer/ReportButton'
+import { Report as ReportButton } from '@holi/core/components/ActionDrawer/Report'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ContentType } from '@holi/core/queries'
 import type { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/queries'
