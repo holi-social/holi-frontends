@@ -70,7 +70,6 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
             inline
             style={styles.footerButton}
             onPress={() => toggleConfirmationModal(true)}
-            testID="form-modal-cancel-btn"
           >
             {t('global.dismiss')}
           </HoliButton>

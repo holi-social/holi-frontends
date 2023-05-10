@@ -169,7 +169,6 @@ describe('@Spaces', () => {
 
   const assertDeletingSpace = async () => {
     // delete space
-    await tapOnElementWithTestId('space-edit-close')
     await tapOnElementWithTestId('space-options-btn')
     await tapOnElementWithTestId('space-delete-btn')
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
@@ -278,6 +277,7 @@ describe('@Spaces', () => {
     await clickModalSaveButton()
   }
 
+  // Appium has an issue with absolute positioned buttons and it's not tapping the save button, this is a worka round to tap based on coordinates
   const clickModalSaveButton = async () => {
     const SCREEN_SIZE = await Appium.getWindowRect()
     await Appium.touchAction({ action: 'tap', x: SCREEN_SIZE.width - 60, y: SCREEN_SIZE.height - 80 })
@@ -303,7 +303,6 @@ describe('@Spaces', () => {
 
     // save edited task
     await tapOnElementWithTestId('form-modal-save-btn')
-    // await expect(page.getByText(editedTaskTitle)).toBeVisible()
 
     // delete task
     await tapOnElementWithTestId('btn-task-more-options')

@@ -6,8 +6,7 @@ import { Platform } from 'react-native'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 const e2e = {
-  // userId: Constants.manifest?.extra?.environment !== 'production' && Constants.manifest?.extra?.e2e.userId,
-  userId: Constants.manifest?.extra?.environment !== 'production' && 'ad38aa51-b6b7-458c-a8d2-bc1ab8242096',
+  userId: Constants.manifest?.extra?.environment !== 'production' && Constants.manifest?.extra?.e2e.userId,
   testImage: require('@holi/ui/assets/img/illustrations/illustration_welcome.png'),
 }
 
