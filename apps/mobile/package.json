@@ -1,37 +1,4 @@
 {
-  "name": "@holi/mobile",
-  "version": "1.0.1",
-  "main": "index.js",
-  "resolutions": {
-    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
-  },
-  "workspaces": {
-    "nohoist": [
-      "@types/react",
-      "@types/react/**"
-    ]
-  },
-  "scripts": {
-    "prestart": "yarn workspace @holi/ui run generate-style-vars",
-    "preandroid": "yarn workspace @holi/ui run generate-style-vars",
-    "preios": "yarn workspace @holi/ui run generate-style-vars",
-    "preweb": "yarn workspace @holi/ui run generate-style-vars",
-    "prebuild": "yarn workspace @holi/ui run generate-style-vars",
-    "dev": "expo start",
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "build_all": "eas build --platform all",
-    "build_android": "eas build --platform android",
-    "build_android_apk": "eas build --platform android --profile preview",
-    "build_ios": "eas build --platform ios",
-    "build_ios_sim": "eas build --platform ios --profile simulator",
-    "lint": "TIMING=1 eslint .",
-    "eject": "expo eject",
-    "test": "echo 'unit testing goes here'",
-    "clean": "rimraf .expo",
-    "clean:all": "yarn clean && rimraf node_modules"
-  },
   "dependencies": {
     "@expo/config-plugins": "~6.0.0",
     "@formatjs/intl-locale": "^3.0.7",
@@ -104,5 +71,38 @@
     "typescript": "^4.6.3",
     "use-sync-external-store": "^1.1.0"
   },
-  "private": true
+  "main": "index.js",
+  "name": "@holi/mobile",
+  "private": true,
+  "resolutions": {
+    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
+  },
+  "scripts": {
+    "android": "expo start --android",
+    "build_all": "eas build --platform all",
+    "build_android": "eas build --platform android",
+    "build_android_apk": "eas build --platform android --profile preview",
+    "build_ios": "eas build --platform ios",
+    "build_ios_sim": "eas build --platform ios --profile simulator",
+    "clean": "rimraf .expo",
+    "clean:all": "yarn clean && rimraf node_modules",
+    "dev": "expo start",
+    "eject": "expo eject",
+    "ios": "expo start --ios",
+    "lint": "TIMING=1 eslint .",
+    "preandroid": "yarn workspace @holi/ui run generate-style-vars",
+    "prebuild": "yarn workspace @holi/ui run generate-style-vars",
+    "preios": "yarn workspace @holi/ui run generate-style-vars",
+    "prestart": "yarn workspace @holi/ui run generate-style-vars",
+    "preweb": "yarn workspace @holi/ui run generate-style-vars",
+    "start": "expo start",
+    "test": "echo 'unit testing goes here'"
+  },
+  "version": "1.0.1",
+  "workspaces": {
+    "nohoist": [
+      "@types/react",
+      "@types/react/**"
+    ]
+  }
 }

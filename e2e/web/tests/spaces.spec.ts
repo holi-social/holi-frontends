@@ -67,7 +67,7 @@ const testFiltering = async (page: Page) => {
   // check if the filtered spaces container is shown
   await page.waitForSelector(byTestId('filtered-spaces-container'))
 
-  // reset the filter and wait for it
+  // reset the filter and wait for unfiltered results
   await clickElementByTestId(page, 'spaces-filter-reset')
   await page.waitForSelector(byTestId('spaces-container'))
 }

@@ -209,7 +209,13 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   </HoliButton>
 
                   {!!heading && (
-                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                    <HoliHeading
+                      level="2"
+                      style={styles.title}
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      testID={`${testID}-heading`}
+                    >
                       {heading}
                     </HoliHeading>
                   )}
