@@ -6,7 +6,6 @@ import { Platform, StyleSheet } from 'react-native'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
-import DeleteOptionButton from '@holi/core/components/DeleteOptionButton'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -24,7 +23,6 @@ import {
   spaceByIdQuery,
 } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -128,16 +126,14 @@ const SpaceDetails = () => {
           />
 
           {isAdmin && (
-            <HoliBox padding={[18, 0]}>
-              <DeleteOptionButton
-                isLoading={loadingDeleteSpace}
-                itemTestID="space-delete-btn"
-                confirmationDesc={t('spaces.delete.confirmation.description')}
-                confirmationTitle={t('spaces.delete.confirmation.title')}
-                confirmationTestID="space-delete"
-                onDelete={handleSpaceDelete}
-              />
-            </HoliBox>
+            <ActionDrawer.Delete
+              isLoading={loadingDeleteSpace}
+              itemTestID="space-delete-btn"
+              confirmationDesc={t('spaces.delete.confirmation.description')}
+              confirmationTitle={t('spaces.delete.confirmation.title')}
+              confirmationTestID="space-delete"
+              onDelete={handleSpaceDelete}
+            />
           )}
         </ActionDrawer.Drawer>
       ),
