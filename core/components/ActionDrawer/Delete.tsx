@@ -5,13 +5,13 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface Props {
+export interface DeleteSpaceProps {
   confirmationDesc: string
   confirmationTitle: string
+  confirmationTestID: string
   isLoading: boolean
-  onDelete: () => void
-  itemTestID?: string
-  confirmationTestID?: string
+  itemTestID: string
+  handleDelete: () => void
 }
 
 export const Delete = ({
@@ -20,21 +20,16 @@ export const Delete = ({
   confirmationTestID,
   isLoading,
   itemTestID,
-  onDelete,
-}: Props) => {
+  handleDelete,
+}: DeleteSpaceProps) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-
-  const handleConfirmation = () => {
-    setShowConfirmationModal(false)
-    onDelete()
-  }
 
   return (
     <>
       <MoreOptionItem
         icon="delete"
-        label={t('confirmation.delete')}
+        label={t('global.delete')}
         onPress={() => setShowConfirmationModal(true)}
         tintColor={colors.error20}
         disabled={isLoading}
@@ -48,9 +43,12 @@ export const Delete = ({
         description={confirmationDesc}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('confirmation.dismiss')}
-        confirmText={t('spaces.delete.confirmation.confirm')}
+        confirmText={t('confirmation.confirm')}
         testID={confirmationTestID}
-        onConfirm={handleConfirmation}
+        onConfirm={() => {
+          setShowConfirmationModal(false)
+          handleDelete()
+        }}
       />
     </>
   )

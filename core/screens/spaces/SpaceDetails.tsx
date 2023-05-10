@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
@@ -7,7 +7,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import ActionDrawer from '@holi/core/components/ActionDrawer'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
+import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,19 +15,12 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import { ContentType } from '@holi/core/queries'
 import AddNewDrawer from '@holi/core/screens/spaces/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
-import {
-  DeleteSpaceResponse,
-  SpaceByIdResponse,
-  deleteSpaceMutation,
-  mySpaceQuery,
-  spaceByIdQuery,
-} from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
@@ -40,12 +33,11 @@ const SpaceDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
   const [currentTabIndex, setCurrentTabIndex] = useState<number>()
 
   const { setOptions } = useUnifiedNavigation()
-  const { displayError } = useErrorHandling()
-  const { openToast } = useToast()
+
   const { visible, show, hide } = useModalState()
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
@@ -54,29 +46,69 @@ const SpaceDetails = () => {
 
   const space = data?.spaceById
 
-  const [deleteSpace, { loading: loadingDeleteSpace }] = useMutation<DeleteSpaceResponse>(deleteSpaceMutation, {
-    variables: { id: space?.id },
-    onCompleted: () => {
-      openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
-    },
-    onError: (error) => displayError(error, t('spaces.delete.error')),
-    refetchQueries: [{ query: mySpaceQuery }],
-  })
-
-  const handleSpaceDelete = useCallback(async () => {
-    hide()
-    replaceRoute('/spaces/')
-
-    try {
-      await deleteSpace()
-    } catch (e) {
-      logError(e)
-    }
-  }, [deleteSpace, hide, replaceRoute])
+  const [isLoadingDeleteSpace, deleteSpace] = useDeleteSpace(space?.id || `${spaceIdOrName}`)
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const renderActionDrawer = useCallback(
+    () => (
+      <ActionDrawer.Drawer
+        label={t('insights.post.preview.more')}
+        showOptions={visible}
+        onPress={() => {
+          // if pressed too soon, the state is set to true, but the modal is not shown.
+          // crude mechanism to recover from this state.
+          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+          visible && hide()
+          show()
+        }}
+        onModalDismiss={hide}
+        testID="space-options-btn"
+      >
+        {isAdmin && (
+          <ActionDrawer.Edit
+            label={t('global.edit')}
+            onPress={() => {
+              navigate(`/spaces/${spaceIdOrName}/edit`)
+              hide()
+            }}
+          />
+        )}
+
+        {space && <ActionDrawer.Share slug={`/spaces/${space.name}`} title={space.title} />}
+
+        <ActionDrawer.Report
+          action="report"
+          objectId={space?.id || ''}
+          contentType={ContentType.SPACE}
+          confirmationModalProps={{
+            title: t('spaces.spaceDetails.report.confirmation.title'),
+            description: t('spaces.spaceDetails.report.confirmation.description'),
+          }}
+          successMessage={t('global.report.successMessage')}
+          onConfirm={hide}
+        />
+
+        {isAdmin && (
+          <ActionDrawer.Delete
+            isLoading={isLoadingDeleteSpace}
+            itemTestID="space-delete-btn"
+            confirmationDesc={t('spaces.delete.confirmation.description')}
+            confirmationTitle={t('spaces.delete.confirmation.title')}
+            confirmationTestID="space-delete"
+            handleDelete={() => {
+              hide()
+              navigate('/spaces')
+              deleteSpace()
+            }}
+          />
+        )}
+      </ActionDrawer.Drawer>
+    ),
+    [deleteSpace, hide, isAdmin, isLoadingDeleteSpace, navigate, show, space, spaceIdOrName, t, visible]
+  )
 
   useEffect(() => {
     setOptions({
@@ -86,76 +118,12 @@ const SpaceDetails = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: ({ tintColor }) => (
-        <ActionDrawer.Drawer
-          label={t('insights.post.preview.more')}
-          showOptions={visible}
-          onPress={() => {
-            // if pressed too soon, the state is set to true, but the modal is not shown.
-            // crude mechanism to recover from this state.
-            // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-            visible && hide()
-            show()
-          }}
-          onModalDismiss={hide}
-          tintColor={tintColor}
-          testID="space-options-btn"
-        >
-          {isAdmin && (
-            <ActionDrawer.Edit
-              label={t('global.edit')}
-              onPress={() => {
-                navigate(`/spaces/${spaceIdOrName}/edit`)
-                hide()
-              }}
-            />
-          )}
-
-          {space && <ActionDrawer.Share slug={`/spaces/${space.name}`} title={space.title} />}
-
-          <ActionDrawer.Report
-            action="report"
-            objectId={space?.id || ''}
-            contentType={ContentType.SPACE}
-            confirmationModalProps={{
-              title: t('spaces.spaceDetails.report.confirmation.title'),
-              description: t('spaces.spaceDetails.report.confirmation.description'),
-            }}
-            successMessage={t('global.report.successMessage')}
-            onConfirm={hide}
-          />
-
-          {isAdmin && (
-            <ActionDrawer.Delete
-              isLoading={loadingDeleteSpace}
-              itemTestID="space-delete-btn"
-              confirmationDesc={t('spaces.delete.confirmation.description')}
-              confirmationTitle={t('spaces.delete.confirmation.title')}
-              confirmationTestID="space-delete"
-              onDelete={handleSpaceDelete}
-            />
-          )}
-        </ActionDrawer.Drawer>
-      ),
+      headerRight: () => renderActionDrawer(),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [
-    hide,
-    show,
-    handleSpaceDelete,
-    isMember,
-    isAdmin,
-    loadingDeleteSpace,
-    navigate,
-    replaceRoute,
-    setOptions,
-    space,
-    spaceIdOrName,
-    t,
-    visible,
-  ])
+  }, [renderActionDrawer, setOptions])
 
   const handleTabChange = (index: number) => {
     global.spaceDetailInitialTabIndex = index
