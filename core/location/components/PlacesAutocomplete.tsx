@@ -41,7 +41,6 @@ export interface PlacesAutocompleteProps {
   helperText?: string
   style?: StyleProp<ViewStyle>
   suggestionsStyle?: StyleProp<ViewStyle>
-  nameOnly?: boolean
   value?: string
   level?: GeolocationLevel
   fetchDetailsOnClose?: boolean
@@ -64,7 +63,6 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       onClose,
       style,
       suggestionsStyle,
-      nameOnly,
       value,
       level,
       fetchDetailsOnClose,
@@ -168,7 +166,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         inputLabel={label}
         accessibilityLabel={label}
         placeholder={placeholder}
-        value={nameOnly ? selected?.label : value}
+        value={value}
         trailingIcon="search"
         inputProps={inputProps}
         onSubmit={submit}
