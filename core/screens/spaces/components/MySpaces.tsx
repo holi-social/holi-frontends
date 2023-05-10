@@ -44,17 +44,17 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
 
   const onboardingContentList: Array<OnboardingCard> = [
     {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
+      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.svg'),
       description: 'spaces.join.onboarding.slide1.description',
       instruction: 'spaces.edit.onboarding.instruction',
     },
     {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
+      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_2.svg'),
       description: 'spaces.join.onboarding.slide2.description',
       instruction: '',
     },
     {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
+      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_3.svg'),
       description: 'spaces.join.onboarding.slide3.description',
       instruction: '',
     },
@@ -132,6 +132,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 imageElement={<SpaceAvatar space={space} size="large" />}
                 users={space.members.data.map((membership) => membership.user)}
                 href={decodeURI(`/spaces/${space.name}`)}
+                type={section.type}
                 testID="space-link"
               />
             </View>
@@ -186,8 +187,6 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 8,
   },
-
-  // Onboarding
   onboardCardContainer: {
     padding: 24,
     borderWidth: 1,
