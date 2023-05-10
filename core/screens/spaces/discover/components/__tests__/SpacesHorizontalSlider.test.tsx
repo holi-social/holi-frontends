@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
+import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 
 describe('HoliSlider', () => {
   it('renders correctly', () => {

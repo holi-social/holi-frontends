@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
-import { spaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { spaces } from '@holi/core/screens/spaces/__tests__/testData'
+import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 
 describe('SpacesGrid', () => {
   it('renders correctly', () => {

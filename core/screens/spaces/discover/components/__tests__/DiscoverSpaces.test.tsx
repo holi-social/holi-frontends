@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
-import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import {
   authenticatedUserMock,
   defaultLocationDetailsMock,
@@ -11,8 +10,9 @@ import {
   sdgsMock,
   skillsMock,
   topicsMock,
-} from '@holi/core/screens/spaces/components/__tests__/mocks'
-import { authenticatedUser, spacesGroups } from '@holi/core/screens/spaces/components/__tests__/testData'
+} from '@holi/core/screens/spaces/__tests__/mocks'
+import { authenticatedUser, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
+import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/queries'

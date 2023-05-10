@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
-import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { space } from '@holi/core/screens/spaces/__tests__/testData'
+import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
 
 describe('SpaceWelcome', () => {
   it('renders correctly', () => {

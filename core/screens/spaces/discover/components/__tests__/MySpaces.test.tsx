@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
-import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
+import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 
 describe('MySpaces', () => {
   it('MySpaces shows all spaces of a user sorted by type (MEMBER, FOLLOWER, CREATOR)', () => {

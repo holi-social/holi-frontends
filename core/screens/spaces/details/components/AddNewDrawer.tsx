@@ -4,7 +4,9 @@ import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import ResourceCategoryTile, { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
+import ResourceCategoryTile, {
+  ResourceCategory,
+} from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'

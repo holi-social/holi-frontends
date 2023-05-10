@@ -2,7 +2,6 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import Spaces from '@holi/core/screens/spaces/Spaces'
 import {
   authenticatedUserMock,
   defaultLocationDetailsMock,
@@ -10,8 +9,9 @@ import {
   mySpacesWithEmptyResultMock,
   skillsMock,
   topicsMock,
-} from '@holi/core/screens/spaces/components/__tests__/mocks'
-import { mySpaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+} from '@holi/core/screens/spaces/__tests__/mocks'
+import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
+import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 

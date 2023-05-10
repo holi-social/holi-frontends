@@ -1,5 +1,5 @@
 import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
-import { authenticatedUser, locationId, topics } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { authenticatedUser, locationId, topics } from '@holi/core/screens/spaces/__tests__/testData'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { mySpaceQuery, sdgsQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
 import { authenticatedUserQuery, skillsQuery } from '@holi/core/screens/userprofile/queries'

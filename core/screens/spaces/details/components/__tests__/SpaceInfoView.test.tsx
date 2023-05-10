@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
-import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { space } from '@holi/core/screens/spaces/__tests__/testData'
+import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 
 describe('SpaceInfoView', () => {
   it('renders correctly', () => {

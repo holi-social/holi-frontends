@@ -2,8 +2,8 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
-import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { space } from '@holi/core/screens/spaces/__tests__/testData'
+import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 
 jest.useFakeTimers()
 

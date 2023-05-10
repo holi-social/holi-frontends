@@ -2,9 +2,9 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import { locationDetailsMock } from '@holi/core/screens/spaces/components/__tests__/mocks'
-import { spacesGroups } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
+import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
+import DiscoverSpacesView from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
 
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
