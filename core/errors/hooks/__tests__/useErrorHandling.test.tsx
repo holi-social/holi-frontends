@@ -6,6 +6,8 @@ import { Text } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+jest.unmock('@holi/ui/components/molecules/HoliToastProvider')
+
 type ErrorComponentProps = { message?: string }
 
 const ErrorComponent: React.VFC<ErrorComponentProps> = ({ message }) => {

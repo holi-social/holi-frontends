@@ -15,17 +15,6 @@ jest.mock('react-i18next', () => ({
   }),
 }))
 
-const mockOpenToast = jest.fn()
-jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
-  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
-  return {
-    ...original,
-    useToast: () => ({
-      openToast: mockOpenToast,
-    }),
-  }
-})
-
 const testFieldErrors: FieldErrors = {
   title: [
     { code: 'blank', message: 'Title may not be blank.' },
@@ -94,9 +83,12 @@ describe('useFieldErrors', () => {
       message: 'Bad user input',
     })
 
-    expect(mockOpenToast).toHaveBeenCalledTimes(2)
-    expect(mockOpenToast).toHaveBeenCalledWith('Title may not be blank. Title is too short.', HoliToastType.ERROR)
-    expect(mockOpenToast).toHaveBeenCalledWith('Description is too long.', HoliToastType.ERROR)
+    expect(global.mockOpenToast).toHaveBeenCalledTimes(2)
+    expect(global.mockOpenToast).toHaveBeenCalledWith(
+      'Title may not be blank. Title is too short.',
+      HoliToastType.ERROR
+    )
+    expect(global.mockOpenToast).toHaveBeenCalledWith('Description is too long.', HoliToastType.ERROR)
   })
 
   it('does not display toasts if all field errors are handled', () => {
@@ -107,7 +99,7 @@ describe('useFieldErrors', () => {
       message: 'Bad user input',
     })
 
-    expect(mockOpenToast).not.toHaveBeenCalled()
+    expect(global.mockOpenToast).not.toHaveBeenCalled()
   })
 
   it('displays toast for generic error if no field errors could be extracted', () => {
@@ -117,7 +109,7 @@ describe('useFieldErrors', () => {
       message: 'Internal server error',
     })
 
-    expect(mockOpenToast).toHaveBeenCalledTimes(1)
-    expect(mockOpenToast).toHaveBeenCalledWith('Internal server error', HoliToastType.ERROR)
+    expect(global.mockOpenToast).toHaveBeenCalledTimes(1)
+    expect(global.mockOpenToast).toHaveBeenCalledWith('Internal server error', HoliToastType.ERROR)
   })
 })

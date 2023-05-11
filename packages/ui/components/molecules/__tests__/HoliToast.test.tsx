@@ -4,6 +4,8 @@ import renderer from 'react-test-renderer'
 
 import HoliToast, { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
+jest.unmock('@holi/ui/components/molecules/HoliToastProvider')
+
 describe('renders correctly', () => {
   it('renders correctly when type is SUCCESS', () => {
     const tree = renderer

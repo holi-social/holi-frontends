@@ -54,6 +54,7 @@ enum EditFields {
 
 export type EditSpaceParams = {
   spaceIdOrName: string
+  onboarding: string
 }
 
 const { useParam } = createParam<EditSpaceParams>()
@@ -85,9 +86,9 @@ const onboardingContentList: Array<OnboardingCard> = [
 
 const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const [isOnboarding] = useParam('onboarding')
   const [editField, setEditField] = useState<EditFields | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [isOnboarding, setIsOnboarding] = useState<boolean>(true)
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -95,7 +96,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
 
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
@@ -115,11 +116,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { visible, show, hide } = useModalState()
 
   useEffect(() => {
-    if (!global.hasOwnSpaces) {
-      setIsOnboarding(!global.hasOwnSpaces)
+    if (isOnboarding) {
       show()
     }
-  }, [show])
+  }, [show, isOnboarding])
 
   const openEditModal = useCallback(
     (type: EditFields) => {
@@ -156,14 +156,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
-  const handleOnboardingModalClose = () => {
-    setIsOnboarding(false)
-    hide()
-  }
-
   const handleModalClose = () => {
     if (isOnboarding) {
-      setIsOnboarding(false)
+      // remove onboarding param to avoid going back to onboarding in case user clicks nav-button-back
+      replaceRoute(`/spaces/${space.name}/edit`)
     } else {
       setIsEdit(false)
     }
@@ -212,9 +208,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     return (
       <HoliModalContentWrapper
         actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={() => handleOnboardingModalClose()}
+        onActionButtonPress={handleModalClose}
         headlineText={t('spaces.edit.onboarding.header')}
-        testID={'space-onBoard-content'}
+        testID={'space-onboard-content'}
         style={[styles.modalContentWrapper]}
       >
         <HoliCarousel
@@ -399,7 +395,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <HoliModal
         show={visible}
         label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
-        onDismiss={() => handleModalClose()}
+        onDismiss={handleModalClose}
         relativeHeight={isEdit ? 1 : undefined}
         autoHeight={isEdit ? false : true}
         headerStyle={styles.modalHeader}

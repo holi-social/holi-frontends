@@ -38,7 +38,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
           <HoliHeading level="1" testID="user-profile-full-name">
             {fullName}
           </HoliHeading>
-          {(user.pronouns || user.location) && (
+          {(!!user.pronouns || !!user.location) && (
             <HoliText style={{ color: colors.foreground20 }}>
               {!!user.pronouns && `(${user.pronouns}) `}
               {!!user.location && `${user.location}`}

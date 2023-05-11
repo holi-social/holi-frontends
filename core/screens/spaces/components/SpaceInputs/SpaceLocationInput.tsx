@@ -44,7 +44,6 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
         validationErrorText={validationErrorText}
         helperText={location ? undefined : t('spaces.input.location.validation.helper')}
         suggestionsStyle={styles.suggestionsContainer}
-        withCoordinates
       />
     </View>
   )

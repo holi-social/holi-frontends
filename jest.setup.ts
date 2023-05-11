@@ -11,6 +11,7 @@ global.console = {
 }
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
+global.mockOpenToast = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')
@@ -38,6 +39,16 @@ jest.mock('@sentry/react-native', () => ({
 }))
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
+
+jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
+  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
+  return {
+    ...original,
+    useToast: () => ({
+      openToast: global.mockOpenToast,
+    }),
+  }
+})
 
 i18n.use(initReactI18next).init({
   lng: 'en',

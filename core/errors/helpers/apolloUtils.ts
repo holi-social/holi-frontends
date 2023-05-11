@@ -13,7 +13,7 @@ export const isErrorOfType = (error: Pick<ApolloError, 'graphQLErrors'>, errorCo
   error.graphQLErrors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code))
 
 export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): FieldErrors | undefined => {
-  const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions.errors
+  const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions?.errors
   try {
     return errors ? JSON.parse(errors) : undefined
   } catch (e) {

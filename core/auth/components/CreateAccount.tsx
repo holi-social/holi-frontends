@@ -1,7 +1,7 @@
 import { RegistrationFlow, SuccessfulNativeRegistration, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -70,6 +70,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {
       showLoader()
+      Keyboard.dismiss()
 
       try {
         const { data } = await newKratosSdk().updateRegistrationFlow({
@@ -115,7 +116,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   return (
     <HoliKeyboardSaveView>
-      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="always">
+      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}
