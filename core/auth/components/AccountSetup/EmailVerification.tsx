@@ -10,11 +10,12 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import { isDevelopment } from '@holi/core/auth/helpers/environment'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setUserLoggedIn } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -37,13 +38,11 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { userId } = useAuth()
+  const { isLoggedIn } = useLoggedInUser()
   const { logout } = useLogout()
   const { openToast } = useToast()
 
   const [code, setCode] = useState('')
-
-  const isUserLoggedIn = !!userId
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
@@ -59,7 +58,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         .catch((error) => {
           displayError(error, t('auth.login.error.login'))
           onDismiss()
-          isUserLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+          isLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
         })
     }
     // do only once
@@ -215,7 +214,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           <HoliButton
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
-              isUserLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
+              isLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
               onDismiss()
               navigate('/')
               setVerificationFlowData(undefined)

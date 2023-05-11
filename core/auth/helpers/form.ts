@@ -110,14 +110,14 @@ const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
   return !!(err as AxiosError).response
 }
 
-const isVerificationFlowErrorData = (errorData: VerificationFlow | unknown): errorData is VerificationFlow => {
+const isVerificationFlowWithErrorData = (errorData: VerificationFlow | unknown): errorData is VerificationFlow => {
   return !!errorData && typeof errorData === 'object' && 'type' in errorData
 }
 
 export const isUnverifiedUserError = (error: unknown) => {
   if (!isAxiosError(error)) return
   if (error.response?.status !== 400) return
-  if (!isVerificationFlowErrorData(error.response.data)) return
+  if (!isVerificationFlowWithErrorData(error.response.data)) return
 
   return error.response.data.ui.messages?.some(({ id }) => id === 4000010)
 }
