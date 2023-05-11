@@ -1,0 +1,71 @@
+// Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
+import type { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
+
+import {
+  getVerificationFlow,
+  initLoginFlow,
+  initVerificationFlow,
+  submitLoginFlow,
+  submitVerificationFlow,
+} from '@holi/core/auth/helpers/auth/helpers'
+import type { VerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+
+export const hasIdentifier = (
+  loginFlowBody: UpdateLoginFlowBody | VerificationFlowData
+): loginFlowBody is UpdateLoginFlowWithPasswordMethod => {
+  return 'identifier' in loginFlowBody
+}
+
+interface LoginOptions {
+  payload: UpdateLoginFlowWithPasswordMethod
+  flow?: LoginFlow
+  memoized?: boolean
+  onLoginError?: (error: unknown) => void
+  onLoginFlowError?: (error: unknown) => void
+}
+
+export const login = async ({
+  flow,
+  payload,
+  // default behaviour for Error callbacks to rethrow the error
+  onLoginError = (err) => {
+    throw err
+  },
+  onLoginFlowError = (err) => {
+    throw err
+  },
+}: LoginOptions) => {
+  try {
+    flow ??= await initLoginFlow()
+
+    try {
+      const { data } = await submitLoginFlow(flow, payload, undefined)
+      return data
+    } catch (error) {
+      onLoginFlowError(error)
+    }
+  } catch (error) {
+    onLoginError(error)
+  }
+}
+
+export const getOrCreateVerificationFlow = async (flowData?: VerificationFlowData) => {
+  if (!flowData) throw new Error('[Onboarding] no verification flow has been found')
+
+  if (hasIdentifier(flowData)) {
+    return resendVerificationEmail(flowData.identifier)
+  } else {
+    const { data } = await getVerificationFlow(flowData.id)
+    return data
+  }
+}
+
+export const resendVerificationEmail = async (email: string) => {
+  const flow = await initVerificationFlow()
+  return submitVerificationFlow({ flow: flow.data, email })
+}
+
+export const submitExistingVerificationFlow = async (flowId: string, code: string) => {
+  const flow = await getVerificationFlow(flowId)
+  return submitVerificationFlow({ flow: flow.data, code })
+}
