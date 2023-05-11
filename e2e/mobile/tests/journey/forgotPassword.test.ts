@@ -7,16 +7,6 @@ import {
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
 
-const submitForm = async () => {
-  // workaround: click submit button twice:
-  // the 1st one closes the keyboard
-  await tapOnElementWithTestId('ory-submit-link')
-  // the 2nd one submits the form.
-  if (await checkIfElementWithTestIdExists('ory-submit-link', 1000)) {
-    await tapOnElementWithTestId('ory-submit-link')
-  }
-}
-
 describe('@ForgotPassword', () => {
   // fails on ios: Couldn't tap on element with testID: ory-submit-password
   it('validates and submits the form', async () => {
@@ -33,12 +23,12 @@ describe('@ForgotPassword', () => {
     // validation message on invalid form
     await waitForElementWithTestId('ory-email-input')
     await fillFieldByTestId('ory-email-input', 'an-invalid-email')
-    await submitForm()
+    await tapOnElementWithTestId('ory-submit-link')
     await waitForElementWithTestId('ory-email-input-error-message')
 
     // valid email input and submission
     await fillFieldByTestId('ory-email-input', 'valid@mail.de')
-    await submitForm()
+    await tapOnElementWithTestId('ory-submit-link')
 
     // success view
     await waitForElementWithTestId('form-sent-headline')
