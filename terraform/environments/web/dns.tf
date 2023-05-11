@@ -11,7 +11,3 @@ output "app_domain" {
   value       = trimsuffix(google_dns_record_set.app_web_domain_record_set.name, ".")
   description = "Domain where the app resides"
 }
-
-output "goo" {
-  value = google_cloud_run_domain_mapping.app_web.status
-}
