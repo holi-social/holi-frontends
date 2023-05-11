@@ -63,6 +63,7 @@ export const userWithLocation = {
 const members = [1, 2, 3].map((id) => ({
   ...membership,
   id: `membership-${id}`,
+  __typename: 'SpaceMember',
 }))
 
 const pagedMembers: Paged<SpaceMember> = {
@@ -122,10 +123,18 @@ export const space: Space = {
   name: 'space-title',
 }
 
-export const spaces = [1, 2, 3].map((id) => ({
-  ...space,
-  id: `space-${id}`,
-}))
+export const createSpaceList = (length = 3) =>
+  [...Array(length)].map((_, index) => ({
+    ...space,
+    id: `space-${index}`,
+    members: {
+      ...space.members,
+      __typename: 'SpaceMemberPaged',
+    },
+    __typename: 'Space',
+  }))
+
+export const spaces = createSpaceList()
 
 export const spacesGroups: DiscoverSpacesGroup[] = [
   {

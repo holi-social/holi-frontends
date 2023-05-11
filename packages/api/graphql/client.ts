@@ -42,7 +42,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-const createCache = () =>
+export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
     typePolicies: {
@@ -118,10 +118,10 @@ const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: ['topicId', 'location', 'skillIds'],
+            keyArgs: ['topicSlug', 'geolocation', 'skillSlugs'],
           },
           discoverSpaces: {
-            keyArgs: ['topicIds', 'location', 'skillIds'],
+            keyArgs: ['topicIds', 'geolocation', 'skillIds'],
           },
         },
       },

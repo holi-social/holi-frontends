@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpaces'
+import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpacesPage'
 
 const FilteredSpacesPage: NextPage = () => <FilteredSpaces />
 

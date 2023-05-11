@@ -7,7 +7,6 @@ import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeader
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
-import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
@@ -21,38 +20,15 @@ import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type FilteredSpacesParams = {
-  topic?: string
-  location?: string
-  skill?: string[]
+interface FilteredSpacesProps extends SpaceFilter {
+  applyFilters: (filters: SpaceFilter) => void
 }
-
-const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
 const SPACES_PAGE_SIZE = 20
 
-const FilteredSpaces: React.VFC = () => {
-  const [topicSlug] = useParam('topic', singleParamConfig)
-  const [locationId] = useParam('location', singleParamConfig)
-  const [skillSlugs] = useParam('skill', arrayParamConfig)
-  const updateParams = useUpdateParams()
+const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-
-  const applyFilters = useCallback(
-    (filters: SpaceFilter) => {
-      if (!filters.topicSlug && !filters.locationId && !filters.skillSlugs?.length) {
-        navigate('/spaces')
-      } else {
-        updateParams({
-          topic: filters.topicSlug,
-          location: filters.locationId,
-          skill: filters.skillSlugs,
-        })
-      }
-    },
-    [updateParams, navigate]
-  )
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
