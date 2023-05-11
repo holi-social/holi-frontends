@@ -25,7 +25,7 @@ describe('renders correctly', () => {
 })
 
 describe('calls onPress prop function correctly', () => {
-  it('calls onPress prop when not disabled', () => {
+  it('calls onPress prop when not disabled', async () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(
       <HoliTabButton label="test" onPress={mockFn} testID="Tab">
@@ -33,11 +33,11 @@ describe('calls onPress prop function correctly', () => {
       </HoliTabButton>
     )
 
-    fireEvent.press(getByTestId('Tab'))
+    await fireEvent.press(getByTestId('Tab'))
     expect(mockFn).toBeCalledTimes(1)
   })
 
-  it('does not call onPress prop when disabled', () => {
+  it('does not call onPress prop when disabled', async () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(
       <HoliTabButton label="test" onPress={mockFn} testID="Tab" disabled>
@@ -45,7 +45,7 @@ describe('calls onPress prop function correctly', () => {
       </HoliTabButton>
     )
 
-    fireEvent.press(getByTestId('Tab'))
+    await fireEvent.press(getByTestId('Tab'))
     expect(mockFn).toBeCalledTimes(0)
   })
 })
