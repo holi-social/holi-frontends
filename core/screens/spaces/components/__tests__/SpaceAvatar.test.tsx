@@ -1,8 +1,8 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
+import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
 
 describe('React tree', () => {
   it('renders correctly', () => {
