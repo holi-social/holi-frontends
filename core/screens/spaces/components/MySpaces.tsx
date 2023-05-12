@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -18,13 +20,54 @@ export type MySpacesProps = {
   mySpaces: SpaceSection[]
   style?: StyleProp<ViewStyle>
 }
+
+export type OnboardSpaceParams = {
+  onboarding: string
+}
+
+const { useParam } = createParam<OnboardSpaceParams>()
+
+type OnboardingCard = {
+  image: StaticImageData
+  description: string
+  instruction: string
+}
+
+type OnboardCardProps = {
+  content: OnboardingCard
+}
+
+const onboardingContentList: Array<OnboardingCard> = [
+  {
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.svg'),
+    description: 'spaces.join.onboarding.slide1.description',
+    instruction: 'spaces.edit.onboarding.instruction',
+  },
+  {
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_2.svg'),
+    description: 'spaces.join.onboarding.slide2.description',
+    instruction: '',
+  },
+  {
+    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_3.svg'),
+    description: 'spaces.join.onboarding.slide3.description',
+    instruction: '',
+  },
+]
+
 const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
+  const [isOnboarding] = useParam('onboarding')
+  const { replaceRoute } = useRouting()
 
+  // needs to be changed that the modal is only shown once after the user has joined a space for the first time
+  // only for reviewing the onboarding card
   useEffect(() => {
-    show()
-  }, [show])
+    if (!isOnboarding) {
+      show()
+    }
+  }, [isOnboarding, show])
 
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
@@ -36,38 +79,11 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
     }
   })
 
-  type OnboardingCard = {
-    image: StaticImageData
-    description: string
-    instruction: string
-  }
-
-  const onboardingContentList: Array<OnboardingCard> = [
-    {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.svg'),
-      description: 'spaces.join.onboarding.slide1.description',
-      instruction: 'spaces.edit.onboarding.instruction',
-    },
-    {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_2.svg'),
-      description: 'spaces.join.onboarding.slide2.description',
-      instruction: '',
-    },
-    {
-      image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_3.svg'),
-      description: 'spaces.join.onboarding.slide3.description',
-      instruction: '',
-    },
-  ]
-
-  type OnboardCardProps = {
-    content: OnboardingCard
-  }
-  const handleOnboardingModalClose = () => {
-    hide()
-  }
-
   const handleModalClose = () => {
+    if (isOnboarding) {
+      // remove onboarding param to avoid going back to onboarding in case user clicks nav-button-back
+      replaceRoute('/spaces/')
+    }
     hide()
   }
 
@@ -95,10 +111,10 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
     return (
       <HoliModalContentWrapper
         actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={() => handleOnboardingModalClose()}
+        onActionButtonPress={() => handleModalClose()}
         headlineText={t('spaces.join.onboarding.header')}
         testID={'space-onBoard-content'}
-        style={[styles.modalContentWrapper]}
+        style={styles.modalContentWrapper}
       >
         <HoliCarousel
           marginHorizontal={20}
@@ -143,8 +159,8 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
         show={visible}
         label={t('spaces.edit.onboarding.header')}
         onDismiss={() => handleModalClose()}
-        autoHeight={true}
         headerStyle={styles.modalHeader}
+        style={styles.modal}
         testID="space-chips-modal"
       >
         <OnboardContent />
@@ -195,7 +211,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     backgroundColor: colors.background20,
-    height: '81%',
+    height: '100%',
+    flex: 1,
   },
   illustration: {
     marginBottom: 8,
@@ -217,11 +234,17 @@ const styles = StyleSheet.create({
         height: '100%',
       },
     }),
+
     backgroundColor: colors.background30,
   },
   carouselContainer: {
     width: '100%',
+    display: 'flex',
+    flex: 1,
     marginBottom: Platform.OS === 'web' ? 54 : 0,
+  },
+  modal: {
+    height: '75%',
   },
   modalHeader: {
     backgroundColor: colors.background30,
