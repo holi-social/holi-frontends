@@ -110,9 +110,6 @@ const assertResetFilterFromModal = async () => {
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 
-  // close keyboard
-  await tapOnElementWithTestId('donations-search-modal')
-
   // reset filter
   await tapOnElementWithTestId('donations-search-form-reset')
 
@@ -146,7 +143,7 @@ const filterForLocation = async (location: string) => {
   // submit form
   // Not using suggestions here, as they can not be easily identified and selected
   await pressEnter('donations-search-location-input')
-  await tapOnElementWithTestId('donations-search-modal-close-btn')
+  await tapOnElementWithTestId('donations-search-modal-content-close-btn')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')

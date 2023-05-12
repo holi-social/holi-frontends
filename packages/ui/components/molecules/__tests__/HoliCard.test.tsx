@@ -32,9 +32,9 @@ describe('HoliCard', () => {
     expect(getByTestId(`${props.testID}-cardImage`)).toBeTruthy
   })
 
-  it('calls onCardPress prop when click on card', () => {
+  it('calls onCardPress prop when click on card', async () => {
     const { getByTestId } = render(<HoliCard {...props} />)
-    fireEvent.press(getByTestId('holiCard'))
+    await fireEvent.press(getByTestId('holiCard'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

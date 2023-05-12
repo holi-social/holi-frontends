@@ -115,21 +115,6 @@ resource "google_cloud_run_domain_mapping" "app_web" {
   }
 }
 
-resource "google_cloud_run_domain_mapping" "mvp_web" {
-  project = google_cloud_run_service.mvp_web.project
-  # location needs to be the same as the service's
-  location = google_cloud_run_service.mvp_web.location
-  name     = local.project_holi_dns_name
-
-  metadata {
-    namespace = google_cloud_run_service.mvp_web.project
-  }
-
-  spec {
-    route_name = google_cloud_run_service.mvp_web.name
-  }
-}
-
 data "google_iam_policy" "mvp_web" {
   binding {
     role = "roles/run.invoker"

@@ -76,6 +76,11 @@ export const finishAccountSetup = async ({
   lastName?: string
   pronouns?: string
 } = {}) => {
+  // pass email verification
+  await waitForElementWithTestId('email-verification')
+  await fillFieldByTestId('email-verification-code-input', 'dummy!')
+  await tapOnElementWithTestId('btn-submit-code')
+
   // go through accound setup
   // Names step
   await waitForElementWithTestId('account-setup-names-step')
@@ -86,8 +91,6 @@ export const finishAccountSetup = async ({
   // provide user name
   await fillFieldByTestId('pronouns-input', pronouns)
   // submit name changes
-  // tap headline to hide keyboard
-  await tapOnElementWithTestId('account-setup-names-step-headline')
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   // Pre-success step
