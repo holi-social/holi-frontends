@@ -13,9 +13,9 @@ import {
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { authenticatedUser, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
+import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const discoverSpacesUserSpecificMock = {

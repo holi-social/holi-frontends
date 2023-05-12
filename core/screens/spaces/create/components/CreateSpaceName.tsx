@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
-import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/queries'
+import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 

@@ -5,7 +5,10 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
-import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import {
+  UpdateSpaceUserConnectionResponse,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'

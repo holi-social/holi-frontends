@@ -8,7 +8,7 @@ import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import FilteredSpaces from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
-import { spacesQuery } from '@holi/core/screens/spaces/queries'
+import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())

@@ -14,10 +14,9 @@ import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/D
 import {
   AddCollaborationToolResponse,
   AddCollaborationToolSchema,
-  SpaceByIdResponse,
   addCollaborationToolMutation,
-  spaceByIdQuery,
-} from '@holi/core/screens/spaces/queries'
+} from '@holi/core/screens/spaces/linkHub/mutations'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'

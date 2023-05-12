@@ -8,8 +8,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   DeleteCollaborationToolResponse,
   deleteCollaborationToolMutation,
-  spaceByIdQuery,
-} from '@holi/core/screens/spaces/queries'
+} from '@holi/core/screens/spaces/linkHub/mutations'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'

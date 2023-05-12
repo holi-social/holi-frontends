@@ -11,14 +11,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
-import {
-  CreateTaskResponse,
-  CreateTaskSchema,
-  SpaceByIdResponse,
-  createTaskMutation,
-  spaceByIdQuery,
-} from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
+import { CreateTaskResponse, CreateTaskSchema, createTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
