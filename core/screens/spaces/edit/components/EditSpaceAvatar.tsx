@@ -32,11 +32,17 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
 
   const { t } = useTranslation()
 
-  const onSave = () => avatar && updateSpace({ variables: { input: { id: space.id, avatar: avatar.blob } } })
+  const onSave = () => updateSpace({ variables: { input: { id: space.id, avatar: avatar?.blob ?? null } } })
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
-      <SpaceImageForm title={t('spaces.edit.avatar')} onUploadImage={handleImageUpload} image={avatar} />
+      <SpaceImageForm
+        title={t('spaces.edit.avatar')}
+        onUploadImage={handleImageUpload}
+        image={avatar}
+        currentImageUri={space.avatar}
+        previewVariant="avatar"
+      />
     </EditSpaceModal>
   )
 }
