@@ -123,10 +123,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           switch (id) {
             case 4070001:
             case 4070003:
-              displayError(
-                new Error('[Onboarding] on verification flow error occurred'),
-                t('registration.emailVerification.message.cannotActivate')
-              )
+              openToast(t('registration.emailVerification.message.cannotActivate'), HoliToastType.ERROR)
               break
 
             case 4070002:
@@ -134,17 +131,11 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
               break
 
             case 4070005:
-              displayError(
-                new Error('[Onboarding] on verification flow error occurred'),
-                t('registration.emailVerification.message.flowExpired')
-              )
+              openToast(t('registration.emailVerification.message.flowExpired'), HoliToastType.ERROR)
               break
 
             case 4070006:
-              displayError(
-                new Error('[Onboarding] on verification flow error occurred'),
-                t('registration.emailVerification.message.invalidCode')
-              )
+              openToast(t('registration.emailVerification.message.invalidCode'), HoliToastType.ERROR)
               break
 
             default:
