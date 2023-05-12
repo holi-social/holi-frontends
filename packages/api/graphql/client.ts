@@ -47,7 +47,7 @@ const alwaysReplacePolicy: TypePolicy = {
   merge: (existing, incoming) => incoming,
 }
 
-const createCache = () =>
+export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
     typePolicies: {
@@ -116,10 +116,10 @@ const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: ['topicId', 'location', 'skillIds'],
+            keyArgs: ['topicSlug', 'geolocation', 'skillSlugs'],
           },
           discoverSpaces: {
-            keyArgs: ['topicIds', 'location', 'skillIds'],
+            keyArgs: ['topicIds', 'geolocation', 'skillIds'],
           },
         },
       },
