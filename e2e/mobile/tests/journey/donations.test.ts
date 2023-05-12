@@ -110,9 +110,6 @@ const assertResetFilterFromModal = async () => {
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 
-  // close keyboard
-  await tapOnElementWithTestId('donations-search-modal')
-
   // reset filter
   await tapOnElementWithTestId('donations-search-form-reset')
 

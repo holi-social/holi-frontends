@@ -20,11 +20,11 @@ describe('renders correctly', () => {
 })
 
 describe('calls onDismiss prop function correctly', () => {
-  it('calls onDismiss prop when clicked on backdrop if modal is open', () => {
+  it('calls onDismiss prop when clicked on backdrop if modal is open', async () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(<HoliModal label="test" show={true} onDismiss={mockFn} testID="testmodal" />)
 
-    fireEvent.press(getByTestId('testmodal-backdrop'))
+    await fireEvent.press(getByTestId('testmodal-backdrop'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

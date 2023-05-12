@@ -14,9 +14,9 @@ describe('GoodNewsArticleComponent', () => {
     expect(screen.getByText('Test teaser')).toBeDefined()
   })
 
-  it('opens article url on button click', () => {
+  it('opens article url on button click', async () => {
     render(<GoodNewsArticleComponent article={article} />)
-    fireEvent.press(screen.getByTestId('btn-to-article-external'))
+    await fireEvent.press(screen.getByTestId('btn-to-article-external'))
     expect(mockOpenURL).toHaveBeenCalledWith('https://www.somenews.com/article')
   })
 })

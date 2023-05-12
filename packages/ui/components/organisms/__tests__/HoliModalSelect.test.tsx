@@ -48,9 +48,9 @@ describe('HoliModalSelect', () => {
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly when opened', () => {
+  it('renders correctly when opened', async () => {
     render(<HoliModalSelect {...defaultProps} />)
-    fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
+    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
     // test snapshot
@@ -59,26 +59,26 @@ describe('HoliModalSelect', () => {
 
   it('correctly selects an option', async () => {
     render(<ParentComponent />)
-    fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
+    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
 
     // select first option
     const firstOption = screen.getAllByTestId('item-holi-modal-select')[0]
-    fireEvent.press(firstOption)
+    await fireEvent.press(firstOption)
 
     // check the button has the correct value after modal is closed
     expect(screen.getByTestId('btn-holi-modal-select')).toHaveTextContent('Public')
 
     // ensure no other option is selected
-    fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
+    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     expect(screen.queryAllByTestId('checked-holi-modal-select').length).toBe(1)
 
     // check render correctly after selection
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly when opened in dense variant', () => {
+  it('renders correctly when opened in dense variant', async () => {
     render(<HoliModalSelect {...defaultProps} variant="dense" />)
-    fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
+    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
     expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
     // test snapshot

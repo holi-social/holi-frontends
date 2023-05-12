@@ -6,7 +6,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
-const onboardingValues = ['onboarding', 'accountSetup', 'finished'] as const
+const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const
 export type OnboardingStateValue = (typeof onboardingValues)[number]
 
 const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
@@ -33,6 +33,7 @@ export const useOnboarding = () => {
 
       switch (value) {
         case 'onboarding':
+        case 'emailVerification':
         case 'finished':
           onboardingStateVar(value)
           break

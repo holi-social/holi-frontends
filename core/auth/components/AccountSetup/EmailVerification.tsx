@@ -1,0 +1,250 @@
+import { VerificationFlow } from '@ory/kratos-client'
+import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, StyleSheet } from 'react-native'
+
+import HoliLoader, { useLoader } from '@holi//ui/components/molecules/HoliLoader'
+import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
+import client from '@holi/api/graphql/client'
+import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
+import { isDevelopment } from '@holi/core/auth/helpers/environment'
+import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { setUserLoggedIn } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useLogout } from '@holi/core/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+
+const VERIFICATION_ENABLED = !isDevelopment
+
+const CODE_MAX_COUNT = 6
+
+export interface EmailVerificationProps {
+  onDismiss: () => void
+  onSuccess: () => void
+}
+
+const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => {
+  const { t } = useTranslation()
+  const { navigate } = useRouting()
+  const { displayError } = useErrorHandling()
+  const { isLoaderShown, showLoader, hideLoader } = useLoader()
+  const { isLoggedIn } = useLoggedInUser()
+  const { logout } = useLogout()
+  const { openToast } = useToast()
+
+  const [code, setCode] = useState('')
+
+  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+
+  const verificationFlowData = useVerificationFlowData()
+  const [flow, setFlow] = useState<VerificationFlow | undefined>(undefined)
+
+  // get verification flow from Ory
+  useEffect(() => {
+    if (VERIFICATION_ENABLED) {
+      getOrCreateVerificationFlow(verificationFlowData)
+        .then(setFlow)
+        .catch((error) => {
+          displayError(error, t('auth.login.error.login'))
+          onDismiss()
+          isLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+        })
+    }
+    // do only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const resendEmail = async () => {
+    if (!VERIFICATION_ENABLED || !verificationFlowData || !flow) return false
+
+    try {
+      const email = hasIdentifier(verificationFlowData)
+        ? verificationFlowData.identifier
+        : verificationFlowData.verifiable_address
+
+      await submitVerificationFlow({ flow, email })
+      openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)
+    } catch (error) {
+      displayError(error, t('registration.emailVerification.message.emailResent.error'))
+    }
+
+    // prevent HoliTextLink default behaviour
+    return false
+  }
+
+  const handleSuccessfulVerification = async (
+    toastMessage: string = t('registration.emailVerification.message.activated')
+  ) => {
+    // if we came to Email Verification from Login page, login the user after successful activation
+    if (VERIFICATION_ENABLED && verificationFlowData && hasIdentifier(verificationFlowData)) {
+      const session = await login({
+        payload: verificationFlowData,
+      })
+      await client.clearStore()
+      await setUserLoggedIn(session as OrySessionContext)
+    }
+
+    openToast(toastMessage, HoliToastType.SUCCESS)
+    onSuccess()
+  }
+
+  const verifyEmail = async () => {
+    if (!VERIFICATION_ENABLED) {
+      await handleSuccessfulVerification()
+      return
+    }
+    if (!flow) return
+
+    showLoader()
+
+    try {
+      const {
+        ui: { messages },
+        state,
+      } = await submitVerificationFlow({ flow, code })
+
+      // on successful email verification
+      if (state === 'passed_challenge') {
+        await handleSuccessfulVerification()
+      } else if (state === 'sent_email') {
+        // on email verification error
+        messages?.forEach(async ({ id }) => {
+          switch (id) {
+            case 4070001:
+            case 4070003:
+              openToast(t('registration.emailVerification.message.cannotActivate'), HoliToastType.ERROR)
+              break
+
+            case 4070002:
+              await handleSuccessfulVerification(t('registration.emailVerification.message.alreadyActivated'))
+              break
+
+            case 4070005:
+              openToast(t('registration.emailVerification.message.flowExpired'), HoliToastType.ERROR)
+              break
+
+            case 4070006:
+              openToast(t('registration.emailVerification.message.invalidCode'), HoliToastType.ERROR)
+              break
+
+            default:
+              break
+          }
+        })
+        setCode('')
+      }
+    } catch (error) {
+      displayError(error, t('auth.login.error.login'))
+    } finally {
+      hideLoader()
+    }
+  }
+
+  return (
+    <HoliKeyboardSaveView>
+      <CenteredImageHeadlineDescriptionLayout
+        imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
+        imageLabelText={t('registration.emailVerification.activateAccount')}
+        headlineText={t('registration.emailVerification.heading')}
+        descriptionText={t('registration.emailVerification.description')}
+        testID="email-verification"
+        ref={scrollViewRef}
+      >
+        <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
+        <HoliTextInput
+          value={code}
+          onChange={setCode}
+          placeholder={t('registration.emailVerification.inputPlaceholder')}
+          accessibilityLabel={t('registration.emailVerification.inputLabel')}
+          maxNoOfCharacters={CODE_MAX_COUNT}
+          showCharacterCount
+          inputProps={{
+            keyboardType: 'numeric',
+          }}
+          style={[styles.limitedBox, { alignSelf: 'center' }]}
+          testID="email-verification-code"
+          {...scrollToInputWithId('code')}
+        />
+
+        <HoliBox padding={[16, 0, 0, 0]}>
+          <HoliTextLink
+            label={t('registration.emailVerification.resendEmail')}
+            href="/"
+            onPress={resendEmail}
+            variant="secondary"
+            size="small"
+          >
+            {t('registration.emailVerification.resendEmail')}
+          </HoliTextLink>
+        </HoliBox>
+
+        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+          <HoliButton
+            label={t('registration.emailVerification.activateAccount')}
+            disabled={code.length !== CODE_MAX_COUNT}
+            onPress={verifyEmail}
+            type="primary"
+            testID="btn-submit-code"
+          >
+            {t('registration.emailVerification.activateAccount')}
+          </HoliButton>
+        </HoliBox>
+
+        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+          <HoliButton
+            label={t('auth.loginProtection.continueAsGuest')}
+            onPress={async () => {
+              isLoggedIn && (await logout({ redirectPath: '/' }).catch(() => null)) // ignore logout error
+              onDismiss()
+              navigate('/')
+              setVerificationFlowData(undefined)
+            }}
+            type="secondary"
+            testID="btn-to-continue-as-guest"
+          >
+            {t('auth.loginProtection.continueAsGuest')}
+          </HoliButton>
+        </HoliBox>
+
+        {isLoaderShown && <HoliLoader />}
+      </CenteredImageHeadlineDescriptionLayout>
+    </HoliKeyboardSaveView>
+  )
+}
+
+const styles = StyleSheet.create({
+  inner: {
+    alignItems: 'center',
+    maxWidth: vars.breakpointL,
+  },
+  imageContainer: {
+    alignItems: 'center',
+  },
+  headline: {
+    fontWeight: '400',
+    textAlign: 'center',
+    marginTop: 64,
+  },
+  description: {
+    color: colors.foreground20,
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  limitedBox: {
+    maxWidth: vars.breakpointS,
+    width: '100%',
+  },
+})
+
+export default EmailVerification

@@ -16,7 +16,7 @@ describe('GoodNewsTeaserComponent', () => {
 
   it('fetching more on button click', async () => {
     render(<GoodNewsTeaserComponent article={article} fetchMore={memoizedFetchMore} />)
-    fireEvent.press(screen.getByTestId('btn-goodnews-list-load-more'))
+    await fireEvent.press(screen.getByTestId('btn-goodnews-list-load-more'))
 
     // timeout is needed because of animation
     await new Promise((resolve) => setTimeout(resolve, 1000))

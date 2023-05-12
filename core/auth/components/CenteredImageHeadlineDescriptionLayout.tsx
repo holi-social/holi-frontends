@@ -1,60 +1,67 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import CenteredContentLayout, { CenteredContentLayoutProps } from '@holi/core/components/CenteredContentLayout'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
-export interface CenteredImageHeadlineDescriptionLayoutProps {
-  append?: React.ReactNode
+export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
   imageSource: StaticImageData
   imageLabelText: string
   headlineText: string
   descriptionText: string
-  contentContainerStyle?: StyleProp<ViewStyle>
   contentStyle?: StyleProp<ViewStyle>
-  testID?: string
 }
 
-const CenteredImageHeadlineDescriptionLayout = ({
-  children,
-  append,
-  imageSource,
-  imageLabelText,
-  headlineText,
-  descriptionText,
-  contentContainerStyle,
-  contentStyle,
-  testID = 'centered-layout',
-}: React.PropsWithChildren<CenteredImageHeadlineDescriptionLayoutProps>) => {
-  return (
-    <CenteredContentLayout append={append} contentContainerStyle={contentContainerStyle} testID={testID}>
-      <View style={[styles.inner, contentStyle]}>
-        <View style={styles.imageContainer}>
-          <HoliLocalImage
-            imageSource={imageSource}
-            isSvg
-            width={251}
-            height={181}
-            label={imageLabelText}
-            resizeMode="contain"
-          />
+const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
+  ScrollView,
+  React.PropsWithChildren<CenteredImageHeadlineDescriptionLayoutProps>
+>(
+  (
+    {
+      children,
+      imageSource,
+      imageLabelText,
+      headlineText,
+      descriptionText,
+      contentStyle,
+      testID = 'centered-layout',
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <CenteredContentLayout {...props} ref={ref} testID={testID}>
+        <View style={[styles.inner, contentStyle]}>
+          <View style={styles.imageContainer}>
+            <HoliLocalImage
+              imageSource={imageSource}
+              isSvg
+              width={251}
+              height={181}
+              label={imageLabelText}
+              resizeMode="contain"
+            />
+          </View>
+
+          <HoliHeading level="1" size="medium" style={styles.headline} testID={`${testID}-headline`}>
+            {headlineText}
+          </HoliHeading>
+
+          <HoliText style={styles.description}>{descriptionText}</HoliText>
         </View>
 
-        <HoliHeading level="1" size="medium" style={styles.headline} testID={`${testID}-headline`}>
-          {headlineText}
-        </HoliHeading>
+        {children}
+      </CenteredContentLayout>
+    )
+  }
+)
 
-        <HoliText style={styles.description}>{descriptionText}</HoliText>
-      </View>
-
-      {children}
-    </CenteredContentLayout>
-  )
-}
+CenteredImageHeadlineDescriptionLayout.displayName = 'CenteredImageHeadlineDescriptionLayout'
 
 const styles = StyleSheet.create({
   inner: {

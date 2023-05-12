@@ -23,13 +23,13 @@ describe('renders correctly', () => {
 })
 
 describe('calls closeToast correctly', () => {
-  it('calls closeToast when clicked', () => {
+  it('calls closeToast when clicked', async () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(
       <HoliToast testID="test" text="test" id="test" type={HoliToastType.ERROR} closeToast={mockFn} />
     )
 
-    fireEvent.press(getByTestId('toast-test'))
+    await fireEvent.press(getByTestId('toast-test'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })
