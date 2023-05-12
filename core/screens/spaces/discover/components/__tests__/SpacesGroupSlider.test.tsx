@@ -88,7 +88,7 @@ describe('SpacesGroupSlider', () => {
     expect(queryByTestId('spaces-group-slider-see-more')).toBeFalsy()
   })
 
-  it('navigates to topic filter screen if there is more to see', () => {
+  it('navigates to topic filter screen if there is more to see', async () => {
     const pagedSpacesSeeMore: Paged<Space> = {
       totalResults: 20, // more than spaces page size
       data: spaces,
@@ -101,23 +101,23 @@ describe('SpacesGroupSlider', () => {
 
     const { getByTestId } = renderGroup(group)
 
-    fireEvent.press(getByTestId('spaces-group-slider-see-more'))
+    await fireEvent.press(getByTestId('spaces-group-slider-see-more'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
   })
 
-  it('navigates to topic filter screen if the user clicks the topic pill', () => {
+  it('navigates to topic filter screen if the user clicks the topic pill', async () => {
     const { getByTestId } = renderGroup(groupWithTopicId)
 
-    fireEvent.press(getByTestId('spaces-topic-title'))
+    await fireEvent.press(getByTestId('spaces-topic-title'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
   })
 
-  it('navigates to skill filter screen if the user clicks the skill pill', () => {
+  it('navigates to skill filter screen if the user clicks the skill pill', async () => {
     const { getByTestId } = renderGroup(groupWithSkillId)
 
-    fireEvent.press(getByTestId('spaces-skill-title'))
+    await fireEvent.press(getByTestId('spaces-skill-title'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?skill=skill-1')
   })

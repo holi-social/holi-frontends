@@ -54,7 +54,7 @@ it('should display truncated and full text from children', async () => {
     `"Infinite Scroll. Swipe, swipe, scroll down. Endless feeds without a frown .Likes and hearts and retweets to. Endless scrolling, what to do? A world of data, at our fingertips. Information flows, never skips. The internet,a boundless space. A virtual world we can embrace. From screens to apps, to cloud and more. Technology opens up the door. To new ideas, new ways to connect. A futu... "`
   )
 
-  fireEvent.press(btn)
+  await fireEvent.press(btn)
   const [readLessPath] = btn.children
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
   expect(readLessPath).toBe('component.readMore.readLess')

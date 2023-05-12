@@ -179,7 +179,7 @@ describe('Space follow button', () => {
     await waitFor(() => expect(screen.getByTestId('follow-btn')).not.toBeDisabled(), {
       timeout: 5000,
     })
-    fireEvent.press(await screen.getByTestId('follow-btn'))
+    await fireEvent.press(await screen.getByTestId('follow-btn'))
     expect(await followSpaceMutation.newData).toHaveBeenCalled()
   })
 

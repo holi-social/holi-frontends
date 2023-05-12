@@ -9,6 +9,7 @@ import {
   UiNodeImageAttributes,
   UiNodeInputAttributes,
   UiNodeTextAttributes,
+  VerificationFlow,
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
@@ -109,6 +110,18 @@ const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
   return !!(err as AxiosError).response
 }
 
+const isVerificationFlowWithErrorData = (errorData: VerificationFlow | unknown): errorData is VerificationFlow => {
+  return !!errorData && typeof errorData === 'object' && 'type' in errorData
+}
+
+export const isUnverifiedUserError = (error: unknown) => {
+  if (!isAxiosError(error)) return
+  if (error.response?.status !== 400) return
+  if (!isVerificationFlowWithErrorData(error.response.data)) return
+
+  return error.response.data.ui.messages?.some(({ id }) => id === 4000010)
+}
+
 export const handleFormSubmitError = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setFlow: (p: any) => void,
@@ -118,7 +131,7 @@ export const handleFormSubmitError = (
 ) => {
   if (isAxiosError(err)) {
     switch (err.response?.status) {
-      case 400:
+      case 400: {
         if (typeof err.response.data.error === 'object') {
           logError(err.response, '[auth/helpers/form.ts] 400 error')
         }
@@ -128,6 +141,7 @@ export const handleFormSubmitError = (
         // With this data, the view can display the errors.
         setFlow(err.response.data)
         return
+      }
       // case 403:
       //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
       //   if (err.response.data.error.id === 'session_refresh_required') {

@@ -87,10 +87,10 @@ describe('renders correctly', () => {
     expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
   })
 
-  it('resets error to retry rendering', () => {
+  it('resets error to retry rendering', async () => {
     const { getByText, queryByText } = render(<ErrorOnFirstRenderComponent />)
 
-    fireEvent.press(getByText('error.errorBoundary.retry'))
+    await fireEvent.press(getByText('error.errorBoundary.retry'))
 
     expect(queryByText('Child Content')).toBeTruthy()
     expect(queryByText('global.technicalError')).toBeFalsy()
