@@ -100,7 +100,6 @@ export const submitVerificationFlow = async ({
     flow: flow.id,
     token: code,
     updateVerificationFlowBody: {
-      flow: flow.id,
       method: 'code',
       email,
       code,
