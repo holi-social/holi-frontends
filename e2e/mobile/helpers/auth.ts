@@ -79,6 +79,7 @@ export const finishAccountSetup = async ({
   // pass email verification
   await waitForElementWithTestId('email-verification')
   await fillFieldByTestId('email-verification-code-input', 'dummy!')
+  await waitForElementWithTestId('email-verification-headline')
   await tapOnElementWithTestId('btn-submit-code')
 
   // go through accound setup
