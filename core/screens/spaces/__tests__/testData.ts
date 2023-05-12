@@ -124,7 +124,7 @@ export const space: Space = {
 }
 
 export const createSpaceList = (length = 3) =>
-  [...Array(length)].map((_, index) => ({
+  Array.from({ length }, (_, index) => ({
     ...space,
     id: `space-${index}`,
     members: {
