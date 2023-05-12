@@ -15,6 +15,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import React from 'react'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/provider/PortalProvider'
@@ -290,7 +291,7 @@ export default HoliMentionsPlugin
  *  => 'Hello @0001'
  */
 export const $getPureTextFromHtml = (htmlString: string): string => {
-  if (!document) throw new Error('[HoliMentionsPlugin] No web context.')
+  if (!document) throw new HoliError('[HoliMentionsPlugin] No web context.')
   const ele = document.createElement('div')
   ele.innerHTML = htmlString.replaceAll('<br>', '[br]')
   const pureText = ele.textContent?.replaceAll('[br]', '\n') || ''

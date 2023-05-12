@@ -1,3 +1,5 @@
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+
 import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 import { delay } from './time'
 
@@ -148,7 +150,7 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
     await Appium.touchAction({ element, action: 'tap' })
     return element
   } catch (err) {
-    throw new Error("Couldn't tap on element with testID: " + testId)
+    throw new HoliError("Couldn't tap on element with testID: " + testId)
   }
 }
 
@@ -167,7 +169,7 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
     await element.setValue(value)
     return element
   } catch (err) {
-    throw new Error("Couldn't fill field with testID: " + testId)
+    throw new HoliError("Couldn't fill field with testID: " + testId)
   }
 }
 

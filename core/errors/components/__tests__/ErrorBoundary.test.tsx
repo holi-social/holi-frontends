@@ -3,6 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
 type ErrorComponentProps = {
@@ -11,7 +12,7 @@ type ErrorComponentProps = {
 
 const ErrorComponent: React.VFC<ErrorComponentProps> = ({ throwError = true }) => {
   if (throwError) {
-    throw new Error('Test')
+    throw new HoliError('Test')
   }
 
   return <Text>Child Content</Text>
@@ -64,10 +65,10 @@ describe('renders correctly', () => {
 
     expect(console.warn).toHaveBeenCalledWith(
       '[logError.ts] [ErrorBoundary.tsx]:',
-      new Error('Test'),
+      new HoliError('Test'),
       expect.any(String)
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'))
   })
 
   it('logs and tracks error with sentry', () => {
@@ -81,10 +82,10 @@ describe('renders correctly', () => {
 
     expect(console.error).toHaveBeenCalledWith(
       '[logError.ts] [ErrorBoundary.tsx]:',
-      new Error('Test'),
+      new HoliError('Test'),
       expect.any(String)
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'))
   })
 
   it('resets error to retry rendering', async () => {
