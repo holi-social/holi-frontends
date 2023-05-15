@@ -27,11 +27,15 @@ export const calcPixelRatioSize = (value: number): number => {
   return PixelRatio.getPixelSizeForLayoutSize(value)
 }
 
+/** @description Checks if `uri` of ImageSource | ImageURISource is Base64 */
+export const isImageSourceURIBase64 = ({ uri }: ImageSource | ImageURISource) => !!uri?.startsWith('data:image')
+
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSource | ImageURISource => {
   if (!source.uri) return source
   if (!source.width && !source.height) return source
+  if (isImageSourceURIBase64(source)) return source
 
   try {
     const url = new URL(source.uri)
