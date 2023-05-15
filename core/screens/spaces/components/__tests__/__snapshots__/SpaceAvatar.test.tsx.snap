@@ -47,7 +47,7 @@ exports[`React tree renders correctly 1`] = `
       {
         "accessibilityLabel": "Space title",
         "accessible": true,
-        "contentFit": "contain",
+        "contentFit": "cover",
         "contentPosition": {
           "left": "50%",
           "top": "50%",

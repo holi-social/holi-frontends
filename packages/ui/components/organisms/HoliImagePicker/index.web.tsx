@@ -10,6 +10,7 @@ const HoliImagePicker = ({
   buttonProps,
   onPickImage,
   maxFileSizeInMB,
+  multiple = false,
 }: React.PropsWithChildren<HoliImagePickerProps>) => {
   const isFileSizeValid = useFileSizeValidation()
   const imageInputNode = useRef<HTMLInputElement>(null)
@@ -50,7 +51,14 @@ const HoliImagePicker = ({
 
   return (
     <>
-      <input type="file" accept="image/*" style={{ display: 'none' }} ref={imageInputNode} onChange={onChangeHandler} />
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        ref={imageInputNode}
+        onChange={onChangeHandler}
+        multiple={multiple}
+      />
 
       <HoliButton {...buttonProps} onPress={pickImageHandler}>
         {children}

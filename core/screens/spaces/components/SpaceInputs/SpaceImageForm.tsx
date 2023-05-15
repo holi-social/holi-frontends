@@ -6,7 +6,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -14,8 +14,8 @@ export type SpaceImageFormProps = {
   title?: string
   description?: string
   instructions?: string
-  onUploadImage: (image: ImageInfo | undefined) => void
-  image: ImageInfo | undefined
+  onUploadImage: (image: HoliImageInfo | undefined) => void
+  image: HoliImageInfo | undefined
   currentImageUri?: string
   style?: ViewStyle
   previewVariant?: string

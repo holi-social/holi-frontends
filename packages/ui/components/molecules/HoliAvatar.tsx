@@ -61,7 +61,7 @@ const HoliAvatar = ({
       ]}
     >
       {hasImage ? (
-        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="contain" />
+        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="cover" />
       ) : (
         <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
