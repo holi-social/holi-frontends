@@ -10,12 +10,11 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import { isDevelopment } from '@holi/core/auth/helpers/environment'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn } from '@holi/core/auth/helpers/useAuth'
+import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -24,7 +23,7 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const VERIFICATION_ENABLED = !isDevelopment
+const VERIFICATION_ENABLED = true || !isDevelopment // TODO: remove `true && ` to enable feature toggle after PO review
 
 const CODE_MAX_COUNT = 6
 
@@ -38,7 +37,8 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { isLoggedIn } = useLoggedInUser()
+  const userId = useAuth()
+  const isLoggedIn = !!userId
   const { logout } = useLogout()
   const { openToast } = useToast()
 
@@ -57,8 +57,8 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
         .then(setFlow)
         .catch((error) => {
           displayError(error, t('auth.login.error.login'))
-          onDismiss()
           isLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+          onDismiss()
         })
     }
     // do only once
