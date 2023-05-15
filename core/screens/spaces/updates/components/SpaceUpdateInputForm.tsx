@@ -6,18 +6,18 @@ import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
 export interface SpaceUpdateInputFormProps {
   onChangeVisibility: (_: HoliModalSelectOption) => void
   onChangeTitle: (title: string) => void
   onChangeContent: (title: string) => void
-  onUploadImage: (image: ImageInfo | undefined) => void
+  onUploadImage: (image: HoliImageInfo | undefined) => void
   visibility?: HoliModalSelectOption
   title: string
   content: string
-  image: ImageInfo | undefined
+  image: HoliImageInfo | undefined
 }
 
 const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({

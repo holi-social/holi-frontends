@@ -107,7 +107,7 @@ exports[`NotificationSpaceConnectionItem.tsx matches snapshot 1`] = `
                 {
                   "accessibilityLabel": "Foo",
                   "accessible": true,
-                  "contentFit": "contain",
+                  "contentFit": "cover",
                   "contentPosition": {
                     "left": "50%",
                     "top": "50%",

@@ -7,7 +7,7 @@ import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceM
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 type EditSpaceAvatarProps = {
   space: Space
@@ -15,10 +15,10 @@ type EditSpaceAvatarProps = {
 }
 
 const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: EditSpaceAvatarProps) => {
-  const [avatar, setAvatar] = useState<ImageInfo | undefined>()
+  const [avatar, setAvatar] = useState<HoliImageInfo | undefined>()
   const { openToast } = useToast()
 
-  const handleImageUpload = (image: ImageInfo | undefined) => {
+  const handleImageUpload = (image: HoliImageInfo | undefined) => {
     setAvatar(image)
   }
 
