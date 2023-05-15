@@ -1,6 +1,6 @@
 import { getInfoAsync } from 'expo-file-system'
 import {
-  ImageInfo,
+  ImagePickerAsset,
   ImagePickerOptions,
   PermissionStatus,
   launchImageLibraryAsync,
@@ -14,7 +14,7 @@ import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePi
 export type HoliImagePickerOptions = ImagePickerOptions & { maxFileSizeInMB?: number }
 
 export const useMediaLibraryImagePicker = () => {
-  const [image, setImage] = useState<ImageInfo>()
+  const [images, setImages] = useState<ImagePickerAsset[]>([])
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
   const isFileSizeValid = useFileSizeValidation()
   const { displayError } = useErrorHandling()
@@ -36,7 +36,7 @@ export const useMediaLibraryImagePicker = () => {
     return true
   }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError])
 
-  const pickImage = useCallback(
+  const pickImages = useCallback(
     async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {
       const hasPermission = await verifyPermissions()
 
@@ -44,18 +44,18 @@ export const useMediaLibraryImagePicker = () => {
 
       const image = await launchImageLibraryAsync(pickerOptions)
 
-      if (image.cancelled) {
+      if (image.canceled) {
         return
       }
 
       if (maxFileSizeInMB) {
-        const fileInfo = await getInfoAsync(image.uri)
-        if (!isFileSizeValid({ fileSize: fileInfo.size, maxFileSizeInMB })) {
+        const fileInfo = await getInfoAsync(image.assets[0].uri)
+        if ('size' in fileInfo && !isFileSizeValid({ fileSize: fileInfo.size, maxFileSizeInMB })) {
           return
         }
       }
 
-      setImage(image)
+      setImages(image.assets)
 
       return image
     },
@@ -63,7 +63,7 @@ export const useMediaLibraryImagePicker = () => {
   )
 
   return {
-    image,
-    pickImage,
+    images,
+    pickImages,
   }
 }

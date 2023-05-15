@@ -20,7 +20,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -44,7 +44,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
   //input fields
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [image, setImage] = useState<ImageInfo | undefined>()
+  const [image, setImage] = useState<HoliImageInfo | undefined>()
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
 
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -109,7 +109,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
     setContent(content)
   }
 
-  const onChangeImage = (image: ImageInfo | undefined) => {
+  const onChangeImage = (image: HoliImageInfo | undefined) => {
     setImage(image)
   }
   if (errorSpace) {
