@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
+import React, { Suspense, memo, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -67,6 +67,8 @@ const UserProfile = () => {
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
+
+  const [hasInsights, setHasInsights] = useState<boolean>(true)
 
   const { setOptions } = useUnifiedNavigation()
   const { visible, show, hide } = useModalState()
@@ -209,9 +211,14 @@ const UserProfile = () => {
           },
           {
             title: t('profile.tabs.insight'),
+            visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+                <InsightsTab
+                  emptyText={t('profile.tabs.insight.empty')}
+                  userId={user.id}
+                  setHasInsights={setHasInsights}
+                />
               </Suspense>
             ),
           },

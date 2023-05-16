@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -31,6 +31,8 @@ const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/com
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  const [hasInsights, setHasInsights] = useState<boolean>(true)
 
   return (
     <>
@@ -95,9 +97,14 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
           },
           {
             title: t('profile.tabs.insight'),
+            visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+                <InsightsTab
+                  emptyText={t('profile.tabs.insight.empty')}
+                  userId={user.id}
+                  setHasInsights={setHasInsights}
+                />
               </Suspense>
             ),
           },
