@@ -24,7 +24,7 @@ import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -53,7 +53,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
-  const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')

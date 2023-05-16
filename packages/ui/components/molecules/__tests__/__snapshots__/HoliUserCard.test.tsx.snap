@@ -51,7 +51,7 @@ exports[`HoliUserCard renders correctly 1`] = `
         {
           "accessibilityLabel": "Dima Rosmait",
           "accessible": true,
-          "contentFit": "contain",
+          "contentFit": "cover",
           "contentPosition": {
             "left": "50%",
             "top": "50%",
@@ -173,7 +173,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
           {
             "accessibilityLabel": "Dima Rosmait",
             "accessible": true,
-            "contentFit": "contain",
+            "contentFit": "cover",
             "contentPosition": {
               "left": "50%",
               "top": "50%",
