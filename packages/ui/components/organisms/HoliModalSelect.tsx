@@ -54,7 +54,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense, description)
+  const styles = getStyles(isDense, !!description)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 

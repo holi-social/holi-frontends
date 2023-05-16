@@ -10,9 +10,12 @@ export const useShareSpace = (title: string, slug: string): UseShareSpace => {
   const { displayError } = useErrorHandling()
 
   useEffect(() => {
-    import('expo-linking').then((Linking) => {
-      url.current = Linking.createURL(slug)
-    })
+    // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
+    if (!process?.env?.JEST_WORKER_ID) {
+      import('expo-linking').then((Linking) => (url.current = Linking.createURL(slug)))
+    } else {
+      url.current = slug
+    }
   }, [slug])
 
   const shareSpaceMobile = useCallback(async () => {
