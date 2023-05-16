@@ -76,13 +76,6 @@ export const finishAccountSetup = async ({
   lastName?: string
   pronouns?: string
 } = {}) => {
-  // pass email verification
-  await waitForElementWithTestId('email-verification')
-  await fillFieldByTestId('email-verification-code-input', 'dummy!')
-  await waitForElementWithTestId('email-verification-headline')
-  await tapOnElementWithTestId('email-verification-headline') // close keyboard
-  await tapOnElementWithTestId('btn-submit-code')
-
   // go through accound setup
   // Names step
   await waitForElementWithTestId('account-setup-names-step')
