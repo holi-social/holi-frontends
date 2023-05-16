@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -16,7 +16,9 @@ export type SpaceImageFormProps = {
   instructions?: string
   onUploadImage: (image: HoliImageInfo | undefined) => void
   image: HoliImageInfo | undefined
+  currentImageUri?: string
   style?: ViewStyle
+  previewVariant?: string
 }
 
 const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
@@ -25,34 +27,54 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   instructions,
   onUploadImage,
   image,
+  currentImageUri,
   style,
+  previewVariant = 'default',
 }: SpaceImageFormProps) => {
   const { t } = useTranslation()
+  const [uri, setImageUri] = useState<string | undefined>(currentImageUri)
 
   const removeImage = () => {
     onUploadImage(undefined)
+    setImageUri(undefined)
   }
 
   const Uploader = () => {
     return (
       <View style={styles.imageUploader}>
-        {(image && (
+        {((image || uri) && (
           <>
             <View style={styles.imageContainer}>
               <HoliImage
-                source={{ uri: image?.uri ?? '' }}
+                source={{ uri: image ? image.uri : uri }}
                 label={t('spaces.input.coverImage.label')}
-                style={styles.spaceImage}
+                style={{
+                  aspectRatio: 1.5,
+                  borderRadius: 8,
+                  width: previewVariant === 'avatar' ? '30%' : '100%',
+                }}
               />
             </View>
             <View style={styles.uploadButtonContainer}>
+              <HoliImagePicker
+                maxFileSizeInMB={8}
+                buttonProps={{
+                  label: t('spaces.input.coverImage.change.button.label'),
+                  testID: 'space-upload-image-btn',
+                  style: styles.imageUploadButton,
+                }}
+                onPickImage={onUploadImage}
+              >
+                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.change.button.label')}</HoliText>
+              </HoliImagePicker>
+
               <HoliButton
                 label={t('spaces.input.coverImage.remove.button.label')}
                 onPress={removeImage}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
               >
-                <HoliText>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
+                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
               </HoliButton>
             </View>
           </>
@@ -67,7 +89,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
               }}
               onPickImage={onUploadImage}
             >
-              <HoliText>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
+              <HoliText numberOfLines={1}>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
             </HoliImagePicker>
           </View>
         )}
@@ -125,6 +147,9 @@ const styles = StyleSheet.create({
   },
   imageUploadButton: {
     backgroundColor: colors.background10,
+    width: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   instructionsContainer: {
     marginTop: 8,
@@ -159,13 +184,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
   },
   imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingBottom: 16,
-  },
-  spaceImage: {
-    aspectRatio: 1.5,
-    width: '100%',
-    borderRadius: 8,
   },
   imageUploader: {
     justifyContent: 'center',
@@ -178,8 +200,10 @@ const styles = StyleSheet.create({
     }),
   },
   uploadButtonContainer: {
-    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
     justifyContent: 'center',
+    gap: 8,
   },
   tabBar: {
     paddingLeft: 24,
