@@ -2,8 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import useReportContent from '@holi/core/hooks/useReportContent'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
@@ -19,8 +18,8 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -37,9 +36,13 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: post.id,
+    contentType: ContentType.POST,
+    successMsg: t('global.report.successMessage'),
+  })
 
   const commenters = post.commenters.data
-  const { visible, show, hide } = useModalState()
 
   const visibilityIcon = post.isPublic ? 'global' : 'lock'
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
@@ -76,25 +79,22 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
           </HoliLink>
         </HoliColumn>
         <HoliColumn>
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            showOptions={visible}
-            onPress={show}
-            onModalDismiss={hide}
-          >
-            <ReportBlockOptionButton
+          <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+            <HoliActionDrawer.Action
+              isLoading={isLoadingReport}
               action="report"
-              objectId={post.id}
-              contentType={ContentType.POST}
-              style={styles.moreOptionItem}
-              confirmationModalProps={{
-                title: t('insights.post.report.confirmation.title'),
-                description: t('insights.post.report.confirmation.description'),
-              }}
-              successMessage={t('global.report.successMessage')}
-              onConfirm={hide}
-            />
-          </MoreOptionsButtonWithModal>
+              title={t('global.report')}
+              testID="report-comment-button"
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('insights.post.report.confirmation.title')}
+                description={t('insights.post.report.confirmation.description')}
+                handleConfirmation={reportContent}
+                hasDismissBtn
+              />
+            </HoliActionDrawer.Action>
+          </HoliActionDrawer.Drawer>
         </HoliColumn>
       </HoliColumns>
 
@@ -158,10 +158,6 @@ const styles = StyleSheet.create({
     border: `1px solid ${colors.background30}`,
     borderRadius: 12,
     backgroundColor: colors.background10,
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   postTitleLink: {
     marginBottom: 8,
