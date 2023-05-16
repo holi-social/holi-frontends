@@ -3,6 +3,7 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect } from 'react'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
@@ -47,7 +48,7 @@ export const useOnboarding = () => {
           break
 
         default:
-          throw new Error(`[Onboarding] does not support "${value}" value`)
+          throw new HoliOnboardingError(`Does not support "${value}" value`)
       }
     })
   }, [userId, onOnboardingStateChange])
