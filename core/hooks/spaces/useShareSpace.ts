@@ -1,3 +1,4 @@
+import { createURL } from 'expo-linking'
 import { useCallback, useEffect, useRef } from 'react'
 import { Clipboard, Platform, Share } from 'react-native'
 
@@ -10,9 +11,7 @@ export const useShareSpace = (title: string, slug: string): UseShareSpace => {
   const { displayError } = useErrorHandling()
 
   useEffect(() => {
-    import('expo-linking').then((Linking) => {
-      url.current = Linking.createURL(slug)
-    })
+    url.current = createURL(slug)
   }, [slug])
 
   const shareSpaceMobile = useCallback(async () => {
