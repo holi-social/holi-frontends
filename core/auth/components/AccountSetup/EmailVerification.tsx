@@ -8,7 +8,6 @@ import HoliTextInput from '@holi//ui/components/molecules/HoliTextInput'
 import client from '@holi/api/graphql/client'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
-import { isDevelopment } from '@holi/core/auth/helpers/environment'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
@@ -22,8 +21,6 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-
-const VERIFICATION_ENABLED = true || !isDevelopment // TODO: remove `true && ` to enable feature toggle after PO review
 
 const CODE_MAX_COUNT = 6
 
@@ -47,17 +44,22 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
 
-  const verificationFlowData = useVerificationFlowData()
+  const data = useVerificationFlowData()
+  const verificationFlowData = typeof data === 'object' ? data : undefined
   const [flow, setFlow] = useState<VerificationFlow | undefined>(undefined)
 
   // get verification flow from Ory
   useEffect(() => {
-    if (VERIFICATION_ENABLED) {
+    if (data === 'verification-disabled') {
+      // disabled verification in Ory: skip EmailVerification step
+      onSuccess()
+    } else {
+      // enabled verification in Ory
       getOrCreateVerificationFlow(verificationFlowData)
         .then(setFlow)
         .catch((error) => {
           displayError(error, t('auth.login.error.login'))
-          isLoggedIn && logout({ redirectPath: '/' }).catch(() => null) // ignore logout error
+          isLoggedIn && logout({ redirectPath: '/' })
           onDismiss()
         })
     }
@@ -66,12 +68,13 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   }, [])
 
   const resendEmail = async () => {
-    if (!VERIFICATION_ENABLED || !verificationFlowData || !flow) return false
+    if (!verificationFlowData || !flow) return false
 
     try {
-      const email = hasIdentifier(verificationFlowData)
-        ? verificationFlowData.identifier
-        : verificationFlowData.verifiable_address
+      const email =
+        typeof verificationFlowData === 'object' && hasIdentifier(verificationFlowData)
+          ? verificationFlowData.identifier
+          : verificationFlowData.verifiable_address
 
       await submitVerificationFlow({ flow, email })
       openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)
@@ -87,7 +90,7 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
     toastMessage: string = t('registration.emailVerification.message.activated')
   ) => {
     // if we came to Email Verification from Login page, login the user after successful activation
-    if (VERIFICATION_ENABLED && verificationFlowData && hasIdentifier(verificationFlowData)) {
+    if (verificationFlowData && hasIdentifier(verificationFlowData)) {
       const session = await login({
         payload: verificationFlowData,
       })
@@ -100,10 +103,6 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
   }
 
   const verifyEmail = async () => {
-    if (!VERIFICATION_ENABLED) {
-      await handleSuccessfulVerification()
-      return
-    }
     if (!flow) return
 
     showLoader()
@@ -150,6 +149,8 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
       hideLoader()
     }
   }
+
+  if (!flow) return null
 
   return (
     <HoliKeyboardSaveView>
