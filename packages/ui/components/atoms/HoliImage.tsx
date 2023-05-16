@@ -1,5 +1,5 @@
 /*
-  HoliImage component with expo-image
+  TODO: HoliImage component with expo-image
   use it when expo-imge fixes issue with SDWebImageAVIFCoder and libavif
 */
 // import { Image } from 'expo-image'

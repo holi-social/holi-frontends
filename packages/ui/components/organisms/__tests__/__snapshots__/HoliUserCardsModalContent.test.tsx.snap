@@ -178,40 +178,28 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         ]
                       }
                     >
-                      <ViewManagerAdapter_ExpoImage
+                      <Image
+                        accessibilityLabel="Dima Rosmait"
                         accessibilityRole="image"
-                        height="100%"
-                        onError={[Function]}
-                        onLoad={[Function]}
-                        onLoadStart={[Function]}
-                        onProgress={[Function]}
-                        proxiedProperties={
+                        accessible={true}
+                        source={
                           {
-                            "accessibilityLabel": "Dima Rosmait",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
-                            },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "uri": "avatar-1",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
+                            "uri": "avatar-1",
+                            "width": 128,
                           }
                         }
                         style={
-                          {
-                            "height": "100%",
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": "100%",
+                              "resizeMode": "contain",
+                              "width": "100%",
+                            },
+                            {
+                              "resizeMode": "cover",
+                            },
+                          ]
                         }
-                        width="100%"
                       />
                     </View>
                     <Text
@@ -513,40 +501,28 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         ]
                       }
                     >
-                      <ViewManagerAdapter_ExpoImage
+                      <Image
+                        accessibilityLabel="Thomas Mueller"
                         accessibilityRole="image"
-                        height="100%"
-                        onError={[Function]}
-                        onLoad={[Function]}
-                        onLoadStart={[Function]}
-                        onProgress={[Function]}
-                        proxiedProperties={
+                        accessible={true}
+                        source={
                           {
-                            "accessibilityLabel": "Thomas Mueller",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
-                            },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "uri": "avatar-2",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
+                            "uri": "avatar-2",
+                            "width": 128,
                           }
                         }
                         style={
-                          {
-                            "height": "100%",
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": "100%",
+                              "resizeMode": "contain",
+                              "width": "100%",
+                            },
+                            {
+                              "resizeMode": "cover",
+                            },
+                          ]
                         }
-                        width="100%"
                       />
                     </View>
                     <Text
@@ -848,40 +824,28 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         ]
                       }
                     >
-                      <ViewManagerAdapter_ExpoImage
+                      <Image
+                        accessibilityLabel="Peter Pan"
                         accessibilityRole="image"
-                        height="100%"
-                        onError={[Function]}
-                        onLoad={[Function]}
-                        onLoadStart={[Function]}
-                        onProgress={[Function]}
-                        proxiedProperties={
+                        accessible={true}
+                        source={
                           {
-                            "accessibilityLabel": "Peter Pan",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
-                            },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "uri": "avatar-3",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
+                            "uri": "avatar-3",
+                            "width": 128,
                           }
                         }
                         style={
-                          {
-                            "height": "100%",
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": "100%",
+                              "resizeMode": "contain",
+                              "width": "100%",
+                            },
+                            {
+                              "resizeMode": "cover",
+                            },
+                          ]
                         }
-                        width="100%"
                       />
                     </View>
                     <Text
@@ -1185,40 +1149,28 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         ]
                       }
                     >
-                      <ViewManagerAdapter_ExpoImage
+                      <Image
+                        accessibilityLabel="Lionel Messi"
                         accessibilityRole="image"
-                        height="100%"
-                        onError={[Function]}
-                        onLoad={[Function]}
-                        onLoadStart={[Function]}
-                        onProgress={[Function]}
-                        proxiedProperties={
+                        accessible={true}
+                        source={
                           {
-                            "accessibilityLabel": "Lionel Messi",
-                            "accessible": true,
-                            "contentFit": "cover",
-                            "contentPosition": {
-                              "left": "50%",
-                              "top": "50%",
-                            },
-                            "placeholder": [],
-                            "source": [
-                              {
-                                "uri": "avatar-4",
-                                "width": 128,
-                              },
-                            ],
-                            "tintColor": undefined,
-                            "transition": null,
+                            "uri": "avatar-4",
+                            "width": 128,
                           }
                         }
                         style={
-                          {
-                            "height": "100%",
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": "100%",
+                              "resizeMode": "contain",
+                              "width": "100%",
+                            },
+                            {
+                              "resizeMode": "cover",
+                            },
+                          ]
                         }
-                        width="100%"
                       />
                     </View>
                     <Text
