@@ -102,12 +102,6 @@ export const finishAccountSetup = async (
     pronouns?: string
   } = {}
 ) => {
-  // pass email verification
-  await page.waitForSelector(byTestId('email-verification'))
-  const verificationCodeInput = await locateElementByTestId(page, 'email-verification-code-input')
-  await verificationCodeInput.fill('dummy!')
-  await clickElementByTestId(page, 'btn-submit-code')
-
   // go through accound setup
   // provide user name
   const mandatoryFirtNameInput = await locateElementByTestId(page, 'first-name-input')
