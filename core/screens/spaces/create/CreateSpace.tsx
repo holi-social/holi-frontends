@@ -32,7 +32,7 @@ const CreateSpace: React.VFC = () => {
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
@@ -53,8 +53,11 @@ const CreateSpace: React.VFC = () => {
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
   })
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
-    onCompleted: (data) =>
-      replaceRoute(`/spaces/${data.createSpace.name}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`),
+    onCompleted: async (data) => {
+      const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
+      await replaceRoute(spaceDetailsRoute)
+      navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
+    },
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],
   })
