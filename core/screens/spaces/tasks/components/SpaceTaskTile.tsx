@@ -24,7 +24,7 @@ export type SpaceTaskTileProps = {
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
+const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
   isAdmin,
