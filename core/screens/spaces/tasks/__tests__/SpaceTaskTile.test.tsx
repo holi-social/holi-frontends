@@ -1,3 +1,4 @@
+import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
@@ -7,7 +8,11 @@ import { Space } from '@holi/core/screens/spaces/types'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
-    const { getByText, getAllByRole } = render(<SpaceTaskTile task={task} isAdmin={false} space={{} as Space} />)
+    const { getByText, getAllByRole } = render(
+      <MockedProvider>
+        <SpaceTaskTile task={task} isAdmin={false} space={{} as Space} />
+      </MockedProvider>
+    )
 
     expect(getByText('Task title')).toBeDefined()
     expect(getByText('Task description')).toBeDefined()
