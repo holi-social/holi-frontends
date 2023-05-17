@@ -6,10 +6,12 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const SPACE_ONBOARDING_STATE_STORAGE_NAME = 'space_onboarding_state_value'
 
-// use enum instead of string literal
-const spaceOnboardingValues = ['space_join_is_onboarded', 'space_editing'] as const
-
-export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[number]
+enum spaceOnboardingValues {
+  SpaceJoinIsOnboarded = 'space_join_is_onboarded',
+  SpaceEditing = 'space_is_edited',
+  SpaceCreation = 'space_is_created',
+}
+export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[keyof typeof spaceOnboardingValues]
 
 // null is loading state (AsyncStorage.getItem is async)
 const spaceOnboardingStateVar = makeVar<boolean | null>(null)
