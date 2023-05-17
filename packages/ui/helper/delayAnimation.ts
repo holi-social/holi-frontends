@@ -1,3 +1,4 @@
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 
 /**
@@ -8,7 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
  */
 export function delayAnimation(fn: CallableFunction | undefined, props: unknown, delay = 500) {
   if (!fn) {
-    logError(new Error('[delayAnimation.ts]: received an undefined function'))
+    logError(new HoliError('[delayAnimation.ts]: received an undefined function'))
     return
   }
 

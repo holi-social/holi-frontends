@@ -1,3 +1,4 @@
+import { MockedProvider } from '@apollo/client/testing'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
@@ -6,7 +7,13 @@ import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskL
 
 describe('SpaceTaskList', () => {
   it('renders correctly when there are tasks within space', () => {
-    const tree = renderer.create(<SpaceTaskList space={space} />).toJSON()
+    const tree = renderer
+      .create(
+        <MockedProvider>
+          <SpaceTaskList space={space} />
+        </MockedProvider>
+      )
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 
@@ -15,7 +22,13 @@ describe('SpaceTaskList', () => {
       ...space,
       tasks: [],
     }
-    const tree = renderer.create(<SpaceTaskList space={spaceWithoutTasks} />).toJSON()
+    const tree = renderer
+      .create(
+        <MockedProvider>
+          <SpaceTaskList space={spaceWithoutTasks} />
+        </MockedProvider>
+      )
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

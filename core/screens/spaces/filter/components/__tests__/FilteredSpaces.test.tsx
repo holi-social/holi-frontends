@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react-nativ
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
@@ -83,7 +84,7 @@ const spacesErrorMock = {
       offset: 0,
     },
   },
-  error: new Error('Test error'),
+  error: new HoliError('Test error'),
 }
 
 export const locationDetailsErrorMock = {
@@ -93,7 +94,7 @@ export const locationDetailsErrorMock = {
       id: locationId,
     },
   },
-  error: new Error('Test error'),
+  error: new HoliError('Test error'),
 }
 
 describe('FilteredSpaces', () => {
