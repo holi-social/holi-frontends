@@ -47,7 +47,7 @@ exports[`React tree renders correctly 1`] = `
       {
         "accessibilityLabel": "Space title",
         "accessible": true,
-        "contentFit": "contain",
+        "contentFit": "cover",
         "contentPosition": {
           "left": "50%",
           "top": "50%",
@@ -80,7 +80,7 @@ exports[`React tree renders initials with colored background, when given image p
     [
       {
         "alignItems": "center",
-        "backgroundColor": undefined,
+        "backgroundColor": "#000",
         "borderRadius": 32,
         "justifyContent": "center",
         "overflow": "hidden",

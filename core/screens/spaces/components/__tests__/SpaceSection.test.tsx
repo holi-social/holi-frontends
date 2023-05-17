@@ -14,13 +14,13 @@ describe('SpaceSection', () => {
     expect(location).toMatchSnapshot()
   })
 
-  it('triggers the onPress method correctly', () => {
+  it('triggers the onPress method correctly', async () => {
     const onPress = jest.fn()
     const { getByTestId } = render(
       <SpaceSection title="onpress test" editable onPressEdit={onPress} testID="test-onpress" />
     )
 
-    fireEvent.press(getByTestId('btn-test-onpress'))
+    await fireEvent.press(getByTestId('btn-test-onpress'))
 
     expect(onPress).toHaveBeenCalled()
   })

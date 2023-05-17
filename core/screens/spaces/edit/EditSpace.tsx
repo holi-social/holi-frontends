@@ -96,7 +96,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate, navigateBack, replaceRoute } = useRouting()
 
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
@@ -266,7 +266,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           <View style={styles.body}>
             <View style={mixins.container}>
               <SpaceMainImage
-                source={{ uri: space.cover }}
+                uri={space.cover}
                 label={space.title}
                 onPress={() => openEditModal(EditFields.COVER_IMAGE)}
                 editable
@@ -384,7 +384,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       <View style={styles.overlayContainer}>
         <HoliButton
           label={t('spaces.edit.close')}
-          onPress={() => navigate(`/spaces/${spaceIdOrName}`)}
+          onPress={() => navigateBack()}
           style={styles.overlayButton}
           testID="space-edit-close"
         >

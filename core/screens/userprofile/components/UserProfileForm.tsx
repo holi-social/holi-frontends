@@ -23,7 +23,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { delayAnimation } from '@holi/ui/helper'
 import { Position, usePositions } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -42,11 +42,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
-  const [location, setLocation] = useState<GeolocationSuggestion | undefined>(
-    user?.location && user?.geolocation ? { label: user.location, id: '0', coordinates: user.geolocation } : undefined
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
+    user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-  const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
+  const [pickedAvatar, setPickedAvatar] = useState<HoliImageInfo>()
   const scrollViewRef = useRef<ScrollView>(null)
   const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
@@ -68,19 +68,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 
   const submit = async () => {
-    // we need to explicitly perform a cleanup of the apollo __typename
-    const geolocation = location?.coordinates && {
-      latitude: location?.coordinates?.latitude,
-      longitude: location?.coordinates?.longitude,
-    }
-
+    const locationUpdate =
+      locationQuery !== user?.location
+        ? {
+            location: selectedLocation?.label || locationQuery,
+            geolocation: selectedLocation?.geolocation,
+          }
+        : {}
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
       aboutMe,
       pronouns,
-      location: location?.label,
-      geolocation,
+      ...locationUpdate,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 
@@ -88,6 +88,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     if (!resultSchema.success) {
       const { fieldErrors } = resultSchema.error.flatten<FieldError>()
       setFieldErrors(translateFieldErrors(fieldErrors))
+      return
+    } else if (locationQuery.length && !selectedLocation) {
+      setFieldErrors({ location: [t('profile.location.validation.error')] })
       return
     }
     await updateUser({
@@ -159,7 +162,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const onLocationClose = useCallback(
     (selectedSuggestion?: GeolocationSuggestion) => {
-      setLocation(selectedSuggestion)
+      setSelectedLocation(selectedSuggestion)
 
       if (!selectedSuggestion && locationQuery.length) {
         setFieldErrors({ location: [t('profile.location.validation.error')] })
@@ -248,16 +251,16 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.locationPlaceholder')}
           id="user-location-input"
           testID="user-location"
-          selected={location}
+          selected={selectedLocation}
           value={locationQuery}
           onClose={onLocationClose}
           onChangeText={setLocationQuery}
           style={styles.input}
           suggestionsStyle={{ backgroundColor: colors.background10 }}
-          helperText={location ? undefined : t('profile.location.validation.helper')}
+          helperText={selectedLocation ? undefined : t('profile.location.validation.helper')}
           validationErrorText={fieldErrors?.location?.join()}
-          withCoordinates
           level={GeolocationLevel.CITY}
+          fetchDetailsOnClose
           {...scrollToPropsFor('location')}
         />
       </View>

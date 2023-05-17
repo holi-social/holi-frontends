@@ -17,21 +17,6 @@ export interface HoliImageProps {
    * The default value assumes the image will span the whole screen width until maxScreenWidth.
    */
   sizes?: string
-  blurHash?: string
-}
-
-// These modes work the same across web and mobile and therefore are the only ones we allow.
-// center and repeat have no web equivalent
-// stretch fill in web
-export type ResizeMode = 'cover' | 'contain' | 'stretch'
-
-export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
-  switch (resizeMode) {
-    case 'stretch':
-      return 'fill'
-    default:
-      return resizeMode
-  }
 }
 
 /** @description It handles the correct pixel density for native host platforms.
@@ -42,11 +27,15 @@ export const calcPixelRatioSize = (value: number): number => {
   return PixelRatio.getPixelSizeForLayoutSize(value)
 }
 
+/** @description Checks if `uri` of ImageSource | ImageURISource is Base64 */
+export const isImageSourceURIBase64 = ({ uri }: ImageSource | ImageURISource) => !!uri?.startsWith('data:image')
+
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSource | ImageURISource => {
   if (!source.uri) return source
   if (!source.width && !source.height) return source
+  if (isImageSourceURIBase64(source)) return source
 
   try {
     const url = new URL(source.uri)

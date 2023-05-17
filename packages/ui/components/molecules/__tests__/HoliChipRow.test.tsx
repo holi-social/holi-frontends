@@ -24,13 +24,13 @@ describe('renders correctly', () => {
 })
 
 describe('calls onPressEdit prop function correctly', () => {
-  it('calls onPressEdit prop when not disabled', () => {
+  it('calls onPressEdit prop when not disabled', async () => {
     const mockFn = jest.fn()
     const { getByText } = render(
       <HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" editButtonLabel="Edit Label" editable />
     )
 
-    fireEvent.press(getByText('Edit'))
+    await fireEvent.press(getByText('Edit'))
     expect(mockFn).toBeCalledTimes(1)
   })
 

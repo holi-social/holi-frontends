@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 
 describe('SpaceTaskList', () => {

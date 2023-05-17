@@ -32,7 +32,6 @@ const SpaceFragment = gql`
     created
     avatar
     cover
-    coverBlurhash
     name
     avatarDefaultColor
     location
@@ -52,7 +51,6 @@ const SpaceFragment = gql`
       description
       title
       collectionType
-      thumbnail
     }
     members {
       ...FullSpaceMember
@@ -67,7 +65,6 @@ const SpaceFragment = gql`
       regularity
       visibility
       locationType
-      thumbnail
       contactEmail
       contactPhone
       creator {
@@ -99,7 +96,6 @@ const SpaceOverviewFragment = gql`
     description
     created
     cover
-    coverBlurhash
     location
     avatar
     avatarDefaultColor
@@ -138,8 +134,8 @@ export const sdgsQuery = gql`
 export const spacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topicSlug: String, $location: String, $skillSlugs: [String], $offset: Int, $limit: Int) {
-    spaces(topicSlug: $topicSlug, location: $location, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
+  query Spaces($topicSlug: String, $geolocation: GeoJSON, $skillSlugs: [String], $offset: Int, $limit: Int) {
+    spaces(topicSlug: $topicSlug, geolocation: $geolocation, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
       totalResults
       data {
         ...FullSpace
@@ -155,10 +151,16 @@ export type SpacesResponse = {
 export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}
 
-  query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
-    discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
+  query DiscoverSpaces($topicIds: [UUID], $geolocation: GeoJSON, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    discoverSpaces(
+      topicIds: $topicIds
+      geolocation: $geolocation
+      skillIds: $skillIds
+      offset: $offset
+      limit: $limit
+    ) {
       topicId
-      location
+      locationId
       skillId
       spaces {
         totalResults
@@ -172,7 +174,7 @@ export const discoverSpacesQuery = gql`
 
 export type DiscoverSpacesGroup = {
   topicId?: string
-  location?: string
+  locationId?: string
   skillId?: string
   spaces: Paged<Space>
 }
@@ -280,7 +282,6 @@ export const addCollaborationToolMutation = gql`
       domain
       description
       collectionType
-      thumbnail
     }
   }
 `
@@ -312,7 +313,6 @@ export const updateCollaborationToolMutation = gql`
       title
       description
       collectionType
-      thumbnail
     }
   }
 `
@@ -344,7 +344,6 @@ export const updateSpaceMutation = gql`
       description
       avatar
       cover
-      coverBlurhash
       location
       avatarDefaultColor
       name
@@ -381,7 +380,12 @@ export const CreateTaskSchema = z.object({
   regularity: z.string() /* Regularity */,
   contactEmail: z.string().email().optional(),
   location: z.string().optional(),
-  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  geolocation: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
 })
@@ -400,7 +404,6 @@ export const createTaskMutation = gql`
       location
       contactEmail
       contactPhone
-      thumbnail
     }
   }
 `
@@ -419,7 +422,12 @@ export const UpdateTaskSchema = z.object({
   regularity: z.string() /* Regularity */,
   contactEmail: z.string().email().optional(),
   location: z.string().optional(),
-  geolocation: z.instanceof(Object).optional() /* Geolocation */,
+  geolocation: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   contactPhone: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),
 })

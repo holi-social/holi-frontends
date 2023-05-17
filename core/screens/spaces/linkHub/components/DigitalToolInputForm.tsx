@@ -9,7 +9,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -19,12 +19,12 @@ export interface DigitalToolInputFormProps {
   onChangeTitle: (title: string) => void
   onChangeDescription: (description: string) => void
   onSelectCollection: (option: HoliModalSelectOption) => void
-  onChangeThumbnail: (thumbnail: ImageInfo) => void
+  onChangeThumbnail: (thumbnail: HoliImageInfo) => void
   url: string
   title: string
   description?: string
   selectedCollection?: HoliModalSelectOption
-  thumbnail?: ImageInfo | undefined
+  thumbnail?: HoliImageInfo | undefined
   fieldErrors?: TranslatedFieldErrors
   currentThumbnail?: string
 }

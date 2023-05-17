@@ -7,7 +7,7 @@ module.exports = {
       '<rootDir>/jestFileTransformer.cjs',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['e2e', 'testData'],
+  modulePathIgnorePatterns: ['e2e', 'testData', 'mocks.ts'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/jest.styleMock.cjs',
   },

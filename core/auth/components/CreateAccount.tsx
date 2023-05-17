@@ -1,7 +1,14 @@
-import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import {
+  ContinueWith,
+  ContinueWithVerificationUi,
+  ContinueWithVerificationUiActionEnum,
+  RegistrationFlow,
+  SuccessfulNativeRegistration,
+  UpdateRegistrationFlowBody,
+} from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -9,6 +16,7 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -24,6 +32,14 @@ const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
   onRegister: () => void
+}
+
+const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
+  return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
+}
+
+const getVerificationFlow = ({ continue_with }: SuccessfulNativeRegistration) => {
+  return continue_with?.find(isContinueWithVerificationUi)?.flow
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
@@ -56,6 +72,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {
       showLoader()
+      Keyboard.dismiss()
 
       try {
         const { data } = await newKratosSdk().updateRegistrationFlow({
@@ -73,6 +90,10 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         }
 
         console.debug('[Registration.tsx] registration was successful.')
+
+        const verificationFlowData = getVerificationFlow(data)
+        // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
+        setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
 
         // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
         await onRegister()
@@ -98,7 +119,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   return (
     <HoliKeyboardSaveView>
-      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="always">
+      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}

@@ -4,7 +4,7 @@ import { Linking, StyleSheet, View } from 'react-native'
 
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
+import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
 import { Space } from '@holi/core/screens/spaces/types'

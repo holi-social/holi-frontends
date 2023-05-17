@@ -50,13 +50,12 @@ const testFiltering = async (page: Page) => {
   // wait until modal is opened
   await page.locator('[role="dialog"]').waitFor()
 
-  const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
-  await locationInput.fill('nwqekjnk23jn4k23')
+  // select first suggestion for "Hamburg"
+  let locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
+  await locationInput.fill('Hamburg')
+  await clickElement(page.locator('[role="menuitem"]'))
 
   await checkAccessibility(page)
-
-  // close skills dropdown
-  await clickElementByTestId(page, 'spaces-filter-skills-toggle-menu')
 
   // click filter confirmation button and check if we are in the correct page with the filter queries
   await Promise.all([
@@ -67,8 +66,17 @@ const testFiltering = async (page: Page) => {
   // check if the filtered spaces container is shown
   await page.waitForSelector(byTestId('filtered-spaces-container'))
 
-  // reset the filter and wait for unfiltered results
-  await clickElementByTestId(page, 'spaces-filter-reset')
+  // reset filter:
+  // open filter modal again
+  await clickElementByTestId(page, 'btn-filter-spaces')
+  await page.locator('[role="dialog"]').waitFor()
+
+  // clear location filter
+  locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
+  await locationInput.fill('')
+
+  // submit and wait for unfiltered results
+  await clickElementByTestId(page, 'holi-modal-content-close-btn')
   await page.waitForSelector(byTestId('spaces-container'))
 }
 

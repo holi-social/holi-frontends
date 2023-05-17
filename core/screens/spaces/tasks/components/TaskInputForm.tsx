@@ -11,8 +11,9 @@ import {
   REGULARITY_OPTIONS,
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/tasks/consts'
-import { Geolocation, LocationType } from '@holi/core/screens/spaces/types'
+import { LocationType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
+import { GeolocationPoint } from '@holi/core/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -22,7 +23,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -37,9 +38,8 @@ export interface TaskInputFormProps {
   visibility?: HoliModalSelectOption
   locationType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
-  thumbnail?: ImageInfo
-  location?: string
-  geolocation?: Geolocation
+  thumbnail?: HoliImageInfo
+  geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
   currentThumbnail?: string
@@ -50,10 +50,9 @@ export interface TaskInputFormProps {
   onChangeRegularity: (_: HoliModalSelectOption) => void
   onChangeContactEmail: (_: string) => void
   onChangeSlotsAvailable: (_: number) => void
-  onChangeThumbnail: (_: ImageInfo) => void
+  onChangeThumbnail: (_: HoliImageInfo) => void
   onChangeSkills: (_: Skill[]) => void
-  onChangeLocation: (_: string) => void
-  onChangeGeolocation: (_: Geolocation) => void
+  onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   isEdit?: boolean
@@ -320,7 +319,6 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             style={[styles.marginSeparator, { zIndex: 1 }]}
             inputProps={{ autoFocus: !isEdit }}
             helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
-            withCoordinates
           />
         )}
       </View>

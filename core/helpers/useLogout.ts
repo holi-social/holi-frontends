@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react'
+import { makeVar, useReactiveVar } from '@apollo/client'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import client from '@holi/api/graphql/client'
@@ -15,8 +16,10 @@ interface LogoutOptions {
   redirectPath?: string
 }
 
+const isLoggingOutVar = makeVar(false)
+
 export const useLogout = () => {
-  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { openToast } = useToast()
@@ -25,7 +28,7 @@ export const useLogout = () => {
   return {
     logout: useCallback(
       async ({ message, skipLogoutFlow = false, redirectPath = '/profile' }: LogoutOptions = {}) => {
-        setIsLoggingOut(true)
+        isLoggingOutVar(true)
 
         getSessionFromStorage()
           .then((session) => {
@@ -48,7 +51,7 @@ export const useLogout = () => {
             // not displaying an user-facing error messages as with the removal from the storage logout should be done
           })
           .catch((error) => displayError(error, t('auth.logout.error')))
-          .finally(() => setIsLoggingOut(false))
+          .finally(() => isLoggingOutVar(false))
       },
       [navigate, openToast, t, displayError]
     ),

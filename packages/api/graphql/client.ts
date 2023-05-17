@@ -1,5 +1,5 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, TypePolicy, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -42,24 +42,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-const createCache = () =>
+// Fixes warnings like "Cache data may be lost when replacing the `members` field of a Space object."
+const alwaysReplacePolicy: TypePolicy = {
+  merge: (existing, incoming) => incoming,
+}
+
+export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
         fields: {
-          interests: {
-            // fixes warning "Cache data may be lost when replacing the `interests` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
-          skills: {
-            // fixes warning "Cache data may be lost when replacing the `skills` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
-          sdgs: {
-            // fixes warning "Cache data may be lost when replacing the `sdgs` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
         },
       },
       InsightPaged: {
@@ -90,10 +86,12 @@ const createCache = () =>
       },
       Space: {
         fields: {
-          members: {
-            // fixes warning "Cache data may be lost when replacing the `members` field of a Space object."
-            merge: (existing, incoming) => incoming,
-          },
+          members: alwaysReplacePolicy,
+          tasks: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+          topics: alwaysReplacePolicy,
+          links: alwaysReplacePolicy,
+          collaborationTools: alwaysReplacePolicy,
         },
       },
       SpacePaged: {
@@ -118,10 +116,10 @@ const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: ['topicId', 'location', 'skillIds'],
+            keyArgs: ['topicSlug', 'geolocation', 'skillSlugs'],
           },
           discoverSpaces: {
-            keyArgs: ['topicIds', 'location', 'skillIds'],
+            keyArgs: ['topicIds', 'geolocation', 'skillIds'],
           },
         },
       },

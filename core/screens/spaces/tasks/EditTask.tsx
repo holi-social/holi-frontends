@@ -19,11 +19,12 @@ import {
   updateTaskMutation,
 } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
-import { Geolocation, LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
+import { GeolocationPoint } from '@holi/core/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -52,11 +53,11 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
-  const [thumbnail, setThumbnail] = useState<ImageInfo | undefined>()
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
-  const [geolocation, setGeolocation] = useState<Geolocation | undefined>()
+  const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
   const [contactPhone, setContactPhone] = useState<string | undefined>('')
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
@@ -253,7 +254,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
         slotsAvailable={slotsAvailable}
         thumbnail={thumbnail}
         skills={skills}
-        location={location}
         geolocation={geolocation}
         selectedLocation={selectedLocation}
         contactPhone={contactPhone}
@@ -267,7 +267,6 @@ const EditTask: React.VFC<ScreenProps> = () => {
         onChangeSlotsAvailable={setSlotsAvailable}
         onChangeThumbnail={setThumbnail}
         onChangeSkills={setSkills}
-        onChangeLocation={setLocation}
         onChangeGeolocation={setGeolocation}
         onChangeContactPhone={setContactPhone}
         onChangeSelectedLocation={setSelectedLocation}

@@ -1,16 +1,16 @@
 import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
-export interface ImageInfo {
+export interface HoliImageInfo {
   uri: string
-  blurHash: string
   blob: File
-  base64: string
+  base64?: string | null
   height: number
   width: number
 }
 
 export interface HoliImagePickerProps {
   buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
-  onPickImage: (image: ImageInfo) => void
+  onPickImage: (image: HoliImageInfo) => void
   maxFileSizeInMB?: number
+  multiple?: boolean
 }

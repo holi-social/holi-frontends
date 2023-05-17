@@ -2,8 +2,8 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import FilteredSpaces from '@holi/core/screens/spaces/FilteredSpaces'
-import Spaces from '@holi/core/screens/spaces/Spaces'
+import Spaces from '@holi/core/screens/spaces/discover/Spaces'
+import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpacesPage'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
