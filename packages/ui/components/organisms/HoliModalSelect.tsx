@@ -19,6 +19,7 @@ export type HoliModalSelectOption = {
   description?: string
   icon?: string
   selected?: boolean
+  disabled?: boolean
 }
 
 export type HoliModalSelectProps = {
@@ -73,21 +74,35 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         label={option.title}
         key={option.id}
         transparent
+        disabled={option.disabled}
         onPress={() => {
           onChange(option)
           hide()
         }}
         testID={`item-${testID}`}
       >
-        {!isDense && <HoliIcon icon={option.icon || 'global'} size={22} />}
+        {!isDense && (
+          <HoliIcon
+            icon={option.icon || 'global'}
+            size={22}
+            color={option?.disabled ? colors.foreground10 : colors.foreground30}
+          />
+        )}
         <View style={styles.optionTextContainer}>
-          <HoliText bold>{option.title}</HoliText>
-          {!isDense && option.description && <HoliText style={styles.optionDescription}>{option.description}</HoliText>}
+          <HoliText bold color={option?.disabled ? 'gray200' : 'black300'}>
+            {option.title}
+          </HoliText>
+          {!isDense && option.description && (
+            <HoliText style={option?.disabled ? styles.optionDescriptionDisabled : styles.optionDescription}>
+              {option.description}
+            </HoliText>
+          )}
         </View>
         <HoliCheckbox
           shape="round"
           checked={option.selected}
           autofocus={false}
+          disabled={option.disabled}
           testID={`${option.selected ? 'checked-' : ''}${testID}`}
           accessibilityLabel={option.title}
         />
@@ -216,6 +231,10 @@ const getStyles = (isDense: boolean, description: boolean) =>
     optionDescription: {
       marginTop: 4,
       color: colors.foreground20,
+    },
+    optionDescriptionDisabled: {
+      marginTop: 4,
+      color: colors.foreground10,
     },
     separator: {
       borderBottomWidth: 1,
