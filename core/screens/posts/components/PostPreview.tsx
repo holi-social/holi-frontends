@@ -92,6 +92,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
                 description={t('insights.post.report.confirmation.description')}
                 handleConfirmation={reportContent}
                 hasDismissBtn
+                requireLogin
               />
             </HoliActionDrawer.Action>
           </HoliActionDrawer.Drawer>

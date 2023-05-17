@@ -107,6 +107,7 @@ const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonP
                     handleConfirmation={deleteTool}
                     buttonType="warning"
                     hasDismissBtn
+                    requireLogin
                   />
                 </HoliActionDrawer.Action>
               </HoliActionDrawer.Drawer>

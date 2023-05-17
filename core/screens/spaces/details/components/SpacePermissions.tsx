@@ -158,6 +158,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                   testID="report-space"
                   handleConfirmation={reportContent}
                   hasDismissBtn
+                  requireLogin
                 />
               </Action>
             </HoliBox>

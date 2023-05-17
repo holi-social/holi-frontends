@@ -117,6 +117,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
                 handleConfirmation={deleteTaskAction}
                 buttonType="warning"
                 hasDismissBtn
+                requireLogin
               />
             </HoliActionDrawer.Action>
           </HoliActionDrawer.Drawer>

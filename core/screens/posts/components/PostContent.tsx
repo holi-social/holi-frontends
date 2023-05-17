@@ -76,6 +76,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
                       description={t('insights.post.report.confirmation.description')}
                       handleConfirmation={reportContent}
                       hasDismissBtn
+                      requireLogin
                     />
                   </HoliActionDrawer.Action>
                 </HoliActionDrawer.Drawer>

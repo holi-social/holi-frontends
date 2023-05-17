@@ -16,6 +16,7 @@ interface Props {
   confirmText?: string
   testID?: string
   buttonType?: HoliButtonType
+  requireLogin?: boolean
 }
 
 export const Confirmation = ({
@@ -26,6 +27,7 @@ export const Confirmation = ({
   title,
   testID,
   buttonType = 'primary',
+  requireLogin,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -42,7 +44,9 @@ export const Confirmation = ({
 
   return (
     <>
-      {isLoggedIn ? (
+      {requireLogin && !isLoggedIn ? (
+        <LoginGuardModal {...confirmationProps} />
+      ) : (
         <HoliConfirmation
           show={isVisibleConfirmation}
           label={title}
@@ -55,8 +59,6 @@ export const Confirmation = ({
           onConfirm={handleAction}
           confirmationButtonType={buttonType}
         />
-      ) : (
-        <LoginGuardModal {...confirmationProps} />
       )}
     </>
   )

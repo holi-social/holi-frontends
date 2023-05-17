@@ -97,6 +97,7 @@ const UserProfile = () => {
                 description={t('user.profileView.report.confirmation.description', { name: userFullName })}
                 handleConfirmation={reportContent}
                 hasDismissBtn
+                requireLogin
               />
             </HoliActionDrawer.Action>
             <HoliActionDrawer.Action
@@ -110,6 +111,7 @@ const UserProfile = () => {
                 description={t('user.profileView.block.confirmation.description', { name: userFullName })}
                 handleConfirmation={blockUser}
                 hasDismissBtn
+                requireLogin
               />
             </HoliActionDrawer.Action>
           </HoliActionDrawer.Drawer>

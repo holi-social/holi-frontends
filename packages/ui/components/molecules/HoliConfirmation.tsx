@@ -115,7 +115,9 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
           <HoliHeading level="4" size="small">
             {title}
           </HoliHeading>
-          <HoliText style={styles.description}>{description}</HoliText>
+          <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>
+            {description}
+          </HoliText>
           <View style={styles.buttonContainer}>
             {onDismiss && (
               <HoliButton

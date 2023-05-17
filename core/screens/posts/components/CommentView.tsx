@@ -60,6 +60,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
                   testID="report-space"
                   handleConfirmation={reportContent}
                   hasDismissBtn
+                  requireLogin
                 />
               </HoliActionDrawer.Action>
               <HoliActionDrawer.Action
@@ -78,6 +79,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
                   handleConfirmation={deleteComment}
                   buttonType="warning"
                   hasDismissBtn
+                  requireLogin
                 />
               </HoliActionDrawer.Action>
             </HoliActionDrawer.Drawer>

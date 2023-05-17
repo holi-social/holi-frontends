@@ -81,7 +81,7 @@ const SpaceDetails = () => {
   const renderActionDrawer = useCallback(
     () => (
       <>
-        <HoliActionDrawer.Drawer label={t('insights.post.preview.more')}>
+        <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="space-options-btn">
           {isAdmin && (
             <HoliActionDrawer.Action
               isLoading={isLoading}
@@ -97,11 +97,12 @@ const SpaceDetails = () => {
               title={t('global.share')}
               handleAction={isWeb ? undefined : shareSpaceUrl}
               showConfirmation={isWeb}
+              testID="share-space"
             >
               <HoliActionDrawer.Confirmation
                 title={t('global.share')}
                 description={spaceUrl}
-                testID="report-space"
+                testID="share-space"
                 handleConfirmation={shareWebAction}
                 confirmText={t('global.share.copy.link')}
               />
@@ -120,6 +121,7 @@ const SpaceDetails = () => {
               testID="report-space"
               handleConfirmation={reportContent}
               hasDismissBtn
+              requireLogin
             />
           </HoliActionDrawer.Action>
 
@@ -137,6 +139,7 @@ const SpaceDetails = () => {
                 testID="space-delete"
                 handleConfirmation={deleteConfirmationAction}
                 hasDismissBtn
+                requireLogin
               />
             </HoliActionDrawer.Action>
           )}
