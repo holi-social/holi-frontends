@@ -44,7 +44,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
         <View style={styles.imageContainer}>
           {!!task.thumbnail && (
             <HoliImage
-              label={t('spaces.task.thumbnail.label')}
+              label={t('spaces.tasks.thumbnail.label')}
               source={{ uri: task.thumbnail }}
               style={showFullView ? styles.imageShowFullView : styles.image}
             />
@@ -53,7 +53,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
             <View style={[styles.image, styles.emptyImage]}>
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
-                label={t('spaces.task.thumbnail.label')}
+                label={t('spaces.tasks.thumbnail.label')}
                 isSvg
                 height={166}
                 width={296}
