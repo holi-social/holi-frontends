@@ -1,4 +1,4 @@
-import type { NormalizedCacheObject } from '@apollo/client'
+import type { NormalizedCacheObject, ServerError } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, TypePolicy, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -8,7 +8,7 @@ import { concat, mergeDeepWith } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { isErrorOfType, logError } from '@holi/core/errors/helpers'
+import { isErrorOfType, logError, logErrorLocal } from '@holi/core/errors/helpers'
 
 import { indexAwareOffsetLimitPagination } from './cachePolicies'
 import headerLink from './headerLink'
@@ -33,7 +33,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     })
   }
   if (networkError) {
-    logError(networkError, '[Network error]')
+    if ((networkError as ServerError)?.statusCode === 401) {
+      logErrorLocal(networkError, '[Network error]')
+    } else {
+      logError(networkError, '[Network error]')
+    }
   }
 })
 

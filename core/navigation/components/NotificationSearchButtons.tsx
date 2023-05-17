@@ -1,6 +1,7 @@
 import { ServerError, useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
@@ -29,11 +30,15 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
     fetchPolicy: 'network-only',
     pollInterval: NOTIFICATION_POLLING_INTERVAL,
     onError: (error) => {
-      const networkError = error?.networkError
-      if ((networkError as ServerError)?.statusCode === 401) {
-        logout()
+      if ((error?.networkError as ServerError)?.statusCode === 401) {
+        if (Platform.OS === 'web') {
+          navigate('/forceLogout')
+        } else {
+          logout({ message: t('auth.loggingOut'), skipLogoutFlow: true })
+        }
+      } else {
+        logError(error, `[NotificationSearchButtons.tsx] ${error?.message}`)
       }
-      logError(error, `[NotificationSearchButtons.tsx] ${error?.message}`)
     },
   })
 

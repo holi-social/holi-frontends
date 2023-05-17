@@ -20,6 +20,7 @@
   "auth.forgotPassword.success.button": "Zurück zur Startseite",
   "auth.forgotPassword.success.headline": "Hilfe ist unterwegs!",
   "auth.forgotPassword.success.text": "Wenn wir deine E-Mail-Adresse finden konnten, haben wir dir eine Mail mit einem Link zum Ändern deines Passworts geschickt.",
+  "auth.loggingOut": "Deine Session ist ungültig. Du wirst ausgeloggt.",
   "auth.login": "Anmelden",
   "auth.login.alreadyLoggedIn": "Du bist bereits angemeldet",
   "auth.login.checkbox.hint-Consent": "Akzeptiere unsere Community Guidelines um fortzufahren",

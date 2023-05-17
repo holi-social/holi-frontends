@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -95,11 +95,18 @@ const Spaces: React.VFC = () => {
     [navigate]
   )
 
+  useEffect(() => {
+    if (mySpacesError) {
+      if (mySpacesError.message !== 'Unauthorized') {
+        openToast(t('global.technicalError'), HoliToastType.ERROR)
+      }
+    }
+  }, [mySpacesError, openToast, t])
+
   if (mySpacesError) {
     if (mySpacesError.message === 'Unauthorized') {
       hasOwnSpaces = false
     } else {
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
       return (
         <DefaultLayout style={styles.layout}>
           <View style={[mixins.container, styles.discoverSpacesContainer]} />
