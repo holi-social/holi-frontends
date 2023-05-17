@@ -56,6 +56,7 @@ const useRouting: UseRouting = () => {
       } else {
         linkTo(routeName)
       }
+      return Promise.resolve(true)
     },
     [navigation, linkTo]
   )

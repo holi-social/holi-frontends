@@ -98,7 +98,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 {
                   "accessibilityLabel": "Dima Rosmait",
                   "accessible": true,
-                  "contentFit": "contain",
+                  "contentFit": "cover",
                   "contentPosition": {
                     "left": "50%",
                     "top": "50%",
@@ -353,7 +353,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 {
                   "accessibilityLabel": "Thomas Mueller",
                   "accessible": true,
-                  "contentFit": "contain",
+                  "contentFit": "cover",
                   "contentPosition": {
                     "left": "50%",
                     "top": "50%",
@@ -608,7 +608,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 {
                   "accessibilityLabel": "Peter Pan",
                   "accessible": true,
-                  "contentFit": "contain",
+                  "contentFit": "cover",
                   "contentPosition": {
                     "left": "50%",
                     "top": "50%",
@@ -865,7 +865,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 {
                   "accessibilityLabel": "Lionel Messi",
                   "accessible": true,
-                  "contentFit": "contain",
+                  "contentFit": "cover",
                   "contentPosition": {
                     "left": "50%",
                     "top": "50%",

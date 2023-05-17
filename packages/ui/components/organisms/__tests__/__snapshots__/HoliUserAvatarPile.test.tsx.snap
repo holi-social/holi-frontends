@@ -53,7 +53,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         {
           "accessibilityLabel": "Dima Rosmait",
           "accessible": true,
-          "contentFit": "contain",
+          "contentFit": "cover",
           "contentPosition": {
             "left": "50%",
             "top": "50%",
@@ -166,7 +166,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         {
           "accessibilityLabel": "Thomas Mueller",
           "accessible": true,
-          "contentFit": "contain",
+          "contentFit": "cover",
           "contentPosition": {
             "left": "50%",
             "top": "50%",
@@ -279,7 +279,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         {
           "accessibilityLabel": "Peter Pan",
           "accessible": true,
-          "contentFit": "contain",
+          "contentFit": "cover",
           "contentPosition": {
             "left": "50%",
             "top": "50%",

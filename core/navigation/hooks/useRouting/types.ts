@@ -12,7 +12,7 @@ export type navigateOptions = {
 export type RoutingState = {
   navigate: (routeName: string, options?: navigateOptions) => void
   navigateBack: (fallbackRouteName?: string) => void
-  replaceRoute: (routeName: string) => void
+  replaceRoute: (routeName: string) => Promise<boolean>
   redirect: () => void
   // pathnahme in mobile is depending on the navigator in which it is used
   pathname: string
