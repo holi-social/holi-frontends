@@ -2,6 +2,8 @@ import { createContext, useContext } from 'react'
 
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+
 export interface NavigationContextType {
   pathname: string
   setPathname: (pathName: string) => void
@@ -35,7 +37,8 @@ NavigationContext.displayName = 'NavigationContext'
 export const useNavigationContext = () => {
   const context = useContext(NavigationContext)
 
-  if (context === undefined) throw new Error('useUnifiedNavigation() must be used within a NavigationContextProvider')
+  if (context === undefined)
+    throw new HoliError('useUnifiedNavigation() must be used within a NavigationContextProvider')
 
   return context
 }
