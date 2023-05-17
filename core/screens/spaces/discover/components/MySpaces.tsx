@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -24,8 +23,6 @@ export type MySpacesProps = {
 export type OnboardSpaceParams = {
   onboarding: string
 }
-
-const { useParam } = createParam<OnboardSpaceParams>()
 
 type OnboardingCard = {
   image: StaticImageData
@@ -58,16 +55,16 @@ const onboardingContentList: Array<OnboardingCard> = [
 const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
-  const [isOnboarding] = useParam('onboarding')
-  const { replaceRoute } = useRouting()
+
+  const { spaceOnboardingState, onSpaceOnboardingStateChange } = useSpaceOnboarding()
 
   // needs to be changed that the modal is only shown once after the user has joined a space for the first time
   // only for reviewing the onboarding card
   useEffect(() => {
-    if (!isOnboarding) {
+    if (spaceOnboardingState === 'finished') {
       show()
     }
-  }, [isOnboarding, show])
+  }, [spaceOnboardingState, show])
 
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
@@ -80,9 +77,8 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   })
 
   const handleModalClose = () => {
-    if (isOnboarding) {
-      // remove onboarding param to avoid going back to onboarding in case user clicks nav-button-back
-      replaceRoute('/spaces/')
+    if (spaceOnboardingState) {
+      onSpaceOnboardingStateChange('finished')
     }
     hide()
   }
