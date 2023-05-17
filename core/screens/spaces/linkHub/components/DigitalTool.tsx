@@ -3,9 +3,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import useDeleteTool from '@holi/core/hooks/useDeleteTool'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
-import DeleteCollaborationToolButton from '@holi/core/screens/spaces/linkHub/components/DeleteCollaborationToolButton'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -15,7 +14,8 @@ import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface DigitalToolProps {
@@ -26,17 +26,18 @@ interface DigitalToolProps {
   onEditButtonPress: (toolId: string) => void
 }
 
-const DigitalTool: React.VFC<DigitalToolProps> = ({
-  tool,
-  isAdmin,
-  spaceId,
-  onShareButtonPress,
-  onEditButtonPress,
-}) => {
+const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonPress }: DigitalToolProps) => {
   const { t } = useTranslation()
-  const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
   const [showDetailModal, setShowDetailModal] = useState(false)
+
+  const deleteToolSuccesMsg = t('spaces.digitalTool.delete.success')
+  const [isLoadingDeleteTool, deleteTool] = useDeleteTool({
+    id: tool.id,
+    spaceIdOrName: spaceId,
+    successMsg: deleteToolSuccesMsg,
+  })
+
   const defaultTool = digitalTools.filter((t) => tool.url.toLowerCase().includes(t.slug))[0]
   const imageSource = defaultTool?.img
   const toolName = defaultTool?.name
@@ -84,40 +85,32 @@ const DigitalTool: React.VFC<DigitalToolProps> = ({
         <View>
           {isAdmin && (
             <View style={{ paddingTop: 10 }}>
-              <MoreOptionsButtonWithModal
-                label={t('spaces.digitalTool.preview.more')}
-                showOptions={visible}
-                onModalDismiss={hide}
-                testID="digital-toolkit-btn"
-                onPress={() => {
-                  visible && hide()
-                  show()
-                }}
-              >
-                <>
-                  <HoliHeading level="2" size="small" style={styles.toolContextHeader}>
-                    {tool.title}
-                  </HoliHeading>
-                  <MoreOptionItem
-                    icon="edit-2"
-                    label={t('global.edit')}
-                    onPress={() => {
-                      visible && hide()
-                      onEditButtonPress(tool.id)
-                    }}
-                    contentStyle={styles.buttonWithIcon}
-                    testID="tool-edit-btn"
+              <HoliActionDrawer.Drawer label={t('spaces.digitalTool.preview.more')} testID="digital-toolkit-btn">
+                <HoliActionDrawer.Action
+                  action="edit"
+                  title={t('global.edit')}
+                  testID="tool-edit-btn"
+                  handleAction={() => onEditButtonPress(tool.id)}
+                />
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingDeleteTool}
+                  action="delete"
+                  title={t('spaces.digitalTool.delete.label')}
+                  variant="danger"
+                  testID="tool-delete-btn"
+                  showConfirmation
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('spaces.delete.confirmation.title')}
+                    description={t('spaces.digitalTool.delete.confirmation.description')}
+                    testID="tool-delete"
+                    handleConfirmation={deleteTool}
+                    buttonType="warning"
+                    hasDismissBtn
+                    requireLogin
                   />
-                  <DeleteCollaborationToolButton
-                    toolId={tool.id || ''}
-                    spaceIdOrName={spaceId}
-                    onDelete={() => {
-                      hide()
-                    }}
-                    style={styles.buttonWithIcon}
-                  />
-                </>
-              </MoreOptionsButtonWithModal>
+                </HoliActionDrawer.Action>
+              </HoliActionDrawer.Drawer>
             </View>
           )}
         </View>
