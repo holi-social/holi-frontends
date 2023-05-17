@@ -6,7 +6,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 
 export const SPACE_ONBOARDING_STATE_STORAGE_NAME = 'space_onboarding_state_value'
 
-const spaceOnboardingValues = ['space_joined', 'space_editing', 'finished'] as const
+const spaceOnboardingValues = ['space_requested', 'space_joined', 'space_editing', 'finished'] as const
 export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[number]
 
 const isSpaceOnboardingStateValue = (value: string | null): value is SpaceOnboardingStateValue =>
@@ -31,6 +31,7 @@ export const useSpaceOnboarding = () => {
       const value = isSpaceOnboardingStateValue(storedValue) ? storedValue : null
 
       switch (value) {
+        case 'space_requested':
         case 'space_joined':
         case 'space_editing':
         case 'finished':
@@ -38,7 +39,7 @@ export const useSpaceOnboarding = () => {
           break
 
         case null:
-          await onSpaceOnboardingStateChange(isLoggedIn ? 'finished' : 'space_joined')
+          await onSpaceOnboardingStateChange(isLoggedIn ? 'finished' : 'space_requested')
           break
 
         default:

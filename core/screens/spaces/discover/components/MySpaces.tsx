@@ -58,13 +58,13 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
 
   const { spaceOnboardingState, onSpaceOnboardingStateChange } = useSpaceOnboarding()
 
-  // needs to be changed that the modal is only shown once after the user has joined a space for the first time
-  // only for reviewing the onboarding card
+  // implement onboarding using modal & useSpaceOnboarding hook when the user has no spaces and request to join a space for the first time (spaceOnboardingState === 'space_requested')
+
   useEffect(() => {
-    if (spaceOnboardingState === 'finished') {
+    if (spaceOnboardingState === 'space_requested') {
       show()
     }
-  }, [spaceOnboardingState, show])
+  }, [show, spaceOnboardingState])
 
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
