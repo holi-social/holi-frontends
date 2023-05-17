@@ -6,7 +6,6 @@ import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import client from '@holi/api/graphql/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
-import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { UpdateSpaceUserConnectionResponse, updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -30,12 +29,6 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
-
-  const { spaceOnboardingState, onSpaceOnboardingStateChange } = useSpaceOnboarding()
-
-  const onJoin = useCallback(() => {
-    onSpaceOnboardingStateChange('space_requested')
-  }, [onSpaceOnboardingStateChange])
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -72,9 +65,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       },
     }).then(() => {
       showJoinOverlay()
-      onJoin()
     })
-  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, openLoginModal, t, showJoinOverlay, onJoin])
+  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, openLoginModal, t, showJoinOverlay])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)

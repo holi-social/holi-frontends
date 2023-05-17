@@ -103,6 +103,7 @@ const SpaceOverviewFragment = gql`
     members {
       ...FullSpaceMember
     }
+    connectionStatusToMyself
   }
 `
 

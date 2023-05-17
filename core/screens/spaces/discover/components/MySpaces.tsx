@@ -5,6 +5,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
@@ -56,15 +57,18 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
 
-  const { spaceOnboardingState, onSpaceOnboardingStateChange } = useSpaceOnboarding()
-
-  // implement onboarding using modal & useSpaceOnboarding hook when the user has no spaces and request to join a space for the first time (spaceOnboardingState === 'space_requested')
+  const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
 
   useEffect(() => {
-    if (spaceOnboardingState === 'space_requested') {
+    const mySpacesList = mySpaces.flatMap((section) => section.spaces.data)
+
+    if (
+      !isOnboarded &&
+      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.CREATOR))
+    ) {
       show()
     }
-  }, [show, spaceOnboardingState])
+  }, [mySpaces, show, isOnboarded])
 
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
@@ -77,9 +81,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   })
 
   const handleModalClose = () => {
-    if (spaceOnboardingState) {
-      onSpaceOnboardingStateChange('finished')
-    }
+    setIsOnboarded()
     hide()
   }
 
