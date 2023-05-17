@@ -1,4 +1,6 @@
-import { registerRootComponent } from 'expo'
+import { ApolloError } from '@apollo/client'
+import { RequiredError } from '@ory/client'
+import { CodedError, registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 // Polyfill for Intl including required locale data
 import 'intl'
@@ -7,6 +9,8 @@ import 'intl/locale-data/jsonp/en'
 import 'react-native-gesture-handler'
 import 'react-native-url-polyfill/auto'
 import * as Sentry from 'sentry-expo'
+
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
 
@@ -18,6 +22,21 @@ Sentry.init({
   enableInExpoDevelopment: ['production'].includes(sentryEnvironment),
   environment: sentryEnvironment,
   debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  beforeSend: function (event, hint) {
+    const exception = hint.originalException
+
+    if (exception instanceof ApolloError) {
+      event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
+    } else if (exception instanceof CodedError) {
+      event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception.code)]
+    } else if (exception instanceof RequiredError) {
+      event.fingerprint = ['{{ default }}', 'ory-client-error']
+    } else if (exception instanceof HoliError) {
+      event.fingerprint = ['{{ default }}', 'holi-client-error']
+    }
+
+    return event
+  },
 })
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

@@ -9,6 +9,7 @@ import {
   submitVerificationFlow,
 } from '@holi/core/auth/helpers/auth/helpers'
 import type { VerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 export const hasIdentifier = (
   loginFlowBody: UpdateLoginFlowBody | VerificationFlowData
@@ -50,7 +51,7 @@ export const login = async ({
 }
 
 export const getOrCreateVerificationFlow = async (flowData?: VerificationFlowData) => {
-  if (!flowData) throw new Error('[Onboarding] no verification flow has been found')
+  if (!flowData) throw new HoliError('[Onboarding] no verification flow has been found')
 
   if (hasIdentifier(flowData)) {
     return resendVerificationEmail(flowData.identifier)
