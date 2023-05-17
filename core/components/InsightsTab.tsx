@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
@@ -16,21 +16,14 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface InsightsTabProps {
   userId: string
   emptyText: string
-  setHasInsights: (value: boolean) => void
 }
 
 const THUMBNAIL_SIZE = 64
 
-const InsightsTab = ({ emptyText, userId, setHasInsights }: InsightsTabProps) => {
+const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
   const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, { variables: { userId } })
   const insights = data?.insightsByUserId
   const hasInsights = insights && insights.totalResults > 0
-
-  useEffect(() => {
-    if (insights === null || insights?.totalResults === 0) {
-      setHasInsights(false)
-    }
-  }, [insights, setHasInsights])
 
   if (error) {
     logError(error, `[InsightsTab.tsx] ${error.message}`)

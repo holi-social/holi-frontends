@@ -1,12 +1,16 @@
-import React, { Suspense, useState } from 'react'
+import { useQuery } from '@apollo/client'
+import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import { logError } from '@holi/core/errors/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -32,7 +36,16 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const [hasInsights, setHasInsights] = useState<boolean>(true)
+  const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
+    variables: { userId: user.id },
+  })
+
+  const insights = data?.insightsByUserId
+  const hasInsights = insights && insights.totalResults > 0
+
+  if (error) {
+    logError(error, `[OwnProfileView.tsx] ${error.message}`)
+  }
 
   return (
     <>
@@ -100,11 +113,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
             visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <InsightsTab
-                  emptyText={t('profile.tabs.insight.empty')}
-                  userId={user.id}
-                  setHasInsights={setHasInsights}
-                />
+                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
               </Suspense>
             ),
           },

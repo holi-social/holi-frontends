@@ -1,5 +1,5 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { Suspense, memo, useEffect, useLayoutEffect, useState } from 'react'
+import { useLazyQuery, useQuery } from '@apollo/client'
+import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -12,6 +12,7 @@ import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButt
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError } from '@holi/core/errors/helpers'
+import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -19,6 +20,8 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -68,7 +71,19 @@ const UserProfile = () => {
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
 
-  const [hasInsights, setHasInsights] = useState<boolean>(true)
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId },
+    }
+  )
+
+  const insights = dataInsights?.insightsByUserId
+  const hasInsights = insights && insights.totalResults > 0
+
+  if (errorInsights) {
+    logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
+  }
 
   const { setOptions } = useUnifiedNavigation()
   const { visible, show, hide } = useModalState()
@@ -214,11 +229,7 @@ const UserProfile = () => {
             visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <InsightsTab
-                  emptyText={t('profile.tabs.insight.empty')}
-                  userId={user.id}
-                  setHasInsights={setHasInsights}
-                />
+                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
               </Suspense>
             ),
           },
