@@ -25,10 +25,14 @@ describe('HoliLinkPreview', () => {
   })
 
   it('renders correctly', () => {
-    const { getByText, getByTestId } = render(<HoliLinkPreview previewData={linkData} />)
+    const { getByText, getByRole } = render(<HoliLinkPreview previewData={linkData} />)
 
-    const image = getByTestId('link-preview-image')
-    expect(image.props.proxiedProperties.accessibilityLabel).toMatch(new RegExp(linkData.title, 'gi'))
+    // TODO: expo-image - enable after fixing
+    // const image = getByTestId('link-preview-image')
+    // expect(image.props.proxiedProperties.accessibilityLabel).toMatch(new RegExp(linkData.title, 'gi'))
+    getByRole('image', {
+      name: new RegExp(linkData.title, 'gi'),
+    })
 
     getByText(new RegExp(linkData.title, 'gi'))
 

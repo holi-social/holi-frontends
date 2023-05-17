@@ -47,44 +47,29 @@ exports[`HoliCard renders correctly 1`] = `
   }
   testID="holiCard"
 >
-  <ViewManagerAdapter_ExpoImage
+  <Image
+    accessibilityLabel="volunteering"
     accessibilityRole="image"
-    aspectRatio={1.5}
-    borderRadius={8}
-    marginBottom={8}
-    onError={[Function]}
-    onLoad={[Function]}
-    onLoadStart={[Function]}
-    onProgress={[Function]}
-    proxiedProperties={
+    accessible={true}
+    source={
       {
-        "accessibilityLabel": "volunteering",
-        "accessible": true,
-        "contentFit": "cover",
-        "contentPosition": {
-          "left": "50%",
-          "top": "50%",
-        },
-        "placeholder": [],
-        "source": [
-          {
-            "uri": "https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg",
-          },
-        ],
-        "tintColor": undefined,
-        "transition": null,
+        "uri": "https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg",
       }
     }
     style={
-      {
-        "aspectRatio": 1.5,
-        "borderRadius": 8,
-        "marginBottom": 8,
-        "width": "100%",
-      }
+      [
+        {
+          "aspectRatio": 1.5,
+          "borderRadius": 8,
+          "marginBottom": 8,
+          "width": "100%",
+        },
+        {
+          "resizeMode": "cover",
+        },
+      ]
     }
     testID="holiCard-cardImage"
-    width="100%"
   />
   <Text
     accessible={false}

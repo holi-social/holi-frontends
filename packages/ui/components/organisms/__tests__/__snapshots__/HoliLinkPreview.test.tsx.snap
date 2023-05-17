@@ -49,42 +49,28 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         ]
       }
     >
-      <ViewManagerAdapter_ExpoImage
+      <Image
+        accessibilityLabel="Donate to animals on betterplace.org"
         accessibilityRole="image"
-        aspectRatio={1.9536423841059603}
-        backgroundColor={4293651435}
-        onError={[Function]}
-        onLoad={[Function]}
-        onLoadStart={[Function]}
-        onProgress={[Function]}
-        proxiedProperties={
+        accessible={true}
+        source={
           {
-            "accessibilityLabel": "Donate to animals on betterplace.org",
-            "accessible": true,
-            "contentFit": "cover",
-            "contentPosition": {
-              "left": "50%",
-              "top": "50%",
-            },
-            "placeholder": [],
-            "source": [
-              {
-                "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
-              },
-            ],
-            "tintColor": undefined,
-            "transition": null,
+            "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
           }
         }
         style={
-          {
-            "aspectRatio": 1.9536423841059603,
-            "backgroundColor": "#ebebeb",
-            "width": "100%",
-          }
+          [
+            {
+              "aspectRatio": 1.9536423841059603,
+              "backgroundColor": "#ebebeb",
+              "width": "100%",
+            },
+            {
+              "resizeMode": "cover",
+            },
+          ]
         }
         testID="link-preview-image"
-        width="100%"
       />
       <View
         style={

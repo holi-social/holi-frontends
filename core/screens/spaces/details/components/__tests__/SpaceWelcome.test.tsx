@@ -9,9 +9,11 @@ describe('SpaceWelcome', () => {
     const { getByText, getByRole } = render(<SpaceWelcome space={space} />)
 
     const image = getByRole('image')
-    expect(image.props.proxiedProperties).toMatchObject({
-      source: [{ uri: 'https://www.example.com/space1.jpg' }],
-    })
+    // TODO: expo-image - enable after fixing
+    // expect(image.props.proxiedProperties).toMatchObject({
+    //   source: [{ uri: 'https://www.example.com/space1.jpg' }],
+    // })
+    expect(image).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
     expect(getByText('Space description')).toBeDefined()
   })
 })
