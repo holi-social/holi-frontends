@@ -18,6 +18,7 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -83,7 +84,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         // registration. You could handle that case by navigating to the Login screen
         // but for simplicity we'll just print an error here:
         if (isWeb ? !data.session : !data.session_token) {
-          const err = new Error(
+          const err = new HoliOnboardingError(
             'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
           )
           throw err

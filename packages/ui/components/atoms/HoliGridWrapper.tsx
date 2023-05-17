@@ -2,6 +2,8 @@ import type { PropsWithChildren } from 'react'
 import React, { createContext, useContext } from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+
 export interface HoliGridWrapperProps {
   gap: number
   itemsInRow: number
@@ -26,7 +28,7 @@ export const useGrid = () => {
   const context = useContext(GridContext)
 
   if (context === undefined) {
-    throw new Error('useGrid() must be used within a GridProvider')
+    throw new HoliError('useGrid() must be used within a GridProvider')
   }
 
   return context

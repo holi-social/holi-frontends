@@ -10,6 +10,7 @@ import {
   TextNode,
 } from 'lexical'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -134,7 +135,7 @@ export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOut
     }
   } else {
     logError(
-      new Error("Couldn't convert element. Data missing."),
+      new HoliError("Couldn't convert element. Data missing."),
       `[HoliMentionsPluginNode] $convertDomInJsonElement: textContent: ${textContent}, userId: ${userId}`
     )
   }
