@@ -22,7 +22,7 @@ export type SpaceTaskListProps = {
   space: Space
 }
 
-const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
+const SpaceTaskList: React.FC<SpaceTaskListProps> = ({ space, style }: SpaceTaskListProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)

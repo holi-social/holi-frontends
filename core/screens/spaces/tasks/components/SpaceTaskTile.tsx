@@ -2,11 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import useDeleteTask from '@holi/core/hooks/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
-import DeleteTaskButton from '@holi/core/screens/spaces/tasks/components/DeleteTaskButton'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -14,7 +12,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskTileProps = {
@@ -26,17 +24,27 @@ export type SpaceTaskTileProps = {
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
+const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
   isAdmin,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
-  const { visible, show, hide } = useModalState()
   const { navigate, navigateBack } = useRouting()
 
+  const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
+    id: task.id,
+    spaceIdOrName: space.id,
+    successMsg: t('spaces.tasks.delete.success'),
+  })
+
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
+
+  const deleteTaskAction = () => {
+    deleteTask()
+    navigateBack()
+  }
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
@@ -87,37 +95,32 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({
           </HoliText>
         </HoliButton>
         {isAdmin && (
-          <MoreOptionsButtonWithModal
-            label={t('global.moreOptions')}
-            showOptions={visible}
-            onModalDismiss={hide}
-            iconSize={16}
-            tintColor={colors.foreground30}
-            testID="btn-task-more-options"
-            onPress={() => {
-              visible ? hide() : show()
-            }}
-          >
-            <MoreOptionItem
-              icon="edit-2"
-              label={t('global.edit')}
-              onPress={() => {
-                visible && hide()
-                navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)
-              }}
-              contentStyle={styles.buttonWithIcon}
+          <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options">
+            <HoliActionDrawer.Action
+              action="edit"
+              title={t('global.edit')}
               testID="btn-to-edit-task"
+              handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
             />
-            <DeleteTaskButton
-              taskId={task.id || ''}
-              spaceIdOrName={space.id}
-              onDelete={() => {
-                hide()
-                showFullView && navigateBack()
-              }}
-              style={styles.buttonWithIcon}
-            />
-          </MoreOptionsButtonWithModal>
+            <HoliActionDrawer.Action
+              isLoading={isLoadingDeleteTask}
+              action="delete"
+              title={t('spaces.digitalTool.delete.label')}
+              variant="danger"
+              testID="btn-to-delete-task"
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('spaces.tasks.delete.confirmation.title')}
+                description={t('spaces.tasks.delete.confirmation.description')}
+                testID="task-delete"
+                handleConfirmation={deleteTaskAction}
+                buttonType="warning"
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+          </HoliActionDrawer.Drawer>
         )}
       </View>
       <View style={styles.iconsContainer}>
