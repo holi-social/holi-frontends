@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -19,6 +19,8 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -75,6 +77,19 @@ const UserProfile = () => {
     contentType: ContentType.USER,
     successMsg: t('global.report.successMessage'),
   })
+
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId },
+    }
+  )
+
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
+
+  if (errorInsights) {
+    logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
+  }
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -210,6 +225,7 @@ const UserProfile = () => {
           },
           {
             title: t('profile.tabs.insight'),
+            visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
                 <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
