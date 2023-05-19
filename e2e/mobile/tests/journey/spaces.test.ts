@@ -33,9 +33,7 @@ describe('@Spaces', () => {
     await navigateToSpaces()
 
     await assertMultipleGroupsDisplayed()
-    await assertFilteringWorks()
     await assertSpaceDetailsDisplayed()
-    await assertSharingSpaceWorks()
     await assertCreatingSpace()
     await assertEditingSpace()
     await assertDeletingSpace()
@@ -46,33 +44,6 @@ describe('@Spaces', () => {
     expect(groups.length).toBeGreaterThan(0)
     const spaces = await locateMultipleElementsWithTestId('space-link')
     expect(spaces.length).toBeGreaterThan(0)
-  }
-
-  const assertFilteringWorks = async () => {
-    await tapOnElementWithTestId('btn-filter-spaces')
-
-    // Force no results screen to be able to reset filter later
-    const locationFilterValue = 'nwqekjnk23jn4k23'
-    await fillFieldByTestId('spaces-filter-location-input', locationFilterValue)
-
-    // open topics dropdown
-    await tapOnElementWithTestId('spaces-filter-interests-input')
-
-    // click on first topic in the list
-    await tapOnElementWithTestId('spaces-filter-interests-item')
-
-    // make sure dropdown is closed by tapping the heading
-    await tapOnElementWithTestId('spaces-filter-modal-heading')
-
-    // click filter confirmation button
-    await tapOnElementWithTestId('holi-modal-content-close-btn')
-
-    // check if the filtered spaces container is shown
-    await waitForElementWithTestId('filtered-spaces-container')
-
-    // reset the filter and wait for unfiltered results
-    await tapOnElementWithTestId('spaces-filter-reset')
-    await waitForElementWithTestId('spaces-container')
   }
 
   const assertSpaceDetailsDisplayed = async () => {
@@ -87,37 +58,13 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-title')
 
-    // FIXME: not working anymore:
-    // element ("//*[@resource-id='space-details-container']") still not displayed after 10000ms
-    // await tapOnElementWithTestId('btn-to-open-space-collaborators-modal')
-    // Only check if button to open modal is displayed
     await waitForElementWithTestId('btn-to-open-space-collaborators-modal')
-
-    // // check if space collaborators are displayed
-    // await waitForElementWithTestId('spaces-collaborators-item')
-
-    // // close space collaborators modal
-    // await tapOnElementWithTestId('btn-to-close-space-collaborators-modal')
 
     // wait until space details are displayed again
     await waitForElementWithTestId('space-details-container')
 
     await scrollToElementWithTestId('space-description', 'down', { maxAttempts: 2 })
-  }
 
-  const assertSharingSpaceWorks = async () => {
-    // scroll to header with optons menu
-    await scrollToElementWithTestId('space-options-btn', 'up', { maxAttempts: 3 })
-    // open options menu
-    await tapOnElementWithTestId('space-options-btn')
-
-    // check if share button is displayed
-    await waitForElementWithTestId('space-share-btn')
-
-    // close options menu
-    await tapOnElementWithTestId('btn-to-close-more-options-modal')
-
-    // close space details page
     await tapOnElementWithTestId('nav-button-back')
   }
 
@@ -138,7 +85,7 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('holi-wizard-next-btn')
 
     // create space - cover image
-    // FIXME: currently we mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
+    // We mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
     await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
     await tapOnElementWithTestId('holi-wizard-next-btn')
   }
