@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -5,8 +6,11 @@ import { StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import { logError } from '@holi/core/errors/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -31,6 +35,19 @@ const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/com
 const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user.id },
+    }
+  )
+
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
+
+  if (errorInsights) {
+    logError(errorInsights, `[OwnProfileView.tsx] ${errorInsights.message}`)
+  }
 
   return (
     <>
@@ -95,6 +112,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
           },
           {
             title: t('profile.tabs.insight'),
+            visible: hasInsights,
             children: (
               <Suspense fallback={<HoliLoader />}>
                 <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
