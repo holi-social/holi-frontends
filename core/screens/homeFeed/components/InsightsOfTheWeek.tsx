@@ -16,6 +16,8 @@ import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCar
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+export const INSIGHT_PAGE_SIZE = 4
+
 export type InsightsOfTheWeekProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
@@ -26,9 +28,8 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
-  const numberOfInsights = 4
   const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { limit: numberOfInsights },
+    variables: { limit: INSIGHT_PAGE_SIZE },
   })
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const fetchingMoreButtonText = isFetchingMore ? t('global.loading') : t('homeFeed.insights.loadMoreText')
@@ -43,7 +44,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
     fetchMore({
       variables: {
         offset: insights.length,
-        limit: numberOfInsights,
+        limit: INSIGHT_PAGE_SIZE,
       },
     }).finally(() => setIsFetchingMore(false))
   }, [fetchMore, insights.length])

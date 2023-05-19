@@ -1,18 +1,21 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, RefreshControl, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import client from '@holi/api/graphql/client'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
-import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
+import InsightsOfTheWeek, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -20,7 +23,40 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import { PROJECT_PAGE_SIZE } from '@holi-apps/donations/components/DonationUpdates'
+import { projectsQuery } from '@holi-apps/donations/queries'
+import { GOOD_NEWS_PAGE_SIZE } from '@holi-apps/goodnews/components/GoodNewsUpdates'
+import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringUpdates'
+import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+
 export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
+
+const refreshHomeFeedPage = (isLoggedIn: boolean) =>
+  Promise.all([
+    client.query({ query: lastInsightsQuery, variables: { limit: INSIGHT_PAGE_SIZE }, fetchPolicy: 'network-only' }),
+    client.query({
+      query: projectsQuery,
+      variables: { limit: PROJECT_PAGE_SIZE, offset: 0 },
+      fetchPolicy: 'network-only',
+    }),
+    client.query({ query: GoodNewsArticlesQuery, fetchPolicy: 'network-only' }),
+    client.query({
+      query: VolunteeringEngagementsQuery,
+      variables: {
+        offset: 0,
+        limit: GOOD_NEWS_PAGE_SIZE,
+      },
+      fetchPolicy: 'network-only',
+    }),
+    isLoggedIn
+      ? client.query({
+          query: userSuggestionsQuery,
+          variables: { limit: ENGAGEMENT_PAGE_SIZE },
+          fetchPolicy: 'network-only',
+        })
+      : Promise.resolve(),
+  ])
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -30,7 +66,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else return t('homeFeed.headerTitle.goodNight')
 }
 
-const HomeFeed: React.VFC<HomeFeedProps> = () => {
+const HomeFeed = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
@@ -64,9 +100,25 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
     })
   }, [setOptions, navigate, t, headerTitle])
 
+  const [refreshing, setRefreshing] = useState(false)
+
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.layout}>
+      <DefaultScrollHeaderLayout
+        style={styles.layout}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            progressViewOffset={28}
+            style={{ height: refreshing ? 12 : 0 }}
+            onRefresh={async () => {
+              setRefreshing(true)
+              await refreshHomeFeedPage(isLoggedIn)
+              setRefreshing(false)
+            }}
+          />
+        }
+      >
         {Platform.OS === 'web' && (
           <View style={[mixins.container, styles.testingBannerWrapper]}>
             <TestingBanner />

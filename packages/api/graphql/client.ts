@@ -4,7 +4,7 @@ import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
-import { concat, mergeDeepWith } from 'ramda'
+import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -62,7 +62,8 @@ export const createCache = () =>
       InsightPaged: {
         fields: {
           data: {
-            merge: (existing, incoming) => (existing || []).concat(incoming),
+            merge: (existing = [], incoming = []) =>
+              pipe<unknown[][], unknown[], unknown[]>(concat, uniqBy(pick(['__ref'])))(existing, incoming),
             read: (existing) => existing,
           },
         },
@@ -80,7 +81,8 @@ export const createCache = () =>
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
-            merge: (existing, incoming) => (existing || []).concat(incoming),
+            merge: (existing = [], incoming = []) =>
+              pipe<unknown[][], unknown[], unknown[]>(concat, uniqBy(pick(['__ref'])))(existing, incoming),
             read: (existing) => existing,
           },
         },
