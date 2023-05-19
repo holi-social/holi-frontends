@@ -254,8 +254,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'flex-end',
+    marginBottom: 18,
+    ...Platform.select({
+      web: {
+        alignSelf: 'flex-end',
+      },
+    }),
   },
   handle: {
     height: 40,

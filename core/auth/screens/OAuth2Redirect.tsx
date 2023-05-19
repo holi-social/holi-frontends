@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -19,7 +20,7 @@ const OAuth2Redirect: React.VFC<OAuth2RedirectProps> = ({ error }) => {
 
   useEffect(() => {
     if (error) {
-      displayError(new Error(error))
+      displayError(new HoliError(error))
     }
   }, [displayError, error])
 

@@ -175,6 +175,7 @@ describe('Space follow button', () => {
         <SpaceDetails />
       </MockedProvider>
     )
+
     expect(await screen.findByText('spaces.follow.btn.follow'))
     await waitFor(() => expect(screen.getByTestId('follow-btn')).not.toBeDisabled(), {
       timeout: 5000,
