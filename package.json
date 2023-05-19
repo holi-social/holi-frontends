@@ -77,7 +77,8 @@
   "packageManager": "yarn@1.22.17",
   "expo-yarn-workspaces": {
     "symlinks": [
-      "expo-constants"
+      "expo-constants",
+      "expo-assets"
     ]
   },
   "dependencies": {}
