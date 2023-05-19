@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -29,10 +28,6 @@ type OnboardingCard = {
   image: StaticImageData
   description: string
   instruction: string
-}
-
-type OnboardCardProps = {
-  content: OnboardingCard
 }
 
 const onboardingContentList: Array<OnboardingCard> = [
@@ -85,26 +80,6 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
     hide()
   }
 
-  const OnboardCard = ({ content }: OnboardCardProps) => {
-    return (
-      <View style={styles.onboardCardContainer}>
-        <HoliLocalImage
-          imageSource={content.image}
-          width={279}
-          height={200}
-          label={''}
-          isSvg={true}
-          resizeMode="contain"
-          style={styles.illustration}
-        />
-        <HoliText style={styles.onboardingDescription}>{t(content.description)}</HoliText>
-        <HoliText bold style={styles.onboardingInstruction}>
-          {t(content.instruction)}
-        </HoliText>
-      </View>
-    )
-  }
-
   const OnboardContent = () => {
     return (
       <HoliModalContentWrapper
@@ -119,7 +94,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
           slides={onboardingContentList.map((content: OnboardingCard) => ({
             children: (
               <View style={styles.carouselContainer}>
-                <OnboardCard content={content} />
+                <SpaceOnboardCard content={content} />
               </View>
             ),
           }))}
@@ -193,34 +168,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 16,
     alignItems: 'center',
-  },
-  optionsButton: {
-    display: 'flex',
-    marginRight: 4,
-    backgroundColor: colors.background10,
-    padding: 6,
-    borderRadius: 8,
-  },
-  onboardCardContainer: {
-    padding: 24,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: colors.foreground30,
-    alignItems: 'center',
-    alignContent: 'center',
-    backgroundColor: colors.background20,
-    height: '100%',
-    flex: 1,
-  },
-  illustration: {
-    marginBottom: 8,
-  },
-  onboardingDescription: {
-    marginTop: 24,
-    textAlign: 'center',
-  },
-  onboardingInstruction: {
-    marginTop: 12,
   },
   modalContentWrapper: {
     ...Platform.select({
