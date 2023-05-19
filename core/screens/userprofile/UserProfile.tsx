@@ -85,8 +85,7 @@ const UserProfile = () => {
     }
   )
 
-  const insights = dataInsights?.insightsByUserId
-  const hasInsights = insights && insights.totalResults > 0
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
   if (errorInsights) {
     logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)

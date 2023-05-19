@@ -67,9 +67,8 @@ const HoliTabs = ({
 
   const renderedTabs = useMemo(
     () =>
-      tabs
-        .filter((tab) => tab.visible !== false)
-        .map((tab, i) => (
+      tabs.map((tab, i) =>
+        tab.visible !== false ? (
           <View
             style={tab.style}
             accessibilityLabelledBy={`${id}-tab-${i}`}
@@ -80,7 +79,8 @@ const HoliTabs = ({
           >
             {tab.children}
           </View>
-        )),
+        ) : null
+      ),
     [tabs, testID, currentStep, id]
   )
 
@@ -88,38 +88,40 @@ const HoliTabs = ({
     <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
-          {tabs
-            .filter((tab) => tab.visible !== false)
-            .map((tab, index) => {
-              const isActive = activeTab === index
-              return (
-                <HoliTabButton
-                  label={tab.title}
-                  id={`${id}-tab-${index}`}
-                  style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
-                  onPress={() => handleTabChange(index)}
-                  key={index}
-                  accessibilitySelected={isActive}
-                  accessibilityControls={`${id}-panel-${index}`}
-                  testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
-                >
-                  {!!tab.titleIcon && (
-                    <HoliIcon
-                      icon={tab.titleIcon}
-                      size={22}
-                      color={isActive ? colors.foreground30 : colors.foreground20}
-                      style={styles.tabButtonIcon}
-                      filled={isActive}
-                    />
-                  )}
-                  <Text
-                    style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
-                  >
-                    {tab.title}
-                  </Text>
-                </HoliTabButton>
-              )
-            })}
+          {tabs.map((tab, index) =>
+            tab.visible !== false
+              ? (() => {
+                  const isActive = activeTab === index
+                  return (
+                    <HoliTabButton
+                      label={tab.title}
+                      id={`${id}-tab-${index}`}
+                      style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
+                      onPress={() => handleTabChange(index)}
+                      key={index}
+                      accessibilitySelected={isActive}
+                      accessibilityControls={`${id}-panel-${index}`}
+                      testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
+                    >
+                      {!!tab.titleIcon && (
+                        <HoliIcon
+                          icon={tab.titleIcon}
+                          size={22}
+                          color={isActive ? colors.foreground30 : colors.foreground20}
+                          style={styles.tabButtonIcon}
+                          filled={isActive}
+                        />
+                      )}
+                      <Text
+                        style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
+                      >
+                        {tab.title}
+                      </Text>
+                    </HoliTabButton>
+                  )
+                })()
+              : null
+          )}
         </View>
       </View>
 

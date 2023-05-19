@@ -36,15 +36,17 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { data, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
-    variables: { userId: user.id },
-  })
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user.id },
+    }
+  )
 
-  const insights = data?.insightsByUserId
-  const hasInsights = insights && insights.totalResults > 0
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
-  if (error) {
-    logError(error, `[OwnProfileView.tsx] ${error.message}`)
+  if (errorInsights) {
+    logError(errorInsights, `[OwnProfileView.tsx] ${errorInsights.message}`)
   }
 
   return (
