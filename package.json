@@ -78,7 +78,7 @@
   "expo-yarn-workspaces": {
     "symlinks": [
       "expo-constants",
-      "expo-assets"
+      "expo-asset"
     ]
   },
   "dependencies": {}
