@@ -115,7 +115,7 @@ describe('@Spaces', () => {
   const assertDeletingSpace = async () => {
     // delete space
     await tapOnElementWithTestId('space-options-btn')
-    await tapOnElementWithTestId('space-delete-btn')
+    await tapOnElementWithTestId('space-delete')
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
     // check if after deletion we are at the spaces dashboard (mine/discover)

@@ -64,7 +64,6 @@ module.exports = withSentryConfig(
       'react-native-animated-pagination-dot',
       'expo-modules-core',
       'expo-constants',
-      'expo-asset',
       'expo-status-bar',
       '@jsamr/react-native-li',
       '@holi-apps/donations',
