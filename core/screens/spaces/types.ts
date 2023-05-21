@@ -32,8 +32,10 @@ export enum CollaborationType {
 }
 
 export interface SpaceLink {
-  url: string
+  id: string
   type: SpaceLinkType
+  url: string
+  name: string
 }
 
 export interface SpaceCollaborationTool {

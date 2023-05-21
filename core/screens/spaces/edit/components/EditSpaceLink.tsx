@@ -1,0 +1,112 @@
+import { useMutation } from '@apollo/client'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { logError } from '@holi/core/errors/helpers'
+import { isValidUrl } from '@holi/core/helpers'
+import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
+import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import {
+  UpdateExternalLinkResponse,
+  spaceByIdQuery,
+  updateExternalLinkMutation,
+} from '@holi/core/screens/spaces/queries'
+import { Space, SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+
+interface EditSpaceLinkProps {
+  link: SpaceLink
+  space: Space
+  onDismiss: () => void
+}
+
+const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }: EditSpaceLinkProps) => {
+  const { openToast } = useToast()
+  const [url, setUrl] = useState<string>(link.url || '')
+  const [name, setName] = useState<string>(link.name || '')
+  const [type, setType] = useState<string>(SpaceLinkType.OTHER || '')
+  const [validationErrorTextUrl, setValidationErrorTextUrl] = useState('')
+  const [validationErrorTextName, setValidationErrorTextName] = useState('')
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
+  const { t } = useTranslation()
+
+  const [updateLink, { loading }] = useMutation<UpdateExternalLinkResponse>(updateExternalLinkMutation, {
+    onCompleted: () => {
+      openToast(t('spaces.input.socialLinks.update.success'), HoliToastType.SUCCESS)
+      onDismiss()
+    },
+    onError: (e) => {
+      logError(e)
+    },
+    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
+  })
+
+  useEffect(() => {
+    if (url.length > 0 && name.length > 0 && isValidUrl(url)) {
+      setSaveButtonDisabled(false)
+    } else {
+      setSaveButtonDisabled(true)
+    }
+    if (url.length > 0 && !isValidUrl(url)) {
+      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.invalid'))
+    } else {
+      setValidationErrorTextUrl('')
+    }
+  }, [name, url, t])
+
+  useEffect(() => {
+    const linkTypes = Object.values(SpaceLinkType)
+    linkTypes.forEach((type) => {
+      if (url.toUpperCase().includes(type)) {
+        setType(type)
+      }
+    })
+  }, [url])
+
+  const onSave = () => {
+    if (!url) {
+      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.mandatory'))
+      return
+    }
+    if (!isValidUrl(url)) {
+      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.invalid'))
+      return
+    }
+    if (!name) {
+      setValidationErrorTextName(t('spaces.input.socialLinks.validation.name.mandatory'))
+      return
+    }
+
+    updateLink({
+      variables: {
+        input: {
+          id: link.id,
+          url: url,
+          name: name,
+          type: type,
+        },
+      },
+    })
+  }
+
+  return (
+    <EditSpaceModal
+      onDismiss={onDismiss}
+      onSave={onSave}
+      saveButtonDisabled={saveButtonDisabled || loading}
+      scrollable={false}
+    >
+      <SpaceLinksForm
+        title={'Edit Social Media Link'}
+        onChangeUrl={setUrl}
+        onChangeName={setName}
+        url={url}
+        name={name}
+        validationErrorTextUrl={validationErrorTextUrl}
+        validationErrorTextName={validationErrorTextName}
+      />
+    </EditSpaceModal>
+  )
+}
+
+export default EditSpaceLink
