@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 

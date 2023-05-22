@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
