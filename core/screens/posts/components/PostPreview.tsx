@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
@@ -45,6 +46,7 @@ const PostPreview = ({
   const { isLoggedIn, user: loggedUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
+  const { navigate } = useRouting()
   const [isLoadingReport, reportContent] = useReportContent({
     id: post.id,
     contentType: ContentType.POST,
@@ -59,6 +61,12 @@ const PostPreview = ({
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
 
   const commentUrl = `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
+
+  const editAction = useCallback(() => {
+    navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
+  }, [insightId, navigate, post.id, spaceIdOrName])
+
+  const isCurrentUserPostCreator = post.creator.id === user?.id
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
@@ -91,8 +99,7 @@ const PostPreview = ({
         </HoliColumn>
         <HoliColumn>
           <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-            {isLoggedIn &&
-              loggedUser?.id !== post.creator.id && ( // is not creator
+            {!isCurrentUserPostCreator && ( // is not creator
                 <HoliActionDrawer.Action
                   isLoading={isLoadingReport}
                   action="report"
@@ -110,8 +117,7 @@ const PostPreview = ({
                 </HoliActionDrawer.Action>
               )}
 
-            {isLoggedIn &&
-              loggedUser?.id === post.creator.id && ( // is creator
+            {isCurrentUserPostCreator && ( // is creator
                 <HoliActionDrawer.Action
                   isLoading={isLoadingPostDeletion}
                   action="delete"
@@ -128,6 +134,7 @@ const PostPreview = ({
                     handleConfirmation={deletePost}
                     buttonType="warning"
                     hasDismissBtn
+                    requireLogin
                   />
                 </HoliActionDrawer.Action>
               )}

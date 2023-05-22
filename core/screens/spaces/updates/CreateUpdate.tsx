@@ -30,7 +30,7 @@ const { useParam } = createParam<CreateUpdateParams>()
 
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
-const CreateUpdate: React.VFC<ScreenProps> = () => {
+const CreateUpdate: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
