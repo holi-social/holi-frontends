@@ -10,7 +10,7 @@ describe('SpaceTaskList', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <SpaceTaskList space={space} />
+          <SpaceTaskList isAdmin={false} space={space} />
         </MockedProvider>
       )
       .toJSON()
@@ -25,7 +25,7 @@ describe('SpaceTaskList', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <SpaceTaskList space={spaceWithoutTasks} />
+          <SpaceTaskList isAdmin={false} space={spaceWithoutTasks} />
         </MockedProvider>
       )
       .toJSON()

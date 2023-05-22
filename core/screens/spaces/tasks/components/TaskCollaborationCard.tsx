@@ -11,7 +11,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface TasksCardProps {
   isAdmin: boolean
-  isCollaborator: boolean
   space: Space
 }
 

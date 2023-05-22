@@ -25,7 +25,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
       <View style={style}>
         {isCollaborator && <SpaceCollaborationArea space={space} />}
         {isCollaborator ? (
-          <TaskCollaborationCard isAdmin={isAdmin} isCollaborator={isCollaborator} space={space} />
+          <TaskCollaborationCard isAdmin={isAdmin} space={space} />
         ) : (
           <SpaceTaskList isAdmin={isAdmin} space={space} />
         )}
