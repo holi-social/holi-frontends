@@ -533,7 +533,7 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 

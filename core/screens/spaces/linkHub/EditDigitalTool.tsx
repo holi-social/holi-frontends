@@ -14,12 +14,11 @@ import DigitalToolInputForm, {
   COLLECTION_TYPES,
 } from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
-  SpaceByIdResponse,
   UpdateCollaborationToolResponse,
   UpdateCollaborationToolSchema,
-  spaceByIdQuery,
   updateCollaborationToolMutation,
-} from '@holi/core/screens/spaces/queries'
+} from '@holi/core/screens/spaces/linkHub/mutations'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'

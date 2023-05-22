@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
+import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceSection } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type MySpacesProps = {
@@ -20,36 +16,7 @@ export type MySpacesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-export type OnboardSpaceParams = {
-  onboarding: string
-}
-
-type OnboardingCard = {
-  image: StaticImageData
-  description: string
-  instruction: string
-}
-
-const onboardingContentList: Array<OnboardingCard> = [
-  {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.svg'),
-    description: 'spaces.join.onboarding.slide1.description',
-    instruction: 'spaces.edit.onboarding.instruction',
-  },
-  {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_2.svg'),
-    description: 'spaces.join.onboarding.slide2.description',
-    instruction: '',
-  },
-  {
-    image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_3.svg'),
-    description: 'spaces.join.onboarding.slide3.description',
-    instruction: '',
-  },
-]
-
 const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
-  const { t } = useTranslation()
   const { visible, show, hide } = useModalState()
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
@@ -80,29 +47,6 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
     hide()
   }
 
-  const OnboardContent = () => {
-    return (
-      <HoliModalContentWrapper
-        actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={() => handleModalClose()}
-        headlineText={t('spaces.join.onboarding.header')}
-        testID={'space-onBoard-content'}
-        style={styles.modalContentWrapper}
-      >
-        <HoliCarousel
-          marginHorizontal={20}
-          slides={onboardingContentList.map((content: OnboardingCard) => ({
-            children: (
-              <View style={styles.carouselContainer}>
-                <SpaceOnboardCard content={content} />
-              </View>
-            ),
-          }))}
-        />
-      </HoliModalContentWrapper>
-    )
-  }
-
   return (
     <View style={[styles.mySpaces, style]}>
       {mappedSpaces.map((section, sectionIndex) => (
@@ -128,16 +72,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
           ))}
         </View>
       ))}
-      <HoliModal
-        show={visible}
-        label={t('spaces.edit.onboarding.header')}
-        onDismiss={() => handleModalClose()}
-        headerStyle={styles.modalHeader}
-        style={styles.modal}
-        testID="space-chips-modal"
-      >
-        <OnboardContent />
-      </HoliModal>
+      <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
     </View>
   )
 }
@@ -168,30 +103,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 16,
     alignItems: 'center',
-  },
-  modalContentWrapper: {
-    ...Platform.select({
-      web: {
-        maxWidth: '100%',
-      },
-      native: {
-        flexShrink: 1,
-        height: '100%',
-      },
-    }),
-
-    backgroundColor: colors.background30,
-  },
-  carouselContainer: {
-    width: '100%',
-    display: 'flex',
-    flex: 1,
-    marginBottom: Platform.OS === 'web' ? 54 : 0,
-  },
-  modal: {
-    height: '75%',
-  },
-  modalHeader: {
-    backgroundColor: colors.background30,
   },
 })

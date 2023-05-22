@@ -115,15 +115,15 @@ const testShareSpace = async (page: Page) => {
   // open space share modal
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await clickElementByTestId(page, 'space-options-btn')
-  await clickElementByTestId(page, 'share-space')
+  await clickElementByTestId(page, 'space-share')
 
   //check if shared link is correct
-  const spaceShareLink = await locateElementByTestId(page, 'share-space-confirmation-description')
+  const spaceShareLink = await locateElementByTestId(page, 'space-share-confirmation-description')
   const spaceShareLinkText = await spaceShareLink.innerText()
   expect(spaceShareLinkText).toBe(page.url())
 
   // copy link and close modal / options
-  await clickElementByTestId(page, 'share-space-confirmation-confirm')
+  await clickElementByTestId(page, 'space-share-confirmation-confirm')
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await page.waitForSelector(byTestId('space-options-btn'))
 }
@@ -219,7 +219,7 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
     // delete space
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
     await clickElementByTestId(page, 'space-options-btn')
-    await clickElementByTestId(page, 'space-delete-btn')
+    await clickElementByTestId(page, 'space-delete')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
 
     // check if after deletion we are at the spaces dashboard (mine/discover)
