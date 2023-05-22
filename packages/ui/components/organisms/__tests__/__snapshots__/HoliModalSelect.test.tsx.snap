@@ -523,6 +523,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -604,22 +605,29 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       Public
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      Just collaborators can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        Just collaborators can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -830,6 +838,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -911,22 +920,29 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       Members
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      This task is publicly visible. Anyone can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        This task is publicly visible. Anyone can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -1707,6 +1723,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -1788,22 +1805,29 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       Public
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      Just collaborators can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        Just collaborators can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -1953,6 +1977,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -2034,22 +2059,29 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       Members
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      This task is publicly visible. Anyone can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        This task is publicly visible. Anyone can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
