@@ -90,7 +90,7 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 }
 
 const testFilteringByLocation = async (page: Page) => {
-  await clickElementByTestId(page, 'btn-to-volunteering-filter')
+  await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
 
   // open location dropdown
   await clickElementByTestId(page, 'volunteering-filter-location-input')
@@ -119,7 +119,7 @@ const testDisplaysFilterResults = async (page: Page) => {
   // expect filtered list
   await page.waitForSelector(byTestId('volunteering-list-filtered'))
 
-  await clickElementByTestId(page, 'btn-to-volunteering-filter')
+  await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
 
   // open topics dropdown
   await clickElementByTestId(page, 'volunteering-filter-category-input')

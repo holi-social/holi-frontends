@@ -97,12 +97,12 @@ const SpaceDetails = () => {
               title={t('global.share')}
               handleAction={isWeb ? undefined : shareSpaceUrl}
               showConfirmation={isWeb}
-              testID="share-space"
+              testID="space-share"
             >
               <HoliActionDrawer.Confirmation
                 title={t('global.share')}
                 description={spaceUrl}
-                testID="share-space"
+                testID="space-share"
                 handleConfirmation={shareWebAction}
                 confirmText={t('global.share.copy.link')}
               />
@@ -118,7 +118,7 @@ const SpaceDetails = () => {
             <HoliActionDrawer.Confirmation
               title={t('spaces.spaceDetails.report.confirmation.title')}
               description={t('spaces.spaceDetails.report.confirmation.description')}
-              testID="report-space"
+              testID="space-report"
               handleConfirmation={reportContent}
               hasDismissBtn
               requireLogin
@@ -132,6 +132,7 @@ const SpaceDetails = () => {
               title={t('global.delete')}
               variant="danger"
               showConfirmation
+              testID="space-delete"
             >
               <HoliActionDrawer.Confirmation
                 title={t('spaces.delete.confirmation.title')}

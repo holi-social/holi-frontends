@@ -155,7 +155,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 <Confirmation
                   title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
                   description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
-                  testID="report-space"
+                  testID="space-report"
                   handleConfirmation={reportContent}
                   hasDismissBtn
                   requireLogin
