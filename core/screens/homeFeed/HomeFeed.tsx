@@ -1,11 +1,11 @@
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, RefreshControl, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import client from '@holi/api/graphql/client'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -104,33 +104,33 @@ const HomeFeed = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh: async () => {
+            setRefreshing(true)
+            await refreshHomeFeedPage(isLoggedIn)
+            setRefreshing(false)
+          },
+          refreshHeight: 100,
+          loaderTopOffset: 56,
+        }}
         style={styles.layout}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            progressViewOffset={28}
-            style={{ height: refreshing ? 12 : 0 }}
-            onRefresh={async () => {
-              setRefreshing(true)
-              await refreshHomeFeedPage(isLoggedIn)
-              setRefreshing(false)
-            }}
-          />
-        }
       >
-        {Platform.OS === 'web' && (
-          <View style={[mixins.container, styles.testingBannerWrapper]}>
-            <TestingBanner />
-          </View>
-        )}
+        <>
+          {Platform.OS === 'web' && (
+            <View style={[mixins.container, styles.testingBannerWrapper]}>
+              <TestingBanner />
+            </View>
+          )}
 
-        <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+          <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
 
-        <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+          <UpdatesOfYourApps style={styles.updatesOfYourApps} />
 
-        {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
-      </DefaultScrollHeaderLayout>
+          {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
+        </>
+      </ScrollHeaderLayout.Refreshable>
 
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />
