@@ -31,7 +31,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
 
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,
@@ -40,11 +40,6 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
-
-  const deleteTaskAction = () => {
-    deleteTask()
-    navigateBack()
-  }
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
@@ -114,7 +109,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
                 title={t('spaces.tasks.delete.confirmation.title')}
                 description={t('spaces.tasks.delete.confirmation.description')}
                 testID="task-delete"
-                handleConfirmation={deleteTaskAction}
+                handleConfirmation={deleteTask}
                 buttonType="warning"
                 hasDismissBtn
                 requireLogin
