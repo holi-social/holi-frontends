@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?r9fo9j');
-  src:  url('fonts/icomoon.eot?r9fo9j#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?r9fo9j') format('truetype'),
-    url('fonts/icomoon.woff?r9fo9j') format('woff'),
-    url('fonts/icomoon.svg?r9fo9j#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?w15gpz');
+  src:  url('fonts/icomoon.eot?w15gpz#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?w15gpz') format('truetype'),
+    url('fonts/icomoon.woff?w15gpz') format('woff'),
+    url('fonts/icomoon.svg?w15gpz#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,23 +25,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-door-closed:before {
+.icon-shield-plus:before {
   content: "\e900";
-  color: #787777;
 }
-.icon-close-circle:before {
+.icon-door-closed:before {
   content: "\e901";
 }
-.icon-pencil:before {
+.icon-close-circle:before {
   content: "\e902";
 }
-.icon-user:before {
+.icon-pencil:before {
   content: "\e903";
 }
-.icon-user-unfollow:before {
+.icon-user:before {
   content: "\e904";
 }
-.icon-shield-plus:before {
+.icon-user-unfollow:before {
   content: "\e905";
 }
 .icon-shield-minus:before {
