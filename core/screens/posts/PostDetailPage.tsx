@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { SpacesScreens } from 'apps/mobile/navigation/SpacesNavigator'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +14,7 @@ import {
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -29,6 +28,7 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -124,7 +124,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar animated />
 
-      <DefaultScrollHeaderLayout ref={scrollViewRef}>
+      <ScrollHeaderLayout.Defatult ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
 
@@ -150,7 +150,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             </View>
           )}
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       <SafeAreaView>
         <View style={styles.postCommentWrapper}>

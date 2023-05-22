@@ -7,7 +7,7 @@ import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -96,7 +96,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
       style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
       testID="donations-detailview-container"
     >
-      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
+      <ScrollHeaderLayout.Defatult style={{ backgroundColor: colors.background30 }} headerOverlap>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
@@ -132,7 +132,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
             />
           )}
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       <View style={[mixins.container, styles.donateButton]}>
         <HoliButtonLoading

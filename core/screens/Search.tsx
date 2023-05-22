@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -21,13 +21,13 @@ const Search: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => setOptions({ title }), [setOptions, title])
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Defatult>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
       </View>
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Defatult>
   )
 }
 

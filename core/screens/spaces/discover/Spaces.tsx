@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -120,7 +120,7 @@ const Spaces: React.VFC = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout ref={pageViewRef} style={styles.layout}>
+      <ScrollHeaderLayout.Defatult ref={pageViewRef} style={styles.layout}>
         {/* User has NO spaces => show discover view */}
         {!hasOwnSpaces && (
           <View style={[mixins.container, styles.discoverSpacesContainer]}>
@@ -157,7 +157,7 @@ const Spaces: React.VFC = () => {
             testID="spaces-tab-navigation"
           />
         )}
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>

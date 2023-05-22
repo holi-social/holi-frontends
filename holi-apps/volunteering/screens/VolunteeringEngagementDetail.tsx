@@ -8,7 +8,7 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -154,7 +154,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   return (
     <View style={styles.container} testID="volunteering-detailview-container">
-      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
+      <ScrollHeaderLayout.Defatult style={{ backgroundColor: colors.background30 }} headerOverlap>
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
@@ -167,7 +167,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             )}
           </View>
         )}
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading

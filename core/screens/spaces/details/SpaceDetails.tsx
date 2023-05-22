@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import NotificationModal from '@holi/core/components/NotificationModal'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useShareSpace } from '@holi/core/hooks/spaces/useShareSpace'
@@ -231,14 +231,14 @@ const SpaceDetails = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <SpaceDetailView
           style={styles.spaceDetailView}
           space={space}
           onChangeTab={handleTabChange}
           initialTabIndex={global.spaceDetailInitialTabIndex}
         />
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
     </>

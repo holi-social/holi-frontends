@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
@@ -101,7 +101,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.wrapper} testID="filtered-spaces-container">
+      <ScrollHeaderLayout.Defatult style={styles.wrapper} testID="filtered-spaces-container">
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {spaces.length > 0 && !isLoading && <SpacesGrid style={styles.grid} spaces={spaces} />}
@@ -137,7 +137,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
             </View>
           )}
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       <SpaceFilterModal
         filters={filters}

@@ -5,8 +5,8 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -163,7 +163,7 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Defatult>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -229,7 +229,7 @@ const UserProfile = () => {
           },
         ]}
       />
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Defatult>
   )
 }
 

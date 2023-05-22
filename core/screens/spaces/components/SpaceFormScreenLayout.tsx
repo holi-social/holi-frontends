@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -42,7 +42,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout
+      <ScrollHeaderLayout.Defatult
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
@@ -59,7 +59,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
           {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {children}
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       {/* Footer */}
       <View style={styles.footerContainer}>

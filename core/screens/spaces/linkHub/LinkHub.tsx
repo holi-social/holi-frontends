@@ -4,7 +4,7 @@ import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -64,7 +64,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} headerOverlap>
+      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} headerOverlap>
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
@@ -82,7 +82,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
             },
           ]}
         />
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
       <AddButton />
     </>
   )

@@ -6,7 +6,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -229,7 +229,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
@@ -380,7 +380,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             </View>
           </View>
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
 
       <View style={styles.overlayContainer}>
         <HoliButton

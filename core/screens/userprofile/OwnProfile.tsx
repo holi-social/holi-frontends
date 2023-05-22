@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -108,7 +108,7 @@ const OwnProfile: React.VFC = () => {
 
   return (
     <LoginProtection>
-      <DefaultScrollHeaderLayout keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout.Defatult keyboardShouldPersistTaps="handled">
         {user ? (
           <>
             {editMode && (
@@ -156,7 +156,7 @@ const OwnProfile: React.VFC = () => {
         ) : (
           <HoliLoader />
         )}
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Defatult>
     </LoginProtection>
   )
 }
