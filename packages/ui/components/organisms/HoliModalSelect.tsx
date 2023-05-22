@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -93,9 +94,9 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
             {option.title}
           </HoliText>
           {!isDense && option.description && (
-            <HoliText style={option?.disabled ? styles.optionDescriptionDisabled : styles.optionDescription}>
-              {option.description}
-            </HoliText>
+            <HoliBox padding={[4, 0, 0, 0]}>
+              <HoliText color={option?.disabled ? 'gray200' : 'gray300'}>{option.description}</HoliText>
+            </HoliBox>
           )}
         </View>
         <HoliCheckbox
@@ -227,14 +228,6 @@ const getStyles = (isDense: boolean, description: boolean) =>
       marginTop: 2,
       paddingLeft: isDense ? 0 : 8,
       paddingRight: 8,
-    },
-    optionDescription: {
-      marginTop: 4,
-      color: colors.foreground20,
-    },
-    optionDescriptionDisabled: {
-      marginTop: 4,
-      color: colors.foreground10,
     },
     separator: {
       borderBottomWidth: 1,

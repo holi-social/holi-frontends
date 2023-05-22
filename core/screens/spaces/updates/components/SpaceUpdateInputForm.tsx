@@ -45,7 +45,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         title: t(`spaces.input.update.visibility.${option.id}.title`),
         description: t(`spaces.input.update.visibility.${option.id}.description`),
         selected: option.id === VisibilityType.MEMBERS ? true : false,
-        disabled: isAdmin !== true && option.id === VisibilityType.PUBLIC ? true : false,
+        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
       }))
     )
   }, [t, setVisibilityOptions, isAdmin])
