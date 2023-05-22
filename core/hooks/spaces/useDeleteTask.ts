@@ -3,8 +3,8 @@ import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { deleteTaskMutation, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import type { DeleteTaskResponse } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { DeleteTaskResponse, deleteTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseDeleteTask = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]

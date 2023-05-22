@@ -3,7 +3,8 @@ import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { DeleteSpaceResponse, deleteSpaceMutation, mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import { DeleteSpaceResponse, deleteSpaceMutation } from '@holi/core/screens/spaces/details/mutations'
+import { mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseDeleteSpace = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
