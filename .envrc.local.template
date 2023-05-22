@@ -4,13 +4,13 @@
 # the '.envrc.local' file is to be included by .envrc and can contain personal secrets or configuration so it is NOT TO BE CHECKED IN
 
 if type -t nodenv >/dev/null 2>&1; then
-  # installing correct node version using nodenv
-  nodenv install -s "$(cat .node-version)"
+    # installing correct node version using nodenv
+    nodenv install -s "$(cat .node-version)"
 else
-  # alternative using nvm
-  # shellcheck source=/dev/null
-  . ~/.nvm/nvm.sh
-  nvm install "$(cat .node-version)"
+    # alternative using nvm
+    # shellcheck source=/dev/null
+    . ~/.nvm/nvm.sh
+    nvm install "$(cat .node-version)"
 fi
 
 # e2e tests
@@ -21,9 +21,12 @@ export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
 export E2E_ANDROID_VIRTUAL_DEVICE_NAME="e2e_avd"
 case "$OSTYPE" in
-darwin*) export ANDROID_HOME="$HOME/Library/Android/sdk" ;;
-*) export ANDROID_HOME="$HOME/Android/Sdk" ;;
+    darwin*) export ANDROID_HOME="$HOME/Library/Android/sdk" ;;
+    *) export ANDROID_HOME="$HOME/Android/Sdk" ;;
 esac
 export SENTRY_AUTH_TOKEN=
 export EXPO_PROJECT_ID=
 export ORY_ADMIN_ACCESS_TOKEN=
+
+# Use http://localhost:4455/graphql when running frontend against the local environment
+export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
