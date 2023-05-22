@@ -60,6 +60,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { displayError } = useErrorHandling()
 
@@ -181,6 +182,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
             title={title}
             content={content}
             image={image}
+            isAdmin={isAdmin}
           />
         </View>
       </DefaultScrollHeaderLayout>
