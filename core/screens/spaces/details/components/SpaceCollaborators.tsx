@@ -75,8 +75,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         heading={t('spaces.collaborators')}
         testID={'space-collaborators-modal'}
         onDismiss={onDismiss}
-        relativeHeight={1}
         autoHeight={false}
+        headerStyle={styles.modalHeader}
       >
         <View style={[mixins.container, styles.wrapper]}>
           <ScrollView>
@@ -144,6 +144,9 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 }
 
 const styles = StyleSheet.create({
+  modalHeader: {
+    width: '100%',
+  },
   admin: {
     color: colors.foreground20,
     paddingLeft: 8,
