@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
