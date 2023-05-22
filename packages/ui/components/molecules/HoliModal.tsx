@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Animated,
@@ -231,7 +231,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 }
 
-export default HoliModal
+export default memo(HoliModal)
 
 const styles = StyleSheet.create({
   rootView: {

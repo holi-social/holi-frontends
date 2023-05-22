@@ -81,7 +81,7 @@ const SpaceDetails = () => {
   const renderActionDrawer = useCallback(
     () => (
       <>
-        <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="space-options-btn">
+        <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="space-options-btn">
           {isAdmin && (
             <HoliActionDrawer.Action
               isLoading={isLoading}
