@@ -19,7 +19,7 @@ export type SpaceFollowProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
+const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()

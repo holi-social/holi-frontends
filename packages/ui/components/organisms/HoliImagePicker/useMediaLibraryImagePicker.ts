@@ -1,6 +1,6 @@
 import { getInfoAsync } from 'expo-file-system'
 import {
-  ImageInfo,
+  ImagePickerAsset,
   ImagePickerOptions,
   PermissionStatus,
   launchImageLibraryAsync,
@@ -8,13 +8,14 @@ import {
 } from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePicker/useFileSizeValidation'
 
 export type HoliImagePickerOptions = ImagePickerOptions & { maxFileSizeInMB?: number }
 
 export const useMediaLibraryImagePicker = () => {
-  const [image, setImage] = useState<ImageInfo>()
+  const [images, setImages] = useState<ImagePickerAsset[]>([])
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
   const isFileSizeValid = useFileSizeValidation()
   const { displayError } = useErrorHandling()
@@ -29,14 +30,14 @@ export const useMediaLibraryImagePicker = () => {
 
     if (mediaLibraryPermissionInfo.status === PermissionStatus.DENIED) {
       // TODO: provide i18n message
-      displayError(new Error('Please, give access to your photos.'), 'Media Library permission denied')
+      displayError(new HoliError('Please, give access to your photos.'), 'Media Library permission denied')
       return false
     }
 
     return true
   }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError])
 
-  const pickImage = useCallback(
+  const pickImages = useCallback(
     async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {
       const hasPermission = await verifyPermissions()
 
@@ -44,18 +45,18 @@ export const useMediaLibraryImagePicker = () => {
 
       const image = await launchImageLibraryAsync(pickerOptions)
 
-      if (image.cancelled) {
+      if (image.canceled) {
         return
       }
 
       if (maxFileSizeInMB) {
-        const fileInfo = await getInfoAsync(image.uri)
-        if (!isFileSizeValid({ fileSize: fileInfo.size, maxFileSizeInMB })) {
+        const fileInfo = await getInfoAsync(image.assets[0].uri)
+        if ('size' in fileInfo && !isFileSizeValid({ fileSize: fileInfo.size, maxFileSizeInMB })) {
           return
         }
       }
 
-      setImage(image)
+      setImages(image.assets)
 
       return image
     },
@@ -63,7 +64,7 @@ export const useMediaLibraryImagePicker = () => {
   )
 
   return {
-    image,
-    pickImage,
+    images,
+    pickImages,
   }
 }

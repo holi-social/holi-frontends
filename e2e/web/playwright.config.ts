@@ -56,7 +56,7 @@ const possibleBrowsers = [
   },
 ]
 
-const browsersFromEnv = (value: string | undefined): Object[] => {
+const browsersFromEnv = (value: string | undefined): object[] => {
   if (value) {
     return value.split(',').map((name) => {
       const match = possibleBrowsers.find((browser) => browser.name === name)

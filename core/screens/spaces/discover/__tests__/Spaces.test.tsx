@@ -2,6 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import {
   authenticatedUserMock,
   defaultLocationDetailsMock,
@@ -24,7 +25,7 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 
 const mySpacesMock = { ...mySpacesWithEmptyResultMock, result: { data: { mySpaces } } }
 
-const mySpacesErrorMock = { ...mySpacesWithEmptyResultMock, error: new Error('Test error') }
+const mySpacesErrorMock = { ...mySpacesWithEmptyResultMock, error: new HoliError('Test error') }
 
 const discoverSpacesUserSpecificMock = {
   request: {

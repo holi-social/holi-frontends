@@ -23,7 +23,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -38,7 +38,7 @@ export interface TaskInputFormProps {
   visibility?: HoliModalSelectOption
   locationType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
-  thumbnail?: ImageInfo
+  thumbnail?: HoliImageInfo
   geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
@@ -50,7 +50,7 @@ export interface TaskInputFormProps {
   onChangeRegularity: (_: HoliModalSelectOption) => void
   onChangeContactEmail: (_: string) => void
   onChangeSlotsAvailable: (_: number) => void
-  onChangeThumbnail: (_: ImageInfo) => void
+  onChangeThumbnail: (_: HoliImageInfo) => void
   onChangeSkills: (_: Skill[]) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
@@ -227,7 +227,9 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         isRequired
       />
       <View style={styles.sectionWrapper}>
-        <HoliText size="large">{t('spaces.input.task.section.about')}</HoliText>
+        <HoliText size="large" testID="task-input-label-name">
+          {t('spaces.input.task.section.about')}
+        </HoliText>
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}

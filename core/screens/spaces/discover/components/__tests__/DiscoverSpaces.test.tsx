@@ -2,6 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import {
   authenticatedUserMock,
@@ -43,7 +44,7 @@ const discoverSpacesUserSpecificErrorMock = {
       limit: 10,
     },
   },
-  error: new Error('Test error'),
+  error: new HoliError('Test error'),
 }
 
 const discoverSpacesDefaultMock = {
@@ -71,7 +72,7 @@ const discoverSpacesDefaultErrorMock = {
       limit: 10,
     },
   },
-  error: new Error('Test error'),
+  error: new HoliError('Test error'),
 }
 
 export const defaultLocationDetailsErrorMock = {
@@ -81,7 +82,7 @@ export const defaultLocationDetailsErrorMock = {
       id: DEFAULT_LOCATION_ID,
     },
   },
-  error: new Error('Test error'),
+  error: new HoliError('Test error'),
 }
 
 const BASE_MOCKS = [authenticatedUserMock, mySpacesWithEmptyResultMock, topicsMock, skillsMock, sdgsMock]

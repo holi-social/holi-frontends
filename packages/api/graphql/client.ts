@@ -7,6 +7,7 @@ import fetch from 'cross-fetch'
 import { concat, mergeDeepWith } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
 import { indexAwareOffsetLimitPagination } from './cachePolicies'
@@ -28,7 +29,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
-      logError(new Error(errorMessage), '[GraphQL Error]')
+      logError(new HoliError(errorMessage), '[GraphQL Error]')
     })
   }
   if (networkError) {

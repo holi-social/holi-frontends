@@ -59,6 +59,10 @@ export const scrollLeft = async () => {
  */
 const swipe = async (coord: { start: XY; end: XY }) => {
   const { start, end } = await convertToScreenCoordinates(coord)
+  await doSwipe(start, end)
+}
+
+export const doSwipe = async (start: XY, end: XY) =>
   await Appium.performActions([
     {
       // a. Create the event
@@ -85,7 +89,6 @@ const swipe = async (coord: { start: XY; end: XY }) => {
       ],
     },
   ])
-}
 
 /**
  * Convert percentages of screen coordinates to absolute coordinates according to the screen size
@@ -93,7 +96,7 @@ const swipe = async (coord: { start: XY; end: XY }) => {
 const convertToScreenCoordinates = async (coord: { start: XY; end: XY }) => {
   // Get the screen size and store it so it can be re-used.
   // This will save a lot of webdriver calls if this methods is used multiple times.
-  SCREEN_SIZE = SCREEN_SIZE || (await Appium.getWindowRect())
+  SCREEN_SIZE = await getDeviceScreenSize()
   // Get the start position on the screen for the swipe
   const fromScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, coord.start)
   // Get the move to position on the screen for the swipe
@@ -110,4 +113,8 @@ const getDeviceScreenCoordinates = (screenSize: RectReturn, coordinates: XY): XY
     x: Math.round(screenSize.width * (coordinates.x / 100)),
     y: Math.round(screenSize.height * (coordinates.y / 100)),
   }
+}
+
+export const getDeviceScreenSize = async () => {
+  return SCREEN_SIZE || (await Appium.getWindowRect())
 }

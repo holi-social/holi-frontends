@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -16,13 +17,14 @@ import {
   createSpaceMutation,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/create/mutations'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -31,11 +33,11 @@ const CreateSpace: React.VFC = () => {
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
-  const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
+  const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -47,13 +49,24 @@ const CreateSpace: React.VFC = () => {
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
+  // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
+  const { userId } = useAuth()
+  useEffect(() => {
+    mockImageUploadForE2E(userId).then((spaceCoverImage) => {
+      spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
+    })
+  }, [userId])
+
   const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
     onCompleted: () => setFieldErrors({}),
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
   })
   const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
-    onCompleted: (data) =>
-      replaceRoute(`/spaces/${data.createSpace.name}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`),
+    onCompleted: async (data) => {
+      const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
+      await replaceRoute(spaceDetailsRoute)
+      navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
+    },
     onError: (error) => setFieldErrors(handleGraphQLError(error)),
     refetchQueries: [{ query: mySpaceQuery }],
   })

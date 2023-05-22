@@ -12,11 +12,9 @@ describe('@ForgotPassword', () => {
   it('validates and submits the form', async () => {
     await tapOnElementWithTestId('btn-to-profile-view', 10000)
     await tapOnLoginLinkInText()
-    await tapOnElementWithTestId('ory-submit-password') // close keyboard
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 
     // shows also login and registration link
-    await tapOnElementWithTestId('ory-submit-link') // close keyboard
     await checkIfElementWithTestIdExists('already-have-account-text')
     await checkIfElementWithTestIdExists('btn-to-registration-form')
 

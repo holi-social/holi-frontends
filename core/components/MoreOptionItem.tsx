@@ -9,13 +9,13 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
-  iconRight?: boolean
+  iconRight?: string
   tintColor?: string
   bold?: boolean
   loading?: boolean
 }
 
-const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
+const MoreOptionItem = ({
   icon,
   iconRight,
   tintColor = colors.foreground30,
@@ -25,14 +25,14 @@ const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   contentStyle,
   bold = true,
   ...buttonProps
-}) => {
+}: MoreOptionItemProps) => {
   return (
     <>
       <HoliButton
         inline
         transparent
         label={label}
-        contentStyle={[styles.buttonContent, contentStyle]}
+        contentStyle={StyleSheet.flatten([styles.buttonContent, contentStyle])}
         disabled={disabled}
         {...buttonProps}
       >

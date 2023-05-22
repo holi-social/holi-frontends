@@ -7,7 +7,7 @@ import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceM
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 type EditSpaceCoverImageProps = {
   space: Space
@@ -15,10 +15,10 @@ type EditSpaceCoverImageProps = {
 }
 
 const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDismiss }: EditSpaceCoverImageProps) => {
-  const [coverImage, setCoverImage] = useState<ImageInfo | undefined>()
+  const [coverImage, setCoverImage] = useState<HoliImageInfo | undefined>()
   const { openToast } = useToast()
 
-  const handleImageUpload = (image: ImageInfo | undefined) => {
+  const handleImageUpload = (image: HoliImageInfo | undefined) => {
     setCoverImage(image)
   }
 
@@ -32,7 +32,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
 
   const { t } = useTranslation()
 
-  const onSave = () => coverImage && updateSpace({ variables: { input: { id: space.id, cover: coverImage.blob } } })
+  const onSave = () => updateSpace({ variables: { input: { id: space.id, cover: coverImage?.blob ?? null } } })
 
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
@@ -41,6 +41,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
         description={t('spaces.input.coverImage.remove.description')}
         onUploadImage={handleImageUpload}
         image={coverImage}
+        currentImageUri={space.cover}
       />
     </EditSpaceModal>
   )

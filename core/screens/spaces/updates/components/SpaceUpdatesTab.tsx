@@ -147,14 +147,11 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           ) : (
             <HoliBox padding={[0, 24, 24, 24]}>
               <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
-                {
-                  /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                  posts.map((post) => (
-                    <HoliGridCell key={post.id}>
-                      <PostPreview post={post} spaceIdOrName={space.name} hasVisibilityIcon />
-                    </HoliGridCell>
-                  ))
-                }
+                {posts.map((post) => (
+                  <HoliGridCell key={post.id}>
+                    <PostPreview post={post} spaceIdOrName={space.name} hasVisibilityIcon />
+                  </HoliGridCell>
+                ))}
               </HoliGridWrapper>
             </HoliBox>
           )}

@@ -59,7 +59,7 @@ const Spaces: React.VFC = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+        <HeaderTitle size="large" tintColor={tintColor}>
           {title}
         </HeaderTitle>
       ),
