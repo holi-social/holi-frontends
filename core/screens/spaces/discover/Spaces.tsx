@@ -96,10 +96,8 @@ const Spaces: React.VFC = () => {
   )
 
   useEffect(() => {
-    if (mySpacesError) {
-      if (mySpacesError.message !== 'Unauthorized') {
-        openToast(t('global.technicalError'), HoliToastType.ERROR)
-      }
+    if (mySpacesError?.message !== 'Unauthorized') {
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
     }
   }, [mySpacesError, openToast, t])
 
