@@ -73,7 +73,6 @@ const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps
       show={visible}
       label={t('spaces.edit.onboarding.header')}
       onDismiss={() => handleModalClose()}
-      headerStyle={styles.modalHeader}
       style={styles.modal}
       testID="space-chips-modal"
     >
@@ -95,13 +94,9 @@ const styles = StyleSheet.create({
         height: '100%',
       },
     }),
-    backgroundColor: colors.background30,
-  },
-  modalHeader: {
-    backgroundColor: colors.background30,
   },
   modal: {
-    height: '75%',
+    backgroundColor: colors.background30,
   },
   carouselContainer: {
     width: '100%',
