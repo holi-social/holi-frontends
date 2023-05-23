@@ -4,6 +4,8 @@ import React from 'react'
 import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 
+jest.useFakeTimers()
+
 describe('MySpaces', () => {
   it('MySpaces shows all spaces of a user sorted by type (MEMBER, FOLLOWER, CREATOR)', () => {
     const { getByTestId, getByText } = render(<MySpaces mySpaces={mySpaces} />)
