@@ -1,5 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, TypePolicy, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, ServerError, TypePolicy, from } from '@apollo/client'
+import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -17,6 +18,9 @@ import headerLink from './headerLink'
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const errorStatusCodeVar = makeVar<boolean>(false)
+export const setErrorStatusCode = errorStatusCodeVar
+export const useErrorStatusCodeVar = () => useReactiveVar(errorStatusCodeVar)
 
 // There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
 const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
@@ -33,6 +37,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     })
   }
   if (networkError) {
+    if ((networkError as ServerError)?.statusCode === 401) {
+      errorStatusCodeVar(true)
+    }
     logError(networkError, '[Network error]')
   }
 })
