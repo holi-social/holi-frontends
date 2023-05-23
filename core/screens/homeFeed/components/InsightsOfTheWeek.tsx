@@ -1,11 +1,12 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
+import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import InsightList from '@holi/core/screens/insights/InsightList'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,26 +28,22 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
   const numberOfInsights = 4
-  const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { limit: numberOfInsights },
+
+  const {
+    loading,
+    data: insights,
+    error,
+    fetchNextPage,
+    canFetchMore,
+    isFetchingMore,
+  } = usePaginationQuery<Insight>(lastInsightsQuery, {
+    queryName: 'lastInsights',
+    pageSize: numberOfInsights,
   })
-  const [isFetchingMore, setIsFetchingMore] = useState(false)
+
   const fetchingMoreButtonText = isFetchingMore ? t('global.loading') : t('homeFeed.insights.loadMoreText')
 
-  const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
-  const canFetchMore = insights.length < totalResults || isFetchingMore
   const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
-
-  const fetchMoreInsights = useCallback(() => {
-    setIsFetchingMore(true)
-
-    fetchMore({
-      variables: {
-        offset: insights.length,
-        limit: numberOfInsights,
-      },
-    }).finally(() => setIsFetchingMore(false))
-  }, [fetchMore, insights.length])
 
   if (error) {
     logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
@@ -103,7 +100,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
           disabled={loading}
           icon={isFetchingMore ? 'loader-4' : undefined}
           iconSpinning={isFetchingMore}
-          onPress={fetchMoreInsights}
+          onPress={fetchNextPage}
           style={mixins.moreButton}
           testID="btn-insights-list-load-more"
         >

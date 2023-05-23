@@ -50,7 +50,7 @@ function usePaginationQuery<TData>(
 
   const { data = [], totalResults = 0 } = (pagedData?.[queryName] || {}) as Paged<TData>
 
-  const canFetchMore = data.length < totalResults
+  const canFetchMore = !loading && data.length < totalResults
 
   const memoizedFetchMore = useCallback(async () => {
     setIsFetchingMore(true)
