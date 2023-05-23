@@ -5,6 +5,7 @@ import RefreshableWrapper from 'react-native-fresh-refresh'
 import { LayoutProps } from '@holi/core/components/DefaultLayout/Default'
 import Default from '@holi/core/components/ScrollHeaderLayout/Default'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { vars } from '@holi/ui/styles/globalVars'
 
 type DefaultProps = Omit<LayoutProps, 'refreshControl'>
 type RefreshableWrapperProps = Omit<React.ComponentProps<typeof RefreshableWrapper>, 'children'> & {
@@ -20,7 +21,13 @@ const PULL_DEVIDER = 3.118
 const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutProps>(
   (
     {
-      refreshableProps: { Loader, isLoading, onRefresh, refreshHeight = 100, loaderTopOffset = 0 },
+      refreshableProps: {
+        Loader,
+        isLoading,
+        onRefresh,
+        refreshHeight = +vars.topBarHeight + +vars.loaderHeight,
+        loaderTopOffset = +vars.loaderHeight,
+      },
       ...defaultLayoutProps
     },
     ref

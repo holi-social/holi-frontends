@@ -9,6 +9,7 @@ import HeaderOffsetScrollView from '@holi/core/components/DefaultLayout/HeaderOf
 import { useScrollHandlerHandler } from '@holi/core/components/ScrollHeaderLayout/useScrollHandlerHandler'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { vars } from '@holi/ui/styles/globalVars'
 
 const AnimatedDefaultLayout = Animated.createAnimatedComponent(DefaultLayout)
 
@@ -28,10 +29,10 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
         Loader,
         isLoading,
         onRefresh,
-        refreshHeight = 100,
+        refreshHeight = +vars.topBarHeight + +vars.loaderHeight,
         managedLoading = true,
         bounces = true,
-        loaderTopOffset = 0,
+        loaderTopOffset = +vars.loaderHeight,
       },
       children,
       headerOverlap,

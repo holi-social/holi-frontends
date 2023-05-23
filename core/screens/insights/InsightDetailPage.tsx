@@ -21,7 +21,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
@@ -82,8 +82,8 @@ const InsightDetailPage = () => {
             // use setTimeout to not bother user with very quick animation
             setTimeout(() => setRefreshing(false), 500)
           },
-          refreshHeight: 166,
-          loaderTopOffset: 100,
+          refreshHeight: +vars.topBarHeight + 66,
+          loaderTopOffset: +vars.topBarHeight,
         }}
         headerOverlap
       >

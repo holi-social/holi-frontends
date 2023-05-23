@@ -20,7 +20,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { PROJECT_PAGE_SIZE } from '@holi-apps/donations/components/DonationUpdates'
@@ -112,8 +112,8 @@ const HomeFeed = () => {
             await refreshHomeFeedPage(isLoggedIn)
             setRefreshing(false)
           },
-          refreshHeight: 100,
-          loaderTopOffset: 56,
+          refreshHeight: +vars.topBarHeight + 66,
+          loaderTopOffset: +vars.topBarHeight,
         }}
         style={styles.layout}
       >
