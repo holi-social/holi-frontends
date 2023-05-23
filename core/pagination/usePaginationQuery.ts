@@ -14,7 +14,7 @@ type PagedResponse<T, QueryName extends string> = {
   [P in QueryName]: Paged<T>
 }
 
-interface PaginationQueryHookOptions extends QueryHookOptions {
+export interface PaginationQueryHookOptions extends QueryHookOptions {
   pageSize: number
   queryName: string
 }

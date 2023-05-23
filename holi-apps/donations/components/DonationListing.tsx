@@ -3,21 +3,17 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
+import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
-import { projectsQuery } from '@holi-apps/donations/queries'
 import { Project } from '@holi-apps/donations/typings'
-
-const PROJECT_PAGE_SIZE = 10
 
 type DonationListingProps = {
   locationQuery?: string
@@ -31,26 +27,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
 
-  const {
-    loading,
-    data: projects,
-    error,
-    totalResults,
-    fetchNextPage,
-    canFetchMore,
-    isFetchingMore,
-  } = usePaginationQuery<Project>(projectsQuery, {
-    pageSize: PROJECT_PAGE_SIZE,
-    queryName: 'appDonations_projects',
-    variables: {
-      location: locationQuery,
-    },
-    fetchPolicy: 'cache-and-network',
-  })
-
-  const fetchMoreButtonText = isFetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('donations:donationListing.loadMoreButton.text')
+  const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
   useEffect(() => {
     if (error) {
@@ -120,18 +97,6 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
             )
           )
       }
-      {canFetchMore && (
-        <HoliButtonLoading
-          type="primary"
-          label={fetchMoreButtonText}
-          disabled={isFetchingMore}
-          icon={isFetchingMore ? 'loader-4' : undefined}
-          iconSpinning={isFetchingMore}
-          onPress={fetchNextPage}
-          style={[styles.loadMoreButton]}
-          testID="btn-donation-list-load-more"
-        />
-      )}
     </View>
   )
 }
