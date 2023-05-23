@@ -1,22 +1,22 @@
-import { DocumentNode } from '@apollo/client'
+import { ApolloError, DocumentNode } from '@apollo/client'
 import React, { PropsWithChildren, createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewProps, ViewStyle } from 'react-native'
+import { ViewProps } from 'react-native'
 
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface PaginationContextType<T> {
   totalResults: number
   data: T[]
   loading: boolean | undefined
-  error: unknown
+  error: ApolloError | undefined
 }
 
 export interface PaginationProps {
   query: DocumentNode
   queryOptions: PaginationQueryHookOptions
-  buttonStyle?: StyleProp<ViewStyle>
+  buttonProps?: Partial<HoliButtonLoadingProps>
   containerProps?: ViewProps
   // TODO(SF) + button label variants
 }
@@ -37,7 +37,7 @@ export function Pagination<T>({
   children,
   query,
   queryOptions,
-  buttonStyle,
+  buttonProps = {},
   containerProps = {},
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
@@ -71,7 +71,7 @@ export function Pagination<T>({
           iconSpinning={isFetchingMore}
           onPress={fetchNextPage}
           testID="btn-fetch-more"
-          style={buttonStyle}
+          {...buttonProps}
         />
       )}
     </PaginationContext.Provider>
