@@ -1,0 +1,2 @@
+schema: ${UNIFIED_API_SCHEMA_ENDPOINT}
+documents: '**/*.{graphql,gql,js,ts,jsx,tsx}'

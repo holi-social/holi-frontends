@@ -533,7 +533,7 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 
@@ -688,6 +688,12 @@ Mobile) to authenticate a user. To do this you need e.g. to enable inspection wi
 simulator/emulator and inspect outgoing requests to the GraphQL API after logging in. You should see an `Authentication:
 Bearer <some-token-here>` header in the request. This header can also be added within graphiql's UI as an
 alternative.
+
+### Linting and Autocomplete
+
+We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL linting and code autocompletion capabilities. By integrating GraphQL Config into our development environment, we create a seamless and efficient coding experience specifically tailored for GraphQL that guarantees we can write GraphQL queries, mutations, fragments, and so on, with ease, as it provides us with optimized features that minimize errors and maximize productivity.
+
+By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT` environment variable.
 
 ## Continuous Integration and Deployment
 

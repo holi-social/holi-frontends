@@ -227,7 +227,9 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         isRequired
       />
       <View style={styles.sectionWrapper}>
-        <HoliText size="large">{t('spaces.input.task.section.about')}</HoliText>
+        <HoliText size="large" testID="task-input-label-name">
+          {t('spaces.input.task.section.about')}
+        </HoliText>
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}

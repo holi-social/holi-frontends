@@ -178,6 +178,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                   isFocused ? styles.labelFocused : {},
                   hasValidationErrors ? styles.labelHasValidationErrors : {},
                 ]}
+                {...(props?.testID ? { testID: `${props?.testID}-label` } : {})}
               >
                 {inputLabel}
               </HoliText>

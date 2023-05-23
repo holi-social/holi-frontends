@@ -3,8 +3,11 @@ import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { deleteCollaborationToolMutation, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import type { DeleteCollaborationToolResponse } from '@holi/core/screens/spaces/queries'
+import {
+  DeleteCollaborationToolResponse,
+  deleteCollaborationToolMutation,
+} from '@holi/core/screens/spaces/linkHub/mutations'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseDeleteTool = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]

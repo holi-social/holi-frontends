@@ -78,6 +78,14 @@ const SpaceDetails = () => {
     setTimeout(() => setShowShareConfirmation(false), 1500)
   }, [setShowShareConfirmation, shareSpaceUrl])
 
+  const leaveSpaceAction = useCallback(() => {
+    const totalMembers = space?.members.totalResults ?? 0
+    if (isMember && totalMembers <= 1) {
+      navigate('/spaces')
+      deleteSpace().catch((e) => logError(e))
+    }
+  }, [deleteSpace, navigate, space, isMember])
+
   const renderActionDrawer = useCallback(
     () => (
       <>
@@ -97,17 +105,33 @@ const SpaceDetails = () => {
               title={t('global.share')}
               handleAction={isWeb ? undefined : shareSpaceUrl}
               showConfirmation={isWeb}
-              testID="share-space"
+              testID="space-share"
             >
               <HoliActionDrawer.Confirmation
                 title={t('global.share')}
                 description={spaceUrl}
-                testID="share-space"
+                testID="space-share"
                 handleConfirmation={shareWebAction}
                 confirmText={t('global.share.copy.link')}
               />
             </HoliActionDrawer.Action>
           )}
+
+          <HoliActionDrawer.Action
+            isLoading={isLoading}
+            action="leave"
+            title={t('spaces.spaceDetails.leave')}
+            showConfirmation
+          >
+            <HoliActionDrawer.Confirmation
+              title={t('spaces.spaceDetails.leave.confirmation.title')}
+              description={t('spaces.spaceDetails.leave.confirmation.description')}
+              testID="space-leave"
+              handleConfirmation={leaveSpaceAction}
+              hasDismissBtn
+              requireLogin
+            />
+          </HoliActionDrawer.Action>
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -118,7 +142,7 @@ const SpaceDetails = () => {
             <HoliActionDrawer.Confirmation
               title={t('spaces.spaceDetails.report.confirmation.title')}
               description={t('spaces.spaceDetails.report.confirmation.description')}
-              testID="report-space"
+              testID="space-report"
               handleConfirmation={reportContent}
               hasDismissBtn
               requireLogin
@@ -132,6 +156,7 @@ const SpaceDetails = () => {
               title={t('global.delete')}
               variant="danger"
               showConfirmation
+              testID="space-delete"
             >
               <HoliActionDrawer.Confirmation
                 title={t('spaces.delete.confirmation.title')}
@@ -161,6 +186,7 @@ const SpaceDetails = () => {
     [
       reportContent,
       deleteConfirmationAction,
+      leaveSpaceAction,
       editAction,
       isAdmin,
       isWeb,
