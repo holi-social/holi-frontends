@@ -312,7 +312,9 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
               },
-              undefined,
+              {
+                "width": "100%",
+              },
             ]
           }
         >
@@ -1512,7 +1514,9 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
               },
-              undefined,
+              {
+                "width": "100%",
+              },
             ]
           }
         >
@@ -2469,7 +2473,9 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
               },
-              undefined,
+              {
+                "width": "100%",
+              },
             ]
           }
         >
