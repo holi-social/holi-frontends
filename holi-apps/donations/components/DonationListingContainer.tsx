@@ -27,13 +27,19 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
     fetchPolicy: 'cache-and-network',
   }
   // TODO(SF)
-  // testID="btn-donation-list-load-more"
   // const fetchMoreButtonText = isFetchingMore
   //   ? t('donations:donationListing.loadMoreButton.loading')
   //   : t('donations:donationListing.loadMoreButton.text')
 
   return (
-    <Pagination query={projectsQuery} queryOptions={queryOptions} buttonStyle={styles.loadMoreButton}>
+    <Pagination
+      query={projectsQuery}
+      queryOptions={queryOptions}
+      buttonProps={{
+        style: styles.loadMoreButton,
+        testID: 'btn-donation-list-load-more',
+      }}
+    >
       <DonationListing resetSearch={resetSearch} locationQuery={locationQuery} />
     </Pagination>
   )
