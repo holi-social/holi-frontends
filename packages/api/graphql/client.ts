@@ -75,6 +75,11 @@ export const createCache = () =>
           },
         },
       },
+      PostPaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
       AppDonations_ProjectsResponse: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
@@ -104,6 +109,11 @@ export const createCache = () =>
         },
       },
       SpacePaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      SpaceMemberPaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
         },
