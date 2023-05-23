@@ -16,6 +16,7 @@ const SpaceOverviewFragment = gql`
     avatar
     avatarDefaultColor
     name
+    connectionStatusToMyself
     members {
       ...FullSpaceMember
     }
