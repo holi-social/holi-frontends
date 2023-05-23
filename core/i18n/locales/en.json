@@ -20,6 +20,7 @@
   "auth.forgotPassword.success.button": "Back to startpage",
   "auth.forgotPassword.success.headline": "Help is on the way!",
   "auth.forgotPassword.success.text": "If we found your email address, we sent you a mail with a link to reset your password.",
+  "auth.loggingOut": "Your session is invalid. Your are being logged out.",
   "auth.login": "Sign in",
   "auth.login.alreadyLoggedIn": "You are already signed in",
   "auth.login.checkbox.hint-Consent": "Accept our Community Guidelines to proceed",
