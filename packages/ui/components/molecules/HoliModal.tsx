@@ -76,7 +76,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   heading,
   relativeHeight = 0.9,
   autoHeight = true,
-  headerStyle,
+  headerStyle = { width: '100%' },
   children,
   style,
   testID,
