@@ -7,6 +7,7 @@ import { styles } from '@holi/core/components/DefaultLayout'
 import DefaultLayout, { LayoutProps } from '@holi/core/components/DefaultLayout/Default'
 import HeaderOffsetScrollView from '@holi/core/components/DefaultLayout/HeaderOffsetScrollView'
 import { useScrollHandlerHandler } from '@holi/core/components/ScrollHeaderLayout/useScrollHandlerHandler'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const AnimatedDefaultLayout = Animated.createAnimatedComponent(DefaultLayout)
@@ -27,10 +28,10 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
         Loader,
         isLoading,
         onRefresh,
-        refreshHeight,
+        refreshHeight = 100,
         managedLoading = true,
         bounces = true,
-        loaderTopOffset,
+        loaderTopOffset = 0,
       },
       children,
       headerOverlap,
@@ -41,16 +42,19 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     ref
   ) => {
     const contentOffset = useSharedValue(0)
-    const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
+    const { top } = useSafeAreaInsets()
+    const additionalOffset = headerOverlap ? top : 0
+    const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset + additionalOffset }} />
     Loader ??= defaultLoader
 
     const onScrollHandler = useScrollHandlerHandler(onScroll)
+    // add SafeArea top automaticaly
 
     const content = (
       <RefreshableWrapper
         contentOffset={contentOffset}
         Loader={Loader}
-        refreshHeight={refreshHeight}
+        refreshHeight={refreshHeight + additionalOffset}
         isLoading={isLoading}
         onRefresh={onRefresh}
         managedLoading={managedLoading}
