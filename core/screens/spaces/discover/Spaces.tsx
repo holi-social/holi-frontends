@@ -5,6 +5,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -32,6 +33,7 @@ const Spaces: React.VFC = () => {
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+
   // This is added to keep the reference of the current tab to handle the active tab in back navigation
   global.spaceDetailInitialTabIndex = 0
 
@@ -96,8 +98,9 @@ const Spaces: React.VFC = () => {
   )
 
   useEffect(() => {
-    if (mySpacesError?.message !== 'Unauthorized') {
+    if (mySpacesError && mySpacesError.message !== 'Unauthorized') {
       openToast(t('global.technicalError'), HoliToastType.ERROR)
+      logError(mySpacesError?.message)
     }
   }, [mySpacesError, openToast, t])
 
