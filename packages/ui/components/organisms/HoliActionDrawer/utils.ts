@@ -1,4 +1,4 @@
-export const actions = ['block', 'delete', 'edit', 'report', 'share'] as const
+export const actions = ['block', 'delete', 'edit', 'report', 'share', 'leave'] as const
 export type ActionsType = typeof actions
 export type ActionType = ActionsType[number]
 
@@ -10,6 +10,7 @@ export const mapActionIcons = (actions: ActionsType): Map<ActionType, string> =>
     if (action === 'report') iconMap.set('report', 'flag')
     if (action === 'share') iconMap.set('share', 'share')
     if (action === 'block') iconMap.set('block', 'close-circle')
+    if (action === 'leave') iconMap.set('leave', 'door-closed')
   }
 
   return iconMap

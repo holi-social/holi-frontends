@@ -78,6 +78,14 @@ const SpaceDetails = () => {
     setTimeout(() => setShowShareConfirmation(false), 1500)
   }, [setShowShareConfirmation, shareSpaceUrl])
 
+  const leaveSpaceAction = useCallback(() => {
+    const totalMembers = space?.members.totalResults ?? 0
+    if (isMember && totalMembers <= 1) {
+      navigate('/spaces')
+      deleteSpace().catch((e) => logError(e))
+    }
+  }, [deleteSpace, navigate, space, isMember])
+
   const renderActionDrawer = useCallback(
     () => (
       <>
@@ -108,6 +116,22 @@ const SpaceDetails = () => {
               />
             </HoliActionDrawer.Action>
           )}
+
+          <HoliActionDrawer.Action
+            isLoading={isLoading}
+            action="leave"
+            title={t('spaces.spaceDetails.leave')}
+            showConfirmation
+          >
+            <HoliActionDrawer.Confirmation
+              title={t('spaces.spaceDetails.leave.confirmation.title')}
+              description={t('spaces.spaceDetails.leave.confirmation.description')}
+              testID="space-leave"
+              handleConfirmation={leaveSpaceAction}
+              hasDismissBtn
+              requireLogin
+            />
+          </HoliActionDrawer.Action>
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -162,6 +186,7 @@ const SpaceDetails = () => {
     [
       reportContent,
       deleteConfirmationAction,
+      leaveSpaceAction,
       editAction,
       isAdmin,
       isWeb,
