@@ -23,7 +23,7 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SPACE_MEMBER_PAGE_SIZE = 2 // TODO(SF) change to 10
+const SPACE_MEMBER_PAGE_SIZE = 10
 
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    // height: '100%',TODO(SF)
     paddingTop: 24,
   },
   buttonContainer: {
