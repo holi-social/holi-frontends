@@ -46,6 +46,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const { displayError } = useErrorHandling()
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
+  const [showRemoveMemberConfirmationModal, setShowRemoveMemberConfirmationModal] = useState(false)
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: user.id,
@@ -86,6 +87,15 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
     }).then(() => setshowRevokeAdminConfirmationModal(false))
+  }
+
+  const removeMember = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.DISCONNECT,
+        connectionType: SpaceConnectionType.ADMINISTRATOR,
+      },
+    }).then(() => setShowRemoveMemberConfirmationModal(false))
   }
 
   return (
@@ -144,6 +154,21 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 </HoliText>
               </HoliButton>
             )}
+
+            <HoliButton
+              contentStyle={styles.actionsItem}
+              inline
+              transparent
+              disabled={loading}
+              label={t('spaces.collaborators.permissions.remove.user.label')}
+              onPress={() => setShowRemoveMemberConfirmationModal(true)}
+              testID={'spaces-collaborators-remove-user-btn'}
+            >
+              <HoliIcon icon="user-unfollow" style={styles.actionsItemIcon} />
+              <HoliText style={styles.actionsItemText}>
+                {t('spaces.collaborators.permissions.remove.user.label')}
+              </HoliText>
+            </HoliButton>
 
             <HoliBox padding={[0, 0, 24, 0]}>
               <Action
@@ -209,6 +234,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               revokeAdminRights()
             }}
           />
+
+          <HoliConfirmation
+            show={showRemoveMemberConfirmationModal}
+            label={t('spaces.collaborators.permissions.remove.user.label')}
+            title={t('spaces.collaborators.permissions.remove.user.label')}
+            description={t('spaces.collaborators.permissions.remove.user.confirm', {
+              user: user.fullName || t('user.profileView.anonymous'),
+            })}
+            onDismiss={() => setShowRemoveMemberConfirmationModal(false)}
+            dismissText={t('spaces.collaborators.permissions.confirm.no')}
+            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+            testID="spaces-collaborators-remove-user-confirmation"
+            onConfirm={() => {
+              removeMember()
+            }}
+          />
         </View>
       </HoliModal>
     </>
@@ -237,12 +278,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   actionsItemText: {
-    color: colors.foreground20,
     paddingLeft: 10,
   },
-  actionsItemIcon: {
-    color: colors.foreground20,
-  },
+  actionsItemIcon: {},
 })
 
 export default SpacePermissions
