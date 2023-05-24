@@ -695,6 +695,14 @@ We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL
 
 By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT` environment variable.
 
+### Code Generation
+
+We use [GraphQL Codegen](https://the-guild.dev/graphql/codegen) to automate the process of generating strongly typed code that corresponds to `unified-api` GraphQL schema which eliminates the need for manual type definitions and helps maintain consistency between the frontend and the backend services.
+
+To use GraphQL Codegen, start by defining your GraphQL types (e.g. queries, mutations, or fragments) in a `.graphql` or `.gql` file. Afterward, run the `yarn schema:generate` command to automatically generate the corresponding TypeScript code based on your definitions.
+
+For a better local development experience, you can enable watch mode for codegen by running `yarn schema:watch`. This allows the code generation process to continuously monitor your GraphQL schema and automatically update the generated code whenever changes are detected.
+
 ## Continuous Integration and Deployment
 
 ### Feature Branches & Environments
