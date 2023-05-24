@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import useDeleteTool from '@holi/core/hooks/useDeleteTool'
+import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'

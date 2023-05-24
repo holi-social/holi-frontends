@@ -1,4 +1,4 @@
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
   LocationType,
   Regularity,

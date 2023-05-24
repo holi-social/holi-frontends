@@ -8,6 +8,7 @@ import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeader
 import NotificationModal from '@holi/core/components/NotificationModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
+import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import { useShareSpace } from '@holi/core/hooks/spaces/useShareSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -57,6 +58,8 @@ const SpaceDetails = () => {
     contentType: ContentType.SPACE,
     successMsg: t('global.report.successMessage'),
   })
+
+  const { confirmationTitle, confirmationDescription, isLoadingLeaveSpace, leaveSpaceAction } = useLeaveSpace(space)
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -108,6 +111,22 @@ const SpaceDetails = () => {
               />
             </HoliActionDrawer.Action>
           )}
+
+          <HoliActionDrawer.Action
+            isLoading={isLoadingLeaveSpace}
+            action="leave"
+            title={t('spaces.spaceDetails.leave')}
+            showConfirmation
+          >
+            <HoliActionDrawer.Confirmation
+              title={confirmationTitle}
+              description={confirmationDescription}
+              testID="space-leave"
+              handleConfirmation={leaveSpaceAction}
+              hasDismissBtn
+              requireLogin
+            />
+          </HoliActionDrawer.Action>
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -162,6 +181,7 @@ const SpaceDetails = () => {
     [
       reportContent,
       deleteConfirmationAction,
+      leaveSpaceAction,
       editAction,
       isAdmin,
       isWeb,
@@ -173,6 +193,9 @@ const SpaceDetails = () => {
       shareWebAction,
       isLoading,
       showShareConfirmation,
+      confirmationDescription,
+      confirmationTitle,
+      isLoadingLeaveSpace,
     ]
   )
 

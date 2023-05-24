@@ -989,7 +989,7 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                         onProgress={[Function]}
                         proxiedProperties={
                           {
-                            "accessibilityLabel": "spaces.task.thumbnail.label",
+                            "accessibilityLabel": "spaces.tasks.thumbnail.label",
                             "accessible": true,
                             "contentFit": "cover",
                             "contentPosition": {
@@ -1682,7 +1682,7 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                         onProgress={[Function]}
                         proxiedProperties={
                           {
-                            "accessibilityLabel": "spaces.task.thumbnail.label",
+                            "accessibilityLabel": "spaces.tasks.thumbnail.label",
                             "accessible": true,
                             "contentFit": "cover",
                             "contentPosition": {
@@ -2375,7 +2375,7 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                         onProgress={[Function]}
                         proxiedProperties={
                           {
-                            "accessibilityLabel": "spaces.task.thumbnail.label",
+                            "accessibilityLabel": "spaces.tasks.thumbnail.label",
                             "accessible": true,
                             "contentFit": "cover",
                             "contentPosition": {
@@ -3125,7 +3125,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   onProgress={[Function]}
                   proxiedProperties={
                     {
-                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessibilityLabel": "spaces.tasks.thumbnail.label",
                       "accessible": true,
                       "contentFit": "cover",
                       "contentPosition": {
@@ -3818,7 +3818,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   onProgress={[Function]}
                   proxiedProperties={
                     {
-                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessibilityLabel": "spaces.tasks.thumbnail.label",
                       "accessible": true,
                       "contentFit": "cover",
                       "contentPosition": {
@@ -4511,7 +4511,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   onProgress={[Function]}
                   proxiedProperties={
                     {
-                      "accessibilityLabel": "spaces.task.thumbnail.label",
+                      "accessibilityLabel": "spaces.tasks.thumbnail.label",
                       "accessible": true,
                       "contentFit": "cover",
                       "contentPosition": {

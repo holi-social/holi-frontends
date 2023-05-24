@@ -175,7 +175,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 onProgress={[Function]}
                 proxiedProperties={
                   {
-                    "accessibilityLabel": "spaces.task.thumbnail.label",
+                    "accessibilityLabel": "spaces.tasks.thumbnail.label",
                     "accessible": true,
                     "contentFit": "cover",
                     "contentPosition": {
@@ -868,7 +868,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 onProgress={[Function]}
                 proxiedProperties={
                   {
-                    "accessibilityLabel": "spaces.task.thumbnail.label",
+                    "accessibilityLabel": "spaces.tasks.thumbnail.label",
                     "accessible": true,
                     "contentFit": "cover",
                     "contentPosition": {
@@ -1561,7 +1561,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 onProgress={[Function]}
                 proxiedProperties={
                   {
-                    "accessibilityLabel": "spaces.task.thumbnail.label",
+                    "accessibilityLabel": "spaces.tasks.thumbnail.label",
                     "accessible": true,
                     "contentFit": "cover",
                     "contentPosition": {

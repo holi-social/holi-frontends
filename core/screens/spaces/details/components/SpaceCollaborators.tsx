@@ -106,7 +106,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   <HoliAvatar
                     imageSrc={collaborator.avatar}
                     label=""
-                    accessibilityLabel={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
+                    accessibilityLabel={collaborator.fullName || t('user.profileView.anonymous')}
                     initials={collaborator.avatarLabel}
                     defaultColor={collaborator.avatarDefaultColor}
                     size="small"

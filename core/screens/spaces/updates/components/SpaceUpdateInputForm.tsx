@@ -18,6 +18,7 @@ export interface SpaceUpdateInputFormProps {
   title: string
   content: string
   image: HoliImageInfo | undefined
+  isAdmin?: boolean
 }
 
 const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
@@ -29,6 +30,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
   title,
   content,
   image,
+  isAdmin,
 }: SpaceUpdateInputFormProps) => {
   const { t } = useTranslation()
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(
@@ -43,9 +45,10 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         title: t(`spaces.input.update.visibility.${option.id}.title`),
         description: t(`spaces.input.update.visibility.${option.id}.description`),
         selected: option.id === VisibilityType.MEMBERS ? true : false,
+        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
       }))
     )
-  }, [t, setVisibilityOptions])
+  }, [t, setVisibilityOptions, isAdmin])
 
   useEffect(() => {
     if (visibility) {

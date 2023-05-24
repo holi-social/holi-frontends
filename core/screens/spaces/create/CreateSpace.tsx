@@ -11,16 +11,15 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
-import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   CreateSpaceResponse,
-  MySpacesResponse,
   ValidateSpaceResponse,
   createSpaceMutation,
-  mySpaceQuery,
   validateSpaceMutation,
-} from '@holi/core/screens/spaces/queries'
+} from '@holi/core/screens/spaces/create/mutations'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'

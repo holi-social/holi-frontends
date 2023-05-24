@@ -502,7 +502,7 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                       onProgress={[Function]}
                       proxiedProperties={
                         {
-                          "accessibilityLabel": "spaces.task.thumbnail.label",
+                          "accessibilityLabel": "spaces.tasks.thumbnail.label",
                           "accessible": true,
                           "contentFit": "cover",
                           "contentPosition": {
@@ -1195,7 +1195,7 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                       onProgress={[Function]}
                       proxiedProperties={
                         {
-                          "accessibilityLabel": "spaces.task.thumbnail.label",
+                          "accessibilityLabel": "spaces.tasks.thumbnail.label",
                           "accessible": true,
                           "contentFit": "cover",
                           "contentPosition": {
@@ -1888,7 +1888,7 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                       onProgress={[Function]}
                       proxiedProperties={
                         {
-                          "accessibilityLabel": "spaces.task.thumbnail.label",
+                          "accessibilityLabel": "spaces.tasks.thumbnail.label",
                           "accessible": true,
                           "contentFit": "cover",
                           "contentPosition": {

@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -13,8 +14,8 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -32,6 +33,7 @@ const Spaces: React.VFC = () => {
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+
   // This is added to keep the reference of the current tab to handle the active tab in back navigation
   global.spaceDetailInitialTabIndex = 0
 
@@ -95,11 +97,17 @@ const Spaces: React.VFC = () => {
     [navigate]
   )
 
+  useEffect(() => {
+    if (mySpacesError && mySpacesError.message !== 'Unauthorized') {
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
+      logError(mySpacesError?.message)
+    }
+  }, [mySpacesError, openToast, t])
+
   if (mySpacesError) {
     if (mySpacesError.message === 'Unauthorized') {
       hasOwnSpaces = false
     } else {
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
       return (
         <DefaultLayout style={styles.layout}>
           <View style={[mixins.container, styles.discoverSpacesContainer]} />
