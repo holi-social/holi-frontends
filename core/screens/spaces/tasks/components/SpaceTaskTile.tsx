@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -346,4 +346,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceTaskTile
+export default memo(SpaceTaskTile)
