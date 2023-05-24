@@ -142,7 +142,7 @@ describe('FilteredSpaces', () => {
 
     // load more
     fireEvent.press(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
-    expect(await screen.findByText('spaces.spaceListing.loadMoreButton.loading'))
+    expect(await screen.findByText('global.loading'))
 
     // expect 40 spaces
     expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))

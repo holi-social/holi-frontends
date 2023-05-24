@@ -87,7 +87,8 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
         <Pagination
           query={spaceMembersQuery}
           queryOptions={queryOptions}
-          buttonProps={{ style: styles.buttonContainer }}
+          fetchMoreButtonProps={{ style: styles.buttonContainer }}
+          fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
           <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
         </Pagination>

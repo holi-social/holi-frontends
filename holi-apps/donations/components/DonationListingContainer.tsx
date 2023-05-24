@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -18,6 +19,8 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
   locationQuery,
   resetSearch,
 }: DonationListingProps) => {
+  const { t } = useTranslation()
+
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: PROJECT_PAGE_SIZE,
     queryPath: 'appDonations_projects',
@@ -26,19 +29,16 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
     },
     fetchPolicy: 'cache-and-network',
   }
-  // TODO(SF)
-  // const fetchMoreButtonText = isFetchingMore
-  //   ? t('donations:donationListing.loadMoreButton.loading')
-  //   : t('donations:donationListing.loadMoreButton.text')
 
   return (
     <Pagination
       query={projectsQuery}
       queryOptions={queryOptions}
-      buttonProps={{
+      fetchMoreButtonProps={{
         style: styles.loadMoreButton,
         testID: 'btn-donation-list-load-more',
       }}
+      fetchMoreButtonLabel={t('donations:donationListing.loadMoreButton.text')}
     >
       <DonationListing resetSearch={resetSearch} locationQuery={locationQuery} />
     </Pagination>

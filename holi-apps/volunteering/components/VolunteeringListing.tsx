@@ -50,9 +50,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
     fetchPolicy: 'cache-and-network',
   })
 
-  const fetchMoreButtonText = isFetchingMore
-    ? t('volunteering:listing.loadMoreButton.loading')
-    : t('volunteering:listing.loadMoreButton.text')
+  const fetchMoreButtonText = isFetchingMore ? t('global.loading') : t('volunteering:listing.loadMoreButton.text')
 
   if (error) {
     logError(error, `[VolunteeringListing.tsx] ${error.message}`)
