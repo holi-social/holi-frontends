@@ -120,7 +120,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
                 <DigitalTool
                   tool={tool}
                   isAdmin={isAdmin}
-                  spaceId={space?.id || ''}
+                  spaceIdOrName={space?.name || ''}
                   onShareButtonPress={(url) => handleShareButtonPress(url)}
                   onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
                 />

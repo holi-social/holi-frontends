@@ -66,7 +66,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       onCompleted() {
         hidePermissions()
       },
-      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
     }
   )
 
