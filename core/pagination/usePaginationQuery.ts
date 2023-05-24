@@ -6,6 +6,7 @@ import {
   TypedDocumentNode,
   useQuery,
 } from '@apollo/client'
+import at from 'lodash.at'
 import { useCallback, useState } from 'react'
 
 import { Paged } from '@holi/core/types'
@@ -16,7 +17,7 @@ type PagedResponse<T, QueryName extends string> = {
 
 export interface PaginationQueryHookOptions extends QueryHookOptions {
   pageSize: number
-  queryName: string
+  queryPath: string
 }
 
 interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<TData>> {
@@ -31,7 +32,7 @@ function usePaginationQuery<TData>(
   query: DocumentNode | TypedDocumentNode<PagedResponse<TData, string>>,
   options: PaginationQueryHookOptions
 ): PaginationQueryResult<TData[], ApolloQueryResult<PagedResponse<TData, string>>> {
-  const { pageSize, queryName, variables, ...remainingOptions } = options
+  const { pageSize, queryPath, variables, ...remainingOptions } = options
   const [isFetchingMore, setIsFetchingMore] = useState(false)
 
   const {
@@ -48,7 +49,7 @@ function usePaginationQuery<TData>(
     ...remainingOptions,
   })
 
-  const { data = [], totalResults = 0 } = (pagedData?.[queryName] || {}) as Paged<TData>
+  const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] || {}
 
   const canFetchMore = !loading && data.length < totalResults
 

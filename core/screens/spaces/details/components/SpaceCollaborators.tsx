@@ -1,17 +1,17 @@
-import partition from 'lodash.partition'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Pagination } from '@holi/core/pagination/Pagination'
+import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
+import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -23,10 +23,9 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const sortUsersByFirstName = (users: User[]) =>
-  users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
+const SPACE_MEMBER_PAGE_SIZE = 2 // TODO(SF) change to 10
 
-const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
+const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
@@ -35,16 +34,15 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const [adminMemberships, regularMemberships] = useMemo(
-    () => partition(space.members.data, 'isAdministrator'),
-    [space]
-  )
+  const queryOptions: PaginationQueryHookOptions = {
+    pageSize: SPACE_MEMBER_PAGE_SIZE,
+    queryPath: 'spaceById.members',
+    variables: {
+      idOrName: space.name,
+    },
+  }
 
-  const admins = adminMemberships.map((membership) => membership.user)
-  const members = regularMemberships.map((membership) => membership.user)
-
-  const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-
+  // TODO(SF) adjust
   const isAdmin = (collaborator: User) => {
     const membership = space.members.data.find((membership) => membership.user.id === collaborator.id)
     return membership?.isAdministrator
@@ -60,86 +58,57 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
     }
   }, [show, setVisible])
 
-  const handleNavigation = (id: string) => {
-    onDismiss()
-    setTimeout(() => {
-      navigate('/profile/' + id)
-    })
-  }
+  const handleNavigation = useCallback(
+    (id: string) => {
+      onDismiss()
+      setTimeout(() => {
+        navigate('/profile/' + id)
+      })
+    },
+    [navigate, onDismiss]
+  )
+  const onSelectUser = useCallback(
+    (user: User) => {
+      if (isSpaceAdmin && loggedInUser?.id !== user.id) {
+        showPermissions()
+        setSelectedUser(user)
+      } else {
+        handleNavigation(user.id)
+      }
+    },
+    [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
+  )
 
   return (
-    <>
-      <HoliModal
-        show={visible}
-        label={t('spaces.collaborators')}
-        heading={t('spaces.collaborators')}
-        testID={'space-collaborators-modal'}
-        onDismiss={onDismiss}
-        relativeHeight={1}
-        autoHeight={false}
-      >
-        <View style={[mixins.container, styles.wrapper]}>
-          <ScrollView>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              sortedMembersList.map((collaborator, index) => (
-                <HoliButton
-                  contentStyle={styles.collaborators}
-                  inline
-                  transparent
-                  label={
-                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
-                      ? t('spaces.collaborators.permissions.label')
-                      : t('user.visitProfile', { name: collaborator.fullName })
-                  }
-                  onPress={
-                    isSpaceAdmin && loggedInUser?.id !== collaborator.id
-                      ? () => {
-                          showPermissions()
-                          setSelectedUser(collaborator)
-                        }
-                      : () => handleNavigation(collaborator.id)
-                  }
-                  key={index}
-                  testID={'spaces-collaborators-item'}
-                >
-                  <HoliAvatar
-                    imageSrc={collaborator.avatar}
-                    label=""
-                    accessibilityLabel={collaborator.fullName || t('user.profileView.anonymous')}
-                    initials={collaborator.avatarLabel}
-                    defaultColor={collaborator.avatarDefaultColor}
-                    size="small"
-                    style={styles.avatar}
-                  />
-                  <View style={styles.titleContainer}>
-                    <HoliText ellipsizeMode="tail" numberOfLines={1}>
-                      {collaborator.fullName || t('user.profileView.anonymous')}
-                    </HoliText>
-                  </View>
-                  {isAdmin(collaborator) && (
-                    <HoliText size="extrasmall" style={styles.admin}>
-                      {t('spaces.collaborators.isAdmin')}
-                    </HoliText>
-                  )}
-                </HoliButton>
-              ))
-            }
-          </ScrollView>
-        </View>
-
-        {selectedUser && (
-          <SpacePermissions
-            space={space}
-            user={selectedUser}
-            isAdmin={isAdmin}
-            handleNavigation={handleNavigation}
-            permissionsVisible={permissionsVisible}
-            hidePermissions={hidePermissions}
-          />
-        )}
-      </HoliModal>
-    </>
+    <HoliModal
+      show={visible}
+      label={t('spaces.collaborators')}
+      heading={t('spaces.collaborators')}
+      testID={'space-collaborators-modal'}
+      onDismiss={onDismiss}
+      relativeHeight={1}
+      autoHeight={false}
+    >
+      <View style={[mixins.container, styles.wrapper]}>
+        <Pagination
+          query={spaceMembersQuery}
+          queryOptions={queryOptions}
+          buttonProps={{ style: styles.buttonContainer }}
+        >
+          <SpaceCollaboratorList space={space} onSelectUser={onSelectUser} />
+        </Pagination>
+      </View>
+      {selectedUser && (
+        <SpacePermissions
+          space={space}
+          user={selectedUser}
+          isAdmin={isAdmin}
+          handleNavigation={handleNavigation}
+          permissionsVisible={permissionsVisible}
+          hidePermissions={hidePermissions}
+        />
+      )}
+    </HoliModal>
   )
 }
 
@@ -164,8 +133,11 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    height: '100%',
+    // height: '100%',TODO(SF)
     paddingTop: 24,
+  },
+  buttonContainer: {
+    marginTop: 20,
   },
 })
 

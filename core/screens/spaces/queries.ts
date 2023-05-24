@@ -18,6 +18,7 @@ export const SpaceMemberFragment = gql`
   }
 `
 
+// TODO(SF) revert to correct member limit
 export const SpaceFragment = gql`
   ${SpaceMemberFragment}
   fragment FullSpace on Space {
@@ -50,7 +51,7 @@ export const SpaceFragment = gql`
       title
       collectionType
     }
-    members {
+    members(limit: 2) {
       ...FullSpaceMember
     }
     tasks {
