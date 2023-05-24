@@ -8,6 +8,8 @@ import { test } from './testmaster'
 export const donationsRequestTimeout = 40_000
 export const goodnewsRequestTimeout = 20_000
 export const volunteeringRequestTimeout = 20_000
+export const wizardShowTimeout = 20_000
+export const defaultWaitForElementTimeout = 10_000
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId}]${nth ? ` >> nth=${nth}` : ''}`
@@ -16,8 +18,13 @@ export const byTestId = (testId: string, nth?: number) => `[data-testid=${testId
 export const delay = (time: number) =>
   test.expect(false, "don't use delays, they are hiding test issues that we should fix directly").toBeTruthy()
 
-export const locateElementByTestId = async (page: Page, testId: string, nth?: number): Promise<Locator> => {
-  await page.waitForSelector(byTestId(testId))
+export const locateElementByTestId = async (
+  page: Page,
+  testId: string,
+  nth?: number,
+  timeout = defaultWaitForElementTimeout
+): Promise<Locator> => {
+  await page.waitForSelector(byTestId(testId), { timeout })
   return page.locator(byTestId(testId, nth))
 }
 
@@ -104,7 +111,7 @@ export const finishAccountSetup = async (
 ) => {
   // go through accound setup
   // provide user name
-  const mandatoryFirtNameInput = await locateElementByTestId(page, 'first-name-input')
+  const mandatoryFirtNameInput = await locateElementByTestId(page, 'first-name-input', 1, wizardShowTimeout)
   await mandatoryFirtNameInput.fill(firstName)
   // provide user name
   const lastNameInput = await locateElementByTestId(page, 'last-name-input')
