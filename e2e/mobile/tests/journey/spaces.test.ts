@@ -72,6 +72,11 @@ describe('@Spaces', () => {
     // login
     await defaultAuthSteps()
     await tapOnElementWithTestId('btn-to-spaces')
+    try {
+      await tapOnElementWithTestId('space-onBoard-content-close-btn')
+    } catch (_) {
+      // try catch in case the onboarding modal is present (depends on asyncstorage)
+    }
     await tapOnElementWithTestId('btn-create-space')
 
     // create space - name and goal
@@ -117,6 +122,12 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('space-options-btn')
     await tapOnElementWithTestId('space-delete')
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
+
+    try {
+      await tapOnElementWithTestId('space-onBoard-content-close-btn')
+    } catch (_) {
+      // try catch in case the onboarding modal is present (depends on asyncstorage)
+    }
 
     // check if after deletion we are at the spaces dashboard (mine/discover)
     await waitForElementWithTestId('btn-create-space')
