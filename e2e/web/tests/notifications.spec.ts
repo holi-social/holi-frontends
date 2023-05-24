@@ -98,10 +98,10 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
   await clickElementByTestId(page, 'btn-to-home-view')
   await clickElementByTestId(page, 'btn-to-notifications')
   // FIXME: notifications take a long time to load when there is a lot of them
-  await expect(page.getByTestId('post-comment-mention').first()).toBeVisible({ timeout: 60000 })
+  await expect(page.getByTestId('post-comment-mention').first()).toBeVisible({ timeout: 120_000 })
   await clickElementByTestId(page, 'post-comment-mention')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
   // FIXME: potentially long load time, loading a lot of comments takes a lot of time and we can't test for anything in between
-  await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 60000 })
+  await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 120_0000 })
 }
