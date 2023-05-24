@@ -8,9 +8,8 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -29,7 +28,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
-  const [selectedUser, setSelectedUser] = useState<User>()
+  const [selectedMember, setSelectedMember] = useState<SpaceMember>()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { user: loggedInUser } = useLoggedInUser()
@@ -40,12 +39,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     variables: {
       idOrName: space.name,
     },
-  }
-
-  // TODO(SF) adjust
-  const isAdmin = (collaborator: User) => {
-    const membership = space.members.data.find((membership) => membership.user.id === collaborator.id)
-    return membership?.isAdministrator
   }
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -67,13 +60,14 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
     },
     [navigate, onDismiss]
   )
-  const onSelectUser = useCallback(
-    (user: User) => {
-      if (isSpaceAdmin && loggedInUser?.id !== user.id) {
+  const onSelectMember = useCallback(
+    (member: SpaceMember) => {
+      const userId = member.user.id
+      if (isSpaceAdmin && loggedInUser?.id !== userId) {
+        setSelectedMember(member)
         showPermissions()
-        setSelectedUser(user)
       } else {
-        handleNavigation(user.id)
+        handleNavigation(userId)
       }
     },
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
@@ -95,14 +89,13 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
           queryOptions={queryOptions}
           buttonProps={{ style: styles.buttonContainer }}
         >
-          <SpaceCollaboratorList space={space} onSelectUser={onSelectUser} />
+          <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
         </Pagination>
       </View>
-      {selectedUser && (
+      {selectedMember && (
         <SpacePermissions
           space={space}
-          user={selectedUser}
-          isAdmin={isAdmin}
+          member={selectedMember}
           handleNavigation={handleNavigation}
           permissionsVisible={permissionsVisible}
           hidePermissions={hidePermissions}
