@@ -4,7 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
-import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
+import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { Space } from '@holi/core/screens/spaces/types'
 import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -63,7 +63,9 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
             title: t('spaces.tab.action'),
             titleIcon: 'sun',
             style: styles.tabStyle,
-            children: <SpaceTaskList style={[mixins.container, styles.tabItem]} space={space} key="space-task-list" />,
+            children: (
+              <SpaceInvolvement style={[mixins.container, styles.tabItem]} space={space} key="space-involvement" />
+            ),
           },
         ]}
       />
