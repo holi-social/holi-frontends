@@ -3,6 +3,12 @@ import { FieldPolicy, Reference } from '@apollo/client/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type KeyArgs = FieldPolicy<any>['keyArgs']
 
+// Fixes warnings like "Cache data may be lost when replacing the `members` field of a Space object."
+export const alwaysReplacePolicy: FieldPolicy = {
+  keyArgs: [],
+  merge: (existing, incoming) => incoming,
+}
+
 /**
  * An index-aware pagination policy for Apollo Clients cache. An index-aware pagination function takes both offset and
  * limit arguments into account, whereas Apollos built-in offsetLimitPagination ignores the limit part. The resulting

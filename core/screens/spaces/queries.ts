@@ -18,7 +18,7 @@ export const SpaceMemberFragment = gql`
   }
 `
 
-// TODO(SF) revert to correct member limit
+// Passing offset to member to reuse paging cache entry
 export const SpaceFragment = gql`
   ${SpaceMemberFragment}
   fragment FullSpace on Space {
@@ -51,7 +51,7 @@ export const SpaceFragment = gql`
       title
       collectionType
     }
-    members(limit: 2) {
+    members(offset: 0) {
       ...FullSpaceMember
     }
     tasks {
