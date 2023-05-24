@@ -213,9 +213,6 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
 
-    // Navigate back to space detail view
-    await clickElementByTestId(page, 'nav-button-back')
-
     // delete space
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
     await clickElementByTestId(page, 'space-options-btn')
@@ -425,6 +422,8 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await clickElementByTestId(page, 'btn-left-space-tools-card')
   await clickElementByTestId(page, 'space-add-tool-button') // Big yellow + button
   await createDigitalTool(page)
+
+  await page.waitForSelector(byTestId('form-modal-save-btn'), { state: 'hidden' })
   await clickElementByTestId(page, 'nav-button-back')
   numberOfTools = () => page.locator(byTestId('btn-show-tool-details')).count()
   await expect.poll(numberOfTools).toBe(2)
