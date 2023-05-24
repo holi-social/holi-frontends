@@ -13,6 +13,7 @@ interface Props {
   title: string
   handleConfirmation: () => void
   hasDismissBtn?: boolean
+  dismissText?: string
   confirmText?: string
   testID?: string
   buttonType?: HoliButtonType
@@ -23,6 +24,7 @@ export const Confirmation = ({
   confirmText,
   description,
   hasDismissBtn,
+  dismissText,
   handleConfirmation,
   title,
   testID,
@@ -53,7 +55,7 @@ export const Confirmation = ({
           title={title}
           description={description}
           onDismiss={handleDismiss}
-          dismissText={t('confirmation.dismiss')}
+          dismissText={dismissText ?? t('confirmation.dismiss')}
           confirmText={confirmText ?? t('confirmation.confirm')}
           testID={testID}
           onConfirm={handleAction}
