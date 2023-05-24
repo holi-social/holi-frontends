@@ -47,11 +47,6 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
     }
   }, [displayError, geolocationError, t])
 
-  // TODO(SF)
-  // const fetchMoreButtonText = fetchingMore
-  //   ? t('spaces.spaceListing.loadMoreButton.loading')
-  //   : t('spaces.spaceListing.loadMoreButton.text')
-
   // Error state just hides the component
   if (geolocationError) {
     return <></>
@@ -83,7 +78,12 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
               <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
             </View>
           ) : (
-            <Pagination query={spacesQuery} queryOptions={queryOptions} buttonProps={{ style: styles.buttonContainer }}>
+            <Pagination
+              query={spacesQuery}
+              queryOptions={queryOptions}
+              fetchMoreButtonProps={{ style: styles.buttonContainer }}
+              fetchMoreButtonLabel={t('spaces.spaceListing.loadMoreButton.text')}
+            >
               <FilteredSpacesList />
             </Pagination>
           )}

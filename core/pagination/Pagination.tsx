@@ -1,7 +1,6 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
 import React, { PropsWithChildren, createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewProps } from 'react-native'
 
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -16,12 +15,10 @@ export interface PaginationContextType<T> {
 export interface PaginationProps {
   query: DocumentNode
   queryOptions: PaginationQueryHookOptions
-  buttonProps?: Partial<HoliButtonLoadingProps>
-  containerProps?: ViewProps
-  // TODO(SF) + button label variants
+  fetchMoreButtonProps?: Partial<HoliButtonLoadingProps>
+  fetchMoreButtonLabel?: string
 }
 
-// TODO(SF) get rid of unknown?
 const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
 
 export function usePaginationContext<T>() {
@@ -33,24 +30,21 @@ export function usePaginationContext<T>() {
   return context
 }
 
-export function Pagination<T>({
+export function Pagination({
   children,
   query,
   queryOptions,
-  buttonProps = {},
-  containerProps = {},
+  fetchMoreButtonLabel,
+  fetchMoreButtonProps = {},
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
-  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, isFetchingMore } = usePaginationQuery<T>(
+  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, isFetchingMore } = usePaginationQuery(
     query,
     queryOptions
   )
 
-  // TODO(SF) change i18n keys, make configurable
-  const fetchMoreButtonText = isFetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('donations:donationListing.loadMoreButton.text')
+  const fetchMoreButtonText = isFetchingMore ? t('global.loading') : fetchMoreButtonLabel || t('global.seeMore')
 
   const contextValue = {
     loading,
@@ -60,7 +54,7 @@ export function Pagination<T>({
   }
 
   return (
-    <PaginationContext.Provider value={contextValue} {...containerProps}>
+    <PaginationContext.Provider value={contextValue}>
       {children}
       {canFetchMore && (
         <HoliButtonLoading
@@ -71,7 +65,7 @@ export function Pagination<T>({
           iconSpinning={isFetchingMore}
           onPress={fetchNextPage}
           testID="btn-fetch-more"
-          {...buttonProps}
+          {...fetchMoreButtonProps}
         />
       )}
     </PaginationContext.Provider>
