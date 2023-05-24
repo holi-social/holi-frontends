@@ -37,9 +37,10 @@ const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
                 description={space.description}
                 imageSrc={space.cover}
                 users={space.members.data.map((membership) => membership.user)}
-                href={`/spaces/${space.id}`}
+                href={`/spaces/${space.name}`}
                 size="large"
                 testID="space-link"
+                totalUserCount={space.members.totalResults}
               />
             </HoliGridCell>
           ))

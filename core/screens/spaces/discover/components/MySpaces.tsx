@@ -67,6 +67,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                 href={decodeURI(`/spaces/${space.name}`)}
                 type={section.type}
                 testID="space-link"
+                totalUserCount={space.members.totalResults}
               />
             </View>
           ))}

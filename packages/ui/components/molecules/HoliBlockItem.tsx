@@ -26,6 +26,7 @@ export interface HoliBlockItemProps {
   size?: 'small' | 'large'
   testID?: string
   type?: SpaceSectionType
+  totalUserCount?: number
 }
 
 const SMALL_IMAGE_DIMENSION = 64
@@ -42,6 +43,7 @@ const HoliBlockItem = ({
   testID,
   type,
   size = 'small',
+  totalUserCount,
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
@@ -88,7 +90,7 @@ const HoliBlockItem = ({
               {isSmall && (
                 <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
                   <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
-                    {t('spaces.members.member', { count: users.length })}
+                    {t('spaces.members.member', { count: totalUserCount || users.length })}
                   </HoliText>
                 </HoliUserAvatarPile>
               )}

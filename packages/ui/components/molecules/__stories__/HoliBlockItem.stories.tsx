@@ -39,6 +39,7 @@ Primary.argTypes = {
   },
   users: { description: 'Array of users', required: true, control: { type: 'Array' } },
   href: { description: 'Link target', type: 'string', control: { type: 'text' } },
+  totalUserCount: { description: 'Total number of users', required: false, control: { type: 'number' } },
 }
 
 Primary.args = {

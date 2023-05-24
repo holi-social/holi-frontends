@@ -20,7 +20,7 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
 }: DonationListingProps) => {
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: PROJECT_PAGE_SIZE,
-    queryName: 'appDonations_projects',
+    queryPath: 'appDonations_projects',
     variables: {
       location: locationQuery,
     },
