@@ -106,7 +106,6 @@ describe('@Spaces', () => {
     // edit space name and goal
     const editedName = 'e2e edited space name'
     const editedGoal = 'e2e edited space goal'
-    await scrollToElementWithTestId('btn-space-edit-name', 'up', { maxAttempts: 2 })
     await tapOnElementWithTestId('btn-space-edit-name')
     await inputSpaceNameAndGoal(editedName, editedGoal)
     await tapOnElementWithTestId('space-edit-modal-save-btn')
