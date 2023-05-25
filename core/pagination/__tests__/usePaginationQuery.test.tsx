@@ -4,87 +4,20 @@ import React from 'react'
 import { Text, View } from 'react-native'
 
 import { createCache } from '@holi/api/graphql/client'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
+import {
+  createPaginationMock,
+  errorMock,
+  noResultsMock,
+  pageSize,
+  totalResults,
+} from '@holi/core/pagination/__tests__/testData'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
-import { user } from '@holi/core/screens/spaces/__tests__/testData'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const pageSize = 20
-const totalResults = 50
-
-const insight: Insight = {
-  id: '1',
-  title: 'Insight title',
-  description: 'Insight description',
-  datePublished: '',
-  creator: user,
-  headerImage: '',
-  topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
-  posts: [],
-  numberOfPosts: 0,
-  involvedUsers: {
-    totalResults: 0,
-    data: [],
-  },
-}
-
-export const createInsightList = (length = 3) =>
-  Array.from({ length }, (_, index) => ({
-    ...insight,
-    id: `insight-${index}`,
-    __typename: 'Insight',
-  }))
-
-const createPaginationMock = (offset = 0) => ({
-  request: {
-    query: lastInsightsQuery,
-    variables: {
-      limit: pageSize,
-      offset,
-    },
-  },
-  result: {
-    data: {
-      lastInsights: {
-        totalResults,
-        data: createInsightList(Math.min(offset + pageSize, totalResults)).slice(offset),
-        __typename: 'InsightPaged',
-      },
-    },
-  },
-})
-
-const noResultsMock = {
-  request: {
-    query: lastInsightsQuery,
-    variables: {
-      limit: pageSize,
-      offset: 0,
-    },
-  },
-  result: {
-    data: {
-      lastInsights: {
-        totalResults: 0,
-        data: [],
-      },
-    },
-  },
-}
-
-const errorMock = {
-  request: {
-    query: lastInsightsQuery,
-    variables: {
-      limit: pageSize,
-      offset: 0,
-    },
-  },
-  error: new HoliError('Test error'),
-}
+jest.useFakeTimers()
 
 const TestComponent: React.FC = () => {
   const { loading, data, error, totalResults, isFetchingMore, canFetchMore, fetchNextPage } =
@@ -198,16 +131,21 @@ describe('usePaginationQuery', () => {
 
     expect(await screen.findByText('50 results'))
 
+    // Fetch second page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
+    expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
+    // Fetch last page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
+    expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
     expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
 
+    // It should not be possible to fetch another page
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
 })
