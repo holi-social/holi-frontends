@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -15,8 +16,8 @@ import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
+import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -34,6 +35,7 @@ const Spaces = () => {
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+
   // This is added to keep the reference of the current tab to handle the active tab in back navigation
   global.spaceDetailInitialTabIndex = 0
 
@@ -67,7 +69,7 @@ const Spaces = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+        <HeaderTitle size="large" tintColor={tintColor}>
           {title}
         </HeaderTitle>
       ),
@@ -103,11 +105,17 @@ const Spaces = () => {
     [navigate]
   )
 
+  useEffect(() => {
+    if (mySpacesError && mySpacesError.message !== 'Unauthorized') {
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
+      logError(mySpacesError?.message)
+    }
+  }, [mySpacesError, openToast, t])
+
   if (mySpacesError) {
     if (mySpacesError.message === 'Unauthorized') {
       hasOwnSpaces = false
     } else {
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
       return (
         <DefaultLayout style={styles.layout}>
           <View style={[mixins.container, styles.discoverSpacesContainer]} />

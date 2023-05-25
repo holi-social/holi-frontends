@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import useDeleteTask from '@holi/core/hooks/useDeleteTask'
+import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
@@ -31,7 +31,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
 
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,
@@ -41,18 +41,13 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
 
-  const deleteTaskAction = () => {
-    deleteTask()
-    navigateBack()
-  }
-
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
       <HoliButton transparent label={task.name} onPress={goToDetailView} disabled={showFullView}>
         <View style={styles.imageContainer}>
           {!!task.thumbnail && (
             <HoliImage
-              label={t('spaces.task.thumbnail.label')}
+              label={t('spaces.tasks.thumbnail.label')}
               source={{ uri: task.thumbnail }}
               style={showFullView ? styles.imageShowFullView : styles.image}
             />
@@ -61,7 +56,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             <View style={[styles.image, styles.emptyImage]}>
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
-                label={t('spaces.task.thumbnail.label')}
+                label={t('spaces.tasks.thumbnail.label')}
                 isSvg
                 height={166}
                 width={296}
@@ -114,7 +109,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
                 title={t('spaces.tasks.delete.confirmation.title')}
                 description={t('spaces.tasks.delete.confirmation.description')}
                 testID="task-delete"
-                handleConfirmation={deleteTaskAction}
+                handleConfirmation={deleteTask}
                 buttonType="warning"
                 hasDismissBtn
                 requireLogin
@@ -351,4 +346,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceTaskTile
+export default memo(SpaceTaskTile)

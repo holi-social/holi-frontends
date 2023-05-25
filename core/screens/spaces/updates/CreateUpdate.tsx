@@ -11,11 +11,12 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { SpaceByIdResponse, spaceByIdQuery, spacePostsQuery } from '@holi/core/screens/spaces/queries'
-import { CreateSpacePostResponse, createSpacePostMutation } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
+import { CreateSpacePostResponse, createSpacePostMutation } from '@holi/core/screens/spaces/updates/mutations'
+import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -60,6 +61,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { displayError } = useErrorHandling()
 
@@ -181,6 +183,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
             title={title}
             content={content}
             image={image}
+            isAdmin={isAdmin}
           />
         </View>
       </ScrollHeaderLayout.Defatult>

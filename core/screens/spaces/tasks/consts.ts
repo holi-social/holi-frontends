@@ -21,12 +21,14 @@ export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
     id: VisibilityType.MEMBERS,
     title: 'Members',
     selected: false,
+    disabled: false,
     icon: 'lock',
   },
   {
     id: VisibilityType.PUBLIC,
     title: 'Public',
     selected: false,
+    disabled: false,
     icon: 'global',
   },
 ]

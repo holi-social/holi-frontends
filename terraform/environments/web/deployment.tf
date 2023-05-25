@@ -40,7 +40,7 @@ resource "google_cloud_run_service" "mvp_web" {
     spec {
       service_account_name = data.terraform_remote_state.holi_mvp_shared_state.outputs.cloud_run_service_account_email
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/holi-frontends-web:${var.image_tag}"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.artifact_registry_location}/holi-frontends-web:${var.image_tag}"
         ports {
           container_port = 3000
         }

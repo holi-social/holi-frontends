@@ -57,7 +57,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
                 <HoliActionDrawer.Confirmation
                   title={t('insights.posts.comment.report.confirmation.title')}
                   description={t('insights.posts.comment.report.confirmation.description')}
-                  testID="report-space"
+                  testID="space-report"
                   handleConfirmation={reportContent}
                   hasDismissBtn
                   requireLogin

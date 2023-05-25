@@ -533,7 +533,7 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 
@@ -688,6 +688,20 @@ Mobile) to authenticate a user. To do this you need e.g. to enable inspection wi
 simulator/emulator and inspect outgoing requests to the GraphQL API after logging in. You should see an `Authentication:
 Bearer <some-token-here>` header in the request. This header can also be added within graphiql's UI as an
 alternative.
+
+### Linting and Autocomplete
+
+We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL linting and code autocompletion capabilities. By integrating GraphQL Config into our development environment, we create a seamless and efficient coding experience specifically tailored for GraphQL that guarantees we can write GraphQL queries, mutations, fragments, and so on, with ease, as it provides us with optimized features that minimize errors and maximize productivity.
+
+By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT` environment variable.
+
+### Code Generation
+
+We use [GraphQL Codegen](https://the-guild.dev/graphql/codegen) to automate the process of generating strongly typed code that corresponds to `unified-api` GraphQL schema which eliminates the need for manual type definitions and helps maintain consistency between the frontend and the backend services.
+
+To use GraphQL Codegen, start by defining your GraphQL types (e.g. queries, mutations, or fragments) in a `.graphql` or `.gql` file. Afterward, run the `yarn schema:generate` command to automatically generate the corresponding TypeScript code based on your definitions.
+
+For a better local development experience, you can enable watch mode for codegen by running `yarn schema:watch`. This allows the code generation process to continuously monitor your GraphQL schema and automatically update the generated code whenever changes are detected.
 
 ## Continuous Integration and Deployment
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Animated,
@@ -209,7 +209,13 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   </HoliButton>
 
                   {!!heading && (
-                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                    <HoliHeading
+                      level="2"
+                      style={styles.title}
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      testID={`${testID}-heading`}
+                    >
                       {heading}
                     </HoliHeading>
                   )}
@@ -225,7 +231,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 }
 
-export default HoliModal
+export default memo(HoliModal)
 
 const styles = StyleSheet.create({
   rootView: {
@@ -250,6 +256,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignSelf: 'center',
     justifyContent: 'flex-end',
+    width: '100%',
     marginBottom: 18,
     ...Platform.select({
       web: {
@@ -260,6 +267,7 @@ const styles = StyleSheet.create({
   handle: {
     height: 40,
     alignItems: 'center',
+    alignSelf: 'center',
   },
   lineButton: {
     padding: 15,

@@ -94,6 +94,7 @@ const setUpLogging = () => {
    */
   const loggingProperties = ['log', 'debug', 'info', 'warn', 'error']
   for (const property of loggingProperties) {
+    // eslint-disable-next-line no-console
     console[property] = getLoggingFunction(property)
   }
 
