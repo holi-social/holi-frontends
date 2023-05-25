@@ -71,12 +71,14 @@ describe('@Spaces', () => {
   const assertCreatingSpace = async () => {
     // login
     await defaultAuthSteps()
+
+    // on Android, the user gets navigated to spaces and the onboarding modal is opening immediately after login
+    await leaveSpaceOnboardingModal()
+
     await tapOnElementWithTestId('btn-to-spaces')
-    try {
-      await tapOnElementWithTestId('space-onboard-content-close-btn')
-    } catch (_) {
-      // try catch in case the onboarding modal is present (depends on asyncstorage)
-    }
+
+    await leaveSpaceOnboardingModal()
+
     await tapOnElementWithTestId('btn-create-space')
 
     // create space - name and goal
@@ -123,11 +125,7 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('space-delete')
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
-    try {
-      await tapOnElementWithTestId('space-onboard-content-close-btn')
-    } catch (_) {
-      // try catch in case the onboarding modal is present (depends on asyncstorage)
-    }
+    await leaveSpaceOnboardingModal()
 
     // check if after deletion we are at the spaces dashboard (mine/discover)
     await waitForElementWithTestId('btn-create-space')
@@ -162,6 +160,14 @@ describe('@Spaces', () => {
     // select new terms
     for (let i = 0; i < numberOfTermsToSelect; i++) {
       await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
+    }
+  }
+
+  const leaveSpaceOnboardingModal = async () => {
+    try {
+      await tapOnElementWithTestId('space-onboard-content-close-btn', 5_000)
+    } catch (_) {
+      // try catch in case the onboarding modal is present (depends on asyncstorage)
     }
   }
 })
