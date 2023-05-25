@@ -144,10 +144,9 @@ exports[`renders correctly renders correctly when open 1`] = `
               "alignSelf": "center",
               "justifyContent": "flex-end",
               "marginBottom": 18,
-            },
-            {
               "width": "100%",
             },
+            undefined,
           ]
         }
       >
@@ -160,6 +159,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           style={
             {
               "alignItems": "center",
+              "alignSelf": "center",
               "height": 40,
             }
           }
