@@ -12,6 +12,11 @@ interface UseLeaveSpace {
   confirmationTitle: string
   confirmationDescription: string
   isLoadingLeaveSpace: boolean
+  dismissLeaveSpaceButton: {
+    show: boolean
+    text: string
+  }
+  confirmLeaveSpaceText?: string
   leaveSpaceAction: () => void
 }
 
@@ -24,6 +29,7 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
   const [isLoadingDelete, deleteSpace] = useDeleteSpace(id)
   const [isLoadingLeave, leaveSpace] = useUpdateSpaceUserConnection(
     id,
+    space?.title ?? '',
     SpaceConnectionType.MEMBER,
     SpaceConnectionAction.LEAVE_SPACE
   )
@@ -38,28 +44,80 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
     leaveSpace().catch((e) => logError(e))
   }, [navigate, leaveSpace])
 
+  const noAction = useCallback(() => {
+    // Empty action when no actions are needed
+  }, [])
+
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const totalMembers = space?.members.totalResults ?? 0
+  const totalAdmins = space?.members.data.filter((member) => member.isAdministrator === true).length ?? 0
 
   if (isMember && totalMembers === 1) {
     const confirmationTitle = t('spaces.spaceDetails.leave.soleMember.confirmation.title')
     const confirmationDescription = t('spaces.spaceDetails.leave.soleMember.confirmation.description')
     const isLoadingLeaveSpace = isLoadingDelete
-    return { confirmationTitle, confirmationDescription, isLoadingLeaveSpace, leaveSpaceAction: deleteAction }
-  } else if (isMember && !isAdmin && totalMembers > 1) {
+    const dismissLeaveSpaceButton = {
+      show: true,
+      text: t('spaces.spaceDetails.leave.soleMember.confirmation.dismiss'),
+    }
+    const confirmLeaveSpaceText = t('spaces.spaceDetails.leave.soleMember.confirmation.confirm')
+    return {
+      confirmationTitle,
+      confirmationDescription,
+      isLoadingLeaveSpace,
+      dismissLeaveSpaceButton,
+      confirmLeaveSpaceText,
+      leaveSpaceAction: deleteAction,
+    }
+  } else if ((isMember && !isAdmin && totalMembers > 1) || (isAdmin && totalAdmins > 1)) {
     const confirmationTitle = t('spaces.spaceDetails.leave.notSoleMember.confirmation.title')
     const confirmationDescription = t('spaces.spaceDetails.leave.notSoleMember.confirmation.description', {
       space: space?.title ?? '',
     })
     const isLoadingLeaveSpace = isLoadingLeave
-    return { confirmationTitle, confirmationDescription, isLoadingLeaveSpace, leaveSpaceAction: leaveAction }
+    const dismissLeaveSpaceButton = {
+      show: true,
+      text: t('spaces.spaceDetails.leave.notSoleMember.confirmation.dismiss'),
+    }
+    const confirmLeaveSpaceText = t('spaces.spaceDetails.leave.notSoleMember.confirmation.confirm')
+    return {
+      confirmationTitle,
+      confirmationDescription,
+      isLoadingLeaveSpace,
+      dismissLeaveSpaceButton,
+      confirmLeaveSpaceText,
+      leaveSpaceAction: leaveAction,
+    }
+  } else if (isAdmin && totalAdmins === 1) {
+    const confirmationTitle = t('spaces.spaceDetails.leave.soleAdmin.confirmation.title')
+    const confirmationDescription = t('spaces.spaceDetails.leave.soleAdmin.confirmation.description', {
+      space: space?.title ?? '',
+    })
+    const isLoadingLeaveSpace = false
+    const dismissLeaveSpaceButton = {
+      show: false,
+      text: '',
+    }
+    const confirmLeaveSpaceText = t('spaces.spaceDetails.leave.soleAdmin.confirmation.confirm')
+    return {
+      confirmationTitle,
+      confirmationDescription,
+      isLoadingLeaveSpace,
+      dismissLeaveSpaceButton,
+      confirmLeaveSpaceText,
+      leaveSpaceAction: noAction,
+    }
   }
 
   return {
     confirmationTitle: '',
     confirmationDescription: '',
     isLoadingLeaveSpace: false,
-    leaveSpaceAction: leaveAction,
+    dismissLeaveSpaceButton: {
+      show: false,
+      text: '',
+    },
+    leaveSpaceAction: noAction,
   }
 }
