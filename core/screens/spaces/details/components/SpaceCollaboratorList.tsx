@@ -1,5 +1,4 @@
-import partition from 'lodash.partition'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -18,18 +17,11 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const sortMembersByFirstName = (members: SpaceMember[]) =>
-  members.sort((memberA, memberB) => (memberA.user.fullName || '').localeCompare(memberB.user.fullName || ''))
-
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelectMember }) => {
   const { t } = useTranslation()
   const { user: loggedInUser } = useLoggedInUser()
 
   const { data: spaceMembers } = usePaginationContext<SpaceMember>()
-
-  const [admins, members] = useMemo(() => partition(spaceMembers, 'isAdministrator'), [spaceMembers])
-
-  const sortedMembersList = [...sortMembersByFirstName(admins), ...sortMembersByFirstName(members)]
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
@@ -37,7 +29,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
     <ScrollView>
       {
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        sortedMembersList.map((member, index) => {
+        spaceMembers.map((member) => {
           const collaborator = member.user
           return (
             <HoliButton
@@ -50,7 +42,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
                   : t('user.visitProfile', { name: collaborator.fullName })
               }
               onPress={() => onSelectMember(member)}
-              key={index}
+              key={collaborator.id}
               testID={'spaces-collaborators-item'}
             >
               <HoliAvatar
