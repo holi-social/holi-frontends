@@ -6,11 +6,8 @@ import { logError } from '@holi/core/errors/helpers'
 import { isValidUrl } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import {
-  UpdateExternalLinkResponse,
-  spaceByIdQuery,
-  updateExternalLinkMutation,
-} from '@holi/core/screens/spaces/queries'
+import { UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -95,9 +92,10 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled || loading}
       scrollable={false}
+      loading={loading}
     >
       <SpaceLinksForm
-        title={'Edit Social Media Link'}
+        title={t('spaces.input.socialLinks.edit.label')}
         onChangeUrl={setUrl}
         onChangeName={setName}
         url={url}

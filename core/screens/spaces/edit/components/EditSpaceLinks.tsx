@@ -8,8 +8,8 @@ import SpaceLinkInput from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import CreateSpaceLinks from '@holi/core/screens/spaces/create/components/CreateSpaceLink'
 import EditSpaceLink from '@holi/core/screens/spaces/edit/components/EditSpaceLink'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
+import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -65,13 +65,13 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
       <HoliButton
         label={t('spaces.input.socialLinks.add.label')}
         type="secondary"
-        style={{ width: 'max-content', marginHorizontal: 'auto' }}
+        style={styles.button}
         onPress={showCreate}
       >
         {t('spaces.input.socialLinks.add.label')}
       </HoliButton>
 
-      <View style={{ marginTop: 32 }}>
+      <View>
         {space.links?.map((link) => (
           <SpaceLinkInput key={link.id} link={link} onDelete={onDelete} onEdit={onEdit} />
         ))}
@@ -110,6 +110,11 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: colors.background30,
     paddingHorizontal: 16,
+  },
+  button: {
+    width: 'max-content',
+    marginHorizontal: 'auto',
+    marginBottom: 32,
   },
 })
 

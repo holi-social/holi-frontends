@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { logError } from '@holi/core/errors/helpers'
 import { isValidUrl } from '@holi/core/helpers'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
+import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import { AddExternalLinkResponse, addExternalLinkMutation, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -87,6 +88,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled || loading}
       scrollable={false}
+      loading={loading}
     >
       <SpaceLinksForm
         title={t('spaces.input.socialLinks.title')}

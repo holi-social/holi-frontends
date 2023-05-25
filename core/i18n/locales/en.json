@@ -433,6 +433,7 @@
   "spaces.input.socialLinks.delete.confirmation.yes": "Confirm",
   "spaces.input.socialLinks.delete.error": "There was an error deleting the link. Please retry later.",
   "spaces.input.socialLinks.delete.success": "Your Social Media link has been deleted.",
+  "spaces.input.socialLinks.edit.label": "Edit Social Media Link",
   "spaces.input.socialLinks.manage.subtitle": "Add relevant social media profiles that showcase your Space work, recognition and community.",
   "spaces.input.socialLinks.manage.title": "Manage social media links",
   "spaces.input.socialLinks.name.label": "Name URL *",
