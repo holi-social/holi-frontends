@@ -15,6 +15,7 @@ export type UseUpdateSpaceUserConnection = [boolean, (options?: MutationFunction
 
 const useUpdateSpaceUserConnection = (
   spaceId: string,
+  spaceName: string,
   connectionType: SpaceConnectionType,
   connectAction: SpaceConnectionAction
 ): UseUpdateSpaceUserConnection => {
@@ -27,7 +28,7 @@ const useUpdateSpaceUserConnection = (
     {
       variables: { spaceId, connectionType, connectAction },
       onCompleted: () => {
-        openToast(t('spaces.leave.success'), HoliToastType.SUCCESS)
+        openToast(t('spaces.leave.success', { space: spaceName }), HoliToastType.SUCCESS)
       },
       onError: (error) => displayError(error, t('spaces.leave.error')),
       refetchQueries: [{ query: mySpaceQuery }],
