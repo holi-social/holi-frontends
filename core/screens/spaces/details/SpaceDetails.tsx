@@ -7,6 +7,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import NotificationModal from '@holi/core/components/NotificationModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useShareSpace } from '@holi/core/hooks/spaces/useShareSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -42,9 +43,10 @@ const SpaceDetails = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const isWeb = Platform.OS === 'web'
   const space = data?.spaceById
@@ -231,14 +233,22 @@ const SpaceDetails = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+      >
         <SpaceDetailView
           style={styles.spaceDetailView}
           space={space}
           onChangeTab={handleTabChange}
           initialTabIndex={global.spaceDetailInitialTabIndex}
         />
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Refreshable>
       {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
     </>

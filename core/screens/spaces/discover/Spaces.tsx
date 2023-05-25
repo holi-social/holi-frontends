@@ -3,8 +3,10 @@ import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -14,7 +16,7 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
+import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -23,7 +25,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const Spaces: React.VFC = () => {
+const Spaces = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
@@ -44,6 +46,12 @@ const Spaces: React.VFC = () => {
   } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
+
+  const { refreshing, onRefresh } = useOnRefresh(() =>
+    client.refetchQueries({
+      include: [mySpaceQuery, discoverSpacesQuery, discoverSpacesQuery],
+    })
+  )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
@@ -120,7 +128,14 @@ const Spaces: React.VFC = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Defatult ref={pageViewRef} style={styles.layout}>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        ref={pageViewRef}
+        style={styles.layout}
+      >
         {/* User has NO spaces => show discover view */}
         {!hasOwnSpaces && (
           <View style={[mixins.container, styles.discoverSpacesContainer]}>
@@ -157,7 +172,7 @@ const Spaces: React.VFC = () => {
             testID="spaces-tab-navigation"
           />
         )}
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Refreshable>
 
       {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>

@@ -8,7 +8,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
+import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -20,6 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
+import { projectsQuery } from '@holi-apps/donations/queries'
 
 type ScreenProps = NativeStackScreenProps<DonationsAppScreensList>
 
@@ -54,6 +57,8 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
+  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [projectsQuery] }))
+
   useLayoutEffect(() => {
     const searchButton = (
       <HoliButton
@@ -85,7 +90,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <ScrollHeaderLayout.Defatult keyboardShouldPersistTaps="always" headerOverlap>
+    <ScrollHeaderLayout.Refreshable
+      refreshableProps={{ isLoading: refreshing, onRefresh }}
+      keyboardShouldPersistTaps="always"
+      headerOverlap
+    >
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
@@ -104,7 +113,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       >
         <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
       </View>
-    </ScrollHeaderLayout.Defatult>
+    </ScrollHeaderLayout.Refreshable>
   )
 }
 

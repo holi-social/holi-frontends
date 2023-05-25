@@ -16,6 +16,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -66,9 +67,10 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
+  const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
   })
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const title = data?.postById?.title
 
@@ -124,7 +126,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar animated />
 
-      <ScrollHeaderLayout.Defatult ref={scrollViewRef}>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        ref={scrollViewRef}
+      >
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
 
@@ -150,7 +158,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             </View>
           )}
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Refreshable>
 
       <SafeAreaView>
         <View style={styles.postCommentWrapper}>

@@ -1,10 +1,12 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -46,25 +48,26 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
     )
   }, [geolocationDetails])
 
-  const [fetchSpaces, { loading: loadingSpaces, data, error: errorSpaces, fetchMore }] = useLazyQuery<SpacesResponse>(
-    spacesQuery,
-    {
-      variables: {
-        topicSlug: topicSlug,
-        geolocation: geolocationDetails?.geolocation,
-        skillSlugs: skillSlugs,
-        limit: SPACES_PAGE_SIZE,
-        offset: 0,
-      },
-      fetchPolicy: 'cache-and-network',
-    }
-  )
+  const {
+    loading: loadingSpaces,
+    data,
+    error: errorSpaces,
+    fetchMore,
+  } = useQuery<SpacesResponse>(spacesQuery, {
+    variables: {
+      topicSlug: topicSlug,
+      geolocation: geolocationDetails?.geolocation,
+      skillSlugs: skillSlugs,
+      limit: SPACES_PAGE_SIZE,
+      offset: 0,
+    },
+    skip: !!locationId && !geolocationDetails,
+    fetchPolicy: 'cache-and-network',
+  })
 
-  useEffect(() => {
-    if (locationId && !geolocationDetails) return
+  const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
 
-    fetchSpaces()
-  }, [fetchSpaces, geolocationDetails, locationId])
+  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [spacesQuery] }))
 
   useEffect(() => {
     const anyError = errorSpaces || geolocationError
@@ -72,8 +75,6 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
       displayError(anyError, t('spaces.spaceListing.error'))
     }
   }, [displayError, errorSpaces, geolocationError, t])
-
-  const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
 
   const canFetchMore = spaces.length < totalResults
 
@@ -101,7 +102,14 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Defatult style={styles.wrapper} testID="filtered-spaces-container">
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.wrapper}
+        testID="filtered-spaces-container"
+      >
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {spaces.length > 0 && !isLoading && <SpacesGrid style={styles.grid} spaces={spaces} />}
@@ -137,7 +145,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
             </View>
           )}
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Refreshable>
 
       <SpaceFilterModal
         filters={filters}

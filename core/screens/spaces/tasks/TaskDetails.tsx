@@ -3,18 +3,16 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -26,9 +24,7 @@ export type TaskDetailsParams = {
 
 const { useParam } = createParam<TaskDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const TaskDetails: React.VFC<ScreenProps> = () => {
+const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
 
@@ -37,9 +33,10 @@ const TaskDetails: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
 
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const space = data?.spaceById
   const task = (space?.tasks || []).find((t) => t.id === taskId)
@@ -77,11 +74,16 @@ const TaskDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ isLoading: refreshing, onRefresh }}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+      >
         <View style={mixins.container}>
           <SpaceTaskTile task={task} space={space} isAdmin={isAdmin} showFullView />
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Refreshable>
     </>
   )
 }

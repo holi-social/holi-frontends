@@ -7,6 +7,7 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
@@ -21,7 +22,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
@@ -44,7 +45,7 @@ const InsightDetailPage = () => {
 
   const insight = data?.insightById
 
-  const [refreshing, setRefreshing] = useState(false)
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   useLayoutEffect(
     () =>
@@ -76,15 +77,9 @@ const InsightDetailPage = () => {
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           isLoading: refreshing,
-          onRefresh: async () => {
-            setRefreshing(true)
-            await refetch()
-            // use setTimeout to not bother user with very quick animation
-            setTimeout(() => setRefreshing(false), 500)
-          },
-          refreshHeight: +vars.topBarHeight + 66,
-          loaderTopOffset: +vars.topBarHeight,
+          onRefresh,
         }}
+        style={styles.wrapper}
         headerOverlap
       >
         {/* Image section */}
