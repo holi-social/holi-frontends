@@ -311,6 +311,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -325,6 +326,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
@@ -1511,6 +1513,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -1525,6 +1528,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
@@ -2468,6 +2472,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
                 "marginBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -2482,6 +2487,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
