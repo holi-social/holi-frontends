@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { DocumentNode, useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -51,7 +51,9 @@ const Spaces = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
-      include: [mySpaceQuery, discoverSpacesQuery, discoverSpacesQuery],
+      include: [isLoggedIn ? mySpaceQuery : undefined, discoverSpacesQuery, discoverSpacesQuery].filter(
+        (q) => !!q
+      ) as DocumentNode[],
     })
   )
 
