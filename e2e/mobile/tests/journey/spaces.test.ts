@@ -73,7 +73,7 @@ describe('@Spaces', () => {
     await defaultAuthSteps()
     await tapOnElementWithTestId('btn-to-spaces')
     try {
-      await tapOnElementWithTestId('space-onBoard-content-close-btn')
+      await tapOnElementWithTestId('space-onboard-content-close-btn')
     } catch (_) {
       // try catch in case the onboarding modal is present (depends on asyncstorage)
     }
@@ -124,7 +124,7 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
     try {
-      await tapOnElementWithTestId('space-onBoard-content-close-btn')
+      await tapOnElementWithTestId('space-onboard-content-close-btn')
     } catch (_) {
       // try catch in case the onboarding modal is present (depends on asyncstorage)
     }

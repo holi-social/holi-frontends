@@ -51,7 +51,7 @@ const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps
         actionButtonText={t('spaces.edit.onboarding.modal.close')}
         onActionButtonPress={() => handleModalClose()}
         headlineText={t('spaces.join.onboarding.header')}
-        testID={'space-onBoard-content'}
+        testID={'space-onboard-content'}
         style={styles.modalContentWrapper}
       >
         <HoliCarousel
