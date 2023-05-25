@@ -33,7 +33,7 @@ export const isImageSourceURIBase64 = ({ uri }: ImageSource | ImageURISource) =>
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setImageKitParams = (source: ImageSource | ImageURISource): ImageSource | ImageURISource => {
-  if (!source.uri) return source
+  if (!source.uri) return {}
   if (!source.width && !source.height) return source
   if (isImageSourceURIBase64(source)) return source
 
