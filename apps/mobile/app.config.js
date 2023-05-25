@@ -84,7 +84,7 @@ export default {
         projectId: process.env.EXPO_PROJECT_ID,
       },
       e2e: {
-        userId: process.env.E2E_USER_ID,
+        userId: process.env.E2E_USER_ID || '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
       },
     },
   },

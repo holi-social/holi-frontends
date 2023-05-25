@@ -4,6 +4,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
@@ -13,6 +14,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
@@ -31,6 +33,7 @@
     },
     "simulator": {
       "env": {
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
