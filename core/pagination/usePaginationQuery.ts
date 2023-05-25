@@ -47,6 +47,11 @@ function usePaginationQuery<TData>(
       offset: 0,
     },
     ...remainingOptions,
+    onCompleted: () => {
+      if (isFetchingMore) {
+        setIsFetchingMore(false)
+      }
+    },
   })
 
   const { data = [], totalResults = 0 } = at<Paged<TData>>(pagedData, queryPath)[0] || {}
@@ -59,8 +64,8 @@ function usePaginationQuery<TData>(
       variables: {
         offset: data.length,
       },
-    }).finally(() => setIsFetchingMore(false))
-  }, [fetchMore, data.length, setIsFetchingMore])
+    })
+  }, [fetchMore, data.length])
 
   return {
     loading,
