@@ -16,7 +16,7 @@ export interface RefreshableScrollHeaderLayoutProps extends DefaultProps {
   refreshableProps: RefreshableWrapperProps
 }
 
-const PULL_DEVIDER = 3.118
+const PULL_DEVIDER = 2
 
 const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutProps>(
   (
@@ -56,14 +56,12 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     }
 
     const endPull = () => {
-      setStartPoint(0)
-      setPullChange((pullChange) => {
-        if (pullChange >= refreshHeight) {
-          onRefresh()
-        }
+      if (pullChange >= refreshHeight) {
+        onRefresh()
+      }
 
-        return 0
-      })
+      setStartPoint(0)
+      setPullChange(0)
     }
 
     useEffect(() => {
