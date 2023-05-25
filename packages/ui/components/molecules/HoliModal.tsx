@@ -76,7 +76,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   heading,
   relativeHeight = 0.9,
   autoHeight = true,
-  headerStyle = { width: '100%' },
+  headerStyle,
   children,
   style,
   testID,
@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignSelf: 'center',
     justifyContent: 'flex-end',
+    width: '100%',
     marginBottom: 18,
     ...Platform.select({
       web: {
@@ -266,6 +267,7 @@ const styles = StyleSheet.create({
   handle: {
     height: 40,
     alignItems: 'center',
+    alignSelf: 'center',
   },
   lineButton: {
     padding: 15,
