@@ -28,7 +28,7 @@ import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const CreateSpace: React.VFC = () => {
+const CreateSpace = () => {
   const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()

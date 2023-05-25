@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -23,7 +23,7 @@ type DiscoverSpacesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
+const DiscoverSpaces = ({ user, style }: DiscoverSpacesProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
@@ -48,36 +48,34 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   } = useGeolocationDetails(DEFAULT_LOCATION_ID)
 
   // user specific spaces suggestions
-  const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
-    useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
-      variables: {
-        topicIds: userTopics.map((t) => t.id),
-        skillIds: userSkills.map((s) => s.id),
-        limit: SPACES_GROUP_LIMIT,
-      },
-      fetchPolicy: 'cache-and-network',
-    })
+  const {
+    loading: loadingUserSpecific,
+    data: dataUserSpecific,
+    error: errorUserSpecific,
+  } = useQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
+    variables: {
+      topicIds: userTopics.map((t) => t.id),
+      skillIds: userSkills.map((s) => s.id),
+      limit: SPACES_GROUP_LIMIT,
+    },
+    skip: !topics.length || !defaultGeolocation || !user,
+    fetchPolicy: 'cache-and-network',
+  })
 
   // default spaces suggestions
-  const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
-    useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
-      variables: {
-        topicIds: defaultTopicIds,
-        geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geolocation : undefined,
-        limit: SPACES_GROUP_LIMIT,
-      },
-      fetchPolicy: 'cache-and-network',
-    })
-
-  useEffect(() => {
-    if (!topics.length || !defaultGeolocation) return
-
-    if (user) {
-      fetchUserSpecifc()
-    }
-
-    fetchDefault()
-  }, [fetchUserSpecifc, fetchDefault, topics, user, defaultGeolocation])
+  const {
+    loading: loadingDefaultData,
+    data: dataDefault,
+    error: errorDefault,
+  } = useQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
+    variables: {
+      topicIds: defaultTopicIds,
+      geolocation: user?.geolocationId !== DEFAULT_LOCATION_ID ? defaultGeolocation?.geolocation : undefined,
+      limit: SPACES_GROUP_LIMIT,
+    },
+    skip: !topics.length || !defaultGeolocation,
+    fetchPolicy: 'cache-and-network',
+  })
 
   useEffect(() => {
     const anyError = errorUserSpecific || errorDefault || defaultGeolocationError

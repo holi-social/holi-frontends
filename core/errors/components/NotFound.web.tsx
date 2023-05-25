@@ -1,7 +1,7 @@
 import Error from 'next/error'
 import React from 'react'
 
-const NotFound: React.VFC = () => {
+const NotFound = () => {
   return <Error statusCode={404} />
 }
 

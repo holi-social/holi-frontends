@@ -23,7 +23,7 @@ type DonationListingProps = {
   resetSearch: () => void
 }
 
-const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetSearch }: DonationListingProps) => {
+const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)

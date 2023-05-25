@@ -36,7 +36,7 @@ export type SpacesScreens = {
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
 
-const SpacesNavigator: React.VFC = () => {
+const SpacesNavigator = () => {
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}

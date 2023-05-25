@@ -11,7 +11,7 @@ export type MySpacesProps = {
   mySpaces: SpaceSection[]
   style?: StyleProp<ViewStyle>
 }
-const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
+const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
   const mappedSpaces = mySpaces.map((section) => {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './HeaderAnimated.module.scss'
 
-const HeaderAnimatedGradienBackground: React.VFC = () => {
+const HeaderAnimatedGradienBackground = () => {
   return <div className={styles.headerGradient} />
 }
 

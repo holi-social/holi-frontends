@@ -18,7 +18,7 @@ export type InsightsScreens = {
 
 const InsightsStack = createNativeStackNavigator<InsightsScreens>()
 
-const InsightsNavigator: React.VFC = () => {
+const InsightsNavigator = () => {
   return (
     <InsightsStack.Navigator
       initialRouteName={RouteName.InsightDetailPage}

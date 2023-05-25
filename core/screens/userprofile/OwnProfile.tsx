@@ -23,7 +23,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-const OwnProfile: React.VFC = () => {
+const OwnProfile = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
