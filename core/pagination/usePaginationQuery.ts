@@ -47,9 +47,12 @@ function usePaginationQuery<TData>(
       offset: 0,
     },
     ...remainingOptions,
-    onCompleted: () => {
+    onCompleted: (data) => {
       if (isFetchingMore) {
         setIsFetchingMore(false)
+      }
+      if (remainingOptions.onCompleted) {
+        remainingOptions.onCompleted(data)
       }
     },
   })
@@ -68,7 +71,8 @@ function usePaginationQuery<TData>(
   }, [fetchMore, data.length])
 
   return {
-    loading,
+    // Sometimes there is a delay between setting loading to false and filling the pagedData/error
+    loading: loading || (!pagedData && !error),
     data,
     error,
     totalResults,

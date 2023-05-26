@@ -147,9 +147,8 @@ describe('FilteredSpaces', () => {
     expect(await screen.findByText('global.loading'))
 
     // expect 40 spaces
-    // FIXME: caching seems to work correctly, but the data inside the component is not updated with the new list
-    // expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
-    // expect((await screen.findAllByTestId('space-link')).length).toBe(40)
+    expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
+    expect((await screen.findAllByTestId('space-link')).length).toBe(40)
   })
 
   it('displays no results screen if no spaces were found', async () => {

@@ -57,35 +57,35 @@ describe('PaginationContext', () => {
       </MockedProvider>
     )
 
-  it('provides loading state in pagination context', () => {
+  it('provides loading state in pagination context', async () => {
     renderPagination([createPaginationMock()])
 
-    expect(screen.findByText('Loading'))
+    expect(await screen.findByText('Loading'))
   })
 
-  it('provides error state in pagination context', () => {
+  it('provides error state in pagination context', async () => {
     renderPagination([errorMock])
 
-    expect(screen.findByText('Test error'))
+    expect(await screen.findByText('Test error'))
   })
 
-  it('provides total results in pagination context', () => {
+  it('provides total results in pagination context', async () => {
     renderPagination([noResultsMock])
 
-    expect(screen.findByText('0 results'))
+    expect(await screen.findByText('0 results'))
   })
 
   it('provides data in pagination context', async () => {
     renderPagination([createPaginationMock()])
 
-    expect(screen.findByText('50 results'))
+    expect(await screen.findByText('50 results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
   })
 
   it('does not render button to fetch more if not possible', async () => {
     renderPagination([noResultsMock])
 
-    expect(screen.findByText('0 results'))
+    expect(await screen.findByText('0 results'))
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
 
