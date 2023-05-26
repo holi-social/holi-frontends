@@ -15,7 +15,17 @@ default:
   tags:
     - holi-small
 
+debug:
+  stage: build
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - ls -al ~
+    - cat ~/pre_build
+    - cat ~/pre_get_sources
+    - cat ~/.docker/config.json
+
 lint_compile_test:
+  needs: ['debug']
   stage: build
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   script:
