@@ -189,9 +189,6 @@ describe('@Spaces', () => {
     // click outside to close keyboard
     await tapOnElementWithTestId('task-name-label')
 
-    // scroll down to be able to view input label
-    await scrollDown()
-
     // make sure next input is visible
     await scrollToElementWithTestId('task-description-input', 'down', { maxAttempts: 3 })
 
@@ -247,6 +244,19 @@ describe('@Spaces', () => {
     await scrollToElementWithTestId('btn-right-space-tasks-card', 'down', { maxAttempts: 8 })
     await tapOnElementWithTestId('btn-right-space-tasks-card')
     await inputTaskInfo(taskTitle, taskDescription)
+
+    // TODO: Uncomment test after fixing bug with ActionDrawer not closing when navigating to a new page (mobile)
+    // // edit task
+    // const editedTaskTitle = 'E2E edited task'
+    // await tapOnElementWithTestId('btn-task-more-options')
+    // await tapOnElementWithTestId('btn-to-edit-task')
+
+    // // edit task name
+    // await waitForElementWithTestId('task-name-input')
+    // await fillFieldByTestId('task-name-input', editedTaskTitle)
+
+    // // save edited task
+    // await tapOnElementWithTestId('form-modal-save-btn')
 
     // delete task
     await tapOnElementWithTestId('btn-task-more-options')
