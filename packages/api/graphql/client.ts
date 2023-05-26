@@ -1,6 +1,6 @@
 import type { NormalizedCacheObject, ServerError } from '@apollo/client'
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
@@ -11,7 +11,7 @@ import { holiApiUrl } from '@holi/api/config'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
-import { alwaysReplacePolicy, indexAwareOffsetLimitPagination } from './cachePolicies'
+import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
 import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
@@ -119,7 +119,7 @@ export const createCache = () =>
       },
       SpaceMemberPaged: {
         fields: {
-          data: indexAwareOffsetLimitPagination(),
+          data: nestedPaginationPolicy(['idOrName']),
         },
       },
       Query: {
