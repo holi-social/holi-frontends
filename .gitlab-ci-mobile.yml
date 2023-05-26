@@ -1,7 +1,7 @@
 # job templates
 
 .mobile_publish:
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
@@ -16,7 +16,7 @@
     - holi-big
 
 .mobile_build:
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
@@ -52,7 +52,7 @@
   allow_failure: false
 
 .mobile_e2e:
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
@@ -289,7 +289,7 @@ mobile_production_build_ios:
 
 mobile_production_submit_android:
   needs: ['mobile_production_build_android']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
@@ -302,7 +302,7 @@ mobile_production_submit_android:
 
 mobile_production_submit_ios:
   needs: ['mobile_production_build_ios']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
