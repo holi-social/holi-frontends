@@ -42,7 +42,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Defatult
+      <ScrollHeaderLayout.Default
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
@@ -59,7 +59,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
           {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {children}
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
 
       {/* Footer */}
       <View style={styles.footerContainer}>

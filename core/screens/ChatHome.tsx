@@ -44,14 +44,14 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <ScrollHeaderLayout.Defatult>
+    <ScrollHeaderLayout.Default>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {' '}
         </HoliHeading>
         <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
       </View>
-    </ScrollHeaderLayout.Defatult>
+    </ScrollHeaderLayout.Default>
   )
 }
 

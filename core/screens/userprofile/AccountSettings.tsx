@@ -30,7 +30,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Defatult>
+    <ScrollHeaderLayout.Default>
       <LoginProtection>
         <View style={[mixins.container, styles.accountSettings]}>
           <MoreOptionItem
@@ -46,7 +46,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
           <DeleteAccountButton style={styles.settingsItem} />
         </View>
       </LoginProtection>
-    </ScrollHeaderLayout.Defatult>
+    </ScrollHeaderLayout.Default>
   )
 }
 

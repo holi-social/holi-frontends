@@ -229,7 +229,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
         <View style={styles.wrapper} testID="space-edit-container">
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
@@ -379,7 +379,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             </View>
           </View>
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
 
       <View style={styles.overlayContainer}>
         <HoliButton

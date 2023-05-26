@@ -37,7 +37,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
     <View testID={'goodnews-app-home'}>
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout.Defatult
+      <ScrollHeaderLayout.Default
         bounces={false}
         headerOverlap
         hasFooterTabBar={false}
@@ -45,7 +45,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         contentStyle={{ height: '100%' }}
       >
         <GoodNewsCarousel />
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
     </View>
   )
 }

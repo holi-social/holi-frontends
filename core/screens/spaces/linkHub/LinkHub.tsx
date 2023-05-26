@@ -64,7 +64,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Defatult style={styles.defaultLayout} headerOverlap>
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
@@ -82,7 +82,7 @@ const LinkHub: React.VFC<ScreenProps> = () => {
             },
           ]}
         />
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
       <AddButton />
     </>
   )

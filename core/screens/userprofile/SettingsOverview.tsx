@@ -39,7 +39,7 @@ const SettingsOverview = () => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <ScrollHeaderLayout.Defatult>
+    <ScrollHeaderLayout.Default>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -92,7 +92,7 @@ const SettingsOverview = () => {
       </LoginProtection>
 
       {isLoggingOut && <HoliLoader />}
-    </ScrollHeaderLayout.Defatult>
+    </ScrollHeaderLayout.Default>
   )
 }
 

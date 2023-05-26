@@ -21,13 +21,13 @@ const Search: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => setOptions({ title }), [setOptions, title])
 
   return (
-    <ScrollHeaderLayout.Defatult>
+    <ScrollHeaderLayout.Default>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
       </View>
-    </ScrollHeaderLayout.Defatult>
+    </ScrollHeaderLayout.Default>
   )
 }
 

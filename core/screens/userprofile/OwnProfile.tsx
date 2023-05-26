@@ -108,7 +108,7 @@ const OwnProfile = () => {
 
   return (
     <LoginProtection>
-      <ScrollHeaderLayout.Defatult keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout.Default keyboardShouldPersistTaps="handled">
         {user ? (
           <>
             {editMode && (
@@ -156,7 +156,7 @@ const OwnProfile = () => {
         ) : (
           <HoliLoader />
         )}
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
     </LoginProtection>
   )
 }

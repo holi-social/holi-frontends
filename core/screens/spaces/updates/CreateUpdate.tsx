@@ -165,7 +165,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Defatult
+      <ScrollHeaderLayout.Default
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
@@ -186,7 +186,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
             isAdmin={isAdmin}
           />
         </View>
-      </ScrollHeaderLayout.Defatult>
+      </ScrollHeaderLayout.Default>
 
       <Footer />
       <HoliConfirmation
