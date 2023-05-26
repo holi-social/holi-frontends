@@ -68,8 +68,15 @@ const HoliBlockItem = ({
                 imageElement
               )}
               {size === 'large' && (
-                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-                  <HoliText>{users.length}</HoliText>
+                <HoliUserAvatarPile
+                  users={users}
+                  usersToShow={3}
+                  counter
+                  collapse
+                  style={styles.usersPile}
+                  usersTotal={totalUserCount}
+                >
+                  <HoliText>{totalUserCount || users.length}</HoliText>
                 </HoliUserAvatarPile>
               )}
             </View>
@@ -88,7 +95,14 @@ const HoliBlockItem = ({
                 </HoliText>
               )}
               {isSmall && (
-                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                <HoliUserAvatarPile
+                  users={users}
+                  usersToShow={3}
+                  counter
+                  collapse
+                  style={styles.usersPile}
+                  usersTotal={totalUserCount}
+                >
                   <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
                     {t('spaces.members.member', { count: totalUserCount || users.length })}
                   </HoliText>
