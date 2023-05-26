@@ -19,6 +19,7 @@ debug:
   stage: build
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
+    - whoami
     - ls -al ~
     - cat ~/pre_build
     - cat ~/pre_get_sources
