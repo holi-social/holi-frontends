@@ -129,9 +129,10 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
   footer: {
-    position: 'absolute',
     bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',

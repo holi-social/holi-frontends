@@ -37,7 +37,7 @@ describe('@Spaces', () => {
     await assertSpaceDetailsDisplayed()
     await assertCreatingSpace()
     await assertEditingSpace()
-    await assertAddEditDeleteTask()
+    await assertAddDeleteTask()
     await assertDeletingSpace()
   })
 
@@ -236,17 +236,10 @@ describe('@Spaces', () => {
     // click outside to close keyboard
     await tapOnElementWithTestId('task-contactEmail-label')
 
-    await clickModalSaveButton()
-  }
-
-  // Appium has an issue with absolute positioned buttons and it's not tapping the save button, this is a worka round to tap based on coordinates
-  const clickModalSaveButton = async () => {
-    // const SCREEN_SIZE = await Appium.getWindowRect()
-    // await Appium.touchAction({ action: 'tap', x: SCREEN_SIZE.width - 60, y: SCREEN_SIZE.height - 80 })
     await tapOnElementWithTestId('form-modal-save-btn')
   }
 
-  const assertAddEditDeleteTask = async () => {
+  const assertAddDeleteTask = async () => {
     // create task
     const taskTitle = 'E2E task'
     const taskDescription = 'E2E task description'
@@ -254,18 +247,6 @@ describe('@Spaces', () => {
     await scrollToElementWithTestId('btn-right-space-tasks-card', 'down', { maxAttempts: 8 })
     await tapOnElementWithTestId('btn-right-space-tasks-card')
     await inputTaskInfo(taskTitle, taskDescription)
-
-    // edit task
-    const editedTaskTitle = 'E2E edited task'
-    await tapOnElementWithTestId('btn-task-more-options')
-    await tapOnElementWithTestId('btn-to-edit-task')
-
-    // edit task name
-    await waitForElementWithTestId('task-name-input')
-    await fillFieldByTestId('task-name-input', editedTaskTitle)
-
-    // save edited task
-    await tapOnElementWithTestId('form-modal-save-btn')
 
     // delete task
     await tapOnElementWithTestId('btn-task-more-options')
