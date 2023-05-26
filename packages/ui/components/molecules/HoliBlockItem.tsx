@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useFallbackImage, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSectionType } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -46,9 +46,10 @@ const HoliBlockItem = ({
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
+  const fallbackImageUri = useFallbackImage().uri
   const imageSource = isSmall
-    ? { uri: imageSrc, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
-    : { uri: imageSrc }
+    ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
+    : { uri: imageSrc ? imageSrc : fallbackImageUri }
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()

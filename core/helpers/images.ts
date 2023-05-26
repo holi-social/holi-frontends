@@ -78,3 +78,7 @@ export const getSizes = (breakpointWidthMatches: { breakpoint: number; width: nu
     ', 100wv'
   )
 }
+
+export const useFallbackImage = () => {
+  return { uri: 'https://ik.imagekit.io/holidev/404.png' }
+}

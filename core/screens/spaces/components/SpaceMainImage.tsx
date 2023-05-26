@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useFallbackImage } from '@holi/core/helpers'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -18,10 +19,13 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 
 const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, editable, onPress, style }) => {
   const { t } = useTranslation()
+
+  const fallbackImageUri = useFallbackImage().uri
+
   return (
     <View style={[styles.imageContainer, style]}>
       <View style={styles.wrapper}>
-        <HoliImage source={{ uri }} style={styles.mainImage} label={label} />
+        <HoliImage source={{ uri: uri ? uri : fallbackImageUri }} style={styles.mainImage} label={label} />
         {editable && (
           <>
             <View style={styles.editOverlay} />
