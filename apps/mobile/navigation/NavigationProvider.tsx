@@ -29,7 +29,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   prefixes: [
     Linking.createURL('/'),
     'holi://',
-    'https://*.app.holi.social',
+    'https://app.holi.social',
     'https://*.dev.holi.social',
     'https://*.web.project-holi.org',
   ],

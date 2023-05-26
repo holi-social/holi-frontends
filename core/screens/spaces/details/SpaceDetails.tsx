@@ -62,7 +62,14 @@ const SpaceDetails = () => {
     successMsg: t('global.report.successMessage'),
   })
 
-  const { confirmationTitle, confirmationDescription, isLoadingLeaveSpace, leaveSpaceAction } = useLeaveSpace(space)
+  const {
+    confirmationTitle,
+    confirmationDescription,
+    isLoadingLeaveSpace,
+    dismissLeaveSpaceButton,
+    confirmLeaveSpaceText,
+    leaveSpaceAction,
+  } = useLeaveSpace(space)
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -126,7 +133,9 @@ const SpaceDetails = () => {
               description={confirmationDescription}
               testID="space-leave"
               handleConfirmation={leaveSpaceAction}
-              hasDismissBtn
+              hasDismissBtn={dismissLeaveSpaceButton.show}
+              dismissText={dismissLeaveSpaceButton.text}
+              confirmText={confirmLeaveSpaceText}
               requireLogin
             />
           </HoliActionDrawer.Action>
@@ -199,6 +208,9 @@ const SpaceDetails = () => {
       confirmationDescription,
       confirmationTitle,
       isLoadingLeaveSpace,
+      confirmLeaveSpaceText,
+      dismissLeaveSpaceButton.show,
+      dismissLeaveSpaceButton.text,
     ]
   )
 

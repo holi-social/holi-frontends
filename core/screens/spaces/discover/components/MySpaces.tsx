@@ -26,7 +26,8 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
 
     if (
       !isOnboarded &&
-      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.CREATOR))
+      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.CREATOR)) &&
+      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR))
     ) {
       show()
     }
