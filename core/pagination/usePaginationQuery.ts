@@ -48,9 +48,7 @@ function usePaginationQuery<TData>(
     },
     ...remainingOptions,
     onCompleted: (data) => {
-      if (isFetchingMore) {
-        setIsFetchingMore(false)
-      }
+      setIsFetchingMore(false)
       if (remainingOptions.onCompleted) {
         remainingOptions.onCompleted(data)
       }

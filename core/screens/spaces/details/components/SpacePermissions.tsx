@@ -107,7 +107,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
           <HoliText size="small" style={{ color: colors.foreground20 }}>
             {user.pronouns || ''}
             {user.pronouns && <> &#183; </>}
-            {member.isAdministrator ? 'Admin' : 'Member'}
+            {member.isAdministrator
+              ? t('spaces.collaborators.permissions.role.admin')
+              : t('spaces.collaborators.permissions.role.member')}
           </HoliText>
 
           <View style={styles.actions}>

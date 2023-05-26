@@ -24,7 +24,7 @@ const InsightsOfTheWeekList: React.FC = () => {
   const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
   if (error) {
-    logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
+    logError(error, `[InsightsOfTheWeekList.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component

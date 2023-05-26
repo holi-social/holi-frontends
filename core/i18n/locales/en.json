@@ -308,6 +308,8 @@
   "spaces.collaborators.permissions.removeFromSpace.label": "Remove from Space",
   "spaces.collaborators.permissions.revokeAdmin.confirm": "Do you really want to revoke the admin rights from {{user}}?",
   "spaces.collaborators.permissions.revokeAdmin.label": "Revoke Admin rights",
+  "spaces.collaborators.permissions.role.admin": "Admin",
+  "spaces.collaborators.permissions.role.member": "Member",
   "spaces.collaborators.permissions.viewProfile": "View profile",
   "spaces.collaborators.showModal": "Show collaborators",
   "spaces.create.button": "Create Space",
