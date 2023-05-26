@@ -80,5 +80,5 @@ export const getSizes = (breakpointWidthMatches: { breakpoint: number; width: nu
 }
 
 export const useFallbackImage = () => {
-  return { uri: 'https://ik.imagekit.io/holidev/404.png' }
+  return { uri: 'https://ik.imagekit.io/holidev/404_square.svg' }
 }
