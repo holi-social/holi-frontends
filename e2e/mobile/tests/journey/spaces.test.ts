@@ -245,7 +245,7 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('btn-right-space-tasks-card')
     await inputTaskInfo(taskTitle, taskDescription)
 
-    // TODO: Uncomment test after fixing bug with ActionDrawer not closing when navigating to a new page (mobile)
+    // TODO: Uncomment test after fixing bug HOLI-4478 - ActionDrawer not closing when navigating to a new page (mobile)
     // // edit task
     // const editedTaskTitle = 'E2E edited task'
     // await tapOnElementWithTestId('btn-task-more-options')
