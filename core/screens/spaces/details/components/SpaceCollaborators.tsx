@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -83,7 +83,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
       relativeHeight={1}
       autoHeight={false}
     >
-      <View style={[mixins.container, styles.wrapper]}>
+      <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
         <Pagination
           query={spaceMembersQuery}
           queryOptions={queryOptions}
@@ -92,7 +92,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
         >
           <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
         </Pagination>
-      </View>
+      </ScrollView>
       {selectedMember && (
         <SpacePermissions
           space={space}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    paddingTop: 24,
+    paddingBottom: 24,
   },
   buttonContainer: {
     marginTop: 20,
