@@ -43,8 +43,11 @@ const SpaceDetails = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
+  // On initial page load on web `spaceIdOrName` is be undefined
+  // > will probably be solved with ssr
+  // see https://github.com/nandorojo/solito/issues/100
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName || '' },
   })
 
   const isWeb = Platform.OS === 'web'

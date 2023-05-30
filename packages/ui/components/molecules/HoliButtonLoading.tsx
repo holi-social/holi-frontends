@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliButtonLoadingProps {
+export interface HoliButtonLoadingProps extends HoliButtonProps {
   icon?: string
   iconSpinning?: boolean
   label: string

@@ -18,7 +18,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationListing from '@holi-apps/donations/components/DonationListing'
+import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 
 type ScreenProps = NativeStackScreenProps<DonationsAppScreensList>
@@ -102,7 +102,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         style={[mixins.container, { paddingTop: statusBarHeight + vars.topBarHeight }]}
         testID={'donations-list-container'}
       >
-        <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
+        <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
       </View>
     </DefaultScrollHeaderLayout>
   )

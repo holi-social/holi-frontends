@@ -35,7 +35,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
 
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,
-    spaceIdOrName: space.id,
+    spaceIdOrName: space.name,
     successMsg: t('spaces.tasks.delete.success'),
   })
 

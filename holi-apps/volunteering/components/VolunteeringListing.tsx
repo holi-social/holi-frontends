@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,7 +16,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
-import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
+import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
@@ -31,36 +31,26 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [fetchingMore, setFetchingMore] = useState(false)
-  const { loading, error, data, fetchMore } = useQuery<VolunteeringEngagementsQueryResponse>(
-    VolunteeringEngagementsQuery,
-    {
-      variables: {
-        offset: 0,
-        limit: ENGAGEMENT_PAGE_SIZE,
-        location: filters.location,
-        category: filters.category,
-      },
-      fetchPolicy: 'cache-and-network',
-    }
-  )
 
-  const { data: engagements = [], totalResults = 0 } = data?.appVolunteering_engagements || {}
+  const {
+    loading,
+    data: engagements,
+    error,
+    totalResults,
+    fetchNextPage,
+    canFetchMore,
+    isFetchingMore,
+  } = usePaginationQuery<VolunteeringEngagement>(VolunteeringEngagementsQuery, {
+    queryPath: 'appVolunteering_engagements',
+    pageSize: ENGAGEMENT_PAGE_SIZE,
+    variables: {
+      location: filters.location,
+      category: filters.category,
+    },
+    fetchPolicy: 'cache-and-network',
+  })
 
-  const canFetchMore = engagements.length < totalResults
-
-  const memoizedFetchMore = useCallback(() => {
-    setFetchingMore(true)
-    return fetchMore({
-      variables: {
-        offset: engagements.length,
-      },
-    }).finally(() => setFetchingMore(false))
-  }, [fetchMore, engagements.length, setFetchingMore])
-
-  const fetchMoreButtonText = fetchingMore
-    ? t('volunteering:listing.loadMoreButton.loading')
-    : t('volunteering:listing.loadMoreButton.text')
+  const fetchMoreButtonText = isFetchingMore ? t('global.loading') : t('volunteering:listing.loadMoreButton.text')
 
   if (error) {
     logError(error, `[VolunteeringListing.tsx] ${error.message}`)
@@ -113,10 +103,10 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
       <HoliButtonLoading
         type="primary"
         label={fetchMoreButtonText}
-        disabled={fetchingMore}
-        icon={fetchingMore ? 'loader-4' : undefined}
-        iconSpinning={fetchingMore}
-        onPress={memoizedFetchMore}
+        disabled={isFetchingMore}
+        icon={isFetchingMore ? 'loader-4' : undefined}
+        iconSpinning={isFetchingMore}
+        onPress={fetchNextPage}
         style={[styles.loadMoreButton]}
         testID="btn-volunteering-list-load-more"
       />
