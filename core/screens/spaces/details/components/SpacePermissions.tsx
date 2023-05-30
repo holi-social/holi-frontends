@@ -11,7 +11,6 @@ import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/det
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -145,24 +144,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
-            <HoliBox padding={[0, 0, 24, 0]}>
-              <Action
-                isLoading={isLoadingReport}
-                action="report"
-                title={t('global.report')}
-                testID="report-comment-button"
-                showConfirmation
-              >
-                <Confirmation
-                  title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
-                  description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
-                  testID="space-report"
-                  handleConfirmation={reportContent}
-                  hasDismissBtn
-                  requireLogin
-                />
-              </Action>
-            </HoliBox>
+            <Action
+              isLoading={isLoadingReport}
+              action="report"
+              title={t('global.report')}
+              testID="report-comment-button"
+              showConfirmation
+            >
+              <Confirmation
+                title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+                description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
+                testID="space-report"
+                handleConfirmation={reportContent}
+                hasDismissBtn
+                requireLogin
+              />
+            </Action>
 
             <HoliButton
               contentStyle={styles.actionsItem}
@@ -228,7 +225,7 @@ const styles = StyleSheet.create({
   actions: {
     marginTop: 8,
     paddingTop: 24,
-    borderTopColor: colors.background20,
+    borderTopColor: colors.background30,
     borderTopWidth: 1,
   },
   actionsItem: {
@@ -237,11 +234,11 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   actionsItemText: {
-    color: colors.foreground20,
+    color: colors.foreground30,
     paddingLeft: 10,
   },
   actionsItemIcon: {
-    color: colors.foreground20,
+    color: colors.foreground30,
   },
 })
 
