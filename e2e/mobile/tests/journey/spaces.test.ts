@@ -1,4 +1,5 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { scrollDown } from '../../helpers/gestures'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -36,6 +37,7 @@ describe('@Spaces', () => {
     await assertSpaceDetailsDisplayed()
     await assertCreatingSpace()
     await assertEditingSpace()
+    await assertAddDeleteTask()
     await assertDeletingSpace()
   })
 
@@ -168,5 +170,97 @@ describe('@Spaces', () => {
     } catch (_) {
       // try catch in case the onboarding modal is present (depends on asyncstorage)
     }
+  }
+
+  const inputTaskInfo = async (taskTitle: string, taskDescription: string) => {
+    // choose first option on visibility
+    await tapOnElementWithTestId('btn-task-visibility-input')
+    await tapOnElementWithTestId('item-task-visibility-input', 0)
+    // check if it closed
+    await waitForElementWithTestId('btn-task-visibility-input')
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-name-input', 'down', { maxAttempts: 3 })
+
+    // add task title
+    await tapOnElementWithTestId('task-name-input')
+    await fillFieldByTestId('task-name-input', taskTitle)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-name-label')
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-description-input', 'down', { maxAttempts: 3 })
+
+    // add task description
+    await fillFieldByTestId('task-description-input', taskDescription)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-description-label')
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('btn-task-locationType', 'down', { maxAttempts: 3 })
+
+    // open locationType dropdown
+    await tapOnElementWithTestId('btn-task-locationType')
+    await tapOnElementWithTestId('item-task-locationType', 0)
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('btn-task-regularity', 'down', { maxAttempts: 3 })
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // select commitment level
+    await tapOnElementWithTestId('btn-task-regularity')
+    await tapOnElementWithTestId('item-task-regularity', 0)
+    // check if it closed
+    await waitForElementWithTestId('btn-task-regularity')
+
+    // scroll down to be able to view input label
+    await scrollDown()
+
+    // make sure next input is visible
+    await scrollToElementWithTestId('task-contactEmail-input', 'down', { maxAttempts: 3 })
+
+    // add contact information
+    const contactEmail = 'e2e@holi.team'
+    await fillFieldByTestId('task-contactEmail-input', contactEmail)
+
+    // click outside to close keyboard
+    await tapOnElementWithTestId('task-contactEmail-label')
+
+    await tapOnElementWithTestId('form-modal-save-btn')
+  }
+
+  const assertAddDeleteTask = async () => {
+    // create task
+    const taskTitle = 'E2E task'
+    const taskDescription = 'E2E task description'
+    await tapOnElementWithTestId('space-tabs-button-2-inactive')
+    await scrollToElementWithTestId('btn-right-space-tasks-card', 'down', { maxAttempts: 8 })
+    await tapOnElementWithTestId('btn-right-space-tasks-card')
+    await inputTaskInfo(taskTitle, taskDescription)
+
+    // TODO: Uncomment test after fixing bug HOLI-4478 - ActionDrawer not closing when navigating to a new page (mobile)
+    // // edit task
+    // const editedTaskTitle = 'E2E edited task'
+    // await tapOnElementWithTestId('btn-task-more-options')
+    // await tapOnElementWithTestId('btn-to-edit-task')
+
+    // // edit task name
+    // await waitForElementWithTestId('task-name-input')
+    // await fillFieldByTestId('task-name-input', editedTaskTitle)
+
+    // // save edited task
+    // await tapOnElementWithTestId('form-modal-save-btn')
+
+    // delete task
+    await tapOnElementWithTestId('btn-task-more-options')
+    await tapOnElementWithTestId('btn-to-delete-task')
+    await tapOnElementWithTestId('task-delete-confirmation-confirm')
   }
 })
