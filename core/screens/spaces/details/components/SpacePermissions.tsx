@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-    actionsItemText: {
+  actionsItemText: {
     color: colors.foreground30,
     paddingLeft: 10,
   },
