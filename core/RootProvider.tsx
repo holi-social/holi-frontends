@@ -4,6 +4,7 @@ import React, { Suspense } from 'react'
 import { StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
+import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
@@ -41,7 +42,9 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
             <ToastProvider>
               <PortalProvider>
                 <NavigationContextProvider>
-                  <LoginModalProvider>{children}</LoginModalProvider>
+                  <SessionExpiryProtection>
+                    <LoginModalProvider>{children}</LoginModalProvider>
+                  </SessionExpiryProtection>
                 </NavigationContextProvider>
               </PortalProvider>
             </ToastProvider>

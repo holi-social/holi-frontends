@@ -8,6 +8,7 @@ import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeader
 import NotificationModal from '@holi/core/components/NotificationModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
+import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import { useShareSpace } from '@holi/core/hooks/spaces/useShareSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -58,6 +59,15 @@ const SpaceDetails = () => {
     successMsg: t('global.report.successMessage'),
   })
 
+  const {
+    confirmationTitle,
+    confirmationDescription,
+    isLoadingLeaveSpace,
+    dismissLeaveSpaceButton,
+    confirmLeaveSpaceText,
+    leaveSpaceAction,
+  } = useLeaveSpace(space)
+
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -78,18 +88,10 @@ const SpaceDetails = () => {
     setTimeout(() => setShowShareConfirmation(false), 1500)
   }, [setShowShareConfirmation, shareSpaceUrl])
 
-  const leaveSpaceAction = useCallback(() => {
-    const totalMembers = space?.members.totalResults ?? 0
-    if (isMember && totalMembers <= 1) {
-      navigate('/spaces')
-      deleteSpace().catch((e) => logError(e))
-    }
-  }, [deleteSpace, navigate, space, isMember])
-
   const renderActionDrawer = useCallback(
     () => (
       <>
-        <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="space-options-btn">
+        <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="space-options-btn">
           {isAdmin && (
             <HoliActionDrawer.Action
               isLoading={isLoading}
@@ -118,17 +120,19 @@ const SpaceDetails = () => {
           )}
 
           <HoliActionDrawer.Action
-            isLoading={isLoading}
+            isLoading={isLoadingLeaveSpace}
             action="leave"
             title={t('spaces.spaceDetails.leave')}
             showConfirmation
           >
             <HoliActionDrawer.Confirmation
-              title={t('spaces.spaceDetails.leave.confirmation.title')}
-              description={t('spaces.spaceDetails.leave.confirmation.description')}
+              title={confirmationTitle}
+              description={confirmationDescription}
               testID="space-leave"
               handleConfirmation={leaveSpaceAction}
-              hasDismissBtn
+              hasDismissBtn={dismissLeaveSpaceButton.show}
+              dismissText={dismissLeaveSpaceButton.text}
+              confirmText={confirmLeaveSpaceText}
               requireLogin
             />
           </HoliActionDrawer.Action>
@@ -198,6 +202,12 @@ const SpaceDetails = () => {
       shareWebAction,
       isLoading,
       showShareConfirmation,
+      confirmationDescription,
+      confirmationTitle,
+      isLoadingLeaveSpace,
+      confirmLeaveSpaceText,
+      dismissLeaveSpaceButton.show,
+      dismissLeaveSpaceButton.text,
     ]
   )
 

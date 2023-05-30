@@ -1,11 +1,10 @@
-import { ServerError, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
-import { logError } from '@holi/core/errors/helpers'
-import { useLogout, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
@@ -22,19 +21,11 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
   const { isLoggedIn } = useLoggedInUser()
-  const { logout } = useLogout()
 
   const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
     skip: !isLoggedIn,
     fetchPolicy: 'network-only',
     pollInterval: NOTIFICATION_POLLING_INTERVAL,
-    onError: (error) => {
-      const networkError = error?.networkError
-      if ((networkError as ServerError)?.statusCode === 401) {
-        logout()
-      }
-      logError(error, `[NotificationSearchButtons.tsx] ${error?.message}`)
-    },
   })
 
   const hasNewNotifications = !!data?.hasNewNotifications?.status
