@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import RefreshableWrapper from 'react-native-fresh-refresh'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/Default'
 import Default from '@holi/core/components/ScrollHeaderLayout/Default'
+import { RefreshableScrollHeaderLayoutProps } from '@holi/core/components/ScrollHeaderLayout/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
-
-type DefaultProps = Omit<LayoutProps, 'refreshControl'>
-type RefreshableWrapperProps = Omit<React.ComponentProps<typeof RefreshableWrapper>, 'children'> & {
-  loaderTopOffset?: number
-}
-
-export interface RefreshableScrollHeaderLayoutProps extends DefaultProps {
-  refreshableProps: RefreshableWrapperProps
-}
 
 const PULL_DEVIDER = 2
 

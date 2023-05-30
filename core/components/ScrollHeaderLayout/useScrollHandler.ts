@@ -4,7 +4,7 @@ import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { onScreenScrollY } from '@holi/core/helpers'
 import { useCallWhenCurrentScreenIsActive } from '@holi/core/helpers/useCallWhenCurrentScreenIsActive'
 
-export const useScrollHandlerHandler = (onScroll?: CallableFunction) => {
+export const useScrollHandler = (onScroll?: CallableFunction) => {
   const onScreenScrollHeader = useCallWhenCurrentScreenIsActive(onScreenScrollY)
 
   return useCallback(
