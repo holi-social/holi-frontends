@@ -7,6 +7,7 @@ import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/C
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface TasksCardProps {
@@ -20,9 +21,11 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
 
   const cardProps = {
     headerRightIcon: isAdmin ? 'add' : undefined,
-    onPressHeaderRight: isAdmin ? () => navigate(`/spaces/${space.name}/tasks/create`) : undefined,
+    onPressHeaderRight: isAdmin ? () => navigateToCreateTask() : undefined,
     headerRightButtonLabel: isAdmin ? t('spaces.createTask.button') : undefined,
   }
+
+  const navigateToCreateTask = () => navigate(`/spaces/${space.name}/tasks/create`)
 
   return (
     <CollaboratorAreaCard
@@ -41,9 +44,15 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
             {t('spaces.spaceDetails.tasks.empty.message.forCreators')}
           </HoliText>
           {isAdmin && (
-            <HoliText size={'small'} style={styles.instruction}>
-              {t('spaces.spaceDetails.tasks.empty.instruction')}
-            </HoliText>
+            <HoliButton
+              label={t('spaces.spaceDetails.tasks.empty.instruction')}
+              transparent
+              onPress={navigateToCreateTask}
+            >
+              <HoliText size="small" style={styles.instruction}>
+                {t('spaces.spaceDetails.tasks.empty.instruction')}
+              </HoliText>
+            </HoliButton>
           )}
         </View>
       )}
@@ -66,7 +75,8 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   instruction: {
-    marginTop: 12,
+    paddingVertical: 12,
     color: colors.foreground30,
+    alignSelf: 'center',
   },
 })
