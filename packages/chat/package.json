@@ -1,0 +1,19 @@
+{
+  "name": "@holi/chat",
+  "version": "1.0.0",
+  "description": "holi matrix chat client",
+  "type": "module",
+  "scripts": {
+    "lint": "TIMING=1 eslint .",
+    "test": "jest",
+    "clean": "echo 'nothing to be done'",
+    "clean:all": "rimraf node_modules"
+  },
+  "dependencies": {
+    "matrix-js-sdk": "^25.1.1"
+  },
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-native": "0.71.6"
+  }
+}
