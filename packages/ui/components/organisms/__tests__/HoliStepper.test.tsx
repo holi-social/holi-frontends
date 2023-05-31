@@ -50,7 +50,6 @@ const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: b
         ref={stepperRef}
         width={424}
         currentStep={currentStep}
-        scrollEnabled={false}
         steps={steps.map(([id, idx]) => (
           <TestStep key={id} idx={idx} goNext={goNext} />
         ))}
