@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { SpaceFragment } from '@holi/core/screens/spaces/queries'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 
 export const ValidateSpaceInputSchema = z.object({
   title: z.string().trim().min(2).max(60),
@@ -48,4 +48,28 @@ export const createSpaceMutation = gql`
 
 export type CreateSpaceResponse = {
   createSpace: Space
+}
+
+export const AddExternalLinkSchema = z.object({
+  spaceId: z.string() /* UUID */,
+  type: z.string() /* SpaceLinkType */,
+  url: z.string().url().max(500),
+  name: z.string().trim().max(100),
+})
+
+export type AddExternalLinkInput = z.infer<typeof AddExternalLinkSchema>
+
+export const addExternalLinkMutation = gql`
+  mutation AddExternalLink($input: AddExternalLinkInput!) {
+    addExternalLink(input: $input) {
+      id
+      type
+      url
+      name
+    }
+  }
+`
+
+export type AddExternalLinkResponse = {
+  addExternalLink: SpaceLink
 }

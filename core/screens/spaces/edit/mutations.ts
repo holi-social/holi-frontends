@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 
 export const UpdateSpaceInputSchema = z.object({
   id: z.string(),
@@ -45,10 +45,52 @@ export const updateSpaceMutation = gql`
         title
         number
       }
+      links {
+        id
+        type
+        url
+        name
+      }
     }
   }
 `
 
 export type UpdateSpaceResponse = {
   updateSpace: Partial<Space>
+}
+
+export const UpdateExternalLinkSchema = z.object({
+  id: z.string() /* UUID */,
+  type: z.string() /* SpaceLinkType */,
+  url: z.string().url().max(500),
+  name: z.string().trim().max(100),
+})
+
+export type UpdateExternalLinkInput = z.infer<typeof UpdateExternalLinkSchema>
+
+export type UpdateExternalLinkResponse = {
+  updateExternalLink: SpaceLink
+}
+
+export const updateExternalLinkMutation = gql`
+  mutation UpdateExternalLink($input: UpdateExternalLinkInput!) {
+    updateExternalLink(input: $input) {
+      id
+      type
+      url
+      name
+    }
+  }
+`
+
+export const deleteSpaceLinkMutation = gql`
+  mutation DeleteSpaceLink($id: UUID!) {
+    deleteExternalLink(id: $id) {
+      success
+    }
+  }
+`
+
+export interface DeleteSpaceLinkResponse {
+  success: boolean
 }
