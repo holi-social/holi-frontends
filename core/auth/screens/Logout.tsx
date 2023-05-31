@@ -9,7 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const Logout: React.VFC = () => {
+const Logout = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { logout } = useLogout()

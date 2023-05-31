@@ -13,7 +13,7 @@ export type UpdatesOfYourAppsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UpdatesOfYourApps: React.VFC<UpdatesOfYourAppsProps> = (props: UpdatesOfYourAppsProps) => {
+const UpdatesOfYourApps = (props: UpdatesOfYourAppsProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 

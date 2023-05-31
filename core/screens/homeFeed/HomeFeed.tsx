@@ -1,11 +1,14 @@
+import { DocumentNode } from '@apollo/client'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import client from '@holi/api/graphql/client'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
@@ -13,12 +16,18 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import { projectsQuery } from '@holi-apps/donations/queries'
+import { GoodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { VolunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
 
 export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
@@ -30,7 +39,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else return t('homeFeed.headerTitle.goodNight')
 }
 
-const HomeFeed: React.VFC<HomeFeedProps> = () => {
+const HomeFeed = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
@@ -64,21 +73,41 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
     })
   }, [setOptions, navigate, t, headerTitle])
 
+  const { refreshing, onRefresh } = useOnRefresh(() =>
+    client.refetchQueries({
+      include: [
+        lastInsightsQuery,
+        projectsQuery,
+        GoodNewsArticlesQuery,
+        VolunteeringEngagementsQuery,
+        isLoggedIn ? userSuggestionsQuery : undefined,
+      ].filter((q) => q !== undefined) as DocumentNode[],
+    })
+  )
+
   return (
     <>
-      <DefaultScrollHeaderLayout style={styles.layout}>
-        {Platform.OS === 'web' && (
-          <View style={[mixins.container, styles.testingBannerWrapper]}>
-            <TestingBanner />
-          </View>
-        )}
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.layout}
+      >
+        <>
+          {Platform.OS === 'web' && (
+            <View style={[mixins.container, styles.testingBannerWrapper]}>
+              <TestingBanner />
+            </View>
+          )}
 
-        <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+          <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
 
-        <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+          <UpdatesOfYourApps style={styles.updatesOfYourApps} />
 
-        {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
-      </DefaultScrollHeaderLayout>
+          {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
+        </>
+      </ScrollHeaderLayout.Refreshable>
 
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />

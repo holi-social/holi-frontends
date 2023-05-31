@@ -8,7 +8,7 @@ import NotificationsOverview from '@holi/core/screens/notifications/components/N
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const Notifications: React.VFC = () => {
+const Notifications = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const title = t('notifications.title')

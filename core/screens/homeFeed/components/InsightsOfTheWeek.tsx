@@ -7,11 +7,11 @@ import InsightsOfTheWeekList from '@holi/core/screens/homeFeed/components/Insigh
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+export const INSIGHT_PAGE_SIZE = 4
+
 export type InsightsOfTheWeekProps = {
   style?: StyleProp<ViewStyle>
 }
-
-const INSIGHT_PAGE_SIZE = 4
 
 const InsightsOfTheWeek: React.FC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
   const mixins = useStyleMixins()

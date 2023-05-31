@@ -19,7 +19,7 @@ export type AuthStackScreensList = {
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
 
-const AuthStackNavigator: React.VFC = () => {
+const AuthStackNavigator = () => {
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}

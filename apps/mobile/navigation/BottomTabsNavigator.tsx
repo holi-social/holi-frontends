@@ -23,7 +23,7 @@ export type BottomTabsScreens = {
 
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
-const BottomTabsNavigator: React.VFC = () => {
+const BottomTabsNavigator = () => {
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()

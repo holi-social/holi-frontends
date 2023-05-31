@@ -12,7 +12,7 @@ export type ChatStackScreensList = {
 }
 
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
-const ChatStackNavigator: React.VFC = () => {
+const ChatStackNavigator = () => {
   return (
     <ChatStack.Navigator
       initialRouteName={RouteName.ChatHome}

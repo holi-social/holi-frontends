@@ -2,8 +2,10 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import client from '@holi/api/graphql/client'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -41,6 +43,8 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
     )
   }, [geolocationDetails])
 
+  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [spacesQuery] }))
+
   useEffect(() => {
     if (geolocationError) {
       displayError(geolocationError, t('spaces.spaceListing.error'))
@@ -69,7 +73,14 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   return (
     <SpaceTermContextProvider>
-      <DefaultScrollHeaderLayout style={styles.wrapper} testID="filtered-spaces-container">
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.wrapper}
+        testID="filtered-spaces-container"
+      >
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {isLoading ? (
@@ -88,7 +99,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
             </Pagination>
           )}
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Refreshable>
 
       <SpaceFilterModal
         filters={filters}
