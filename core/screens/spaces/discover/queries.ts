@@ -1,27 +1,8 @@
 import { gql } from '@apollo/client/core'
 
-import { SpaceMemberFragment } from '@holi/core/screens/spaces/queries'
+import { SpaceOverviewFragment } from '@holi/core/screens/spaces/queries'
 import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import type { Paged } from '@holi/core/types'
-
-const SpaceOverviewFragment = gql`
-  ${SpaceMemberFragment}
-  fragment OverviewSpace on Space {
-    id
-    title
-    description
-    created
-    cover
-    location
-    avatar
-    avatarDefaultColor
-    name
-    connectionStatusToMyself
-    members {
-      ...FullSpaceMember
-    }
-  }
-`
 
 export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}

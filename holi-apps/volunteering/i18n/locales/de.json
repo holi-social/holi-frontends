@@ -8,6 +8,8 @@
   "engagementDetail.organizer": "Organisator",
   "engagementDetail.provider": "Vermittler",
   "engagementDetail.provider.link.btn": "Seite von {{source}}",
+  "filter.category.label": "Themen, die mich interessieren",
+  "filter.category.placeholder": "Thema auswählen",
   "filter.heading": "Projekte filtern",
   "filter.location.label": "Deutsche Städte",
   "filter.location.placeholder": "Stadt auswählen",
@@ -19,9 +21,6 @@
   "filter.submitButton": "Freiwilligenarbeit anzeigen",
   "listing.error": "Laden von Projekten ist fehlgeschlagen",
   "listing.headline": "Interessante Aufgaben für dich",
-  "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weitere Projekte",
-  "listing.loading": "Lädt Freiwilligenangebote…",
-  "filter.category.label": "Themen, die mich interessieren",
-  "filter.category.placeholder": "Thema auswählen"
+  "listing.loading": "Lädt Freiwilligenangebote…"
 }

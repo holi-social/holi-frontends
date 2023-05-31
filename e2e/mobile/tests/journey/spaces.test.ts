@@ -126,8 +126,6 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('space-delete')
     await tapOnElementWithTestId('space-delete-confirmation-confirm')
 
-    await leaveSpaceOnboardingModal()
-
     // check if after deletion we are at the spaces dashboard (mine/discover)
     await waitForElementWithTestId('btn-create-space')
   }

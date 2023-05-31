@@ -119,6 +119,7 @@ export const space: Space = {
   tasks,
   links,
   topics,
+  avatar: '',
   avatarDefaultColor: '#000',
   name: 'space-title',
 }

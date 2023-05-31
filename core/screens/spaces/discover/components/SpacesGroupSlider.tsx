@@ -106,6 +106,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             href={`/spaces/${space.name}`}
             size="large"
             testID="space-link"
+            totalUserCount={space.members.totalResults}
           />
         ))}
       </SpacesHorizontalSlider>

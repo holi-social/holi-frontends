@@ -77,7 +77,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
                 key={item.id}
                 tool={item}
                 isAdmin={isAdmin}
-                spaceId={space?.id || ''}
+                spaceIdOrName={space?.name || ''}
                 onShareButtonPress={(url) => handleShareButtonPress(url)}
                 onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
               />

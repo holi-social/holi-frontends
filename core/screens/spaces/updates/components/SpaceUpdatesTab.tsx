@@ -33,7 +33,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
   const { error, data, loading } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
-    variables: { idOrName: space.id, offset: 0, limit: 10, visibility: filter },
+    variables: { idOrName: space.name, offset: 0, limit: 10, visibility: filter },
   })
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
