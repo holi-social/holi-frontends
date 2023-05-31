@@ -8,6 +8,7 @@
       "@holi/web/*": ["apps/web/*"],
       "@holi/ui/*": ["packages/ui/*"],
       "@holi/api/*": ["packages/api/*"],
+      "@holi/chat/*": ["packates/chat/*"],
       "@holi/core/*": ["core/*"],
       "@holi-apps/donations/*": ["holi-apps/donations/*"],
       "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],
