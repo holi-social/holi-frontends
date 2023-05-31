@@ -51,9 +51,7 @@ const Spaces = () => {
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
-      include: [isLoggedIn ? mySpaceQuery : undefined, discoverSpacesQuery, discoverSpacesQuery].filter(
-        (q) => !!q
-      ) as DocumentNode[],
+      include: [isLoggedIn ? mySpaceQuery : undefined, discoverSpacesQuery].filter((q) => !!q) as DocumentNode[],
     })
   )
 
