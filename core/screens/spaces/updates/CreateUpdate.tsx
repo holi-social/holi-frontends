@@ -71,7 +71,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
     refetchQueries: [
       {
         query: spacePostsQuery,
-        variables: { idOrName: space?.id, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+        variables: { idOrName: space?.name, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
       },
     ],
   })

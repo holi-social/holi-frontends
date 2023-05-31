@@ -43,6 +43,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
             users={space.members.data.map((membership) => membership.user)}
             href={`/spaces/${space.name}`}
             testID="space-tab"
+            totalUserCount={space.members.totalResults}
           />
         </HoliBox>
       ))}

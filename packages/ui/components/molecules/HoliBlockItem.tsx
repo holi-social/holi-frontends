@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useFallbackImage, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSectionType } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -26,6 +26,7 @@ export interface HoliBlockItemProps {
   size?: 'small' | 'large'
   testID?: string
   type?: SpaceSectionType
+  totalUserCount?: number
 }
 
 const SMALL_IMAGE_DIMENSION = 64
@@ -42,13 +43,15 @@ const HoliBlockItem = ({
   testID,
   type,
   size = 'small',
+  totalUserCount,
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
+  const fallbackImageUri = useFallbackImage().uri
   const imageSource = isSmall
-    ? { uri: imageSrc, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
-    : { uri: imageSrc }
+    ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
+    : { uri: imageSrc ? imageSrc : fallbackImageUri }
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -66,8 +69,15 @@ const HoliBlockItem = ({
                 imageElement
               )}
               {size === 'large' && (
-                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
-                  <HoliText>{users.length}</HoliText>
+                <HoliUserAvatarPile
+                  users={users}
+                  usersToShow={3}
+                  counter
+                  collapse
+                  style={styles.usersPile}
+                  usersTotal={totalUserCount}
+                >
+                  <HoliText>{totalUserCount || users.length}</HoliText>
                 </HoliUserAvatarPile>
               )}
             </View>
@@ -86,9 +96,16 @@ const HoliBlockItem = ({
                 </HoliText>
               )}
               {isSmall && (
-                <HoliUserAvatarPile users={users} usersToShow={3} counter collapse style={styles.usersPile}>
+                <HoliUserAvatarPile
+                  users={users}
+                  usersToShow={3}
+                  counter
+                  collapse
+                  style={styles.usersPile}
+                  usersTotal={totalUserCount}
+                >
                   <HoliText size="small" style={styles.usersPileText} numberOfLines={1}>
-                    {t('spaces.members.member', { count: users.length })}
+                    {t('spaces.members.member', { count: totalUserCount || users.length })}
                   </HoliText>
                 </HoliUserAvatarPile>
               )}

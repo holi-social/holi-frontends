@@ -68,6 +68,7 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
                 href={decodeURI(`/spaces/${space.name}`)}
                 type={section.type}
                 testID="space-link"
+                totalUserCount={space.members.totalResults}
               />
             </View>
           ))}

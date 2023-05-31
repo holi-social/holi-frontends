@@ -8,7 +8,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -20,6 +19,7 @@ import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLin
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
 import EditSpaceContact from '@holi/core/screens/spaces/edit/components/EditSpaceContact'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/edit/components/EditSpaceCoverImage'
+import EditSpaceLinks from '@holi/core/screens/spaces/edit/components/EditSpaceLinks'
 import EditSpaceLocation from '@holi/core/screens/spaces/edit/components/EditSpaceLocation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/edit/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/edit/components/EditSpaceSDGs'
@@ -50,6 +50,7 @@ enum EditFields {
   AVATAR = 'AVATAR',
   LOCATION = 'LOCATION',
   CONTACT = 'CONTACT',
+  LINKS = 'LINKS',
 }
 
 export type EditSpaceParams = {
@@ -89,9 +90,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [isOnboarding] = useParam('onboarding')
   const [editField, setEditField] = useState<EditFields | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
@@ -176,6 +174,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
         {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
         {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
+        {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
       </>
     )
   }
@@ -366,7 +365,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection
                 title={t('spaces.links.heading')}
                 editable
-                onPressEdit={() => showFeatureNotImplementedToast()}
+                onPressEdit={() => openEditModal(EditFields.LINKS)}
+                testID="space-edit-links"
               >
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>

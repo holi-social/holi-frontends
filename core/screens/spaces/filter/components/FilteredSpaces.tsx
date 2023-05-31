@@ -1,5 +1,4 @@
-import { useQuery } from '@apollo/client'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -9,16 +8,14 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Pagination } from '@holi/core/pagination/Pagination'
+import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
-import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
-import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/filter/queries'
+import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/FilteredSpacesList'
+import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -29,14 +26,12 @@ interface FilteredSpacesProps extends SpaceFilter {
 const SPACES_PAGE_SIZE = 20
 
 const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
-  const [fetchingMore, setFetchingMore] = useState(false)
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -48,57 +43,33 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
     )
   }, [geolocationDetails])
 
-  const {
-    loading: loadingSpaces,
-    data,
-    error: errorSpaces,
-    fetchMore,
-  } = useQuery<SpacesResponse>(spacesQuery, {
-    variables: {
-      topicSlug: topicSlug,
-      geolocation: geolocationDetails?.geolocation,
-      skillSlugs: skillSlugs,
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-    skip: !!locationId && !geolocationDetails,
-    fetchPolicy: 'cache-and-network',
-  })
-
-  const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
-
   const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [spacesQuery] }))
 
   useEffect(() => {
-    const anyError = errorSpaces || geolocationError
-    if (anyError) {
-      displayError(anyError, t('spaces.spaceListing.error'))
+    if (geolocationError) {
+      displayError(geolocationError, t('spaces.spaceListing.error'))
     }
-  }, [displayError, errorSpaces, geolocationError, t])
-
-  const canFetchMore = spaces.length < totalResults
-
-  const memoizedFetchMore = useCallback(async () => {
-    setFetchingMore(true)
-    return fetchMore({
-      variables: {
-        offset: spaces.length,
-      },
-    }).finally(() => setFetchingMore(false))
-  }, [fetchMore, spaces.length])
-
-  const fetchMoreButtonText = fetchingMore
-    ? t('spaces.spaceListing.loadMoreButton.loading')
-    : t('spaces.spaceListing.loadMoreButton.text')
+  }, [displayError, geolocationError, t])
 
   // Error state just hides the component
-  if (errorSpaces || geolocationError) {
+  if (geolocationError) {
     return <></>
   }
 
-  const isLoading = loadingSpaces || loadingGeolocation
+  const isLoading = loadingGeolocation || (locationId && !geolocationDetails)
 
   const filters = { topicSlug, locationId, skillSlugs }
+
+  const queryOptions: PaginationQueryHookOptions = {
+    pageSize: SPACES_PAGE_SIZE,
+    queryPath: 'spaces',
+    variables: {
+      topicSlug,
+      geolocation: geolocationDetails?.geolocation,
+      skillSlugs,
+    },
+    fetchPolicy: 'cache-and-network',
+  }
 
   return (
     <SpaceTermContextProvider>
@@ -112,37 +83,20 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
       >
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
-          {spaces.length > 0 && !isLoading && <SpacesGrid style={styles.grid} spaces={spaces} />}
-          {!spaces.length &&
-            (isLoading ? (
-              // TODO: replace with proper loading indicator
-              <View style={styles.messageContainer}>
-                <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-              </View>
-            ) : (
-              <HoliNoResults
-                firstText={t('spaces.filter.notFound.title')}
-                secondText={t('spaces.filter.notFound.description')}
-                style={styles.noResults}
-              >
-                <HoliButton
-                  label={t('search.filter.reset')}
-                  onPress={() => navigate('/spaces')}
-                  inline
-                  testID="spaces-filter-reset"
-                >
-                  {t('search.filter.reset')}
-                </HoliButton>
-              </HoliNoResults>
-            ))}
-
-          {canFetchMore && (
-            <View style={[mixins.container, styles.buttonContainer]}>
-              <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
-                <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
-                {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
-              </HoliButton>
+          {isLoading ? (
+            // TODO: replace with proper loading indicator
+            <View style={styles.messageContainer}>
+              <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
             </View>
+          ) : (
+            <Pagination
+              query={spacesQuery}
+              queryOptions={queryOptions}
+              fetchMoreButtonProps={{ style: styles.buttonContainer }}
+              fetchMoreButtonLabel={t('spaces.spaceListing.loadMoreButton.text')}
+            >
+              <FilteredSpacesList />
+            </Pagination>
           )}
         </View>
       </ScrollHeaderLayout.Refreshable>
@@ -162,21 +116,12 @@ const getStyles = (deviceHeight: number) =>
       backgroundColor: colors.background20,
       minHeight: deviceHeight,
     },
-    grid: {
-      marginTop: 32,
-    },
     buttonContainer: {
       marginTop: 20,
-    },
-    buttonText: {
-      marginRight: 6,
     },
     messageContainer: {
       alignItems: 'center',
       marginTop: 50,
-    },
-    noResults: {
-      marginTop: 24,
     },
   })
 

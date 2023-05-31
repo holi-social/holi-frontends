@@ -18,6 +18,7 @@ export const SpaceMemberFragment = gql`
   }
 `
 
+// We only need 3 members for avatar pile
 export const SpaceFragment = gql`
   ${SpaceMemberFragment}
   fragment FullSpace on Space {
@@ -39,8 +40,10 @@ export const SpaceFragment = gql`
     }
     connectionStatusToMyself
     links {
+      id
       type
       url
+      name
     }
     collaborationTools {
       id
@@ -50,7 +53,7 @@ export const SpaceFragment = gql`
       title
       collectionType
     }
-    members {
+    members(limit: 3) {
       ...FullSpaceMember
     }
     tasks {
@@ -82,6 +85,25 @@ export const SpaceFragment = gql`
       id
       title
       number
+    }
+  }
+`
+
+// We only need 3 members for avatar pile
+export const SpaceOverviewFragment = gql`
+  ${SpaceMemberFragment}
+  fragment OverviewSpace on Space {
+    id
+    title
+    description
+    cover
+    location
+    avatar
+    avatarDefaultColor
+    name
+    connectionStatusToMyself
+    members(limit: 3) {
+      ...FullSpaceMember
     }
   }
 `

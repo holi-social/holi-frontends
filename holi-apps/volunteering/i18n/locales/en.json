@@ -8,6 +8,8 @@
   "engagementDetail.organizer": "Organiser",
   "engagementDetail.provider": "Provided via",
   "engagementDetail.provider.link.btn": "Page of {{source}}",
+  "filter.category.label": "Topics you are interested in",
+  "filter.category.placeholder": "Select topic",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "German cities",
   "filter.location.placeholder": "Select city",
@@ -19,9 +21,6 @@
   "filter.submitButton": "Show opportunities",
   "listing.error": "Loading opportunities failed",
   "listing.headline": "Interesting tasks for you",
-  "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "See more",
-  "listing.loading": "Loading volunteering opportunities…",
-  "filter.category.label": "Topics you are interested in",
-  "filter.category.placeholder": "Select topic"
+  "listing.loading": "Loading volunteering opportunities…"
 }

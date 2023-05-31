@@ -1,22 +1,19 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
-import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
-
-const PROJECT_PAGE_SIZE = 10
+import { Project } from '@holi-apps/donations/typings'
 
 type DonationListingProps = {
   locationQuery?: string
@@ -26,35 +23,11 @@ type DonationListingProps = {
 const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [fetchingMore, setFetchingMore] = useState(false)
+
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
 
-  const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
-    variables: {
-      limit: PROJECT_PAGE_SIZE,
-      offset: 0,
-      location: locationQuery,
-    },
-    fetchPolicy: 'cache-and-network',
-  })
-
-  const { data: projects = [], totalResults = 0 } = data?.appDonations_projects || {}
-
-  const canFetchMore = projects.length < totalResults
-
-  const memoizedFetchMore = useCallback(() => {
-    setFetchingMore(true)
-    return fetchMore({
-      variables: {
-        offset: projects.length,
-      },
-    }).finally(() => setFetchingMore(false))
-  }, [fetchMore, projects.length, setFetchingMore])
-
-  const fetchMoreButtonText = fetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('donations:donationListing.loadMoreButton.text')
+  const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
   useEffect(() => {
     if (error) {
@@ -124,18 +97,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             )
           )
       }
-      {canFetchMore && (
-        <HoliButtonLoading
-          type="primary"
-          label={fetchMoreButtonText}
-          disabled={fetchingMore}
-          icon={fetchingMore ? 'loader-4' : undefined}
-          iconSpinning={fetchingMore}
-          onPress={memoizedFetchMore}
-          style={[styles.loadMoreButton]}
-          testID="btn-donation-list-load-more"
-        />
-      )}
     </View>
   )
 }
