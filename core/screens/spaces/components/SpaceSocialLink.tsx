@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
@@ -14,9 +13,7 @@ type SpaceSocialLinkProps = {
 }
 
 const SpaceSocialLink: React.VFC<SpaceSocialLinkProps> = ({ link, style }: SpaceSocialLinkProps) => {
-  const { t } = useTranslation()
-
-  const { url, type } = link
+  const { url, name, type } = link
 
   // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
   const urlPrefix = !url.includes('http://') && !url.includes('https://') ? 'https://' : ''
@@ -38,7 +35,7 @@ const SpaceSocialLink: React.VFC<SpaceSocialLinkProps> = ({ link, style }: Space
         icon={type === SpaceLinkType.OTHER ? 'links' : type.toLowerCase()}
       />
       <HoliText size="small" bold style={styles.text}>
-        {t(`spaces.link.${type}`)}
+        {name}
       </HoliText>
     </HoliButton>
   )
