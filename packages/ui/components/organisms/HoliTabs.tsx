@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -42,23 +42,14 @@ const HoliTabs = ({
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
   const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
-  const [activeTab, setActiveTab] = useState(currentStep)
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
-  const handleTabChange = useCallback(
-    (index: number) => {
-      setActiveTab(index)
-      setStep(index)
-    },
-    [setStep]
-  )
+  const handleTabChange = useCallback((index: number) => setStep(index), [setStep])
 
-  // TODO - Handle state changes in one handler
   useEffect(() => {
-    handleTabChange(currentStep)
     onChangeTab?.(currentStep)
-  }, [currentStep, onChangeTab, handleTabChange])
+  }, [currentStep, onChangeTab])
 
   const handleLayout = (e: LayoutChangeEvent) => {
     const width = e.nativeEvent.layout.width
@@ -84,6 +75,10 @@ const HoliTabs = ({
     [tabs, testID, currentStep, id]
   )
 
+  const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setStep(Math.round(event.nativeEvent.contentOffset.x / Dimensions.get('window').width))
+  }
+
   return (
     <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
@@ -91,7 +86,7 @@ const HoliTabs = ({
           {tabs.map((tab, index) =>
             tab.visible !== false
               ? (() => {
-                  const isActive = activeTab === index
+                  const isActive = currentStep === index
                   return (
                     <HoliTabButton
                       label={tab.title}
@@ -133,6 +128,7 @@ const HoliTabs = ({
           steps={renderedTabs}
           onLayout={handleLayout}
           backgroundColor={backgroundColor}
+          onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEnabled
         />
       ) : (
