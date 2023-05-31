@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'flex-end',
     width: '100%',
-    marginBottom: 18,
+    paddingBottom: 18,
     ...Platform.select({
       web: {
         alignSelf: 'flex-end',
