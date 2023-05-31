@@ -7,6 +7,9 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import type { HoliImageProps } from '@holi/ui/components/utils/image'
 import { transformSourcesURL } from '@holi/ui/components/utils/image'
 
+// TODO: Unify the HoliImage component with Expo-Image
+// after the release of the Android regression fix.
+// https://github.com/expo/expo/issues/21921
 const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliImageProps & ImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !!label,
