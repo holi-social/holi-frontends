@@ -133,7 +133,7 @@ const HoliTabs = ({
           steps={renderedTabs}
           onLayout={handleLayout}
           backgroundColor={backgroundColor}
-          scrollEnabled={true}
+          scrollEnabled
         />
       ) : (
         renderedTabs

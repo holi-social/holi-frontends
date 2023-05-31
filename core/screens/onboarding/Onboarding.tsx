@@ -100,7 +100,6 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
         currentStep={currentStep}
         ref={stepperRef}
         width={screenWidth}
-        scrollEnabled={false}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration

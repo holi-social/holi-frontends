@@ -81,7 +81,7 @@ interface Props extends ScrollViewProps {
 
 export const HoliStepper = forwardRef<ScrollView, Props>(
   (
-    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = true, ...scrollViewProps },
+    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = false, ...scrollViewProps },
     carouselRef
   ) => {
     const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
