@@ -110,15 +110,18 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               </View>,
             ],
           },
-          {
-            title: t('profile.tabs.insight'),
-            visible: hasInsights,
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
-              </Suspense>
-            ),
-          },
+          ...(hasInsights
+            ? [
+                {
+                  title: t('profile.tabs.insight'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
           {
             title: t('profile.tabs.spaces'),
             children: (

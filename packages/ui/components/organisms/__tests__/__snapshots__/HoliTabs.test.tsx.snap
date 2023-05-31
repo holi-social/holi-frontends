@@ -275,6 +275,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     horizontal={true}
     keyboardShouldPersistTaps="always"
     onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     scrollEnabled={true}
     scrollEventThrottle={16}
