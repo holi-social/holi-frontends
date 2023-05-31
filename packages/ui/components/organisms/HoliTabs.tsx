@@ -41,7 +41,7 @@ const HoliTabs = ({
   stepper = true,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
-  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(viewWidth, initialStep)
+  const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
   const [activeTab, setActiveTab] = useState(currentStep)
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
@@ -131,10 +131,9 @@ const HoliTabs = ({
           currentStep={currentStep}
           width={viewWidth}
           steps={renderedTabs}
-          scrollEnabled={scrollEnabled}
-          onScroll={onScroll}
           onLayout={handleLayout}
           backgroundColor={backgroundColor}
+          scrollEnabled={true}
         />
       ) : (
         renderedTabs

@@ -44,7 +44,7 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
   }
 
-  const { currentStep, goNext, goBack, stepperRef, scrollEnabled, onScroll } = useStepper(screenWidth, initialStep)
+  const { currentStep, goNext, goBack, stepperRef } = useStepper(screenWidth, initialStep)
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
@@ -100,6 +100,7 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
         currentStep={currentStep}
         ref={stepperRef}
         width={screenWidth}
+        scrollEnabled={false}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
@@ -134,8 +135,6 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
           // Account Setup
           <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
-        scrollEnabled={scrollEnabled}
-        onScroll={onScroll}
         lazy
       />
     </View>

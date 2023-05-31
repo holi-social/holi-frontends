@@ -1,15 +1,6 @@
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Keyboard,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native'
+import { Keyboard, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -38,7 +29,6 @@ export interface HoliWizardProps {
   isNextButtonEnabled?: boolean
   isLoading?: boolean
   scrollEnabled?: boolean
-  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   testID?: string
 }
 
@@ -56,7 +46,6 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
       isNextButtonEnabled,
       isLoading,
       scrollEnabled = false,
-      onScroll,
       testID = 'holi-wizard',
     },
     ref
@@ -107,7 +96,6 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
           ref={ref}
           style={{ flexGrow: 1, flexShrink: 1 }}
           scrollEnabled={scrollEnabled}
-          onScroll={onScroll}
           lazy
         />
 
