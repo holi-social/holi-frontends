@@ -131,9 +131,7 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           "marginLeft": 8,
         }
       }
-    >
-      spaces.link.OTHER
-    </Text>
+    />
   </View>
 </View>
 `;
@@ -269,9 +267,7 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           "marginLeft": 8,
         }
       }
-    >
-      spaces.link.FACEBOOK
-    </Text>
+    />
   </View>
 </View>
 `;

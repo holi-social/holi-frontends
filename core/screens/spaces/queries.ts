@@ -40,8 +40,10 @@ export const SpaceFragment = gql`
     }
     connectionStatusToMyself
     links {
+      id
       type
       url
+      name
     }
     collaborationTools {
       id
