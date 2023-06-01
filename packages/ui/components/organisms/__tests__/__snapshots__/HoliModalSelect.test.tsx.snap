@@ -310,7 +310,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
               {
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
-                "marginBottom": 18,
+                "paddingBottom": 18,
                 "width": "100%",
               },
               undefined,
@@ -1512,7 +1512,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               {
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
-                "marginBottom": 18,
+                "paddingBottom": 18,
                 "width": "100%",
               },
               undefined,
@@ -2471,7 +2471,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               {
                 "alignSelf": "center",
                 "justifyContent": "flex-end",
-                "marginBottom": 18,
+                "paddingBottom": 18,
                 "width": "100%",
               },
               undefined,
