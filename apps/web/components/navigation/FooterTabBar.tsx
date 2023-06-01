@@ -1,7 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import Login from '@holi/chat/src/Login'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -10,7 +11,14 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const FooterTabBar: React.VoidFunctionComponent = () => {
+const isWeb = Platform.OS === 'web'
+const HS_URL = isWeb ? process.env.NEXT_PUBLIC_MX_HS_URL ?? '' : ''
+const IS_URL = isWeb ? process.env.NEXT_PUBLIC_MX_IS_URL ?? '' : ''
+
+// A temporary client to login in the Matrix Server
+const mxServerLogin = new Login(HS_URL, IS_URL)
+
+const FooterTabBar = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
@@ -23,6 +31,11 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
+
+  const handleChatNavigation = () => {
+    // TODO: verify we already have the token in storage
+    mxServerLogin.ssoLogin(navigate)
+  }
 
   return (
     <View
@@ -80,9 +93,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           label={t('chat.title')}
           inline
           transparent
-          onPress={() => {
-            navigate('/chat')
-          }}
+          onPress={handleChatNavigation}
           contentStyle={styles.button}
         >
           <HoliIcon
