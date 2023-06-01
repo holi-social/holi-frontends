@@ -32,8 +32,10 @@ export enum CollaborationType {
 }
 
 export interface SpaceLink {
-  url: string
+  id: string
   type: SpaceLinkType
+  url: string
+  name: string
 }
 
 export interface SpaceCollaborationTool {
@@ -134,6 +136,7 @@ export enum SpaceConnectionAction {
   DISCONNECT = 'DISCONNECT',
   GRANT_ADMIN_ACCESS = 'GRANT_ADMIN_ACCESS',
   LEAVE_SPACE = 'LEAVE_SPACE',
+  REMOVE_MEMBER = 'REMOVE_MEMBER',
   REVOKE_ADMIN_ACCESS = 'REVOKE_ADMIN_ACCESS',
 }
 export enum VisibilityFilter {
