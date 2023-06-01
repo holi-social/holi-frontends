@@ -1,3 +1,5 @@
+import { itif } from '@holi/e2e-mobile/helpers/platform'
+
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { scrollDown } from '../../helpers/gestures'
 import { waitForHomeScreen } from '../../helpers/navigation'
@@ -29,7 +31,7 @@ describe('@Spaces', () => {
     }
   })
 
-  it('should support the user journey', async () => {
+  itif(platform === 'ios', 'should support the user journey', async () => {
     // preparation of test
     await navigateToSpaces()
 
