@@ -21,12 +21,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 interface DigitalToolProps {
   tool: SpaceCollaborationTool
   isAdmin: boolean | undefined
-  spaceId: string
+  spaceIdOrName: string
   onShareButtonPress: (url: string) => void
   onEditButtonPress: (toolId: string) => void
 }
 
-const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonPress }: DigitalToolProps) => {
+const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditButtonPress }: DigitalToolProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [showDetailModal, setShowDetailModal] = useState(false)
@@ -34,7 +34,7 @@ const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonP
   const deleteToolSuccesMsg = t('spaces.digitalTool.delete.success')
   const [isLoadingDeleteTool, deleteTool] = useDeleteTool({
     id: tool.id,
-    spaceIdOrName: spaceId,
+    spaceIdOrName: spaceIdOrName,
     successMsg: deleteToolSuccesMsg,
   })
 
@@ -134,7 +134,7 @@ const DigitalTool = ({ tool, isAdmin, spaceId, onShareButtonPress, onEditButtonP
             )}
             <HoliButton
               onPress={() => {
-                navigate(`/spaces/${spaceId}/linkhub/tools/${tool?.id}/edit`)
+                navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${tool?.id}/edit`)
               }}
               inline
               label={t('global.edit')}

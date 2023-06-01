@@ -56,7 +56,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
         >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
             <HoliText size="small" style={styles.avatarPileText}>
-              {t('spaces.members.member', { count: sortedMembersList.length })}
+              {t('spaces.members.member', { count: space.members.totalResults })}
             </HoliText>
           </HoliUserAvatarPile>
         </HoliButton>

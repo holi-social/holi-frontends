@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -33,7 +34,8 @@ export const Confirmation = ({
 }: Props) => {
   const { t } = useTranslation()
 
-  const { isLoggedIn, hideDrawer } = useActionDrawerContext()
+  const { isLoggedIn } = useLoggedInUser()
+  const { hideDrawer } = useActionDrawerContext()
   const { isVisibleConfirmation, setShowConfirmation, confirmationProps } = useActionContext()
 
   const handleAction = () => {

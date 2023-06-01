@@ -1,140 +1,43 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers/logError'
-import InsightList from '@holi/core/screens/insights/InsightList'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors } from '@holi/ui/styles/globalVars'
+import { Pagination } from '@holi/core/pagination/Pagination'
+import InsightsOfTheWeekList from '@holi/core/screens/homeFeed/components/InsightsOfTheWeekList'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightsOfTheWeekProps = {
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
 }
 
-const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
-  const { t } = useTranslation()
+const INSIGHT_PAGE_SIZE = 4
+
+const InsightsOfTheWeek: React.FC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
   const mixins = useStyleMixins()
+  const { t } = useTranslation()
 
-  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
-
-  const numberOfInsights = 4
-  const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { limit: numberOfInsights },
-  })
-  const [isFetchingMore, setIsFetchingMore] = useState(false)
-  const fetchingMoreButtonText = isFetchingMore ? t('global.loading') : t('homeFeed.insights.loadMoreText')
-
-  const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
-  const canFetchMore = insights.length < totalResults || isFetchingMore
-  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
-
-  const fetchMoreInsights = useCallback(() => {
-    setIsFetchingMore(true)
-
-    fetchMore({
-      variables: {
-        offset: insights.length,
-        limit: numberOfInsights,
-      },
-    }).finally(() => setIsFetchingMore(false))
-  }, [fetchMore, insights.length])
-
-  if (error) {
-    logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
+  const queryOptions = {
+    queryPath: 'lastInsights',
+    pageSize: INSIGHT_PAGE_SIZE,
   }
 
   return (
     <View style={[mixins.container, props.style]}>
-      {/* Headline */}
-      <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
-        {t('homeFeed.heading')}
-      </HoliHeading>
-
-      <HoliHeading level="3" size="small" style={styles.insightsSubtitle} testID="home-feed-insights-subtitle">
-        {t('homeFeed.insights.subtitle')}
-      </HoliHeading>
-
-      {/* Curators with popup */}
-      <HoliButton
-        label={t('insights.editors.modal.title')}
-        transparent
-        style={styles.editorsButton}
-        onPress={showEditorsModal}
-        testID="avatar-pile-open-modal-button"
-        inline
+      <Pagination
+        query={lastInsightsQuery}
+        queryOptions={queryOptions}
+        fetchMoreButtonProps={{
+          type: 'secondary',
+          style: mixins.moreButton,
+          testID: 'btn-insights-list-load-more',
+        }}
+        fetchMoreButtonLabel={t('homeFeed.insights.loadMoreText')}
       >
-        <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile users={insightsCreators} collapse />
-          <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
-            {t('insights.editors.editedBy')}
-          </HoliText>
-        </View>
-      </HoliButton>
-
-      <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
-        <HoliUserCardsModalContent
-          title={t('insights.editors.modal.title')}
-          users={insightsCreators}
-          onDismiss={hideEditorsModal}
-          testID="insight-editors"
-        />
-      </HoliModal>
-
-      <InsightList style={styles.insightList} insights={insights} />
-
-      {canFetchMore && (
-        <HoliButtonLoading
-          type="secondary"
-          label={fetchingMoreButtonText}
-          disabled={loading}
-          icon={isFetchingMore ? 'loader-4' : undefined}
-          iconSpinning={isFetchingMore}
-          onPress={fetchMoreInsights}
-          style={mixins.moreButton}
-          testID="btn-insights-list-load-more"
-        >
-          {fetchingMoreButtonText}
-        </HoliButtonLoading>
-      )}
+        <InsightsOfTheWeekList />
+      </Pagination>
     </View>
   )
 }
 
 export default InsightsOfTheWeek
-
-const styles = StyleSheet.create({
-  insightsSubtitle: {
-    marginTop: 8,
-    fontWeight: '400',
-    color: colors.foreground20,
-  },
-  editorsButton: {
-    marginTop: 8,
-  },
-  editorsButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editorsButtonText: {
-    marginLeft: 10,
-    flex: 1,
-    flexWrap: 'wrap',
-  },
-  insightList: {
-    marginTop: 36,
-  },
-})

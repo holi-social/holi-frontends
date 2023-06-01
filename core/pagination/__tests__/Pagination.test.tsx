@@ -1,0 +1,113 @@
+import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import React from 'react'
+import { Text, View } from 'react-native'
+
+import { createCache } from '@holi/api/graphql/client'
+import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
+import {
+  createPaginationMock,
+  errorMock,
+  noResultsMock,
+  pageSize,
+  totalResults,
+} from '@holi/core/pagination/__tests__/testData'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+
+jest.useFakeTimers()
+
+const TestComponent: React.FC = () => {
+  const { loading, error, data, totalResults } = usePaginationContext<Insight>()
+
+  if (loading) {
+    return <Text>Loading</Text>
+  }
+  if (error) {
+    return <Text>{error.message}</Text>
+  }
+  return (
+    <View>
+      <Text>{totalResults} results</Text>
+      {data.map((element) => (
+        <Text key={element.id} testID="element">
+          {element.id}
+        </Text>
+      ))}
+    </View>
+  )
+}
+
+describe('PaginationContext', () => {
+  const renderPagination = (mocks: MockedResponse[]) =>
+    render(
+      <MockedProvider mocks={mocks} cache={createCache()}>
+        <ToastProvider>
+          <Pagination
+            query={lastInsightsQuery}
+            queryOptions={{
+              queryPath: 'lastInsights',
+              pageSize,
+            }}
+          >
+            <TestComponent />
+          </Pagination>
+        </ToastProvider>
+      </MockedProvider>
+    )
+
+  it('provides loading state in pagination context', async () => {
+    renderPagination([createPaginationMock()])
+
+    expect(await screen.findByText('Loading'))
+  })
+
+  it('provides error state in pagination context', async () => {
+    renderPagination([errorMock])
+
+    expect(await screen.findByText('Test error'))
+  })
+
+  it('provides total results in pagination context', async () => {
+    renderPagination([noResultsMock])
+
+    expect(await screen.findByText('0 results'))
+  })
+
+  it('provides data in pagination context', async () => {
+    renderPagination([createPaginationMock()])
+
+    expect(await screen.findByText('50 results'))
+    expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
+  })
+
+  it('does not render button to fetch more if not possible', async () => {
+    renderPagination([noResultsMock])
+
+    expect(await screen.findByText('0 results'))
+    expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
+  })
+
+  it('renders button to fetch more if possible', async () => {
+    renderPagination([createPaginationMock(), createPaginationMock(pageSize), createPaginationMock(pageSize * 2)])
+
+    expect(await screen.findByText('50 results'))
+
+    // Fetch second page
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+
+    await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
+    expect(await screen.findByText('global.seeMore'))
+    expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+
+    // Fetch last page
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+
+    await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
+    expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+
+    // The button to fetch more should be hidden now
+    expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
+  })
+})

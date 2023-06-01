@@ -1,5 +1,5 @@
 import type { NormalizedCacheObject, ServerError } from '@apollo/client'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, TypePolicy, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -11,7 +11,7 @@ import { holiApiUrl } from '@holi/api/config'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
-import { indexAwareOffsetLimitPagination } from './cachePolicies'
+import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
 import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
@@ -51,9 +51,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-// Fixes warnings like "Cache data may be lost when replacing the `members` field of a Space object."
-const alwaysReplacePolicy: TypePolicy = {
-  merge: (existing, incoming) => incoming,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const spacesKeyArgsFunction = (args: Record<string, any> | null) => {
+  const { geolocation, topicId, topicSlug, skillIds, skillSlugs } = args || {}
+  return JSON.stringify({
+    topicId,
+    topicSlug,
+    skillIds,
+    skillSlugs,
+    geolocation: geolocation?.properties?.place_id,
+  })
 }
 
 export const createCache = () =>
@@ -69,10 +76,12 @@ export const createCache = () =>
       },
       InsightPaged: {
         fields: {
-          data: {
-            merge: (existing, incoming) => (existing || []).concat(incoming),
-            read: (existing) => existing,
-          },
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      PostPaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
         },
       },
       AppDonations_ProjectsResponse: {
@@ -108,6 +117,11 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
+      SpaceMemberPaged: {
+        fields: {
+          data: nestedPaginationPolicy(['idOrName']),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
@@ -125,10 +139,10 @@ export const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: ['topicSlug', 'geolocation', 'skillSlugs'],
+            keyArgs: spacesKeyArgsFunction,
           },
           discoverSpaces: {
-            keyArgs: ['topicIds', 'geolocation', 'skillIds'],
+            keyArgs: spacesKeyArgsFunction,
           },
         },
       },

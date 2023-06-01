@@ -1,0 +1,78 @@
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
+import { user } from '@holi/core/screens/spaces/__tests__/testData'
+
+export const pageSize = 20
+export const totalResults = 50
+
+const insight: Insight = {
+  id: '1',
+  title: 'Insight title',
+  description: 'Insight description',
+  datePublished: '',
+  creator: user,
+  headerImage: '',
+  topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
+  posts: [],
+  numberOfPosts: 0,
+  involvedUsers: {
+    totalResults: 0,
+    data: [],
+  },
+}
+
+export const createInsightList = (length = 3) =>
+  Array.from({ length }, (_, index) => ({
+    ...insight,
+    id: `insight-${index}`,
+    __typename: 'Insight',
+  }))
+
+export const createPaginationMock = (offset = 0) => ({
+  request: {
+    query: lastInsightsQuery,
+    variables: {
+      limit: pageSize,
+      offset,
+    },
+  },
+  result: {
+    data: {
+      lastInsights: {
+        totalResults,
+        data: createInsightList(Math.min(offset + pageSize, totalResults)).slice(offset),
+        __typename: 'InsightPaged',
+      },
+    },
+  },
+})
+
+export const noResultsMock = {
+  request: {
+    query: lastInsightsQuery,
+    variables: {
+      limit: pageSize,
+      offset: 0,
+    },
+  },
+  result: {
+    data: {
+      lastInsights: {
+        totalResults: 0,
+        data: [],
+      },
+    },
+  },
+}
+
+export const errorMock = {
+  request: {
+    query: lastInsightsQuery,
+    variables: {
+      limit: pageSize,
+      offset: 0,
+    },
+  },
+  error: new HoliError('Test error'),
+}

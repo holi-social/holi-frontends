@@ -9,9 +9,8 @@ import { ContentType } from '@holi/core/queries'
 import { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/details/mutations'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionAction, SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Space } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -26,8 +25,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePermissionsProps = {
   space: Space
-  user: User
-  isAdmin: (user: User) => boolean | undefined
+  member: SpaceMember
   handleNavigation: (id: string) => void
   permissionsVisible: boolean
   hidePermissions: () => void
@@ -35,8 +33,7 @@ type SpacePermissionsProps = {
 
 const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   space,
-  user,
-  isAdmin,
+  member,
   handleNavigation,
   permissionsVisible,
   hidePermissions,
@@ -48,6 +45,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
   const [showRemoveMemberConfirmationModal, setShowRemoveMemberConfirmationModal] = useState(false)
 
+  const { user } = member
   const [isLoadingReport, reportContent] = useReportContent({
     id: user.id,
     contentType: ContentType.USER,
@@ -67,7 +65,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       onCompleted() {
         hidePermissions()
       },
-      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
+      refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
     }
   )
 
@@ -119,11 +117,13 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
           <HoliText size="small" style={{ color: colors.foreground20 }}>
             {user.pronouns || ''}
             {user.pronouns && <> &#183; </>}
-            {isAdmin(user) ? 'Admin' : 'Member'}
+            {member.isAdministrator
+              ? t('spaces.collaborators.permissions.role.admin')
+              : t('spaces.collaborators.permissions.role.member')}
           </HoliText>
 
           <View style={styles.actions}>
-            {isAdmin(user) ? (
+            {member.isAdministrator ? (
               <HoliButton
                 contentStyle={styles.actionsItem}
                 inline
@@ -188,6 +188,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 />
               </Action>
             </HoliBox>
+            <Action
+              isLoading={isLoadingReport}
+              action="report"
+              title={t('global.report')}
+              testID="report-comment-button"
+              showConfirmation
+            >
+              <Confirmation
+                title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+                description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
+                testID="space-report"
+                handleConfirmation={reportContent}
+                hasDismissBtn
+                requireLogin
+              />
+            </Action>
 
             <HoliButton
               contentStyle={styles.actionsItem}
@@ -269,7 +285,7 @@ const styles = StyleSheet.create({
   actions: {
     marginTop: 8,
     paddingTop: 24,
-    borderTopColor: colors.background20,
+    borderTopColor: colors.background30,
     borderTopWidth: 1,
   },
   actionsItem: {
@@ -280,7 +296,10 @@ const styles = StyleSheet.create({
   actionsItemText: {
     paddingLeft: 10,
   },
-  actionsItemIcon: {},
+  actionsItemIcon: {
+    color: colors.foreground30,
+    paddingLeft: 10,
+  },
 })
 
 export default SpacePermissions

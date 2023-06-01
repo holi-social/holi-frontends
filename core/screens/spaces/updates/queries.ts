@@ -45,7 +45,7 @@ export const SpaceUpdatePostFragment = gql`
 
 export const spacePostsQuery = gql`
   ${SpaceUpdatePostFragment}
-  query SpaceById($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
+  query SpacePostsBySpaceId($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id
       hasPublicPosts
