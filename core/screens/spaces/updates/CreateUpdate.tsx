@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -165,7 +165,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultScrollHeaderLayout
+      <ScrollHeaderLayout.Default
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
@@ -186,7 +186,7 @@ const CreateUpdate: React.VFC<ScreenProps> = () => {
             isAdmin={isAdmin}
           />
         </View>
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Default>
 
       <Footer />
       <HoliConfirmation

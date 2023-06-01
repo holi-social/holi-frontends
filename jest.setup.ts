@@ -59,6 +59,10 @@ jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   }
 })
 
+jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
+  jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
+)
+
 i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',

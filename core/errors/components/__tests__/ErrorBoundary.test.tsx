@@ -18,7 +18,7 @@ const ErrorComponent: React.VFC<ErrorComponentProps> = ({ throwError = true }) =
   return <Text>Child Content</Text>
 }
 
-const ErrorOnFirstRenderComponent: React.VFC = () => {
+const ErrorOnFirstRenderComponent = () => {
   const [firstRender, setFirstRender] = useState(true)
   useEffect(() => {
     setFirstRender(false)

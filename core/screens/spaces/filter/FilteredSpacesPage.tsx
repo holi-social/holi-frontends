@@ -13,7 +13,7 @@ export type FilteredSpacesPageParams = {
 
 const { useParam, useUpdateParams } = createParam<FilteredSpacesPageParams>()
 
-const FilteredSpacesPage: React.VFC = () => {
+const FilteredSpacesPage = () => {
   const [topicSlug] = useParam('topic', singleParamConfig)
   const [locationId] = useParam('location', singleParamConfig)
   const [skillSlugs] = useParam('skill', arrayParamConfig)

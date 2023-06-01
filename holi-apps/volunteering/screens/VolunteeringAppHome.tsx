@@ -20,11 +20,9 @@ import VolunteeringFilterForm from '@holi-apps/volunteering/components/Volunteer
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-type VolunteeringAppHomeProps = Record<string, never>
-
 const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 
-const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
+const VolunteeringAppHome = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const statusBarHeight = Constants.statusBarHeight

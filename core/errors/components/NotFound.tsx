@@ -5,7 +5,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const NotFound: React.VFC = () => {
+const NotFound = () => {
   const mixins = useStyleMixins()
 
   return (

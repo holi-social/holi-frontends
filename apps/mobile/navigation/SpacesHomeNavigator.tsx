@@ -15,7 +15,7 @@ export type SpacesStackScreensList = {
 
 const SpacesStack = createNativeStackNavigator<SpacesStackScreensList>()
 
-const SpacesHomeNavigator: React.VFC = () => {
+const SpacesHomeNavigator = () => {
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpacesHome}

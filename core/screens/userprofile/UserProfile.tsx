@@ -5,13 +5,14 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -62,10 +63,11 @@ const UserProfile = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
   })
+  const { refreshing, onRefresh } = useOnRefresh(refetchUser)
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
@@ -178,7 +180,12 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Refreshable
+      refreshableProps={{
+        isLoading: refreshing,
+        onRefresh,
+      }}
+    >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -248,7 +255,7 @@ const UserProfile = () => {
           },
         ]}
       />
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Refreshable>
   )
 }
 

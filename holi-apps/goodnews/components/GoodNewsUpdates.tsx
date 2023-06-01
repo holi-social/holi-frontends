@@ -13,7 +13,7 @@ import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesLis
 import { GoodNewsArticlesQuery, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
-const PROJECT_PAGE_SIZE = 5
+export const GOOD_NEWS_PAGE_SIZE = 5
 
 type GoodNewsUpdatesProps = {
   locationQuery?: string
@@ -34,7 +34,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
 
   const { articles = [] } = data?.appGoodNews_articles || {}
 
-  const articlesToRender = articles.slice(0, PROJECT_PAGE_SIZE)
+  const articlesToRender = articles.slice(0, GOOD_NEWS_PAGE_SIZE)
 
   const renderItem = ({ item }: { item: GoodNewsArticle }) => {
     const dateString = getRelativeDateString(item.date, i18n.language)

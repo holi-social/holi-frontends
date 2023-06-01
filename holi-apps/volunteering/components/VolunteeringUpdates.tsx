@@ -12,7 +12,7 @@ import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesLis
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-const ENGAGEMENT_PAGE_SIZE = 5
+export const ENGAGEMENT_PAGE_SIZE = 5
 
 type VolunteeringUpdatesProps = {
   locationQuery?: string

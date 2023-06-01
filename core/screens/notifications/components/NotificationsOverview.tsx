@@ -66,7 +66,7 @@ const groupByDate = (notifications?: Notification[]) => {
     .filter(({ data }) => data.length)
 }
 
-const NotificationsOverview: React.VFC = () => {
+const NotificationsOverview = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()

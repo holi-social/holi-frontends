@@ -16,7 +16,7 @@ export type FeedStackScreens = {
 
 const FeedStack = createNativeStackNavigator<FeedStackScreens>()
 
-const FeedNavigator: React.VFC = () => {
+const FeedNavigator = () => {
   return (
     <FeedStack.Navigator
       initialRouteName={RouteName.HomeFeed}
