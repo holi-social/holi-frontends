@@ -14,14 +14,14 @@ import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 import { Project } from '@holi-apps/donations/typings'
 
-const PROJECT_PAGE_SIZE = 5
+export const PROJECT_PAGE_SIZE = 5
 
 type DonationUpdatesProps = {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
 }
 
-const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style }: DonationUpdatesProps) => {
+const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 

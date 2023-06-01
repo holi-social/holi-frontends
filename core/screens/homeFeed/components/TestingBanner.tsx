@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const TestingBanner: React.VFC = () => {
+const TestingBanner = () => {
   const { t } = useTranslation()
 
   return (

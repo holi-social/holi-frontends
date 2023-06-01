@@ -32,7 +32,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const ChangePassword: React.VFC = () => {
+const ChangePassword = () => {
   const { t, i18n } = useTranslation()
   const [oldPwdNode, setOldPwdNode] = useState<UiNode>()
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()

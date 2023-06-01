@@ -97,7 +97,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }, [articles, paramArticleId, setActiveArticleIndex])
 
   const renderItem = useCallback(
-    ({ item, index }) => {
+    ({ item, index }: { item: CarouselItem; index: number }) => {
       const accessible = index === activeArticleIndex
       return item.type === 'article' ? (
         <GoodNewsArticleComponent
