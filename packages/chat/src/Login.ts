@@ -1,8 +1,6 @@
 import type { MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
 
-import type { navigateOptions } from '@holi/core/navigation/hooks/useRouting/types'
-
 export enum SSOAction {
   LOGIN = 'login',
   REGISTER = 'register',
@@ -31,11 +29,11 @@ export default class Login {
     this.isUrl = isUrl
   }
 
-  public ssoLogin(navigate: (routeName: string, options?: navigateOptions) => void) {
+  public getRedirectURL(): string | null {
     const client = this.#createTemporaryClient()
-    const redirectURL = client.getSsoLoginUrl(this.callbackUrl.href, 'sso', this.idp_id, SSOAction.LOGIN)
+    if (!client.clientRunning) return null
 
-    navigate(redirectURL)
     this.#client = null
+    return client.getSsoLoginUrl(this.callbackUrl.href, 'sso', this.idp_id, SSOAction.LOGIN)
   }
 }
