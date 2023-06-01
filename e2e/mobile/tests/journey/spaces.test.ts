@@ -1,8 +1,7 @@
-import { itif } from '@holi/e2e-mobile/helpers/platform'
-
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { scrollDown } from '../../helpers/gestures'
 import { waitForHomeScreen } from '../../helpers/navigation'
+import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
