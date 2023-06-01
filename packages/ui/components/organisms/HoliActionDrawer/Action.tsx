@@ -10,10 +10,10 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import type { UseConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
+import { actions, mapActionIcons } from '@holi/ui/components/organisms/HoliActionDrawer/utils'
+import type { ActionType } from '@holi/ui/components/organisms/HoliActionDrawer/utils'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { actions, mapActionIcons } from './utils'
-import type { ActionType } from './utils'
 
 const ICON_MAP = mapActionIcons(actions)
 
@@ -57,6 +57,7 @@ export const Action = ({
   variant = 'default',
 }: PropsWithChildren<ActionProps>) => {
   const { show: isVisibleConfirmation, setShow: setShowConfirmation, props: confirmationProps } = useConfirmationState()
+  const { hideDrawer } = useActionDrawerContext()
 
   const iconName = ICON_MAP.get(action) ?? 'edit'
   const isDanger = variant === 'danger'
@@ -66,6 +67,7 @@ export const Action = ({
   const handleOnPress = (e: SyntheticEvent | GestureResponderEvent) => {
     if (showConfirmation) setShowConfirmation(showConfirmation)
     handleAction?.(e)
+    hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
   }
 
   const contextValue = {
