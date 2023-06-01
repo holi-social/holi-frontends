@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
@@ -13,6 +13,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
+
+import UpdateAppModal from './components/UpdateAppModal'
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -43,6 +45,7 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
               <PortalProvider>
                 <NavigationContextProvider>
                   <SessionExpiryProtection>
+                    {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
                     <LoginModalProvider>{children}</LoginModalProvider>
                   </SessionExpiryProtection>
                 </NavigationContextProvider>
