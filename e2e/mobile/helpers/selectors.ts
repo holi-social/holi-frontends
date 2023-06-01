@@ -96,16 +96,16 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
 
     switch (direction) {
       case 'up':
-        scrollUp()
+        await scrollUp()
         break
       case 'down':
-        scrollDown()
+        await scrollDown()
         break
       case 'left':
-        scrollLeft()
+        await scrollLeft()
         break
       case 'right':
-        scrollRight()
+        await scrollRight()
         break
     }
 
@@ -128,11 +128,11 @@ const scrollElementToCenter = async (element: Element<'async'>, direction: Scrol
     if (y + height > viewEndY) {
       // element is in the lowest 25% of the screen: scroll up
       const scrollPixel = y + height - viewEndY
-      doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
+      await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
     } else if (y < viewStartY) {
       // element is in the highest 25% of the screen: scroll down
       const scrollPixel = viewStartY - y
-      doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
+      await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
     }
   }
 }

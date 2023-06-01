@@ -4,18 +4,16 @@ import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -33,20 +31,21 @@ export type InsightDetailPageParams = {
 
 const { useParam } = createParam<InsightDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens>
-
-const InsightDetailPage: React.VFC<ScreenProps> = () => {
+const InsightDetailPage = () => {
   const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { setOptions } = useUnifiedNavigation()
-  const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
+  const { loading, error, data, refetch } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
+    notifyOnNetworkStatusChange: true,
   })
 
   const insight = data?.insightById
+
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   useLayoutEffect(
     () =>
@@ -64,8 +63,8 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
 
   if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) return null
+  if (!data && loading) return null
+
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
   const posts: Post[] = insight.posts || []
@@ -75,7 +74,14 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar style="light" animated />
 
-      <DefaultScrollHeaderLayout bounces={false} style={styles.wrapper} headerOverlap>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.wrapper}
+        headerOverlap
+      >
         {/* Image section */}
         <ImageBackground
           source={{ uri: insight?.headerImage }}
@@ -155,7 +161,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
             </HoliGridWrapper>
           </View>
         )}
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Refreshable>
     </>
   )
 }

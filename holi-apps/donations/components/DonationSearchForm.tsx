@@ -14,10 +14,7 @@ type DonationSearchFormProps = {
   onSubmit: (locationQuery?: string) => void
 }
 
-const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
-  onSubmit,
-  locationQuery,
-}: DonationSearchFormProps) => {
+const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(locationQuery)
 

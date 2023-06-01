@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -44,14 +44,14 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Default>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {' '}
         </HoliHeading>
         <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
       </View>
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Default>
   )
 }
 

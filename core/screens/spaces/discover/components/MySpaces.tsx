@@ -16,7 +16,7 @@ export type MySpacesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
+const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
   const { visible, show, hide } = useModalState()
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')

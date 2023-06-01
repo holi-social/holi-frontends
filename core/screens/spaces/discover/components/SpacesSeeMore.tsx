@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,13 +23,14 @@ const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({
 }: SpacesSeeMoreProps) => {
   const { t } = useTranslation()
   const defaultLabel = t('spaces.seeMore')
+  const size = Platform.OS === 'web' ? imageHeight : imageHeight + 4
 
   return (
     <HoliButton label={label || defaultLabel} style={style} onPress={onPress} transparent inline testID={testID}>
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more_rebrand.svg')}
-        width={imageHeight}
-        height={imageHeight}
+        width={size}
+        height={size}
         isSvg
         label=""
       />
