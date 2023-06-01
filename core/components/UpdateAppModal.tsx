@@ -14,9 +14,9 @@ const UpdateAppModal = () => {
     variables: { version: Constants.manifest?.version },
   })
   const [showModal, setShowModal] = useState(false)
+  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
 
   const updateApp = () => {
-    const androidPackageName = Constants.manifest?.android?.package
     switch (Platform.OS) {
       case 'ios':
         Linking.openURL(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757').catch(
@@ -26,7 +26,7 @@ const UpdateAppModal = () => {
         )
         break
       case 'android':
-        Linking.openURL(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${androidPackageName}`).catch(
+        Linking.openURL(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`).catch(
           (error) => {
             logError(error, `[UpdateAppModal.tsx] ${error.message}`)
           }
@@ -58,12 +58,9 @@ const UpdateAppModal = () => {
 
     if (data?.checkAppVersion?.needUpdate === NeedUpdateType.MANDATORY) {
       setShowModal(true)
-    } else if (data?.checkAppVersion?.needUpdate === NeedUpdateType.RECOMMENDED) {
-      // TODO: Manage the suggested update case
-      setShowModal(false)
-    } else {
-      setShowModal(false)
+      return
     }
+    setShowModal(false)
   }, [data, error, showModal])
 
   return (
