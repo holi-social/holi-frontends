@@ -23,3 +23,29 @@ export const userSuggestionsQuery = gql`
 export type UserSuggestionsResponse = {
   userSuggestions: Paged<User>
 }
+
+export enum NeedUpdateType {
+  NO = 'NO',
+  SUGGESTED = 'SUGGESTED',
+  FORCED = 'FORCED',
+}
+
+export type NeedUpdate = {
+  needUpdate: NeedUpdateType
+  appStoreUrl: string
+  playStoreUrl: string
+}
+
+export const checkAppVersionQuery = gql`
+  query CheckAppVersion($version: String!) {
+    checkAppVersion(version: $version) {
+      needUpdate
+      appStoreUrl
+      playStoreUrl
+    }
+  }
+`
+
+export type CheckAppVersionResponse = {
+  checkAppVersion: NeedUpdate
+}
