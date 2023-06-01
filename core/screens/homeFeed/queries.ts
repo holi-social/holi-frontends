@@ -26,8 +26,8 @@ export type UserSuggestionsResponse = {
 
 export enum NeedUpdateType {
   NO = 'NO',
-  SUGGESTED = 'SUGGESTED',
-  FORCED = 'FORCED',
+  RECOMMENDED = 'RECOMMENDED',
+  MANDATORY = 'MANDATORY',
 }
 
 export type NeedUpdate = {

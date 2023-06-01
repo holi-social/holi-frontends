@@ -56,9 +56,9 @@ const UpdateAppModal = () => {
       return
     }
 
-    if (data?.checkAppVersion?.needUpdate === NeedUpdateType.FORCED) {
+    if (data?.checkAppVersion?.needUpdate === NeedUpdateType.MANDATORY) {
       setShowModal(true)
-    } else if (data?.checkAppVersion?.needUpdate === NeedUpdateType.SUGGESTED) {
+    } else if (data?.checkAppVersion?.needUpdate === NeedUpdateType.RECOMMENDED) {
       // TODO: Manage the suggested update case
       setShowModal(false)
     } else {
