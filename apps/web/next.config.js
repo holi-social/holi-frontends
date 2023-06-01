@@ -4,7 +4,7 @@ const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   webpack: (config) => {
@@ -72,6 +72,7 @@ module.exports = withSentryConfig(
       '@holi/ui',
       '@holi/core',
       '@holi/api',
+      '@holi/chat',
     ],
     {
       resolveSymlinks: true,

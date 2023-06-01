@@ -1,23 +1,18 @@
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
-
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
-
-const ChatHome: React.VFC<ScreenProps> = () => {
+const ChatHome = () => {
   const { t } = useTranslation()
   const title = t('chat.title')
   const mixins = useStyleMixins()
@@ -27,7 +22,7 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   // TODO: remove after implementing the feature
   useToastForNotAvailableFeature(true)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setOptions({
       title,
       headerBackTitleVisible: true,
