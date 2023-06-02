@@ -99,7 +99,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliColumn>
       </HoliColumns>
 
-      {post.title && (
+      {!!post.title && (
         <View style={styles.postTitleLink}>
           <HoliLink href={getPostUrl(post.id, insightId, spaceIdOrName)} label={post.title} testID="btn-to-post">
             <HoliHeading level="3" size="small">
