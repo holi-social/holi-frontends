@@ -35,6 +35,7 @@ export default {
       },
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
+        LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       },
     },
     android: {

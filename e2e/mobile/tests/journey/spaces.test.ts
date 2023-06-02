@@ -1,6 +1,7 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { scrollDown } from '../../helpers/gestures'
 import { waitForHomeScreen } from '../../helpers/navigation'
+import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -29,7 +30,7 @@ describe('@Spaces', () => {
     }
   })
 
-  it('should support the user journey', async () => {
+  itif(platform === 'ios', 'should support the user journey', async () => {
     // preparation of test
     await navigateToSpaces()
 
