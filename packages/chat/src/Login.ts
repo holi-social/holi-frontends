@@ -31,9 +31,11 @@ export default class Login {
 
   public getRedirectURL(): string | null {
     const client = this.#createTemporaryClient()
-    if (!client.clientRunning) return null
 
-    this.#client = null
     return client.getSsoLoginUrl(this.callbackUrl.href, 'sso', this.idp_id, SSOAction.LOGIN)
+  }
+
+  public clearTemporaryClient(): void {
+    this.#client = null
   }
 }
