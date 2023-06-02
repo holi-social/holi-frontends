@@ -10,11 +10,18 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 const UpdateAppModal = () => {
   const { t } = useTranslation()
+  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
+  const BUILD_NUMBER =
+    Platform.OS === 'ios'
+      ? Constants.manifest?.ios?.buildNumber
+      : Platform.OS === 'android'
+      ? Constants.manifest?.android?.versionCode?.toString()
+      : null
+
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
-    variables: { version: Constants.manifest?.version },
+    variables: { version: Constants.manifest?.version, buildNumber: BUILD_NUMBER },
   })
   const [showModal, setShowModal] = useState(false)
-  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
 
   const updateApp = () => {
     switch (Platform.OS) {

@@ -37,8 +37,8 @@ export type NeedUpdate = {
 }
 
 export const checkAppVersionQuery = gql`
-  query CheckAppVersion($version: String!) {
-    checkAppVersion(version: $version) {
+  query CheckAppVersion($version: String!, $buildNumber: String!) {
+    checkAppVersion(version: $version, buildNumber: $buildNumber) {
       needUpdate
       appStoreUrl
       playStoreUrl
