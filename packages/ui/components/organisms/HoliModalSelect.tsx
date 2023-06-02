@@ -182,6 +182,7 @@ const getStyles = (isDense: boolean, description: boolean) =>
       paddingHorizontal: 12,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: colors.background10,
       color: colors.foreground30,
       borderRadius: 4,
