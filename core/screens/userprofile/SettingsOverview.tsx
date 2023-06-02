@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,7 +14,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const SettingsOverview: React.VFC = () => {
+const SettingsOverview = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -39,7 +39,7 @@ const SettingsOverview: React.VFC = () => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Default>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -92,7 +92,7 @@ const SettingsOverview: React.VFC = () => {
       </LoginProtection>
 
       {isLoggingOut && <HoliLoader />}
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Default>
   )
 }
 

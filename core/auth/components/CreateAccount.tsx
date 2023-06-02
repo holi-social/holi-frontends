@@ -1,7 +1,14 @@
-import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import {
+  ContinueWith,
+  ContinueWithVerificationUi,
+  ContinueWithVerificationUiActionEnum,
+  RegistrationFlow,
+  SuccessfulNativeRegistration,
+  UpdateRegistrationFlowBody,
+} from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -9,7 +16,9 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -24,6 +33,14 @@ const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
   onRegister: () => void
+}
+
+const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
+  return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
+}
+
+const getVerificationFlow = ({ continue_with }: SuccessfulNativeRegistration) => {
+  return continue_with?.find(isContinueWithVerificationUi)?.flow
 }
 
 const CreateAccount = ({ onRegister }: CreateAccountProps) => {
@@ -56,6 +73,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {
       showLoader()
+      Keyboard.dismiss()
 
       try {
         const { data } = await newKratosSdk().updateRegistrationFlow({
@@ -66,19 +84,25 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         // registration. You could handle that case by navigating to the Login screen
         // but for simplicity we'll just print an error here:
         if (isWeb ? !data.session : !data.session_token) {
-          const err = new Error(
+          const err = new HoliOnboardingError(
             'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
           )
           throw err
         }
 
-        console.info('[Registration.tsx] registration was successful.')
+        console.debug('[Registration.tsx] registration was successful.')
 
+        const verificationFlowData = getVerificationFlow(data)
+        // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
+        setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
+
+        // !!! IMPORTANT first run `onRegister()` to update value in AsyncStorage
+        await onRegister()
+        // and only then load user
         await setUserLoggedIn({
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-        onRegister()
 
         redirect()
       } catch (err) {
@@ -96,7 +120,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   return (
     <HoliKeyboardSaveView>
-      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="always">
+      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
         <View style={styles.inner}>
           <HoliHeading level="1" size="medium" style={styles.headline} testID="sign-up-headline">
             {t('registration.signUp.heading')}

@@ -23,7 +23,7 @@ import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/au
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -32,7 +32,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const ChangePassword: React.VFC = () => {
+const ChangePassword = () => {
   const { t, i18n } = useTranslation()
   const [oldPwdNode, setOldPwdNode] = useState<UiNode>()
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()
@@ -125,7 +125,7 @@ const ChangePassword: React.VFC = () => {
   }
 
   return (
-    <DefaultLayout style={styles.layout}>
+    <DefaultLayout keyboardShouldPersistTaps="always" style={styles.layout}>
       <View style={[mixins.container, styles.formContainer]}>
         {!(reauthFlow && settingsFlow) ? (
           <HoliLoader />

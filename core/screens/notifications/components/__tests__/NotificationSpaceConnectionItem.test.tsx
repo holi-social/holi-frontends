@@ -5,8 +5,9 @@ import renderer from 'react-test-renderer'
 
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const acceptRequest = {
   request: {
@@ -58,9 +59,11 @@ describe('NotificationSpaceConnectionItem.tsx', () => {
 
   it('renders loader after ignoring a connection request', async () => {
     const { getByTestId } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
-        <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
-      </MockedProvider>
+      <ToastProvider>
+        <MockedProvider mocks={MOCKS} addTypename={false}>
+          <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
+        </MockedProvider>
+      </ToastProvider>
     )
 
     fireEvent(getByTestId('ignore-connection-request-button'), 'click')
@@ -72,9 +75,11 @@ describe('NotificationSpaceConnectionItem.tsx', () => {
 
   it('renders loader after accepting a connection request', async () => {
     const { getByTestId } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
-        <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
-      </MockedProvider>
+      <ToastProvider>
+        <MockedProvider mocks={MOCKS} addTypename={false}>
+          <NotificationSpaceConnectionItem notification={notificationSpaceConnectionRequest} />
+        </MockedProvider>
+      </ToastProvider>
     )
 
     fireEvent(getByTestId('accept-connection-request-button'), 'click')

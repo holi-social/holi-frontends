@@ -1,6 +1,6 @@
 import { Post } from '@holi/core/screens/posts/types'
 import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import { GeolocationPoint, Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -32,8 +32,10 @@ export enum CollaborationType {
 }
 
 export interface SpaceLink {
-  url: string
+  id: string
   type: SpaceLinkType
+  url: string
+  name: string
 }
 
 export interface SpaceCollaborationTool {
@@ -46,23 +48,18 @@ export interface SpaceCollaborationTool {
   thumbnail?: string
 }
 
-export interface Geolocation {
-  latitude: number
-  longitude: number
-}
-
 export interface Space {
   id: string
   title: string
   description: string
   created: string
   creator: User
-  contactDescription: string
-  contactEmail: string
-  contactPhone: string
+  contactDescription?: string
+  contactEmail?: string
+  contactPhone?: string
   cover: string
   location: string
-  geolocation?: Geolocation
+  geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
   members: Paged<SpaceMember>
   avatarDefaultColor: string
@@ -105,7 +102,7 @@ export interface Task {
   visibility: VisibilityType
   contactEmail: string
   contactPhone?: string
-  geolocation?: Geolocation
+  geolocation?: GeolocationPoint
   thumbnail?: string
 }
 
@@ -138,17 +135,11 @@ export enum SpaceConnectionAction {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
   GRANT_ADMIN_ACCESS = 'GRANT_ADMIN_ACCESS',
+  LEAVE_SPACE = 'LEAVE_SPACE',
   REVOKE_ADMIN_ACCESS = 'REVOKE_ADMIN_ACCESS',
 }
 export enum VisibilityFilter {
   MEMBERS = 'MEMBERS',
   PUBLIC = 'PUBLIC',
   ALL = 'ALL',
-}
-
-export interface Post {
-  id: string
-  title: string
-  text: string
-  created: Partial<User>
 }

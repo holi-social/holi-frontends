@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import useReportContent from '@holi/core/hooks/useReportContent'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
@@ -17,7 +16,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -32,7 +31,12 @@ export type PostContentProps = {
 const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
-  const { visible, show, hide } = useModalState()
+
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: post.id,
+    contentType: ContentType.POST,
+    successMsg: t('global.report.successMessage'),
+  })
 
   const visibilityIcon = post.isPublic ? 'global' : 'lock'
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
@@ -59,26 +63,23 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
 
             <HoliColumn>
               <SafeAreaProvider>
-                <MoreOptionsButtonWithModal
-                  label={t('insights.post.preview.more')}
-                  showOptions={visible}
-                  onPress={show}
-                  onModalDismiss={hide}
-                  style={styles.moreButton}
-                >
-                  <ReportBlockOptionButton
+                <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                  <HoliActionDrawer.Action
+                    isLoading={isLoadingReport}
                     action="report"
-                    objectId={post.id}
-                    contentType={ContentType.POST}
-                    style={styles.moreOptionItem}
-                    confirmationModalProps={{
-                      title: t('insights.post.report.confirmation.title'),
-                      description: t('insights.post.report.confirmation.description'),
-                    }}
-                    successMessage={t('global.report.successMessage')}
-                    onConfirm={hide}
-                  />
-                </MoreOptionsButtonWithModal>
+                    title={t('global.report')}
+                    testID="report-comment-button"
+                    showConfirmation
+                  >
+                    <HoliActionDrawer.Confirmation
+                      title={t('insights.post.report.confirmation.title')}
+                      description={t('insights.post.report.confirmation.description')}
+                      handleConfirmation={reportContent}
+                      hasDismissBtn
+                      requireLogin
+                    />
+                  </HoliActionDrawer.Action>
+                </HoliActionDrawer.Drawer>
               </SafeAreaProvider>
             </HoliColumn>
           </HoliColumns>
@@ -132,14 +133,6 @@ const styles = StyleSheet.create({
   header: {
     flexGrow: 1,
     flexShrink: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
   description: {
     marginTop: 16,

@@ -23,23 +23,40 @@ exports[`React tree renders correctly 1`] = `
     ]
   }
 >
-  <Image
-    accessibilityLabel="Uschi Meyer"
+  <ViewManagerAdapter_ExpoImage
     accessibilityRole="image"
-    accessible={false}
-    source={
+    height="100%"
+    onError={[Function]}
+    onLoad={[Function]}
+    onLoadStart={[Function]}
+    onProgress={[Function]}
+    proxiedProperties={
       {
-        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
-        "width": 128,
+        "accessibilityLabel": "Uschi Meyer",
+        "accessible": true,
+        "contentFit": "cover",
+        "contentPosition": {
+          "left": "50%",
+          "top": "50%",
+        },
+        "placeholder": [],
+        "source": [
+          {
+            "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+            "width": 128,
+          },
+        ],
+        "tintColor": undefined,
+        "transition": null,
       }
     }
     style={
       {
         "height": "100%",
-        "resizeMode": "contain",
         "width": "100%",
       }
     }
+    width="100%"
   />
 </View>
 `;

@@ -5,8 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
@@ -30,7 +30,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Default>
       <LoginProtection>
         <View style={[mixins.container, styles.accountSettings]}>
           <MoreOptionItem
@@ -46,7 +46,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
           <DeleteAccountButton style={styles.settingsItem} />
         </View>
       </LoginProtection>
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Default>
   )
 }
 
@@ -54,7 +54,7 @@ export default memo(AccountSettings)
 
 const styles = StyleSheet.create({
   accountSettings: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
   },
   settingsItem: {
     marginVertical: 24,

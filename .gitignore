@@ -12,3 +12,4 @@ build
 .terraform*
 terraform*.log
 build-storybook.log
+coverage

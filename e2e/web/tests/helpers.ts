@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
-import { checkA11y, injectAxe } from 'axe-playwright'
+import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
 
@@ -180,9 +180,17 @@ export const checkAccessibility = async (page: Page) => {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
     },
+    detailedReport: true,
+    detailedReportOptions: { html: true },
   }
-  // set skipFailures to true for now, so we can fix the issues in a planned task
-  await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
+  // Disabled 'color-contrast' for now to not distract from more serious issues
+  await configureAxe(page, {
+    rules: [
+      { id: 'color-contrast', enabled: false },
+      { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
+    ],
+  })
+  await checkA11y(page, undefined, axeOptions, false)
 }
 
 export const sendConnectionRequest = async (page: Page) => {

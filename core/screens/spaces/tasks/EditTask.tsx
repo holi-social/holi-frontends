@@ -1,0 +1,275 @@
+import { useMutation, useQuery } from '@apollo/client'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
+import { logError } from '@holi/core/errors/helpers'
+import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
+import { UpdateTaskResponse, UpdateTaskSchema, updateTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
+import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Skill } from '@holi/core/screens/userprofile/types'
+import { GeolocationPoint } from '@holi/core/types'
+import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { colors } from '@holi/ui/styles/globalVars'
+
+export type EditTaskParams = {
+  spaceIdOrName: string
+  taskId: string
+}
+
+const { useParam } = createParam<EditTaskParams>()
+
+type ScreenProps = NativeStackScreenProps<SpacesScreens>
+
+const DEFAULT_SLOTS_AVAILABLE = 1
+
+const EditTask: React.VFC<ScreenProps> = () => {
+  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
+  const { t } = useTranslation()
+  const [taskId] = useParam('taskId')
+
+  // input fields
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
+  const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
+  const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
+  const [contactEmail, setContactEmail] = useState('')
+  const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
+  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
+  const [skills, setSkills] = useState<Skill[]>([])
+  const [location, setLocation] = useState<string | undefined>('')
+  const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
+  const [contactPhone, setContactPhone] = useState<string | undefined>('')
+
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
+  const [inputValid, setInputValid] = useState(true)
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  const {
+    data,
+    error: errorSpace,
+    loading: loadingSpace,
+  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName },
+  })
+
+  const space = data?.spaceById
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const task = (space?.tasks || []).find((t) => t.id === taskId)
+
+  const { displayError } = useErrorHandling()
+
+  const [updateTask, { loading }] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
+    onCompleted: () => navigateBack(),
+    onError: (error) => displayError(error, error.message),
+    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+  })
+
+  const onSave = () =>
+    updateTask({
+      variables: {
+        input: {
+          taskId: task?.id,
+          spaceId: space?.id,
+          name,
+          description,
+          visibility: visibility?.id,
+          locationType: locationType?.id,
+          regularity: regularity?.id,
+          contactEmail,
+          slotsAvailable,
+          thumbnail: thumbnail?.blob,
+          skills: skills.map((skill) => skill.id),
+          location,
+          geolocation,
+          contactPhone,
+        },
+      },
+    })
+
+  // If locationType is REMOTE, remove location and coordinates
+  // Otherwise set their values based on the selectedLocation
+  useEffect(() => {
+    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
+      setGeolocation({
+        latitude: selectedLocation.coordinates.latitude,
+        longitude: selectedLocation.coordinates.longitude,
+      })
+      setLocation(selectedLocation.label)
+    }
+    if (locationType?.id === LocationType.REMOTE) {
+      setGeolocation(undefined)
+      setLocation(undefined)
+    }
+  }, [selectedLocation, locationType])
+
+  useEffect(() => {
+    const resultSchema = UpdateTaskSchema.safeParse({
+      taskId: task?.id,
+      spaceId: space?.id,
+      visibility: visibility?.id,
+      locationType: locationType?.id,
+      regularity: regularity?.id,
+      name,
+      description,
+      contactEmail,
+      contactPhone,
+    })
+    setInputValid(resultSchema.success)
+
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+    } else {
+      setFieldErrors({})
+    }
+  }, [
+    task?.id,
+    space?.id,
+    name,
+    description,
+    visibility,
+    locationType,
+    regularity,
+    contactEmail,
+    slotsAvailable,
+    thumbnail,
+    skills,
+    location,
+    geolocation,
+    contactPhone,
+  ])
+
+  useEffect(() => {
+    if (task) {
+      setName(task.name)
+      setDescription(task.description)
+      setVisibility({
+        id: task.visibility,
+        title: t(`spaces.input.task.visibility.${task.visibility}.title`),
+        description: t(`spaces.input.task.visibility.${task.visibility}.description`),
+      })
+      setLocationType({
+        id: task.locationType,
+        title: t(`spaces.input.task.locationType.${task.locationType}.title`),
+        description: t(`spaces.input.task.locationType.${task.locationType}.description`),
+      })
+      setRegularity({
+        id: task.regularity,
+        title: t(`spaces.input.task.regularity.${task.regularity}.title`),
+        description: t(`spaces.input.task.regularity.${task.regularity}.description`),
+      })
+      setContactEmail(task.contactEmail)
+      setSlotsAvailable(task.slotsAvailable)
+      setCurrentThumbnail(task.thumbnail)
+      setSkills(task.skills)
+      setLocation(task.location)
+      setGeolocation(task.geolocation)
+      setContactPhone(task.contactPhone)
+    }
+  }, [space, task, t])
+
+  useLayoutEffect(() => {
+    !loadingSpace &&
+      isAdmin &&
+      setOptions({
+        animation: 'slide_from_bottom',
+        headerTitle: () => (
+          <HoliHeading level="1" size="small">
+            {t('spaces.tasks.edit.title')}
+          </HoliHeading>
+        ),
+        headerStyle: { backgroundColor: colors.background10 },
+        headerTransparent: true,
+        headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+  }, [setOptions, t, loadingSpace, isAdmin])
+
+  useEffect(() => {
+    if (
+      name.length > 0 &&
+      description.length > 0 &&
+      !!visibility &&
+      !!locationType &&
+      !!regularity &&
+      !!contactEmail &&
+      inputValid
+    ) {
+      setSaveButtonDisabled(false)
+    }
+  }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
+
+  if (errorSpace) {
+    logError(errorSpace, `[EditTask.tsx] ${errorSpace.message}`)
+  }
+
+  if (!loadingSpace && !isAdmin) {
+    navigate(`/spaces/${spaceIdOrName}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loadingSpace || errorSpace || !space || !isAdmin) {
+    return <></>
+  }
+
+  return (
+    <SpaceFormScreenLayout
+      saveButtonDisabled={saveButtonDisabled}
+      saveButtonLoading={loading}
+      toggleConfirmationModal={setShowConfirmationModal}
+      onSave={onSave}
+      showConfirmationModal={showConfirmationModal}
+    >
+      <TaskInputForm
+        name={name}
+        description={description}
+        visibility={visibility}
+        locationType={locationType}
+        regularity={regularity}
+        contactEmail={contactEmail}
+        slotsAvailable={slotsAvailable}
+        thumbnail={thumbnail}
+        skills={skills}
+        geolocation={geolocation}
+        selectedLocation={selectedLocation}
+        contactPhone={contactPhone}
+        currentThumbnail={currentThumbnail}
+        onChangeName={setName}
+        onChangeDescription={setDescription}
+        onChangeVisibility={setVisibility}
+        onChangeLocationType={setLocationType}
+        onChangeRegularity={setRegularity}
+        onChangeContactEmail={setContactEmail}
+        onChangeSlotsAvailable={setSlotsAvailable}
+        onChangeThumbnail={setThumbnail}
+        onChangeSkills={setSkills}
+        onChangeGeolocation={setGeolocation}
+        onChangeContactPhone={setContactPhone}
+        onChangeSelectedLocation={setSelectedLocation}
+        fieldErrors={fieldErrors}
+        isEdit
+      />
+    </SpaceFormScreenLayout>
+  )
+}
+
+export default EditTask

@@ -3,6 +3,7 @@
 exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -13,6 +14,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when closed 1`] = `
 exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
@@ -32,7 +34,6 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
     }
   >
     <RCTSafeAreaView
-      emulateUnlessSupported={true}
       style={
         {
           "left": 0,
@@ -58,7 +59,19 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           accessibilityRole="button"
           accessibilityState={
             {
+              "busy": undefined,
+              "checked": undefined,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -100,9 +113,9 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           >
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight={24}
-              bbWidth={24}
-              color={4294967295}
+              bbHeight="24"
+              bbWidth="24"
+              color="#fff"
               focusable={false}
               meetOrSlice={0}
               minX={0}
@@ -132,15 +145,15 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                   },
                 ]
               }
-              tintColor={4294967295}
+              tintColor="#fff"
               vbHeight={1024}
               vbWidth={1024}
             >
               <RNSVGGroup
                 fill={
-                  [
-                    2,
-                  ]
+                  {
+                    "type": 2,
+                  }
                 }
                 propList={
                   [
@@ -149,9 +162,9 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                   ]
                 }
                 stroke={
-                  [
-                    2,
-                  ]
+                  {
+                    "type": 2,
+                  }
                 }
               >
                 <RNSVGPath

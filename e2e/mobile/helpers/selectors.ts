@@ -1,4 +1,6 @@
-import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
+import type { Element, ElementArray } from 'webdriverio'
+
+import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 import { delay } from './time'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
@@ -8,7 +10,7 @@ const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@
 
 const byText = (text: string) => `*${text}`
 
-const elementBySelector = async (elementSelector: string) => await Appium.$(elementSelector)
+const elementBySelector = async (elementSelector: string): Promise<Element<'async'>> => await Appium.$(elementSelector)
 
 export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
 
@@ -82,57 +84,77 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
   })
 }
 
+const scrollElementIntoView = async (testId: string, direction: ScrollDirection, maxAttempts: number) => {
+  let scrollCounter = 0
+  while (scrollCounter < maxAttempts) {
+    // is the element in the viewport?
+    try {
+      return await waitForElementWithTestId(testId, 100)
+    } catch (e) {
+      // element was not found
+    }
+
+    switch (direction) {
+      case 'up':
+        await scrollUp()
+        break
+      case 'down':
+        await scrollDown()
+        break
+      case 'left':
+        await scrollLeft()
+        break
+      case 'right':
+        await scrollRight()
+        break
+    }
+
+    scrollCounter++
+  }
+  // one last try after the final scroll
+  return await waitForElementWithTestId(testId)
+}
+
+/**
+ * during up or down scroll, ensure the element is within the middle 50% of the screen and not in the upper or lower 25%, to ensure it's touchable
+ */
+const scrollElementToCenter = async (element: Element<'async'>, direction: ScrollDirection) => {
+  const { width: screenWidth, height: screenHeight } = await getDeviceScreenSize()
+  const { y, height } = await getElementCoordinates(element)
+  if (direction === 'up' || direction === 'down') {
+    const viewStartY = screenHeight / 4
+    const viewEndY = viewStartY * 3
+    const viewMiddleX = screenWidth / 2
+    if (y + height > viewEndY) {
+      // element is in the lowest 25% of the screen: scroll up
+      const scrollPixel = y + height - viewEndY
+      await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
+    } else if (y < viewStartY) {
+      // element is in the highest 25% of the screen: scroll down
+      const scrollPixel = viewStartY - y
+      await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
+    }
+  }
+}
+
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: ScrollDirection,
   { timeout = 1000, maxAttempts = 7 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
-  let scrollCounter = 0
   return withImplicitTimeout(timeout, async () => {
-    while (scrollCounter < maxAttempts) {
-      // if (await checkIfElementWithTestIdExists(testId, 500)) {
-      //   return
-      // }
-
-      // is the element in the viewport?
-      try {
-        return await waitForElementWithTestId(testId, 100)
-      } catch (e) {
-        // element was not found
-      }
-
-      /**
-       * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
-       * Hence the inverted directions below.
-       */
-      switch (direction) {
-        case 'down':
-          scrollDown()
-          break
-        case 'up':
-          scrollUp()
-          break
-        case 'left':
-          scrollLeft()
-          break
-        case 'right':
-          scrollRight()
-      }
-
-      scrollCounter++
-    }
-    // one last try
-    return await waitForElementWithTestId(testId, timeout)
+    const element = await scrollElementIntoView(testId, direction, maxAttempts)
+    await scrollElementToCenter(element, direction)
+    return element
   })
 }
 
-const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {
+const locateMultipleElements = async (elementSelector: string): Promise<ElementArray> => {
   // https://webdriver.io/docs/api/browser/$$
   return await Appium.$$(elementSelector)
 }
 
-export const locateMultipleElementsWithTestId = async (testId: string): Promise<Record<string, unknown>[]> =>
-  locateMultipleElements(byTestId(testId))
+export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)
@@ -154,10 +176,15 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
 
 export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {
   const element = await waitForElementWithTestId(selector)
-  const { width, height } = (await element.getSize()) as { width: number; height: number }
-  const { x, y } = (await element.getLocation()) as { x: number; y: number }
+  const { x, y, width, height } = await getElementCoordinates(element)
 
   await Appium.touchAction({ action: 'tap', x: x + width - 20, y: y + height / 2 })
+}
+
+export const getElementCoordinates = async (element: Element<'async'>) => {
+  const { x, y } = (await element.getLocation()) as { x: number; y: number }
+  const { width, height } = (await element.getSize()) as { width: number; height: number }
+  return { x, y, width, height }
 }
 
 export const fillFieldByTestId = async (testId: string, value: string) => {

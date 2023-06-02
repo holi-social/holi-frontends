@@ -2,7 +2,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native'
 
 import AccountSetup, { AccountSetupProps } from '@holi/core/auth/components/AccountSetup/AccountSetup'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const AccountSetupGuard = (props: AccountSetupProps) => {

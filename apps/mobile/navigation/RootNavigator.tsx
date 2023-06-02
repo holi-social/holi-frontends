@@ -33,7 +33,7 @@ export type RootStackScreens = {
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const RootNavigator: React.VFC = () => {
+const RootNavigator = () => {
   return (
     <RootStack.Navigator
       initialRouteName={RouteName.BottomTabs}

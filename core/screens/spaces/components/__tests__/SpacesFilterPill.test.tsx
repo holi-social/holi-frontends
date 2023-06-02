@@ -27,13 +27,13 @@ describe('SpacesFilterPill', () => {
     expect(skill).toMatchSnapshot()
   })
 
-  it('triggers the onPress method correctly', () => {
+  it('triggers the onPress method correctly', async () => {
     const onPress = jest.fn()
     const { getByTestId } = render(
       <SpacesFilterPill filterType="skill" label="skill filter" onPress={onPress} testID="test" />
     )
 
-    fireEvent.press(getByTestId('test'))
+    await fireEvent.press(getByTestId('test'))
 
     expect(onPress).toHaveBeenCalled()
   })

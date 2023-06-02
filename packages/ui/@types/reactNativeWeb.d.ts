@@ -11,6 +11,7 @@ export type AccessibilityRoleWeb =
   | 'tabpanel'
   | 'menuitemcheckbox'
   | 'menuitemradio'
+  | 'dialog'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number

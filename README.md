@@ -1,6 +1,7 @@
 # holi-frontends
 
 <!-- TOC -->
+
 - [holi-frontends](#holi-frontends)
   - [Development](#development)
     - [Prerequisites](#prerequisites)
@@ -61,7 +62,7 @@
       - [Configuration for mobile builds](#configuration-for-mobile-builds)
   - [sentry.io logging/tracing](#sentryio-loggingtracing)
   - [Accessibility testing](#accessibility-testing)
-<!-- /TOC -->
+  <!-- /TOC -->
 
 ## Development
 
@@ -155,7 +156,7 @@ yarn test
 # or
 yarn test:watch myFileName
 # or
-yarn test:watchAll 
+yarn test:watchAll
 ```
 
 Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
@@ -288,6 +289,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
 - File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
   - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase and might start with an underscore.
 - Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
+
   - E.g.
 
     ```ts
@@ -299,6 +301,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
     ```
 
   - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
+
 - For very complex components that span over multiple files (e.g. screens or platform specific variants), group all files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and hides the complexity of the component itself.
   - Example:
     - `foobar` - see `core/navigation/hooks/useRouting` as example
@@ -530,11 +533,11 @@ translating the app with features like code completion, directly adding new or e
 
 ### Error handling and validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/queries.ts` for definition of validation rules and `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
 You can find several utils and hooks in `core/errors` to handle and display errors.
 
-- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/components/EditSpaceNameAndGoal.tsx` for usage example)
+- E.g. `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
 - and `useErrorHandling` provides a function to display error messages as toasts.
 
 For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
@@ -594,14 +597,14 @@ Please note that `ssr` will only be set to true when decided to use SSR in the w
 ##### `apps/web/pages/quote.tsx`
 
 ```tsx
+import { ApolloClient, gql } from '@apollo/client'
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
-import { ApolloClient, gql } from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: API_URL
-});
+  uri: API_URL,
+})
 
 const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
 
@@ -615,7 +618,7 @@ export const getServerSideProps = async () => {
         }
       }
     `,
-  });
+  })
 
   return { props: { ssrData: data } }
 }
@@ -651,7 +654,7 @@ In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://o
 The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
 
 ```sh
-127.0.0.1 staging.web.project-holi.org
+127.0.0.1 staging.dev.holi.social
 ```
 
 However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
@@ -659,17 +662,17 @@ However, as the locally running web frontend only answers to http and port 3000,
 ## Exploring the GraphQL API (via graphiql)
 
 For exploring our GraphQL API we have a running instance
-of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at <https://staging.web.project-holi.org/>
+of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at <https://staging.dev.holi.social/>
 
 If all your requests don't need user authentication you can do them right away. Currently we don't have any GraphQL
 queries that work without authentication but there will be some in the future.
 
 If you need authentication (example for staging):
 
-1. Go to our [web deployment](https://staging.web.project-holi.org/)) and log in with your user.
+1. Go to our [web deployment](https://staging.dev.holi.social/)) and log in with your user.
 2. From the network view of the Browser, check the request that went to the GraphQL API
-   (`https://staging.web.project-holi.org/api/graphql`) and copy the value from the Cookie request header.
-3. Go to the [staging graphiql instance](https://staging.unified.apis.project-holi.org/graphql), open the "Request
+   (`https://staging.dev.holi.social/api/graphql`) and copy the value from the Cookie request header.
+3. Go to the [staging graphiql instance](https://staging.unified.apis.holi.social/graphql), open the "Request
    Headers" tab in the lower left and add the previously copied cookie values like so:
 
 ```json
@@ -686,13 +689,27 @@ simulator/emulator and inspect outgoing requests to the GraphQL API after loggin
 Bearer <some-token-here>` header in the request. This header can also be added within graphiql's UI as an
 alternative.
 
+### Linting and Autocomplete
+
+We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL linting and code autocompletion capabilities. By integrating GraphQL Config into our development environment, we create a seamless and efficient coding experience specifically tailored for GraphQL that guarantees we can write GraphQL queries, mutations, fragments, and so on, with ease, as it provides us with optimized features that minimize errors and maximize productivity.
+
+By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT` environment variable.
+
+### Code Generation
+
+We use [GraphQL Codegen](https://the-guild.dev/graphql/codegen) to automate the process of generating strongly typed code that corresponds to `unified-api` GraphQL schema which eliminates the need for manual type definitions and helps maintain consistency between the frontend and the backend services.
+
+To use GraphQL Codegen, start by defining your GraphQL types (e.g. queries, mutations, or fragments) in a `.graphql` or `.gql` file. Afterward, run the `yarn schema:generate` command to automatically generate the corresponding TypeScript code based on your definitions.
+
+For a better local development experience, you can enable watch mode for codegen by running `yarn schema:watch`. This allows the code generation process to continuously monitor your GraphQL schema and automatically update the generated code whenever changes are detected.
+
 ## Continuous Integration and Deployment
 
 ### Feature Branches & Environments
 
 When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
-When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.web.project-holi.org>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.dev.holi.social>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
 ### Skipping parts of CI
 

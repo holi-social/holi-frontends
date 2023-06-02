@@ -3,15 +3,20 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect } from 'react'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
-export type OnboardingStateValue = 'onboarding' | 'accountSetup' | 'finished'
+const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const
+export type OnboardingStateValue = (typeof onboardingValues)[number]
+
+const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
+  onboardingValues.some((v) => value === v)
+
 const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
 export const useOnboarding = () => {
   const { userId } = useAuth()
-  const isLoggedIn = !!userId
 
   const onOnboardingStateChange = useCallback(async (value: OnboardingStateValue = 'finished') => {
     onboardingStateVar(value)
@@ -19,16 +24,34 @@ export const useOnboarding = () => {
   }, [])
 
   useEffect(() => {
-    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-      // if user is not logged in and there is no onboarding state is AsyncStore, then it is freshly installed app, so show Onboarding
-      if (!storedValue) {
-        await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
-        return
-      }
+    // prevent race condition if `usedId` has not been read from the AsyncStorage yet
+    if (userId === undefined) return
 
-      onboardingStateVar(storedValue as OnboardingStateValue)
+    const isLoggedIn = !!userId
+
+    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
+      const value = isOnboardingStateValue(storedValue) ? storedValue : null
+
+      switch (value) {
+        case 'onboarding':
+        case 'emailVerification':
+        case 'finished':
+          onboardingStateVar(value)
+          break
+
+        case 'accountSetup':
+          await onOnboardingStateChange(isLoggedIn ? 'accountSetup' : 'finished')
+          break
+
+        case null:
+          await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
+          break
+
+        default:
+          throw new HoliOnboardingError(`Does not support "${value}" value`)
+      }
     })
-  }, [isLoggedIn, onOnboardingStateChange])
+  }, [userId, onOnboardingStateChange])
 
   return {
     onboardingState: useReactiveVar(onboardingStateVar),

@@ -6,6 +6,7 @@ import {
   ScrollViewProps,
   StyleProp,
   StyleSheet,
+  TextStyle,
   TouchableWithoutFeedback,
   View,
   ViewStyle,
@@ -21,6 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export interface HoliModalContentWrapperProps {
   actionButtonText: string
   headlineText?: string
+  headlineStyle?: StyleProp<TextStyle>
   prependChildren?: React.ReactNode
   onActionButtonPress: () => void
   style?: StyleProp<ViewStyle>
@@ -36,6 +38,7 @@ const HoliModalContentWrapper = (
     actionButtonText,
     onActionButtonPress,
     headlineText,
+    headlineStyle,
     prependChildren,
     children,
     style,
@@ -54,7 +57,7 @@ const HoliModalContentWrapper = (
   const content = (
     <>
       {!!headlineText?.length && (
-        <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
+        <HoliHeading level="1" style={[styles.headline, headlineStyle]} size="large" testID={`${testID}-heading`}>
           {headlineText}
         </HoliHeading>
       )}

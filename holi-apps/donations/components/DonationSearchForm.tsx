@@ -14,10 +14,7 @@ type DonationSearchFormProps = {
   onSubmit: (locationQuery?: string) => void
 }
 
-const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
-  onSubmit,
-  locationQuery,
-}: DonationSearchFormProps) => {
+const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(locationQuery)
 
@@ -30,7 +27,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       actionButtonText={t('donations:search.submitButton')}
       onActionButtonPress={() => onSubmit(locationInput)}
       style={styles.modalWrapper}
-      testID="donations-search-modal"
+      testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
     >
       <View style={styles.container}>

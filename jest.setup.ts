@@ -11,6 +11,7 @@ global.console = {
 }
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
+global.mockOpenToast = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')
@@ -33,11 +34,34 @@ jest.mock('react-native/Libraries/Linking/Linking', () => ({
   openURL: global.mockOpenURL,
 }))
 
+jest.mock('expo-linking', () => {
+  const module: typeof import('expo-linking') = {
+    ...jest.requireActual('expo-linking'),
+    createURL: jest.fn(),
+  }
+
+  return module
+})
+
 jest.mock('@sentry/react-native', () => ({
   captureException: global.captureSentryException,
 }))
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
+
+jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
+  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
+  return {
+    ...original,
+    useToast: () => ({
+      openToast: global.mockOpenToast,
+    }),
+  }
+})
+
+jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
+  jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
+)
 
 i18n.use(initReactI18next).init({
   lng: 'en',

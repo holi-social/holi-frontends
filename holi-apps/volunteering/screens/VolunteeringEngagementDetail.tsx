@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,9 +8,10 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -51,23 +52,20 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const [fetchEngagementById, { loading, data, error }] =
-    useLazyQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery)
+  const { loading, data, error, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
+    variables: {
+      id: engagementId,
+    },
+    skip: !engagementId,
+  })
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation)
   const engagement = data?.appVolunteering_engagement
+
+  const { refreshing, onRefresh } = useOnRefresh(refetch)
+
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
-
-  useLayoutEffect(() => {
-    if (engagementId && !loading && !engagement) {
-      fetchEngagementById({
-        variables: {
-          id: engagementId,
-        },
-      })
-    }
-  }, [fetchEngagementById, engagementId, loading, engagement])
 
   useEffect(() => {
     if (engagementId) {
@@ -154,7 +152,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   return (
     <View style={styles.container} testID="volunteering-detailview-container">
-      <DefaultScrollHeaderLayout style={{ backgroundColor: colors.background30 }} headerOverlap>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{ isLoading: refreshing, onRefresh }}
+        style={{ backgroundColor: colors.background30 }}
+        headerOverlap
+      >
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
@@ -167,7 +169,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             )}
           </View>
         )}
-      </DefaultScrollHeaderLayout>
+      </ScrollHeaderLayout.Refreshable>
 
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading

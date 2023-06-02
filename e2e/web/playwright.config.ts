@@ -7,7 +7,7 @@ import { devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
-const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
+const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 
 /**
  * We need retries due to flakyness caused by unknown reasons.
@@ -56,7 +56,7 @@ const possibleBrowsers = [
   },
 ]
 
-const browsersFromEnv = (value: string | undefined): Object[] => {
+const browsersFromEnv = (value: string | undefined): object[] => {
   if (value) {
     return value.split(',').map((name) => {
       const match = possibleBrowsers.find((browser) => browser.name === name)

@@ -35,6 +35,21 @@ const tabs = [
   },
 ]
 
+beforeEach(() => {
+  jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+    const time = Date.now()
+    cb(time)
+
+    return time
+  })
+})
+
+afterEach(() => {
+  // @ts-ignore
+  window.requestAnimationFrame.mockRestore()
+  jest.clearAllTimers()
+})
+
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
     const tree = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} />).toJSON()
@@ -60,11 +75,11 @@ describe('displays the tab buttons correctly', () => {
     expect(holiTabsInstance.findByProps({ testID: 'test-tabs-panel-0-active' })).toBeDefined()
   })
 
-  it('activates the correct tab button upon click', () => {
+  it('activates the correct tab button upon click', async () => {
     const testRenderer = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} testID={TABS_ID} />)
     const holiTabsInstance = testRenderer.root
 
-    fireEvent.press(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' }))
+    await fireEvent.press(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' }))
 
     expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-inactive' })).toBeDefined()
     expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-active' })).toBeDefined()

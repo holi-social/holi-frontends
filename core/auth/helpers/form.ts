@@ -9,8 +9,11 @@ import {
   UiNodeImageAttributes,
   UiNodeInputAttributes,
   UiNodeTextAttributes,
+  VerificationFlow,
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
+
+import { logError } from '@holi/core/errors/helpers'
 
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name']
 
@@ -107,6 +110,18 @@ const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
   return !!(err as AxiosError).response
 }
 
+const isVerificationFlowWithErrorData = (errorData: VerificationFlow | unknown): errorData is VerificationFlow => {
+  return !!errorData && typeof errorData === 'object' && 'type' in errorData
+}
+
+export const isUnverifiedUserError = (error: unknown) => {
+  if (!isAxiosError(error)) return
+  if (error.response?.status !== 400) return
+  if (!isVerificationFlowWithErrorData(error.response.data)) return
+
+  return error.response.data.ui.messages?.some(({ id }) => id === 4000010)
+}
+
 export const handleFormSubmitError = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setFlow: (p: any) => void,
@@ -116,16 +131,17 @@ export const handleFormSubmitError = (
 ) => {
   if (isAxiosError(err)) {
     switch (err.response?.status) {
-      case 400:
+      case 400: {
         if (typeof err.response.data.error === 'object') {
-          console.error('[auth/helpers/form.ts] 400 error:', err.response)
+          logError(err.response, '[auth/helpers/form.ts] 400 error')
         }
 
-        console.info('[auth/helpers/form.ts] Form validation failed.')
+        console.debug('[auth/helpers/form.ts] Form validation failed.')
         // The error response data contains a flow with error messages.
         // With this data, the view can display the errors.
         setFlow(err.response.data)
         return
+      }
       // case 403:
       //   // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/updateSettingsFlow
       //   if (err.response.data.error.id === 'session_refresh_required') {
@@ -136,7 +152,7 @@ export const handleFormSubmitError = (
       case 410:
         // This happens when the flow is, for example, expired or was deleted.
         // We simply re-initialize the flow if that happens!
-        console.error('[auth] Flow could not be found, reloading page: ', err.response)
+        logError(err.response, '[auth] Flow could not be found, reloading page')
         initializeFlow()
         return
     }

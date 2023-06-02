@@ -16,13 +16,13 @@ describe('HoliModalFullscreen.tsx', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('calls onDismiss prop when close button gets clicked', () => {
+  it('calls onDismiss prop when close button gets clicked', async () => {
     const mockFn = jest.fn()
     const { getByLabelText } = render(
       <HoliModalFullscreen label="test" show={true} onDismiss={mockFn} testID="testmodal" />
     )
 
-    fireEvent.press(getByLabelText('modal.close'))
+    await fireEvent.press(getByLabelText('modal.close'))
     expect(mockFn).toBeCalledTimes(1)
   })
 

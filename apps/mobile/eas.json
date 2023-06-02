@@ -4,7 +4,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -13,7 +14,8 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -21,9 +23,9 @@
     },
     "production": {
       "env": {
-        "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql",
-        "ORY_BASE_URL": "https://auth.project-holi.org",
-        "OWNCLOUD_BASE_URL": "https://production.cloud.project-holi.org"
+        "HOLI_API_URL": "https://production.unified.apis.holi.social/graphql",
+        "ORY_BASE_URL": "https://auth.holi.social",
+        "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -31,7 +33,8 @@
     },
     "simulator": {
       "env": {
-        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+        "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql"
       },
       "ios": {
         "simulator": true

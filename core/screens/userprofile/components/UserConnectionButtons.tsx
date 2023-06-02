@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
@@ -6,8 +6,8 @@ import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -26,9 +26,11 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
 
   const { openLoginModal } = useLoginModal()
 
-  if (error) {
-    displayError(error)
-  }
+  useEffect(() => {
+    if (error) {
+      displayError(error)
+    }
+  }, [error, displayError])
 
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_CONNECTED
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED

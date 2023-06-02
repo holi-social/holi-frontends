@@ -14,8 +14,8 @@ const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkPr
   const { navigate, navigateBack } = useUnifiedNavigation()
 
   return useCallback(
-    (event: GestureResponderEvent) => {
-      const stopPropagation = onPress?.(event)
+    async (event: GestureResponderEvent) => {
+      const stopPropagation = await onPress?.(event)
 
       if (stopPropagation === false) return
 

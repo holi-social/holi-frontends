@@ -4,9 +4,9 @@
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
-    HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
-    ORY_BASE_URL: https://dev-auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://development.cloud.project-holi.org
+    HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
+    ORY_BASE_URL: https://dev-auth.holi.social
+    OWNCLOUD_BASE_URL: https://development.cloud.holi.social
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -32,11 +32,11 @@
         export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
         export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
         export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
-        if [[ "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
+        if [[ "$BUILD_PLATFORM" == "ios" && "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
           echo "iOS app version \"$CURRENT_VERSION_IOS\" was already built (and most likely released). Did you forget to increment app versions?"
           exit 1
         fi
-        if [[ "$LAST_VERSION_ANDROID" == "$CURRENT_VERSION_ANDROID" ]]; then
+        if [[ "$BUILD_PLATFORM" == "android" && "$LAST_VERSION_ANDROID" == "$CURRENT_VERSION_ANDROID" ]]; then
           echo "Android app version \"$CURRENT_VERSION_ANDROID\" was already built (and most likely released). Did you forget to increment app versions?"
           exit 1
         fi
@@ -247,9 +247,9 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_ID: production
-    HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
-    ORY_BASE_URL: https://auth.project-holi.org
-    OWNCLOUD_BASE_URL: https://production.cloud.project-holi.org
+    HOLI_API_URL: https://production.unified.apis.holi.social/graphql
+    ORY_BASE_URL: https://auth.holi.social
+    OWNCLOUD_BASE_URL: https://production.cloud.holi.social
   only:
     - production
 
@@ -287,7 +287,7 @@ mobile_production_build_ios:
   only:
     - production
 
-.mobile_production_submit_android:
+mobile_production_submit_android:
   needs: ['mobile_production_build_android']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
@@ -297,9 +297,10 @@ mobile_production_build_ios:
     - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
+  when: manual
   interruptible: false
 
-.mobile_production_submit_ios:
+mobile_production_submit_ios:
   needs: ['mobile_production_build_ios']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
@@ -309,4 +310,5 @@ mobile_production_build_ios:
     - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
+  when: manual
   interruptible: false

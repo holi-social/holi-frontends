@@ -40,7 +40,7 @@ resource "google_cloud_run_service" "mvp_web" {
     spec {
       service_account_name = data.terraform_remote_state.holi_mvp_shared_state.outputs.cloud_run_service_account_email
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/holi-frontends-web:${var.image_tag}"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.artifact_registry_location}/holi-frontends-web:${var.image_tag}"
         ports {
           container_port = 3000
         }
@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "ORY_BASE_URL"
-          value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
+          value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
@@ -67,7 +67,7 @@ resource "google_cloud_run_service" "mvp_web" {
         }
         env {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
-          value = local.environment == "production" ? "https://production.cloud.project-holi.org" : "https://development.cloud.project-holi.org"
+          value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
 
         resources {
@@ -100,7 +100,7 @@ resource "google_cloud_run_service" "mvp_web" {
   depends_on = [google_project_service.service]
 }
 
-resource "google_cloud_run_domain_mapping" "mvp_web" {
+resource "google_cloud_run_domain_mapping" "app_web" {
   project = google_cloud_run_service.mvp_web.project
   # location needs to be the same as the service's
   location = google_cloud_run_service.mvp_web.location

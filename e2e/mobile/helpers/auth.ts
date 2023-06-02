@@ -86,8 +86,6 @@ export const finishAccountSetup = async ({
   // provide user name
   await fillFieldByTestId('pronouns-input', pronouns)
   // submit name changes
-  // tap headline to hide keyboard
-  await tapOnElementWithTestId('account-setup-names-step-headline')
   await tapOnElementWithTestId('holi-wizard-next-btn')
 
   // Pre-success step

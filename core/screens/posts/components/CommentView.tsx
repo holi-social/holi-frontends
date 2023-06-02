@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import useDeleteComment from '@holi/core/hooks/useDeleteComment'
+import useReportContent from '@holi/core/hooks/useReportContent'
 import { ContentType } from '@holi/core/queries'
-import CommentDeleteButton from '@holi/core/screens/posts/components/CommentDeleteButton'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
+import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -23,13 +23,17 @@ export interface CommentProps extends ViewProps {
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props }) => {
+const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
   const { t } = useTranslation()
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: comment.id,
+    contentType: ContentType.POST_COMMENT,
+    successMsg: t('global.report.successMessage'),
+  })
+  const [isLoadingDeleteComment, deleteComment] = useDeleteComment(comment.id, postId)
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
-
-  const { visible, show, hide } = useModalState()
 
   return (
     <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
@@ -40,37 +44,47 @@ const CommentView: React.VFC<CommentProps> = ({ comment, postId, style, ...props
           </HoliLink>
         </View>
 
-        <SafeAreaProvider>
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            showOptions={visible}
-            onPress={show}
-            onModalDismiss={hide}
-            style={styles.moreButton}
-            testID="comment-three-dot-menu-button"
-          >
-            <ReportBlockOptionButton
-              action="report"
-              objectId={comment.id}
-              contentType={ContentType.POST_COMMENT}
-              style={styles.moreOptionItem}
-              confirmationModalProps={{
-                title: t('insights.posts.comment.report.confirmation.title'),
-                description: t('insights.posts.comment.report.confirmation.description'),
-              }}
-              successMessage={t('global.report.successMessage')}
-              onConfirm={hide}
-              testID="report-comment-button"
-            />
-            <CommentDeleteButton
-              comment={comment}
-              postId={postId}
-              onConfirm={hide}
-              style={styles.moreOptionItem}
-              testID="delete-comment-button"
-            />
-          </MoreOptionsButtonWithModal>
-        </SafeAreaProvider>
+        <HoliColumn>
+          <SafeAreaProvider>
+            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="comment-three-dot-menu-button">
+              <HoliActionDrawer.Action
+                isLoading={isLoadingReport}
+                action="report"
+                title={t('global.report')}
+                testID="report-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('insights.posts.comment.report.confirmation.title')}
+                  description={t('insights.posts.comment.report.confirmation.description')}
+                  testID="space-report"
+                  handleConfirmation={reportContent}
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+              <HoliActionDrawer.Action
+                isLoading={isLoadingDeleteComment}
+                action="delete"
+                title={t('global.delete')}
+                variant="danger"
+                testID="delete-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('insights.posts.comment.delete')}
+                  description={t('insights.posts.comment.delete.confirm.text')}
+                  confirmText={t('insights.posts.comment.delete.confirm.text')}
+                  testID="delete-comment"
+                  handleConfirmation={deleteComment}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            </HoliActionDrawer.Drawer>
+          </SafeAreaProvider>
+        </HoliColumn>
       </View>
 
       <View style={styles.body}>
@@ -97,14 +111,6 @@ const styles = StyleSheet.create({
   mediaHeaderLink: {
     flexShrink: 1,
     flexGrow: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 12,
   },
   body: {
     flexDirection: 'row',

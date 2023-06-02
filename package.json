@@ -9,13 +9,16 @@
       "core",
       "e2e/mobile"
     ],
-    "nohoist": ["**/jest-offline"]
+    "nohoist": [
+      "**/jest-offline"
+    ]
   },
   "resolutions": {
     "**/ts-invariant": "0.10.3",
     "**/tslib": "2.5.0",
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
-    "**/@types/react": "18.0.0"
+    "**/@babel/core": "7.21.4",
+    "**/@types/react": "~18.0.27"
   },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
@@ -43,7 +46,9 @@
     "e2e:android": "yarn workspace @holi/e2e-mobile test:android",
     "e2e:android:smoke": "yarn workspace @holi/e2e-mobile test:android:smoke",
     "e2e:ios": "yarn workspace @holi/e2e-mobile test:ios",
-    "e2e:ios:smoke": "yarn workspace @holi/e2e-mobile test:ios:smoke"
+    "e2e:ios:smoke": "yarn workspace @holi/e2e-mobile test:ios:smoke",
+    "schema:watch": "graphql-codegen --watch",
+    "schema:generate": "graphql-codegen"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
@@ -53,7 +58,7 @@
     "@testing-library/react-native": "11.5.1",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/jest": "^29.4.0",
-    "@types/react-test-renderer": "18.0.0",
+    "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "babel-jest": "^29.4.1",
@@ -64,8 +69,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
     "husky": "^8.0.3",
-    "jest": "^29.4.1",
-    "jest-expo": "^46.0.0",
+    "jest": "^29.5.0",
+    "jest-expo": "^48.0.2",
     "jest-offline": "^1.0.1",
     "prettier": "^2.8.3",
     "react-test-renderer": "18.0.0",
@@ -73,7 +78,9 @@
   },
   "packageManager": "yarn@1.22.17",
   "expo-yarn-workspaces": {
-    "symlinks": ["expo-constants"]
+    "symlinks": [
+      "expo-constants"
+    ]
   },
   "dependencies": {}
 }

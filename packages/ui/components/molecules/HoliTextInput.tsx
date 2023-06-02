@@ -25,7 +25,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type HoliTextInputProps = {
+export interface HoliTextInputProps {
   inputLabel?: string
   accessibilityLabel: string
   value?: string
@@ -54,237 +54,244 @@ export type HoliTextInputProps = {
   accessibilityControls?: string
   showCharacterCount?: boolean
   isRequired?: boolean
-  // eslint-disable-next-line
-  [x: string]: any
 }
 
 const isIOS = Platform.OS === 'ios'
 
-const HoliTextInput = (
-  {
-    noOfVisibleLines = 1,
-    maxNoOfVisibleLines = 1,
-    maxNoOfCharacters = 5000,
-    inline = false,
-    style = {},
-    inputStyle = {},
-    type,
-    value,
-    inputLabel,
-    onFocus,
-    onBlur,
-    showCharacterCount = false,
-    isRequired = false,
-    ...props
-  }: HoliTextInputProps,
-  ref: React.ForwardedRef<View>
-) => {
-  const dimensions = useWindowDimensions()
-  const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
-
-  const [isFocused, setFocused] = useState<boolean>(false)
-  const [isHovered, setHovered] = useState<boolean>(false)
-  const hasValidationErrors = !!props?.validationErrorText
-
-  // numberOfLines values is only used for auto-sizing the textarea when there is new text input
-  const [numberOfLines, setNumberOfLines] = useState<number>(
-    clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
-  )
-
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    accessible: true,
-    accessibilityLabel: props.accessibilityLabel,
-    accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
-    accessibilityControls: props.accessibilityControls,
-  }
-
-  useEffect(() => {
-    setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
-  }, [noOfVisibleLines, maxNoOfVisibleLines])
-
-  const handleFocus = useCallback(
-    (event: NativeSyntheticEvent<TargetedEvent>) => {
-      setFocused(true)
-      onFocus && onFocus(event)
+const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
+  (
+    {
+      noOfVisibleLines = 1,
+      maxNoOfVisibleLines = 1,
+      maxNoOfCharacters = 5000,
+      inline = false,
+      style = {},
+      inputStyle = {},
+      type,
+      value,
+      inputLabel,
+      onFocus,
+      onBlur,
+      showCharacterCount = false,
+      isRequired = false,
+      ...props
     },
-    [setFocused, onFocus]
-  )
-  const handleBlur = useCallback(
-    (event: NativeSyntheticEvent<TargetedEvent>) => {
-      setFocused(false)
-      onBlur && onBlur(event)
-    },
-    [setFocused, onBlur]
-  )
+    ref
+  ) => {
+    const dimensions = useWindowDimensions()
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+    const [isFocused, setFocused] = useState<boolean>(false)
+    const [isHovered, setHovered] = useState<boolean>(false)
+    const hasValidationErrors = !!props?.validationErrorText
 
-  const adjustInputHeight = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-    const inputHeight = event.nativeEvent.contentSize.height
-    const newNumberOfLines = Math.round((inputHeight - 2 * INPUT_VERTICAL_PADDING) / LINE_HEIGHT)
-    setNumberOfLines(clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
-  }
+    // numberOfLines values is only used for auto-sizing the textarea when there is new text input
+    const [numberOfLines, setNumberOfLines] = useState<number>(
+      clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
+    )
 
-  const keyboardType: KeyboardTypeOptions = (() => {
-    if (type === 'email') return 'email-address'
-    if (type === 'number') return 'numeric'
-    return 'default'
-  })()
+    const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+      accessible: true,
+      accessibilityLabel: props.accessibilityLabel,
+      accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
+      accessibilityControls: props.accessibilityControls,
+    }
 
-  const textContentType: TextInputIOSProps['textContentType'] = (() => {
-    const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-    if (type === 'password') return iOS12Plus ? 'newPassword' : 'password'
-    if (type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
-  })()
+    useEffect(() => {
+      setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
+    }, [noOfVisibleLines, maxNoOfVisibleLines])
 
-  const autocomplete: TextInputProps['autoComplete'] = (() => {
-    if (type === 'password')
-      return Platform.OS === 'android' ? 'password' : props?.inputProps?.autoComplete || 'current-password'
-    if (type === 'email') return 'email'
-    return 'off'
-  })()
+    const handleFocus = useCallback(
+      (event: NativeSyntheticEvent<TargetedEvent>) => {
+        setFocused(true)
+        onFocus && onFocus(event)
+      },
+      [setFocused, onFocus]
+    )
+    const handleBlur = useCallback(
+      (event: NativeSyntheticEvent<TargetedEvent>) => {
+        setFocused(false)
+        onBlur && onBlur(event)
+      },
+      [setFocused, onBlur]
+    )
 
-  const hoverPropsForWeb = Platform.select({
-    web: {
-      onMouseOver: () => setHovered(true),
-      onMouseOut: () => setHovered(false),
-    },
-  })
+    const { theme } = useTheme()
+    const styles = useMemo(() => getStyles(theme), [theme])
 
-  const iconColor = (() => {
-    if (isFocused) return colors.brandColorB30
-    if (isHovered) return colors.foreground20
-    return colors.background30
-  })()
+    const adjustInputHeight = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+      const inputHeight = event.nativeEvent.contentSize.height
+      const newNumberOfLines = Math.round((inputHeight - 2 * INPUT_VERTICAL_PADDING) / LINE_HEIGHT)
+      setNumberOfLines(clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
+    }
 
-  const multiline = maxNoOfVisibleLines > 1
+    const keyboardType: KeyboardTypeOptions = (() => {
+      if (type === 'email') return 'email-address'
+      if (type === 'number') return 'numeric'
+      return 'default'
+    })()
 
-  return (
-    <View
-      ref={ref}
-      onLayout={props?.onLayout}
-      style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
-      {...hoverPropsForWeb}
-    >
-      <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
-        {!!inputLabel && (
-          <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
-            <HoliText
-              size="small"
-              bold
-              style={[
-                styles.label,
-                props.labelStyle,
-                isFocused ? styles.labelFocused : {},
-                hasValidationErrors ? styles.labelHasValidationErrors : {},
-              ]}
-            >
-              {inputLabel}
-            </HoliText>
-            {isRequired && <Text> *</Text>}
-          </View>
-        )}
-        <View
-          style={[
-            styles.inputWrapper,
-            inline ? styles.inline : styles.block,
-            isHovered && styles.inputWrapperHovered,
-            isFocused && styles.inputWrapperFocused,
-            inputStyle,
-            props?.disabled && styles.inputWrapperDisabled,
-            hasValidationErrors && styles.inputWrapperHasValidationErrors,
-          ]}
-          testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
-        >
-          <TextInput
-            value={value}
-            style={[
-              styles.input,
-              inline ? styles.inline : styles.block,
-              { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
-            ]}
-            numberOfLines={noOfVisibleLines}
-            multiline={multiline}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder={props?.placeholder}
-            placeholderTextColor={colors.foreground10}
-            onChange={(event) => {
-              let text = event.nativeEvent.text
-              // type doesn't work with RN 'numeric' on web
-              if (type === 'number') text = text.replace(/[^0-9]/g, '')
-              props.onChange?.(text)
-            }}
-            onContentSizeChange={adjustInputHeight}
-            keyboardType={keyboardType}
-            textContentType={textContentType}
-            maxLength={maxNoOfCharacters}
-            editable={!props?.disabled}
-            blurOnSubmit={Platform.OS !== 'web' && !multiline}
-            secureTextEntry={type === 'password'}
-            autoComplete={autocomplete}
-            autoCapitalize="none"
-            autoCorrect={false}
-            {...accessibilityProps}
-            {...props?.inputProps}
-            testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
-          />
-          {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
-            <View style={styles.trailingIconWrapper}>
-              {(props?.trailingIcon || props?.trailingComponent) &&
-                !hasValidationErrors &&
-                (props?.trailingComponent || <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />)}
-              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
-            </View>
-          )}
-          {!showCharacterCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
-            <View
-              style={[
-                styles.inputCharsTextWrapper,
-                isHovered && styles.inputCharsTextWrapperHovered,
-                isFocused && styles.inputCharsTextWrapperFocused,
-                props?.disabled && styles.inputCharsTextWrapperDisabled,
-                hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
-              ]}
-            >
+    const textContentType: TextInputIOSProps['textContentType'] = (() => {
+      const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
+      if (type === 'password') return iOS12Plus ? 'newPassword' : 'password'
+      if (type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
+    })()
+
+    const autocomplete: TextInputProps['autoComplete'] = (() => {
+      if (type === 'password')
+        return Platform.OS === 'android' ? 'password' : props?.inputProps?.autoComplete || 'current-password'
+      if (type === 'email') return 'email'
+      return 'off'
+    })()
+
+    const hoverPropsForWeb = Platform.select({
+      web: {
+        onMouseOver: () => setHovered(true),
+        onMouseOut: () => setHovered(false),
+      },
+    })
+
+    const iconColor = (() => {
+      if (isFocused) return colors.brandColorB30
+      if (isHovered) return colors.foreground20
+      return colors.background30
+    })()
+
+    const multiline = maxNoOfVisibleLines > 1
+
+    return (
+      <View
+        ref={ref}
+        onLayout={props?.onLayout}
+        style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
+        {...hoverPropsForWeb}
+      >
+        <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
+          {!!inputLabel && (
+            <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
               <HoliText
-                size="extrasmall"
-                style={styles.inputCharsText}
-              >{`${value?.length}/${maxNoOfCharacters}`}</HoliText>
-            </View>
-          )}
-        </View>
-        <View style={styles.descriptionContainer}>
-          {(props?.validationErrorText || props?.helperText) && (
-            <View
-              style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}
-              testID={isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
-            >
-              <HoliText
-                size="extrasmall"
-                style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-                testID={!isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
+                size="small"
+                bold
+                style={[
+                  styles.label,
+                  props.labelStyle,
+                  isFocused ? styles.labelFocused : {},
+                  hasValidationErrors ? styles.labelHasValidationErrors : {},
+                ]}
+                {...(props?.testID ? { testID: `${props?.testID}-label` } : {})}
               >
-                {props?.validationErrorText || props?.helperText}
+                {inputLabel}
               </HoliText>
+              {isRequired && <Text> *</Text>}
             </View>
           )}
-          {showCharacterCount && (
-            <View style={[styles.charactorCountContainer, inline ? styles.inline : styles.block]}>
-              <HoliText
-                size="extrasmall"
-                style={[styles.charactorCountText, hasValidationErrors ? styles.validationErrorText : {}]}
-              >{`${value ? value.length : 0}/${maxNoOfCharacters}`}</HoliText>
-            </View>
-          )}
+          <View
+            style={[
+              styles.inputWrapper,
+              inline ? styles.inline : styles.block,
+              isHovered && styles.inputWrapperHovered,
+              isFocused && styles.inputWrapperFocused,
+              inputStyle,
+              props?.disabled && styles.inputWrapperDisabled,
+              hasValidationErrors && styles.inputWrapperHasValidationErrors,
+            ]}
+            testID={isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+          >
+            <TextInput
+              value={value}
+              style={[
+                styles.input,
+                inline ? styles.inline : styles.block,
+                { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
+              ]}
+              numberOfLines={noOfVisibleLines}
+              multiline={multiline}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              placeholder={props?.placeholder}
+              placeholderTextColor={colors.foreground10}
+              onChange={(event) => {
+                let text = event.nativeEvent.text
+                // type doesn't work with RN 'numeric' on web
+                if (type === 'number') text = text.replace(/[^0-9]/g, '')
+                props.onChange?.(text)
+              }}
+              onContentSizeChange={adjustInputHeight}
+              keyboardType={keyboardType}
+              textContentType={textContentType}
+              maxLength={maxNoOfCharacters}
+              editable={!props?.disabled}
+              blurOnSubmit={Platform.OS !== 'web' && !multiline}
+              secureTextEntry={type === 'password'}
+              autoComplete={autocomplete}
+              autoCapitalize="none"
+              autoCorrect={false}
+              {...accessibilityProps}
+              {...props?.inputProps}
+              testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+            />
+            {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
+              <View style={styles.trailingIconWrapper}>
+                {(props?.trailingIcon || props?.trailingComponent) &&
+                  !hasValidationErrors &&
+                  (props?.trailingComponent || (
+                    <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />
+                  ))}
+                {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
+              </View>
+            )}
+            {!showCharacterCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
+              <View
+                style={[
+                  styles.inputCharsTextWrapper,
+                  isHovered && styles.inputCharsTextWrapperHovered,
+                  isFocused && styles.inputCharsTextWrapperFocused,
+                  props?.disabled && styles.inputCharsTextWrapperDisabled,
+                  hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
+                ]}
+              >
+                <HoliText
+                  size="extrasmall"
+                  style={styles.inputCharsText}
+                >{`${value?.length}/${maxNoOfCharacters}`}</HoliText>
+              </View>
+            )}
+          </View>
+          <View style={styles.descriptionContainer}>
+            {(props?.validationErrorText || props?.helperText) && (
+              <View
+                style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}
+                testID={isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''}
+              >
+                <HoliText
+                  size="extrasmall"
+                  style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+                  testID={
+                    !isIOS ? `${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message` : ''
+                  }
+                >
+                  {props?.validationErrorText || props?.helperText}
+                </HoliText>
+              </View>
+            )}
+            {showCharacterCount && (
+              <View style={[styles.charactorCountContainer, inline ? styles.inline : styles.block]}>
+                <HoliText
+                  size="extrasmall"
+                  style={[styles.charactorCountText, hasValidationErrors ? styles.validationErrorText : {}]}
+                >{`${value ? value.length : 0}/${maxNoOfCharacters}`}</HoliText>
+              </View>
+            )}
+          </View>
         </View>
       </View>
-    </View>
-  )
-}
+    )
+  }
+)
 
-export default React.forwardRef(HoliTextInput)
+HoliTextInput.displayName = 'HoliTextInput'
+
+export default HoliTextInput
 
 const LINE_HEIGHT = 16 * 1.4
 const INPUT_VERTICAL_PADDING = 15

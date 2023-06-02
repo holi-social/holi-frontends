@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Animated,
@@ -190,7 +190,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                       onPress={onDismiss}
                       transparent
                       style={styles.lineButton}
-                      testID={`btn-to-close-${testID}-modal`}
+                      testID={`btn-to-close-${testID}`}
                     >
                       <View style={styles.line} />
                     </HoliButton>
@@ -203,13 +203,19 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
                     onPress={onDismiss}
                     transparent
-                    testID={`btn-to-close-${testID}-modal`}
+                    testID={`btn-to-close-${testID}`}
                   >
                     <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
                   </HoliButton>
 
                   {!!heading && (
-                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                    <HoliHeading
+                      level="2"
+                      style={styles.title}
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      testID={`${testID}-heading`}
+                    >
                       {heading}
                     </HoliHeading>
                   )}
@@ -225,7 +231,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 }
 
-export default HoliModal
+export default memo(HoliModal)
 
 const styles = StyleSheet.create({
   rootView: {
@@ -248,12 +254,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'flex-end',
+    width: '100%',
+    paddingBottom: 18,
+    ...Platform.select({
+      web: {
+        alignSelf: 'flex-end',
+      },
+    }),
   },
   handle: {
     height: 40,
     alignItems: 'center',
+    alignSelf: 'center',
   },
   lineButton: {
     padding: 15,

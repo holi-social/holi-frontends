@@ -5,7 +5,6 @@ import React from 'react'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { notificationsQuery } from '@holi/core/screens/notifications/queries'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import { authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 
 const loggedIn = () => ({ userId: '123' })
@@ -16,17 +15,6 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   useAuth: jest.fn(),
   setUserLoggedOut: jest.fn(),
 }))
-
-const mockOpenToast = jest.fn()
-jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
-  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
-  return {
-    ...original,
-    useToast: () => ({
-      openToast: mockOpenToast,
-    }),
-  }
-})
 
 const authenticatedUserRequest = {
   request: {
@@ -167,9 +155,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -182,9 +168,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -200,9 +184,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 
@@ -215,9 +197,7 @@ describe('Notifications.tsx', () => {
 
     render(
       <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
-        <UserContextProvider>
-          <Notifications />
-        </UserContextProvider>
+        <Notifications />
       </MockedProvider>
     )
 

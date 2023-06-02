@@ -109,15 +109,15 @@ web_build_docker:
     - web_build
   variables:
     # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
-    GCR_IMAGE: eu.gcr.io/holi-shared/holi-frontends-web
+    GCR_IMAGE: europe-north1-docker.pkg.dev/holi-shared/docker/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
     DOCKER_TLS_CERTDIR: "/certs"
   before_script:
-    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
+    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://europe-north1-docker.pkg.dev
   script:
     - cd apps/web/
-    - docker pull $GCR_IMAGE || true # Allows us to use --cache-from
-    - docker build --cache-from $GCR_IMAGE -t $GCR_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker pull $GCR_IMAGE || true # Allows us to use --cache-from, we need to tag with latest in the next command for this to work
+    - docker build --cache-from $GCR_IMAGE -t $GCR_IMAGE:latest -t $GCR_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
     - docker push $GCR_IMAGE:$CI_COMMIT_SHA # this is the tag that is used for deployment
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
@@ -132,7 +132,7 @@ web_review_deploy:
   needs: ['web_build_docker']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
-    url: https://$CI_ENVIRONMENT_SLUG.web.project-holi.org
+    url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   except:
@@ -192,7 +192,7 @@ web_staging_deploy:
   environment:
     name: web-staging
     deployment_tier: staging
-    url: https://staging.web.project-holi.org
+    url: https://staging.dev.holi.social
   variables:
     ENVIRONMENT_ID: staging
   only:
@@ -215,7 +215,7 @@ web_production_deploy:
   environment:
     name: web-production
     deployment_tier: production
-    url: https://production.web.project-holi.org
+    url: https://app.holi.social
   variables:
     ENVIRONMENT_ID: production
   only:

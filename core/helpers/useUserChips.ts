@@ -13,11 +13,15 @@ import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
-export type ChipUserField = 'interests' | 'sdgs' | 'skills'
+export enum UserChipTypes {
+  INTERESTS = 'interests',
+  SKILLS = 'skills',
+  SDGS = 'sdgs',
+}
 
 export interface UseUserChipsOptions {
-  user?: User
-  keyInUserObject: ChipUserField
+  user?: User | null
+  keyInUserObject: UserChipTypes
   queryToUse: DocumentNode
   onSubmit?: (user: User) => void
 }
@@ -29,15 +33,15 @@ const getSortedAndFilteredTerms = (
 ): SelectableTerm[] => {
   const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
   const orderedTerms = [
-    ...selectedTerms.sort(termsByTitleComparator).map((term) => ({ ...term, selected: true })),
-    ...unselectedTerms.sort(termsByTitleComparator),
+    ...[...selectedTerms].sort(termsByTitleComparator).map((term) => ({ ...term, selected: true })),
+    ...[...unselectedTerms].sort(termsByTitleComparator),
   ]
   return filterString
     ? orderedTerms.filter((term: Term) => term.title.toLowerCase().includes(filterString.toLowerCase()))
     : orderedTerms
 }
 
-export const useUserChips = <T extends Record<ChipUserField, Paged<Term>>>({
+export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
   user,
   queryToUse,
   keyInUserObject,

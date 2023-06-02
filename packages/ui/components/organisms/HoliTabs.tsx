@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -11,7 +11,12 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface Props {
   id: string
   initialStep?: number
-  tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
+  tabs: {
+    title: string
+    children: React.ReactNode
+    titleIcon?: string
+    style?: StyleProp<ViewStyle>
+  }[]
   centeredButtons?: boolean
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
@@ -35,24 +40,15 @@ const HoliTabs = ({
   stepper = true,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
-  const { currentStep, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(viewWidth, initialStep)
-  const [activeTab, setActiveTab] = useState(currentStep)
+  const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
   const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
-  const handleTabChange = useCallback(
-    (index: number) => {
-      setActiveTab(index)
-      setStep(index)
-    },
-    [setStep]
-  )
+  const handleTabChange = useCallback((index: number) => setStep(index), [setStep])
 
-  // TODO - Handle state changes in one handler
   useEffect(() => {
-    handleTabChange(currentStep)
     onChangeTab?.(currentStep)
-  }, [currentStep, onChangeTab, handleTabChange])
+  }, [currentStep, onChangeTab])
 
   const handleLayout = (e: LayoutChangeEvent) => {
     const width = e.nativeEvent.layout.width
@@ -68,6 +64,7 @@ const HoliTabs = ({
           nativeID={`${id}-panel-${i}`}
           testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
           key={i}
+          accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >
           {tab.children}
         </View>
@@ -75,12 +72,16 @@ const HoliTabs = ({
     [tabs, testID, currentStep, id]
   )
 
+  const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setStep(Math.round(event.nativeEvent.contentOffset.x / Dimensions.get('window').width))
+  }
+
   return (
     <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
           {tabs.map((tab, index) => {
-            const isActive = activeTab === index
+            const isActive = currentStep === index
             return (
               <HoliTabButton
                 label={tab.title}
@@ -116,10 +117,10 @@ const HoliTabs = ({
           currentStep={currentStep}
           width={viewWidth}
           steps={renderedTabs}
-          scrollEnabled={scrollEnabled}
-          onScroll={onScroll}
           onLayout={handleLayout}
           backgroundColor={backgroundColor}
+          onMomentumScrollEnd={onMomentumScrollEnd}
+          scrollEnabled
         />
       ) : (
         renderedTabs

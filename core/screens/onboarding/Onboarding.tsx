@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
+import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
@@ -18,34 +19,32 @@ export enum RegistrationStep {
   'COMMUNITY_GUIDELINES',
   'PRIVACY_POLICY',
   'CREATE_ACCOUNT',
+  'EMAIL_VERIFICATION',
   'ACCOUNT_SETUP',
 }
 
 export interface OnboardingProps {
+  afterAccountCreated?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
-  // "onOnboardingStateChange" default argument is "finished" to dismiss onboarding
+const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
+  // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
   const { width: screenWidth } = useWindowDimensions()
 
   let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
 
-  if (onboardingState === 'accountSetup') {
+  if (onboardingState === 'emailVerification') {
+    initialStep = RegistrationStep.EMAIL_VERIFICATION
+  } else if (onboardingState === 'accountSetup') {
     initialStep = RegistrationStep.ACCOUNT_SETUP
   } else if (toRegistration) {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
   }
 
-  const { currentStep, goNext, goBack, setStep, stepperRef, scrollEnabled, onScroll } = useStepper(
-    screenWidth,
-    initialStep
-  )
-
-  // we can get initialStep asynchronously, so, react on it and set step
-  useEffect(() => setStep(initialStep), [initialStep, setStep])
+  const { currentStep, goNext, goBack, stepperRef } = useStepper(screenWidth, initialStep)
 
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
@@ -70,7 +69,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
     []
   )
 
-  const goToNextStep = useCallback(() => {
+  const goToNextStep = useCallback(async () => {
     switch (currentStep) {
       case RegistrationStep.PRE_REGISTRATION_LOGIN:
         goNext()
@@ -82,13 +81,18 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
         privacyPolicy && goNext()
         break
       case RegistrationStep.CREATE_ACCOUNT:
-        onOnboardingStateChange('accountSetup')
+        goNext()
+        await onOnboardingStateChange('emailVerification')
+        afterAccountCreated?.()
+        break
+      case RegistrationStep.EMAIL_VERIFICATION:
+        await onOnboardingStateChange('accountSetup')
         goNext()
         break
       default:
         return
     }
-  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
+  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
 
   return (
     <View style={[styles.container, style]}>
@@ -101,7 +105,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
           <LoginRegistration
             onRegistration={goNext}
             onDismiss={onOnboardingStateChange}
-            key="pre-login-registration"
+            key={RegistrationStep.PRE_REGISTRATION_LOGIN}
           />,
           // Community Guidelines
           <CommunityGuidelines
@@ -109,7 +113,7 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
             onBackPress={goBack}
             agreementValue={communityGuidelines}
             onAgreementChange={onCommunityGuidelinesChange}
-            key="community-guidelines"
+            key={RegistrationStep.COMMUNITY_GUIDELINES}
           />,
           // Privacy Policy step
           <DataConsent
@@ -117,15 +121,19 @@ const Onboarding: React.VFC<OnboardingProps> = ({ style }) => {
             onBackPress={goBack}
             agreementValue={privacyPolicy}
             onAgreementChange={onprivacyPolicyChange}
-            key="privacy-policy"
+            key={RegistrationStep.PRIVACY_POLICY}
           />,
           // Create Account step
-          <CreateAccount onRegister={goToNextStep} key="registration" />,
+          <CreateAccount onRegister={goToNextStep} key={RegistrationStep.CREATE_ACCOUNT} />,
+          // Email Verification step
+          <EmailVerification
+            onDismiss={onOnboardingStateChange}
+            onSuccess={goToNextStep}
+            key={RegistrationStep.EMAIL_VERIFICATION}
+          />,
           // Account Setup
           <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
-        scrollEnabled={scrollEnabled}
-        onScroll={onScroll}
         lazy
       />
     </View>

@@ -20,11 +20,9 @@ import VolunteeringFilterForm from '@holi-apps/volunteering/components/Volunteer
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-type VolunteeringAppHomeProps = Record<string, never>
-
 const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 
-const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
+const VolunteeringAppHome = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const statusBarHeight = Constants.statusBarHeight
@@ -74,7 +72,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
           showFilterModal && setShowFilterModal(false)
           setShowFilterModal(true)
         }}
-        testID="btn-to-volunteering-filter"
+        testID="btn-to-volunteering-filter-modal"
       >
         <HoliIcon icon="filter-3" size={24} />
         {isFiltering && <View style={styles.dot} />}
@@ -104,7 +102,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       <HoliModal
         show={showFilterModal}
         onDismiss={closeModal}
-        testID="volunteering-filter"
+        testID="volunteering-filter-modal"
         label={t('volunteering:filter.heading')}
         autoHeight={false}
         relativeHeight={1}
