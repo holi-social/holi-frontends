@@ -1,18 +1,21 @@
+import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 
 import Login from '@holi/chat/src/Login'
+import useCurrentUrl from '@holi/core/navigation/hooks/useCurrentUrl'
 
 const isWeb = Platform.OS === 'web'
-const HS_URL = isWeb ? process.env.NEXT_PUBLIC_MX_HS_URL ?? '' : ''
-const IS_URL = isWeb ? process.env.NEXT_PUBLIC_MX_IS_URL ?? '' : ''
+const HOMESERVER_URL = isWeb ? process.env.NEXT_PUBLIC_MX_HS_URL ?? '' : Constants.manifest?.extra?.chat.homeserverUrl
 
 export interface UseMXLogin {
   redirectURL: string | null
 }
 
-const mxLogin = new Login(HS_URL, IS_URL)
-
 const useMxLogin = (): UseMXLogin => {
+  const { currentUrl } = useCurrentUrl()
+  const callbackUrl = new URL(currentUrl).origin + '/chat'
+  const mxLogin = new Login(HOMESERVER_URL, callbackUrl)
+
   const redirectURL = mxLogin.getRedirectURL()
   mxLogin.clearTemporaryClient()
 

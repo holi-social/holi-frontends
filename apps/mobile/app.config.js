@@ -87,6 +87,9 @@ export default {
       e2e: {
         userId: process.env.E2E_USER_ID || '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
       },
+      chat: {
+        homeserverUrl: process.env.CHAT_HOMESERVER_URL || 'https://local.chat.holi.social',
+      },
     },
   },
 }
