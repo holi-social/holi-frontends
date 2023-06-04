@@ -106,16 +106,16 @@ For running the web e2e tests locally, you need to have Docker installed.
 
 ### Running
 
-Best way to run a dev environment is to checkout [holi-meta](https://gitlab.com/holisticfoundation/holi-meta) and use
+Best way to run a dev environment is to checkout [holi-meta](https://gitlab.holi.team/app/holi-meta) and use
 it to quickly start a complete environment.
 
 Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn web:dev` for web. These will connect
 to Staging APIs by default. You can let them connect to other deployments of
-[holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) by providing the environment variable
-HOLI_API_URL (see [holi-meta](https://gitlab.com/holisticfoundation/holi-meta)).
+[holi-unified-api](https://gitlab.holi.team/app/holi-unified-api/) by providing the environment variable
+HOLI_API_URL (see [holi-meta](https://gitlab.holi.team/app/holi-meta)).
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants. After starting the mobile
-dev environment (e.g. via [holi-meta](https://gitlab.com/holisticfoundation/holi-meta)), you can start the emulators
+dev environment (e.g. via [holi-meta](https://gitlab.holi.team/app/holi-meta)), you can start the emulators
 with keyboard shortcuts and/or scan the QR code from the console log with the Expo Go App for testing/debugging on your
 phone.
 
