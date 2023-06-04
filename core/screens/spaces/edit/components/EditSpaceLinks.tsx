@@ -62,16 +62,19 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
         {t('spaces.input.socialLinks.manage.title')}
       </HoliText>
       <HoliText style={styles.subTitle}>{t('spaces.input.socialLinks.manage.subtitle')}</HoliText>
-      <HoliButton
-        label={t('spaces.input.socialLinks.add.label')}
-        type="secondary"
-        style={styles.button}
-        onPress={showCreate}
-      >
-        {t('spaces.input.socialLinks.add.label')}
-      </HoliButton>
+      <View style={styles.buttonContainer}>
+        <HoliButton
+          label={t('spaces.input.socialLinks.add.label')}
+          type="secondary"
+          style={styles.button}
+          onPress={showCreate}
+          inline
+        >
+          <HoliText>{t('spaces.input.socialLinks.add.label')}</HoliText>
+        </HoliButton>
+      </View>
 
-      <View>
+      <View style={styles.wrapper}>
         {space.links?.map((link) => (
           <SpaceLinkInput key={link.id} link={link} onDelete={onDelete} onEdit={onEdit} />
         ))}
@@ -111,9 +114,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background30,
     paddingHorizontal: 16,
   },
+  wrapper: {
+    paddingBottom: 100,
+  },
+  buttonContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   button: {
-    width: 'max-content',
-    marginHorizontal: 'auto',
     marginBottom: 32,
   },
 })

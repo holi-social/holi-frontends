@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ScrollView } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isValidUrl } from '@holi/core/helpers'
@@ -83,23 +84,25 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={saveButtonDisabled || loading}
-      scrollable={false}
-      loading={loading}
-    >
-      <SpaceLinksForm
-        title={t('spaces.input.socialLinks.title')}
-        onChangeUrl={setUrl}
-        onChangeName={setName}
-        url={url}
-        name={name}
-        validationErrorTextUrl={validationErrorTextUrl}
-        validationErrorTextName={validationErrorTextName}
-      />
-    </EditSpaceModal>
+    <ScrollView>
+      <EditSpaceModal
+        onDismiss={onDismiss}
+        onSave={onSave}
+        saveButtonDisabled={saveButtonDisabled || loading}
+        scrollable={false}
+        loading={loading}
+      >
+        <SpaceLinksForm
+          title={t('spaces.input.socialLinks.title')}
+          onChangeUrl={setUrl}
+          onChangeName={setName}
+          url={url}
+          name={name}
+          validationErrorTextUrl={validationErrorTextUrl}
+          validationErrorTextName={validationErrorTextName}
+        />
+      </EditSpaceModal>
+    </ScrollView>
   )
 }
 
