@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceLinkInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkInput'
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   wrapper: {
-    paddingBottom: 100,
+    paddingBottom: Platform.OS === 'web' ? 0 : 100,
   },
   buttonContainer: {
     display: 'flex',
