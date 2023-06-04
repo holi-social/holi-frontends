@@ -1,6 +1,8 @@
 import type { MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
 
+import { logError } from '@holi/core/errors/helpers'
+
 export enum SSOAction {
   LOGIN = 'login',
   REGISTER = 'register',
@@ -23,10 +25,16 @@ export default class Login {
 
   public constructor(private readonly homeserverUrl: string, private readonly callbackUrl: string) {}
 
-  public getRedirectURL(): string | null {
-    const client = this.#createTemporaryClient()
+  public getRedirectURL(action: SSOAction): string | null {
+    try {
+      const client = this.#createTemporaryClient()
 
-    return client.getSsoLoginUrl(this.callbackUrl, 'sso', this.idp_id, SSOAction.LOGIN)
+      return client.getSsoLoginUrl(this.callbackUrl, 'sso', this.idp_id, action)
+    } catch (err) {
+      logError(err)
+
+      return null
+    }
   }
 
   public clearTemporaryClient(): void {
