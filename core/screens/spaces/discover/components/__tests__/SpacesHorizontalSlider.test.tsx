@@ -1,21 +1,14 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
-import { Text } from 'react-native'
 
+import { spacesData } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 
 describe('HoliSlider', () => {
   it('renders correctly', () => {
-    const { getByText } = render(
-      <SpacesHorizontalSlider>
-        <Text>Card 1</Text>
-        <Text>Card 2</Text>
-        <Text>Card 3</Text>
-      </SpacesHorizontalSlider>
-    )
+    const { getByText } = render(<SpacesHorizontalSlider slideGap={8} spaces={spacesData} />)
 
     expect(getByText('Card 1')).toBeDefined()
     expect(getByText('Card 2')).toBeDefined()
-    expect(getByText('Card 3')).toBeDefined()
   })
 })
