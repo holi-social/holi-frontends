@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type { NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
 
 import { delayAnimation } from '@holi/ui/helper'
@@ -126,7 +126,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         contentContainerStyle={styles.scrollViewContainer}
         showsHorizontalScrollIndicator={false}
         dataSet={{ stepperWrapper: true }}
-        scrollEnabled={scrollEnabled} // Necessary to be `true` on Safari for scroll animations
+        scrollEnabled={Platform.OS == 'web' || scrollEnabled} // Necessary to be `true` on Safari for scroll animations
         testID="stepper-scrollview"
         bounces={false}
         scrollEventThrottle={16}
@@ -157,6 +157,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     minHeight: '100%',
+    ...Platform.select({
+      web: {
+        // Setting scrollEnabled in the ScrollView makes touch-action: none on web mobile, and you can't scroll vertically.
+        // Hence the overflowX below.
+        overflowX: 'hidden',
+      },
+    }),
   },
   scrollViewContainer: {
     flexGrow: 1,
