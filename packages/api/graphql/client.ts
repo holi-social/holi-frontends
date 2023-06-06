@@ -1,17 +1,15 @@
-import type { NormalizedCacheObject, ServerError } from '@apollo/client'
+import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
 import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
 import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
+import errorLink from './errorLink'
 import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
@@ -24,26 +22,6 @@ export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedEr
 
 // There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
 const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  // Do not log "not found" or "bad user input" errors
-  if (graphQLErrors && isErrorOfType({ graphQLErrors }, ['NOT_FOUND', 'BAD_USER_INPUT'])) {
-    return
-  }
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
-      logError(new HoliError(errorMessage), '[GraphQL Error]')
-    })
-  }
-  if (networkError) {
-    if ((networkError as ServerError)?.statusCode === 401) {
-      setUnauthorizedErrorStatus(true)
-    } else {
-      logError(networkError, '[Network error]')
-    }
-  }
-})
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
