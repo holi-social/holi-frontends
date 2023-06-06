@@ -68,6 +68,12 @@ export default {
       ],
     },
     extra: {
+      chat: {
+        homeserverUrlKey: process.env.MX_HS_KEY || 'mx_sso_hs_url',
+        homeserverName: process.env.MX_HS_NAME || 'local.chat.holi.social/',
+        homeserverUrl: process.env.MX_HS_URL || 'https://local.chat.holi.social/',
+        identityServerUrl: process.env.MX_IS_URL || 'https://vector.im',
+      },
       ory: {
         url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
       },
@@ -86,9 +92,6 @@ export default {
       },
       e2e: {
         userId: process.env.E2E_USER_ID || '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
-      },
-      chat: {
-        homeserverUrl: process.env.CHAT_HOMESERVER_URL || 'https://local.chat.holi.social',
       },
     },
   },

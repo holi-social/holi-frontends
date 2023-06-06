@@ -32,5 +32,7 @@ export ORY_ADMIN_ACCESS_TOKEN=
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
 
 # Matrix Chat configuration
-export NEXT_PUBLIC_MX_HS_URL="https://local.chat.holi.social"
-export NEXT_PUBLIC_MX_IS_URL="https://vector.im"
+export MX_HS_URL=https://local.chat.holi.social
+export MX_HS_NAME=local.chat.holi.social
+export MX_IS_URL=https://vector.im
+export MX_HS_KEY=mx_sso_hs_url
