@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useMxLogin from '@holi/chat/src/useMxLogin'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -18,8 +17,7 @@ const FooterTabBar = () => {
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { displayError } = useErrorHandling()
-  const { redirectURL } = useMxLogin()
+  const { handleSSORedirect } = useMxLogin()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -28,12 +26,10 @@ const FooterTabBar = () => {
     pathname.startsWith(path)
   )
 
-  const handleChatNavigation = () => {
-    // TODO: verify we already have the token in storage
-
-    if (redirectURL === null) displayError('The holi chat server is down')
-
-    navigate(redirectURL ?? '/chat')
+  const handleChatNavigation = async () => {
+    const canRedirect = await handleSSORedirect()
+    if (canRedirect) return
+    navigate('/chat')
   }
 
   return (

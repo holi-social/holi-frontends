@@ -39,9 +39,10 @@ const ChatStackNavigator = ({ navigation }: Props) => {
   useEffect(() => {
     // Handle Chat Login/Registration
     // TODO: verify if we already count with a token
-    const unsubscribe = navigation.addListener('tabPress', (e) => {
+    // TODO: make sure we don't miss a tab press
+    const unsubscribe = navigation.addListener('tabPress', async (e) => {
       e.preventDefault()
-      handleSSORedirect()
+      await handleSSORedirect()
     })
 
     return () => unsubscribe()

@@ -7,7 +7,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
 
 export interface UseMXLogin {
-  handleSSORedirect: () => Promise<void>
+  handleSSORedirect: () => Promise<boolean>
   getMxLoginClient: (options?: IMatrixClientCreateOpts) => MatrixClient
   accessToken: string | null
   deviceName: string
@@ -28,10 +28,10 @@ const useMxLogin = (): UseMXLogin => {
   const handleSSORedirect = useCallback(async () => {
     if (redirectURL === null) {
       displayError('Unable to retrieve chat server redirect URL')
-      return
+      return false
     }
 
-    await openUrl(redirectURL)
+    return await openUrl(redirectURL)
   }, [displayError, openUrl, redirectURL])
 
   useEffect(() => {
