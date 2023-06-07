@@ -6,8 +6,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const SPACES_PAGE_SIZE = 10
 
@@ -79,29 +81,41 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
         )}
       </View>
       <SpacesHorizontalSlider
-        style={styles.horizontalSlider}
         testID="spaces-group-slider"
         slideGap={8}
         seeMoreButton={
           hasMore ? (
             <SpacesSeeMore
+              style={styles.seeMoreCard}
               imageHeight={imageHeight}
               onPress={() => navigate(`/spaces/filter?${seeMoreQueryParams}`)}
               testID={`${testID}-see-more`}
             />
           ) : undefined
         }
-        spaces={spacesData}
-      />
+      >
+        {spacesData.map((space) => (
+          <HoliBlockItem
+            key={space.id}
+            label={space.title}
+            title={space.title}
+            subtitle={space.location}
+            description={space.description}
+            imageSrc={space.cover}
+            users={space.members.data.map((membership) => membership.user)}
+            href={`/spaces/${space.name}`}
+            size="large"
+            testID="space-link"
+            totalUserCount={space.members.totalResults}
+          />
+        ))}
+      </SpacesHorizontalSlider>
     </View>
   )
 }
 export default memo(SpacesGroupSlider)
 
 const styles = StyleSheet.create({
-  horizontalSlider: {
-    paddingVertical: 13,
-  },
   sliderContainer: {
     marginBottom: 24,
   },
@@ -111,5 +125,16 @@ const styles = StyleSheet.create({
   },
   pill: {
     marginRight: 6,
+  },
+  seeMoreCard: {
+    paddingVertical: 8,
+  },
+  spaceCard: {
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    marginRight: 8,
+  },
+  backgroundWhite: {
+    backgroundColor: colors.background10,
   },
 })

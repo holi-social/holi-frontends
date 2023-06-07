@@ -5,7 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -76,14 +76,17 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
         )}
 
         {/* Default spaces suggestions */}
-        {defaultSpacesGroups.map((group, index) => (
-          <SpacesGroupSlider
-            key={index}
-            group={group}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-others"
-          />
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          defaultSpacesGroups.map((group, index) => (
+            <SpacesGroupSlider
+              key={index}
+              group={group}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-others"
+            />
+          ))
+        }
       </View>
     </View>
   )

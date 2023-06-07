@@ -23,7 +23,7 @@ const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({
 }: SpacesSeeMoreProps) => {
   const { t } = useTranslation()
   const defaultLabel = t('spaces.seeMore')
-  const size = Platform.OS === 'web' ? imageHeight : imageHeight + 5
+  const size = Platform.OS === 'web' ? imageHeight : imageHeight + 4
 
   return (
     <HoliButton label={label || defaultLabel} style={style} onPress={onPress} transparent inline testID={testID}>

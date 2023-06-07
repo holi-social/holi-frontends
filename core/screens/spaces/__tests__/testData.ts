@@ -99,14 +99,10 @@ export const links: SpaceLink[] = [
   {
     url: 'www.facebook.com',
     type: SpaceLinkType.FACEBOOK,
-    id: '1',
-    name: 'Facebook',
   },
   {
     url: 'https://www.twitter.com',
     type: SpaceLinkType.TWITTER,
-    id: '2',
-    name: 'Twitter',
   },
 ]
 
@@ -177,19 +173,6 @@ export const skill: Skill = {
   title: 'Skill title',
   slug: 'skill-title',
 }
-
-export const spacesData = [
-  {
-    ...space,
-    id: '111',
-    title: 'Card 1',
-  },
-  {
-    ...space,
-    id: '222',
-    title: 'Card 2',
-  },
-]
 
 export const mySpaces: SpaceSection[] = [
   {

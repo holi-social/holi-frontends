@@ -1,11 +1,7 @@
 import React, { memo } from 'react'
-import { FlatList, Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
-
-import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
-import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 type SpacesHorizontalSliderProps = {
-  spaces: Space[]
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactElement
   testID?: string
@@ -13,41 +9,28 @@ type SpacesHorizontalSliderProps = {
 }
 
 const SpacesHorizontalSlider = ({
-  spaces,
   style,
   testID = 'holi-slider',
   seeMoreButton,
+  children,
   slideGap,
-}: SpacesHorizontalSliderProps) => {
+}: React.PropsWithChildren<SpacesHorizontalSliderProps>) => {
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
   return (
-    <FlatList
-      horizontal
-      style={style}
-      testID={testID}
-      data={spaces}
-      ListFooterComponent={seeMoreButton}
-      ListFooterComponentStyle={styles.seeMoreCard}
-      renderItem={({ item }) => (
-        <View style={[{ marginRight: slideGap }, styles.cardContainer]}>
-          <HoliBlockItem
-            key={item.id}
-            label={item.title}
-            title={item.title}
-            subtitle={item.location}
-            description={item.description}
-            imageSrc={item.cover}
-            users={item.members.data.map((membership: SpaceMember) => membership.user)}
-            href={`/spaces/${item.name}`}
-            size="large"
-            testID="space-link"
-            totalUserCount={item.members.totalResults}
-          />
-        </View>
+    <View style={style} testID={testID}>
+      {children && (
+        <ScrollView horizontal contentContainerStyle={styles.scrollViewContainer} nestedScrollEnabled={true}>
+          {React.Children.map(children, (space, index) => (
+            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
+              {space}
+            </View>
+          ))}
+          {seeMoreButton && <View style={{ marginRight: slideGap }}>{seeMoreButton}</View>}
+        </ScrollView>
       )}
-    />
+    </View>
   )
 }
 export default memo(SpacesHorizontalSlider)
@@ -57,7 +40,10 @@ const getStyles = (screenWidth: number) =>
     cardContainer: {
       width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
     },
-    seeMoreCard: {
-      paddingVertical: 8,
+    scrollViewContainer: {
+      paddingVertical: 13,
+      marginHorizontal: -20,
+      paddingLeft: 20,
+      paddingRight: 0,
     },
   })
