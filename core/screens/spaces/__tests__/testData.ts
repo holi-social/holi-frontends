@@ -178,19 +178,6 @@ export const skill: Skill = {
   slug: 'skill-title',
 }
 
-export const spacesData = [
-  {
-    ...space,
-    id: '111',
-    title: 'Card 1',
-  },
-  {
-    ...space,
-    id: '222',
-    title: 'Card 2',
-  },
-]
-
 export const mySpaces: SpaceSection[] = [
   {
     section: 'Member',
