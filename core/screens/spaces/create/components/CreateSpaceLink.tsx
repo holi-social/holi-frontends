@@ -34,6 +34,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       onDismiss()
     },
     onError: (e) => {
+      setValidationErrorTextUrl(t('global.validation.url.invalid'))
       logError(e, '[Spaces] Social link could not be added')
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
