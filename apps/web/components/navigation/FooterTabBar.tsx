@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import useMxLogin from '@holi/chat/src/useMxLogin'
+import useMatrixLogin from '@holi/chat/src/useMatrixLogin'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -17,7 +17,7 @@ const FooterTabBar = () => {
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { handleSSORedirect } = useMxLogin()
+  const { handleSSORedirect, getLoginStatus } = useMatrixLogin()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -27,8 +27,12 @@ const FooterTabBar = () => {
   )
 
   const handleChatNavigation = async () => {
-    const canRedirect = await handleSSORedirect()
-    if (canRedirect) return
+    const isLoggedin = await getLoginStatus()
+    if (!isLoggedin) {
+      const canRedirect = await handleSSORedirect()
+      if (canRedirect) return
+    }
+
     navigate('/chat')
   }
 

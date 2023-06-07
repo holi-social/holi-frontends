@@ -31,7 +31,8 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     const unsubscribe = navigation.addListener('focus', () => {
       setOnboardingKey(Date.now().toString())
     })
-    return unsubscribe
+
+    return () => unsubscribe()
   }, [navigation, isLoggedIn])
 
   if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />

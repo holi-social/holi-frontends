@@ -10,9 +10,8 @@ interface UseLinking {
   parsedUrl: ParsedURL
 }
 
-const createPartialUrl = (currentUrl: string) => {
-  const origin = new URL(currentUrl).origin
-  return (path: string) => origin + path
+const createPartialUrl = (url: URL) => {
+  return (path: string) => url.origin + path
 }
 
 const createQueryParams = (params: URLSearchParams): QueryParams | null => {
@@ -30,8 +29,8 @@ const createQueryParams = (params: URLSearchParams): QueryParams | null => {
 const useLinking = (): UseLinking => {
   const { navigate } = useRouting()
   const currentUrl = window.location.href
-  const createUrl = createPartialUrl(currentUrl)
   const url = new URL(currentUrl)
+  const createUrl = createPartialUrl(url)
 
   const parsedUrl: ParsedURL = {
     scheme: null,

@@ -10,6 +10,7 @@ export default {
   expo: {
     name: 'holi',
     slug: 'projectholi',
+    jsEngine: 'jsc',
     owner: 'holistic-foundation',
     version: versions.version,
     orientation: 'portrait',
@@ -69,6 +70,7 @@ export default {
     },
     extra: {
       chat: {
+        homeserverToken: process.env.MX_TOKEN_KEY || 'mx_sso_token',
         homeserverUrlKey: process.env.MX_HS_KEY || 'mx_sso_hs_url',
         homeserverName: process.env.MX_HS_NAME || 'local.chat.holi.social/',
         homeserverUrl: process.env.MX_HS_URL || 'https://local.chat.holi.social/',

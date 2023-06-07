@@ -4,7 +4,7 @@ import type { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs'
 import type { NavigationProp, NavigationState } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import useMxLogin from '@holi/chat/src/useMxLogin'
+import useMatrixLogin from '@holi/chat/src/useMatrixLogin'
 import ChatHome from '@holi/core/screens/ChatHome'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -34,7 +34,7 @@ interface Props {
 }
 
 const ChatStackNavigator = ({ navigation }: Props) => {
-  const { handleSSORedirect } = useMxLogin()
+  const { handleSSORedirect, getLoginStatus } = useMatrixLogin()
 
   useEffect(() => {
     // Handle Chat Login/Registration
@@ -42,11 +42,17 @@ const ChatStackNavigator = ({ navigation }: Props) => {
     // TODO: make sure we don't miss a tab press
     const unsubscribe = navigation.addListener('tabPress', async (e) => {
       e.preventDefault()
-      await handleSSORedirect()
+      const isLoggedin = await getLoginStatus()
+      if (!isLoggedin) {
+        await handleSSORedirect()
+        return
+      }
+
+      navigation.navigate('ChatHome')
     })
 
     return () => unsubscribe()
-  }, [navigation, handleSSORedirect])
+  }, [getLoginStatus, handleSSORedirect, navigation])
 
   return (
     <ChatStack.Navigator
