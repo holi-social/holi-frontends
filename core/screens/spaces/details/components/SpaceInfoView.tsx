@@ -58,7 +58,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
       )}
       {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
         <SpaceSection title={t('spaces.spaceDetails.contact')}>
-          <View>
+          <View style={styles.contactWrapper}>
             {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
             {!!space.contactEmail && (
               <View style={styles.contactContainer}>
@@ -111,6 +111,9 @@ const styles = StyleSheet.create({
   },
   contactIcon: {
     marginRight: 10,
+  },
+  contactWrapper: {
+    flex: 1,
   },
   contactContainer: {
     marginTop: 16,
