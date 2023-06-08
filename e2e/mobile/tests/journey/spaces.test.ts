@@ -215,6 +215,7 @@ describe('@Spaces', () => {
 
     // select commitment level
     await tapOnElementWithTestId('btn-task-regularity')
+    await waitForElementWithTestId('item-task-regularity')
     await tapOnElementWithTestId('item-task-regularity', 0)
     // check if it closed
     await waitForElementWithTestId('btn-task-regularity')

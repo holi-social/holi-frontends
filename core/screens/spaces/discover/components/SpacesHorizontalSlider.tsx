@@ -21,7 +21,7 @@ const SpacesHorizontalSlider = ({
   return (
     <View style={style} testID={testID}>
       {children && (
-        <ScrollView horizontal contentContainerStyle={styles.scrollViewContainer} nestedScrollEnabled={true}>
+        <ScrollView horizontal nestedScrollEnabled contentContainerStyle={styles.scrollViewContainer}>
           {React.Children.map(children, (space, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {space}

@@ -67,7 +67,7 @@ export const Action = ({
   const handleOnPress = (e: SyntheticEvent | GestureResponderEvent) => {
     if (showConfirmation) setShowConfirmation(showConfirmation)
     handleAction?.(e)
-    hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
+    !showConfirmation && hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
   }
 
   const contextValue = {

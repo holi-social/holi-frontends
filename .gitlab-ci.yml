@@ -15,9 +15,10 @@ default:
   tags:
     - holi-small
 
+  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
 lint_compile_test:
   stage: build
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   script:
     - yarn install
     - yarn lint

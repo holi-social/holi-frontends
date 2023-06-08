@@ -25,6 +25,7 @@ interface Props {
   tabBarStyle?: StyleProp<ViewStyle>
   stepper?: boolean
   backgroundColor?: string
+  scrollEnabled?: boolean
 }
 
 const HoliTabs = ({
@@ -38,6 +39,7 @@ const HoliTabs = ({
   backgroundColor,
   testID = 'tabs-module',
   stepper = true,
+  scrollEnabled = true,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
   const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
@@ -120,7 +122,7 @@ const HoliTabs = ({
           onLayout={handleLayout}
           backgroundColor={backgroundColor}
           onMomentumScrollEnd={onMomentumScrollEnd}
-          scrollEnabled
+          scrollEnabled={scrollEnabled}
         />
       ) : (
         renderedTabs
