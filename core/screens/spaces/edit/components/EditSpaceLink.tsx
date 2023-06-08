@@ -92,7 +92,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
       <SafeAreaView style={styles.safeArea}>
         <HoliKeyboardSaveView>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <EditSpaceModal
               onDismiss={onDismiss}
               onSave={onSave}
