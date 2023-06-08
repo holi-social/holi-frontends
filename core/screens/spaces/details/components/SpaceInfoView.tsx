@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
   },
   contactWrapper: {
     flex: 1,
+    gap: 16,
   },
   contactContainer: {
-    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },
