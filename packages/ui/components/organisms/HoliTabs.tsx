@@ -38,7 +38,6 @@ const HoliTabs = ({
   onChangeTab,
   backgroundColor,
   testID = 'tabs-module',
-  stepper = true,
   scrollEnabled = true,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
@@ -113,20 +112,16 @@ const HoliTabs = ({
         </View>
       </View>
 
-      {stepper ? (
-        <HoliStepper
-          ref={stepperRef}
-          currentStep={currentStep}
-          width={viewWidth}
-          steps={renderedTabs}
-          onLayout={handleLayout}
-          backgroundColor={backgroundColor}
-          onMomentumScrollEnd={onMomentumScrollEnd}
-          scrollEnabled={scrollEnabled}
-        />
-      ) : (
-        renderedTabs
-      )}
+      <HoliStepper
+        ref={stepperRef}
+        currentStep={currentStep}
+        width={viewWidth}
+        steps={renderedTabs}
+        onLayout={handleLayout}
+        backgroundColor={backgroundColor}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        scrollEnabled={scrollEnabled}
+      />
     </View>
   )
 }
