@@ -4,17 +4,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import AddDigitalTool, { AddDigitalToolParams } from '@holi/core/screens/spaces/AddDigitalTool'
-import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
-import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/CreateTask'
-import CreateUpdate from '@holi/core/screens/spaces/CreateUpdate'
-import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/EditDigitalTool'
-import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
-import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/EditTask'
-import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/LinkHub'
-import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
-import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/TaskDetails'
+import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
+import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
+import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
+import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
+import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
+import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
+import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
+import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
+import CreateUpdate from '@holi/core/screens/spaces/updates/CreateUpdate'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -23,7 +23,7 @@ export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
   [RouteName.CreateSpace]: undefined
   [RouteName.EditSpace]: EditSpaceParams
-  [RouteName.AddDigitalTool]: AddDigitalToolParams
+  [RouteName.CreateDigitalTool]: CreateDigitalToolParams
   [RouteName.CreateTask]: CreateTaskParams
   [RouteName.EditTask]: EditTaskParams
   [RouteName.TaskDetails]: TaskDetailsParams
@@ -36,7 +36,7 @@ export type SpacesScreens = {
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
 
-const SpacesNavigator: React.VFC = () => {
+const SpacesNavigator = () => {
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}
@@ -53,7 +53,7 @@ const SpacesNavigator: React.VFC = () => {
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
       <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
-      <SpacesStack.Screen name={RouteName.AddDigitalTool} component={AddDigitalTool} />
+      <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />

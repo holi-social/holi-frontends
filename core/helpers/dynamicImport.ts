@@ -4,6 +4,7 @@ import type { ComponentType, LazyExoticComponent } from 'react'
 import { lazy } from 'react'
 import { Platform } from 'react-native'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 
 type HoliLazyComponent<T> = LazyExoticComponent<ComponentType<T>> | ComponentType<T>
@@ -22,7 +23,7 @@ export const dynamicImport = <T>(importHandler: NextJSDynamicImport<T> | ReactLa
   if (isNextJSDynamicImport(importHandler)) return dynamic<T>(importHandler)
   if (isReactLazyImport(importHandler)) return lazy(importHandler)
 
-  const error = new Error('Holi component dynamic import could not load your component')
+  const error = new HoliError('Holi component dynamic import could not load your component')
   logError(error)
 
   throw error

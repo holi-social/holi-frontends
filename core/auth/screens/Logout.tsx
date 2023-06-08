@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useLogout } from '@holi/core/helpers'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const Logout: React.VFC = () => {
+const Logout = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { logout } = useLogout()

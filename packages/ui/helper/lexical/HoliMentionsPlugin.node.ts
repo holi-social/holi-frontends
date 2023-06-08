@@ -10,6 +10,8 @@ import {
   TextNode,
 } from 'lexical'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logError } from '@holi/core/errors/helpers'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SerializedMentionNode = Spread<
@@ -132,10 +134,9 @@ export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOut
       node,
     }
   } else {
-    console.error(
-      '[HoliMentionsPluginNode] $convertDomInJsonElement() Couldnt convert element. Data missing.',
-      textContent,
-      userId
+    logError(
+      new HoliError("Couldn't convert element. Data missing."),
+      `[HoliMentionsPluginNode] $convertDomInJsonElement: textContent: ${textContent}, userId: ${userId}`
     )
   }
 

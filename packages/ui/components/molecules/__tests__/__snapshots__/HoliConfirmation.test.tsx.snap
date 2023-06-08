@@ -3,8 +3,10 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={false}
 />
@@ -13,8 +15,10 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={true}
 >
@@ -67,6 +71,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "top": 0,
         }
       }
+      testID="holi-confirmation-backdrop"
     />
     <View
       style={
@@ -123,21 +128,19 @@ exports[`renders correctly renders correctly when open 1`] = `
             "marginTop": 8,
           }
         }
+        testID="holi-confirmation-description"
       >
         Test Description
       </Text>
       <View
         style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "gap": 14,
-              "justifyContent": "space-between",
-              "marginTop": 24,
-            },
-            false,
-          ]
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": 14,
+            "justifyContent": "space-between",
+            "marginTop": 24,
+          }
         }
       >
         <View
@@ -193,12 +196,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
             ]
           }
+          testID="holi-confirmation-dismiss"
         >
           <View
             pointerEvents="none"
@@ -287,12 +290,12 @@ exports[`renders correctly renders correctly when open 1`] = `
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
             ]
           }
+          testID="holi-confirmation-confirm"
         >
           <View
             pointerEvents="none"
@@ -334,8 +337,10 @@ exports[`renders correctly renders correctly when open 1`] = `
 exports[`renders correctly renders correctly when open and confirmationButtonType is danger 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="holi-confirmation-dialog"
   transparent={true}
   visible={true}
 >
@@ -388,6 +393,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           "top": 0,
         }
       }
+      testID="holi-confirmation-backdrop"
     />
     <View
       style={
@@ -444,21 +450,19 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
             "marginTop": 8,
           }
         }
+        testID="holi-confirmation-description"
       >
         Test Description
       </Text>
       <View
         style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "gap": 14,
-              "justifyContent": "space-between",
-              "marginTop": 24,
-            },
-            false,
-          ]
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": 14,
+            "justifyContent": "space-between",
+            "marginTop": 24,
+          }
         }
       >
         <View
@@ -514,12 +518,12 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
             ]
           }
+          testID="holi-confirmation-dismiss"
         >
           <View
             pointerEvents="none"
@@ -605,12 +609,12 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               ],
               {
                 "flex": 1,
-                "margin": 7,
                 "minWidth": 120,
                 "paddingHorizontal": 14,
               },
             ]
           }
+          testID="holi-confirmation-confirm"
         >
           <View
             pointerEvents="none"

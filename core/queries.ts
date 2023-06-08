@@ -52,6 +52,7 @@ export const memberSpacesFragment = gql`
             avatarDefaultColor
           }
         }
+        totalResults
       }
     }
     totalResults
@@ -79,6 +80,14 @@ export const insightsByUserIdQuery = gql`
           title
         }
       }
+      totalResults
+    }
+  }
+`
+
+export const insightsByUserIdTotalResultsQuery = gql`
+  query InsightsByUserIdQuery($userId: UUID!) {
+    insightsByUserId(id: $userId) {
       totalResults
     }
   }

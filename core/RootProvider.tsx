@@ -1,18 +1,20 @@
 import { ApolloProvider } from '@apollo/client'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
+import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
-import UserContextProvider from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
+
+import UpdateAppModal from './components/UpdateAppModal'
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -40,13 +42,14 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
         <ErrorBoundary>
           <ApolloProvider client={client}>
             <ToastProvider>
-              <UserContextProvider>
-                <PortalProvider>
-                  <NavigationContextProvider>
+              <PortalProvider>
+                <NavigationContextProvider>
+                  <SessionExpiryProtection>
+                    {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
                     <LoginModalProvider>{children}</LoginModalProvider>
-                  </NavigationContextProvider>
-                </PortalProvider>
-              </UserContextProvider>
+                  </SessionExpiryProtection>
+                </NavigationContextProvider>
+              </PortalProvider>
             </ToastProvider>
           </ApolloProvider>
         </ErrorBoundary>

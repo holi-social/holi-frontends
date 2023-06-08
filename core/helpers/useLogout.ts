@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react'
+import { makeVar, useReactiveVar } from '@apollo/client'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import client from '@holi/api/graphql/client'
@@ -9,8 +10,16 @@ import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
+interface LogoutOptions {
+  message?: string
+  skipLogoutFlow?: boolean
+  redirectPath?: string
+}
+
+const isLoggingOutVar = makeVar(false)
+
 export const useLogout = () => {
-  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { openToast } = useToast()
@@ -18,8 +27,8 @@ export const useLogout = () => {
 
   return {
     logout: useCallback(
-      async ({ message, skipLogoutFlow = false }: { message?: string; skipLogoutFlow?: boolean } = {}) => {
-        setIsLoggingOut(true)
+      async ({ message, skipLogoutFlow = false, redirectPath = '/profile' }: LogoutOptions = {}) => {
+        isLoggingOutVar(true)
 
         getSessionFromStorage()
           .then((session) => {
@@ -31,18 +40,18 @@ export const useLogout = () => {
           .then(() => ensureOAuth2Logout())
           .then(() => setUserLoggedOut())
           .then(() => {
-            console.info('[Logout] logout successful')
-            navigate('/profile')
+            console.debug('[Logout] logout successful')
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+            navigate(redirectPath)
           })
           .catch((e) => {
-            console.warn('[Logout] logout failed, removing session from storage')
+            console.debug('[Logout] logout failed, removing session from storage')
             setUserLoggedOut() // will remove session info from storage
             throw e // will be sent to Sentry so we're aware of it
             // not displaying an user-facing error messages as with the removal from the storage logout should be done
           })
           .catch((error) => displayError(error, t('auth.logout.error')))
-          .finally(() => setIsLoggingOut(false))
+          .finally(() => isLoggingOutVar(false))
       },
       [navigate, openToast, t, displayError]
     ),

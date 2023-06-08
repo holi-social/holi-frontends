@@ -16,7 +16,7 @@ export type VolunteeringAppScreensList = {
 
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
 
-const VolunteeringAppNavigator: React.VFC = () => {
+const VolunteeringAppNavigator = () => {
   return (
     <VolunteeringAppStack.Navigator
       initialRouteName={RouteName.VolunteeringAppHome}

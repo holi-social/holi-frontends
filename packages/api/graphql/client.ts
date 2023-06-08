@@ -1,21 +1,26 @@
-import type { NormalizedCacheObject } from '@apollo/client'
+import type { NormalizedCacheObject, ServerError } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
-import { concat, mergeDeepWith } from 'ramda'
+import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, logError } from '@holi/core/errors/helpers'
 
-import { indexAwareOffsetLimitPagination } from './cachePolicies'
+import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
 import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const unauthorizedErrorStatusVar = makeVar<boolean>(false)
+export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
+export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
 // There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
 const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
@@ -28,11 +33,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
-      logError(new Error(errorMessage), '[GraphQL Error]')
+      logError(new HoliError(errorMessage), '[GraphQL Error]')
     })
   }
   if (networkError) {
-    logError(networkError, '[Network error]')
+    if ((networkError as ServerError)?.statusCode === 401) {
+      setUnauthorizedErrorStatus(true)
+    } else {
+      logError(networkError, '[Network error]')
+    }
   }
 })
 
@@ -42,32 +51,37 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-const createCache = () =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const spacesKeyArgsFunction = (args: Record<string, any> | null) => {
+  const { geolocation, topicId, topicSlug, skillIds, skillSlugs } = args || {}
+  return JSON.stringify({
+    topicId,
+    topicSlug,
+    skillIds,
+    skillSlugs,
+    geolocation: geolocation?.properties?.place_id,
+  })
+}
+
+export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
         fields: {
-          interests: {
-            // fixes warning "Cache data may be lost when replacing the `interests` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
-          skills: {
-            // fixes warning "Cache data may be lost when replacing the `skills` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
-          sdgs: {
-            // fixes warning "Cache data may be lost when replacing the `sdgs` field of a User object."
-            merge: (existing, incoming) => incoming,
-          },
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
         },
       },
       InsightPaged: {
         fields: {
-          data: {
-            merge: (existing, incoming) => (existing || []).concat(incoming),
-            read: (existing) => existing,
-          },
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      PostPaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
         },
       },
       AppDonations_ProjectsResponse: {
@@ -83,22 +97,30 @@ const createCache = () =>
       AppGoodNews_GoodNewsArticlesQueryResponse: {
         fields: {
           articles: {
-            merge: (existing, incoming) => (existing || []).concat(incoming),
+            merge: (existing = [], incoming = []) =>
+              pipe<unknown[][], unknown[], unknown[]>(concat, uniqBy(pick(['__ref'])))(existing, incoming),
             read: (existing) => existing,
           },
         },
       },
       Space: {
         fields: {
-          members: {
-            // fixes warning "Cache data may be lost when replacing the `members` field of a Space object."
-            merge: (existing, incoming) => incoming,
-          },
+          members: alwaysReplacePolicy,
+          tasks: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+          topics: alwaysReplacePolicy,
+          links: alwaysReplacePolicy,
+          collaborationTools: alwaysReplacePolicy,
         },
       },
       SpacePaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      SpaceMemberPaged: {
+        fields: {
+          data: nestedPaginationPolicy(['idOrName']),
         },
       },
       Query: {
@@ -118,10 +140,10 @@ const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: ['topicId', 'location', 'skillIds'],
+            keyArgs: spacesKeyArgsFunction,
           },
           discoverSpaces: {
-            keyArgs: ['topicIds', 'location', 'skillIds'],
+            keyArgs: spacesKeyArgsFunction,
           },
         },
       },

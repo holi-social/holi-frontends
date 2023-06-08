@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -19,6 +20,7 @@ export type HoliModalSelectOption = {
   description?: string
   icon?: string
   selected?: boolean
+  disabled?: boolean
 }
 
 export type HoliModalSelectProps = {
@@ -54,7 +56,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   const { show, hide, visible } = useModalState()
   const mixins = useStyleMixins()
   const isDense = variant === 'dense'
-  const styles = getStyles(isDense, description)
+  const styles = getStyles(isDense, !!description)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -73,22 +75,37 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         label={option.title}
         key={option.id}
         transparent
+        disabled={option.disabled}
         onPress={() => {
           onChange(option)
           hide()
         }}
         testID={`item-${testID}`}
       >
-        {!isDense && <HoliIcon icon={option.icon || 'global'} size={22} />}
+        {!isDense && (
+          <HoliIcon
+            icon={option.icon || 'global'}
+            size={22}
+            color={option?.disabled ? colors.foreground10 : colors.foreground30}
+          />
+        )}
         <View style={styles.optionTextContainer}>
-          <HoliText bold>{option.title}</HoliText>
-          {!isDense && option.description && <HoliText style={styles.optionDescription}>{option.description}</HoliText>}
+          <HoliText bold color={option?.disabled ? 'gray200' : 'black300'}>
+            {option.title}
+          </HoliText>
+          {!isDense && option.description && (
+            <HoliBox padding={[4, 0, 0, 0]}>
+              <HoliText color={option?.disabled ? 'gray200' : 'gray300'}>{option.description}</HoliText>
+            </HoliBox>
+          )}
         </View>
         <HoliCheckbox
           shape="round"
           checked={option.selected}
           autofocus={false}
+          disabled={option.disabled}
           testID={`${option.selected ? 'checked-' : ''}${testID}`}
+          accessibilityLabel={option.title}
         />
       </HoliButton>
     ),
@@ -165,6 +182,7 @@ const getStyles = (isDense: boolean, description: boolean) =>
       paddingHorizontal: 12,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: colors.background10,
       color: colors.foreground30,
       borderRadius: 4,
@@ -211,10 +229,6 @@ const getStyles = (isDense: boolean, description: boolean) =>
       marginTop: 2,
       paddingLeft: isDense ? 0 : 8,
       paddingRight: 8,
-    },
-    optionDescription: {
-      marginTop: 4,
-      color: colors.foreground20,
     },
     separator: {
       borderBottomWidth: 1,

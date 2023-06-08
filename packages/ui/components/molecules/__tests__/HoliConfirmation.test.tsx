@@ -54,7 +54,7 @@ describe('renders correctly', () => {
 })
 
 describe('calls onConfirm prop function correctly', () => {
-  it('calls onConfirm prop when clicked on confirmation button if dialog is open', () => {
+  it('calls onConfirm prop when clicked on confirmation button if dialog is open', async () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(
       <HoliConfirmation
@@ -68,7 +68,7 @@ describe('calls onConfirm prop function correctly', () => {
       />
     )
 
-    fireEvent.press(getByTestId('test-confirmation-confirm'))
+    await fireEvent.press(getByTestId('test-confirmation-confirm'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

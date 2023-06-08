@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -5,7 +6,11 @@ import { StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import { logError } from '@holi/core/errors/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -31,6 +36,19 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user.id },
+    }
+  )
+
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
+
+  if (errorInsights) {
+    logError(errorInsights, `[OwnProfileView.tsx] ${errorInsights.message}`)
+  }
+
   return (
     <>
       <View style={[mixins.container, styles.container]}>
@@ -46,7 +64,7 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
               <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
                 <HoliChipRow
                   editButtonLabel={t('profile.engagementLevel.edit')}
-                  editable={!user?.engagementLevel}
+                  editable
                   title={t('profile.engagementLevel')}
                   onPressEdit={() => toggleEditMode('engagementLevel')}
                 >
@@ -66,40 +84,44 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                   )}
                 </HoliChipRow>
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="interests">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'interests'}
-                  onPressEdit={() => toggleEditMode('interests')}
+                  keyInUserObject={UserChipTypes.INTERESTS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)}
                   numberOfLines={1}
                 />
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'sdgs'}
-                  onPressEdit={() => toggleEditMode('sdgs')}
+                  keyInUserObject={UserChipTypes.SDGS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)}
                   numberOfLines={1}
                 />
               </View>,
-              <View style={[mixins.container, styles.chipRowContainer]} key="skills">
+              <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
                 <UserChipRow
                   user={user}
-                  keyInUserObject={'skills'}
-                  onPressEdit={() => toggleEditMode('skills')}
+                  keyInUserObject={UserChipTypes.SKILLS}
+                  onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)}
                   numberOfLines={1}
                 />
               </View>,
             ],
           },
-          {
-            title: t('profile.tabs.insight'),
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
-              </Suspense>
-            ),
-          },
+          ...(hasInsights
+            ? [
+                {
+                  title: t('profile.tabs.insight'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
           {
             title: t('profile.tabs.spaces'),
             children: (

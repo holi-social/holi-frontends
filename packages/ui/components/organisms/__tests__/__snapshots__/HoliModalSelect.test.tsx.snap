@@ -78,6 +78,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -183,6 +184,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -307,8 +309,10 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
           style={
             [
               {
-                "alignItems": "center",
+                "alignSelf": "center",
                 "justifyContent": "flex-end",
+                "paddingBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -323,6 +327,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
@@ -371,7 +376,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -521,6 +526,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -602,22 +608,29 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       Public
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      Just collaborators can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        Just collaborators can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -631,7 +644,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       <View
                         accessibilityChecked={true}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -828,6 +841,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -909,22 +923,29 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       Members
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      This task is publicly visible. Anyone can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        This task is publicly visible. Anyone can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -938,7 +959,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -1090,6 +1111,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -1183,6 +1205,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1271,6 +1294,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -1364,6 +1388,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -1488,8 +1513,10 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
           style={
             [
               {
-                "alignItems": "center",
+                "alignSelf": "center",
                 "justifyContent": "flex-end",
+                "paddingBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -1504,6 +1531,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
@@ -1552,7 +1580,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -1702,6 +1730,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -1783,22 +1812,29 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       Public
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      Just collaborators can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        Just collaborators can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -1812,7 +1848,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -1948,6 +1984,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     align="xMidYMid"
                     bbHeight="22"
                     bbWidth="22"
+                    color="#262424"
                     focusable={false}
                     meetOrSlice={0}
                     minX={0}
@@ -2029,22 +2066,29 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       Members
                     </Text>
-                    <Text
-                      accessible={false}
-                      selectable={true}
+                    <View
                       style={
                         {
-                          "color": "#787777",
-                          "fontFamily": "Circular Std Book",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 19.2,
-                          "marginTop": 4,
+                          "paddingTop": 4,
                         }
                       }
                     >
-                      This task is publicly visible. Anyone can contact you regarding this task.
-                    </Text>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#787777",
+                            "fontFamily": "Circular Std Book",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 19.2,
+                          }
+                        }
+                      >
+                        This task is publicly visible. Anyone can contact you regarding this task.
+                      </Text>
+                    </View>
                   </View>
                   <View>
                     <View
@@ -2058,7 +2102,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -2210,6 +2254,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             false,
             [
               {
+                "alignItems": "center",
                 "backgroundColor": "#fff",
                 "borderColor": "#ebebeb",
                 "borderRadius": 4,
@@ -2303,6 +2348,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
   </View>,
   <Modal
     accessibilityLabel="test label"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
@@ -2427,8 +2473,10 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
           style={
             [
               {
-                "alignItems": "center",
+                "alignSelf": "center",
                 "justifyContent": "flex-end",
+                "paddingBottom": 18,
+                "width": "100%",
               },
               undefined,
             ]
@@ -2443,6 +2491,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             style={
               {
                 "alignItems": "center",
+                "alignSelf": "center",
                 "height": 40,
               }
             }
@@ -2491,7 +2540,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                   },
                 ]
               }
-              testID="btn-to-close-holi-modal-select-modal"
+              testID="btn-to-close-holi-modal-select"
             >
               <View
                 pointerEvents="none"
@@ -2677,7 +2726,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Public"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {
@@ -2845,7 +2894,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                     >
                       <View
                         accessibilityChecked={false}
-                        accessibilityLabel=""
+                        accessibilityLabel="Members"
                         accessibilityRole="checkbox"
                         accessibilityState={
                           {

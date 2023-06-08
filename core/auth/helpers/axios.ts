@@ -1,6 +1,9 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/axios.tsx
 import { AxiosInstance } from 'axios'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logError } from '@holi/core/errors/helpers'
+
 const REQUEST_TIMEOUT_IN_MS = 10000
 const RETRY_COUNT = 10
 
@@ -10,7 +13,7 @@ export const resilience = (axios: AxiosInstance) => {
     (v) => Promise.resolve(v),
     (error) => {
       if (!error.config) {
-        console.error('[auth] Received network error without axios details', error)
+        logError(error, '[auth] Received network error without axios details')
         return Promise.reject(error)
       }
 
@@ -26,7 +29,7 @@ export const resilience = (axios: AxiosInstance) => {
 
       if (error.response && (error.response.status >= 400 || error.response.status < 500)) {
         // 4xx status means we should not retry.
-        console.error('[auth] Network request failed', { config: error.config, error })
+        logError(error, `[auth] Network request failed: ${{ config: error.config, error }}`)
         return Promise.reject(error)
       }
 
@@ -37,10 +40,10 @@ export const resilience = (axios: AxiosInstance) => {
       }
 
       if (config.count > RETRY_COUNT) {
-        const err = new Error(
+        const err = new HoliError(
           `Unable to reach network, gave up after ${RETRY_COUNT} retries. Please restart the app and try again.`
         )
-        console.error('[auth] ' + err, { config: error.config, error })
+        logError(err, `[auth] Reached max retry count: ${{ config: error.config, error }}`)
         return Promise.reject(err)
       }
 

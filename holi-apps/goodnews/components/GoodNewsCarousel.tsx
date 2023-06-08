@@ -97,7 +97,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }, [articles, paramArticleId, setActiveArticleIndex])
 
   const renderItem = useCallback(
-    ({ item, index }) => {
+    ({ item, index }: { item: CarouselItem; index: number }) => {
       const accessible = index === activeArticleIndex
       return item.type === 'article' ? (
         <GoodNewsArticleComponent
@@ -128,7 +128,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }
 
   if (!articles || !articles.length) {
-    console.error('[GoodNewsCarousel.tsx] articles array is empty')
+    console.debug('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
   const carouselItems: CarouselItem[] = articles

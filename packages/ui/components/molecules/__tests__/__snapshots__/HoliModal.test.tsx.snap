@@ -3,9 +3,11 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
+  testID="test-modal"
   transparent={true}
   visible={false}
 />
@@ -14,9 +16,11 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   accessibilityLabel="Test"
+  accessibilityRole="dialog"
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
+  testID="test-modal"
   transparent={true}
   visible={true}
 >
@@ -80,7 +84,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           },
         ]
       }
-      testID="undefined-backdrop"
+      testID="test-modal-backdrop"
     >
       <View
         pointerEvents="none"
@@ -131,14 +135,16 @@ exports[`renders correctly renders correctly when open 1`] = `
           ],
         }
       }
-      testID="undefined-animatedview"
+      testID="test-modal-animatedview"
     >
       <RCTSafeAreaView
         style={
           [
             {
-              "alignItems": "center",
+              "alignSelf": "center",
               "justifyContent": "flex-end",
+              "paddingBottom": 18,
+              "width": "100%",
             },
             undefined,
           ]
@@ -153,6 +159,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           style={
             {
               "alignItems": "center",
+              "alignSelf": "center",
               "height": 40,
             }
           }
@@ -201,7 +208,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ]
             }
-            testID="btn-to-close-undefined-modal"
+            testID="btn-to-close-test-modal"
           >
             <View
               pointerEvents="none"

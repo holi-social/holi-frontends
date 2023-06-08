@@ -55,35 +55,49 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
         ]
       }
     >
-      <Image
-        accessibilityLabel="insights.posts.image"
+      <ViewManagerAdapter_ExpoImage
         accessibilityRole="image"
-        accessible={true}
-        onLayout={[Function]}
-        sizes="(min-width: 1200px) 588px, (min-width: 992px) 484px, (min-width: 768px) 728px, (min-width: 576px) 536px, (min-width: 375px) 335px, 100wv"
-        source={
+        aspectRatio={1.4533898305084745}
+        backgroundColor={4293651435}
+        marginTop={26}
+        onError={[Function]}
+        onLoad={[Function]}
+        onLoadStart={[Function]}
+        onProgress={[Function]}
+        proxiedProperties={
           {
-            "uri": undefined,
+            "accessibilityLabel": "insights.posts.image",
+            "accessible": true,
+            "contentFit": "cover",
+            "contentPosition": {
+              "left": "50%",
+              "top": "50%",
+            },
+            "placeholder": [],
+            "source": [
+              {
+                "uri": undefined,
+              },
+            ],
+            "tintColor": undefined,
+            "transition": null,
           }
         }
         style={
-          [
-            {
-              "aspectRatio": 1.4533898305084745,
-              "backgroundColor": "#ebebeb",
-              "marginTop": 26,
-              "width": "100%",
-            },
-            {
-              "resizeMode": "cover",
-            },
-          ]
+          {
+            "aspectRatio": 1.4533898305084745,
+            "backgroundColor": "#ebebeb",
+            "marginTop": 26,
+            "width": "100%",
+          }
         }
+        width="100%"
       />
     </View>
   </View>,
   <Modal
     accessibilityLabel="insights.posts.image.modal"
+    accessibilityRole="dialog"
     animationType="fade"
     hardwareAccelerated={false}
     onRequestClose={[Function]}

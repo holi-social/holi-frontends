@@ -17,7 +17,7 @@ export default {
 } as ComponentMeta<typeof HoliCard>
 
 const handleCardPress = () => {
-  console.log('handle card press')
+  console.debug('handle card press')
 }
 
 const Template: ComponentStory<typeof HoliCard> = ({ ...args }) => {

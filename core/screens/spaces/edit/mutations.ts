@@ -1,0 +1,96 @@
+import { gql } from '@apollo/client/core'
+import { z } from 'zod'
+
+import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
+
+export const UpdateSpaceInputSchema = z.object({
+  id: z.string(),
+  title: z.string().trim().min(2).max(60).optional(),
+  description: z.string().trim().min(1).max(600).optional(),
+  location: z.string().optional(),
+  avatar: z.instanceof(Object).optional(),
+  topics: z.array(z.string()).optional(),
+  sdgs: z.array(z.string()).optional(),
+  contactDescription: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+  contactPhone: z.string().optional(),
+})
+
+export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
+
+export const updateSpaceMutation = gql`
+  mutation UpdateSpace($input: UpdateSpaceInput!) {
+    updateSpace(input: $input) {
+      id
+      title
+      description
+      avatar
+      cover
+      location
+      avatarDefaultColor
+      name
+      contactDescription
+      contactEmail
+      contactPhone
+      geolocation {
+        latitude
+        longitude
+      }
+      topics {
+        id
+        title
+      }
+      sdgs {
+        id
+        title
+        number
+      }
+      links {
+        id
+        type
+        url
+        name
+      }
+    }
+  }
+`
+
+export type UpdateSpaceResponse = {
+  updateSpace: Partial<Space>
+}
+
+export const UpdateExternalLinkSchema = z.object({
+  id: z.string() /* UUID */,
+  type: z.string() /* SpaceLinkType */,
+  url: z.string().url().max(500),
+  name: z.string().trim().max(100),
+})
+
+export type UpdateExternalLinkInput = z.infer<typeof UpdateExternalLinkSchema>
+
+export type UpdateExternalLinkResponse = {
+  updateExternalLink: SpaceLink
+}
+
+export const updateExternalLinkMutation = gql`
+  mutation UpdateExternalLink($input: UpdateExternalLinkInput!) {
+    updateExternalLink(input: $input) {
+      id
+      type
+      url
+      name
+    }
+  }
+`
+
+export const deleteSpaceLinkMutation = gql`
+  mutation DeleteSpaceLink($id: UUID!) {
+    deleteExternalLink(id: $id) {
+      success
+    }
+  }
+`
+
+export interface DeleteSpaceLinkResponse {
+  success: boolean
+}

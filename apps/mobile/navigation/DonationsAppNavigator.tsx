@@ -18,7 +18,7 @@ export type DonationsAppScreensList = {
 
 const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
 
-const DonationsAppNavigator: React.VFC = () => {
+const DonationsAppNavigator = () => {
   return (
     <DonationsAppStack.Navigator
       initialRouteName={RouteName.DonationsAppHome}

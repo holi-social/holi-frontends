@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer'
 
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/queries'
+import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 

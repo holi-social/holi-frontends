@@ -15,7 +15,7 @@ export interface LinkContentProps extends Link {
 const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, origin, style }) => {
   return (
     <View style={[styles.container, style]}>
-      {!!image && <HoliImage style={styles.image} source={{ uri: image }} label={title} />}
+      {!!image && <HoliImage style={styles.image} source={{ uri: image }} label={title} testID="link-preview-image" />}
 
       <View style={styles.contentContainer}>
         <View style={styles.textContainer}>

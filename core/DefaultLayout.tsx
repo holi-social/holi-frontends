@@ -31,7 +31,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       children,
       testID,
       ...scrollViewProps
-    }: LayoutProps,
+    },
     ref
   ) => {
     const isWeb = Platform.OS === 'web'

@@ -4,6 +4,21 @@ import { Pressable, Text, View, useWindowDimensions } from 'react-native'
 
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
+beforeEach(() => {
+  jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+    const time = Date.now()
+    cb(time)
+
+    return time
+  })
+})
+
+afterEach(() => {
+  // @ts-ignore
+  window.requestAnimationFrame.mockRestore()
+  jest.clearAllTimers()
+})
+
 type TestSteps = [string, number][]
 
 const steps: TestSteps = [
@@ -35,7 +50,6 @@ const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: b
         ref={stepperRef}
         width={424}
         currentStep={currentStep}
-        scrollEnabled={false}
         steps={steps.map(([id, idx]) => (
           <TestStep key={id} idx={idx} goNext={goNext} />
         ))}
@@ -50,7 +64,7 @@ test.each(steps)('should only render %p', (stepID, idx) => {
   expect(screen.getByTestId(stepID)).toBeDefined()
 })
 
-test.each(steps)('should render the %p and the next step on press', (stepID, idx) => {
+test.each(steps)('should render the %p and the next step on press', async (stepID, idx) => {
   const { rerender } = render(<TestStepper initialStep={idx} lazy />)
   const currentStep = screen.getByTestId(stepID)
   expect(currentStep).toBeDefined()
@@ -61,9 +75,9 @@ test.each(steps)('should render the %p and the next step on press', (stepID, idx
   const [nextStepId] = steps[next]
   expect(() => screen.getByTestId(nextStepId)).toThrow()
 
-  fireEvent.press(currentStep)
+  await fireEvent.press(currentStep)
   expect(screen.getByTestId(nextStepId)).toBeDefined()
 
   rerender(<TestStepper initialStep={idx} lazy />)
-  expect(screen.getByTestId(stepID)).toBeDefined()
+  expect(screen.getByTestId(nextStepId)).toBeDefined()
 })

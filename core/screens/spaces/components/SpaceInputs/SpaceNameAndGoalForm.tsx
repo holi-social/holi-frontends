@@ -28,7 +28,9 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
 }: SpaceNameAndGoalFormProps) => (
   <View style={style}>
     <View style={styles.title}>
-      <HoliText size="extralarge">{title}</HoliText>
+      <HoliText size="extralarge" testID="space-name-and-goal-title">
+        {title}
+      </HoliText>
     </View>
     <SpaceNameInput
       value={spaceName}

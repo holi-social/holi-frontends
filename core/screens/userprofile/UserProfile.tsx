@@ -1,33 +1,37 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import DefaultScrollHeaderLayout from '@holi/core/components/DefaultScrollHeaderLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
-import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import NotFound from '@holi/core/errors/components/NotFound'
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import useBlockUser from '@holi/core/hooks/useBlockUser'
+import useReportContent from '@holi/core/hooks/useReportContent'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/UserContextProvider'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
+import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -59,16 +63,37 @@ const UserProfile = () => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
+  const [fetchUser, { loading, error, data, refetch: refetchUser }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: 'network-only',
   })
+  const { refreshing, onRefresh } = useOnRefresh(refetchUser)
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
+  const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
+
+  const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
+  const [isLoadingReport, reportContent] = useReportContent({
+    id: userId,
+    contentType: ContentType.USER,
+    successMsg: t('global.report.successMessage'),
+  })
+
+  const { data: dataInsights, error: errorInsights } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId },
+    }
+  )
+
+  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
+
+  if (errorInsights) {
+    logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
+  }
 
   const { setOptions } = useUnifiedNavigation()
-  const { visible, show, hide } = useModalState()
 
   useLayoutEffect(
     () =>
@@ -76,46 +101,40 @@ const UserProfile = () => {
         title: t('profile.title'),
         headerTransparent: true,
         headerStyle: { backgroundColor: colors.background10 },
-        headerRight: ({ tintColor }) => (
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            showOptions={visible}
-            onPress={show}
-            onModalDismiss={hide}
-            tintColor={tintColor}
-          >
-            <ReportBlockOptionButton
+        headerRight: () => (
+          <HoliActionDrawer.Drawer label="user-profile-drawer">
+            <HoliActionDrawer.Action
               action="report"
-              label={t('user.profileView.report.title', { name: userFullName })}
-              objectId={userId}
-              contentType={ContentType.USER}
-              style={styles.moreOptionItem}
-              confirmationModalProps={{
-                title: t('user.profileView.report.confirmation.title', { name: userFullName }),
-                description: t('user.profileView.report.confirmation.description', { name: userFullName }),
-              }}
-              successMessage={t('global.report.successMessage')}
-              onConfirm={hide}
-            />
-
-            <ReportBlockOptionButton
+              isLoading={isLoadingReport}
+              title={t('global.report')}
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('user.profileView.report.confirmation.title', { name: userFullName })}
+                description={t('user.profileView.report.confirmation.description', { name: userFullName })}
+                handleConfirmation={reportContent}
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+            <HoliActionDrawer.Action
               action="block"
-              label={t('profile.block', { name: userFullName })}
-              objectId={userId}
-              style={styles.moreOptionItem}
-              confirmationModalProps={{
-                title: t('user.profileView.block.confirmation.title', { name: userFullName }),
-                description: t('user.profileView.block.confirmation.description', { name: userFullName }),
-              }}
-              successMessage={t('user.profileView.block.successMessage', { name: userFullName })}
-              icon="close-circle"
-              tintColor={colors.error30}
-              onConfirm={hide}
-            />
-          </MoreOptionsButtonWithModal>
+              isLoading={isLoadingBlockUser}
+              title={t('profile.block', { name: userFullName })}
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('user.profileView.block.confirmation.title', { name: userFullName })}
+                description={t('user.profileView.block.confirmation.description', { name: userFullName })}
+                handleConfirmation={blockUser}
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+          </HoliActionDrawer.Drawer>
         ),
       }),
-    [hide, setOptions, show, t, userFullName, userId, visible]
+    [isLoadingBlockUser, setOptions, t, userFullName, blockUser, reportContent, isLoadingReport]
   )
 
   // TODO: workaround for params always being undefined on initial page load
@@ -123,7 +142,7 @@ const UserProfile = () => {
   // see https://github.com/nandorojo/solito/issues/100
   useEffect(() => {
     if (userId && !loading && !user) {
-      fetchUser()
+      fetchUser().catch((e) => logError(e))
     }
     if (error && !isNotFoundError(error)) {
       displayError(error)
@@ -161,7 +180,12 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultScrollHeaderLayout>
+    <ScrollHeaderLayout.Refreshable
+      refreshableProps={{
+        isLoading: refreshing,
+        onRefresh,
+      }}
+    >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -185,18 +209,18 @@ const UserProfile = () => {
                 </View>
               ),
               hasInterests && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                  <UserChipRow user={user} keyInUserObject={'interests'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
                 </View>
               ),
               hasSdgs && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                  <UserChipRow user={user} keyInUserObject={'sdgs'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
                 </View>
               ),
               hasSkills && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                  <UserChipRow user={user} keyInUserObject={'skills'} numberOfLines={1} />
+                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
                 </View>
               ),
               !hasInfo && (
@@ -206,14 +230,18 @@ const UserProfile = () => {
               ),
             ],
           },
-          {
-            title: t('profile.tabs.insight'),
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
-              </Suspense>
-            ),
-          },
+          ...(hasInsights
+            ? [
+                {
+                  title: t('profile.tabs.insight'),
+                  children: (
+                    <Suspense fallback={<HoliLoader />}>
+                      <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
           {
             title: t('profile.tabs.spaces'),
             children: (
@@ -227,7 +255,7 @@ const UserProfile = () => {
           },
         ]}
       />
-    </DefaultScrollHeaderLayout>
+    </ScrollHeaderLayout.Refreshable>
   )
 }
 
@@ -259,10 +287,6 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     color: colors.foreground20,
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
 })
 

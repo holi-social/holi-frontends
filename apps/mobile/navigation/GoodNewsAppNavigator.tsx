@@ -14,7 +14,7 @@ export type GoodNewsAppScreensList = {
 
 const GoodNewsAppStack = createNativeStackNavigator<GoodNewsAppScreensList>()
 
-const GoodNewsAppNavigator: React.VFC = () => {
+const GoodNewsAppNavigator = () => {
   return (
     <GoodNewsAppStack.Navigator
       initialRouteName={RouteName.GoodNewsAppHome}
