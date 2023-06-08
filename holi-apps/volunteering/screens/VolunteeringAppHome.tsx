@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { onScreenScrollY } from '@holi/core/helpers'
@@ -89,26 +90,28 @@ const VolunteeringAppHome = () => {
   }, [setOptions, navigate, t, title, isFiltering, showFilterModal])
 
   return (
-    <DefaultLayout
-      style={styles.defaultLayout}
-      scrollable={false}
-      testID={'volunteering-list-container'}
-      keyboardShouldPersistTaps="handled"
-      hasFooterTabBar={false}
-    >
-      <HoliModal
-        show={showFilterModal}
-        onDismiss={closeModal}
-        testID="volunteering-filter-modal"
-        label={t('volunteering:filter.heading')}
-        autoHeight={false}
-        relativeHeight={1}
+    <SafeAreaProvider>
+      <DefaultLayout
+        style={styles.defaultLayout}
+        scrollable={false}
+        testID={'volunteering-list-container'}
+        keyboardShouldPersistTaps="handled"
+        hasFooterTabBar={false}
       >
-        <VolunteeringFilterForm onSubmit={submit} filters={filters} />
-      </HoliModal>
+        <HoliModal
+          show={showFilterModal}
+          onDismiss={closeModal}
+          testID="volunteering-filter-modal"
+          label={t('volunteering:filter.heading')}
+          autoHeight={false}
+          relativeHeight={1}
+        >
+          <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+        </HoliModal>
 
-      <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
-    </DefaultLayout>
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
+      </DefaultLayout>
+    </SafeAreaProvider>
   )
 }
 

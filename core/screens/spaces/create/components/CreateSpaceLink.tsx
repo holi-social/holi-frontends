@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isValidUrl } from '@holi/core/helpers'
@@ -10,6 +11,7 @@ import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceM
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 
 interface CreateSpaceLinksProps {
   space: Space
@@ -24,7 +26,6 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   const [validationErrorTextUrl, setValidationErrorTextUrl] = useState('')
   const [validationErrorTextName, setValidationErrorTextName] = useState('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
-
   const { t } = useTranslation()
 
   const [addLinkToSpace, { loading }] = useMutation<AddExternalLinkResponse>(addExternalLinkMutation, {
@@ -33,6 +34,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       onDismiss()
     },
     onError: (e) => {
+      setValidationErrorTextUrl(t('global.validation.url.invalid'))
       logError(e, '[Spaces] Social link could not be added')
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
@@ -83,24 +85,49 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={saveButtonDisabled || loading}
-      scrollable={false}
-      loading={loading}
-    >
-      <SpaceLinksForm
-        title={t('spaces.input.socialLinks.title')}
-        onChangeUrl={setUrl}
-        onChangeName={setName}
-        url={url}
-        name={name}
-        validationErrorTextUrl={validationErrorTextUrl}
-        validationErrorTextName={validationErrorTextName}
-      />
-    </EditSpaceModal>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      <SafeAreaView style={styles.safeArea}>
+        <HoliKeyboardSaveView>
+          <ScrollView keyboardShouldPersistTaps="handled">
+            <EditSpaceModal
+              onDismiss={onDismiss}
+              onSave={onSave}
+              saveButtonDisabled={saveButtonDisabled || loading}
+              scrollable={false}
+              loading={loading}
+              persistFooter={true}
+            >
+              <SpaceLinksForm
+                title={t('spaces.input.socialLinks.title')}
+                onChangeUrl={setUrl}
+                onChangeName={setName}
+                url={url}
+                name={name}
+                validationErrorTextUrl={validationErrorTextUrl}
+                validationErrorTextName={validationErrorTextName}
+              />
+            </EditSpaceModal>
+          </ScrollView>
+        </HoliKeyboardSaveView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
+
+const styles = StyleSheet.create({
+  pageView: {
+    paddingTop: 0,
+    height: '100%', // prevents double scrollbars
+    overflow: 'hidden',
+    ...Platform.select({
+      android: {
+        paddingBottom: 0,
+      },
+    }),
+  },
+  safeArea: {
+    flex: 1,
+  },
+})
 
 export default CreateSpaceLinks

@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isValidUrl } from '@holi/core/helpers'
@@ -10,6 +11,7 @@ import { UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/co
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 
 interface EditSpaceLinkProps {
   link: SpaceLink
@@ -87,24 +89,49 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={saveButtonDisabled || loading}
-      scrollable={false}
-      loading={loading}
-    >
-      <SpaceLinksForm
-        title={t('spaces.input.socialLinks.edit.label')}
-        onChangeUrl={setUrl}
-        onChangeName={setName}
-        url={url}
-        name={name}
-        validationErrorTextUrl={validationErrorTextUrl}
-        validationErrorTextName={validationErrorTextName}
-      />
-    </EditSpaceModal>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      <SafeAreaView style={styles.safeArea}>
+        <HoliKeyboardSaveView>
+          <ScrollView keyboardShouldPersistTaps="handled">
+            <EditSpaceModal
+              onDismiss={onDismiss}
+              onSave={onSave}
+              saveButtonDisabled={saveButtonDisabled || loading}
+              scrollable={false}
+              loading={loading}
+              persistFooter={true}
+            >
+              <SpaceLinksForm
+                title={t('spaces.input.socialLinks.edit.label')}
+                onChangeUrl={setUrl}
+                onChangeName={setName}
+                url={url}
+                name={name}
+                validationErrorTextUrl={validationErrorTextUrl}
+                validationErrorTextName={validationErrorTextName}
+              />
+            </EditSpaceModal>
+          </ScrollView>
+        </HoliKeyboardSaveView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
+
+const styles = StyleSheet.create({
+  pageView: {
+    paddingTop: 0,
+    height: '100%', // prevents double scrollbars
+    overflow: 'hidden',
+    ...Platform.select({
+      android: {
+        paddingBottom: 0,
+      },
+    }),
+  },
+  safeArea: {
+    flex: 1,
+  },
+})
 
 export default EditSpaceLink
