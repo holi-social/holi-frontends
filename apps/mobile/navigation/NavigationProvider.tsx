@@ -38,8 +38,20 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   config: linkingConfig,
 }
 
-const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => (
-  <NavigationContainer ref={navigationRef} theme={navigationTheme} linking={rootLinkingConfig}>
+export type NavigationProviderProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  routingInstrumentation: any
+}
+
+const NavigationProvider = ({ routingInstrumentation, children }: React.PropsWithChildren<NavigationProviderProps>) => (
+  <NavigationContainer
+    ref={navigationRef}
+    theme={navigationTheme}
+    linking={rootLinkingConfig}
+    onReady={() => {
+      routingInstrumentation.registerNavigationContainer(navigationRef)
+    }}
+  >
     {children}
   </NavigationContainer>
 )
