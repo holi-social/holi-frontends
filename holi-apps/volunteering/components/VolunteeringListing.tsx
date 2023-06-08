@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -31,6 +32,8 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const insets = useSafeAreaInsets()
+  const styles = getStyles(insets.bottom)
 
   const {
     loading,
@@ -142,32 +145,33 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
 
 export default VolunteeringListing
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    marginBottom: 32,
-  },
-  list: {
-    paddingTop: vars.topBarHeight + 24,
-    backgroundColor: colors.background20,
-  },
-  listHeader: {
-    paddingBottom: 32,
-  },
-  title: {
-    fontWeight: '400',
-  },
-  loadMoreButton: {
-    marginTop: 24,
-    marginBottom: 48,
-  },
-  headingRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingTop: 16,
-  },
-  noResults: {
-    marginTop: 24,
-  },
-})
+const getStyles = (bottomInset = 0) =>
+  StyleSheet.create({
+    cardContainer: {
+      flex: 1,
+      marginBottom: 32,
+    },
+    list: {
+      paddingTop: vars.topBarHeight + 24,
+      backgroundColor: colors.background20,
+    },
+    listHeader: {
+      paddingBottom: 32,
+    },
+    title: {
+      fontWeight: '400',
+    },
+    loadMoreButton: {
+      marginTop: 24,
+      marginBottom: 48 + bottomInset,
+    },
+    headingRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      paddingTop: 16,
+    },
+    noResults: {
+      marginTop: 24,
+    },
+  })

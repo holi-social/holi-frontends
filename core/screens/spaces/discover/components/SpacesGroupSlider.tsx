@@ -6,8 +6,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -94,7 +95,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
           ) : undefined
         }
       >
-        {spacesData.map((space) => (
+        {spacesData.map((space: Space) => (
           <HoliBlockItem
             key={space.id}
             label={space.title}
@@ -102,7 +103,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             subtitle={space.location}
             description={space.description}
             imageSrc={space.cover}
-            users={space.members.data.map((membership) => membership.user)}
+            users={space.members.data.map((membership: SpaceMember) => membership.user)}
             href={`/spaces/${space.name}`}
             size="large"
             testID="space-link"

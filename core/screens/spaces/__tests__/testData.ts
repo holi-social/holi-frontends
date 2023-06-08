@@ -99,10 +99,14 @@ export const links: SpaceLink[] = [
   {
     url: 'www.facebook.com',
     type: SpaceLinkType.FACEBOOK,
+    id: '1',
+    name: 'Facebook',
   },
   {
     url: 'https://www.twitter.com',
     type: SpaceLinkType.TWITTER,
+    id: '2',
+    name: 'Twitter',
   },
 ]
 
