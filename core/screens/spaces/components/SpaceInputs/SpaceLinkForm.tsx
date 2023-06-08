@@ -57,8 +57,6 @@ const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
   )
 }
 
-export default SpaceLinksForm
-
 const styles = StyleSheet.create({
   title: {
     marginVertical: 40,
@@ -67,3 +65,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 })
+
+export default SpaceLinksForm

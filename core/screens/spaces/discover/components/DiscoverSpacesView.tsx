@@ -57,17 +57,14 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
 
       <View style={styles.body}>
         {/* User specific spaces suggestions */}
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          userSpecificSpacesGroups.map((group, index) => (
-            <SpacesGroupSlider
-              key={index}
-              group={group}
-              style={styles.spacesGroup}
-              testID="discover-spaces-slider-user-specific"
-            />
-          ))
-        }
+        {userSpecificSpacesGroups.map((group, index) => (
+          <SpacesGroupSlider
+            key={index}
+            group={group}
+            style={styles.spacesGroup}
+            testID="discover-spaces-slider-user-specific"
+          />
+        ))}
 
         {hasUserSpecificTiers && hasDefaultTiers && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">

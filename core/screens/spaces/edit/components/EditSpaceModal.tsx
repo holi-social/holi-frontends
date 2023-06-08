@@ -17,6 +17,7 @@ type EditSpaceModalProps = {
   loading?: boolean
   scrollable?: boolean
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
+  persistFooter?: boolean
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -27,10 +28,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   children,
   scrollable = true,
   keyboardShouldPersistTaps = 'always',
+  persistFooter = true,
 }: EditSpaceModalProps) => {
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
-  const showFooter = !isKeyboardOpen && !isSoftkeyboardOpen
+  const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
 
   const mixins = useStyleMixins()
 

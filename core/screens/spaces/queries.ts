@@ -52,6 +52,7 @@ export const SpaceFragment = gql`
       description
       title
       collectionType
+      thumbnail
     }
     members(limit: 3) {
       ...FullSpaceMember
@@ -68,6 +69,7 @@ export const SpaceFragment = gql`
       locationType
       contactEmail
       contactPhone
+      thumbnail
       creator {
         ...UserAvatar
       }
