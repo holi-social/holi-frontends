@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?rf48hi');
-  src:  url('fonts/icomoon.eot?rf48hi#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?rf48hi') format('truetype'),
-    url('fonts/icomoon.woff?rf48hi') format('woff'),
-    url('fonts/icomoon.svg?rf48hi#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?hdkq2l');
+  src:  url('fonts/icomoon.eot?hdkq2l#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?hdkq2l') format('truetype'),
+    url('fonts/icomoon.woff?hdkq2l') format('woff'),
+    url('fonts/icomoon.svg?hdkq2l#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,64 +25,64 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-shield-plus:before {
+.icon-door-closed:before {
   content: "\e900";
 }
-.icon-door-closed:before {
+.icon-chat-heart:before {
   content: "\e901";
 }
-.icon-close-circle:before {
+.icon-contacts:before {
   content: "\e902";
 }
-.icon-pencil:before {
+.icon-team:before {
   content: "\e903";
 }
-.icon-user:before {
+.icon-user-settings:before {
   content: "\e904";
 }
-.icon-user-unfollow:before {
+.icon-close-circle:before {
   content: "\e905";
 }
-.icon-refresh:before {
+.icon-pencil:before {
   content: "\e906";
 }
-.icon-money-euro-circle:before {
+.icon-user:before {
   content: "\e907";
 }
-.icon-map-pin-2:before {
+.icon-user-unfollow:before {
   content: "\e908";
 }
-.icon-lock:before {
+.icon-shield-plus:before {
   content: "\e909";
 }
-.icon-phone:before {
+.icon-refresh:before {
   content: "\e90a";
 }
-.icon-folder-open:before {
+.icon-money-euro-circle:before {
   content: "\e90b";
 }
-.icon-checkbox:before {
+.icon-map-pin-2:before {
   content: "\e90c";
 }
-.icon-at:before {
+.icon-lock:before {
   content: "\e90d";
 }
-.icon-plant:before {
+.icon-phone:before {
   content: "\e90e";
 }
-.icon-cloud:before {
+.icon-at:before {
   content: "\e90f";
 }
-.icon-chat-smile-2:before {
+.icon-folder-open:before {
   content: "\e910";
 }
-.icon-chat-poll:before {
+.icon-checkbox:before {
   content: "\e911";
 }
-.icon-flag:before {
+.icon-plant:before {
   content: "\e912";
 }
-.icon-flag-2:before {
+.icon-cloud:before {
   content: "\e913";
 }
 .icon-wallet-3:before {
@@ -175,69 +175,81 @@
 .icon-global:before {
   content: "\e931";
 }
-.icon-filter-3:before {
+.icon-flag:before {
   content: "\e932";
 }
-.icon-feedback:before {
+.icon-flag-2:before {
   content: "\e933";
 }
-.icon-error-warning:before {
+.icon-filter-3:before {
   content: "\e934";
 }
-.icon-emotion-unhappy-noeyes:before {
+.icon-feedback:before {
   content: "\e935";
 }
-.icon-edit-2:before {
+.icon-error-warning:before {
   content: "\e936";
 }
-.icon-delete:before {
+.icon-emotion-unhappy-noeyes:before {
   content: "\e937";
 }
-.icon-close:before {
+.icon-edit-2:before {
   content: "\e938";
 }
-.icon-check:before {
+.icon-delete:before {
   content: "\e939";
 }
-.icon-chat-3:before {
+.icon-close:before {
   content: "\e93a";
 }
-.icon-calendar-event:before {
+.icon-check:before {
   content: "\e93b";
 }
-.icon-arrow-up-s:before {
+.icon-chat-smile-2:before {
   content: "\e93c";
 }
-.icon-arrow-right:before {
+.icon-chat-poll:before {
   content: "\e93d";
 }
-.icon-arrow-right-up:before {
+.icon-chat-3:before {
   content: "\e93e";
 }
-.icon-arrow-right-s:before {
+.icon-calendar-event:before {
   content: "\e93f";
 }
-.icon-arrow-left:before {
+.icon-arrow-up-s:before {
   content: "\e940";
 }
-.icon-arrow-left-s:before {
+.icon-arrow-right:before {
   content: "\e941";
 }
-.icon-arrow-down-s:before {
+.icon-arrow-right-up:before {
   content: "\e942";
 }
-.icon-apps:before {
+.icon-arrow-right-s:before {
   content: "\e943";
 }
-.icon-apps-soon:before {
+.icon-arrow-left:before {
   content: "\e944";
 }
-.icon-add:before {
+.icon-arrow-left-s:before {
   content: "\e945";
 }
-.icon-add-box:before {
+.icon-arrow-down-s:before {
   content: "\e946";
 }
-.icon-account-circle:before {
+.icon-apps:before {
   content: "\e947";
+}
+.icon-apps-soon:before {
+  content: "\e948";
+}
+.icon-add:before {
+  content: "\e949";
+}
+.icon-add-box:before {
+  content: "\e94a";
+}
+.icon-account-circle:before {
+  content: "\e94b";
 }
