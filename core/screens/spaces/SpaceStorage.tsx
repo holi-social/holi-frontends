@@ -18,7 +18,7 @@ export type SpaceStorageParams = {
 
 const { useParam } = createParam<SpaceStorageParams>()
 
-const SpaceStorage: React.VFC<SpaceStorageParams> = () => {
+const SpaceStorage: React.FC<SpaceStorageParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()

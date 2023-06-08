@@ -1,5 +1,7 @@
-import { owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
+import { jitsiUrl, owncloudUrl } from '@holi/core/screens/spaces/helpers/config'
 import { Space } from '@holi/core/screens/spaces/types'
 
 export const getUrlForSpaceStorage = (space?: Space) =>
   space ? `${owncloudUrl}/files/spaces/${space.name}` : owncloudUrl
+
+export const getUrlForSpaceVideoCall = (space?: Space) => (space ? `${jitsiUrl}/${space.name}` : jitsiUrl)

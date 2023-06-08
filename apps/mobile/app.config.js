@@ -81,6 +81,9 @@ export default {
       owncloud: {
         url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
       },
+      jitsi: {
+        url: 'https://meet.inoio.de', // TODO: adjust in HOLI-4525
+      },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },
