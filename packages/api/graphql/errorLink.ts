@@ -1,11 +1,10 @@
-import type { ServerError } from '@apollo/client'
 import { ApolloError } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import * as Sentry from '@sentry/react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { isErrorOfType, logError, logErrorLocal } from '@holi/core/errors/helpers'
+import { isErrorOfType, isServerError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 
 const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
@@ -43,7 +42,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     }
   }
   if (networkError) {
-    if ((networkError as ServerError)?.statusCode === 401) {
+    if (isServerError(networkError) && networkError.statusCode === 401) {
       setUnauthorizedErrorStatus(true)
     } else {
       logError(networkError, '[Network error]')
