@@ -3,7 +3,7 @@ import { Platform, View } from 'react-native'
 
 import useMatrixLogin from '@holi/chat/src/useMatrixLogin'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { isString } from '@holi/core/helpers'
+import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -11,29 +11,23 @@ const isWeb = Platform.OS === 'web'
 
 export const MatrixChat = () => {
   const { displayError } = useErrorHandling()
-  const { login, token, getLoginStatus } = useMatrixLogin()
+  const { login } = useMatrixLogin()
   const { parsedUrl } = useLinking()
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
 
   useEffect(() => {
     const handleMxClient = async () => {
-      const isLoggedin = await getLoginStatus()
-      if (isLoggedin) return
+      const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
+      const isLoggedIn = await login(paramToken)
 
-      if (isString(paramAccessToken)) {
-        await login(paramAccessToken)
-
-        // Remove the query params from the web search bar.
+      if (isLoggedIn) {
         if (isWeb) {
           window.history.replaceState({}, document.title, '/chat')
         }
-
-        return
       }
 
-      if (!isString(token)) return
-      await login(token)
+      // TODO: LoadSession
     }
 
     handleMxClient().catch((err) => {

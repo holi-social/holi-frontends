@@ -18,3 +18,7 @@ export const getInitials = (str: string, maxLength = 3) =>
 export const onlyCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
 
 export const isString = (value: unknown): value is string => typeof value === 'string'
+
+export const isStringOrUndefined = (value: unknown): value is string | undefined => {
+  return isString(value) || value === undefined
+}

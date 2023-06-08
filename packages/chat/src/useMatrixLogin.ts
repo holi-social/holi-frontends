@@ -10,7 +10,7 @@ export interface UseMatrixLogin {
   tokenKey: string
   token: string | null
   handleSSORedirect: () => Promise<boolean>
-  login: (token: string) => Promise<void>
+  login: (token: string | undefined) => Promise<boolean>
   getLoginStatus: () => Promise<boolean>
 }
 

@@ -1,34 +1,35 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
-import Constants from 'expo-constants'
 import type { IMatrixClientCreateOpts, MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
-import { SyncState } from 'matrix-js-sdk/lib/sync'
 import { Platform } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isString } from '@holi/core/helpers'
 
-// TODO: remove fallbacks
-const HOMESERVER_TOKEN_KEY = Constants.manifest?.extra?.chat.homeserverToken || 'mx_sso_token'
-//const HOMESERVER_URL_KEY = Constants.manifest?.extra?.chat.homeserverUrlKey || 'mx_sso_hs_url'
-const HOMESERVER_URL = Constants.manifest?.extra?.chat.homeserverUrl || 'https://local.chat.holi.social'
-const HOMESERVER_NAME = Constants.manifest?.extra?.chat.homeserverName || 'local.chat.holi.social'
-const HOMESERVER_LOGIN_KEY = 'mx_client_login'
-const IDP_ID = 'oidc-ory'
+import mxClient from './MxClient'
+import {
+  HOMESERVER_LOGIN_KEY,
+  HOMESERVER_NAME,
+  HOMESERVER_TOKEN_KEY,
+  HOMESERVER_URL,
+  HOMESERVER_USER_ID_KEY,
+  IDP_ID,
+} from './utils/constants'
+import type {
+  MatrixDeviceIdKey,
+  MatrixDeviceName,
+  MatrixLoginKey,
+  MatrixUserKey,
+  ServerName,
+  ServerTokenKey,
+  UserName,
+} from './utils/constants'
+import { getStoredSessionCreds } from './utils/storage'
 
 export enum SSOAction {
   LOGIN = 'login',
   REGISTER = 'register',
 }
-
-export type ServerName = 'local.chat.holi.social'
-export type UserName = `@${string}:${ServerName}`
-
-export type MatrixDeviceName = `holi-${Platform['OS']}`
-export type ServerNameKey = 'mx_sso_hs_url'
-export type ServerTokenKey = 'mx_sso_token'
-export type MatrixDeviceIdKey = 'mx_device'
-export type MatrixLoginKey = 'mx_client_login'
 
 /**
  * A temporary client that can be used to login or register a user in the Matrix server.
@@ -41,6 +42,7 @@ export default class MatrixLogin {
   private client: MatrixClient | null = null
   private readonly homeserverUrl: string = HOMESERVER_URL
   private readonly matrixLoginKey: MatrixLoginKey = HOMESERVER_LOGIN_KEY
+  private readonly userIdKey: MatrixUserKey = HOMESERVER_USER_ID_KEY
   private readonly idp_id = IDP_ID
 
   readonly homeserverTokenKey: ServerTokenKey = HOMESERVER_TOKEN_KEY
@@ -78,44 +80,50 @@ export default class MatrixLogin {
     }
   }
 
-  public login = async (token: string | null): Promise<void> => {
+  public login = async (token: string | undefined): Promise<boolean> => {
+    if (!token) return false
     const client = this.createTemporaryClient()
-    if (client.clientRunning) return
 
-    const { access_token, device_id } = await client.login('m.login.token', {
+    const { access_token, device_id, user_id } = await client.login('m.login.token', {
       token: token,
       initial_device_display_name: this.deviceName,
     })
 
-    if (!isString(access_token)) {
+    if (!isString(access_token) || !isString(device_id)) {
       AsyncStore.setItem(this.matrixLoginKey, 'false').catch((err) => logError(err))
-      return
+      return false
     }
-    if (!isString(device_id)) return
 
-    await client.startClient()
+    // Remove previously stored credentials
+    await AsyncStore.multiRemove([this.homeserverTokenKey, this.deviceIdKey, this.deviceIdKey, this.matrixLoginKey])
 
-    // TODO: fix type error
-    client.once('sync', (state: SyncState) => {
-      // TODO: create persitent client with login result
-      // TODO: logout user on logout
-      // TODO: remove console.log
+    // Reset newly received credentials
+    const multiSetCreds: [string, string][] = [
+      // TODO: the `access_token` should be stored with some kind of encryption
+      [this.homeserverTokenKey, access_token],
+      [this.deviceIdKey, device_id],
+      [this.userIdKey, user_id],
+      [this.matrixLoginKey, 'true'],
+    ]
+    await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
 
-      // eslint-disable-next-line no-console
-      console.log({ state }, 'chat sync state ------') // state will be 'PREPARED' when the client is ready to use
+    return true
+  }
 
-      if (state === SyncState.Prepared) {
-        const multiSet: [string, string][] = [
-          [this.homeserverTokenKey, access_token],
-          [this.deviceIdKey, device_id],
-          [this.matrixLoginKey, 'true'],
-        ]
+  public restoreSession = async (client: typeof mxClient): Promise<typeof mxClient | null> => {
+    const { accessToken, baseUrl, userId, guest, deviceId, freshLogin } = await getStoredSessionCreds()
 
-        AsyncStore.multiSet(multiSet).catch((err) => logError(err))
-      }
-    })
+    // TODO abort/retry loging on missing access
+    if (accessToken.length === 0) return client
 
-    this.client = null
+    if (freshLogin === true) {
+      await AsyncStore.removeItem(this.matrixLoginKey)
+    }
+
+    // Restoring session for userId
+    client.replaceUsingCreds({ baseUrl, userId, accessToken, deviceId, guest, freshLogin })
+
+    return client
   }
 
   public getLoginStatus = async (): Promise<boolean> => {
