@@ -39,6 +39,7 @@ describe('@Spaces', () => {
     await assertCreatingSpace()
     await assertEditingSpace()
     await assertAddDeleteTask()
+    await assertCreateDeleteSpaceUpdatePost()
     await assertDeletingSpace()
   })
 
@@ -119,6 +120,32 @@ describe('@Spaces', () => {
     await seeTextWithTestId(editedGoal, 'space-edit-goal')
 
     await tapOnElementWithTestId('space-edit-close')
+  }
+
+  const assertCreateDeleteSpaceUpdatePost = async () => {
+    // open the space and create an update post
+    const postTitle = 'New post title'
+    const postDescription = 'This is an update for the new post'
+
+    await tapOnElementWithTestId('space-tabs-button-1-inactive')
+    await tapOnElementWithTestId('space-add-post-button')
+
+    await waitForElementWithTestId('update-title-input-input')
+    await fillFieldByTestId('update-title-input-input', postTitle)
+
+    await waitForElementWithTestId('update-content-input-input')
+    await fillFieldByTestId('update-content-input-input', postDescription)
+
+    await tapOnElementWithTestId('update-content-input-label')
+    await tapOnElementWithTestId('form-modal-save-btn')
+
+    // check update post to be shown
+    await seeTextWithTestId(postTitle, 'btn-to-post')
+
+    // delete the update post
+    await tapOnElementWithTestId('post-three-dot-menu-button')
+    await tapOnElementWithTestId('delete-post-button')
+    await tapOnElementWithTestId('holi-confirmation-confirm')
   }
 
   const assertDeletingSpace = async () => {
@@ -210,9 +237,6 @@ describe('@Spaces', () => {
     // make sure next input is visible
     await scrollToElementWithTestId('btn-task-regularity', 'down', { maxAttempts: 3 })
 
-    // scroll down to be able to view input label
-    await scrollDown()
-
     // select commitment level
     await tapOnElementWithTestId('btn-task-regularity')
     await waitForElementWithTestId('item-task-regularity')
@@ -259,6 +283,7 @@ describe('@Spaces', () => {
     // await tapOnElementWithTestId('form-modal-save-btn')
 
     // delete task
+    await scrollToElementWithTestId('btn-task-more-options', 'down', { maxAttempts: 3 })
     await tapOnElementWithTestId('btn-task-more-options')
     await tapOnElementWithTestId('btn-to-delete-task')
     await tapOnElementWithTestId('task-delete-confirmation-confirm')
