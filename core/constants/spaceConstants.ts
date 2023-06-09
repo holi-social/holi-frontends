@@ -5,7 +5,7 @@ export const SPACE_COLLABORATOR_TOOLS = {
   STORAGE: 'storage',
   EVENT: 'event',
   POLL: 'poll',
-  VIDEO_CALL: 'video-call', // TODO(SF) what is this used for?
+  VIDEO_CALL: 'video-call',
   WALLET: 'wallet',
 }
 
@@ -26,7 +26,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
     icon: 'group-line',
     translationKey: 'spaces.resources.category.videoCall',
-    path: '/meet', // TODO(SF) what should the url be like?
+    path: '/videocall',
   },
 ]
 

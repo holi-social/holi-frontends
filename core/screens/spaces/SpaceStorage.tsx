@@ -48,14 +48,14 @@ const SpaceStorage: React.FC<SpaceStorageParams> = () => {
   if (Platform.OS === 'web') {
     // Directly redirect to the storage
     window.location.href = storageUrl
-  } else {
-    return (
-      <DefaultLayout>
-        <HoliWebView style={styles.webView} uri={storageUrl} />
-      </DefaultLayout>
-    )
+    return null
   }
-  return null
+
+  return (
+    <DefaultLayout>
+      <HoliWebView style={styles.webView} uri={storageUrl} />
+    </DefaultLayout>
+  )
 }
 
 const getStyles = (deviceHeight: number) =>

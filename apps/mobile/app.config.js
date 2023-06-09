@@ -54,6 +54,13 @@ export default {
           photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
         },
       ],
+      [
+        'expo-camera',
+        {
+          cameraPermission: 'Allow access to your camera for video calls',
+          microphonePermission: 'Allow access to your microphone for video calls',
+        },
+      ],
     ],
     hooks: {
       postPublish: [

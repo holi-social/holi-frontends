@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect } from 'react'
+import { Camera } from 'expo-camera'
+import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
@@ -11,6 +12,7 @@ import { getUrlForSpaceVideoCall } from '@holi/core/screens/spaces/helpers/urls'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallParams = {
   spaceIdOrName: string
@@ -23,55 +25,26 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
+  const mixins = useStyleMixins()
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
   const videoCallUrl = getUrlForSpaceVideoCall(space)
 
-  // useEffect(() => {
-  //   if (space) {
-  //     const userInfo = { displayName: 'User', email: 'user@example.com', avatar: 'https:/gravatar.com/avatar/abc123' }
-  //     const options = {
-  //       audioMuted: false,
-  //       audioOnly: false,
-  //       videoMuted: false,
-  //       subject: 'your subject',
-  //       token: 'your token',
-  //     }
-  //     const meetFeatureFlags = {
-  //       addPeopleEnabled: true,
-  //       calendarEnabled: true,
-  //       callIntegrationEnabled: true,
-  //       chatEnabled: true,
-  //       closeCaptionsEnabled: true,
-  //       inviteEnabled: true,
-  //       androidScreenSharingEnabled: true,
-  //       liveStreamingEnabled: true,
-  //       meetingNameEnabled: true,
-  //       meetingPasswordEnabled: true,
-  //       pipEnabled: true,
-  //       kickOutEnabled: true,
-  //       conferenceTimerEnabled: true,
-  //       videoShareButtonEnabled: true,
-  //       recordingEnabled: true,
-  //       reactionsEnabled: true,
-  //       raiseHandEnabled: true,
-  //       tileViewEnabled: true,
-  //       toolboxAlwaysVisible: false,
-  //       toolboxEnabled: true,
-  //       welcomePageEnabled: false,
-  //     }
-  //     JitsiMeet.call(videoCallUrl, userInfo, options, meetFeatureFlags)
-  //     /* TODO(SF) You can also use JitsiMeet.audioCall(url) for audio only call */
-  //     /* TODO(SF) You can programmatically end the call with JitsiMeet.endCall() */
-  //   }
-  //   return JitsiMeet.endCall // TODO(SF) is this correct?
-  // }, [space])
+  const requestPermissions = useCallback(() => {
+    if (Platform.OS !== 'web') {
+      Camera.requestCameraPermissionsAsync().then((response) => {
+        response.granted && Camera.requestMicrophonePermissionsAsync()
+      })
+    }
+  }, [])
+
+  useEffect(requestPermissions, [requestPermissions])
 
   if ((error && isNotFoundError(error)) || (!loading && !space)) {
     return (
-      <DefaultLayout style={styles.defaultLayout} contentStyle={styles.messageContainer}>
+      <DefaultLayout style={mixins.container} contentStyle={styles.messageContainer}>
         <HoliText>{t('spaces.spaceDetails.notFound', { spaceIdOrName })}</HoliText>
       </DefaultLayout>
     )
@@ -88,13 +61,23 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   if (Platform.OS === 'web') {
     // Directly redirect to the video call
     window.location.href = videoCallUrl
-  } else {
-    return (
-      <DefaultLayout>
-        <HoliWebView style={styles.webView} uri={videoCallUrl} />
-      </DefaultLayout>
-    )
+    return null
   }
+
+  // Webview props for video call in webview, found on https://docs.whereby.com/embedding-rooms/in-a-mobile-app/in-react-native via https://github.com/react-native-webview/react-native-webview/issues/508
+  const webViewProps = {
+    mediaPlaybackRequiresUserAction: false,
+    allowsInlineMediaPlayback: true,
+    javaScriptEnabled: true,
+    domStorageEnabled: true,
+    // Overriding the user agent for iOS webview, otherwise jitsi won't support it
+    userAgent: Platform.OS === 'ios' ? 'Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/31.0' : undefined,
+  }
+  return (
+    <DefaultLayout>
+      <HoliWebView style={styles.webView} uri={videoCallUrl} webViewProps={webViewProps} />
+    </DefaultLayout>
+  )
 }
 
 const getStyles = (deviceHeight: number) =>
@@ -106,14 +89,6 @@ const getStyles = (deviceHeight: number) =>
     messageContainer: {
       alignItems: 'center',
       marginTop: vars.topBarHeight + 50,
-    },
-    defaultLayout: {
-      paddingBottom: 0,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh',
-        },
-      }),
     },
   })
 
