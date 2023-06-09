@@ -24,3 +24,11 @@ export const createSpacePostMutation = gql`
 export type CreateSpacePostResponse = {
   createSpacePost: Post
 }
+
+export const deleteSpacePostMutation = gql`
+  mutation deleteSpacePost($id: UUID!) {
+    deleteSpacePost(id: $id) {
+      id
+    }
+  }
+`

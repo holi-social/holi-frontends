@@ -10,7 +10,7 @@ import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { SpaceByIdQueryVariables, spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -32,8 +32,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const postGridItemsInRow = useBreakpointMatcher()
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
-  const { error, data, loading } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
-    variables: { idOrName: space.name, offset: 0, limit: 10, visibility: filter },
+  const spacePostQueryVars = { idOrName: space.name, offset: 0, limit: 10, visibility: filter }
+  const { error, data, loading } = useQuery<SpaceByIdResponse, SpaceByIdQueryVariables>(spacePostsQuery, {
+    variables: spacePostQueryVars,
   })
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -149,7 +150,12 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
                 {posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview post={post} spaceIdOrName={space.name} hasVisibilityIcon />
+                    <PostPreview
+                      post={post}
+                      spaceIdOrName={space.name}
+                      spacePostQueryVariables={spacePostQueryVars}
+                      hasVisibilityIcon
+                    />
                   </HoliGridCell>
                 ))}
               </HoliGridWrapper>

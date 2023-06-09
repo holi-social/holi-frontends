@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 
 import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
+import { VisibilityFilter } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const SpaceUpdatePostFragment = gql`
@@ -42,6 +43,13 @@ export const SpaceUpdatePostFragment = gql`
     isPublic
   }
 `
+
+export interface SpaceByIdQueryVariables {
+  idOrName: string
+  offset: number
+  limit: number
+  visibility: VisibilityFilter
+}
 
 export const spacePostsQuery = gql`
   ${SpaceUpdatePostFragment}
