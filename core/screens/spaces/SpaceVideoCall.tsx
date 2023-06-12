@@ -10,6 +10,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { getUrlForSpaceVideoCall } from '@holi/core/screens/spaces/helpers/urls'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -26,11 +27,13 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const mixins = useStyleMixins()
+  const { user } = useLoggedInUser()
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
-  const videoCallUrl = getUrlForSpaceVideoCall(space)
+  const displayNameParam = user?.firstName ? `#userInfo.displayName="${user?.firstName}"` : ''
+  const videoCallUrl = getUrlForSpaceVideoCall(space) + displayNameParam
 
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {
