@@ -200,6 +200,7 @@
   "notifications.space.connection.joined.message": "<0>{{user}}</0> ist jetzt Collaborator in {{space}}",
   "notifications.space.connection.message": "Du hast die Migliedschaft in {{space}} angefragt",
   "notifications.space.connection.requested.message": "<0>{{user}}<0> hat die Migliedschaft in {{space}} angefragt",
+  "notifications.space.connection.revoked.message": "Du wurdest aus dem Space {{space}} entfernt",
   "notifications.space.permissions.admin.granted.message": "Du bist jetzt Admin von {{space}}",
   "notifications.space.permissions.admin.revoked.message": "Du bist kein Admin von {{space}} mehr",
   "notifications.space.post.private.created.message": "{{user}} hat {{post}} in {{space}} gepostet",

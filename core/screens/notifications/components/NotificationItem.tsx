@@ -21,6 +21,7 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.POST_COMMENT_USER_MENTION,
   NotificationType.COMMUNITY_MEMBERSHIP_REQUEST,
   NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
+  NotificationType.COMMUNITY_MEMBERSHIP_REVOKED,
   NotificationType.COMMUNITY_NEW_POST,
   NotificationType.RELEASE_INFO,
   NotificationType.COMMUNITY_ADMIN_PRIVILEGES_GRANTED,
@@ -39,6 +40,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
       return <NotificationPostItem notification={notification} {...props} testID="post-comment-mention" />
     case NotificationType.COMMUNITY_MEMBERSHIP_REQUEST:
     case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
+    case NotificationType.COMMUNITY_MEMBERSHIP_REVOKED:
       return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
     case NotificationType.COMMUNITY_NEW_POST:
       return <NotificationSpacePostItem notification={notification} {...props} testID="space-post" />
