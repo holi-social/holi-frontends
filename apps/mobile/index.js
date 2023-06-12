@@ -14,7 +14,12 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
 
-export const sentryEnvironment = Constants.manifest?.extra?.environment || process.env.NODE_ENV
+const determineSentryEnvironment = () => {
+  const environment = Constants.manifest?.extra?.environment
+  return ['production', 'staging', 'local'].includes(environment) ? environment : 'development'
+}
+
+export const sentryEnvironment = determineSentryEnvironment()
 export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
 
 Sentry.init({
