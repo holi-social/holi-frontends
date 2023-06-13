@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { WebView } from 'react-native-webview'
+import { WebView, WebViewProps } from 'react-native-webview'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,10 +11,11 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface HoliWebViewProps {
   uri: string
   style?: StyleProp<ViewStyle>
+  webViewProps?: WebViewProps
 }
 
 // TODO HOLI-3754: only works on mobile > move to ui package anyways?
-const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
+const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style, webViewProps }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
@@ -45,6 +46,7 @@ const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}
+      {...webViewProps}
     />
   )
 }

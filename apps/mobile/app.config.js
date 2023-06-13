@@ -54,6 +54,13 @@ export default {
           photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
         },
       ],
+      [
+        'expo-camera',
+        {
+          cameraPermission: 'Allow access to your camera for video calls',
+          microphonePermission: 'Allow access to your microphone for video calls',
+        },
+      ],
     ],
     hooks: {
       postPublish: [
@@ -87,6 +94,9 @@ export default {
       },
       owncloud: {
         url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
+      },
+      jitsi: {
+        url: 'https://meet.inoio.de', // TODO: adjust in HOLI-4525
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,

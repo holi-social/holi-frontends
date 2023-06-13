@@ -1,4 +1,4 @@
-import type { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
+import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
@@ -22,6 +22,12 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
+  {
+    id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
+    icon: 'group-line',
+    translationKey: 'spaces.resources.category.videoCall',
+    path: '/videocall',
+  },
 ]
 
 export const RESOURCES_COMING_SOON: ResourceCategory[] = [
@@ -35,12 +41,6 @@ export const RESOURCES_COMING_SOON: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.POLL,
     icon: 'timer-2-line',
     translationKey: 'spaces.resources.category.poll',
-    path: '',
-  },
-  {
-    id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
-    icon: 'group-line',
-    translationKey: 'spaces.resources.category.videoCall',
     path: '',
   },
   {
