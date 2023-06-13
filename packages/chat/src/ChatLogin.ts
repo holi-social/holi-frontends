@@ -9,11 +9,11 @@ import { isString } from '@holi/core/helpers'
 import mxClient from './ChatClient'
 import {
   CHAT_FRESH_LOGIN_KEY,
-  HOMESERVER_NAME,
-  HOMESERVER_TOKEN_KEY,
-  HOMESERVER_URL,
-  HOMESERVER_USER_ID_KEY,
-  IDP_ID,
+  CHAT_IDP_ID,
+  CHAT_NAME,
+  CHAT_TOKEN_KEY,
+  CHAT_URL,
+  CHAT_USER_ID_KEY,
 } from './utils/constants'
 import type {
   MatrixDeviceIdKey,
@@ -39,31 +39,31 @@ export default class ChatLogin {
   // RN has an issue with the @babel/plugin-proposal-private-methods in
   // combination with Flatlist's.
   // https://github.com/facebook/react-native/issues/36828
-  private client: MatrixClient | null = null
-  private readonly homeserverUrl: string = HOMESERVER_URL
-  private readonly matrixLoginKey: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
-  private readonly userIdKey: MatrixUserKey = HOMESERVER_USER_ID_KEY
-  private readonly idp_id = IDP_ID
+  private mxClient: MatrixClient | null = null
+  private readonly serverUrl: string = CHAT_URL
+  private readonly freshLogin: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
+  private readonly userIdKey: MatrixUserKey = CHAT_USER_ID_KEY
+  private readonly chat_idp_id = CHAT_IDP_ID
 
-  readonly homeserverTokenKey: ServerTokenKey = HOMESERVER_TOKEN_KEY
+  readonly homeserverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY
   readonly deviceIdKey: MatrixDeviceIdKey = 'mx_device'
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 
-  static readonly homeserverName: ServerName = HOMESERVER_NAME
+  static readonly homeserverName: ServerName = CHAT_NAME
 
   static transformUserName(name: string): UserName {
     return `@${name.replace(' ', '')}:${this.homeserverName}`
   }
 
   private createTemporaryClient(options?: IMatrixClientCreateOpts): MatrixClient {
-    if (this.client) return this.client
+    if (this.mxClient) return this.mxClient
 
-    this.client = createClient({
-      baseUrl: this.homeserverUrl,
+    this.mxClient = createClient({
+      baseUrl: this.serverUrl,
       ...options,
     })
 
-    return this.client
+    return this.mxClient
   }
 
   public constructor(private readonly callbackUrl: string) {}
@@ -71,9 +71,9 @@ export default class ChatLogin {
   public getRedirectURL(action: SSOAction): string | null {
     try {
       const client = this.createTemporaryClient()
-      this.client = null
+      this.mxClient = null
 
-      return client.getSsoLoginUrl(this.callbackUrl, 'sso', this.idp_id, action)
+      return client.getSsoLoginUrl(this.callbackUrl, 'sso', this.chat_idp_id, action)
     } catch (err) {
       logError(err)
       return null
@@ -90,12 +90,12 @@ export default class ChatLogin {
     })
 
     if (!isString(access_token) || !isString(device_id)) {
-      AsyncStore.setItem(this.matrixLoginKey, 'false').catch((err) => logError(err))
+      AsyncStore.setItem(this.freshLogin, 'false').catch((err) => logError(err))
       return false
     }
 
     // Remove previously stored credentials
-    await AsyncStore.multiRemove([this.homeserverTokenKey, this.deviceIdKey, this.deviceIdKey, this.matrixLoginKey])
+    await AsyncStore.multiRemove([this.homeserverTokenKey, this.deviceIdKey, this.deviceIdKey, this.freshLogin])
 
     // Reset newly received credentials
     const multiSetCreds: [string, string][] = [
@@ -103,31 +103,33 @@ export default class ChatLogin {
       [this.homeserverTokenKey, access_token],
       [this.deviceIdKey, device_id],
       [this.userIdKey, user_id],
-      [this.matrixLoginKey, 'true'],
+      [this.freshLogin, 'true'],
     ]
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
 
     return true
   }
 
-  public restoreSession = async (client: typeof mxClient): Promise<typeof mxClient | null> => {
+  public restoreSession = async (client: typeof mxClient): Promise<typeof mxClient> => {
     const { accessToken, baseUrl, userId, guest, deviceId, freshLogin } = await getStoredSessionCreds()
 
     // TODO abort/retry loging on missing access
     if (accessToken.length === 0) return client
 
     if (freshLogin === true) {
-      await AsyncStore.removeItem(this.matrixLoginKey)
+      await AsyncStore.removeItem(this.freshLogin)
     }
 
     // Restoring session for userId
     client.replaceUsingCreds({ baseUrl, userId, accessToken, deviceId, guest, freshLogin })
 
+    // TODO: Rehydrate client's device instead of using a new device for each session
+
     return client
   }
 
   public getLoginStatus = async (): Promise<boolean> => {
-    const isLoggedin = await AsyncStore.getItem(this.matrixLoginKey)
+    const isLoggedin = await AsyncStore.getItem(this.freshLogin)
     return isLoggedin ? JSON.parse(isLoggedin) : false
   }
 }

@@ -1,4 +1,6 @@
-import { EventTimeline, EventTimelineSet, ICreateClientOpts, MatrixClient, createClient } from 'matrix-js-sdk'
+import type { ICreateClientOpts, IStartClientOpts } from 'matrix-js-sdk'
+import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, createClient } from 'matrix-js-sdk'
+import type { ISyncStateData, SyncState } from 'matrix-js-sdk/lib/sync'
 
 // TODO: make the client accessible to window for development.
 
@@ -46,17 +48,28 @@ class ChatClient {
     this.client.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public replaceUsingCreds(credentials: ChatCredentials): void {
-    this.clientCredentials = credentials
-    this.createClient(credentials)
-  }
-
   public get(): MatrixClient | null {
     return this.client
   }
 
   public unset(): void {
     this.client = null
+  }
+
+  public replaceUsingCreds(credentials: ChatCredentials): void {
+    this.clientCredentials = credentials
+    this.createClient(credentials)
+  }
+
+  public start = async (options?: IStartClientOpts): Promise<void> => {
+    const client = this.get()
+
+    await client?.startClient(options)
+
+    client?.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null, data?: ISyncStateData) => {
+      // eslint-disable-next-line no-console
+      console.log({ state, prevState, data })
+    })
   }
 }
 

@@ -1,31 +1,27 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 
-import { MxClientCredentials } from '@holi/chat/src/MxClient'
+import type { ChatCredentials } from '@holi/chat/src/ChatClient'
 
-import {
-  CHAT_FRESH_LOGIN_KEY,
-  HOMESERVER_DEVICE_ID_KEY,
-  HOMESERVER_TOKEN_KEY,
-  HOMESERVER_URL,
-  HOMESERVER_USER_ID_KEY,
-} from './constants'
+import { CHAT_DEVICE_ID_KEY, CHAT_FRESH_LOGIN_KEY, CHAT_TOKEN_KEY, CHAT_URL, CHAT_USER_ID_KEY } from './constants'
 
-export const getStoredSessionCreds = async (): Promise<MxClientCredentials> => {
-  const keys = [HOMESERVER_TOKEN_KEY, HOMESERVER_DEVICE_ID_KEY, HOMESERVER_USER_ID_KEY, CHAT_FRESH_LOGIN_KEY]
+export const getStoredSessionCreds = async (): Promise<ChatCredentials> => {
+  const keys = [CHAT_TOKEN_KEY, CHAT_DEVICE_ID_KEY, CHAT_USER_ID_KEY, CHAT_FRESH_LOGIN_KEY]
   const values = await AsyncStore.multiGet(keys)
 
-  const credentials = {
-    baseUrl: HOMESERVER_URL,
+  const credentials: ChatCredentials = {
+    baseUrl: CHAT_URL,
     guest: false,
-  } as MxClientCredentials
+    userId: '',
+    accessToken: '',
+  }
 
   // TODO: implement strategy for missing values
   return values.reduce(
     (acc, [key, value]) => ({
       ...acc,
-      ...(key === HOMESERVER_USER_ID_KEY ? { userId: value ?? '' } : {}),
-      ...(key === HOMESERVER_TOKEN_KEY ? { accessToken: value ?? '' } : {}),
-      ...(key === HOMESERVER_DEVICE_ID_KEY ? { deviceId: value ?? '' } : {}),
+      ...(key === CHAT_USER_ID_KEY ? { userId: value ?? '' } : {}),
+      ...(key === CHAT_TOKEN_KEY ? { accessToken: value ?? '' } : {}),
+      ...(key === CHAT_DEVICE_ID_KEY ? { deviceId: value ?? '' } : {}),
       ...(key === CHAT_FRESH_LOGIN_KEY ? { freshLogin: value === 'true' } : {}),
     }),
     credentials

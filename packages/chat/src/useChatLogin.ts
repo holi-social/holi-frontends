@@ -14,7 +14,7 @@ export interface UseChatLogin {
   handleSSORedirect: () => Promise<boolean>
   login: (token: string | undefined) => Promise<boolean>
   getLoginStatus: () => Promise<boolean>
-  restoreSession: (client: typeof mxClient) => Promise<typeof mxClient | null>
+  restoreSession: (client: typeof mxClient) => Promise<typeof mxClient>
 }
 
 const useChatLogin = (): UseChatLogin => {

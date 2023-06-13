@@ -20,21 +20,20 @@ export const Chat = () => {
   // TODO: Move this use effect in the Reducer Context Provider
   useEffect(() => {
     const initMxClient = async () => {
-      const client = mxClient
       const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
       const isLoggedIn = await login(paramToken)
 
       if (isLoggedIn) {
         if (isWeb) {
+          // Remove the access token from the Search Query Params
           window.history.replaceState({}, document.title, '/chat')
         }
       }
 
       // TODO: client singleton is part of the provider value
 
-      await restoreSession(client)
-
-      // TODO: LoadSession
+      const client = await restoreSession(mxClient)
+      await client.start()
     }
 
     initMxClient().catch((err) => {
