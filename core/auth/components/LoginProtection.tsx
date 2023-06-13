@@ -31,6 +31,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     const unsubscribe = navigation.addListener('focus', () => {
       setOnboardingKey(Date.now().toString())
     })
+
     return unsubscribe
   }, [navigation, isLoggedIn])
 

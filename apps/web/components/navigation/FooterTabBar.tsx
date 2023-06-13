@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const FooterTabBar: React.VoidFunctionComponent = () => {
+const FooterTabBar = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
@@ -80,9 +80,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           label={t('chat.title')}
           inline
           transparent
-          onPress={() => {
-            navigate('/chat')
-          }}
+          onPress={() => navigate('/chat')}
           contentStyle={styles.button}
         >
           <HoliIcon

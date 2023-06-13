@@ -12,6 +12,7 @@ export type ChatStackScreensList = {
 }
 
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
+
 const ChatStackNavigator = () => {
   return (
     <ChatStack.Navigator
