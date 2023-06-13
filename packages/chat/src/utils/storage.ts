@@ -3,15 +3,15 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import { MxClientCredentials } from '@holi/chat/src/MxClient'
 
 import {
+  CHAT_FRESH_LOGIN_KEY,
   HOMESERVER_DEVICE_ID_KEY,
-  HOMESERVER_LOGIN_KEY,
   HOMESERVER_TOKEN_KEY,
   HOMESERVER_URL,
   HOMESERVER_USER_ID_KEY,
 } from './constants'
 
 export const getStoredSessionCreds = async (): Promise<MxClientCredentials> => {
-  const keys = [HOMESERVER_TOKEN_KEY, HOMESERVER_DEVICE_ID_KEY, HOMESERVER_USER_ID_KEY, HOMESERVER_LOGIN_KEY]
+  const keys = [HOMESERVER_TOKEN_KEY, HOMESERVER_DEVICE_ID_KEY, HOMESERVER_USER_ID_KEY, CHAT_FRESH_LOGIN_KEY]
   const values = await AsyncStore.multiGet(keys)
 
   const credentials = {
@@ -26,7 +26,7 @@ export const getStoredSessionCreds = async (): Promise<MxClientCredentials> => {
       ...(key === HOMESERVER_USER_ID_KEY ? { userId: value ?? '' } : {}),
       ...(key === HOMESERVER_TOKEN_KEY ? { accessToken: value ?? '' } : {}),
       ...(key === HOMESERVER_DEVICE_ID_KEY ? { deviceId: value ?? '' } : {}),
-      ...(key === HOMESERVER_LOGIN_KEY ? { freshLogin: value === 'true' } : {}),
+      ...(key === CHAT_FRESH_LOGIN_KEY ? { freshLogin: value === 'true' } : {}),
     }),
     credentials
   )

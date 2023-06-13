@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Platform, View } from 'react-native'
 
-import useMatrixLogin from '@holi/chat/src/useMatrixLogin'
+import mxClient from '@holi/chat/src/ChatClient'
+import useChatLogin from '@holi/chat/src/useChatLogin'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -9,15 +10,17 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 const isWeb = Platform.OS === 'web'
 
-export const MatrixChat = () => {
+export const Chat = () => {
   const { displayError } = useErrorHandling()
-  const { login } = useMatrixLogin()
+  const { login, restoreSession } = useChatLogin()
   const { parsedUrl } = useLinking()
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
 
+  // TODO: Move this use effect in the Reducer Context Provider
   useEffect(() => {
-    const handleMxClient = async () => {
+    const initMxClient = async () => {
+      const client = mxClient
       const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
       const isLoggedIn = await login(paramToken)
 
@@ -27,10 +30,14 @@ export const MatrixChat = () => {
         }
       }
 
+      // TODO: client singleton is part of the provider value
+
+      await restoreSession(client)
+
       // TODO: LoadSession
     }
 
-    handleMxClient().catch((err) => {
+    initMxClient().catch((err) => {
       // TODO: in case of a soft logout we would need to fetch a new token and do log again
       displayError(err)
     })

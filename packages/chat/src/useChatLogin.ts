@@ -1,26 +1,29 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect, useRef } from 'react'
 
-import MatrixLogin, { SSOAction } from '@holi/chat/src/MatrixLogin'
+import ChatLogin, { SSOAction } from '@holi/chat/src/ChatLogin'
 import { logError } from '@holi/core/errors/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
 
-export interface UseMatrixLogin {
+import mxClient from './ChatClient'
+
+export interface UseChatLogin {
   deviceName: string
   tokenKey: string
   token: string | null
   handleSSORedirect: () => Promise<boolean>
   login: (token: string | undefined) => Promise<boolean>
   getLoginStatus: () => Promise<boolean>
+  restoreSession: (client: typeof mxClient) => Promise<typeof mxClient | null>
 }
 
-const useMatrixLogin = (): UseMatrixLogin => {
+const useChatLogin = (): UseChatLogin => {
   const token = useRef<string | null>(null)
 
   const { createUrl, openUrl } = useLinking()
   const callbackUrl = createUrl('/chat')
 
-  const matrixLogin = new MatrixLogin(callbackUrl)
+  const matrixLogin = new ChatLogin(callbackUrl)
   const redirectURL = matrixLogin.getRedirectURL(SSOAction.LOGIN)
 
   const handleSSORedirect = useCallback(async () => {
@@ -50,7 +53,8 @@ const useMatrixLogin = (): UseMatrixLogin => {
     token: token.current,
     tokenKey: matrixLogin.homeserverTokenKey,
     getLoginStatus: matrixLogin.getLoginStatus,
+    restoreSession: matrixLogin.restoreSession,
   }
 }
 
-export default useMatrixLogin
+export default useChatLogin

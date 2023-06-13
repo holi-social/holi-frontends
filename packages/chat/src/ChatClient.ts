@@ -2,7 +2,7 @@ import { EventTimeline, EventTimelineSet, ICreateClientOpts, MatrixClient, creat
 
 // TODO: make the client accessible to window for development.
 
-export interface MxClientCredentials {
+export interface ChatCredentials {
   baseUrl: string
   userId: string
   deviceId?: string
@@ -15,11 +15,11 @@ export interface MxClientCredentials {
  * A singleton class that exists on a single session.
  * It should only be consumed through the MxClientProvider.
  */
-class MxClient {
-  private mxClient: MatrixClient | null = null
-  private clientCredentials: MxClientCredentials | null = null
+class ChatClient {
+  private client: MatrixClient | null = null
+  private clientCredentials: ChatCredentials | null = null
 
-  private createClient(credentials: MxClientCredentials): void {
+  private createClient(credentials: ChatCredentials): void {
     const options: ICreateClientOpts = {
       baseUrl: credentials.baseUrl,
       accessToken: credentials.accessToken,
@@ -30,12 +30,12 @@ class MxClient {
       // roomNameGenerator: (_: string, state: RoomNameState) => {}
     }
 
-    this.mxClient = createClient(options)
+    this.client = createClient(options)
 
     // we're going to add eventlisteners for each matrix event tile, so the
     // potential number of event listeners is quite high.
-    this.mxClient.setMaxListeners(500)
-    this.mxClient.setGuest(false)
+    this.client.setMaxListeners(500)
+    this.client.setGuest(false)
 
     const notifTimelineSet = new EventTimelineSet(undefined, {
       timelineSupport: true,
@@ -43,23 +43,23 @@ class MxClient {
     })
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
-    this.mxClient.setNotifTimelineSet(notifTimelineSet)
+    this.client.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public replaceUsingCreds(credentials: MxClientCredentials): void {
+  public replaceUsingCreds(credentials: ChatCredentials): void {
     this.clientCredentials = credentials
     this.createClient(credentials)
   }
 
   public get(): MatrixClient | null {
-    return this.mxClient
+    return this.client
   }
 
   public unset(): void {
-    this.mxClient = null
+    this.client = null
   }
 }
 
-const mxClient = new MxClient()
+const mxClient = new ChatClient()
 
 export default mxClient

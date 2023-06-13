@@ -4,7 +4,7 @@ import type { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs'
 import type { NavigationProp, NavigationState } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import useMatrixLogin from '@holi/chat/src/useMatrixLogin'
+import useChatLogin from '@holi/chat/src/useChatLogin'
 import ChatHome from '@holi/core/screens/ChatHome'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -34,7 +34,7 @@ interface Props {
 }
 
 const ChatStackNavigator = ({ navigation }: Props) => {
-  const { handleSSORedirect, getLoginStatus } = useMatrixLogin()
+  const { handleSSORedirect, getLoginStatus } = useChatLogin()
 
   useEffect(() => {
     // Handle Chat Login/Registration

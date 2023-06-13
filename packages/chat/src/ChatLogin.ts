@@ -6,9 +6,9 @@ import { Platform } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { isString } from '@holi/core/helpers'
 
-import mxClient from './MxClient'
+import mxClient from './ChatClient'
 import {
-  HOMESERVER_LOGIN_KEY,
+  CHAT_FRESH_LOGIN_KEY,
   HOMESERVER_NAME,
   HOMESERVER_TOKEN_KEY,
   HOMESERVER_URL,
@@ -34,14 +34,14 @@ export enum SSOAction {
 /**
  * A temporary client that can be used to login or register a user in the Matrix server.
  */
-export default class MatrixLogin {
+export default class ChatLogin {
   // TODO: replace private with native private class properties e.g. #client
   // RN has an issue with the @babel/plugin-proposal-private-methods in
   // combination with Flatlist's.
   // https://github.com/facebook/react-native/issues/36828
   private client: MatrixClient | null = null
   private readonly homeserverUrl: string = HOMESERVER_URL
-  private readonly matrixLoginKey: MatrixLoginKey = HOMESERVER_LOGIN_KEY
+  private readonly matrixLoginKey: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
   private readonly userIdKey: MatrixUserKey = HOMESERVER_USER_ID_KEY
   private readonly idp_id = IDP_ID
 
