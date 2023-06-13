@@ -17,8 +17,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { Action } from '@holi/ui/components/organisms/HoliActionDrawer/Action'
-import { Confirmation } from '@holi/ui/components/organisms/HoliActionDrawer/Confirmation'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -42,6 +41,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
   const { displayError } = useErrorHandling()
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
   const [showRevokeAdminConfirmationModal, setshowRevokeAdminConfirmationModal] = useState(false)
+  const [showRemoveMemberConfirmationModal, setShowRemoveMemberConfirmationModal] = useState(false)
+  const [showReportMemberConfirmationModal, setShowReportMemberConfirmationModal] = useState(false)
+  const { openToast } = useToast()
 
   const { user } = member
   const [isLoadingReport, reportContent] = useReportContent({
@@ -62,6 +64,10 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       },
       onCompleted() {
         hidePermissions()
+        openToast(
+          t('spaces.collaborators.permissions.remove.user.success', { user: user.fullName }),
+          HoliToastType.SUCCESS
+        )
       },
       refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
     }
@@ -83,6 +89,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
     }).then(() => setshowRevokeAdminConfirmationModal(false))
+  }
+
+  const removeMember = () => {
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.REMOVE_MEMBER,
+        connectionType: SpaceConnectionType.ADMINISTRATOR,
+      },
+    }).then(() => setShowRemoveMemberConfirmationModal(false))
+  }
+
+  const reportMember = () => {
+    reportContent().then(() => {
+      hidePermissions()
+      setShowReportMemberConfirmationModal(false)
+    })
   }
 
   return (
@@ -144,22 +166,33 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               </HoliButton>
             )}
 
-            <Action
-              isLoading={isLoadingReport}
-              action="report"
-              title={t('global.report')}
-              testID="report-comment-button"
-              showConfirmation
+            <HoliButton
+              contentStyle={styles.actionsItem}
+              inline
+              transparent
+              disabled={loading}
+              label={t('spaces.collaborators.permissions.remove.user.label')}
+              onPress={() => setShowRemoveMemberConfirmationModal(true)}
+              testID={'spaces-collaborators-remove-user-btn'}
             >
-              <Confirmation
-                title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
-                description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
-                testID="space-report"
-                handleConfirmation={reportContent}
-                hasDismissBtn
-                requireLogin
-              />
-            </Action>
+              <HoliIcon icon="user-unfollow" style={styles.actionsItemIcon} />
+              <HoliText style={styles.actionsItemText}>
+                {t('spaces.collaborators.permissions.remove.user.label')}
+              </HoliText>
+            </HoliButton>
+
+            <HoliButton
+              contentStyle={styles.actionsItem}
+              inline
+              transparent
+              disabled={isLoadingReport}
+              label={t('global.report')}
+              onPress={() => setShowReportMemberConfirmationModal(true)}
+              testID="report-user-button"
+            >
+              <HoliIcon icon="flag" style={styles.actionsItemIcon} />
+              <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
+            </HoliButton>
 
             <HoliButton
               contentStyle={styles.actionsItem}
@@ -186,9 +219,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             dismissText={t('spaces.collaborators.permissions.confirm.no')}
             confirmText={t('spaces.collaborators.permissions.confirm.yes')}
             testID="spaces-collaborators-grant-admin-confirmation"
-            onConfirm={() => {
-              grantAdminRights()
-            }}
+            onConfirm={grantAdminRights}
           />
 
           <HoliConfirmation
@@ -202,9 +233,31 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             dismissText={t('spaces.collaborators.permissions.confirm.no')}
             confirmText={t('spaces.collaborators.permissions.confirm.yes')}
             testID="spaces-collaborators-revoke-admin-confirmation"
-            onConfirm={() => {
-              revokeAdminRights()
-            }}
+            onConfirm={revokeAdminRights}
+          />
+
+          <HoliConfirmation
+            show={showRemoveMemberConfirmationModal}
+            label={t('spaces.collaborators.permissions.remove.user.label')}
+            title={t('spaces.collaborators.permissions.remove.user.label')}
+            description={t('spaces.collaborators.permissions.remove.user.confirm', {
+              user: user.fullName || t('user.profileView.anonymous'),
+            })}
+            onDismiss={() => setShowRemoveMemberConfirmationModal(false)}
+            dismissText={t('spaces.collaborators.permissions.confirm.no')}
+            confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+            testID="spaces-collaborators-remove-user-confirmation"
+            onConfirm={removeMember}
+          />
+
+          <HoliConfirmation
+            show={showReportMemberConfirmationModal}
+            label={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+            title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
+            description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
+            onDismiss={() => setShowReportMemberConfirmationModal(false)}
+            testID="spaces-collaborators-report-user-confirmation"
+            onConfirm={reportMember}
           />
         </View>
       </HoliModal>

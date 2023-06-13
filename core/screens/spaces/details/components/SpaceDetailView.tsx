@@ -19,12 +19,7 @@ type SpaceDetailViewProps = {
   onChangeTab?: (index: number) => void
 }
 
-const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({
-  space,
-  style,
-  initialTabIndex,
-  onChangeTab = () => null,
-}) => {
+const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTab = () => null }: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 

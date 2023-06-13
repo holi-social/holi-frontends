@@ -66,7 +66,6 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
                 imageElement={<SpaceAvatar space={space} size="large" />}
                 users={space.members.data.map((membership) => membership.user)}
                 href={decodeURI(`/spaces/${space.name}`)}
-                type={section.type}
                 testID="space-link"
                 totalUserCount={space.members.totalResults}
               />

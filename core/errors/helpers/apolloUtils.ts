@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client'
+import { ApolloError, ServerError } from '@apollo/client'
 
 export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT'
 
@@ -22,3 +22,12 @@ export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): F
 }
 
 export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['NOT_FOUND'])
+
+export const isServerError = (error: unknown): error is ServerError => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'statusCode' in error &&
+    typeof (error as ServerError).statusCode === 'number'
+  )
+}
