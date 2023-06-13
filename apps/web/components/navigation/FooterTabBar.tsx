@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import useChatLogin from '@holi/chat/src/useChatLogin'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -17,7 +16,6 @@ const FooterTabBar = () => {
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { handleSSORedirect, getLoginStatus } = useChatLogin()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -25,16 +23,6 @@ const FooterTabBar = () => {
   const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
-
-  const handleChatNavigation = async () => {
-    const isLoggedin = await getLoginStatus()
-    if (!isLoggedin) {
-      const canRedirect = await handleSSORedirect()
-      if (canRedirect) return
-    }
-
-    navigate('/chat')
-  }
 
   return (
     <View
@@ -92,7 +80,7 @@ const FooterTabBar = () => {
           label={t('chat.title')}
           inline
           transparent
-          onPress={handleChatNavigation}
+          onPress={() => navigate('/chat')}
           contentStyle={styles.button}
         >
           <HoliIcon

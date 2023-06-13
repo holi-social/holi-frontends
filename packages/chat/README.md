@@ -9,4 +9,4 @@ contains
 
 ### Prerequisites
 
-Make sure that the [holi chat server](https://gitlab.com/holisticfoundation/holi-chat-server) is running. 
+Make sure that the [holi chat server](https://gitlab.holi.team/app/holi-chat-server) is running. 

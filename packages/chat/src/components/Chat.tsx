@@ -20,6 +20,12 @@ export const Chat = () => {
   // TODO: Move this use effect in the Reducer Context Provider
   useEffect(() => {
     const initMxClient = async () => {
+      // We log in the user if we encounter an access token in the query params.
+      // The use linking hook handles navigation and linking depending on the
+      // platform. It uses the same API as the expo-linking package. In this
+      // case, we are only interested if the paramAccessToken value is a string
+      // or undefined. The query param has the QueryParams | null type from the
+      // expo-linking package.
       const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
       const isLoggedIn = await login(paramToken)
 
@@ -41,6 +47,7 @@ export const Chat = () => {
       displayError(err)
     })
 
+    // This `useEffect` should only be called on mount (once) and should not have any dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

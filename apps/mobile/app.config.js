@@ -10,7 +10,6 @@ export default {
   expo: {
     name: 'holi',
     slug: 'projectholi',
-    jsEngine: 'jsc',
     owner: 'holistic-foundation',
     version: versions.version,
     orientation: 'portrait',

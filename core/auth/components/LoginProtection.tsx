@@ -32,7 +32,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
       setOnboardingKey(Date.now().toString())
     })
 
-    return () => unsubscribe()
+    return unsubscribe
   }, [navigation, isLoggedIn])
 
   if (userId === undefined || (!!userId && isUserLoading)) return <HoliLoader />
