@@ -1,6 +1,5 @@
 import { ApolloError } from '@apollo/client'
 import { RequiredError } from '@ory/client'
-import * as SentrySDK from '@sentry/react-native'
 import { CodedError, registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 // Polyfill for Intl including required locale data
@@ -14,11 +13,10 @@ import * as Sentry from 'sentry-expo'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
+import { reactNativeTracing, reactNativeTracingSampleRate } from './rn_tracing'
 
 export const sentryEnvironment = Constants.manifest?.extra?.environment || process.env.NODE_ENV
 export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
-export const routingInstrumentation = new SentrySDK.ReactNavigationInstrumentation({})
-const tracesSampleRate = ['staging', 'production'].includes(sentryEnvironment) ? 0.01 : 0.1
 
 Sentry.init({
   dsn: sentryDsn || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
@@ -40,15 +38,11 @@ Sentry.init({
 
     return event
   },
-  integrations: [
-    new SentrySDK.ReactNativeTracing({
-      routingInstrumentation,
-    }),
-  ],
-  tracesSampleRate: tracesSampleRate,
+  integrations: [reactNativeTracing],
+  tracesSampleRate: reactNativeTracingSampleRate,
 })
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(App(routingInstrumentation))
+registerRootComponent(App)
