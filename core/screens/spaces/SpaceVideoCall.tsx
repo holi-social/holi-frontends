@@ -32,7 +32,7 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
-  const displayNameParam = user?.firstName ? `#userInfo.displayName="${user?.firstName}"` : ''
+  const displayNameParam = user?.firstName ? encodeURI(`#userInfo.displayName="${user?.firstName}"`) : ''
   const videoCallUrl = getUrlForSpaceVideoCall(space) + displayNameParam
 
   const requestPermissions = useCallback(() => {
