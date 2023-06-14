@@ -64,7 +64,7 @@ const html = `
 <p>Vertretungsberechtigte Personen:</p>
 <p>Piet Mahler</p>
 <p>E-Mail-Adresse:</p>
-<p><a href="mailto:support@holi.team">support@holi.team</a></p>
+<p><a href="mailto:support@holi.social">support@holi.social</a></p>
 <h2>&Uuml;bersicht der Verarbeitungen</h2>
 <p>Die nachfolgende &Uuml;bersicht fasst die Arten der verarbeiteten Daten und die Zwecke ihrer Verarbeitung zusammen und verweist auf die betroffenen Personen.</p>
 <h3>Arten der verarbeiteten Daten</h3>

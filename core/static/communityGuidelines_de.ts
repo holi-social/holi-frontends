@@ -1,6 +1,6 @@
 const html = `<h1>Community Guidelines</h1>
 <p>holi ist bestrebt, das Beste aus jedem Einzelnen und jeder Gruppe herauszuholen, indem wir einen sicheren und einladenden Ort schaffen, der echte menschliche Beziehungen f&ouml;rdert. Generell verlangen wir, dass Spaces und Inhalte, die du erstellst, gesetzeskonform und respektvoll gegen&uuml;ber anderen sind. </p>
-<p>Wenn du das Gef&uuml;hl hast, dass du und deine Rechte nicht respektiert werden, lass es uns bitte wissen, indem du die Person oder den Inhalt direkt &uuml;ber holi meldest oder uns eine E-Mail an <a href="mailto:support@holi.team"><u>support@holi.team</u></a> schickst.</p>
+<p>Wenn du das Gef&uuml;hl hast, dass du und deine Rechte nicht respektiert werden, lass es uns bitte wissen, indem du die Person oder den Inhalt direkt &uuml;ber holi meldest oder uns eine E-Mail an <a href="mailto:support@holi.social"><u>support@holi.social</u></a> schickst.</p>
 <h2>Sei freundlich</h2>
 <ul>
 <li>
@@ -27,7 +27,7 @@ const html = `<h1>Community Guidelines</h1>
 <p>Es ist strengstens untersagt, auf holi illegale und verbotene Aktivit&auml;ten anzubahnen oder durchzuf&uuml;hren (einschlie&szlig;lich der F&ouml;rderung krimineller Aktivit&auml;ten und der Erleichterung oder Beteiligung an Internetkriminalit&auml;t; Kauf, Verkauf oder Erleichterung des Verkaufs illegaler oder regulierter Produkte).</p></li></ul>
 <p>Jedes Verhalten, jede Aktivit&auml;t, jeder Inhalt, jede Person oder Gruppe, die unserer Meinung nach gegen diese Community Guidelines verst&ouml;&szlig;t, kann sanktioniert (z.B. entfernt) werden, entweder vor&uuml;bergehend oder dauerhaft.</p>
 <h2>Was ist zu tun, wenn etwas schief l&auml;uft?</h2>
-<p>Bitte weise auf jeden m&ouml;glichen Versto&szlig; gegen die Community Guidelines hin, indem du die Person oder den Inhalt direkt &uuml;ber holi meldest oder uns eine E-Mail an <a href="mailto:support@holi.team">support@holi.team</a> schickst. Unser Community-Team wird alle Meldungen pr&uuml;fen, sich so schnell wie m&ouml;glich bei Dir melden und entsprechende Ma&szlig;nahmen ergreifen.</p>
+<p>Bitte weise auf jeden m&ouml;glichen Versto&szlig; gegen die Community Guidelines hin, indem du die Person oder den Inhalt direkt &uuml;ber holi meldest oder uns eine E-Mail an <a href="mailto:support@holi.social">support@holi.social</a> schickst. Unser Community-Team wird alle Meldungen pr&uuml;fen, sich so schnell wie m&ouml;glich bei Dir melden und entsprechende Ma&szlig;nahmen ergreifen.</p>
 <p />`
 
 export default html
