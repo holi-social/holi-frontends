@@ -1,4 +1,8 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
+// The Matrix SDK uses the TextEncoder internally.
+// Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
+// We need this lightweight polyfill to support mobile.
+import 'fast-text-encoding'
 import type { IMatrixClientCreateOpts, MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
