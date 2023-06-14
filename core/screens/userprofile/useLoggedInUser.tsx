@@ -10,21 +10,23 @@ export const useLoggedInUser = () => {
   const { displayError } = useErrorHandling()
   const { logout } = useLogout()
 
-  const { data: { authenticatedUser: user } = {}, loading } = useQuery<AuthenticatedUserResponse>(
-    authenticatedUserQuery,
-    {
-      skip: !userId,
-      fetchPolicy: 'cache-and-network',
-      onError: (error) => {
-        logout({ redirectPath: '/' })
-        displayError(error)
-      },
-    }
-  )
+  const {
+    data: { authenticatedUser: user } = {},
+    loading,
+    refetch,
+  } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
+    skip: !userId,
+    fetchPolicy: 'cache-and-network',
+    onError: (error) => {
+      logout({ redirectPath: '/' })
+      displayError(error)
+    },
+  })
 
   return {
     user,
     isLoggedIn: !!user,
     isLoading: loading,
+    refetch,
   }
 }
