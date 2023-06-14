@@ -8,6 +8,7 @@ const versions = {
 
 export default {
   expo: {
+    jsEngine: 'jsc',
     name: 'holi',
     slug: 'projectholi',
     owner: 'holistic-foundation',
