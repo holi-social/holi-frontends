@@ -62,7 +62,7 @@ const html = `
 <p>Authorised Representatives:</p>
 <p>Piet Mahler</p>
 <p>E-mail address:</p>
-<p><a href="mailto:support@holi.team">support@holi.team</a></p>
+<p><a href="mailto:support@holi.social">support@holi.social</a></p>
 <h2>Overview of processing operations</h2>
 <p>The following table summarises the types of data processed, the purposes for which they are processed and the concerned data subjects.</p>
 <h3>Categories of Processed Data</h3>
