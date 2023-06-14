@@ -34,6 +34,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
+    "fast-text-encoding": "^1.0.6",
     "global": "^4.4.0",
     "graphql": "^16.3.0",
     "i18next": "^22.4.9",
