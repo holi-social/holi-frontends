@@ -23,7 +23,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     ref
   ) => {
     const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
-    Loader ??= defaultLoader
+    Loader = defaultLoader || Loader
 
     const [startPoint, setStartPoint] = useState(0)
     const [pullChange, setPullChange] = useState(0)
