@@ -118,36 +118,34 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
 
-  const ProviderContainer = ({ source }: { source: string; url: string }) => {
-    return (
-      <View style={styles.cardContainer}>
-        <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
-        <HoliButton
-          transparent
-          onPress={() => Linking.openURL(engagement.url)}
-          label={t('volunteering:engagementDetail.provider.link.btn', { source })}
-        >
-          <View style={styles.providerInfoRow}>
-            {!!partner?.imgSource && (
-              <HoliLocalImage
-                imageSource={partner.imgSource}
-                isSvg={partner.isSvg}
-                width={40}
-                height={40}
-                style={styles.providerImage}
-                label={t('volunteering:engagementDetail.provider')}
-                resizeMode="contain"
-              />
-            )}
-            <View style={{ flex: 3 }}>
-              <HoliText>{source}</HoliText>
-            </View>
-            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
+  const providerContainer = (
+    <View style={styles.cardContainer}>
+      <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
+      <HoliButton
+        transparent
+        onPress={() => Linking.openURL(engagement.url)}
+        label={t('volunteering:engagementDetail.provider.link.btn', { source: engagement.source })}
+      >
+        <View style={styles.providerInfoRow}>
+          {!!partner?.imgSource && (
+            <HoliLocalImage
+              imageSource={partner.imgSource}
+              isSvg={partner.isSvg}
+              width={40}
+              height={40}
+              style={styles.providerImage}
+              label={t('volunteering:engagementDetail.provider')}
+              resizeMode="contain"
+            />
+          )}
+          <View style={{ flex: 3 }}>
+            <HoliText>{engagement.source}</HoliText>
           </View>
-        </HoliButton>
-      </View>
-    )
-  }
+          <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
+        </View>
+      </HoliButton>
+    </View>
+  )
 
   const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
     return (
@@ -184,7 +182,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {!!partner && <ProviderContainer source={engagement.source} url={partner.url} />}
+            {!!partner && providerContainer}
           </View>
         )}
       </ScrollHeaderLayout.Refreshable>
