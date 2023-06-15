@@ -32,8 +32,8 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
-  const displayNameParam = user?.firstName ? encodeURI(`#userInfo.displayName="${user?.firstName}"`) : ''
-  const videoCallUrl = getUrlForSpaceVideoCall(space) + displayNameParam
+  const displayNameParam = user?.firstName ? `&userInfo.displayName="${user?.firstName}"` : ''
+  const videoCallUrl = getUrlForSpaceVideoCall(space) + encodeURI('#config.disableDeepLinking=true' + displayNameParam)
 
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {
