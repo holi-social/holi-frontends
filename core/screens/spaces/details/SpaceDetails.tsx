@@ -73,7 +73,6 @@ const SpaceDetails = () => {
     leaveSpaceAction,
   } = useLeaveSpace(space)
 
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
@@ -288,8 +287,8 @@ const SpaceDetails = () => {
           initialTabIndex={global.spaceDetailInitialTabIndex}
         />
       </ScrollHeaderLayout.Refreshable>
-      {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
+      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+      {isMember && currentTabIndex === 1 && <UpdateButton />}
     </>
   )
 }
