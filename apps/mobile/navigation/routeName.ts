@@ -23,6 +23,7 @@ export enum RouteName {
   EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
   CreateUpdate = 'CreateUpdate',
+  EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
 

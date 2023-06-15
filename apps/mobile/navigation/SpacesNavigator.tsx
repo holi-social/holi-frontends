@@ -15,7 +15,7 @@ import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHu
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
-import CreateUpdate from '@holi/core/screens/spaces/updates/CreateUpdate'
+import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -28,6 +28,8 @@ export type SpacesScreens = {
   [RouteName.CreateTask]: CreateTaskParams
   [RouteName.EditTask]: EditTaskParams
   [RouteName.TaskDetails]: TaskDetailsParams
+  [RouteName.CreateUpdate]: CreateUpdateParams
+  [RouteName.EditUpdate]: CreateUpdateParams
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
   [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
   [RouteName.SpaceStorage]: SpaceStorageParams
@@ -63,7 +65,8 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.EditTask} component={EditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
-      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateUpdate} />
+      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateSpaceUpdate} />
+      <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
     </SpacesStack.Navigator>

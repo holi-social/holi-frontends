@@ -10,18 +10,18 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
 export interface SpaceUpdateInputFormProps {
-  onChangeVisibility: (_: HoliModalSelectOption) => void
+  onChangeVisibility: (_: VisibilityType) => void
   onChangeTitle: (title: string) => void
   onChangeContent: (title: string) => void
   onUploadImage: (image: HoliImageInfo | undefined) => void
-  visibility?: HoliModalSelectOption
+  visibility?: VisibilityType
   title: string
   content: string
   image: HoliImageInfo | undefined
   isAdmin?: boolean
 }
 
-const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
+const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
   onChangeVisibility,
   onChangeTitle,
   onChangeContent,
@@ -33,7 +33,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
   isAdmin,
 }: SpaceUpdateInputFormProps) => {
   const { t } = useTranslation()
-  const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(
+  const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption<VisibilityType>[]>(
     SPACE_POST_VISIBILITY_TYPE_OPTIONS
   )
 
@@ -54,7 +54,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
     if (visibility) {
       setVisibilityOptions((options) =>
         options.map((visibilityOption) =>
-          visibilityOption.title === visibility.title
+          visibilityOption.id === visibility
             ? { ...visibilityOption, selected: true }
             : { ...visibilityOption, selected: false }
         )
@@ -69,7 +69,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
         style={styles.marginSeparator}
         title={t('spaces.input.update.visibility.label')}
         description={t('spaces.input.update.visibility.description')}
-        onChange={onChangeVisibility}
+        onChange={(option) => onChangeVisibility(option.id)}
         placeholder={t('spaces.input.task.visibility.placeholder')}
         label={t('spaces.input.update.visibility.label')}
         testID="update-visibility-input"

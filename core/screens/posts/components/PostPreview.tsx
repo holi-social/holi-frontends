@@ -43,7 +43,7 @@ const PostPreview = ({
   spaceIdOrName,
   spacePostQueryVariables,
 }: PostPreviewProps) => {
-  const { isLoggedIn, user: loggedUser } = useLoggedInUser()
+  const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
   const { navigate } = useRouting()
@@ -66,7 +66,7 @@ const PostPreview = ({
     navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
   }, [insightId, navigate, post.id, spaceIdOrName])
 
-  const isCurrentUserPostCreator = post.creator.id === user?.id
+  const isCurrentUserPostCreator = post.creator.id === loggedInUser?.id
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
@@ -100,44 +100,52 @@ const PostPreview = ({
         <HoliColumn>
           <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
             {!isCurrentUserPostCreator && ( // is not creator
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingReport}
-                  action="report"
-                  title={t('global.report')}
-                  testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.report.confirmation.title')}
-                    description={t('insights.post.report.confirmation.description')}
-                    handleConfirmation={reportContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
+              <HoliActionDrawer.Action
+                isLoading={isLoadingReport}
+                action="report"
+                title={t('global.report')}
+                testID="report-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('insights.post.report.confirmation.title')}
+                  description={t('insights.post.report.confirmation.description')}
+                  handleConfirmation={reportContent}
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            )}
 
+            {spaceIdOrName && isCurrentUserPostCreator && (
+              <HoliActionDrawer.Action
+                action="edit"
+                title={t('spaces.updates.edit')}
+                testID="edit-update"
+                handleAction={editAction}
+              />
+            )}
             {isCurrentUserPostCreator && ( // is creator
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingPostDeletion}
-                  action="delete"
+              <HoliActionDrawer.Action
+                isLoading={isLoadingPostDeletion}
+                action="delete"
+                title={t('insights.post.delete.confirmation.title')}
+                testID="delete-post-button"
+                showConfirmation
+                variant="danger"
+              >
+                <HoliActionDrawer.Confirmation
                   title={t('insights.post.delete.confirmation.title')}
-                  testID="delete-post-button"
-                  showConfirmation
-                  variant="danger"
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.delete.confirmation.title')}
-                    description={t('insights.post.delete.confirmation.description')}
-                    confirmText={t('confirmation.delete')}
-                    dismissText={t('global.dismiss')}
-                    handleConfirmation={deletePost}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
+                  description={t('insights.post.delete.confirmation.description')}
+                  confirmText={t('confirmation.delete')}
+                  dismissText={t('global.dismiss')}
+                  handleConfirmation={deletePost}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            )}
           </HoliActionDrawer.Drawer>
         </HoliColumn>
       </HoliColumns>
