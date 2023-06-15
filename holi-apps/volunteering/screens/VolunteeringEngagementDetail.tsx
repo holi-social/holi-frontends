@@ -123,7 +123,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
       <HoliButton
         transparent
-        onPress={() => Linking.openURL(engagement.url)}
+        onPress={() => Linking.openURL(partner?.url)}
         label={t('volunteering:engagementDetail.provider.link.btn', { source: engagement.source })}
       >
         <View style={styles.providerInfoRow}>
