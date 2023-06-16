@@ -103,6 +103,9 @@ export const SpaceOverviewFragment = gql`
     avatar
     avatarDefaultColor
     name
+    creator {
+      id
+    }
     connectionStatusToMyself
     members(limit: 3) {
       ...FullSpaceMember
