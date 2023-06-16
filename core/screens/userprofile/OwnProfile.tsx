@@ -5,6 +5,7 @@ import { useWindowDimensions } from 'react-native'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
@@ -32,9 +33,10 @@ const OwnProfile = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const { user, isLoggedIn } = useLoggedInUser()
+  const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
   const { onboardingState } = useOnboarding()
   const isOnboardingFinished = onboardingState === 'finished'
+  const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
@@ -108,7 +110,13 @@ const OwnProfile = () => {
 
   return (
     <LoginProtection>
-      <ScrollHeaderLayout.Default keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        keyboardShouldPersistTaps="handled"
+      >
         {user ? (
           <>
             {editMode && (
@@ -156,7 +164,7 @@ const OwnProfile = () => {
         ) : (
           <HoliLoader />
         )}
-      </ScrollHeaderLayout.Default>
+      </ScrollHeaderLayout.Refreshable>
     </LoginProtection>
   )
 }
