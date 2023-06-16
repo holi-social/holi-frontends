@@ -53,7 +53,7 @@ export interface Space {
   title: string
   description: string
   created: string
-  creator: User
+  creator?: User
   contactDescription?: string
   contactEmail?: string
   contactPhone?: string
