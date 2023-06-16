@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
@@ -18,6 +19,7 @@ export type MySpacesProps = {
 
 const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
   const { visible, show, hide } = useModalState()
+  const { userId } = useAuth()
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
 
@@ -26,12 +28,13 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
 
     if (
       !isOnboarded &&
-      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.CREATOR)) &&
-      mySpacesList.some((space) => !space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR))
+      mySpacesList.some(
+        (space) => space.creator?.id !== userId && space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
+      )
     ) {
       show()
     }
-  }, [mySpaces, show, isOnboarded])
+  }, [mySpaces, show, isOnboarded, userId])
 
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
