@@ -66,17 +66,23 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
         hidePermissions()
         if (showRemoveMemberConfirmationModal) {
           openToast(
-            t('spaces.collaborators.permissions.remove.user.success', { user: user.fullName }),
+            t('spaces.collaborators.permissions.remove.user.success', {
+              user: user.fullName || t('user.profileView.anonymous'),
+            }),
             HoliToastType.SUCCESS
           )
         } else if (showRevokeAdminConfirmationModal) {
           openToast(
-            t('spaces.collaborators.permissions.revokeAdmin.success', { user: user.fullName }),
+            t('spaces.collaborators.permissions.revokeAdmin.success', {
+              user: user.fullName || t('user.profileView.anonymous'),
+            }),
             HoliToastType.SUCCESS
           )
         } else {
           openToast(
-            t('spaces.collaborators.permissions.grantAdmin.success', { user: user.fullName }),
+            t('spaces.collaborators.permissions.grantAdmin.success', {
+              user: user.fullName || t('user.profileView.anonymous'),
+            }),
             HoliToastType.SUCCESS
           )
         }
@@ -225,7 +231,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             label={t('spaces.collaborators.permissions.grantAdmin.label')}
             title={t('spaces.collaborators.permissions.grantAdmin.label')}
             description={t('spaces.collaborators.permissions.grantAdmin.confirm', {
-              user: user.fullName,
+              user: user.fullName || t('user.profileView.anonymous'),
             })}
             onDismiss={() => setShowGrantAdminConfirmationModal(false)}
             dismissText={t('spaces.collaborators.permissions.confirm.no')}
@@ -239,7 +245,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             label={t('spaces.collaborators.permissions.revokeAdmin.label')}
             title={t('spaces.collaborators.permissions.revokeAdmin.label')}
             description={t('spaces.collaborators.permissions.revokeAdmin.confirm', {
-              user: user.fullName,
+              user: user.fullName || t('user.profileView.anonymous'),
             })}
             onDismiss={() => setshowRevokeAdminConfirmationModal(false)}
             dismissText={t('spaces.collaborators.permissions.confirm.no')}
@@ -266,7 +272,9 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
             show={showReportMemberConfirmationModal}
             label={t('user.profileView.report.confirmation.title', { name: user.fullName })}
             title={t('user.profileView.report.confirmation.title', { name: user.fullName })}
-            description={t('user.profileView.report.confirmation.description', { name: user.fullName })}
+            description={t('user.profileView.report.confirmation.description', {
+              name: user.fullName || t('user.profileView.anonymous'),
+            })}
             onDismiss={() => setShowReportMemberConfirmationModal(false)}
             testID="spaces-collaborators-report-user-confirmation"
             onConfirm={reportMember}
