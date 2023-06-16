@@ -24,6 +24,7 @@
     "production": {
       "env": {
         "HOLI_API_URL": "https://production.unified.apis.holi.social/graphql",
+        "JITSI_URL": "https://meet.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social"
       },
