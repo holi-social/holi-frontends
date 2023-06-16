@@ -64,10 +64,22 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
       },
       onCompleted() {
         hidePermissions()
-        openToast(
-          t('spaces.collaborators.permissions.remove.user.success', { user: user.fullName }),
-          HoliToastType.SUCCESS
-        )
+        if (showRemoveMemberConfirmationModal) {
+          openToast(
+            t('spaces.collaborators.permissions.remove.user.success', { user: user.fullName }),
+            HoliToastType.SUCCESS
+          )
+        } else if (showRevokeAdminConfirmationModal) {
+          openToast(
+            t('spaces.collaborators.permissions.revokeAdmin.success', { user: user.fullName }),
+            HoliToastType.SUCCESS
+          )
+        } else {
+          openToast(
+            t('spaces.collaborators.permissions.grantAdmin.success', { user: user.fullName }),
+            HoliToastType.SUCCESS
+          )
+        }
       },
       refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
     }
