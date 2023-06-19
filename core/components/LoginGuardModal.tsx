@@ -1,13 +1,15 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
 export type LoginGuardModalProps = Partial<HoliConfirmationProps>
 
-export const LoginGuardModal: React.VFC<LoginGuardModalProps> = ({
+export const LoginGuardModal = ({
   show = false,
   label,
   title,
@@ -18,16 +20,19 @@ export const LoginGuardModal: React.VFC<LoginGuardModalProps> = ({
   onDismiss,
   confirmationButtonType,
   testID = 'login-guard-modal',
-}) => {
+}: LoginGuardModalProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { props } = useConfirmationState()
+  const pathname = usePathname()
 
   const confirmHandler = useCallback(() => {
-    navigate('/login', { redirectAfterLogin: true })
+    setPathToRedirect(pathname)
+    navigate('/login')
+
     const confirmPropagation = onConfirm?.()
     if (confirmPropagation !== false) props.onConfirm?.()
-  }, [navigate, onConfirm, props])
+  }, [navigate, onConfirm, pathname, props])
 
   const dismissHandler = useCallback(() => {
     const dismissPropagation = onDismiss?.()

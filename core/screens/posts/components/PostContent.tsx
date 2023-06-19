@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import useReportContent from '@holi/core/hooks/useReportContent'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'

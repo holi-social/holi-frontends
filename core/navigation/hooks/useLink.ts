@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { GestureResponderEvent, Linking } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export interface UseLinkProps {
   href: string
@@ -11,7 +11,7 @@ export interface UseLinkProps {
 }
 
 const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkProps) => {
-  const { navigate, navigateBack } = useUnifiedNavigation()
+  const { navigate, navigateBack } = useRouting()
 
   return useCallback(
     async (event: GestureResponderEvent) => {

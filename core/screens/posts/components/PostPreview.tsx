@@ -4,7 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'

@@ -13,7 +13,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -70,8 +70,10 @@ type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
-  useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
+  const setScreenOptions = useSetScreenOptions()
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('volunteering:app.name') })
+  }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 

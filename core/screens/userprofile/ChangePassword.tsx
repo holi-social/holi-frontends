@@ -22,7 +22,8 @@ import {
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -39,7 +40,8 @@ const ChangePassword = () => {
   const [oldPwd, setOldPwd] = useState<string>('')
   const [newPwd, setNewPwd] = useState<string>('')
   const { isLoggedIn } = useLoggedInUser()
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const mixins = useStyleMixins()
@@ -66,7 +68,7 @@ const ChangePassword = () => {
   }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError])
 
   useLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {t('auth.changePassword.heading')}
@@ -75,7 +77,7 @@ const ChangePassword = () => {
     })
 
     initForm()
-  }, [setOptions, initForm, t])
+  }, [initForm, setScreenOptions, t])
 
   const performPasswordChange = async () => {
     if (reauthFlow && settingsFlow) {

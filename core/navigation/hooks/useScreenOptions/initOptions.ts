@@ -1,47 +1,4 @@
-import { createContext, useContext } from 'react'
-
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
-
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-
-export interface NavigationContextType {
-  pathname: string
-  setPathname: (pathName: string) => void
-  redirectPath: string | null
-  setRedirectAfterLogin: (pathName: string | null) => void
-  clearRedirectAfterLogin: () => void
-  options: NavigationCustomOptions
-  setOptions: React.Dispatch<React.SetStateAction<NavigationCustomOptions>>
-}
-
-export interface NavigationCustomOptions extends NativeStackNavigationOptions {
-  navigationCustomOptions?: Partial<{
-    headerBackgroundImageURI: string
-    headerBackgroundGradient: boolean
-    headerBackgroundCustom: React.ReactNode
-    footerShown: boolean
-  }>
-}
-
-export const NavigationContext = createContext<NavigationContextType>({
-  pathname: '/',
-  setPathname: () => null,
-  redirectPath: null,
-  setRedirectAfterLogin: () => null,
-  clearRedirectAfterLogin: () => null,
-  options: {},
-  setOptions: () => null,
-})
-NavigationContext.displayName = 'NavigationContext'
-
-export const useNavigationContext = () => {
-  const context = useContext(NavigationContext)
-
-  if (context === undefined)
-    throw new HoliError('useUnifiedNavigation() must be used within a NavigationContextProvider')
-
-  return context
-}
+import { NavigationCustomOptions } from './types'
 
 export const initialScreenOptions: NavigationCustomOptions = {
   title: undefined,
