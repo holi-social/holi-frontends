@@ -18,13 +18,14 @@ const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, error
       inputLabel={t('spaces.input.goal.label')}
       maxNoOfCharacters={600}
       showCharacterCount={true}
-      noOfVisibleLines={5}
+      noOfVisibleLines={3}
       maxNoOfVisibleLines={10}
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
       accessibilityLabel={t('spaces.input.goal.label')}
       testID="space-goal"
+      inputProps={{ textAlignVertical: 'top' }}
     />
   )
 }

@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
@@ -54,7 +55,12 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
   }
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading || !inputValid}>
+    <EditSpaceModal
+      onDismiss={onDismiss}
+      onSave={onSave}
+      saveButtonDisabled={loading || !inputValid}
+      persistFooter={Platform.OS !== 'android'}
+    >
       <SpaceNameAndGoalForm
         title={t('spaces.input.nameAndGoal.title')}
         onChangeSpaceGoal={setSpaceGoal}
