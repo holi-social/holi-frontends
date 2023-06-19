@@ -7,10 +7,7 @@ import type { IMatrixClientCreateOpts, MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
-import { isString } from '@holi/core/helpers'
-
-import mxClient from './ChatClient'
+import type ChatClient from '@holi/chat/src/ChatClient'
 import {
   CHAT_FRESH_LOGIN_KEY,
   CHAT_IDP_ID,
@@ -18,7 +15,7 @@ import {
   CHAT_TOKEN_KEY,
   CHAT_URL,
   CHAT_USER_ID_KEY,
-} from './utils/constants'
+} from '@holi/chat/src/utils/constants'
 import type {
   MatrixDeviceIdKey,
   MatrixDeviceName,
@@ -27,8 +24,10 @@ import type {
   ServerName,
   ServerTokenKey,
   UserName,
-} from './utils/constants'
-import { getStoredSessionCreds } from './utils/storage'
+} from '@holi/chat/src/utils/constants'
+import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
+import { logError } from '@holi/core/errors/helpers'
+import { isString } from '@holi/core/helpers'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -114,7 +113,7 @@ export default class ChatLogin {
     return true
   }
 
-  public restoreSession = async (client: typeof mxClient): Promise<typeof mxClient> => {
+  public restoreSession = async (client: ChatClient): Promise<ChatClient> => {
     const { accessToken, baseUrl, userId, guest, deviceId, freshLogin } = await getStoredSessionCreds()
 
     // TODO abort/retry loging on missing access

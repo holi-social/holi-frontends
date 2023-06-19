@@ -1,6 +1,14 @@
-import type { ICreateClientOpts, IStartClientOpts } from 'matrix-js-sdk'
-import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, createClient } from 'matrix-js-sdk'
-import type { ISyncStateData, SyncState } from 'matrix-js-sdk/lib/sync'
+import {
+  ClientEvent,
+  EventTimeline,
+  EventTimelineSet,
+  ICreateClientOpts,
+  IStartClientOpts,
+  MatrixClient,
+  MatrixEvent,
+  createClient,
+} from 'matrix-js-sdk'
+import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 // TODO: make the client accessible to window for development.
 
@@ -17,9 +25,10 @@ export interface ChatCredentials {
  * A singleton class that exists on a single session.
  * It should only be consumed through the MxClientProvider.
  */
-class ChatClient {
+export default class ChatClient {
   private client: MatrixClient | null = null
   private clientCredentials: ChatCredentials | null = null
+  readonly newMemberEvents: MatrixEvent[] = []
 
   private createClient(credentials: ChatCredentials): void {
     const options: ICreateClientOpts = {
@@ -61,18 +70,18 @@ class ChatClient {
     this.createClient(credentials)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<void> => {
+  public start = async (options?: IStartClientOpts): Promise<MatrixClient> => {
     const client = this.get()
+    if (!client) throw new Error('Unable to start client')
 
-    await client?.startClient(options)
+    await client.startClient(options)
 
-    client?.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null, data?: ISyncStateData) => {
+    client.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       // eslint-disable-next-line no-console
-      console.log({ state, prevState, data })
+      console.log({ state, prevState })
+      if (state === SyncState.Syncing && prevState === SyncState.Syncing) return
     })
+
+    return client
   }
 }
-
-const mxClient = new ChatClient()
-
-export default mxClient
