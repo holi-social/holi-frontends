@@ -10,7 +10,9 @@
     "clean:all": "rimraf node_modules"
   },
   "dependencies": {
-    "matrix-js-sdk": "^25.1.1"
+    "matrix-js-sdk": "^25.1.1",
+    "react-tracked": "^1.7.11",
+    "scheduler": "^0.23.0"
   },
   "peerDependencies": {
     "react": "18.2.0",
