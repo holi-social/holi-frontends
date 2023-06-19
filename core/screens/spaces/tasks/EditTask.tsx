@@ -49,6 +49,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [thumbnailBlurhash, setThumbnailBlurhash] = useState<string | undefined>()
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
@@ -178,6 +179,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       setContactEmail(task.contactEmail)
       setSlotsAvailable(task.slotsAvailable)
       setCurrentThumbnail(task.thumbnail)
+      setThumbnailBlurhash(task.thumbnailBlurhash)
       setSkills(task.skills)
       setLocation(task.location)
       setGeolocation(task.geolocation)
@@ -248,6 +250,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         contactEmail={contactEmail}
         slotsAvailable={slotsAvailable}
         thumbnail={thumbnail}
+        thumbnailBlurhash={thumbnailBlurhash}
         skills={skills}
         geolocation={geolocation}
         selectedLocation={selectedLocation}

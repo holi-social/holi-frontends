@@ -45,6 +45,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [description, setDescription] = useState<string | undefined>('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [thumbnailBlurhash, setCurrentThumbnailBlurhash] = useState<string | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -132,6 +133,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         setDescription(digitalTool.description)
         setSelectedCollection(toolCollectionType)
         setCurrentThumbnail(digitalTool.thumbnail)
+        setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
       }
     }
   }, [space, toolIdOrName, t])
@@ -189,6 +191,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         title={title}
         description={description}
         thumbnail={thumbnail}
+        thumbnailBlurhash={thumbnailBlurhash}
         fieldErrors={fieldErrors}
         currentThumbnail={currentThumbnail}
       />

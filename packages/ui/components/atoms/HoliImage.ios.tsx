@@ -10,7 +10,7 @@ import { transformSourcesURL } from '@holi/ui/components/utils/image'
 // TODO: Unify the HoliImage component with Expo-Image
 // after the release of the Android regression fix.
 // https://github.com/expo/expo/issues/21921
-const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliImageProps & ImageProps) => {
+const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testID }: HoliImageProps & ImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !!label,
     accessibilityRole: 'image',
@@ -20,6 +20,7 @@ const HoliImage = ({ source, label, style, resizeMode = 'cover', testID }: HoliI
   return (
     <Image
       source={transformSourcesURL(source)}
+      placeholder={blurhash}
       style={style}
       contentFit={resizeMode}
       testID={testID}

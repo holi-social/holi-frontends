@@ -10,6 +10,7 @@ export interface ImageSource {
 
 export interface HoliImageProps {
   source: ImageSource[] | ImageURISource
+  blurhash?: string
   label: string
   resizeMode?: ImageContentFit
   /**

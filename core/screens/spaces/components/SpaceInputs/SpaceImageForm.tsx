@@ -16,6 +16,7 @@ export type SpaceImageFormProps = {
   instructions?: string
   onUploadImage: (image: HoliImageInfo | undefined) => void
   image: HoliImageInfo | undefined
+  blurhash?: string | undefined
   currentImageUri?: string
   style?: ViewStyle
   previewVariant?: string
@@ -27,6 +28,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
   instructions,
   onUploadImage,
   image,
+  blurhash,
   currentImageUri,
   style,
   previewVariant = 'default',
@@ -47,6 +49,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             <View style={styles.imageContainer}>
               <HoliImage
                 source={{ uri: image ? image.uri : uri }}
+                blurhash={blurhash}
                 label={t('spaces.input.coverImage.label')}
                 style={{
                   aspectRatio: 1.5,

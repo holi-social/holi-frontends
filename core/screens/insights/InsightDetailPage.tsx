@@ -113,6 +113,7 @@ const InsightDetailPage = () => {
                 <View style={styles.authorInfoInner}>
                   <HoliAvatar
                     imageSrc={author.avatar}
+                    imageBlurhash={author.avatarBlurhash}
                     label={author.fullName}
                     initials={author.avatarLabel || ''}
                     defaultColor={author.avatarDefaultColor || ''}

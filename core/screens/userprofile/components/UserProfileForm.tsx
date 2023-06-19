@@ -118,6 +118,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     <View style={styles.headerContainer}>
       <HoliAvatar
         imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
+        imageBlurhash={user.avatarBlurhash}
         label={user?.firstName || ''}
         initials={user?.avatarLabel || ''}
         defaultColor={user?.avatarDefaultColor || '#FFAE86'}

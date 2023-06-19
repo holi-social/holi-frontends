@@ -163,6 +163,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 <View style={styles.inputContainer}>
                   <HoliAvatar
                     imageSrc={user.avatar}
+                    imageBlurhash={user.avatarBlurhash}
                     label={user.fullName}
                     initials={user.avatarLabel || ''}
                     defaultColor={user.avatarDefaultColor || ''}

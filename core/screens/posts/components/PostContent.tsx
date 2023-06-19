@@ -97,7 +97,13 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
       </View>
 
       {post.image && (
-        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+        <PostImage
+          uri={post.image.url}
+          imageBlurhash={post.image.imageBlurhash}
+          height={post.image.height}
+          width={post.image.width}
+          postTitle={post.title}
+        />
       )}
 
       {!!post.links?.length && (

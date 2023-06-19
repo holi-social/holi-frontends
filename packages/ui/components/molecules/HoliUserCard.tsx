@@ -42,13 +42,14 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
     return <View style={[styles.cardContainer, style]} />
   }
 
-  const { fullName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user
+  const { fullName, avatar, avatarBlurhash, avatarLabel, avatarDefaultColor, aboutMe } = user
 
   return (
     <>
       <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
         <HoliAvatar
           imageSrc={avatar}
+          imageBlurhash={avatarBlurhash}
           label={fullName || t('user.profileView.anonymous')}
           initials={avatarLabel}
           defaultColor={avatarDefaultColor}

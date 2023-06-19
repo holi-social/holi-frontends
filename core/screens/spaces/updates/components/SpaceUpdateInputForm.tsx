@@ -18,6 +18,7 @@ export interface SpaceUpdateInputFormProps {
   title: string
   content: string
   image: HoliImageInfo | undefined
+  blurhash?: string
   isAdmin?: boolean
 }
 
@@ -30,6 +31,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
   title,
   content,
   image,
+  blurhash,
   isAdmin,
 }: SpaceUpdateInputFormProps) => {
   const { t } = useTranslation()
@@ -106,6 +108,7 @@ const SpaceUpdateInputForm: React.VFC<SpaceUpdateInputFormProps> = ({
       <SpaceImageForm
         onUploadImage={onUploadImage}
         image={image}
+        blurhash={blurhash}
         instructions={t('spaces.input.update.image.upload.hint')}
       />
     </>

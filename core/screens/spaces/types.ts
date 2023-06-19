@@ -46,6 +46,7 @@ export interface SpaceCollaborationTool {
   collectionType: CollaborationType
   description?: string
   thumbnail?: string
+  thumbnailBlurhash?: string
 }
 
 export interface Space {
@@ -58,6 +59,7 @@ export interface Space {
   contactEmail?: string
   contactPhone?: string
   cover: string
+  coverBlurhash: string
   location: string
   geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
@@ -66,6 +68,7 @@ export interface Space {
   name: string
   links?: SpaceLink[]
   avatar?: string
+  avatarBlurhash?: string
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
@@ -104,6 +107,7 @@ export interface Task {
   contactPhone?: string
   geolocation?: GeolocationPoint
   thumbnail?: string
+  thumbnailBlurhash?: string
 }
 
 export enum VisibilityType {

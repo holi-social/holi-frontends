@@ -29,6 +29,7 @@ export interface PostImage {
   url: string
   height: number
   width: number
+  imageBlurhash: string
 }
 
 export interface Link {
