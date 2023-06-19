@@ -96,7 +96,7 @@ export default {
         url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
       },
       jitsi: {
-        url: 'https://meet.inoio.de', // TODO: adjust in HOLI-4525
+        url: process.env.JITSI_URL || 'https://development.meet.holi.social',
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,

@@ -54,6 +54,10 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     loading: spaceQueryLoading,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) => {
+      navigateBack()
+      displayError(error, error.message)
+    },
   })
   const space = spaceQueryData?.spaceById
 
@@ -64,14 +68,18 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
+    onError: (error) => {
+      navigateBack()
+      displayError(error, error.message)
+    },
   })
   const postToUpdate = postQueryData?.postById
 
   useEffect(() => {
     if (postToUpdate) {
-      setTitle(postToUpdate.title)
-      setContent(postToUpdate.text)
-      setImage(postToUpdate.image)
+      postToUpdate.title && setTitle(postToUpdate.title)
+      postToUpdate.text && setContent(postToUpdate.text)
+      postToUpdate.image ?? setImage(postToUpdate.image)
       setVisibility(postToUpdate.isPublic ? VisibilityType.PUBLIC : VisibilityType.MEMBERS)
     }
   }, [postToUpdate])

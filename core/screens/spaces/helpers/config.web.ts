@@ -6,6 +6,5 @@ export const owncloudUrl = (() => {
 })()
 
 export const jitsiUrl = (() => {
-  // TODO: adjust in HOLI-4525
-  return 'https://meet.inoio.de'
+  return environmentId === 'production' ? 'https://meet.holi.social' : 'https://development.meet.holi.social'
 })()
