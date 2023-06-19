@@ -83,6 +83,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
       keyboardShouldPersistTaps="handled"
       scrollable={false}
       loading={loading}
+      hideFooterWhenKeyboardIsOpen={true}
     >
       <View style={styles.container}>
         <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
