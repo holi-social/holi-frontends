@@ -7,7 +7,6 @@ import RoomView from '@holi/chat/src/components/RoomView'
 import * as Room from '@holi/chat/src/room/room'
 import { useRoomDispatch } from '@holi/chat/src/room/store'
 import useChatLogin from '@holi/chat/src/useChatLogin'
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -18,7 +17,7 @@ const isWeb = Platform.OS === 'web'
 
 const ChatView = () => {
   const chatClient = useMemo(() => new ChatClient(), [])
-  const dispatch = useRoomDispatch()
+  const roomDispatch = useRoomDispatch()
 
   const { displayError } = useErrorHandling()
   const { login, restoreSession } = useChatLogin()
@@ -28,7 +27,7 @@ const ChatView = () => {
 
   // TODO: Move this use effect in the Reducer Context Provider
   useEffect(() => {
-    const initMxClient = async () => {
+    const initMatrixClient = async () => {
       // We log in the user if we encounter an access token in the query params.
       // The use linking hook handles navigation and linking depending on the
       // platform. It uses the same API as the expo-linking package. In this
@@ -50,12 +49,20 @@ const ChatView = () => {
 
       matrixClient.on(RoomStateEvent.NewMember, async (event) => {
         const hasInvitation = await Room.hasPendingInvitation(event)
-        if (!hasInvitation) return
-        dispatch({ type: 'room/invitation_pending', payload: { hasPendingInvitation: hasInvitation } })
+        const roomId = event.getRoomId()
+        if (!hasInvitation || !roomId) return
+
+        roomDispatch({
+          type: 'room/invitation_pending',
+          payload: {
+            hasPendingInvitation: hasInvitation,
+            id: roomId,
+          },
+        })
       })
     }
 
-    initMxClient().catch((err) => {
+    initMatrixClient().catch((err) => {
       // TODO: in case of a soft logout we would need to fetch a new token and do log again
       displayError(err)
     })
@@ -67,15 +74,10 @@ const ChatView = () => {
   // TODO: this room creation function is used when we click one or n users to chat with
   const handleRoomCreation = async () => {
     const testUserIds: string[] = []
-    const matrixClient = chatClient.get()
-    if (!matrixClient) {
-      logError(new Error('A Matrix client is necessary for creating a room'))
-      return
-    }
 
     // TODO: Dispatch room id and update rooms
     // TODO: Dispatch open new room conversation
-    const roomId = await Room.create(matrixClient, testUserIds, Room.dmRoomOptions)
+    const roomId = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
 
     if (!roomId?.room_id) {
       return
@@ -88,7 +90,7 @@ const ChatView = () => {
       <HoliButton label={'Create a room'} onPress={handleRoomCreation}>
         Create a room
       </HoliButton>
-      <RoomView />
+      <RoomView client={chatClient} />
     </>
   )
 }

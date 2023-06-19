@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { ICreateRoomOpts, MatrixClient, MatrixEvent } from 'matrix-js-sdk'
+import type { ICreateRoomOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { Preset, Visibility } from 'matrix-js-sdk'
 
+import type ChatClient from '@holi/chat/src/ChatClient'
 import { CHAT_USER_ID_KEY } from '@holi/chat/src/utils/constants'
 import { logError } from '@holi/core/errors/helpers'
 
@@ -27,16 +28,19 @@ export const dmRoomOptions: ICreateRoomOpts = {
 }
 
 export async function create(
-  client: MatrixClient,
+  client: ChatClient,
   targetIds: string[],
   options: ICreateRoomOpts
 ): Promise<RoomId | undefined> {
   if (!options) return
   if (targetIds.length < 1) throw new Error('Chat rooms should be created with at least one user')
 
+  const matrixClient = client.get()
+  if (!matrixClient) throw new Error('An initialized Matrix client is necessary for creating a room')
+
   try {
     const inviteOption = { invite: targetIds }
-    return client.createRoom(Object.assign(options, inviteOption))
+    return matrixClient.createRoom(Object.assign(options, inviteOption))
   } catch (err) {
     logError(err)
     return
@@ -84,4 +88,13 @@ export async function hasPendingInvitation(event: MatrixEvent, userIdKey = CHAT_
   const content = event.getContent()
 
   return content.membership === Membership.Invite.toLowerCase()
+}
+
+export async function join(client: ChatClient, roomId: string): Promise<Room> {
+  const matrixClient = client.get()
+  if (!matrixClient) throw new Error('An initialized Matrix client is necessary for accepting a room invitation')
+
+  const room = await matrixClient.joinRoom(roomId, { syncRoom: true })
+
+  return room
 }
