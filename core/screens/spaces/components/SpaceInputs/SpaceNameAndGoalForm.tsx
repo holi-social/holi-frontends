@@ -52,7 +52,7 @@ export default SpaceNameAndGoalForm
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 132,
+    paddingBottom: 164,
     paddingHorizontal: 0,
     ...Platform.select({
       native: {
@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    marginBottom: 24,
-    marginTop: 40,
+    marginVertical: 24,
   },
   goalInputContainer: {
     marginTop: 24,

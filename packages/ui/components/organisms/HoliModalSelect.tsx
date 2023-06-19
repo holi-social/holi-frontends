@@ -14,8 +14,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
 
-export type HoliModalSelectOption = {
-  id: string
+export type HoliModalSelectOption<IDType extends string = string> = {
+  id: IDType
   title: string
   description?: string
   icon?: string
@@ -23,9 +23,9 @@ export type HoliModalSelectOption = {
   disabled?: boolean
 }
 
-export type HoliModalSelectProps = {
-  options: HoliModalSelectOption[]
-  onChange: (option: HoliModalSelectOption) => void
+export type HoliModalSelectProps<IDType extends string = string> = {
+  options: HoliModalSelectOption<IDType>[]
+  onChange: (option: HoliModalSelectOption<IDType>) => void
   title: string
   label: string
   description?: string
@@ -37,7 +37,7 @@ export type HoliModalSelectProps = {
   showOptionIcon?: boolean
 }
 
-const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
+const HoliModalSelect = <IDType extends string>({
   options,
   onChange = () => null,
   title,
@@ -49,8 +49,8 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   isRequired,
   variant = 'normal',
   showOptionIcon = false,
-}: HoliModalSelectProps) => {
-  const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption | undefined>()
+}: HoliModalSelectProps<IDType>) => {
+  const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
 
   const { show, hide, visible } = useModalState()
@@ -68,7 +68,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   })
 
   const renderOption = useCallback(
-    (option: HoliModalSelectOption) => (
+    (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
         contentStyle={styles.optionCardContent}
         style={[!isDense && styles.optionCard]}

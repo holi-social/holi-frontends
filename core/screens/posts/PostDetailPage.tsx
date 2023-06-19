@@ -134,7 +134,11 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         ref={scrollViewRef}
       >
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
-          <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
+          <PostContent
+            hasVisibilityIcon={hasVisibilityIcon}
+            style={styles.postContent}
+            {...{ post, spaceIdOrName, insightId }}
+          />
 
           {/* Post comments */}
           {comments.length > 0 && (

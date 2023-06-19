@@ -8,6 +8,7 @@ import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWiza
 import HoliWizardNaviagtionButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+import { useKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -26,6 +27,12 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const mixins = useStyleMixins()
+
+    const { isKeyboardOpen } = useKeyboard()
+
+    // TODO: This behavior of hiding on the first step only is a temporary solution for Android.
+    // This will be refactored with HOLI-4689.
+    const hideFooterButtons = Platform.OS === 'android' && currentStep === 0 && isKeyboardOpen
 
     const arrayChildren = Children.toArray(children)
     const stepCount = arrayChildren.length
@@ -88,16 +95,18 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
             {arrayChildren && arrayChildren[currentStep]}
           </ScrollView>
 
-          <HoliWizardNaviagtionButtons
-            onNextPress={handleNextButtonPress}
-            onBackPress={handleBackButtonPress}
-            submitButtonLabel={submitButtonLabel}
-            isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
-            isNextButtonEnabled={isNextButtonEnabled}
-            isLastStep={currentStep === stepCount - 1}
-            isLoading={isLoading}
-            style={styles.buttonContainer}
-          />
+          {!hideFooterButtons && (
+            <HoliWizardNaviagtionButtons
+              onNextPress={handleNextButtonPress}
+              onBackPress={handleBackButtonPress}
+              submitButtonLabel={submitButtonLabel}
+              isBackButtonAvailable={isBackButtonAvailable && currentStep > 0}
+              isNextButtonEnabled={isNextButtonEnabled}
+              isLastStep={currentStep === stepCount - 1}
+              isLoading={isLoading}
+              style={styles.buttonContainer}
+            />
+          )}
         </HoliWizardContext.Provider>
       </SafeAreaView>
     )
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     width: '100%',
     justifyContent: 'center',
-    paddingTop: Platform.OS === 'android' ? 32 : 16,
+    paddingTop: 42,
   },
   buttonContainer: {
     bottom: 0,

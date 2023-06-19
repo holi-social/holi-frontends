@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactForm'
@@ -72,6 +73,7 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
       saveButtonDisabled={loading || !inputValid}
       scrollable={false}
       keyboardShouldPersistTaps="never"
+      persistFooter={Platform.OS !== 'android'}
     >
       <SpaceContactForm
         title={t('space.input.contact.title')}

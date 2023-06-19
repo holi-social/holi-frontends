@@ -84,6 +84,7 @@ const UserProfile = () => {
     insightsByUserIdTotalResultsQuery,
     {
       variables: { userId },
+      skip: !userId, // userId is empty for initial page load
     }
   )
 
