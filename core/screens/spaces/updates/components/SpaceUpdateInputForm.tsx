@@ -31,7 +31,7 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
   content,
   image,
   isAdmin,
-}: SpaceUpdateInputFormProps) => {
+}) => {
   const { t } = useTranslation()
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption<VisibilityType>[]>(
     SPACE_POST_VISIBILITY_TYPE_OPTIONS

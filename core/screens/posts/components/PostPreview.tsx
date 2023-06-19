@@ -60,11 +60,12 @@ const PostPreview = ({
   const visibilityIcon = post.isPublic ? 'global' : 'lock'
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
 
-  const commentUrl = `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`
+  const postUrl = getPostUrl(post.id, insightId, spaceIdOrName)
+  const commentUrl = postUrl + '/comment'
 
   const editAction = useCallback(() => {
-    navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
-  }, [insightId, navigate, post.id, spaceIdOrName])
+    navigate(postUrl + '/edit')
+  }, [navigate, postUrl])
 
   const isCurrentUserPostCreator = post.creator.id === loggedInUser?.id
 
