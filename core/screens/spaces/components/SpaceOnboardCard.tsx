@@ -25,19 +25,18 @@ const SpaceOnboardCard = ({ content }: OnboardCardProps) => {
     <View style={styles.onboardCardContainer}>
       <HoliLocalImage
         imageSource={content.image}
-        width={279}
-        height={200}
+        width={240}
+        height={174}
         label={''}
         isSvg={true}
         resizeMode="contain"
         style={styles.illustration}
       />
-      <Trans
-        t={t}
-        style={styles.onboardingDescription}
-        i18nKey={t(content.description)}
-        components={{ bold: <strong />, center: <HoliText style={{ textAlign: 'center' }} /> }}
-      />
+      <HoliText style={styles.onboardingDescription}>
+        <Trans t={t} i18nKey={content.description}>
+          <HoliText bold />
+        </Trans>
+      </HoliText>
       <HoliText bold style={styles.onboardingInstruction}>
         {t(content.instruction)}
       </HoliText>
