@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    marginTop: 40,
+    marginTop: 24,
   },
   subTitle: {
     marginBottom: 32,

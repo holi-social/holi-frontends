@@ -25,6 +25,7 @@ const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, error
       onChange={onChange}
       accessibilityLabel={t('spaces.input.goal.label')}
       testID="space-goal"
+      inputProps={{ textAlignVertical: 'top' }}
     />
   )
 }

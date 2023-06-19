@@ -323,7 +323,7 @@
   "spaces.create.close.dialog.description": "Do you really want to discard the creation of your Space?",
   "spaces.create.close.dialog.dismiss": "Cancel",
   "spaces.create.close.dialog.title": "You will loose your input",
-  "spaces.create.stepOne.title": "Let's get started with your Space",
+  "spaces.create.stepOne.title": "Let's get started",
   "spaces.create.stepThree.title": "Add a cover image to your Space",
   "spaces.create.stepTwo.title": "Choose topics your Space will cover",
   "spaces.create.title": "Create a Space",
