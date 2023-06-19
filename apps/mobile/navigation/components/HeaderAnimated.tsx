@@ -17,7 +17,7 @@ import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 
 import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/NavigationContextProvider'
+import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const HEADER_HEIGHT = 44
@@ -62,7 +62,7 @@ const useHeaderHideAnimation = (headerHeight = HEADER_HEIGHT) => {
   })
 }
 
-const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, route, navigation }) => {
+const HeaderAnimated = ({ back, options, route, navigation }: NativeStackHeaderProps) => {
   const {
     headerTitleAlign = 'center',
     headerTintColor,

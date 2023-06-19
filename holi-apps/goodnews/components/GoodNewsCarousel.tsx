@@ -9,7 +9,7 @@ import Carousel from 'react-native-reanimated-carousel'
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import {
@@ -23,8 +23,6 @@ import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsHeader from './GoodNewsHeader'
 import GoodNewsTeaserComponent from './GoodNewsTeaserComponent'
 
-type GoodNewsCarouselProps = Record<string, never>
-
 type CarouselItem = {
   type: 'article' | 'teaser'
   article: GoodNewsArticle
@@ -35,12 +33,12 @@ export type GoodNewsArticleParams = {
 const { useParam } = createParam<GoodNewsArticleParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
-const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
+const GoodNewsCarousel = () => {
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => getStyles(width, height), [width, height])
-  const { setOptions } = useUnifiedNavigation()
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
+  const setScreenOptions = useSetScreenOptions()
 
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -72,7 +70,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     articles[activeArticleIndex] && dateFormat.format(Date.parse(articles[activeArticleIndex].date))
 
   useEffect(() => {
-    setOptions({
+    setScreenOptions({
       headerTitle: ({ tintColor }) => {
         return <GoodNewsHeader tintColor={tintColor} formattedDate={activeArticleFormattedDate} />
       },
@@ -85,7 +83,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
-  }, [setOptions, activeArticleFormattedDate])
+  }, [activeArticleFormattedDate, setScreenOptions])
 
   useEffect(() => {
     if (paramArticleId) {

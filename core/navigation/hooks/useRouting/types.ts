@@ -1,21 +1,6 @@
-/*
-WARNING: Convention: query param in native via Linking, in web via file name:
-feedId query param
-  -> mobile (Linking): Screen: route/:feedId
-  -> web (page): route/[feedId].tsx
-*/
-
-export type navigateOptions = {
-  redirectAfterLogin?: boolean
-}
-
-export type RoutingState = {
-  navigate: (routeName: string, options?: navigateOptions) => void
+export interface RoutingState {
+  navigate: (routeName: string) => void
   navigateBack: (fallbackRouteName?: string) => void
   replaceRoute: (routeName: string) => Promise<boolean>
-  redirect: () => void
-  // pathnahme in mobile is depending on the navigator in which it is used
-  pathname: string
+  setParams: (params: Record<string, unknown>) => void
 }
-
-export type UseRouting = () => RoutingState

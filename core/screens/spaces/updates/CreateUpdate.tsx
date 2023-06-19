@@ -1,17 +1,14 @@
 import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
 import useCreateOrUpdateSpacePost from '@holi/core/screens/spaces/updates/useUpdateSpaceUpdates'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -22,13 +19,10 @@ export type CreateUpdateParams = {
 
 const { useParam } = createParam<CreateUpdateParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const CreateSpaceUpdate: React.FC<ScreenProps> = () => {
-  const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
-
+const CreateSpaceUpdate = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
+  const setScreenOptions = useSetScreenOptions()
+  const { t } = useTranslation()
   const [postId] = useParam('postId')
 
   //input fields
@@ -85,7 +79,7 @@ const CreateSpaceUpdate: React.FC<ScreenProps> = () => {
   useLayoutEffect(() => {
     !loading &&
       isMember &&
-      setOptions({
+      setScreenOptions({
         animation: 'slide_from_bottom',
         title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
         headerStyle: { backgroundColor: colors.background20 },
@@ -95,7 +89,7 @@ const CreateSpaceUpdate: React.FC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loading, isUpdate, isMember])
+  }, [setScreenOptions, t, loading, isUpdate, isMember])
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !space || !isMember) {

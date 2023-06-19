@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -13,7 +14,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 const FooterTabBar = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
-  const { navigate, pathname } = useRouting()
+  const { navigate } = useRouting()
+  const pathname = usePathname()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
 

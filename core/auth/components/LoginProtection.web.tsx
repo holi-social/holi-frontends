@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'

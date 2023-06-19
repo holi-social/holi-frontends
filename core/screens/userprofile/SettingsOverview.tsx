@@ -8,7 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -17,8 +17,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const SettingsOverview = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
-  const { setOptions } = useUnifiedNavigation()
   const { logout, isLoggingOut } = useLogout()
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
@@ -26,7 +26,9 @@ const SettingsOverview = () => {
     },
   })
 
-  useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('profile.settings.overview.title') })
+  }, [setScreenOptions, t])
 
   const goTo = useCallback(
     (url: string) => () => {

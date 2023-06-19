@@ -6,7 +6,6 @@ import { Platform, StyleSheet } from 'react-native'
 import client from '@holi/api/graphql/client'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -43,12 +42,10 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
           <ApolloProvider client={client}>
             <ToastProvider>
               <PortalProvider>
-                <NavigationContextProvider>
-                  <SessionExpiryProtection>
-                    {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                    <LoginModalProvider>{children}</LoginModalProvider>
-                  </SessionExpiryProtection>
-                </NavigationContextProvider>
+                <SessionExpiryProtection>
+                  {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                  <LoginModalProvider>{children}</LoginModalProvider>
+                </SessionExpiryProtection>
               </PortalProvider>
             </ToastProvider>
           </ApolloProvider>
