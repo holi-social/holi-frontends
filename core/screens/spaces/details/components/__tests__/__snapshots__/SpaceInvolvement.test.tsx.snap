@@ -996,7 +996,11 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                               "left": "50%",
                               "top": "50%",
                             },
-                            "placeholder": [],
+                            "placeholder": [
+                              {
+                                "uri": "",
+                              },
+                            ],
                             "source": [
                               {
                                 "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -1689,7 +1693,11 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                               "left": "50%",
                               "top": "50%",
                             },
-                            "placeholder": [],
+                            "placeholder": [
+                              {
+                                "uri": "",
+                              },
+                            ],
                             "source": [
                               {
                                 "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -2382,7 +2390,11 @@ exports[`SpaceInvolvement renders correctly for collaborators 1`] = `
                               "left": "50%",
                               "top": "50%",
                             },
-                            "placeholder": [],
+                            "placeholder": [
+                              {
+                                "uri": "",
+                              },
+                            ],
                             "source": [
                               {
                                 "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -3132,7 +3144,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "left": "50%",
                         "top": "50%",
                       },
-                      "placeholder": [],
+                      "placeholder": [
+                        {
+                          "uri": "",
+                        },
+                      ],
                       "source": [
                         {
                           "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -3825,7 +3841,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "left": "50%",
                         "top": "50%",
                       },
-                      "placeholder": [],
+                      "placeholder": [
+                        {
+                          "uri": "",
+                        },
+                      ],
                       "source": [
                         {
                           "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -4518,7 +4538,11 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         "left": "50%",
                         "top": "50%",
                       },
-                      "placeholder": [],
+                      "placeholder": [
+                        {
+                          "uri": "",
+                        },
+                      ],
                       "source": [
                         {
                           "uri": "https://www.example.com/avatar.jpg?tr=w-48",

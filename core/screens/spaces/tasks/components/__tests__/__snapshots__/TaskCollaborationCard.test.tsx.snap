@@ -511,7 +511,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -1204,7 +1208,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -1897,7 +1905,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",

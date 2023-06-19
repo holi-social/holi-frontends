@@ -52,7 +52,11 @@ exports[`React tree renders correctly 1`] = `
           "left": "50%",
           "top": "50%",
         },
-        "placeholder": [],
+        "placeholder": [
+          {
+            "uri": "",
+          },
+        ],
         "source": [
           {
             "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-128",
