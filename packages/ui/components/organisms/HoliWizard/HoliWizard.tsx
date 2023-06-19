@@ -31,7 +31,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const { isKeyboardOpen } = useKeyboard()
 
     // TODO: This behavior of hiding on the first step only is a temporary solution for Android.
-    // This ticket will solve the issue with buttons overflowing the field: HOLI-4689
+    // This will be refactored with HOLI-4689.
     const hideFooterButtons = Platform.OS === 'android' && currentStep === 0 && isKeyboardOpen
 
     const arrayChildren = Children.toArray(children)
