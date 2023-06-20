@@ -7,9 +7,11 @@ import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliMod
 import CenteredImageHeadlineDescriptionLayout, {
   CenteredImageHeadlineDescriptionLayoutProps,
 } from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import HtmlDocument from '@holi/core/components/HtmlDocument'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNaviagtionButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
@@ -22,6 +24,7 @@ export interface AgreementProps {
 }
 
 interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlineDescriptionLayoutProps {
+  docUrl?: string
   onNextPress?: () => void
   onBackPress?: () => void
   checkboxLabelTranslation: string
@@ -30,7 +33,7 @@ interface AcceptDocumentLayoutProps extends AgreementProps, CenteredImageHeadlin
 }
 
 const AcceptDocumentLayout = ({
-  children,
+  docUrl,
   append,
   agreementValue,
   onAgreementChange,
@@ -41,9 +44,10 @@ const AcceptDocumentLayout = ({
   modalLabelText,
   testID,
   ...centeredLayoutProps
-}: React.PropsWithChildren<AcceptDocumentLayoutProps>) => {
+}: AcceptDocumentLayoutProps) => {
   const { t } = useTranslation()
-  const { show: showModal, props: modalProps } = useModalState()
+  const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
+  const { openToast } = useToast()
 
   const navButtons = (
     <HoliWizardNaviagtionButtons
@@ -54,6 +58,11 @@ const AcceptDocumentLayout = ({
       testID={`${testID}-navbtn`}
     />
   )
+
+  const onDocumentLoadError = () => {
+    hideModal()
+    openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR, 3000)
+  }
 
   return (
     <CenteredImageHeadlineDescriptionLayout
@@ -87,8 +96,8 @@ const AcceptDocumentLayout = ({
       </HoliCheckbox>
 
       <HoliModal label={modalLabelText} {...modalProps} autoHeight={false} relativeHeight={1} style={styles.modal}>
-        <ScrollView style={styles.modalContent} contentContainerStyle={{ maxWidth: '100%' }}>
-          {children}
+        <ScrollView style={styles.modalOuter} contentContainerStyle={styles.modalInner}>
+          <HtmlDocument url={docUrl} onError={onDocumentLoadError} />
         </ScrollView>
       </HoliModal>
     </CenteredImageHeadlineDescriptionLayout>
@@ -127,12 +136,17 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: colors.background30,
   },
-  modalContent: {
+  modalOuter: {
     paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 50,
     maxWidth: vars.maxScreenWidth,
     alignSelf: 'center',
+    flex: 1,
+    width: '100%',
+  },
+  modalInner: {
+    width: '100%',
     flex: 1,
   },
 })

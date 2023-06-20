@@ -2,8 +2,9 @@ import React from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import RenderHtml, { MixedStyleDeclaration, defaultSystemFonts } from 'react-native-render-html'
 
-import tagsStyles from '@holi/core/static/stylesMobile'
 import { vars } from '@holi/ui/styles/globalVars'
+
+import tagsStyles from './styles'
 
 export type HoliHtmlViewProps = {
   html: string
@@ -11,7 +12,7 @@ export type HoliHtmlViewProps = {
   testID?: string
 }
 
-const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ html, style, testID }) => {
+const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
   if (!html) return null
 
   // https://meliorence.github.io/react-native-render-html/docs/intro
