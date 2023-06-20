@@ -14,7 +14,6 @@ interface Props {
 const RoomView = ({ client }: Props) => {
   const roomState = useRoomState()
   const dispatch = useRoomDispatch()
-
   const { displayError } = useErrorHandling()
 
   const acceptRoomInvitation = async () => {
