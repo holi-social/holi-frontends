@@ -128,11 +128,17 @@ const scrollElementToCenter = async (element: Element<'async'>, direction: Scrol
     if (y + height > viewEndY) {
       // element is in the lowest 25% of the screen: scroll up
       const scrollPixel = y + height - viewEndY
-      await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
+      if (scrollPixel > 30) {
+        // only scroll when more than 30 pixels, otherwise it may be interpreted as a tab
+        await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
+      }
     } else if (y < viewStartY) {
       // element is in the highest 25% of the screen: scroll down
       const scrollPixel = viewStartY - y
-      await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
+      if (scrollPixel > 30) {
+        // only scroll when more than 30 pixels, otherwise it may be interpreted as a tab
+        await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
+      }
     }
   }
 }
