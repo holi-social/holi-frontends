@@ -10,6 +10,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpaceMainImageProps = {
   uri: string
   label: string
+  blurhash?: string
   editable?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
@@ -17,7 +18,7 @@ type SpaceMainImageProps = {
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
-const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, editable, onPress, style }) => {
+const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, blurhash, editable, onPress, style }) => {
   const { t } = useTranslation()
 
   const fallbackImageUri = useFallbackImage().uri
@@ -25,7 +26,12 @@ const SpaceMainImage: React.VFC<SpaceMainImageProps> = ({ uri, label, editable, 
   return (
     <View style={[styles.imageContainer, style]}>
       <View style={styles.wrapper}>
-        <HoliImage source={{ uri: uri ? uri : fallbackImageUri }} style={styles.mainImage} label={label} />
+        <HoliImage
+          source={{ uri: uri ? uri : fallbackImageUri }}
+          blurhash={blurhash}
+          style={styles.mainImage}
+          label={label}
+        />
         {editable && (
           <>
             <View style={styles.editOverlay} />

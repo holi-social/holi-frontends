@@ -39,6 +39,7 @@ export interface TaskInputFormProps {
   locationType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
+  thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
@@ -68,6 +69,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   contactEmail,
   thumbnail,
   currentThumbnail,
+  thumbnailBlurhash,
   contactPhone,
   skills,
   selectedLocation,
@@ -175,6 +177,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         ) : currentThumbnail ? (
           <HoliImage
             source={{ uri: currentThumbnail }}
+            blurhash={thumbnailBlurhash}
             label={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />

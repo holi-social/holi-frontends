@@ -30,7 +30,9 @@ export const SpaceFragment = gql`
     contactDescription
     created
     avatar
+    avatarBlurhash
     cover
+    coverBlurhash
     name
     avatarDefaultColor
     location
@@ -99,8 +101,10 @@ export const SpaceOverviewFragment = gql`
     title
     description
     cover
+    coverBlurhash
     location
     avatar
+    avatarBlurhash
     avatarDefaultColor
     name
     creator {

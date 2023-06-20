@@ -40,6 +40,7 @@ const EditSpaceAvatar: React.VFC<EditSpaceAvatarProps> = ({ space, onDismiss }: 
         title={t('spaces.edit.avatar')}
         onUploadImage={handleImageUpload}
         image={avatar}
+        blurhash={space.avatarBlurhash}
         currentImageUri={space.avatar}
         previewVariant="avatar"
       />

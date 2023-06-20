@@ -9,6 +9,7 @@ export const userAvatarFragment = gql`
   fragment UserAvatar on User {
     id
     avatar
+    avatarBlurhash
     avatarLabel
     avatarDefaultColor
     fullName
@@ -21,6 +22,9 @@ export const userFragment = gql`
   fragment FullUser on User {
     id
     avatar
+    avatarBlurhash
+    avatarDefaultColor
+    avatarLabel
     fullName
     firstName
     lastName
@@ -28,8 +32,6 @@ export const userFragment = gql`
     pronouns
     location
     geolocationId
-    avatarDefaultColor
-    avatarLabel
     engagementLevel
     interests {
       id

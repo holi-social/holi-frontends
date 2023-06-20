@@ -27,7 +27,7 @@ const NotificationWithUserAvatar = ({
 }: React.PropsWithChildren<NotificationWithUserAvatarProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
-  const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
+  const { id: userId, avatar, avatarBlurhash, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
   href = href || `/profile/${userId}`
   const userFullName = fullName || t('user.profileView.anonymous')
 
@@ -37,6 +37,7 @@ const NotificationWithUserAvatar = ({
         <View style={styles.link}>
           <HoliAvatar
             imageSrc={avatar}
+            imageBlurhash={avatarBlurhash}
             label={userFullName}
             initials={avatarLabel || ''}
             defaultColor={avatarDefaultColor || ''}

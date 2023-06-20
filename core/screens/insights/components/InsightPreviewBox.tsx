@@ -30,7 +30,12 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
       >
-        <HoliImage source={{ uri: insight.headerImage }} label={insight.title} style={styles.mainImage} />
+        <HoliImage
+          source={{ uri: insight.headerImage }}
+          blurhash={insight.headerImageBlurhash}
+          label={insight.title}
+          style={styles.mainImage}
+        />
 
         {!!insight.topic && (
           <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>

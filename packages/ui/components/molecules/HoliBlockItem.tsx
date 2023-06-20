@@ -17,6 +17,7 @@ export interface HoliBlockItemProps {
   description?: string
   users: User[]
   imageSrc?: string
+  imageBlurhash?: string
   imageElement?: React.ReactNode
   href: string
   label: string
@@ -33,6 +34,7 @@ const HoliBlockItem = ({
   description,
   users,
   imageSrc,
+  imageBlurhash,
   imageElement,
   href,
   label,
@@ -55,7 +57,13 @@ const HoliBlockItem = ({
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
               {!imageElement ? (
-                <HoliImage label="" source={imageSource} resizeMode="cover" style={styles.image} />
+                <HoliImage
+                  label=""
+                  source={imageSource}
+                  blurhash={imageBlurhash}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
               ) : (
                 imageElement
               )}

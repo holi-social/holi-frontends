@@ -154,6 +154,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
         title={title}
         description={description}
         thumbnail={thumbnail}
+        thumbnailBlurhash={thumbnailBlurhash}
         fieldErrors={fieldErrors}
       />
     </SpaceFormScreenLayout>

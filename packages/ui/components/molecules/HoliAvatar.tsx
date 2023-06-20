@@ -15,6 +15,7 @@ export type AvatarProps = {
   accessibilityLabel?: string
   defaultColor: string
   initials: string
+  imageBlurhash?: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
   style?: StyleProp<ViewStyle>
@@ -32,6 +33,7 @@ const HoliAvatar = ({
   size = 'medium',
   defaultColor,
   imageSrc,
+  imageBlurhash,
   initials,
   label,
   accessibilityLabel,
@@ -61,7 +63,7 @@ const HoliAvatar = ({
       ]}
     >
       {hasImage ? (
-        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="cover" />
+        <HoliImage label={label} source={imageUri} blurhash={imageBlurhash} style={styles.image} resizeMode="cover" />
       ) : (
         <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
