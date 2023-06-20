@@ -5,7 +5,7 @@ import { Dispatch } from 'react'
 import { SetStateAction } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, VisibilityType } from '@holi/core/screens/spaces/types'
@@ -39,7 +39,7 @@ export interface UseCreateOrUpdateSpacePost {
 
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {
   const { displayError } = useErrorHandling()
-  const { navigateBack } = useUnifiedNavigation()
+  const { navigateBack } = useRouting()
 
   //input fields
   const [title, setTitle] = useState<string>('')

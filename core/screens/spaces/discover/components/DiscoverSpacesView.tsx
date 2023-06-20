@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
@@ -26,7 +26,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
 }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
 
   const hasUserSpecificTiers = userSpecificSpacesGroups.some((group) => group.spaces.totalResults > 0)

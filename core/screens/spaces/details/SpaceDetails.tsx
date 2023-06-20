@@ -16,7 +16,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
@@ -44,7 +44,7 @@ const SpaceDetails = () => {
 
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { setOptions } = useUnifiedNavigation()
+  const setScreenOptions = useSetScreenOptions()
 
   const [showShareConfirmation, setShowShareConfirmation] = useState(false)
 
@@ -247,7 +247,7 @@ const SpaceDetails = () => {
   )
 
   useEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
@@ -259,7 +259,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setOptions])
+  }, [renderActionDrawer, setScreenOptions])
 
   const handleTabChange = (index: number) => {
     global.spaceDetailInitialTabIndex = index

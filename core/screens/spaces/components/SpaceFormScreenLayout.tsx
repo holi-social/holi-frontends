@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -36,7 +36,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   children,
 }) => {
   const { height: deviceHeight } = useWindowDimensions()
-  const { navigateBack } = useUnifiedNavigation()
+  const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')

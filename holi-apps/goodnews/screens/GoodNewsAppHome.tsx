@@ -5,33 +5,29 @@ import { View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
 import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 
-type GoodNewsAppHomeProps = Record<string, never>
-
-const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
+const GoodNewsAppHome = () => {
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
+  const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(
-    () =>
-      setOptions({
-        headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-        headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
-        headerTransparent: true,
-        headerStyle: { backgroundColor: 'transparent' },
-        headerTintColor: colors.background10,
-        navigationCustomOptions: {
-          headerBackgroundGradient: true,
-          footerShown: false,
-        },
-      }),
-    [setOptions, t]
-  )
+  useLayoutEffect(() => {
+    setScreenOptions({
+      headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
+      headerTintColor: colors.background10,
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
 
   return (
     <View testID={'goodnews-app-home'}>

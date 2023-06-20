@@ -6,7 +6,7 @@ import Router, { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 import { useRoute } from './useRoute'
 
@@ -189,7 +189,7 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
   }
 
   const useUpdateParams = (): ((props: Partial<Props>, options?: UpdateOptions) => void) => {
-    const { setParams } = useUnifiedNavigation()
+    const { setParams } = useRouting()
 
     const setNativeStateFromParams = useCallback(
       (value: Partial<Props>) => {

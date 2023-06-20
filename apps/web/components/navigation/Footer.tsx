@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import FooterTabBar from '@holi/web/components/navigation/FooterTabBar'
 
-const Footer: React.VoidFunctionComponent = ({ className }) => {
-  const { options } = useUnifiedNavigation()
+const Footer = ({ className }: { className: string }) => {
+  const options = useScreenOptions()
+
   if (options.navigationCustomOptions?.footerShown === false) {
     return <></>
   }
