@@ -127,18 +127,12 @@ const scrollElementToCenter = async (element: Element<'async'>, direction: Scrol
     const viewMiddleX = screenWidth / 2
     if (y + height > viewEndY) {
       // element is in the lowest 25% of the screen: scroll up
-      const scrollPixel = y + height - viewEndY
-      if (scrollPixel > 30) {
-        // only scroll when more than 30 pixels, otherwise it may be interpreted as a tab
-        await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
-      }
+      const scrollPixel = Math.max(y + height - viewEndY, 50) // scroll at least 50 pixels, so it will not be interpreted as a tap
+      await doSwipe({ x: viewMiddleX, y: viewEndY }, { x: viewMiddleX, y: viewEndY - scrollPixel })
     } else if (y < viewStartY) {
       // element is in the highest 25% of the screen: scroll down
-      const scrollPixel = viewStartY - y
-      if (scrollPixel > 30) {
-        // only scroll when more than 30 pixels, otherwise it may be interpreted as a tab
-        await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
-      }
+      const scrollPixel = Math.max(viewStartY - y, 50) // scroll at least 50 pixels, so it will not be interpreted as a tap
+      await doSwipe({ x: viewMiddleX, y: viewStartY }, { x: viewMiddleX, y: viewStartY + scrollPixel })
     }
   }
 }
