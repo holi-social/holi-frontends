@@ -16,6 +16,10 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   setUserLoggedOut: jest.fn(),
 }))
 
+jest.mock('@holi/core/helpers/url', () => ({
+  getDocumentURL: () => new URL('https://localhost:3000').href,
+}))
+
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,

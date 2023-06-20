@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -7,8 +7,8 @@ export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
   scrollable?: boolean
-  style?: ViewStyle
-  contentStyle?: ViewStyle
+  style?: StyleProp<ViewStyle>
+  contentStyle?: StyleProp<ViewStyle>
   testID?: string
 }
 

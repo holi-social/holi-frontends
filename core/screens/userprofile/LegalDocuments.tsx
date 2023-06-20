@@ -1,0 +1,66 @@
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
+
+import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+const LegalDocuments = () => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const setScreenOptions = useSetScreenOptions()
+
+  const { navigate } = useRouting()
+
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('profile.settings.legalDocuments.title') })
+  }, [setScreenOptions, t])
+
+  return (
+    <ScrollHeaderLayout.Default>
+      <LoginProtection>
+        <View style={[mixins.container, styles.wrapper]}>
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.imprint')}
+            icon="newspaper"
+            iconRight="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=imprint')}
+            style={styles.item}
+            testID="btn-imprint"
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.privacyPolicy')}
+            icon="pages"
+            iconRight="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=privacyPolicy')}
+            style={styles.item}
+            testID="btn-privacy-policy"
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.communityGuidelines')}
+            icon="hearts"
+            iconRight="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=communityGuidelines')}
+            style={styles.item}
+            testID="btn-community-guidelines"
+          />
+        </View>
+      </LoginProtection>
+    </ScrollHeaderLayout.Default>
+  )
+}
+
+export default LegalDocuments
+
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingHorizontal: 24,
+  },
+  item: {
+    marginVertical: 24,
+  },
+})
