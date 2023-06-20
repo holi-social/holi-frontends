@@ -11,7 +11,7 @@ import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -92,9 +92,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
 
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
   const { navigate, navigateBack, replaceRoute } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
@@ -133,7 +133,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 
   useLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton icon="close" />,
@@ -141,7 +141,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, space?.id, t, visible])
+  }, [hide, setScreenOptions, show, space.id, t, visible])
 
   if (error) {
     logError(error, `[EditSpace.tsx] ${error.message}`)

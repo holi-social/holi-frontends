@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import NotificationModal from '@holi/core/components/NotificationModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -15,15 +16,20 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
+import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -38,7 +44,7 @@ const SpaceDetails = () => {
 
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { setOptions } = useUnifiedNavigation()
+  const setScreenOptions = useSetScreenOptions()
 
   const [showShareConfirmation, setShowShareConfirmation] = useState(false)
 
@@ -73,9 +79,33 @@ const SpaceDetails = () => {
     leaveSpaceAction,
   } = useLeaveSpace(space)
 
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const { isLoggedIn } = useLoggedInUser()
+
+  const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
+  const { visible, show, hide } = useModalState()
+  const { userId } = useAuth()
+
+  useEffect(() => {
+    const mySpacesList = mySpacesData?.mySpaces.flatMap((section) => section.spaces.data) || []
+
+    if (
+      !isOnboarded &&
+      mySpacesList.some(
+        (space) => space.creator?.id !== userId && space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
+      )
+    ) {
+      show()
+    }
+  }, [mySpacesData, show, isOnboarded, userId])
+
+  const handleModalClose = () => {
+    setIsOnboarded()
+    hide()
+  }
 
   const editAction = useCallback(() => {
     navigate(`/spaces/${spaceIdOrName}/edit`)
@@ -217,7 +247,7 @@ const SpaceDetails = () => {
   )
 
   useEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
@@ -229,7 +259,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setOptions])
+  }, [renderActionDrawer, setScreenOptions])
 
   const handleTabChange = (index: number) => {
     global.spaceDetailInitialTabIndex = index
@@ -287,9 +317,10 @@ const SpaceDetails = () => {
           onChangeTab={handleTabChange}
           initialTabIndex={global.spaceDetailInitialTabIndex}
         />
+        <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
-      {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
+      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+      {isMember && currentTabIndex === 1 && <UpdateButton />}
     </>
   )
 }

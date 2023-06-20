@@ -1,6 +1,6 @@
-import { Post } from '@holi/core/screens/posts/types'
-import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
-import { GeolocationPoint, Paged } from '@holi/core/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -53,7 +53,7 @@ export interface Space {
   title: string
   description: string
   created: string
-  creator: User
+  creator?: User
   contactDescription?: string
   contactEmail?: string
   contactPhone?: string
@@ -127,7 +127,6 @@ export enum SpaceConnectionType {
   FOLLOWER = 'FOLLOWER',
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
-  CREATOR = 'CREATOR',
   ADMINISTRATOR = 'ADMINISTRATOR',
 }
 

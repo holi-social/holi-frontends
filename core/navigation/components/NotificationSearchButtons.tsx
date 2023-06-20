@@ -6,7 +6,7 @@ import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -19,7 +19,7 @@ const NOTIFICATION_POLLING_INTERVAL = process.env.NOTIFICATION_POLLING_INTERVAL
 
 const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
-  const { navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
 
   const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {

@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 16,
-    marginTop: 40,
+    marginTop: 24,
   },
   inputContainer: {
     marginTop: 24,

@@ -13,11 +13,12 @@ import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -33,6 +34,31 @@ import {
 } from '@holi-apps/volunteering/queries'
 import { Organizer } from '@holi-apps/volunteering/types'
 
+const VOLUNTEERING_IMG_SOURCES_MAPPING: {
+  [name: string]: { imgSource: StaticImageData; url: string; isSvg: boolean }
+} = {
+  'Aktion Mensch': {
+    imgSource: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+    url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
+    isSvg: true,
+  },
+  'vostel.de': {
+    imgSource: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+    url: 'https://vostel.de/de/ueber_vostel',
+    isSvg: false,
+  },
+  GoNature: {
+    imgSource: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+    url: 'https://gonature.de/ueber-uns',
+    isSvg: true,
+  },
+  GoVolunteer: {
+    imgSource: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+    url: 'https://govolunteer.com/ueber-uns',
+    isSvg: true,
+  },
+}
+
 export type VolunteeringEngagementDetailParams = {
   engagementId: string
 }
@@ -41,14 +67,13 @@ const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
-const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
-const VOSTEL_URL = 'https://vostel.de/de/ueber_vostel'
-
 const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
-  useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
+  const setScreenOptions = useSetScreenOptions()
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('volunteering:app.name') })
+  }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
@@ -93,38 +118,36 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     return <HoliText>{t('volunteering:engagementDetail.notFound', { engagementId })}</HoliText>
   }
 
-  const ProviderContainer = ({ source }: { source: string; url: string }) => {
-    return (
-      <View style={styles.cardContainer}>
-        <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
-        <HoliButton
-          transparent
-          onPress={() => Linking.openURL(engagement.url)}
-          label={t('volunteering:engagementDetail.provider.link.btn', { source })}
-        >
-          <View style={styles.providerInfoRow}>
+  const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
+
+  const providerContainer = (
+    <View style={styles.cardContainer}>
+      <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
+      <HoliButton
+        transparent
+        onPress={() => Linking.openURL(partner?.url)}
+        label={t('volunteering:engagementDetail.provider.link.btn', { source: engagement.source })}
+      >
+        <View style={styles.providerInfoRow}>
+          {!!partner?.imgSource && (
             <HoliLocalImage
-              imageSource={
-                engagement.source === 'Aktion Mensch'
-                  ? require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg')
-                  : require('@holi/ui/assets/img/volunteering/vostel-logo.png')
-              }
-              isSvg={engagement.source === 'Aktion Mensch' ? true : false}
+              imageSource={partner.imgSource}
+              isSvg={partner.isSvg}
               width={40}
               height={40}
               style={styles.providerImage}
               label={t('volunteering:engagementDetail.provider')}
               resizeMode="contain"
             />
-            <View style={{ flex: 3 }}>
-              <HoliText>{source}</HoliText>
-            </View>
-            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
+          )}
+          <View style={{ flex: 3 }}>
+            <HoliText>{engagement.source}</HoliText>
           </View>
-        </HoliButton>
-      </View>
-    )
-  }
+          <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
+        </View>
+      </HoliButton>
+    </View>
+  )
 
   const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
     return (
@@ -161,12 +184,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {(engagement.source === 'Aktion Mensch' || engagement.source === 'vostel.de') && (
-              <ProviderContainer
-                source={engagement.source}
-                url={engagement.source === 'Aktion Mensch' ? AKTION_MENSCH_URL : VOSTEL_URL}
-              />
-            )}
+            {!!partner && providerContainer}
           </View>
         )}
       </ScrollHeaderLayout.Refreshable>

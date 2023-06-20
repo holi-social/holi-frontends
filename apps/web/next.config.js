@@ -63,6 +63,7 @@ module.exports = withSentryConfig(
       'react-native-render-html',
       'react-native-animated-pagination-dot',
       'expo-modules-core',
+      'expo-camera',
       'expo-constants',
       'expo-status-bar',
       '@jsamr/react-native-li',

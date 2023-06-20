@@ -38,9 +38,9 @@ beforeEach(async () => {
     await navigateBackToHomeScreen()
     await logout()
   }
-}, 900000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.
+}, 20 * 60 * 1000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.
 
-jest.setTimeout(240000) // a normal test runs up to 2 minutes, but give some time to spare
+jest.setTimeout(4 * 60 * 1000) // a normal test runs up to 2 minutes, but give some time to spare
 
 afterEach(async () => {
   if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {

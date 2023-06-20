@@ -180,6 +180,8 @@ exports[`TaskCollaborationCard renders correctly when there are no tasks within 
       style={
         {
           "alignItems": "center",
+          "paddingBottom": 16,
+          "paddingHorizontal": 8,
           "paddingTop": 24,
         }
       }

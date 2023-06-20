@@ -16,7 +16,7 @@ export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
   },
 ]
 
-export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
+export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption<VisibilityType>[] = [
   {
     id: VisibilityType.MEMBERS,
     title: 'Members',

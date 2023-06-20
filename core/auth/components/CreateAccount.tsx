@@ -21,7 +21,7 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -47,7 +47,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const { userId } = useAuth()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
-  const { redirect } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
@@ -55,6 +54,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+  const redirect = useRedirect()
 
   const initializeFlow = useCallback(() => {
     if (userId) return
@@ -68,7 +68,9 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   }, [safeSetFlow, t, userId, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
-  useLayoutEffect(() => initializeFlow(), [initializeFlow])
+  useLayoutEffect(() => {
+    initializeFlow()
+  }, [initializeFlow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
     if (flow) {

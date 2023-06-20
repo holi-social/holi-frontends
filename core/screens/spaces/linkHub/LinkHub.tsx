@@ -2,16 +2,13 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -23,28 +20,24 @@ export type LinkHubParams = {
 
 const { useParam } = createParam<LinkHubParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const LinkHub: React.VFC<ScreenProps> = () => {
-  const { setOptions } = useUnifiedNavigation()
+const LinkHub = () => {
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(
-    () =>
-      setOptions({
-        animation: 'slide_from_bottom',
-        title: t('spaces.toolKit.title'),
-        headerStyle: { backgroundColor: colors.background10 },
-        headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      }),
-    [setOptions, t]
-  )
+  useLayoutEffect(() => {
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      title: t('spaces.toolKit.title'),
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
   const onAddButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }

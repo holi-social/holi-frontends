@@ -126,6 +126,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
           style={styles.modalWrapper}
           scrollable={false}
           loading={loadingTopics || loadingSkills}
+          hideFooterWhenKeyboardIsOpen={true}
         >
           <View style={[mixins.container, styles.container]}>
             <PlacesAutocomplete

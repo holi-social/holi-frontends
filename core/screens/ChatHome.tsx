@@ -2,12 +2,12 @@ import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import { Chat } from '@holi/chat/src/components/Chat'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -18,13 +18,14 @@ const ChatHome = () => {
   const title = t('chat.title')
   const mixins = useStyleMixins()
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   // TODO: remove after implementing the feature
   useToastForNotAvailableFeature(true)
 
   useEffect(() => {
-    setOptions({
+    setScreenOptions({
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
@@ -37,7 +38,7 @@ const ChatHome = () => {
       ),
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
-  }, [setOptions, navigate, t, title])
+  }, [navigate, setScreenOptions, t, title])
 
   return (
     <ScrollHeaderLayout.Default>
@@ -46,7 +47,6 @@ const ChatHome = () => {
           {' '}
         </HoliHeading>
         <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
-        <Chat />
       </View>
     </ScrollHeaderLayout.Default>
   )

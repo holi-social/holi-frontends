@@ -18,7 +18,7 @@ export type SpaceStorageParams = {
 
 const { useParam } = createParam<SpaceStorageParams>()
 
-const SpaceStorage: React.VFC<SpaceStorageParams> = () => {
+const SpaceStorage: React.FC<SpaceStorageParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -48,14 +48,14 @@ const SpaceStorage: React.VFC<SpaceStorageParams> = () => {
   if (Platform.OS === 'web') {
     // Directly redirect to the storage
     window.location.href = storageUrl
-  } else {
-    return (
-      <DefaultLayout>
-        <HoliWebView style={styles.webView} uri={storageUrl} />
-      </DefaultLayout>
-    )
+    return null
   }
-  return null
+
+  return (
+    <DefaultLayout>
+      <HoliWebView style={styles.webView} uri={storageUrl} webViewProps={{ setSupportMultipleWindows: false }} />
+    </DefaultLayout>
+  )
 }
 
 const getStyles = (deviceHeight: number) =>

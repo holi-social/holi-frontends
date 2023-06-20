@@ -1,5 +1,4 @@
 import { ApolloError } from '@apollo/client'
-import { RequiredError } from '@ory/client'
 import { CodedError, registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 // Polyfill for Intl including required locale data
@@ -14,7 +13,12 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
 
-export const sentryEnvironment = Constants.manifest?.extra?.environment || process.env.NODE_ENV
+const determineSentryEnvironment = () => {
+  const environment = Constants.manifest?.extra?.environment
+  return ['production', 'staging', 'local'].includes(environment) ? environment : 'development'
+}
+
+export const sentryEnvironment = determineSentryEnvironment()
 export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
 
 Sentry.init({
@@ -25,14 +29,21 @@ Sentry.init({
   beforeSend: function (event, hint) {
     const exception = hint.originalException
 
-    if (exception instanceof ApolloError) {
-      event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
-    } else if (exception instanceof CodedError) {
-      event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception.code)]
-    } else if (exception instanceof RequiredError) {
-      event.fingerprint = ['{{ default }}', 'ory-client-error']
-    } else if (exception instanceof HoliError) {
-      event.fingerprint = ['{{ default }}', 'holi-client-error']
+    // The right-hand side operators of instanceof must be objects, otherwise an exception is thrown.
+    // Throwing an exception is not what you want to do in exception handling code, because it will hide the original error.
+    // Examples of this problem:
+    // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
+    // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
+    try {
+      if (exception instanceof ApolloError) {
+        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
+      } else if (exception instanceof HoliError) {
+        event.fingerprint = ['{{ default }}', 'holi-client-error']
+      } else if (exception instanceof CodedError) {
+        event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception.code)]
+      }
+    } catch (e) {
+      // do nothing, see comment above try-block.
     }
 
     return event
