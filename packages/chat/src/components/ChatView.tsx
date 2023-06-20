@@ -47,6 +47,17 @@ const ChatView = () => {
       const client = await restoreSession(chatClient)
       const matrixClient = await client.start()
 
+      // Set the id's of all the joined rooms
+      const joinedRoomsResponse = await matrixClient.getJoinedRooms()
+      const joinedRoomsIds = joinedRoomsResponse.joined_rooms
+      if (joinedRoomsIds.length > 0) {
+        roomDispatch({
+          type: 'room/set_rooms_ids',
+          payload: { roomsIds: joinedRoomsIds },
+        })
+      }
+
+      // Pending room invitations subscriber
       matrixClient.on(RoomStateEvent.NewMember, async (event) => {
         const hasInvitation = await Room.hasPendingInvitation(event)
         const roomId = event.getRoomId()
@@ -67,21 +78,26 @@ const ChatView = () => {
       displayError(err)
     })
 
-    // This `useEffect` should only be called on mount (once) and should not have any dependencies.
+    // This `useEffect` should only be called on mount (once) and should not have any dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // TODO: this room creation function is used when we click one or n users to chat with
+  // and write the first messages in the timeline
   const handleRoomCreation = async () => {
     const testUserIds: string[] = []
 
     // TODO: Dispatch room id and update rooms
     // TODO: Dispatch open new room conversation
-    const roomId = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
+    const roomIdResponse = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
+    const roomId = roomIdResponse?.room_id
 
-    if (!roomId?.room_id) {
-      return
-    }
+    if (!roomId) throw new Error('There was a problem creating the chat room')
+
+    roomDispatch({
+      type: 'room/set_room_id',
+      payload: { roomId },
+    })
   }
 
   return (
