@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
-import type ChatClient from '@holi/chat/src/ChatClient'
 import ChatLogin, { SSOAction } from '@holi/chat/src/ChatLogin'
+import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
 
@@ -11,7 +11,7 @@ export interface UseChatLogin {
   handleSSORedirect: () => Promise<boolean>
   login: (token: string | undefined) => Promise<boolean>
   getLoginStatus: () => Promise<boolean>
-  restoreSession: (client: ChatClient) => Promise<ChatClient>
+  restoreSessionCredentials: () => Promise<ChatCredentials>
 }
 
 const useChatLogin = (): UseChatLogin => {
@@ -36,7 +36,7 @@ const useChatLogin = (): UseChatLogin => {
     deviceName: matrixLogin.deviceName,
     tokenKey: matrixLogin.homeserverTokenKey,
     getLoginStatus: matrixLogin.getLoginStatus,
-    restoreSession: matrixLogin.restoreSession,
+    restoreSessionCredentials: matrixLogin.restoreSessionCredentials,
   }
 }
 

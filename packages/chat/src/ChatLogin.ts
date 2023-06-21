@@ -7,7 +7,6 @@ import type { IMatrixClientCreateOpts, MatrixClient } from 'matrix-js-sdk'
 import { createClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import type ChatClient from '@holi/chat/src/ChatClient'
 import {
   CHAT_FRESH_LOGIN_KEY,
   CHAT_IDP_ID,
@@ -26,6 +25,7 @@ import type {
   UserName,
 } from '@holi/chat/src/utils/constants'
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
+import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
 import { isString } from '@holi/core/helpers'
 
@@ -113,22 +113,17 @@ export default class ChatLogin {
     return true
   }
 
-  public restoreSession = async (client: ChatClient): Promise<ChatClient> => {
-    const { accessToken, baseUrl, userId, guest, deviceId, freshLogin } = await getStoredSessionCreds()
+  public restoreSessionCredentials = async (): Promise<ChatCredentials> => {
+    const sessionCredentials = await getStoredSessionCreds()
 
     // TODO abort/retry loging on missing access
-    if (accessToken.length === 0) return client
+    if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
 
-    if (freshLogin === true) {
+    if (sessionCredentials.freshLogin === true) {
       await AsyncStore.removeItem(this.freshLogin)
     }
 
-    // Restoring session for userId
-    client.replaceUsingCreds({ baseUrl, userId, accessToken, deviceId, guest, freshLogin })
-
-    // TODO: Rehydrate client's device instead of using a new device for each session
-
-    return client
+    return sessionCredentials
   }
 
   public getLoginStatus = async (): Promise<boolean> => {

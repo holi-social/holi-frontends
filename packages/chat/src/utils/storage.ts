@@ -1,6 +1,6 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 
-import type { ChatCredentials } from '@holi/chat/src/ChatClient'
+import type { ChatCredentials } from '@holi/chat/src/utils/types'
 
 import { CHAT_DEVICE_ID_KEY, CHAT_FRESH_LOGIN_KEY, CHAT_TOKEN_KEY, CHAT_URL, CHAT_USER_ID_KEY } from './constants'
 

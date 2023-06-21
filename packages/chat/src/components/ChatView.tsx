@@ -1,31 +1,37 @@
-import { RoomStateEvent } from 'matrix-js-sdk'
-import React, { useEffect, useMemo } from 'react'
+import AsyncStore from '@react-native-async-storage/async-storage'
+import { RoomEvent, RoomStateEvent } from 'matrix-js-sdk'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/ChatClient'
 import RoomView from '@holi/chat/src/components/RoomView'
+import { useRoomDispatch, useRoomState } from '@holi/chat/src/room/RoomProvider'
 import * as Room from '@holi/chat/src/room/room'
-import { useRoomDispatch } from '@holi/chat/src/room/store'
 import useChatLogin from '@holi/chat/src/useChatLogin'
+import { CURRENT_ROOM_KEY } from '@holi/chat/src/utils/constants'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const isWeb = Platform.OS === 'web'
 
 const ChatView = () => {
-  const chatClient = useMemo(() => new ChatClient(), [])
-  const roomDispatch = useRoomDispatch()
+  const [chatClient, setChatClient] = useState<ChatClient | null>(null)
 
+  const roomDispatch = useRoomDispatch()
+  const roomState = useRoomState()
   const { displayError } = useErrorHandling()
-  const { login, restoreSession } = useChatLogin()
+  const { login, restoreSessionCredentials } = useChatLogin()
   const { parsedUrl } = useLinking()
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
 
-  // TODO: Move this use effect in the Reducer Context Provider
+  /**
+   * Login and initialize `ChatClient`
+   */
   useEffect(() => {
     const initMatrixClient = async () => {
       // We log in the user if we encounter an access token in the query params.
@@ -44,10 +50,35 @@ const ChatView = () => {
         }
       }
 
-      const client = await restoreSession(chatClient)
-      const matrixClient = await client.start()
+      const sessionCredentials = await restoreSessionCredentials()
+      const client = new ChatClient(sessionCredentials)
+      setChatClient(client)
 
-      // Set the id's of all the joined rooms
+      await client.start()
+    }
+
+    initMatrixClient().catch((err) => {
+      // TODO: in case of a soft logout we would need to fetch a new token and do log again
+      displayError(err)
+    })
+    // This `useEffect` should only be called on mount (once) and should not have any dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  /**
+   *  Register rooms from a member
+   */
+  useEffect(() => {
+    const registerRoomInvitations = async () => {
+      if (chatClient === null) return
+
+      const matrixClient = chatClient.get()
+
+      const currentRoomId = await AsyncStore.getItem(CURRENT_ROOM_KEY)
+      if (currentRoomId && !roomState.id) {
+        roomDispatch({ type: 'room/set_room_id', payload: { roomId: currentRoomId } })
+      }
+
       const joinedRoomsResponse = await matrixClient.getJoinedRooms()
       const joinedRoomsIds = joinedRoomsResponse.joined_rooms
       if (joinedRoomsIds.length > 0) {
@@ -56,6 +87,26 @@ const ChatView = () => {
           payload: { roomsIds: joinedRoomsIds },
         })
       }
+    }
+
+    registerRoomInvitations().catch((err) => void displayError(err))
+  }, [chatClient, displayError, roomDispatch, roomState.id])
+
+  /**
+   * Room New Member Subscriber
+   */
+  useEffect(() => {
+    const registerRoomInvitations = async () => {
+      if (chatClient === null) return
+
+      const matrixClient = chatClient.get()
+
+      const currentRoomId = await AsyncStore.getItem(CURRENT_ROOM_KEY)
+      if (currentRoomId) {
+        roomDispatch({ type: 'room/set_room_id', payload: { roomId: currentRoomId } })
+      }
+
+      // TODO: remove event listener on unmount
 
       // Pending room invitations subscriber
       matrixClient.on(RoomStateEvent.NewMember, async (event) => {
@@ -73,18 +124,41 @@ const ChatView = () => {
       })
     }
 
-    initMatrixClient().catch((err) => {
-      // TODO: in case of a soft logout we would need to fetch a new token and do log again
-      displayError(err)
-    })
+    registerRoomInvitations().catch((err) => void displayError(err))
+  }, [chatClient, displayError, roomDispatch])
 
-    // This `useEffect` should only be called on mount (once) and should not have any dependencies
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  /**
+   * Room Messages Subscriber
+   */
+  useEffect(() => {
+    const registerRoomMessages = async () => {
+      if (chatClient === null) return
+
+      const matrixClient = chatClient.get()
+
+      // TODO: remove event listener on unmount
+      matrixClient.on(RoomEvent.Timeline, (event) => {
+        if (event.getType() !== 'm.room.message') return
+
+        // TODO: should only read messages for the correct room, speak from the store id and not roomids
+        if (roomState.id !== event.getRoomId()) return
+
+        roomDispatch({
+          type: 'room/set_message',
+          payload: {
+            message: event.getContent(),
+          },
+        })
+      })
+    }
+
+    registerRoomMessages().catch((err) => void displayError(err))
+  }, [chatClient, displayError, roomDispatch, roomState.id])
 
   // TODO: this room creation function is used when we click one or n users to chat with
   // and write the first messages in the timeline
   const handleRoomCreation = async () => {
+    if (chatClient === null) return
     const testUserIds: string[] = []
 
     // TODO: Dispatch room id and update rooms
@@ -92,7 +166,8 @@ const ChatView = () => {
     const roomIdResponse = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
     const roomId = roomIdResponse?.room_id
 
-    if (!roomId) throw new Error('There was a problem creating the chat room')
+    if (!roomId) throw new Error('A Chat Room creation should return a room id')
+    await AsyncStore.setItem(CURRENT_ROOM_KEY, roomId)
 
     roomDispatch({
       type: 'room/set_room_id',
@@ -102,10 +177,16 @@ const ChatView = () => {
 
   return (
     <>
-      <HoliText>Matrix Chat</HoliText>
-      <HoliButton label={'Create a room'} onPress={handleRoomCreation}>
-        Create a room
-      </HoliButton>
+      <HoliBox padding={[20, 20]}>
+        <HoliHeading level="1">Matrix Chat</HoliHeading>
+      </HoliBox>
+      {!roomState.id && (
+        <HoliBox padding={[20, 20]}>
+          <HoliButton label={'Create a room'} onPress={handleRoomCreation}>
+            Create a room
+          </HoliButton>
+        </HoliBox>
+      )}
       <RoomView client={chatClient} />
     </>
   )
