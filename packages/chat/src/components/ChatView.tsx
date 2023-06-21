@@ -29,6 +29,8 @@ const ChatView = () => {
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
 
+  //TODO: Move all the direct calls of the matrix client behind the Client Chat facade
+
   /**
    * Login and initialize `ChatClient`
    */
