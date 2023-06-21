@@ -1,18 +1,18 @@
 import { produce } from 'immer'
-import { useReducer } from 'react'
-import { createContainer } from 'react-tracked'
 
-import type { ReducerAction } from '@holi/chat/src/utils'
+import type { Message, ReducerAction } from '@holi/chat/src/utils'
 
 export interface RoomState {
   id: string | null
   hasPendingInvitation: boolean
+  messages: Message[]
   roomsIds: string[]
 }
 
-const initialRoomState: RoomState = {
+export const initialRoomState: RoomState = {
   id: null,
   hasPendingInvitation: false,
+  messages: [],
   roomsIds: [],
 }
 
@@ -20,6 +20,7 @@ export type RoomAction =
   | ReducerAction<'room/invitation_pending', { hasPendingInvitation: boolean; id: string }>
   | ReducerAction<'room/set_rooms_ids', { roomsIds: string[] }>
   | ReducerAction<'room/set_room_id', { roomId: string }>
+  | ReducerAction<'room/set_message', { message: Message }>
 
 // TODO: implement unit tests for all the reducers
 /**
@@ -31,6 +32,11 @@ export const roomReducer = produce((draft: RoomState, action: RoomAction) => {
       const { payload } = action
       draft.id = payload.id
       draft.hasPendingInvitation = payload.hasPendingInvitation
+      break
+    }
+    case 'room/set_message': {
+      const { payload } = action
+      draft.messages.push(payload.message)
       break
     }
     case 'room/set_rooms_ids': {
@@ -50,11 +56,3 @@ export const roomReducer = produce((draft: RoomState, action: RoomAction) => {
     }
   }
 })
-
-const useValue = () => useReducer(roomReducer, initialRoomState)
-
-export const {
-  Provider: RoomProvider,
-  useTrackedState: useRoomState,
-  useUpdate: useRoomDispatch,
-} = createContainer(useValue)

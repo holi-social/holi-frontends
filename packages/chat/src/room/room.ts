@@ -3,6 +3,7 @@ import type { ICreateRoomOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { Preset, Visibility } from 'matrix-js-sdk'
 
 import type ChatClient from '@holi/chat/src/ChatClient'
+import type { Message } from '@holi/chat/src/utils'
 import { CHAT_USER_ID_KEY } from '@holi/chat/src/utils/constants'
 import { logError } from '@holi/core/errors/helpers'
 
@@ -47,6 +48,20 @@ export async function create(
   }
 }
 
+export async function sendTextMessage(client: ChatClient, roomId: string, body: string): Promise<string> {
+  if (client === null) throw new Error('Cant send a message without a Chat Client')
+  const matrixClient = client.get()
+
+  const content: Message = {
+    body,
+    msgtype: 'm.text',
+  }
+
+  const eventIdResponse = await matrixClient.sendEvent(roomId, 'm.room.message', content, '')
+
+  return eventIdResponse.event_id
+}
+
 // TODO: This could be a canditate for a Member Module and not the room module.
 
 export enum Membership {
@@ -71,6 +86,7 @@ export enum Membership {
 }
 
 // TODO: Implement Unit test
+// TODO: Review re-invitation after sending messages
 /**
  * It looks if the Matrix event is a pending room invitation for the logged in user.
  */
@@ -94,7 +110,5 @@ export async function join(client: ChatClient, roomId: string): Promise<Room> {
   const matrixClient = client.get()
   if (!matrixClient) throw new Error('An initialized Matrix client is necessary for accepting a room invitation')
 
-  const room = await matrixClient.joinRoom(roomId, { syncRoom: true })
-
-  return room
+  return await matrixClient.joinRoom(roomId, { syncRoom: true })
 }
