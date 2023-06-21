@@ -12,11 +12,13 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 
+// TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
 
 /**
- * A singleton class that exists on a single session.
- * It should only be consumed through the MxClientProvider.
+ * The `ChatClient` facade is an object that serves as a front-facing interface
+ * masking the Matrix protocol. All usage of the `Matrix` JS SDK should interact
+ * through this facade.
  */
 export default class ChatClient {
   private client: MatrixClient
