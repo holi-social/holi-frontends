@@ -3,8 +3,6 @@ import type { ReactNode, RefObject } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type { ScrollViewProps } from 'react-native'
 
-import { delayAnimation } from '@holi/ui/helper'
-
 interface StepperController {
   stepperRef: RefObject<ScrollView>
   currentStep: number
@@ -24,8 +22,6 @@ const isAnimated = false
  * layout requirements, the `width` can be a Device, Screen, or View width.
  */
 export const useStepper = (width: number, initialStep = 0): StepperController => {
-  const delay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
-
   const ref = useRef<ScrollView>(null)
   const [currentStep, setCurrentStep] = useState(initialStep)
 
@@ -36,7 +32,7 @@ export const useStepper = (width: number, initialStep = 0): StepperController =>
       scrollPoint.current = nextStep * width
       const scrollOptions = { x: scrollPoint.current, y: 0, animated }
       if (!ref.current?.scrollTo) return nextStep
-      delayAnimation(ref.current.scrollTo, scrollOptions, delay)
+      ref.current.scrollTo(scrollOptions)
 
       return nextStep
     },
