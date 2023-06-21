@@ -1,4 +1,6 @@
 import { produce } from 'immer'
+import { useReducer } from 'react'
+import { createContainer } from 'react-tracked'
 
 import type { Message, ReducerAction } from '@holi/chat/src/utils'
 
@@ -56,3 +58,11 @@ export const roomReducer = produce((draft: RoomState, action: RoomAction) => {
     }
   }
 })
+
+const useValue = () => useReducer(roomReducer, initialRoomState)
+
+export const {
+  Provider: RoomProvider,
+  useTrackedState: useRoomState,
+  useUpdate: useRoomDispatch,
+} = createContainer(useValue)
