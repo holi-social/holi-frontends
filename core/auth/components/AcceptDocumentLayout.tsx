@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   },
   modalInner: {
     width: '100%',
-    flex: 1,
   },
 })
 
