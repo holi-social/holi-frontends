@@ -26,6 +26,7 @@ interface Props {
   stepper?: boolean
   backgroundColor?: string
   scrollEnabled?: boolean
+  lazy?: boolean
 }
 
 const HoliTabs = ({
@@ -39,6 +40,7 @@ const HoliTabs = ({
   backgroundColor,
   testID = 'tabs-module',
   scrollEnabled = true,
+  lazy = false,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
   const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
@@ -121,6 +123,7 @@ const HoliTabs = ({
         backgroundColor={backgroundColor}
         onMomentumScrollEnd={onMomentumScrollEnd}
         scrollEnabled={scrollEnabled}
+        lazy={lazy}
       />
     </View>
   )
