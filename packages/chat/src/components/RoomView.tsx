@@ -1,11 +1,10 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
+import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import ChatClient from '@holi/chat/src/ChatClient'
 import * as Room from '@holi/chat/src/room/room'
-import { useRoomDispatch, useRoomState } from '@holi/chat/src/room/store'
-import { CURRENT_ROOM_KEY } from '@holi/chat/src/utils/constants'
+import { storeAtom } from '@holi/chat/src/store/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -18,13 +17,13 @@ interface Props {
 }
 
 const RoomView = ({ client }: Props) => {
-  const roomState = useRoomState()
-  const dispatch = useRoomDispatch()
+  const [state, dispatch] = useAtom(storeAtom)
+
   const { displayError } = useErrorHandling()
   const [text, setText] = useState('')
 
   const acceptRoomInvitation = async () => {
-    const roomId = roomState.id
+    const roomId = state.room.id
     if (roomId === null || !client) {
       displayError('Can not accept an invitation without a room id')
       return
@@ -35,8 +34,6 @@ const RoomView = ({ client }: Props) => {
       displayError('There was a problem joining the room after accepting invitation')
       return
     }
-
-    await AsyncStore.setItem(CURRENT_ROOM_KEY, roomId)
 
     dispatch({
       type: 'room/invitation_pending',
@@ -52,7 +49,7 @@ const RoomView = ({ client }: Props) => {
   const sendMessage = async () => {
     if (!client) return
     // TODO: this should be done by the known ID
-    const id = roomState.id
+    const id = state.room.id
     if (!id) return
     await Room.sendTextMessage(client, id, text)
   }
@@ -63,15 +60,15 @@ const RoomView = ({ client }: Props) => {
         <HoliHeading>Matrix Room</HoliHeading>
       </HoliBox>
 
-      {roomState.messages.map((msg, idx) => {
+      {state.room.messages.map((msg) => {
         return (
-          <HoliBox key={idx} padding={[20, 20]}>
-            <HoliText>{msg.body}</HoliText>
+          <HoliBox key={msg.id} padding={[20, 20]}>
+            <HoliText>{msg.content.body}</HoliText>
           </HoliBox>
         )
       })}
 
-      {roomState.id && (
+      {state.room.id && (
         <>
           <HoliBox padding={[20, 20]}>
             <HoliRichTextInput
@@ -87,7 +84,7 @@ const RoomView = ({ client }: Props) => {
         </>
       )}
 
-      {roomState.hasPendingInvitation && (
+      {state.room.hasPendingInvitation && (
         <HoliBox padding={[20, 20]}>
           <HoliButton label={'accept Invitation'} onPress={acceptRoomInvitation}>
             Accept Invitation

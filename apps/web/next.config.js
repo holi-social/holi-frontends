@@ -55,6 +55,7 @@ const sentryOptions = {
 module.exports = withSentryConfig(
   withTranspileModules(
     [
+      'jotai-devtools',
       'react-native',
       'react-native-reanimated',
       'react-native-card-stack-swiper',

@@ -3,9 +3,14 @@ export interface ReducerAction<T extends string, P = undefined> {
   readonly payload: P
 }
 
+export interface Message {
+  id: string
+  content: MessageContent
+}
+
 export type MessageType = 'm.text'
 
-export interface Message {
+export interface MessageContent {
   body: string
   msgtype: MessageType
 }
