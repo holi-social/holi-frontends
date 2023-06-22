@@ -15,6 +15,7 @@ import {
   createSpacePostMutation,
   updateSpacePostMutation,
 } from '@holi/core/screens/spaces/updates/mutations'
+import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 export interface UseCreateOrUpdateSpacePost {
@@ -90,6 +91,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     {
       onCompleted: () => navigateBack(),
       onError: (error) => displayError(error, error.message),
+      refetchQueries: [spacePostsQuery],
     }
   )
 
@@ -98,6 +100,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     {
       onCompleted: () => navigateBack(),
       onError: (error) => displayError(error, error.message),
+      refetchQueries: [spacePostsQuery],
     }
   )
 
