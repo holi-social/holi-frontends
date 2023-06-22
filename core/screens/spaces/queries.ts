@@ -55,6 +55,7 @@ export const SpaceFragment = gql`
       title
       collectionType
       thumbnail
+      thumbnailBlurhash
     }
     members(limit: 3) {
       ...FullSpaceMember
@@ -72,6 +73,7 @@ export const SpaceFragment = gql`
       contactEmail
       contactPhone
       thumbnail
+      thumbnailBlurhash
       creator {
         ...UserAvatar
       }
