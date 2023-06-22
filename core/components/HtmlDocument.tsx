@@ -34,7 +34,7 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     }
   }, [onError, t, needToLoad, url])
 
-  return <>{document ? <HoliHtmlView html={document} /> : <HoliLoader />}</>
+  return <>{document ? <HoliHtmlView html={document} /> : <HoliLoader style={{ minHeight: 300 }} />}</>
 }
 
 export default HtmlDocument
