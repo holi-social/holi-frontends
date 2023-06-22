@@ -2,8 +2,8 @@ import React from 'react'
 
 import styles from './HeaderAnimated.module.scss'
 
-const HeaderAnimatedGradienBackground = () => {
+const HeaderAnimatedGradientBackground = () => {
   return <div className={styles.headerGradient} />
 }
 
-export default HeaderAnimatedGradienBackground
+export default HeaderAnimatedGradientBackground
