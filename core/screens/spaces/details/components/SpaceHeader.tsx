@@ -63,7 +63,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <SpaceFollow space={space} style={{ marginRight: 8 }} />
+        <SpaceFollow space={space} />
         <SpaceJoin space={space} />
       </View>
     </View>
@@ -90,6 +90,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     maxWidth: 420,
     flexWrap: 'wrap',
+    gap: 8,
+    justifyContent: 'center',
   },
 })
 
