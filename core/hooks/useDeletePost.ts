@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { deleteSpacePostMutation } from '@holi/core/screens/spaces/updates/mutations'
-import { SpaceByIdQueryVariables, spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const useDeletePost = (postId: string, refetchSpaceVariables?: SpaceByIdQueryVariables, handleConfirm?: () => void) => {
+const useDeletePost = (postId: string, handleConfirm?: () => void) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
@@ -22,7 +22,7 @@ const useDeletePost = (postId: string, refetchSpaceVariables?: SpaceByIdQueryVar
       handleConfirm?.()
       displayError(error, t('global.technicalError'), 5000)
     },
-    refetchQueries: refetchSpaceVariables ? [{ query: spacePostsQuery, variables: refetchSpaceVariables }] : undefined,
+    refetchQueries: [spacePostsQuery],
   })
 
   return { isLoadingPostDeletion, deletePost }
