@@ -11,7 +11,6 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
-import { SpaceByIdQueryVariables } from '@holi/core/screens/spaces/updates/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -33,16 +32,9 @@ export type PostPreviewProps = {
   insightId?: string
   spaceIdOrName?: string
   hasVisibilityIcon?: boolean
-  spacePostQueryVariables?: SpaceByIdQueryVariables
 }
 
-const PostPreview = ({
-  hasVisibilityIcon,
-  insightId,
-  post,
-  spaceIdOrName,
-  spacePostQueryVariables,
-}: PostPreviewProps) => {
+const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: PostPreviewProps) => {
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
@@ -53,7 +45,7 @@ const PostPreview = ({
     successMsg: t('global.report.successMessage'),
   })
 
-  const { deletePost, isLoadingPostDeletion } = useDeletePost(post.id, spacePostQueryVariables)
+  const { deletePost, isLoadingPostDeletion } = useDeletePost(post.id)
 
   const commenters = post.commenters.data
 
