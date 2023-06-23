@@ -36,7 +36,9 @@ export const useStepper = (width: number, initialStep = 0): StepperController =>
       scrollPoint.current = nextStep * width
       const scrollOptions = { x: scrollPoint.current, y: 0, animated }
       if (!ref.current?.scrollTo) return nextStep
-      delayAnimation(ref.current.scrollTo, scrollOptions, delay)
+      Platform.OS === 'android'
+        ? ref.current.scrollTo(scrollOptions)
+        : delayAnimation(ref.current.scrollTo, scrollOptions, delay)
 
       return nextStep
     },
