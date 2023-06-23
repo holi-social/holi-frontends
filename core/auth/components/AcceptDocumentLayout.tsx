@@ -8,6 +8,8 @@ import CenteredImageHeadlineDescriptionLayout, {
   CenteredImageHeadlineDescriptionLayoutProps,
 } from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
+import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -48,6 +50,7 @@ const AcceptDocumentLayout = ({
   const { t } = useTranslation()
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
 
   const navButtons = (
     <HoliWizardNaviagtionButtons
@@ -59,9 +62,13 @@ const AcceptDocumentLayout = ({
     />
   )
 
-  const onDocumentLoadError = () => {
+  const onDocumentLoadError = (err?: Error | number) => {
     hideModal()
-    openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR, 3000)
+    if (err instanceof HoliBadRequestError) {
+      openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR, 3000)
+    } else {
+      displayError(err, t('auth.login.error.initialization'))
+    }
   }
 
   return (

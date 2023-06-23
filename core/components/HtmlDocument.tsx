@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 interface HtmlDocumentProps {
   url?: URL | string
-  onError?: (statusCode?: number) => void
+  onError?: (err?: Error) => void
 }
 
 const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
@@ -23,14 +25,17 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
           'Content-Type': 'application/html',
         },
       })
-        .then((res) => {
+        .then(async (res) => {
+          const message = await res.text()
+
           if (res.status !== 200) {
-            onError?.(res.status)
-            return null
+            throw res.status === 400 ? new HoliBadRequestError() : new HoliError(message)
           }
-          return res.text()
+
+          return message
         })
         .then(setDocument)
+        .catch(onError)
     }
   }, [onError, t, needToLoad, url])
 
