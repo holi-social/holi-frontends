@@ -37,7 +37,7 @@ export const login = async ({
   },
 }: LoginOptions) => {
   try {
-    flow ??= await initLoginFlow()
+    flow = (await initLoginFlow()) || flow
 
     try {
       const { data } = await submitLoginFlow(flow, payload, undefined)
