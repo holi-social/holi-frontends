@@ -52,9 +52,10 @@
   "submit": {
     "production": {
       "android": {
-        "track": "alpha"
+        "track": "internal"
       },
       "ios": {
+        "appleTeamId": "Y7F8XQ5286",
         "ascAppId": "1665346434"
       }
     }
