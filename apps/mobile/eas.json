@@ -29,7 +29,7 @@
         "JITSI_URL": "https://meet.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
-        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social"
+        "HOLI_NEXTJS_API_URL": "https://app.holi.social"
       },
       "ios": {
         "resourceClass": "m1-medium"
