@@ -1,26 +1,27 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
+import { Animated, Easing, LayoutRectangle, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 // inspired by https://github.com/chramos/react-native-skeleton-placeholder/blob/master/src/skeleton-placeholder.tsx
 // (which is not compatible to our stack, because it clashes with expo)
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface HoliSkeletonProps {}
+interface HoliSkeletonProps {
+  style?: StyleProp<ViewStyle>
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   const [layout, setLayout] = useState<LayoutRectangle>()
   const animatedValueRef = useRef(new Animated.Value(0))
 
   useEffect(() => {
     const loop = Animated.loop(
+      // remember, you can also make this a sequence
       Animated.timing(animatedValueRef.current, {
         toValue: 1,
         duration: 1400,
         easing: Easing.inOut(Easing.ease),
-        delay: 300,
+        // delay: 300, // doesn't look good
         useNativeDriver: true, // tested to be on the ui thread
       })
     )
@@ -29,11 +30,11 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   }, [])
 
   if (!layout) {
-    return <View style={styles.placeholder} onLayout={(e) => setLayout(e.nativeEvent.layout)} />
+    return <View style={[styles.placeholder, props.style]} onLayout={(e) => setLayout(e.nativeEvent.layout)} />
   }
 
   return (
-    <MaskedView style={styles.maskView} maskElement={<View style={styles.maskElement} />}>
+    <MaskedView style={[styles.maskView, props.style]} maskElement={<View style={[styles.maskElement, props.style]} />}>
       <View style={[StyleSheet.absoluteFill, styles.background]} />
       <Animated.View
         style={{

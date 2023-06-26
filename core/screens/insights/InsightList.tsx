@@ -10,22 +10,49 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 export type InsightsProps = {
   insights: Insight[]
   style?: StyleProp<ViewStyle>
+  loading?: boolean
 }
 
 const InsightList: React.VFC<InsightsProps> = (props) => {
   const insightGridItemsInRow = useBreakpointMatcher()
+  const loading = props.loading ?? false
 
   return (
     <View style={props.style}>
       {/* insights */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
+        {loading && (
+          <HoliGridCell>
+            <InsightPreviewBox style={styles.insight} insight={'loading'} />
+          </HoliGridCell>
+        )}
+
+        {loading && (
+          <HoliGridCell>
+            <InsightPreviewBox style={styles.insight} insight={'loading'} />
+          </HoliGridCell>
+        )}
+
+        {loading && (
+          <HoliGridCell>
+            <InsightPreviewBox style={styles.insight} insight={'loading'} />
+          </HoliGridCell>
+        )}
+
+        {loading && (
+          <HoliGridCell>
+            <InsightPreviewBox style={styles.insight} insight={'loading'} />
+          </HoliGridCell>
+        )}
+
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          props.insights.map((insight) => (
-            <HoliGridCell key={insight.id}>
-              <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
-            </HoliGridCell>
-          ))
+          !loading &&
+            props.insights.map((insight) => (
+              <HoliGridCell key={insight.id}>
+                <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
+              </HoliGridCell>
+            ))
         }
       </HoliGridWrapper>
     </View>

@@ -16,12 +16,13 @@ $gradient-peak-color: #DBDBDBE6;
   width: 100%;
   animation-duration: 1400ms;
   animation-timing-function: ease-in-out;
-  animation-delay: 300ms;
+  // animation-delay: 300ms; // doesn't look good on app, so commented for consistency
   animation-iteration-count: infinite;
   animation-direction: normal;
   animation-fill-mode: none;
   animation-play-state: running;
   animation-name: skeleton-keyframe;
+  background-position: -100% 0;
   background-color: #EBEBEB;
   background-image: linear-gradient(90deg, $gradient-start-color, $gradient-mid-color, $gradient-peak-color, $gradient-mid-color, $gradient-start-color);
   background-size: 50% 100%;

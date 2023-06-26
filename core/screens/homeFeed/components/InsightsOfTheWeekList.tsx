@@ -65,7 +65,7 @@ const InsightsOfTheWeekList: React.FC = () => {
         />
       </HoliModal>
 
-      <InsightList style={styles.insightList} insights={insights} />
+      <InsightList style={styles.insightList} loading={loading} insights={insights} />
     </>
   )
 }

@@ -6,19 +6,30 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface InsightPreviewBoxProps {
-  insight: Insight
+  insight: Insight | 'loading'
   style?: StyleProp<ViewStyle>
 }
 
 const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+
+  if (insight === 'loading') {
+    return (
+      <View {...props}>
+        <HoliSkeleton style={styles.loadingImage} />
+
+        <HoliUserAvatarPile style={styles.avatarPile} users={[]} loading collapse />
+      </View>
+    )
+  }
 
   const editors = insight.involvedUsers.data
 
@@ -71,6 +82,11 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
 export default InsightPreviewBox
 
 const styles = StyleSheet.create({
+  loadingImage: {
+    aspectRatio: 327 / 206,
+    borderRadius: 12,
+    height: 'auto',
+  },
   mainImage: {
     aspectRatio: 327 / 206,
     borderRadius: 12,
