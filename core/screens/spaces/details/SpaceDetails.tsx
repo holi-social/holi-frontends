@@ -123,17 +123,29 @@ const SpaceDetails = () => {
     setTimeout(() => setShowShareConfirmation(false), 1500)
   }, [setShowShareConfirmation, shareSpaceUrl])
 
+  const manageCollaboratorsAction = useCallback(() => {
+    navigate(`/spaces/${spaceIdOrName}/collaborators`)
+  }, [navigate, spaceIdOrName])
+
   const renderActionDrawer = useCallback(
     () => (
       <>
         <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="space-options-btn">
           {isAdmin && (
-            <HoliActionDrawer.Action
-              isLoading={isLoading}
-              action="edit"
-              title={t('global.edit')}
-              handleAction={editAction}
-            />
+            <>
+              <HoliActionDrawer.Action
+                isLoading={isLoading}
+                action="edit"
+                title={t('global.edit')}
+                handleAction={editAction}
+              />
+              <HoliActionDrawer.Action
+                isLoading={isLoading}
+                action="collaborators"
+                title={t('spaces.collaborators.manage.modal.title')}
+                handleAction={manageCollaboratorsAction}
+              />
+            </>
           )}
 
           {space && (
@@ -227,6 +239,7 @@ const SpaceDetails = () => {
       deleteConfirmationAction,
       leaveSpaceAction,
       editAction,
+      manageCollaboratorsAction,
       isAdmin,
       isWeb,
       space,

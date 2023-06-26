@@ -319,6 +319,7 @@
   "spaces.collaborators.permissions.role.member": "Member",
   "spaces.collaborators.permissions.viewProfile": "View profile",
   "spaces.collaborators.showModal": "Show collaborators",
+  "spaces.collaborators.manage.modal.title": "Manage collaborators",
   "spaces.create.button": "Create Space",
   "spaces.create.close.dialog.description": "Do you really want to discard the creation of your Space?",
   "spaces.create.close.dialog.dismiss": "Cancel",

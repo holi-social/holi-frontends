@@ -301,6 +301,7 @@
   "spaces.collaborators": "Collaborators",
   "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.loadMoreButton": "Weitere Mitwirkende",
+  "spaces.collaborators.manage.modal.title": "Collaborator verwalten",
   "spaces.collaborators.permissions.confirm.no": "Nein, abbrechen",
   "spaces.collaborators.permissions.confirm.yes": "Bestätigen",
   "spaces.collaborators.permissions.grantAdmin.confirm": "Willst du {{user}} wirklich zum Admin machen?",
