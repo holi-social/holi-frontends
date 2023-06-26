@@ -3,6 +3,7 @@ import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, V
 import tinycolor from 'tinycolor2'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -19,6 +20,7 @@ export type AvatarProps = {
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
   style?: StyleProp<ViewStyle>
+  loading?: boolean
 }
 
 export const sizes = {
@@ -38,6 +40,7 @@ const HoliAvatar = ({
   label,
   accessibilityLabel,
   style,
+  loading = false,
   ...props
 }: AvatarProps) => {
   const width = sizes[size || 'medium']
@@ -62,9 +65,11 @@ const HoliAvatar = ({
         styles[sizeClass],
       ]}
     >
-      {hasImage ? (
+      {loading && <HoliSkeleton />}
+      {!loading && hasImage && (
         <HoliImage label={label} source={imageUri} blurhash={imageBlurhash} style={styles.image} resizeMode="cover" />
-      ) : (
+      )}
+      {!loading && !hasImage && (
         <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
         </HoliText>

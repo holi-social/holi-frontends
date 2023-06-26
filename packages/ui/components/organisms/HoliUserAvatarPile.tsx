@@ -16,6 +16,16 @@ interface HoliUserAvatarPileProps {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   testID?: string
   usersTotal?: number
+  loading?: boolean
+}
+
+const emptyUser = (id: string): User => {
+  return {
+    id,
+    avatarDefaultColor: 'white',
+    avatarLabel: '  ',
+    fullName: '',
+  }
 }
 
 const HoliUserAvatarPile = ({
@@ -28,12 +38,15 @@ const HoliUserAvatarPile = ({
   style,
   testID = 'holi-user-avatar-pile',
   usersTotal = users.length,
+  loading = false,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
 
-  const uniqueUsers = users.reduce((newArr: User[], nextUser: User) => {
-    return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
-  }, [])
+  const uniqueUsers = loading
+    ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
+    : users.reduce((newArr: User[], nextUser: User) => {
+        return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+      }, [])
 
   return (
     <>
@@ -54,6 +67,7 @@ const HoliUserAvatarPile = ({
                 size={size}
                 style={[styles.avatar, { marginLeft: idx ? collapseDistance : 0, zIndex: idx * -1 }]}
                 testID="pile-avatar"
+                loading={loading}
               />
             )
           })

@@ -9,7 +9,7 @@ import styles from './HoliSkeleton.module.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
-  return <div className={styles.skeleton} style={{ height: 20 }} />
+  return <div className={styles.skeleton} />
 }
 
 export default HoliSkeleton
