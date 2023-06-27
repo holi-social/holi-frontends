@@ -61,8 +61,8 @@ const HoliHeading = ({
 
     return (
       <View style={props?.style}>
-        {multiline && <HoliSkeleton style={StyleSheet.flatten([styles.loadingMulti, { height: skeletonHeight }])} />}
-        {!multiline && <HoliSkeleton style={StyleSheet.flatten([styles.loadingSingle, { height: skeletonHeight }])} />}
+        {multiline && <HoliSkeleton height={skeletonHeight} width={'100%'} borderRadius={4} />}
+        {!multiline && <HoliSkeleton height={skeletonHeight} width={'40%'} borderRadius={16} />}
       </View>
     )
   }
@@ -95,13 +95,6 @@ export default HoliHeading
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    loadingSingle: {
-      width: '60%',
-      borderRadius: 16,
-    },
-    loadingMulti: {
-      borderRadius: 4,
-    },
     default: {
       fontWeight: '500',
       fontFamily: theme.fontFamily.default('Medium'),

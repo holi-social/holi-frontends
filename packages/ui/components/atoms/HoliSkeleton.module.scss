@@ -4,10 +4,10 @@ $gradient-peak-color: #DBDBDBE6;
 
 @keyframes skeleton-keyframe {
   0% {
-    background-position: -100% 0;
+    background-position: -100% 0; // -300% for 75% gradient
   }
   100% {
-    background-position: 200% 0;
+    background-position: 200% 0; // 400% for 75% gradient
   }
 }
 

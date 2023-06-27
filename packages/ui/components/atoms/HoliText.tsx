@@ -44,8 +44,8 @@ const HoliText = ({
     const multiline = typeof props.numberOfLines == 'number'
     return (
       <View style={props?.style}>
-        {multiline && <HoliSkeleton style={StyleSheet.flatten([styles.loadingMulti, { height: skeletonHeight }])} />}
-        {!multiline && <HoliSkeleton style={StyleSheet.flatten([styles.loadingSingle, { height: skeletonHeight }])} />}
+        {multiline && <HoliSkeleton height={skeletonHeight} width={'100%'} borderRadius={4} />}
+        {!multiline && <HoliSkeleton height={skeletonHeight} width={'60%'} borderRadius={16} />}
       </View>
     )
   }
@@ -74,13 +74,6 @@ export default HoliText
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    loadingSingle: {
-      width: '80%',
-      borderRadius: 16,
-    },
-    loadingMulti: {
-      borderRadius: 4,
-    },
     base: {
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),

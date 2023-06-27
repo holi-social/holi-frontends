@@ -24,7 +24,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
   if (insight === 'loading') {
     return (
       <View {...props}>
-        <HoliSkeleton style={styles.loadingImage} />
+        <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
 
         <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle} loading />
 
@@ -88,11 +88,6 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
 export default InsightPreviewBox
 
 const styles = StyleSheet.create({
-  loadingImage: {
-    aspectRatio: 327 / 206,
-    borderRadius: 12,
-    height: 'auto',
-  },
   mainImage: {
     aspectRatio: 327 / 206,
     borderRadius: 12,

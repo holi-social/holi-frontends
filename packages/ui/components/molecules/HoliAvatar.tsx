@@ -65,7 +65,7 @@ const HoliAvatar = ({
         styles[sizeClass],
       ]}
     >
-      {loading && <HoliSkeleton />}
+      {loading && <HoliSkeleton height={'100%'} width={'100%'} borderRadius={0} />}
       {!loading && hasImage && (
         <HoliImage label={label} source={imageUri} blurhash={imageBlurhash} style={styles.image} resizeMode="cover" />
       )}

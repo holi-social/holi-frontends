@@ -1,13 +1,17 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { Animated, Easing, LayoutRectangle, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
 
 // inspired by https://github.com/chramos/react-native-skeleton-placeholder/blob/master/src/skeleton-placeholder.tsx
 // (which is not compatible to our stack, because it clashes with expo)
 
-interface HoliSkeletonProps {
-  style?: StyleProp<ViewStyle>
+// fixed design choices
+export interface HoliSkeletonProps {
+  aspectRatio?: number
+  height: number | '100%' | 'auto'
+  width: '40%' | '60%' | '100%'
+  borderRadius: 0 | 4 | 16
 }
 
 const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
@@ -29,12 +33,14 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
     return () => loop.stop()
   }, [])
 
+  const styles = getStyles(props)
+
   if (!layout) {
-    return <View style={[styles.placeholder, props.style]} onLayout={(e) => setLayout(e.nativeEvent.layout)} />
+    return <View style={styles.placeholder} onLayout={(e) => setLayout(e.nativeEvent.layout)} />
   }
 
   return (
-    <MaskedView style={[styles.maskView, props.style]} maskElement={<View style={[styles.maskElement, props.style]} />}>
+    <MaskedView style={styles.maskView} maskElement={<View style={styles.maskElement} />}>
       <View style={[StyleSheet.absoluteFill, styles.background]} />
       <Animated.View
         style={{
@@ -63,28 +69,35 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   )
 }
 
-const styles = StyleSheet.create({
-  placeholder: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'transparent',
-  },
-  maskView: {
-    height: '100%',
-    width: '100%',
-  },
-  maskElement: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'black', // masking is based on transparency
-  },
-  background: {
-    backgroundColor: '#EBEBEB',
-  },
-  gradient: {
-    height: '100%',
-    width: '50%',
-  },
-})
+const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonProps) => {
+  return StyleSheet.create({
+    placeholder: {
+      aspectRatio,
+      height,
+      width,
+      borderRadius,
+      backgroundColor: 'transparent',
+    },
+    maskView: {
+      aspectRatio,
+      height,
+      width,
+      borderRadius,
+    },
+    maskElement: {
+      height: '100%',
+      width: '100%',
+      borderRadius,
+      backgroundColor: 'black', // masking is based on transparency
+    },
+    background: {
+      backgroundColor: '#EBEBEB',
+    },
+    gradient: {
+      height: '100%',
+      width: '50%',
+    },
+  })
+}
 
-export default HoliSkeleton
+export default React.memo(HoliSkeleton)
