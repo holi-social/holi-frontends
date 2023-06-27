@@ -71,6 +71,66 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         spaceGoalErrors={fieldErrors.description}
       />
     </EditSpaceModal>
+    // <FormWrapper
+    // renderProp={(scrollToPropsFor) => (
+    //   <View>
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('name')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('lastName')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('1')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('2')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('3')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit?
+    //     </HoliHeading>
+    //     <HoliTextInput accessibilityLabel="" style={{ paddingTop: 100 }} {...scrollToPropsFor('4')} />
+    //     <HoliHeading>
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi
+    //       nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non
+    //       facere neque sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem
+    //       omnis id, eaque sequi nulla minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam
+    //       architecto est nam, non facere neque sit? Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    //       Necessitatibus exercitationem omnis id, eaque sequi nulla minima culpa? Asperiores, magnam laudantium
+    //       dolores exercitationem aliquam architecto est nam, non facere neque sit? Lorem ipsum dolor sit amet
+    //       consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi nulla minima culpa?
+    //       Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non facere neque sit? Lorem
+    //       ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus exercitationem omnis id, eaque sequi nulla
+    //       minima culpa? Asperiores, magnam laudantium dolores exercitationem aliquam architecto est nam, non facere
+    //       neque sit?
+    //     </HoliHeading>
+    //   </View>
+    // )}
   )
 }
 
