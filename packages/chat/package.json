@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "immer": "^10.0.2",
+    "jotai": "^2.2.1",
+    "jotai-immer": "^0.2.0",
     "matrix-js-sdk": "^25.1.1",
     "react-tracked": "^1.7.11",
     "scheduler": "^0.23.0"
