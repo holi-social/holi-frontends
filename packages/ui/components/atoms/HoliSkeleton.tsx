@@ -14,6 +14,9 @@ export interface HoliSkeletonProps {
   borderRadius: 0 | 4 | 16
 }
 
+const gradientWidth = 0.75 // relative
+
+// disclaimer: animation jumps to the right when re-rendered via hot reloading in dev
 const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   const [layout, setLayout] = useState<LayoutRectangle>()
   const animatedValueRef = useRef(new Animated.Value(0))
@@ -48,10 +51,7 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
             {
               translateX: animatedValueRef.current.interpolate({
                 inputRange: [0, 1],
-                outputRange: [
-                  -(layout.width / 2), // because gradient is 50% of width
-                  layout.width,
-                ],
+                outputRange: [-(layout.width * gradientWidth), layout.width],
               }),
             },
           ],
@@ -95,7 +95,7 @@ const getStyles = ({ aspectRatio, height, width, borderRadius }: HoliSkeletonPro
     },
     gradient: {
       height: '100%',
-      width: '50%',
+      width: gradientWidth * 100 + '%',
     },
   })
 }
