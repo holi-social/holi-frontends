@@ -26,7 +26,13 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       <View {...props}>
         <HoliSkeleton style={styles.loadingImage} />
 
-        <HoliUserAvatarPile style={styles.avatarPile} users={[]} loading collapse />
+        <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle} loading />
+
+        <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop} loading />
+
+        <HoliText size="small" style={styles.spaceTop} selectable={true} loading />
+
+        <HoliUserAvatarPile users={'loading'} usersToShow={3} counter collapse style={styles.avatarPile} />
       </View>
     )
   }
@@ -49,7 +55,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         />
 
         {!!insight.topic && (
-          <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+          <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle}>
             {insight.topic.title}
           </HoliHeading>
         )}
@@ -93,7 +99,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.background30,
   },
-  cagetory: {
+  topicTitle: {
     color: colors.brandColorB30,
     marginTop: 16,
   },

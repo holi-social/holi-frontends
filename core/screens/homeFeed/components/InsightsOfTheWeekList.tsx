@@ -49,7 +49,7 @@ const InsightsOfTheWeekList: React.FC = () => {
         inline
       >
         <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile loading={loading} users={insightsCreators} collapse />
+          <HoliUserAvatarPile users={loading ? 'loading' : insightsCreators} collapse />
           <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
             {t('insights.editors.editedBy')}
           </HoliText>

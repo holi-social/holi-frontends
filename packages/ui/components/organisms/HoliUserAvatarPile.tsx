@@ -8,7 +8,7 @@ import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface HoliUserAvatarPileProps {
-  users: User[]
+  users: User[] | 'loading'
   usersToShow?: number
   size?: 'micro' | 'small'
   collapse?: boolean
@@ -16,7 +16,6 @@ interface HoliUserAvatarPileProps {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   testID?: string
   usersTotal?: number
-  loading?: boolean
 }
 
 const emptyUser = (id: string): User => {
@@ -38,15 +37,15 @@ const HoliUserAvatarPile = ({
   style,
   testID = 'holi-user-avatar-pile',
   usersTotal = users.length,
-  loading = false,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
 
-  const uniqueUsers = loading
-    ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
-    : users.reduce((newArr: User[], nextUser: User) => {
-        return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
-      }, [])
+  const uniqueUsers =
+    users === 'loading'
+      ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
+      : users.reduce((newArr: User[], nextUser: User) => {
+          return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+        }, [])
 
   return (
     <>
@@ -65,15 +64,25 @@ const HoliUserAvatarPile = ({
                 initials={user.avatarLabel}
                 defaultColor={user.avatarDefaultColor}
                 size={size}
-                style={[styles.avatar, { marginLeft: idx ? collapseDistance : 0, zIndex: idx * -1 }]}
+                style={[
+                  styles.avatar,
+                  {
+                    marginLeft: idx ? collapseDistance : 0,
+                    zIndex: idx * -1,
+                  },
+                ]}
                 testID="pile-avatar"
-                loading={loading}
+                loading={users === 'loading'}
               />
             )
           })
         }
 
-        {(children || counter) && (
+        {users === 'loading' && (children || counter) && (
+          <HoliText size="small" style={styles.loadingCounter} loading />
+        )}
+
+        {users !== 'loading' && (children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
             {children || t('insights.editors.discussing', { count: usersTotal })}
           </HoliText>
@@ -89,6 +98,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  loadingCounter: {
+    marginLeft: 8,
+    width: 150,
   },
   counter: {
     marginLeft: 8,
