@@ -123,6 +123,7 @@ const getStyles = (checked = false) =>
       alignSelf: 'center',
       alignItems: 'center',
       justifyContent: 'center',
+      minHeight: 40,
     },
     text: {
       fontWeight: '400',
