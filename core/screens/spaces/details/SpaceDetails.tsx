@@ -153,24 +153,25 @@ const SpaceDetails = () => {
               />
             </HoliActionDrawer.Action>
           )}
-
-          <HoliActionDrawer.Action
-            isLoading={isLoadingLeaveSpace}
-            action="leave"
-            title={t('spaces.spaceDetails.leave')}
-            showConfirmation
-          >
-            <HoliActionDrawer.Confirmation
-              title={confirmationTitle}
-              description={confirmationDescription}
-              testID="space-leave"
-              handleConfirmation={leaveSpaceAction}
-              hasDismissBtn={dismissLeaveSpaceButton.show}
-              dismissText={dismissLeaveSpaceButton.text}
-              confirmText={confirmLeaveSpaceText}
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+          {isMember && (
+            <HoliActionDrawer.Action
+              isLoading={isLoadingLeaveSpace}
+              action="leave"
+              title={t('spaces.spaceDetails.leave')}
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={confirmationTitle}
+                description={confirmationDescription}
+                testID="space-leave"
+                handleConfirmation={leaveSpaceAction}
+                hasDismissBtn={dismissLeaveSpaceButton.show}
+                dismissText={dismissLeaveSpaceButton.text}
+                confirmText={confirmLeaveSpaceText}
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+          )}
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -227,6 +228,7 @@ const SpaceDetails = () => {
       deleteConfirmationAction,
       leaveSpaceAction,
       editAction,
+      isMember,
       isAdmin,
       isWeb,
       space,
