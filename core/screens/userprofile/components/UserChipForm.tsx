@@ -44,14 +44,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
       <HoliChipRow editable={false} editButtonLabel="">
         {terms.map(({ id, selected, title }) => (
-          <HoliChip
-            key={id}
-            checked={selected}
-            onPress={() => onTermSelect(id)}
-            text={title}
-            label={title}
-            style={styles.chip}
-          />
+          <HoliChip key={id} checked={selected} onPress={() => onTermSelect(id)} text={title} label={title} />
         ))}
       </HoliChipRow>
 
@@ -75,10 +68,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
   },
 })
 
