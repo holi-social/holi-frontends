@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import * as Room from '@holi/chat/src/room/room'
 import { addMsgToThreadAtom, joinRoomAtom, selectRoomAtom } from '@holi/chat/src/store/store'
 import { ChatRoom } from '@holi/chat/src/store/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -37,7 +36,11 @@ const RoomView = ({ client, roomAtom }: Props) => {
   useEffect(() => {
     let unsubscribe: null | (() => void) = null
     const registerRoomMessages = async () => {
-      if (client === null) return
+      if (!client) {
+        logError(new Error('Can not register messages without a client'))
+        return
+      }
+
       unsubscribe = await client.subscribeToMessages(room.id, (msg) => {
         addRoom(msg)
       })
@@ -52,25 +55,24 @@ const RoomView = ({ client, roomAtom }: Props) => {
   }, [])
 
   const acceptRoomInvitation = async () => {
-    if (room.id === null || !client) {
-      logError(new Error('Can not accept an invitation without a room id'))
+    if (!client) {
+      logError(new Error('Can not accept an invitation without a client'))
       return
     }
 
-    const clientRoom = await Room.join(client, room.id)
-    if (!clientRoom) {
-      logError(new Error('There was a problem joining the room after accepting invitation'))
-      return
-    }
+    const hasJoined = await client.joinRoom(room.id)
+    if (!hasJoined) return
+
     joinRoom({ hasInvitation: false })
   }
 
   const sendMessage = async () => {
-    if (!client) return
-    // TODO: this should be done by the known ID
-    const id = room.id
-    if (!id) return
-    await Room.sendTextMessage(client, id, text)
+    if (!client) {
+      logError(new Error('Can not send a text message without a client'))
+      return
+    }
+
+    await client.sendTextMessage(room.id, text)
   }
 
   return (

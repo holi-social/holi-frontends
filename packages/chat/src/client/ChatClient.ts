@@ -12,8 +12,9 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { Membership } from '@holi/chat/src/client/types'
 import { createRoomMessage } from '@holi/chat/src/store'
-import type { ChatMessage } from '@holi/chat/src/store'
+import type { ChatMessage, ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { logError } from '@holi/core/errors/helpers'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
@@ -94,19 +95,6 @@ export default class ChatClient {
   }
 
   /** Rooms */
-
-  public hasPendingInvitation = async (event: MatrixEvent): Promise<boolean> => {
-    const pushAction = event.getPushActions()
-    if (!pushAction?.notify) return false
-
-    const isSending = event.isSending()
-    if (isSending) return false
-
-    const content = event.getContent()
-
-    return content.membership === Membership.Invite.toLowerCase()
-  }
-
   public getJoinedRooms = async (): Promise<Room[]> => {
     const joinedRoomsResponse = await this.mxClient.getJoinedRooms()
     const joinedRoomsIds = joinedRoomsResponse.joined_rooms
@@ -136,6 +124,39 @@ export default class ChatClient {
       .getEvents()
       .filter((event) => event.getType() === 'm.room.message')
       .map((event) => createRoomMessage(room.roomId, event))
+  }
+
+  public hasPendingInvitation = async (event: MatrixEvent): Promise<boolean> => {
+    const pushAction = event.getPushActions()
+    if (!pushAction?.notify) return false
+
+    const isSending = event.isSending()
+    if (isSending) return false
+
+    const content = event.getContent()
+
+    return content.membership === Membership.Invite.toLowerCase()
+  }
+
+  public joinRoom = async (roomId: string): Promise<boolean> => {
+    const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
+    if (!room) {
+      logError(new Error('There was a problem joining the room after accepting invitation'))
+      return false
+    }
+
+    return true
+  }
+
+  public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
+    const content: ChatMessageContent = {
+      body: text,
+      msgtype: 'm.text',
+    }
+
+    const eventIdResponse = await this.mxClient.sendEvent(roomId, 'm.room.message', content, '')
+
+    return eventIdResponse.event_id
   }
 
   public subscribeToInvitations = async (
