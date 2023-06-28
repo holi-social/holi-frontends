@@ -6,6 +6,7 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import useChatLogin from '@holi/chat/src/client/useChatLogin'
 import RoomView from '@holi/chat/src/components/RoomView'
 import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store'
+import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -68,7 +69,10 @@ const ChatView = () => {
   /** Add chat rooms joined by the logged in member */
   useEffect(() => {
     const addJoinedRooms = async () => {
-      if (chatClient === null) return
+      if (!chatClient) {
+        logError(new Error('Can not join rooms without a client'))
+        return
+      }
 
       const rooms = await chatClient.getJoinedRooms()
       rooms.forEach((room) => {
@@ -87,7 +91,10 @@ const ChatView = () => {
   useEffect(() => {
     let unsubscribe: null | (() => void) = null
     const registerRoomInvitations = async () => {
-      if (chatClient === null) return
+      if (!chatClient) {
+        logError(new Error('Can not register joined rooms without a client'))
+        return
+      }
 
       unsubscribe = await chatClient.subscribeToInvitations((roomId, hasInvitation) => {
         // TODO: get the latest threads if available.

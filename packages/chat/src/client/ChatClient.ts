@@ -73,11 +73,6 @@ export default class ChatClient {
     this.configureClient()
   }
 
-  // TODO: remove access to the matrix client
-  public get(): MatrixClient {
-    return this.mxClient
-  }
-
   public replaceUsingCreds(credentials: ChatCredentials): void {
     this.clientCredentials = credentials
     // Restoring session for userId
@@ -85,18 +80,15 @@ export default class ChatClient {
     this.mxClient = this.createClient(credentials)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<boolean> => {
-    const client = this.get()
-    if (!client) return false
-    await client.startClient(options)
+  public start = async (options?: IStartClientOpts): Promise<void> => {
+    await this.mxClient.startClient(options)
 
-    client.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
+    // TODO: Implement soft logout and reconnect
+    this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       // eslint-disable-next-line no-console
       console.log({ state, prevState })
       if (state === SyncState.Syncing && prevState === SyncState.Syncing) return
     })
-
-    return true
   }
 
   /** Rooms */
