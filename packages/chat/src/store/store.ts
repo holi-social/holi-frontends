@@ -1,49 +1,53 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { Draft } from 'immer'
 import { produce } from 'immer'
 import { atom, createStore } from 'jotai'
-import { atomWithStorage, createJSONStorage } from 'jotai/utils'
+
+import type { ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
 
 // TODO: implement unit test
-import type { ChatRoom } from '@holi/chat/src/store/types'
-
 const chatStore = createStore()
-const ROOMS_STORE_KEY = 'mx_rooms_store' as const
-const roomsStorage = createJSONStorage<ChatRoom[]>(() => AsyncStorage)
-const initialRoomState: ChatRoom = {
-  id: '',
-  hasInvitation: false,
-}
 
-// Read Atom
-//export const addRoomAtom = withImmer(roomAtom)
+/**
+ * Room
+ */
 
 export const createRoomAtom = (room: ChatRoom) => atom(room)
 
-// TODO: move to utils file
-export type AtomRecipe<T> = (draft: Draft<T>) => void
-
-export function isAtomRecipe<T>(recipe: AtomRecipe<T> | T): recipe is AtomRecipe<T> {
-  return typeof recipe === 'function'
-}
-
-export function immerProducer<T>(value: T, fn: T | AtomRecipe<T>): T {
-  const recipe = isAtomRecipe(fn) ? fn : () => fn
-  return produce(value, recipe)
-}
-
-export const roomAtomsAtom = atomWithStorage<ChatRoom[]>(ROOMS_STORE_KEY, [], roomsStorage)
-
-// TODO: don't forget to prefill async atoms to avoid errors
-export const addRoomAtom = atom(null, async (_get, set, update: ChatRoom) => {
-  const roomsAtom = await roomAtomsAtom
-
-  const roomAtom = createRoomAtom(update)
-  const addAnRoomAtom = produce((draft: ChatRoom[], room) => void draft.push(room))
-  await set(roomsAtom, async (prevRooms) => {
-    const rooms = await prevRooms
-    return addAnRoomAtom(rooms, roomAtom)
-  })
+const selectedRoomAtomAtom = atom<ChatRoomAtom | null>(null)
+export const selectRoomAtom = atom(null, (_get, set, chatRoomAtom: ChatRoomAtom) => {
+  set(selectedRoomAtomAtom, chatRoomAtom)
 })
 
-chatStore.set(roomAtomsAtom, [initialRoomState])
+type InvitationUpdate = Pick<ChatRoom, 'hasInvitation'>
+
+export const joinRoomAtom = atom(null, (get, set, update: InvitationUpdate) => {
+  const updateInvitation = produce((draft: ChatRoom, update: InvitationUpdate) => {
+    draft.hasInvitation = update.hasInvitation
+  })
+  const selectedRoomAtom = get(selectedRoomAtomAtom)
+  if (!selectedRoomAtom) return
+  set(selectedRoomAtom, (prevRoom) => updateInvitation(prevRoom, update))
+})
+
+/**
+ * Rooms
+ */
+export const roomAtomsAtom = atom<ChatRoomAtom[]>([])
+
+chatStore.set(roomAtomsAtom, [])
+
+// TODO: don't forget to prefill async atoms to avoid errors
+// TODO: remove empty state
+/**
+ * Adds a room atom to the rooms atom with atoms
+ */
+export const addRoomAtom = atom(null, (get, set, chatRoom: ChatRoom) => {
+  const roomAtom = createRoomAtom(chatRoom)
+
+  const addChatRoom = produce((draft: ChatRoomAtom[], room: ChatRoomAtom) => {
+    const hasRoom = draft.find((roomAtom) => get(roomAtom).id === get(room).id)
+    if (hasRoom) return
+    draft.push(room)
+  })
+
+  set(roomAtomsAtom, (prevRooms) => addChatRoom(prevRooms, roomAtom))
+})

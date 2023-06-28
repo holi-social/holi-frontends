@@ -1,3 +1,7 @@
+import type { PrimitiveAtom } from 'jotai'
+
+export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
+
 export interface ChatRoom {
   id: string
   hasInvitation: boolean

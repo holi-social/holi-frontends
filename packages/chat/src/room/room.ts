@@ -1,10 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { ICreateRoomOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { Preset, Visibility } from 'matrix-js-sdk'
 
 import type ChatClient from '@holi/chat/src/ChatClient'
 import type { Message } from '@holi/chat/src/utils'
-import { CHAT_USER_ID_KEY } from '@holi/chat/src/utils/constants'
 import { logError } from '@holi/core/errors/helpers'
 
 export interface RoomId {
@@ -90,16 +88,12 @@ export enum Membership {
 /**
  * It looks if the Matrix event is a pending room invitation for the logged in user.
  */
-export async function hasPendingInvitation(event: MatrixEvent, userIdKey = CHAT_USER_ID_KEY): Promise<boolean> {
+export async function hasPendingInvitation(event: MatrixEvent): Promise<boolean> {
   const pushAction = event.getPushActions()
   if (!pushAction?.notify) return false
 
   const isSending = event.isSending()
   if (isSending) return false
-
-  const stateKey = event.getStateKey()
-  const userId = await AsyncStorage.getItem(userIdKey)
-  if (stateKey !== userId) return false
 
   const content = event.getContent()
 
