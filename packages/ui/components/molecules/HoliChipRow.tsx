@@ -79,6 +79,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexShrink: 1,
     marginTop: 8,
-    gap: 8,
   },
 })

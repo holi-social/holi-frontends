@@ -72,12 +72,14 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                     <HoliChip
                       text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                       label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                      style={styles.chip}
                       disabled
                     />
                   ) : (
                     <HoliChip
                       onPress={() => toggleEditMode('engagementLevel')}
                       label={t('profile.engagementLevel.add')}
+                      style={styles.chip}
                     />
                   )}
                 </HoliChipRow>
@@ -144,6 +146,10 @@ const styles = StyleSheet.create({
   },
   chipRowContainer: {
     marginTop: 24,
+  },
+  chip: {
+    marginRight: 8,
+    marginBottom: 8,
   },
 })
 
