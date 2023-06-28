@@ -2,9 +2,12 @@ import {
   ClientEvent,
   EventTimeline,
   EventTimelineSet,
+  ICreateRoomOpts,
   MatrixClient,
+  Preset,
   RoomEvent,
   RoomStateEvent,
+  Visibility,
   createClient,
 } from 'matrix-js-sdk'
 import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
@@ -15,6 +18,8 @@ import { createRoomMessage } from '@holi/chat/src/store'
 import type { ChatMessage, ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+
+import { RoomId } from './types'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
@@ -95,6 +100,30 @@ export default class ChatClient {
   }
 
   /** Rooms */
+  public createRoom = async (targetIds: string[]): Promise<RoomId> => {
+    if (targetIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
+
+    // Initially its ok if we hardcode the options.
+    const dmRoomOptions: ICreateRoomOpts = {
+      is_direct: true,
+      // TODO: validate if we neeed a server name
+      // name: 'test',
+      preset: Preset.PrivateChat,
+      visibility: Visibility.Private,
+      initial_state: [
+        {
+          type: 'm.room.guest_access',
+          state_key: 'dm_room',
+          content: {
+            guest_access: 'can_join',
+          },
+        },
+      ],
+    }
+
+    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: targetIds })
+  }
+
   public getJoinedRooms = async (): Promise<Room[]> => {
     const joinedRoomsResponse = await this.mxClient.getJoinedRooms()
     const joinedRoomsIds = joinedRoomsResponse.joined_rooms

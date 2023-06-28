@@ -5,7 +5,6 @@ import { Platform } from 'react-native'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import useChatLogin from '@holi/chat/src/client/useChatLogin'
 import RoomView from '@holi/chat/src/components/RoomView'
-import * as Room from '@holi/chat/src/room/room'
 import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
@@ -109,7 +108,7 @@ const ChatView = () => {
     if (chatClient === null) return
     const testUserIds: string[] = ['@mau=20palma:local.chat.holi.social']
 
-    const roomIdResponse = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
+    const roomIdResponse = await chatClient.createRoom(testUserIds)
     const roomId = roomIdResponse?.room_id
     if (!roomId) throw new Error('A Chat Room creation should return a room id')
   }

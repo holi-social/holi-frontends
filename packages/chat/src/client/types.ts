@@ -18,3 +18,7 @@ export enum Membership {
    */
   Leave = 'LEAVE',
 }
+
+export interface RoomId {
+  room_id: string
+}
