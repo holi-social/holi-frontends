@@ -1,15 +1,8 @@
-import {
-  ClientEvent,
-  EventTimeline,
-  EventTimelineSet,
-  ICreateClientOpts,
-  IStartClientOpts,
-  MatrixClient,
-  MatrixEvent,
-  createClient,
-} from 'matrix-js-sdk'
+import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, createClient } from 'matrix-js-sdk'
+import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { createRoomMessage } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
@@ -21,11 +14,13 @@ import type { ChatCredentials } from '@holi/chat/src/utils/types'
  * through this facade.
  */
 export default class ChatClient {
-  private client: MatrixClient
+  private mxClient: MatrixClient
   private clientCredentials: ChatCredentials | null = null
   readonly newMemberEvents: MatrixEvent[] = []
 
-  private createClient(credentials: ChatCredentials): void {
+  private createClient(credentials: ChatCredentials): MatrixClient {
+    this.clientCredentials = credentials
+
     const options: ICreateClientOpts = {
       baseUrl: credentials.baseUrl,
       accessToken: credentials.accessToken,
@@ -36,8 +31,7 @@ export default class ChatClient {
       // roomNameGenerator: (_: string, state: RoomNameState) => {}
     }
 
-    this.client = createClient(options)
-    this.configureClient()
+    return createClient(options)
   }
 
   /**
@@ -46,8 +40,8 @@ export default class ChatClient {
   private configureClient(): void {
     // we're going to add eventlisteners for each matrix event tile, so the
     // potential number of event listeners is quite high.
-    this.client.setMaxListeners(500)
-    this.client.setGuest(false)
+    this.mxClient.setMaxListeners(500)
+    this.mxClient.setGuest(false)
 
     const notifTimelineSet = new EventTimelineSet(undefined, {
       timelineSupport: true,
@@ -55,35 +49,24 @@ export default class ChatClient {
     })
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
-    this.client.setNotifTimelineSet(notifTimelineSet)
+    this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
   public constructor(private readonly credentials: ChatCredentials) {
-    this.clientCredentials = credentials
-
-    const options: ICreateClientOpts = {
-      baseUrl: credentials.baseUrl,
-      accessToken: credentials.accessToken,
-      userId: credentials.userId,
-      deviceId: credentials.deviceId,
-      timelineSupport: true,
-      // TODO: implement roomNameGenerator
-      // roomNameGenerator: (_: string, state: RoomNameState) => {}
-    }
-
-    this.client = createClient(options)
+    this.mxClient = this.createClient(credentials)
     this.configureClient()
   }
 
+  // TODO: remove access to the matrix client
   public get(): MatrixClient {
-    return this.client
+    return this.mxClient
   }
 
   public replaceUsingCreds(credentials: ChatCredentials): void {
     this.clientCredentials = credentials
     // Restoring session for userId
     // TODO: Rehydrate client's device instead of using a new device for each session
-    this.createClient(credentials)
+    this.mxClient = this.createClient(credentials)
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
@@ -98,5 +81,36 @@ export default class ChatClient {
     })
 
     return true
+  }
+
+  public getJoinedRooms = async (): Promise<Room[]> => {
+    const joinedRoomsResponse = await this.mxClient.getJoinedRooms()
+    const joinedRoomsIds = joinedRoomsResponse.joined_rooms
+
+    // FIXME: Here we have a timing problem when retrieving rooms.
+    // For now we are fixing it with a timer, but should look deeper at the problem.
+    const getRooms = () => {
+      return new Promise<Room[]>((resolve) => {
+        setTimeout(() => {
+          const rooms = joinedRoomsIds.reduce((rooms, id) => {
+            const room = this.mxClient.getRoom(id)
+            if (!room) return rooms
+            return [...rooms, room]
+          }, [] as Room[])
+
+          resolve(rooms)
+        }, 100)
+      })
+    }
+
+    return await getRooms()
+  }
+
+  public getRoomMessages(room: Room) {
+    return room
+      .getLiveTimeline()
+      .getEvents()
+      .filter((event) => event.getType() === 'm.room.message')
+      .map((event) => createRoomMessage(room.roomId, event))
   }
 }

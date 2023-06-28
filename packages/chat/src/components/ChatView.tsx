@@ -7,7 +7,7 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import useChatLogin from '@holi/chat/src/client/useChatLogin'
 import RoomView from '@holi/chat/src/components/RoomView'
 import * as Room from '@holi/chat/src/room/room'
-import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store/store'
+import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -18,13 +18,14 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 const isWeb = Platform.OS === 'web'
 
 const ChatView = () => {
+  const [chatClient, setChatClient] = useState<ChatClient | null>(null)
+  const { temporaryLoginClient } = useChatLogin()
+
   const [rooms] = useAtom(roomAtomsAtom)
   const [, addRoom] = useAtom(addRoomAtom)
 
-  const [chatClient, setChatClient] = useState<ChatClient | null>(null)
-  const { displayError } = useErrorHandling()
-  const { temporaryLoginClient } = useChatLogin()
   const { parsedUrl } = useLinking()
+  const { displayError } = useErrorHandling()
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
 
@@ -73,26 +74,14 @@ const ChatView = () => {
     const registerJoinedRooms = async () => {
       if (chatClient === null) return
 
-      const matrixClient = chatClient.get()
-
-      const joinedRoomsResponse = await matrixClient.getJoinedRooms()
-      const joinedRoomsIds = joinedRoomsResponse.joined_rooms
-      setTimeout(() => {
-        joinedRoomsIds.forEach((roomId) => {
-          const room = matrixClient.getRoom(roomId)
-          if (!room) return
-          const treads = room
-            .getLiveTimeline()
-            .getEvents()
-            .filter((event) => event.getType() === 'm.room.message')
-
-          addRoom({
-            id: room.roomId,
-            hasInvitation: false,
-            threads: Room.createThreadFromTimeline(room.roomId, treads),
-          })
+      const rooms = await chatClient.getJoinedRooms()
+      rooms.forEach((room) => {
+        addRoom({
+          id: room.roomId,
+          hasInvitation: false,
+          threads: chatClient.getRoomMessages(room),
         })
-      }, 100)
+      })
     }
 
     registerJoinedRooms().catch((err) => void displayError(err))
