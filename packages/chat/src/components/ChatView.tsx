@@ -1,14 +1,13 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
-import { RoomEvent, RoomStateEvent } from 'matrix-js-sdk'
+import { useAtom } from 'jotai'
+import { RoomStateEvent } from 'matrix-js-sdk'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/ChatClient'
 import RoomView from '@holi/chat/src/components/RoomView'
 import * as Room from '@holi/chat/src/room/room'
-import { useRoomDispatch, useRoomState } from '@holi/chat/src/room/store'
+import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store/store'
 import useChatLogin from '@holi/chat/src/useChatLogin'
-import { CURRENT_ROOM_KEY } from '@holi/chat/src/utils/constants'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -19,10 +18,10 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 const isWeb = Platform.OS === 'web'
 
 const ChatView = () => {
-  const [chatClient, setChatClient] = useState<ChatClient | null>(null)
+  const [rooms] = useAtom(roomAtomsAtom)
+  const [, addRoom] = useAtom(addRoomAtom)
 
-  const roomDispatch = useRoomDispatch()
-  const roomState = useRoomState()
+  const [chatClient, setChatClient] = useState<ChatClient | null>(null)
   const { displayError } = useErrorHandling()
   const { login, restoreSessionCredentials } = useChatLogin()
   const { parsedUrl } = useLinking()
@@ -71,28 +70,33 @@ const ChatView = () => {
    *  Register rooms from a member
    */
   useEffect(() => {
-    const registerRoomInvitations = async () => {
+    const registerJoinedRooms = async () => {
       if (chatClient === null) return
 
       const matrixClient = chatClient.get()
 
-      const currentRoomId = await AsyncStore.getItem(CURRENT_ROOM_KEY)
-      if (currentRoomId && !roomState.id) {
-        roomDispatch({ type: 'room/set_room_id', payload: { roomId: currentRoomId } })
-      }
-
       const joinedRoomsResponse = await matrixClient.getJoinedRooms()
       const joinedRoomsIds = joinedRoomsResponse.joined_rooms
-      if (joinedRoomsIds.length > 0) {
-        roomDispatch({
-          type: 'room/set_rooms_ids',
-          payload: { roomsIds: joinedRoomsIds },
+      setTimeout(() => {
+        joinedRoomsIds.forEach((roomId) => {
+          const room = matrixClient.getRoom(roomId)
+          if (!room) return
+          const treads = room
+            .getLiveTimeline()
+            .getEvents()
+            .filter((event) => event.getType() === 'm.room.message')
+
+          addRoom({
+            id: room.roomId,
+            hasInvitation: false,
+            threads: Room.createThreadFromTimeline(room.roomId, treads),
+          })
         })
-      }
+      }, 100)
     }
 
-    registerRoomInvitations().catch((err) => void displayError(err))
-  }, [chatClient, displayError, roomDispatch, roomState.id])
+    registerJoinedRooms().catch((err) => void displayError(err))
+  }, [addRoom, chatClient, displayError, rooms])
 
   /**
    * Room New Member Subscriber
@@ -103,78 +107,29 @@ const ChatView = () => {
 
       const matrixClient = chatClient.get()
 
-      const currentRoomId = await AsyncStore.getItem(CURRENT_ROOM_KEY)
-      if (currentRoomId) {
-        roomDispatch({ type: 'room/set_room_id', payload: { roomId: currentRoomId } })
-      }
-
       // TODO: remove event listener on unmount
-
       // Pending room invitations subscriber
       matrixClient.on(RoomStateEvent.NewMember, async (event) => {
         const hasInvitation = await Room.hasPendingInvitation(event)
         const roomId = event.getRoomId()
         if (!hasInvitation || !roomId) return
-
-        roomDispatch({
-          type: 'room/invitation_pending',
-          payload: {
-            hasPendingInvitation: hasInvitation,
-            id: roomId,
-          },
-        })
+        // TODO: get the latest threads if available.
+        addRoom({ id: roomId, threads: [], hasInvitation })
       })
     }
 
     registerRoomInvitations().catch((err) => void displayError(err))
-  }, [chatClient, displayError, roomDispatch])
-
-  /**
-   * Room Messages Subscriber
-   */
-  useEffect(() => {
-    const registerRoomMessages = async () => {
-      if (chatClient === null) return
-
-      const matrixClient = chatClient.get()
-
-      // TODO: remove event listener on unmount
-      matrixClient.on(RoomEvent.Timeline, (event) => {
-        if (event.getType() !== 'm.room.message') return
-
-        // TODO: should only read messages for the correct room, speak from the store id and not roomids
-        if (roomState.id !== event.getRoomId()) return
-
-        roomDispatch({
-          type: 'room/set_message',
-          payload: {
-            message: event.getContent(),
-          },
-        })
-      })
-    }
-
-    registerRoomMessages().catch((err) => void displayError(err))
-  }, [chatClient, displayError, roomDispatch, roomState.id])
+  }, [rooms, addRoom, chatClient, displayError])
 
   // TODO: this room creation function is used when we click one or n users to chat with
   // and write the first messages in the timeline
   const handleRoomCreation = async () => {
     if (chatClient === null) return
-    const testUserIds: string[] = []
+    const testUserIds: string[] = ['@mau=20palma:local.chat.holi.social']
 
-    // TODO: Dispatch room id and update rooms
-    // TODO: Dispatch open new room conversation
     const roomIdResponse = await Room.create(chatClient, testUserIds, Room.dmRoomOptions)
     const roomId = roomIdResponse?.room_id
-
     if (!roomId) throw new Error('A Chat Room creation should return a room id')
-    await AsyncStore.setItem(CURRENT_ROOM_KEY, roomId)
-
-    roomDispatch({
-      type: 'room/set_room_id',
-      payload: { roomId },
-    })
   }
 
   return (
@@ -182,14 +137,15 @@ const ChatView = () => {
       <HoliBox padding={[20, 20]}>
         <HoliHeading level="1">Matrix Chat</HoliHeading>
       </HoliBox>
-      {!roomState.id && (
-        <HoliBox padding={[20, 20]}>
-          <HoliButton label={'Create a room'} onPress={handleRoomCreation}>
-            Create a room
-          </HoliButton>
-        </HoliBox>
-      )}
-      <RoomView client={chatClient} />
+
+      <HoliBox padding={[20, 20]}>
+        <HoliButton label={'Create a room'} onPress={handleRoomCreation}>
+          Create a room
+        </HoliButton>
+      </HoliBox>
+      {rooms.map((roomAtom) => (
+        <RoomView roomAtom={roomAtom} key={`${roomAtom}`} client={chatClient} />
+      ))}
     </>
   )
 }
