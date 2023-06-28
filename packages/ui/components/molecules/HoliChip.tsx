@@ -141,6 +141,7 @@ const getStyles = (checked = false) =>
     },
     focused: {
       outlineColor: colors.brandColorB30,
+      borderRadius: 8,
       ...Platform.select({
         web: {
           boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.background20}`,

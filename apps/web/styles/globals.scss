@@ -79,7 +79,7 @@ li {
   padding: 0;
 }
 
-[role=checkbox]:focus > div {
+[role=checkbox]:focus-visible > div:only-child {
   border: solid 1px $brandColorB30 !important;
 }
 
