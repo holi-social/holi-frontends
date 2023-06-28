@@ -1,4 +1,12 @@
-import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, RoomStateEvent, createClient } from 'matrix-js-sdk'
+import {
+  ClientEvent,
+  EventTimeline,
+  EventTimelineSet,
+  MatrixClient,
+  RoomEvent,
+  RoomStateEvent,
+  createClient,
+} from 'matrix-js-sdk'
 import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
@@ -133,17 +141,32 @@ export default class ChatClient {
   public subscribeToInvitations = async (
     callback: (roomId: string, hasInvitation: boolean) => void
   ): Promise<() => void> => {
-    const memberInvitationHanddler = async (event: MatrixEvent) => {
+    const memberInvitationHandler = async (event: MatrixEvent) => {
       const hasInvitation = await this.hasPendingInvitation(event)
       const roomId = event.getRoomId()
       if (!hasInvitation || !roomId) return
       callback(roomId, hasInvitation)
     }
 
-    this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHanddler)
+    this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)
 
     return () => {
-      this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHanddler)
+      this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHandler)
+    }
+  }
+
+  public subscribeToMessages = async (roomId: string, callback: (msg: ChatMessage) => void): Promise<() => void> => {
+    const incomingMessageHandler = async (event: MatrixEvent) => {
+      if (event.getType() !== 'm.room.message') return
+      if (roomId !== event.getRoomId()) return
+
+      callback(createRoomMessage(roomId, event))
+    }
+
+    this.mxClient.on(RoomEvent.Timeline, incomingMessageHandler)
+
+    return () => {
+      this.mxClient.off(RoomEvent.Timeline, incomingMessageHandler)
     }
   }
 }

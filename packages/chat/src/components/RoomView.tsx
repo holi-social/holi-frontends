@@ -1,5 +1,4 @@
 import { PrimitiveAtom, useAtom } from 'jotai'
-import { RoomEvent } from 'matrix-js-sdk'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -36,20 +35,18 @@ const RoomView = ({ client, roomAtom }: Props) => {
    * Room Messages Subscriber
    */
   useEffect(() => {
+    let unsubscribe: null | (() => void) = null
     const registerRoomMessages = async () => {
       if (client === null) return
-
-      const matrixClient = client.get()
-
-      // TODO: remove event listener on unmount
-      matrixClient.on(RoomEvent.Timeline, (event) => {
-        if (event.getType() !== 'm.room.message') return
-        if (room.id !== event.getRoomId()) return
-
-        addRoom(Room.createRoomMessage(room.id, event))
+      unsubscribe = await client.subscribeToMessages(room.id, (msg) => {
+        addRoom(msg)
       })
     }
     registerRoomMessages().catch((err) => void logError(err))
+
+    return () => {
+      if (unsubscribe) unsubscribe()
+    }
     // Its important that we only register to the Room Timeline once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
