@@ -4,9 +4,11 @@ import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import InsightsFAQ from '@holi/core/screens/homeFeed/insightsFAQ'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -16,6 +18,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const InsightsOfTheWeekList: React.FC = () => {
   const { t } = useTranslation()
+
+  const {
+    show: showInsightsFAQ,
+    hide: hideInsightsFAQ,
+    props: insightFAQModalProps,
+  } = useModalState({ visible: false })
 
   const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
 
@@ -39,9 +47,25 @@ const InsightsOfTheWeekList: React.FC = () => {
         {t('homeFeed.heading')}
       </HoliHeading>
 
-      <HoliHeading level="3" size="small" style={styles.insightsSubtitle} testID="home-feed-insights-subtitle">
-        {t('homeFeed.insights.subtitle')}
-      </HoliHeading>
+      {/* Insight FAQ with Popup */}
+      <HoliButton
+        label={t('homeFeed.insights.subtitle')}
+        transparent
+        style={styles.insightsSubtitleContent}
+        onPress={showInsightsFAQ}
+        testID="home-feed-insights-subtitle-button"
+        inline
+      >
+        <View style={styles.insightsSubtitleContent}>
+          <HoliHeading level="3" size="small" testID="home-feed-insights-subtitle" style={styles.insightsSubtitleText}>
+            {t('homeFeed.insights.subtitle')}
+          </HoliHeading>
+          <HoliIcon icon="information" size={20} filled={false} color={colors.foreground20} />
+        </View>
+      </HoliButton>
+      <HoliModal label={t('homeFeed.insights.subtitle')} {...insightFAQModalProps} testID="insights-faq-modal">
+        <InsightsFAQ onDismiss={hideInsightsFAQ} />
+      </HoliModal>
 
       {/* Curators with popup */}
       <HoliButton
@@ -79,6 +103,13 @@ export default InsightsOfTheWeekList
 const styles = StyleSheet.create({
   insightsSubtitle: {
     marginTop: 8,
+  },
+  insightsSubtitleContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  insightsSubtitleText: {
     fontWeight: '400',
     color: colors.foreground20,
   },

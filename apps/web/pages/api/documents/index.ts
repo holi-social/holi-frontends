@@ -3,7 +3,7 @@ import locale from 'locale'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
-const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines'] as const
+const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'insightsFAQ'] as const
 
 export type DocType = (typeof docTypes)[number]
 
