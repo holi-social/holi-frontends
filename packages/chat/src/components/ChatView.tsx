@@ -3,11 +3,11 @@ import { RoomStateEvent } from 'matrix-js-sdk'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
-import ChatClient from '@holi/chat/src/ChatClient'
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import useChatLogin from '@holi/chat/src/client/useChatLogin'
 import RoomView from '@holi/chat/src/components/RoomView'
 import * as Room from '@holi/chat/src/room/room'
 import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store/store'
-import useChatLogin from '@holi/chat/src/useChatLogin'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isStringOrUndefined } from '@holi/core/helpers'
 import useLinking from '@holi/core/navigation/hooks/useLinking'
@@ -23,7 +23,7 @@ const ChatView = () => {
 
   const [chatClient, setChatClient] = useState<ChatClient | null>(null)
   const { displayError } = useErrorHandling()
-  const { login, restoreSessionCredentials } = useChatLogin()
+  const { temporaryLoginClient } = useChatLogin()
   const { parsedUrl } = useLinking()
 
   const paramAccessToken = parsedUrl.queryParams?.loginToken
@@ -31,7 +31,7 @@ const ChatView = () => {
   //TODO: Move all the direct calls of the matrix client behind the Client Chat facade
 
   /**
-   * Login and initialize `ChatClient`
+   * Login and initialize `ChatClient` with a `temporaryLoginClient`
    */
   useEffect(() => {
     const initMatrixClient = async () => {
@@ -42,7 +42,7 @@ const ChatView = () => {
       // or undefined. The query param has the QueryParams | null type from the
       // expo-linking package.
       const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
-      const isLoggedIn = await login(paramToken)
+      const isLoggedIn = await temporaryLoginClient.login(paramToken)
 
       if (isLoggedIn) {
         if (isWeb) {
@@ -51,7 +51,7 @@ const ChatView = () => {
         }
       }
 
-      const sessionCredentials = await restoreSessionCredentials()
+      const sessionCredentials = await temporaryLoginClient.restoreSessionCredentials()
       const client = new ChatClient(sessionCredentials)
       setChatClient(client)
 
@@ -62,7 +62,7 @@ const ChatView = () => {
       // TODO: in case of a soft logout we would need to fetch a new token and do log again
       displayError(err)
     })
-    // This `useEffect` should only be called on mount (once) and should not have any dependencies
+    // This `useEffect` should only be called on mount (once) and should not have any dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

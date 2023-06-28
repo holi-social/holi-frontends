@@ -10,7 +10,6 @@ import { Platform } from 'react-native'
 import {
   CHAT_FRESH_LOGIN_KEY,
   CHAT_IDP_ID,
-  CHAT_NAME,
   CHAT_TOKEN_KEY,
   CHAT_URL,
   CHAT_USER_ID_KEY,
@@ -20,9 +19,7 @@ import type {
   MatrixDeviceName,
   MatrixLoginKey,
   MatrixUserKey,
-  ServerName,
   ServerTokenKey,
-  UserName,
 } from '@holi/chat/src/utils/constants'
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
@@ -35,7 +32,9 @@ export enum SSOAction {
 }
 
 /**
- * A temporary client that can be used to login or register a user in the Matrix server.
+ * @name ChatLogin
+ * @description a disposable/temporary Matrix client necessary to log in to the
+ * user for the first time on each session.
  */
 export default class ChatLogin {
   // TODO: replace private with native private class properties e.g. #client
@@ -51,12 +50,6 @@ export default class ChatLogin {
   readonly homeserverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY
   readonly deviceIdKey: MatrixDeviceIdKey = 'mx_device'
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
-
-  static readonly homeserverName: ServerName = CHAT_NAME
-
-  static transformUserName(name: string): UserName {
-    return `@${name.replace(' ', '')}:${this.homeserverName}`
-  }
 
   private createTemporaryClient(options?: IMatrixClientCreateOpts): MatrixClient {
     if (this.mxClient) return this.mxClient
