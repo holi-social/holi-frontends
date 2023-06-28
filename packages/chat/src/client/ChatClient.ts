@@ -1,8 +1,10 @@
-import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, createClient } from 'matrix-js-sdk'
+import { ClientEvent, EventTimeline, EventTimelineSet, MatrixClient, RoomStateEvent, createClient } from 'matrix-js-sdk'
 import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { Membership } from '@holi/chat/src/client/types'
 import { createRoomMessage } from '@holi/chat/src/store'
+import type { ChatMessage } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
@@ -83,6 +85,20 @@ export default class ChatClient {
     return true
   }
 
+  /** Rooms */
+
+  public hasPendingInvitation = async (event: MatrixEvent): Promise<boolean> => {
+    const pushAction = event.getPushActions()
+    if (!pushAction?.notify) return false
+
+    const isSending = event.isSending()
+    if (isSending) return false
+
+    const content = event.getContent()
+
+    return content.membership === Membership.Invite.toLowerCase()
+  }
+
   public getJoinedRooms = async (): Promise<Room[]> => {
     const joinedRoomsResponse = await this.mxClient.getJoinedRooms()
     const joinedRoomsIds = joinedRoomsResponse.joined_rooms
@@ -106,11 +122,28 @@ export default class ChatClient {
     return await getRooms()
   }
 
-  public getRoomMessages(room: Room) {
+  public getRoomMessages(room: Room): ChatMessage[] {
     return room
       .getLiveTimeline()
       .getEvents()
       .filter((event) => event.getType() === 'm.room.message')
       .map((event) => createRoomMessage(room.roomId, event))
+  }
+
+  public subscribeToInvitations = async (
+    callback: (roomId: string, hasInvitation: boolean) => void
+  ): Promise<() => void> => {
+    const memberInvitationHanddler = async (event: MatrixEvent) => {
+      const hasInvitation = await this.hasPendingInvitation(event)
+      const roomId = event.getRoomId()
+      if (!hasInvitation || !roomId) return
+      callback(roomId, hasInvitation)
+    }
+
+    this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHanddler)
+
+    return () => {
+      this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHanddler)
+    }
   }
 }

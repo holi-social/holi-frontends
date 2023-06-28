@@ -3,7 +3,7 @@ import { RoomEvent } from 'matrix-js-sdk'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
-import ChatClient from '@holi/chat/src/ChatClient'
+import ChatClient from '@holi/chat/src/client/ChatClient'
 import * as Room from '@holi/chat/src/room/room'
 import { addMsgToThreadAtom, joinRoomAtom, selectRoomAtom } from '@holi/chat/src/store/store'
 import { ChatRoom } from '@holi/chat/src/store/types'

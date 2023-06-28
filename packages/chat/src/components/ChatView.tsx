@@ -1,5 +1,4 @@
 import { useAtom } from 'jotai'
-import { RoomStateEvent } from 'matrix-js-sdk'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -67,11 +66,9 @@ const ChatView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  /**
-   *  Register rooms from a member
-   */
+  /** Add chat rooms joined by the logged in member */
   useEffect(() => {
-    const registerJoinedRooms = async () => {
+    const addJoinedRooms = async () => {
       if (chatClient === null) return
 
       const rooms = await chatClient.getJoinedRooms()
@@ -84,30 +81,26 @@ const ChatView = () => {
       })
     }
 
-    registerJoinedRooms().catch((err) => void displayError(err))
+    addJoinedRooms().catch((err) => void displayError(err))
   }, [addRoom, chatClient, displayError, rooms])
 
-  /**
-   * Room New Member Subscriber
-   */
+  /** Subscribe to room invitations */
   useEffect(() => {
+    let unsubscribe: null | (() => void) = null
     const registerRoomInvitations = async () => {
       if (chatClient === null) return
 
-      const matrixClient = chatClient.get()
-
-      // TODO: remove event listener on unmount
-      // Pending room invitations subscriber
-      matrixClient.on(RoomStateEvent.NewMember, async (event) => {
-        const hasInvitation = await Room.hasPendingInvitation(event)
-        const roomId = event.getRoomId()
-        if (!hasInvitation || !roomId) return
+      unsubscribe = await chatClient.subscribeToInvitations((roomId, hasInvitation) => {
         // TODO: get the latest threads if available.
         addRoom({ id: roomId, threads: [], hasInvitation })
       })
     }
 
     registerRoomInvitations().catch((err) => void displayError(err))
+
+    return () => {
+      if (unsubscribe) unsubscribe()
+    }
   }, [rooms, addRoom, chatClient, displayError])
 
   // TODO: this room creation function is used when we click one or n users to chat with

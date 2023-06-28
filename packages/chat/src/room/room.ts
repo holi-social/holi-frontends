@@ -1,9 +1,8 @@
 import type { ICreateRoomOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { Preset, Visibility } from 'matrix-js-sdk'
 
-import type ChatClient from '@holi/chat/src/ChatClient'
-import type { ChatMessage } from '@holi/chat/src/store/types'
-import type { Message } from '@holi/chat/src/utils'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
+import type { ChatMessage, ChatMessageContent } from '@holi/chat/src/store/types'
 import { logError } from '@holi/core/errors/helpers'
 
 export interface RoomId {
@@ -51,7 +50,7 @@ export async function sendTextMessage(client: ChatClient, roomId: string, body: 
   if (client === null) throw new Error('Cant send a message without a Chat Client')
   const matrixClient = client.get()
 
-  const content: Message = {
+  const content: ChatMessageContent = {
     body,
     msgtype: 'm.text',
   }
@@ -59,46 +58,6 @@ export async function sendTextMessage(client: ChatClient, roomId: string, body: 
   const eventIdResponse = await matrixClient.sendEvent(roomId, 'm.room.message', content, '')
 
   return eventIdResponse.event_id
-}
-
-// TODO: This could be a canditate for a Member Module and not the room module.
-
-export enum Membership {
-  /**
-   * The user is effectively joined to the room. For example, actually joined
-   * or knocking on the room (when that becomes possible).
-   */
-  Join = 'JOIN',
-
-  /**
-   * The user is effectively invited to the room. Currently this is a direct map
-   * to the invite membership as no other membership states are effectively
-   * invites.
-   */
-  Invite = 'INVITE',
-
-  /**
-   * The user is effectively no longer in the room. For example, kicked,
-   * banned, or voluntarily left.
-   */
-  Leave = 'LEAVE',
-}
-
-// TODO: Implement Unit test
-// TODO: Review re-invitation after sending messages
-/**
- * It looks if the Matrix event is a pending room invitation for the logged in user.
- */
-export async function hasPendingInvitation(event: MatrixEvent): Promise<boolean> {
-  const pushAction = event.getPushActions()
-  if (!pushAction?.notify) return false
-
-  const isSending = event.isSending()
-  if (isSending) return false
-
-  const content = event.getContent()
-
-  return content.membership === Membership.Invite.toLowerCase()
 }
 
 export async function join(client: ChatClient, roomId: string): Promise<Room> {
