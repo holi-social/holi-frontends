@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'

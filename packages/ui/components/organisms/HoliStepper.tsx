@@ -114,7 +114,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         keyboardShouldPersistTaps="always"
         ref={carouselRef}
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContainer}
+        contentContainerStyle={[styles.scrollViewContainer, backgroundColorStyle]}
         showsHorizontalScrollIndicator={false}
         dataSet={{ stepperWrapper: true }}
         scrollEnabled={scrollEnabled}
@@ -128,7 +128,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         {steps.map((step, idx) => (
           <View
             key={idx}
-            style={StyleSheet.flatten([styles.tabWrapper, backgroundColorStyle, { width: width }])}
+            style={StyleSheet.flatten([styles.tabWrapper, { width: width }])}
             testID="stepper-step"
             dataSet={{ stepperStep: true }}
           >
