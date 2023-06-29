@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   headline: {
     marginBottom: 16,
-    textAlign: 'center',
+    textAlign: 'left',
     marginHorizontal: 24,
   },
   keyboardPlaceHolder: {
