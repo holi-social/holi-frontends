@@ -8,7 +8,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import ChatHomeContent from '@holi/core/screens/ChatHomeContent'
+import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -33,7 +33,7 @@ const ChatHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
@@ -44,18 +44,16 @@ const ChatHome = () => {
     })
   }, [navigate, setScreenOptions, t, title])
 
-  return (
+  return IS_CHAT_ENABLED ? (
+    <ChatHomeContent />
+  ) : (
     <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
-      {IS_CHAT_ENABLED ? (
-        <ChatHomeContent />
-      ) : (
-        <View style={mixins.container}>
-          <HoliHeading level="1" size="super">
-            {' '}
-          </HoliHeading>
-          <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
-        </View>
-      )}
+      <View style={mixins.container}>
+        <HoliHeading level="1" size="super">
+          {' '}
+        </HoliHeading>
+        <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
+      </View>
     </ScrollHeaderLayout.Default>
   )
 }
