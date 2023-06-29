@@ -494,6 +494,7 @@
   "spaces.input.task.visibility.MEMBERS.title": "Collaborators",
   "spaces.input.task.visibility.PUBLIC.description": "Diese Aufgabe ist öffentlich sichtbar. Jeder kann dich bezüglich dieser Aufgabe kontaktieren.",
   "spaces.input.task.visibility.PUBLIC.title": "Öffentlich",
+  "spaces.input.task.visibility.label": "Wer kann die Aufgabe sehen?",
   "spaces.input.task.visibility.placeholder": "Sichtbarkeit auswählen…",
   "spaces.input.topics.description": "Themen vermitteln die wichtigsten Anliegen, die dein Space fördern und auf die er sich konzentrieren wird.",
   "spaces.input.topics.hint": "Wählen mindestens ein und maximal sechs Themen aus",
