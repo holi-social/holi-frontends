@@ -21,39 +21,17 @@ const InsightList: React.VFC<InsightsProps> = (props) => {
     <View style={props.style}>
       {/* insights */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
-        {loading && (
-          <HoliGridCell>
-            <InsightPreviewBox style={styles.insight} insight={'loading'} />
-          </HoliGridCell>
-        )}
-
-        {loading && (
-          <HoliGridCell>
-            <InsightPreviewBox style={styles.insight} insight={'loading'} />
-          </HoliGridCell>
-        )}
-
-        {loading && (
-          <HoliGridCell>
-            <InsightPreviewBox style={styles.insight} insight={'loading'} />
-          </HoliGridCell>
-        )}
-
-        {loading && (
-          <HoliGridCell>
-            <InsightPreviewBox style={styles.insight} insight={'loading'} />
-          </HoliGridCell>
-        )}
-
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          !loading &&
-            props.insights.map((insight) => (
+        {loading
+          ? new Array(4).fill(1).map((_, idx) => (
+              <HoliGridCell key={idx}>
+                <InsightPreviewBox style={styles.insight} loading />
+              </HoliGridCell>
+            ))
+          : props.insights.map((insight) => (
               <HoliGridCell key={insight.id}>
                 <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
               </HoliGridCell>
-            ))
-        }
+            ))}
       </HoliGridWrapper>
     </View>
   )

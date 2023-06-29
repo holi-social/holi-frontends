@@ -7,8 +7,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface HoliUserAvatarPileProps {
-  users: User[] | 'loading'
+interface BaseProps {
   usersToShow?: number
   size?: 'micro' | 'small'
   collapse?: boolean
@@ -17,6 +16,18 @@ interface HoliUserAvatarPileProps {
   testID?: string
   usersTotal?: number
 }
+
+interface SkeletonProps extends BaseProps {
+  loading: true
+  users?: User[]
+}
+
+interface Props extends BaseProps {
+  loading?: false
+  users: User[]
+}
+
+type HoliUserAvatarPileProps = SkeletonProps | Props
 
 const emptyUser = (id: string): User => {
   return {
@@ -36,16 +47,16 @@ const HoliUserAvatarPile = ({
   counter = false,
   style,
   testID = 'holi-user-avatar-pile',
-  usersTotal = users.length,
+  loading,
+  usersTotal = users?.length ?? 0,
 }: React.PropsWithChildren<HoliUserAvatarPileProps>) => {
   const { t } = useTranslation()
 
-  const uniqueUsers =
-    users === 'loading'
-      ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
-      : users.reduce((newArr: User[], nextUser: User) => {
-          return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
-        }, [])
+  const uniqueUsers = loading
+    ? [emptyUser('l1'), emptyUser('l2'), emptyUser('l3')]
+    : users.reduce((newArr: User[], nextUser: User) => {
+        return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+      }, [])
 
   return (
     <>
@@ -72,17 +83,15 @@ const HoliUserAvatarPile = ({
                   },
                 ]}
                 testID="pile-avatar"
-                loading={users === 'loading'}
+                loading={loading}
               />
             )
           })
         }
 
-        {users === 'loading' && (children || counter) && (
-          <HoliText size="small" style={styles.loadingCounter} loading />
-        )}
+        {loading && (children || counter) && <HoliText size="small" style={styles.loadingCounter} loading />}
 
-        {users !== 'loading' && (children || counter) && (
+        {!loading && (children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
             {children || t('insights.editors.discussing', { count: usersTotal })}
           </HoliText>

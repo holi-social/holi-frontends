@@ -12,16 +12,25 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface InsightPreviewBoxProps {
-  insight: Insight | 'loading'
+interface BaseProps {
   style?: StyleProp<ViewStyle>
 }
+interface SkeletonProps extends BaseProps {
+  loading: true
+  insight?: Insight
+}
+interface Props extends BaseProps {
+  loading?: false
+  insight: Insight
+}
 
-const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
+type InsightPreviewBoxProps = SkeletonProps | Props
+
+const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  if (insight === 'loading') {
+  if (loading) {
     return (
       <View {...props}>
         <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
@@ -32,7 +41,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
 
         <HoliText size="small" style={styles.spaceTop} selectable={true} loading />
 
-        <HoliUserAvatarPile users={'loading'} usersToShow={3} counter collapse style={styles.avatarPile} />
+        <HoliUserAvatarPile loading usersToShow={3} counter collapse style={styles.avatarPile} />
       </View>
     )
   }
