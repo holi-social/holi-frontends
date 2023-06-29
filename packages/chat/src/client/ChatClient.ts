@@ -73,13 +73,6 @@ export default class ChatClient {
     this.configureClient()
   }
 
-  public replaceUsingCreds(credentials: ChatCredentials): void {
-    this.clientCredentials = credentials
-    // Restoring session for userId
-    // TODO: Rehydrate client's device instead of using a new device for each session
-    this.mxClient = this.createClient(credentials)
-  }
-
   public start = async (options?: IStartClientOpts): Promise<void> => {
     await this.mxClient.startClient(options)
 

@@ -20,7 +20,7 @@ const ChatView = () => {
   const [chatClient, setChatClient] = useState<ChatClient | null>(null)
   const { temporaryLoginClient } = useChatLogin()
 
-  const rooms = useAtomValue(roomAtomsAtom)
+  const roomsAtoms = useAtomValue(roomAtomsAtom)
   const addRoom = useSetAtom(addRoomAtom)
 
   const { parsedUrl } = useLinking()
@@ -85,7 +85,7 @@ const ChatView = () => {
     }
 
     addJoinedRooms().catch((err) => void displayError(err))
-  }, [addRoom, chatClient, displayError, rooms])
+  }, [addRoom, chatClient, displayError, roomsAtoms])
 
   /** Subscribe to room invitations */
   useEffect(() => {
@@ -107,14 +107,18 @@ const ChatView = () => {
     return () => {
       if (unsubscribe) unsubscribe()
     }
-  }, [rooms, addRoom, chatClient, displayError])
+  }, [roomsAtoms, addRoom, chatClient, displayError])
 
   // TODO: this room creation function is used when we click one or n users to chat with
   // and write the first messages in the timeline
   const handleRoomCreation = async () => {
-    if (chatClient === null) return
-    const testUserIds: string[] = ['@mau=20palma:local.chat.holi.social']
+    if (!chatClient) {
+      logError(new Error('Can not create a room without a client'))
+      return
+    }
+    const testUserIds: string[] = []
 
+    // TODO: We need to add the room to the stateh here too
     const roomIdResponse = await chatClient.createRoom(testUserIds)
     const roomId = roomIdResponse?.room_id
     if (!roomId) throw new Error('A Chat Room creation should return a room id')
@@ -131,7 +135,7 @@ const ChatView = () => {
           Create a room
         </HoliButton>
       </HoliBox>
-      {rooms.map((roomAtom) => (
+      {roomsAtoms.map((roomAtom) => (
         <RoomView roomAtom={roomAtom} key={`${roomAtom}`} client={chatClient} />
       ))}
     </>

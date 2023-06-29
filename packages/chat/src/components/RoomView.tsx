@@ -21,7 +21,7 @@ const RoomView = ({ client, roomAtom }: Props) => {
   const room = useAtomValue(roomAtom)
   const selectRoom = useSetAtom(selectRoomAtom)
   const joinRoom = useSetAtom(joinRoomAtom)
-  const addRoom = useSetAtom(addMsgToThreadAtom)
+  const addMessage = useSetAtom(addMsgToThreadAtom)
   const [text, setText] = useState('')
 
   // TODO: selection should be done on click when when the user clicks on a room
@@ -42,7 +42,7 @@ const RoomView = ({ client, roomAtom }: Props) => {
       }
 
       unsubscribe = await client.subscribeToMessages(room.id, (msg) => {
-        addRoom(msg)
+        addMessage(msg)
       })
     }
     registerRoomMessages().catch((err) => void logError(err))
