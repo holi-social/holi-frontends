@@ -6,7 +6,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
 export type HoliTextSize = (typeof HoliTextSizes)[number]
-export type HoliTextColor = 'black300' | 'error200' | 'gray200' | 'gray300' | 'white100'
+export type HoliTextColor = 'black300' | 'error200' | 'gray200' | 'gray300' | 'white100' | 'brandB300'
 
 // TODO: remove the style prop from the interface as it break design and
 // introduce bugs.
@@ -98,6 +98,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     error200: {
       color: colors.error20,
+    },
+    brandB300: {
+      color: colors.brandColorB30,
     },
     bold: {
       fontWeight: '500',
