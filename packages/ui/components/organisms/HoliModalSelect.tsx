@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -7,7 +7,6 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -120,8 +119,8 @@ const HoliModalSelect = <IDType extends string>({
           <View style={styles.labelWrapper}>
             <HoliText size="small" bold style={styles.label}>
               {label}
-              <HoliMandatoryFieldStar show={!!isRequired} />
             </HoliText>
+            {isRequired && <Text> *</Text>}
           </View>
         )}
         <HoliButton
