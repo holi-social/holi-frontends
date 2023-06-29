@@ -18,6 +18,7 @@ type EditSpaceModalProps = {
   scrollable?: boolean
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   persistFooter?: boolean
+  scrollEnabled?: boolean
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -29,6 +30,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   scrollable = true,
   keyboardShouldPersistTaps = 'always',
   persistFooter = true,
+  scrollEnabled = true,
 }: EditSpaceModalProps) => {
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
@@ -45,9 +47,14 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       contentStyle={styles.contentStyle}
       scrollable={scrollable}
     >
-      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
-        {children}
-      </ScrollView>
+      {scrollable ? (
+        <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+          {children}
+        </ScrollView>
+      ) : (
+        children
+      )}
+
       {showFooter && (
         <View style={[mixins.container, styles.footer]}>
           <HoliButton
@@ -86,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background30,
   },
   scrollView: {
-    paddingBottom: 120,
+    paddingBottom: 180,
   },
   footer: {
     position: 'absolute',

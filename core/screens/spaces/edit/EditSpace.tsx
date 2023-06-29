@@ -164,21 +164,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     hide()
   }
 
-  const EditFieldContent = () => {
-    return (
-      <>
-        {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
-        {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
-        {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
-        {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
-        {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
-        {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
-        {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
-        {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
-      </>
-    )
-  }
-
   type OnboardCardProps = {
     content: OnboardingCard
   }
@@ -200,29 +185,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {t(content.instruction)}
         </HoliText>
       </View>
-    )
-  }
-
-  const OnboardContent = () => {
-    return (
-      <HoliModalContentWrapper
-        actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={handleModalClose}
-        headlineText={t('spaces.edit.onboarding.header')}
-        testID={'space-onboard-content'}
-        style={[styles.modalContentWrapper]}
-      >
-        <HoliCarousel
-          marginHorizontal={20}
-          slides={onboardingContentList.map((content: OnboardingCard) => ({
-            children: (
-              <View style={styles.carouselContainer}>
-                <OnboardCard content={content} />
-              </View>
-            ),
-          }))}
-        />
-      </HoliModalContentWrapper>
     )
   }
 
@@ -400,8 +362,38 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         headerStyle={styles.modalHeader}
         testID="space-chips-modal"
       >
-        {isEdit && <EditFieldContent />}
-        {isOnboarding && !isEdit && <OnboardContent />}
+        {isEdit && (
+          <>
+            {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
+            {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
+            {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
+            {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
+            {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
+            {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
+            {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
+            {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
+          </>
+        )}
+        {isOnboarding && !isEdit && (
+          <HoliModalContentWrapper
+            actionButtonText={t('spaces.edit.onboarding.modal.close')}
+            onActionButtonPress={handleModalClose}
+            headlineText={t('spaces.edit.onboarding.header')}
+            testID={'space-onboard-content'}
+            style={[styles.modalContentWrapper]}
+          >
+            <HoliCarousel
+              marginHorizontal={20}
+              slides={onboardingContentList.map((content: OnboardingCard) => ({
+                children: (
+                  <View style={styles.carouselContainer}>
+                    <OnboardCard content={content} />
+                  </View>
+                ),
+              }))}
+            />
+          </HoliModalContentWrapper>
+        )}
       </HoliModal>
     </SpaceTermContextProvider>
   )

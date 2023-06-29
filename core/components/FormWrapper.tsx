@@ -5,47 +5,56 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface Props extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
+  padTopBar?: boolean
+  bottomContent?: React.ReactNode
 }
 
-const FormWrapper = React.forwardRef<ScrollView, Props>(({ renderProp, ...scrollViewProps }: Props, ref) => {
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+const FormWrapper = React.forwardRef<ScrollView, Props>(
+  ({ renderProp, padTopBar = true, bottomContent, ...scrollViewProps }: Props, ref) => {
+    const scrollViewRef = useRef<ScrollView>(null)
+    const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
+    const mixins = useStyleMixins()
 
-  return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <HoliKeyboardSaveView>
-        <ScrollView {...scrollViewProps} ref={scrollViewRef}>
-          {renderProp(scrollToInputWithId)}
-        </ScrollView>
+    const styles = createStyles(padTopBar)
 
-        <View style={{ position: 'fixed', bottom: 0, backgroundColor: 'red', paddingVertical: 20 }}>
-          <HoliText>I AM STICKY</HoliText>
-        </View>
-      </HoliKeyboardSaveView>
-    </KeyboardAvoidingView>
-  )
-})
+    return (
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+        <HoliKeyboardSaveView bottomContent={bottomContent}>
+          <ScrollView {...scrollViewProps} ref={scrollViewRef} style={{ height: '100%' }}>
+            <View style={[mixins.container, styles.container]}>{renderProp(scrollToInputWithId)}</View>
+          </ScrollView>
+        </HoliKeyboardSaveView>
+      </KeyboardAvoidingView>
+    )
+  }
+)
 
 FormWrapper.displayName = 'FormWrapper'
 
 export default FormWrapper
 
-const styles = StyleSheet.create({
-  pageView: {
-    paddingTop: vars.topBarHeight + 10,
-    height: '100%', // prevents double scrollbars
-    overflow: 'hidden',
-    ...Platform.select({
-      web: {
-        height: '100vh',
-        marginHorizontal: 'auto',
-      },
-      android: {
-        paddingBottom: 0,
-      },
-    }),
-  },
-})
+const createStyles = (padTopBar: boolean) =>
+  StyleSheet.create({
+    pageView: {
+      flex: 1,
+      paddingTop: padTopBar ? vars.topBarHeight + 10 : 0,
+      height: '100%', // prevents double scrollbars
+      overflow: 'hidden',
+      ...Platform.select({
+        web: {
+          height: '100vh',
+          marginHorizontal: 'auto',
+        },
+        android: {
+          paddingBottom: 0,
+        },
+      }),
+    },
+    container: {
+      paddingBottom: 200,
+    },
+  })

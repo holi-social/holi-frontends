@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewProps, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+
+import HoliText from '../atoms/HoliText'
+import HoliButton from '../molecules/HoliButton'
 
 /**
  * This component makes sure, that
@@ -37,6 +41,7 @@ const HoliKeyboardSaveView = ({
   const scrollViewRef = useRef<View>(null)
   const [offsetTop, setOffsetTop] = useState(0)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
+  const bottomBarOffset = 97
 
   const storeOffsetTop = useCallback(
     (offsetTopFromElement?: number) => {
@@ -44,7 +49,7 @@ const HoliKeyboardSaveView = ({
       if (isInitialCall) {
         if (isKeyboardOpen || isSoftkeyboardOpen) return
         if (offsetTopFromElement) {
-          setOffsetTop(offsetTopFromElement)
+          setOffsetTop(offsetTopFromElement + 97)
         }
       }
     },
@@ -65,13 +70,39 @@ const HoliKeyboardSaveView = ({
 
   useEffect(calcMaxHeight, [viewPortHeight, calcMaxHeight])
 
+  console.log(calcMaxHeight, viewPortHeight)
+
   return (
-    <View {...nativeProps} ref={scrollViewRef} style={[styles.outer, style, { maxHeight: maxHeight }]} testID={testID}>
-      <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
-        {children}
+    <>
+      <View
+        {...nativeProps}
+        ref={scrollViewRef}
+        style={[styles.outer, style, { maxHeight: maxHeight }]}
+        testID={testID}
+      >
+        <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
+          {children}
+        </View>
       </View>
-      {bottomContent && <View style={styles.bottomBar}>{bottomContent}</View>}
-    </View>
+      {/* {bottomContent && isKeyboardOpen && <View style={styles.bottomBar}>{bottomContent}</View>} */}
+      {
+        <View
+          style={{
+            position: 'fixed',
+            bottom: 97,
+            backgroundColor: colors.background10,
+            borderTopColor: colors.background30,
+            borderTopWidth: 1,
+            paddingVertical: 15,
+            alignItems: 'flex-end',
+          }}
+        >
+          <HoliButton variant="small" label="" style={{ width: 100, marginRight: 15 }}>
+            Save
+          </HoliButton>
+        </View>
+      }
+    </>
   )
 }
 
@@ -88,6 +119,6 @@ const styles = StyleSheet.create({
   bottomBar: {
     width: '100%',
     position: 'absolute',
-    bottom: 10,
+    bottom: 97,
   },
 })

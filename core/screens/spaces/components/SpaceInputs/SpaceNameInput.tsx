@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
-export interface SpaceNameInputProps extends HoliTextInputProps {
+export interface SpaceNameInputProps extends Partial<HoliTextInputProps> {
   errorMessage?: string
 }
 
