@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -20,8 +20,8 @@ const ChatView = () => {
   const [chatClient, setChatClient] = useState<ChatClient | null>(null)
   const { temporaryLoginClient } = useChatLogin()
 
-  const [rooms] = useAtom(roomAtomsAtom)
-  const [, addRoom] = useAtom(addRoomAtom)
+  const rooms = useAtomValue(roomAtomsAtom)
+  const addRoom = useSetAtom(addRoomAtom)
 
   const { parsedUrl } = useLinking()
   const { displayError } = useErrorHandling()

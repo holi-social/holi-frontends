@@ -1,4 +1,4 @@
-import { PrimitiveAtom, useAtom } from 'jotai'
+import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -18,15 +18,15 @@ interface Props {
 }
 
 const RoomView = ({ client, roomAtom }: Props) => {
-  const [room] = useAtom(roomAtom)
-  const [, select] = useAtom(selectRoomAtom)
-  const [, joinRoom] = useAtom(joinRoomAtom)
-  const [, addRoom] = useAtom(addMsgToThreadAtom)
+  const room = useAtomValue(roomAtom)
+  const selectRoom = useSetAtom(selectRoomAtom)
+  const joinRoom = useSetAtom(joinRoomAtom)
+  const addRoom = useSetAtom(addMsgToThreadAtom)
   const [text, setText] = useState('')
 
   // TODO: selection should be done on click when when the user clicks on a room
   useEffect(() => {
-    select(roomAtom)
+    selectRoom(roomAtom)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
