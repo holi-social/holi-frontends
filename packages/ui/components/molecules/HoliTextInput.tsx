@@ -8,7 +8,6 @@ import {
   StyleProp,
   StyleSheet,
   TargetedEvent,
-  Text,
   TextInput,
   TextInputContentSizeChangeEventData,
   TextInputIOSProps,
@@ -22,6 +21,7 @@ import {
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -181,8 +181,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 {...(props?.testID ? { testID: `${props?.testID}-label` } : {})}
               >
                 {inputLabel}
+                <HoliMandatoryFieldStar show={!!isRequired} error={!!hasValidationErrors} />
               </HoliText>
-              {isRequired && <Text> *</Text>}
             </View>
           )}
           <View
@@ -390,6 +390,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     labelHasValidationErrors: {
       color: colors.error30,
+    },
+    labelMandatoryStar: {
+      color: colors.brandColorB30,
     },
     helperTextWrapper: {
       flex: 4,
