@@ -17,7 +17,7 @@ export interface ChatMessageContent {
 
 export interface ChatMessage {
   content: ChatMessageContent
-  ts: number
+  timestamp: number
   room_id: string
   id: string
   sender: string | undefined

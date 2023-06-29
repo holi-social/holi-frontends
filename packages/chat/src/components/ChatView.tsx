@@ -118,7 +118,7 @@ const ChatView = () => {
     }
     const testUserIds: string[] = []
 
-    // TODO: We need to add the room to the stateh here too
+    // TODO: We need to add the room to the state here too
     const roomIdResponse = await chatClient.createRoom(testUserIds)
     const roomId = roomIdResponse?.room_id
     if (!roomId) throw new Error('A Chat Room creation should return a room id')

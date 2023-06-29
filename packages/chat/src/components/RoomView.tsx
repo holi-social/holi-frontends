@@ -83,7 +83,7 @@ const RoomView = ({ client, roomAtom }: Props) => {
 
       {room.threads.map((msg, idx) => {
         return (
-          <HoliBox key={idx + 'msg' + msg.ts} padding={[20, 20]}>
+          <HoliBox key={idx + 'msg' + msg.timestamp} padding={[20, 20]}>
             <HoliText>{msg.content.body}</HoliText>
           </HoliBox>
         )
