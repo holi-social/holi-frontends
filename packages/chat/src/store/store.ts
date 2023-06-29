@@ -67,6 +67,14 @@ export const selectRoomAtom = atom(null, (_get, set, chatRoomAtom: ChatRoomAtom)
 type InvitationUpdate = Pick<ChatRoom, 'hasInvitation'>
 
 /**
+ * @name selectedRoomAtomCreator
+ * @description Verifies if the room atom is currently selected
+ */
+export const selectedRoomAtomCreator = (roomAtom: ChatRoomAtom) => {
+  return atom((get) => roomAtom === get(selectedRoomAtomAtom))
+}
+
+/**
  * @name joinRoomAtom
  * @description This updates the room and sets the changed room invitation from
  * the selected atom from the `selectedRoomAtomAtom`.
