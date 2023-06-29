@@ -1,6 +1,6 @@
-input:focus,
-textarea:focus {
-  outline: none;
+input:focus-visible,
+textarea:focus-visible {
+  outline: transparent;
 }
 
 body:has([aria-modal='true']) {
