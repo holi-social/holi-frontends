@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
 
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -19,6 +20,7 @@ export interface HoliTextProps extends TextProps {
   style?: StyleProp<TextStyle>
   testID?: string
   numberOfLines?: number
+  loading?: boolean
 }
 
 const HoliText = ({
@@ -29,11 +31,24 @@ const HoliText = ({
   color = 'black300',
   selectable = true,
   size = 'default',
+  loading = false,
   ...props
 }: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const alignStyles = getAlignStyles(align)
+
+  if (loading) {
+    const matchingStyle: { lineHeight: number } = styles[size]
+    const skeletonHeight = matchingStyle.lineHeight
+    const multiline = typeof props.numberOfLines == 'number'
+    return (
+      <View style={props?.style}>
+        {multiline && <HoliSkeleton height={skeletonHeight} width={'100%'} borderRadius={4} />}
+        {!multiline && <HoliSkeleton height={skeletonHeight} width={'60%'} borderRadius={16} />}
+      </View>
+    )
+  }
 
   return (
     <Text
