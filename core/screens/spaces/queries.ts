@@ -30,7 +30,9 @@ export const SpaceFragment = gql`
     contactDescription
     created
     avatar
+    avatarBlurhash
     cover
+    coverBlurhash
     name
     avatarDefaultColor
     location
@@ -53,6 +55,7 @@ export const SpaceFragment = gql`
       title
       collectionType
       thumbnail
+      thumbnailBlurhash
     }
     members(limit: 3) {
       ...FullSpaceMember
@@ -70,6 +73,7 @@ export const SpaceFragment = gql`
       contactEmail
       contactPhone
       thumbnail
+      thumbnailBlurhash
       creator {
         ...UserAvatar
       }
@@ -99,10 +103,15 @@ export const SpaceOverviewFragment = gql`
     title
     description
     cover
+    coverBlurhash
     location
     avatar
+    avatarBlurhash
     avatarDefaultColor
     name
+    creator {
+      id
+    }
     connectionStatusToMyself
     members(limit: 3) {
       ...FullSpaceMember

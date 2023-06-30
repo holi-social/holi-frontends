@@ -40,6 +40,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
             label={space.title}
             title={space.title}
             imageSrc={space.cover}
+            imageBlurhash={space.coverBlurhash}
             users={space.members.data.map((membership) => membership.user)}
             href={`/spaces/${space.name}`}
             testID="space-tab"

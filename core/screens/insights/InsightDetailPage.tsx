@@ -9,7 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
@@ -37,29 +37,27 @@ const InsightDetailPage = () => {
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, refetch } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     notifyOnNetworkStatusChange: true,
   })
+  const setScreenOptions = useSetScreenOptions()
 
   const insight = data?.insightById
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  useLayoutEffect(
-    () =>
-      setOptions({
-        title: t('insights.insight.title', { title: insight?.title }),
-        headerTransparent: true,
-        headerTintColor: colors.background10,
-        navigationCustomOptions: {
-          headerBackgroundGradient: true,
-          footerShown: false,
-        },
-      }),
-    [setOptions, t, insight?.title]
-  )
+  useLayoutEffect(() => {
+    setScreenOptions({
+      title: t('insights.insight.title', { title: insight?.title }),
+      headerTransparent: true,
+      headerTintColor: colors.background10,
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+        footerShown: false,
+      },
+    })
+  }, [t, insight?.title, setScreenOptions])
 
   if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
@@ -113,6 +111,7 @@ const InsightDetailPage = () => {
                 <View style={styles.authorInfoInner}>
                   <HoliAvatar
                     imageSrc={author.avatar}
+                    imageBlurhash={author.avatarBlurhash}
                     label={author.fullName}
                     initials={author.avatarLabel || ''}
                     defaultColor={author.avatarDefaultColor || ''}

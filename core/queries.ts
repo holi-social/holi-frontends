@@ -42,12 +42,14 @@ export const memberSpacesFragment = gql`
       id
       title
       cover
+      coverBlurhash
       name
       members {
         data {
           user {
             id
             avatar
+            avatarBlurhash
             avatarLabel
             avatarDefaultColor
           }
@@ -76,6 +78,7 @@ export const insightsByUserIdQuery = gql`
             id
             url
             width
+            blurhash
           }
           title
         }

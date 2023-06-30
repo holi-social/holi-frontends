@@ -1,5 +1,6 @@
 {
   "app.name": "Gute Nachrichten",
+  "app.subline": "kuratiert von goodnews.eu",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weiterlesen",
   "listing.teaser.title": "Auf der Suche nach mehr?",

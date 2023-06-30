@@ -4,12 +4,12 @@ import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -33,11 +33,10 @@ const { useParam } = createParam<DonationsAppProjectDetailParams>()
 const DonationsAppProjectDetail = () => {
   const [projectId] = useParam('projectId')
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
-  useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
   const { displayError } = useErrorHandling()
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
+  const setScreenOptions = useSetScreenOptions()
 
   const mixins = useStyleMixins()
 
@@ -52,6 +51,10 @@ const DonationsAppProjectDetail = () => {
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const project = data?.appDonations_project
+
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('donations:app.name') })
+  }, [setScreenOptions, t])
 
   useEffect(() => {
     if (error) {

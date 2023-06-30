@@ -32,6 +32,7 @@ const HoliMediaHeader = ({ title, author, boldTitle, date, style, testID }: Prop
     <View style={[styles.row, style]} testID={testID}>
       <HoliAvatar
         imageSrc={author.avatar}
+        imageBlurhash={author.avatarBlurhash}
         label={authorName}
         initials={author.avatarLabel || ''}
         defaultColor={author.avatarDefaultColor || ''}

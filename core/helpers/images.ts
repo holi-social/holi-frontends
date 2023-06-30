@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import { ImageURISource, LayoutChangeEvent } from 'react-native'
+import { ImageURISource, LayoutChangeEvent, Platform } from 'react-native'
 
 interface GetTransformedImageUriOptions {
   imageUri: string
@@ -68,7 +68,7 @@ export const useContainerSizeForImage = (imageUri: string, getLayoutOnce = false
     [imageUri, getLayoutOnce]
   )
 
-  return { uri: transformedUri, onLayout }
+  return { uri: transformedUri ?? imageUri, onLayout }
 }
 
 export const getSizes = (breakpointWidthMatches: { breakpoint: number; width: number }[]) => {
@@ -80,5 +80,10 @@ export const getSizes = (breakpointWidthMatches: { breakpoint: number; width: nu
 }
 
 export const useFallbackImage = () => {
+  // react-native Image (used by HoliImage Android) doesn't work with SVG, instead, with expo-image (used by HoliImage iOS) does
+  if (Platform.OS === 'android') {
+    return { uri: 'https://ik.imagekit.io/holidev/404_square.png' }
+  }
+
   return { uri: 'https://ik.imagekit.io/holidev/404_square.svg' }
 }

@@ -263,9 +263,12 @@ exports[`renders correctly renders correctly when open 1`] = `
   <RCTScrollView
     bounces={false}
     contentContainerStyle={
-      {
-        "flexGrow": 1,
-      }
+      [
+        {
+          "flexGrow": 1,
+        },
+        null,
+      ]
     }
     dataSet={
       {

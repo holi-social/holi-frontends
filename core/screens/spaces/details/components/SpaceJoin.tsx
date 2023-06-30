@@ -106,6 +106,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       {!isRequestor && !isMember && (
         <HoliButton
           inline
+          variant="small"
           label={t('spaces.join.btnRequest')}
           onPress={submitJoinRequest}
           style={props.style}
@@ -116,8 +117,9 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       )}
       {isRequestor && (
         <HoliButton
-          type="secondary"
           inline
+          type="secondary"
+          variant="small"
           label={t('spaces.join.btnPending')}
           onPress={() => setWithdrawDialogIsOpen(true)}
           style={props.style}

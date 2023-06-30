@@ -18,6 +18,7 @@ const InsightWithPostsFragment = gql`
       ...UserAvatar
     }
     headerImage
+    headerImageBlurhash
     topic {
       id
       title
@@ -42,6 +43,7 @@ export const lastInsightsQuery = gql`
           ...UserAvatar
         }
         headerImage
+        headerImageBlurhash
         topic {
           id
           title

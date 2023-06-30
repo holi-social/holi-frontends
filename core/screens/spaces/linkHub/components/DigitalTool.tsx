@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -55,7 +55,12 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
       />
       <View style={styles.imageContainer} testID="tool-icon">
         {tool.thumbnail ? (
-          <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} style={styles.thumbnail} />
+          <HoliImage
+            source={{ uri: tool.thumbnail }}
+            blurhash={tool.thumbnailBlurhash}
+            label={tool.domain}
+            style={styles.thumbnail}
+          />
         ) : imageSource ? (
           <View style={styles.iconContainer}>
             <HoliLocalImage imageSource={imageSource} width={40} height={40} label={toolName} />
@@ -124,7 +129,12 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
         <View style={[styles.modalContent]}>
           <View style={styles.modalHeader}>
             {tool.thumbnail ? (
-              <HoliImage source={{ uri: tool.thumbnail }} label={tool.domain} style={styles.thumbnailLarge} />
+              <HoliImage
+                source={{ uri: tool.thumbnail }}
+                blurhash={tool.thumbnailBlurhash}
+                label={tool.domain}
+                style={styles.thumbnailLarge}
+              />
             ) : imageSource ? (
               <View style={styles.iconContainer}>
                 <HoliLocalImage imageSource={imageSource} width={52} height={52} label={tool.title} />

@@ -14,11 +14,10 @@ interface SpaceInvolvementProps {
 }
 
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const isCollaborator = isAdmin || isCreator || isMember
+  const isCollaborator = isAdmin || isMember
 
   return (
     <>

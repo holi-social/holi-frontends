@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -10,10 +11,11 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const FooterTabBar: React.VoidFunctionComponent = () => {
+const FooterTabBar = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
-  const { navigate, pathname } = useRouting()
+  const { navigate } = useRouting()
+  const pathname = usePathname()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
 
@@ -80,9 +82,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           label={t('chat.title')}
           inline
           transparent
-          onPress={() => {
-            navigate('/chat')
-          }}
+          onPress={() => navigate('/chat')}
           contentStyle={styles.button}
         >
           <HoliIcon

@@ -9,7 +9,8 @@ import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
@@ -36,7 +37,8 @@ const DEFAULT_SLOTS_AVAILABLE = 1
 
 const EditTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
+  const { navigateBack, navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [taskId] = useParam('taskId')
 
@@ -49,6 +51,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
+  const [thumbnailBlurhash, setThumbnailBlurhash] = useState<string | undefined>()
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
   const [skills, setSkills] = useState<Skill[]>([])
   const [location, setLocation] = useState<string | undefined>('')
@@ -178,6 +181,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
       setContactEmail(task.contactEmail)
       setSlotsAvailable(task.slotsAvailable)
       setCurrentThumbnail(task.thumbnail)
+      setThumbnailBlurhash(task.thumbnailBlurhash)
       setSkills(task.skills)
       setLocation(task.location)
       setGeolocation(task.geolocation)
@@ -188,7 +192,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     !loadingSpace &&
       isAdmin &&
-      setOptions({
+      setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
           <HoliHeading level="1" size="small">
@@ -202,7 +206,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isAdmin])
+  }, [t, loadingSpace, isAdmin, setScreenOptions])
 
   useEffect(() => {
     if (
@@ -248,6 +252,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         contactEmail={contactEmail}
         slotsAvailable={slotsAvailable}
         thumbnail={thumbnail}
+        thumbnailBlurhash={thumbnailBlurhash}
         skills={skills}
         geolocation={geolocation}
         selectedLocation={selectedLocation}

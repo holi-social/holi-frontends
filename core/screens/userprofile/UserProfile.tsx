@@ -3,8 +3,8 @@ import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
@@ -18,7 +18,7 @@ import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
@@ -50,6 +50,7 @@ const { useParam } = createParam<UserProfileParams>()
 const UserProfile = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
@@ -84,6 +85,7 @@ const UserProfile = () => {
     insightsByUserIdTotalResultsQuery,
     {
       variables: { userId },
+      skip: !userId, // userId is empty for initial page load
     }
   )
 
@@ -93,49 +95,45 @@ const UserProfile = () => {
     logError(errorInsights, `[UserProfile.tsx] ${errorInsights.message}`)
   }
 
-  const { setOptions } = useUnifiedNavigation()
-
-  useLayoutEffect(
-    () =>
-      setOptions({
-        title: t('profile.title'),
-        headerTransparent: true,
-        headerStyle: { backgroundColor: colors.background10 },
-        headerRight: () => (
-          <HoliActionDrawer.Drawer label="user-profile-drawer">
-            <HoliActionDrawer.Action
-              action="report"
-              isLoading={isLoadingReport}
-              title={t('global.report')}
-              showConfirmation
-            >
-              <HoliActionDrawer.Confirmation
-                title={t('user.profileView.report.confirmation.title', { name: userFullName })}
-                description={t('user.profileView.report.confirmation.description', { name: userFullName })}
-                handleConfirmation={reportContent}
-                hasDismissBtn
-                requireLogin
-              />
-            </HoliActionDrawer.Action>
-            <HoliActionDrawer.Action
-              action="block"
-              isLoading={isLoadingBlockUser}
-              title={t('profile.block', { name: userFullName })}
-              showConfirmation
-            >
-              <HoliActionDrawer.Confirmation
-                title={t('user.profileView.block.confirmation.title', { name: userFullName })}
-                description={t('user.profileView.block.confirmation.description', { name: userFullName })}
-                handleConfirmation={blockUser}
-                hasDismissBtn
-                requireLogin
-              />
-            </HoliActionDrawer.Action>
-          </HoliActionDrawer.Drawer>
-        ),
-      }),
-    [isLoadingBlockUser, setOptions, t, userFullName, blockUser, reportContent, isLoadingReport]
-  )
+  useLayoutEffect(() => {
+    setScreenOptions({
+      title: t('profile.title'),
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.background10 },
+      headerRight: () => (
+        <HoliActionDrawer.Drawer label="user-profile-drawer">
+          <HoliActionDrawer.Action
+            action="report"
+            isLoading={isLoadingReport}
+            title={t('global.report')}
+            showConfirmation
+          >
+            <HoliActionDrawer.Confirmation
+              title={t('user.profileView.report.confirmation.title', { name: userFullName })}
+              description={t('user.profileView.report.confirmation.description', { name: userFullName })}
+              handleConfirmation={reportContent}
+              hasDismissBtn
+              requireLogin
+            />
+          </HoliActionDrawer.Action>
+          <HoliActionDrawer.Action
+            action="block"
+            isLoading={isLoadingBlockUser}
+            title={t('profile.block', { name: userFullName })}
+            showConfirmation
+          >
+            <HoliActionDrawer.Confirmation
+              title={t('user.profileView.block.confirmation.title', { name: userFullName })}
+              description={t('user.profileView.block.confirmation.description', { name: userFullName })}
+              handleConfirmation={blockUser}
+              hasDismissBtn
+              requireLogin
+            />
+          </HoliActionDrawer.Action>
+        </HoliActionDrawer.Drawer>
+      ),
+    })
+  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
 
   // TODO: workaround for params always being undefined on initial page load
   // > will probably be solved with ssr

@@ -59,7 +59,7 @@ const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
 
 const styles = StyleSheet.create({
   title: {
-    marginVertical: 40,
+    marginVertical: 24,
   },
   input: {
     marginBottom: 16,

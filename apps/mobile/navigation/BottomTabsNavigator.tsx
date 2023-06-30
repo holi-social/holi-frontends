@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
@@ -54,6 +55,7 @@ const BottomTabsNavigator = () => {
           tabBarLabel: 'Home',
           tabBarTestID: 'btn-to-home-view',
         }}
+        listeners={{ tabPress: () => setPathname('/') }}
       />
       <BottomTabs.Screen
         name={RouteName.SpacesHomeStack}
@@ -66,6 +68,7 @@ const BottomTabsNavigator = () => {
           tabBarLabel: t('spaces.title'),
           tabBarTestID: 'btn-to-spaces',
         }}
+        listeners={{ tabPress: () => setPathname('/spaces') }}
       />
       <BottomTabs.Screen
         name={RouteName.Chat}
@@ -77,6 +80,7 @@ const BottomTabsNavigator = () => {
           },
           tabBarLabel: 'Chat',
         }}
+        listeners={{ tabPress: () => setPathname('/chat') }}
       />
       <BottomTabs.Screen
         name={RouteName.Auth}
@@ -87,6 +91,7 @@ const BottomTabsNavigator = () => {
           tabBarIcon: LoginProfileButton,
           tabBarTestID: 'btn-to-profile-view',
         }}
+        listeners={{ tabPress: () => setPathname('/profile') }}
       />
     </BottomTabs.Navigator>
   )

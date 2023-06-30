@@ -1,4 +1,4 @@
-import type { ResourceCategory } from '@holi/core/screens/spaces/components/ResourceCategoryTile'
+import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',

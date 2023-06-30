@@ -1,22 +1,20 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const Notifications = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const title = t('notifications.title')
-  const { setOptions } = useUnifiedNavigation()
+  const setScreenOptions = useSetScreenOptions()
 
   useLayoutEffect(
     () =>
-      setOptions({
+      setScreenOptions({
         title,
         headerStyle: { backgroundColor: colors.background30 },
         headerTransparent: true,
@@ -27,14 +25,12 @@ const Notifications = () => {
           footerShown: false,
         },
       }),
-    [setOptions, title]
+    [setScreenOptions, title]
   )
 
   return (
-    <SafeAreaView style={styles.contentWrapper}>
-      <View style={[mixins.container, styles.container]} testID="notifications-overview">
-        <NotificationsOverview />
-      </View>
+    <SafeAreaView style={styles.contentWrapper} testID="notifications-overview">
+      <NotificationsOverview />
     </SafeAreaView>
   )
 }
@@ -50,9 +46,5 @@ const styles = StyleSheet.create({
       },
     }),
     backgroundColor: colors.background30,
-  },
-  container: {
-    top: vars.topBarHeight,
-    paddingBottom: 0,
   },
 })

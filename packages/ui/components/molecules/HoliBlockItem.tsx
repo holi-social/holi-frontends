@@ -3,14 +3,11 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useFallbackImage, useToastForNotAvailableFeature } from '@holi/core/helpers'
-import { SpaceSectionType } from '@holi/core/screens/spaces/types'
+import { useFallbackImage } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -20,12 +17,12 @@ export interface HoliBlockItemProps {
   description?: string
   users: User[]
   imageSrc?: string
+  imageBlurhash?: string
   imageElement?: React.ReactNode
   href: string
   label: string
   size?: 'small' | 'large'
   testID?: string
-  type?: SpaceSectionType
   totalUserCount?: number
 }
 
@@ -37,11 +34,11 @@ const HoliBlockItem = ({
   description,
   users,
   imageSrc,
+  imageBlurhash,
   imageElement,
   href,
   label,
   testID,
-  type,
   size = 'small',
   totalUserCount,
 }: PropsWithChildren<HoliBlockItemProps>) => {
@@ -53,10 +50,6 @@ const HoliBlockItem = ({
     ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
     : { uri: imageSrc ? imageSrc : fallbackImageUri }
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
-  const isEditable = type === SpaceSectionType.MEMBER || type === SpaceSectionType.CREATOR
-
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.mainSection}>
@@ -64,7 +57,13 @@ const HoliBlockItem = ({
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
               {!imageElement ? (
-                <HoliImage label="" source={imageSource} resizeMode="cover" style={styles.image} />
+                <HoliImage
+                  label=""
+                  source={imageSource}
+                  blurhash={imageBlurhash}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
               ) : (
                 imageElement
               )}
@@ -113,17 +112,6 @@ const HoliBlockItem = ({
           </View>
         </HoliLink>
       </View>
-      {isSmall && isEditable && (
-        <HoliButton
-          label={t('global.notAvailable')}
-          inline
-          transparent
-          onPress={showFeatureNotImplementedToast}
-          style={styles.optionsButton}
-        >
-          <HoliIcon icon="tools" size={20} color={colors.foreground20} />
-        </HoliButton>
-      )}
     </View>
   )
 }

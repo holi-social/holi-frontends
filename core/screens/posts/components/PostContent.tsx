@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import useReportContent from '@holi/core/hooks/useReportContent'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
+import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
@@ -26,11 +29,19 @@ export type PostContentProps = {
   post: Post
   style?: StyleProp<ViewStyle>
   hasVisibilityIcon?: boolean
+  insightId?: string
+  spaceIdOrName?: string
 }
 
-const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
+const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName }: PostContentProps) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
+  const { navigate } = useRouting()
+  const { user } = useLoggedInUser()
+
+  const editAction = useCallback(() => {
+    navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
+  }, [insightId, navigate, post.id, spaceIdOrName])
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: post.id,
@@ -40,6 +51,7 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
 
   const visibilityIcon = post.isPublic ? 'global' : 'lock'
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
+  const isCurrentUserPostCreator = post.creator.id === user?.id
 
   return (
     <View style={[styles.wrapper, style]} testID="post-content-container">
@@ -64,21 +76,31 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
             <HoliColumn>
               <SafeAreaProvider>
                 <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-                  <HoliActionDrawer.Action
-                    isLoading={isLoadingReport}
-                    action="report"
-                    title={t('global.report')}
-                    testID="report-comment-button"
-                    showConfirmation
-                  >
-                    <HoliActionDrawer.Confirmation
-                      title={t('insights.post.report.confirmation.title')}
-                      description={t('insights.post.report.confirmation.description')}
-                      handleConfirmation={reportContent}
-                      hasDismissBtn
-                      requireLogin
+                  {spaceIdOrName && isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      action="edit"
+                      title={t('spaces.updates.edit')}
+                      testID="edit-update"
+                      handleAction={editAction}
                     />
-                  </HoliActionDrawer.Action>
+                  )}
+                  {!isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      isLoading={isLoadingReport}
+                      action="report"
+                      title={t('global.report')}
+                      testID="report-comment-button"
+                      showConfirmation
+                    >
+                      <HoliActionDrawer.Confirmation
+                        title={t('insights.post.report.confirmation.title')}
+                        description={t('insights.post.report.confirmation.description')}
+                        handleConfirmation={reportContent}
+                        hasDismissBtn
+                        requireLogin
+                      />
+                    </HoliActionDrawer.Action>
+                  )}
                 </HoliActionDrawer.Drawer>
               </SafeAreaProvider>
             </HoliColumn>
@@ -97,7 +119,13 @@ const PostContent = ({ hasVisibilityIcon, post, style }: PostContentProps) => {
       </View>
 
       {post.image && (
-        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+        <PostImage
+          uri={post.image.url}
+          imageBlurhash={post.image.imageBlurhash}
+          height={post.image.height}
+          width={post.image.width}
+          postTitle={post.title}
+        />
       )}
 
       {!!post.links?.length && (

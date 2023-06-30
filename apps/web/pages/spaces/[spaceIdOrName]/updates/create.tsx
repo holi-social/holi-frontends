@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import CreateUpdate from '@holi/core/screens/spaces/updates/CreateUpdate'
+import CreateSpaceUpdate from '@holi/core/screens/spaces/updates/CreateUpdate'
 
-const CreateUpdatePage: NextPage = () => <CreateUpdate />
+const CreateUpdatePage: NextPage = () => <CreateSpaceUpdate />
 
 export default CreateUpdatePage

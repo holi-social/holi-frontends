@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import { useKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -35,10 +36,12 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   children,
 }) => {
   const { height: deviceHeight } = useWindowDimensions()
-  const { navigateBack } = useUnifiedNavigation()
+  const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
+  const { isKeyboardOpen } = useKeyboard()
+  const hideFooter = Platform.OS === 'android' && isKeyboardOpen
 
   return (
     <SpaceTermContextProvider>
@@ -62,28 +65,30 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
       </ScrollHeaderLayout.Default>
 
       {/* Footer */}
-      <View style={styles.footerContainer}>
-        <View style={[mixins.container, styles.footer]}>
-          <HoliButton
-            label={t('global.dismiss')}
-            type="secondary"
-            inline
-            style={styles.footerButton}
-            onPress={() => toggleConfirmationModal(true)}
-          >
-            {t('global.dismiss')}
-          </HoliButton>
-          <HoliButtonLoading
-            disabled={saveButtonDisabled || saveButtonLoading}
-            icon={saveButtonLoading ? 'loader-4' : undefined}
-            iconSpinning={saveButtonLoading}
-            label={t('global.save')}
-            onPress={onSave}
-            testID="form-modal-save-btn"
-            style={styles.footerButton}
-          />
+      {!hideFooter && (
+        <View style={styles.footerContainer}>
+          <View style={[mixins.container, styles.footer]}>
+            <HoliButton
+              label={t('global.dismiss')}
+              type="secondary"
+              inline
+              style={styles.footerButton}
+              onPress={() => toggleConfirmationModal(true)}
+            >
+              {t('global.dismiss')}
+            </HoliButton>
+            <HoliButtonLoading
+              disabled={saveButtonDisabled || saveButtonLoading}
+              icon={saveButtonLoading ? 'loader-4' : undefined}
+              iconSpinning={saveButtonLoading}
+              label={t('global.save')}
+              onPress={onSave}
+              testID="form-modal-save-btn"
+              style={styles.footerButton}
+            />
+          </View>
         </View>
-      </View>
+      )}
 
       <HoliConfirmation
         show={showConfirmationModal}

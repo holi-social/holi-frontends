@@ -57,6 +57,7 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
             >
               <HoliAvatar
                 imageSrc={option.user.avatar}
+                imageBlurhash={option.user.avatarBlurhash}
                 label={option.user.fullName}
                 initials={option.user.avatarLabel}
                 defaultColor={option.user.avatarDefaultColor}

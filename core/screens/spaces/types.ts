@@ -1,6 +1,6 @@
-import { Post } from '@holi/core/screens/posts/types'
-import { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
-import { GeolocationPoint, Paged } from '@holi/core/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { SDG, Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -46,6 +46,7 @@ export interface SpaceCollaborationTool {
   collectionType: CollaborationType
   description?: string
   thumbnail?: string
+  thumbnailBlurhash?: string
 }
 
 export interface Space {
@@ -53,11 +54,12 @@ export interface Space {
   title: string
   description: string
   created: string
-  creator: User
+  creator?: User
   contactDescription?: string
   contactEmail?: string
   contactPhone?: string
   cover: string
+  coverBlurhash?: string
   location: string
   geolocation?: GeolocationPoint
   connectionStatusToMyself: SpaceConnectionType[]
@@ -66,6 +68,7 @@ export interface Space {
   name: string
   links?: SpaceLink[]
   avatar?: string
+  avatarBlurhash?: string
   tasks?: Task[]
   topics?: Topic[]
   sdgs?: SDG[]
@@ -104,6 +107,7 @@ export interface Task {
   contactPhone?: string
   geolocation?: GeolocationPoint
   thumbnail?: string
+  thumbnailBlurhash?: string
 }
 
 export enum VisibilityType {
@@ -127,7 +131,6 @@ export enum SpaceConnectionType {
   FOLLOWER = 'FOLLOWER',
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
-  CREATOR = 'CREATOR',
   ADMINISTRATOR = 'ADMINISTRATOR',
 }
 

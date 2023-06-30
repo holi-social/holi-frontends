@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.0.15', // user-facing value visible in stores
-  iosBuildNumber: '1.0.15', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 15, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.2.0', // user-facing value visible in stores
+  iosBuildNumber: '1.2.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 18, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -54,6 +54,13 @@ export default {
           photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
         },
       ],
+      [
+        'expo-camera',
+        {
+          cameraPermission: 'Allow access to your camera for video calls',
+          microphonePermission: 'Allow access to your microphone for video calls',
+        },
+      ],
     ],
     hooks: {
       postPublish: [
@@ -68,11 +75,21 @@ export default {
       ],
     },
     extra: {
+      chat: {
+        homeserverToken: process.env.MX_TOKEN_KEY || 'mx_sso_token',
+        homeserverUrlKey: process.env.MX_HS_KEY || 'mx_sso_hs_url',
+        homeserverName: process.env.MX_HS_NAME || 'local.chat.holi.social/',
+        homeserverUrl: process.env.MX_HS_URL || 'https://local.chat.holi.social/',
+        identityServerUrl: process.env.MX_IS_URL || 'https://vector.im',
+      },
       ory: {
         url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
+      },
+      holi_nextjs_api: {
+        url: process.env.HOLI_NEXTJS_API_URL || 'http://localhost:3000',
       },
       environment: process.env.ENVIRONMENT_ID || 'development',
       sentry: {
@@ -80,6 +97,9 @@ export default {
       },
       owncloud: {
         url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
+      },
+      jitsi: {
+        url: process.env.JITSI_URL || 'https://development.meet.holi.social',
       },
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,

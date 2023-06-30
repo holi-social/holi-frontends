@@ -180,6 +180,8 @@ exports[`TaskCollaborationCard renders correctly when there are no tasks within 
       style={
         {
           "alignItems": "center",
+          "paddingBottom": 16,
+          "paddingHorizontal": 8,
           "paddingTop": 24,
         }
       }
@@ -509,7 +511,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -1202,7 +1208,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",
@@ -1895,7 +1905,11 @@ exports[`TaskCollaborationCard renders correctly when there are tasks within spa
                             "left": "50%",
                             "top": "50%",
                           },
-                          "placeholder": [],
+                          "placeholder": [
+                            {
+                              "uri": "",
+                            },
+                          ],
                           "source": [
                             {
                               "uri": "https://www.example.com/avatar.jpg?tr=w-48",

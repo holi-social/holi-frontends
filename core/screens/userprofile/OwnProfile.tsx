@@ -5,8 +5,11 @@ import { useWindowDimensions } from 'react-native'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
@@ -32,11 +35,13 @@ const OwnProfile = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const { user, isLoggedIn } = useLoggedInUser()
+  const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
   const { onboardingState } = useOnboarding()
   const isOnboardingFinished = onboardingState === 'finished'
+  const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   const toggleEditMode = useCallback(
     (newEditMode: EditModeState) => {
@@ -57,7 +62,7 @@ const OwnProfile = () => {
     const title = t('profile.title')
 
     if (isLoggedIn && isOnboardingFinished) {
-      setOptions({
+      setScreenOptions({
         title,
         headerShown: true,
         headerBackTitleVisible: true,
@@ -100,15 +105,21 @@ const OwnProfile = () => {
         ),
       })
     } else {
-      setOptions({
+      setScreenOptions({
         headerShown: false,
       })
     }
-  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished])
+  }, [navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished, setScreenOptions])
 
   return (
     <LoginProtection>
-      <ScrollHeaderLayout.Default keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        keyboardShouldPersistTaps="handled"
+      >
         {user ? (
           <>
             {editMode && (
@@ -133,7 +144,7 @@ const OwnProfile = () => {
                     <UserChipLoader
                       user={user}
                       onSubmit={closeModal}
-                      keyInUserObject={'interests'}
+                      keyInUserObject={UserChipTypes.INTERESTS}
                       queryToUse={interestsQuery}
                     />
                   )}
@@ -141,12 +152,17 @@ const OwnProfile = () => {
                     <UserChipLoader
                       user={user}
                       onSubmit={closeModal}
-                      keyInUserObject={'skills'}
+                      keyInUserObject={UserChipTypes.SKILLS}
                       queryToUse={skillsQuery}
                     />
                   )}
                   {editMode === 'sdgs' && (
-                    <UserChipLoader user={user} onSubmit={closeModal} keyInUserObject={'sdgs'} queryToUse={sdgsQuery} />
+                    <UserChipLoader
+                      user={user}
+                      onSubmit={closeModal}
+                      keyInUserObject={UserChipTypes.SDGS}
+                      queryToUse={sdgsQuery}
+                    />
                   )}
                 </HoliKeyboardSaveView>
               </HoliModal>
@@ -156,7 +172,7 @@ const OwnProfile = () => {
         ) : (
           <HoliLoader />
         )}
-      </ScrollHeaderLayout.Default>
+      </ScrollHeaderLayout.Refreshable>
     </LoginProtection>
   )
 }

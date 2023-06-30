@@ -1,8 +1,58 @@
-const calculateNumberOfDaysAgo = (date: Date) => {
+const getLocale = (language: string): string => ['en', 'de'].find((lang) => lang === language) || 'en'
+
+const calculateNumberOfDaysAgo = (date: Date): number => {
   const today = new Date()
   const millisecondsPerDay = 1000 * 60 * 60 * 24
 
   return (today.getTime() - date.getTime()) / millisecondsPerDay
+}
+
+export const isTargetDate = (date: Date, dayFromNow = 0): boolean => {
+  const targetDate = new Date()
+  targetDate.setDate(targetDate.getDate() + dayFromNow)
+
+  return (
+    date.getDate() === targetDate.getDate() &&
+    date.getMonth() === targetDate.getMonth() &&
+    date.getFullYear() === targetDate.getFullYear()
+  )
+}
+
+export const isToday = (date: Date): boolean => isTargetDate(date)
+export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
+
+/**
+ * @description getDisplayDate() function
+ *
+ * @param dateStr - stringified date
+ * @param locale - user locale (e.g. "en", "de", etc)
+ *
+ * @returns A formated date string for:
+ * - today: time (e.g. 12:34)
+ * - yesterday: localized "yesterday" (e.g. "gestern")
+ * - for other dates: formated nummeric date (e.g. 24/12/2022)
+ */
+export const getDisplayDate = (locale: string, dateStr?: string): string => {
+  if (!dateStr) return ''
+
+  locale = getLocale(locale)
+
+  const date = new Date(dateStr)
+
+  if (isToday(date)) {
+    return new Intl.DateTimeFormat(locale, {
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(date)
+  } else if (isYesterday(date)) {
+    return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(-1, 'day')
+  } else {
+    return Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    }).format(date)
+  }
 }
 
 /**
@@ -16,11 +66,11 @@ const calculateNumberOfDaysAgo = (date: Date) => {
  *
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
-export const getRelativeDateString = (dateStr = '', language: string) => {
+export const getRelativeDateString = (dateStr = '', locale: string): string => {
   // if no date is provided, return empty string
   if (!dateStr) return ''
 
-  language = ['en', 'de'].find((lang) => lang === language) || 'en'
+  locale = getLocale(locale)
 
   const date = new Date(dateStr)
   let weeksAgo = 0
@@ -35,7 +85,7 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
     weeksAgo = Math.ceil((daysAgo - dayOfCurrentWeek) / 7)
   }
 
-  return new Intl.RelativeTimeFormat(language, {
+  return new Intl.RelativeTimeFormat(locale, {
     style: 'long',
     numeric: 'auto',
   }).format(isNotYesterdayAndBeforeThisWeek ? -weeksAgo : -daysAgo, isNotYesterdayAndBeforeThisWeek ? 'weeks' : 'days')

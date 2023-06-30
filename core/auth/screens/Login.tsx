@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/DefaultLayout'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -13,13 +12,15 @@ import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/he
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -38,16 +39,17 @@ const Login = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
   const [return_to] = useParam('return_to', singleParamConfig)
-  const { navigate, redirect } = useRouting()
-  const { setOptions } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const { onOnboardingStateChange } = useOnboarding()
+  const setScreenOptions = useSetScreenOptions()
+  const redirect = useRedirect()
 
   const isLoggedIn = !!userId
 
   useLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {t('auth.login')}
@@ -56,7 +58,7 @@ const Login = () => {
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
     })
-  }, [setOptions, t])
+  }, [setScreenOptions, t])
 
   useLayoutEffect(() => {
     // OAuth2 needs initial redirect

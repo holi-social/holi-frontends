@@ -59,8 +59,9 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
       appName={HOLI_APPS.GOOD_NEWS}
       renderItem={renderItem}
       data={articlesToRender}
+      appIcon="newspaper"
       heading={t('goodnews:app.name')}
-      headingIcon="newspaper"
+      subline={t('goodnews:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path)}
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading}

@@ -8,6 +8,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface HoliCardProps {
   imageUrl: string | undefined
   imageLabel: string
+  imageBlurhash: string
   style?: StyleProp<ViewStyle>
   testID?: string
   onCardPress: () => void
@@ -17,13 +18,22 @@ const ImageContainerSkeleton = () => {
   return <View style={styles.imageSkeleton} />
 }
 
-const HoliCard = ({ imageUrl, imageLabel, children, style, testID, onCardPress }: PropsWithChildren<HoliCardProps>) => {
+const HoliCard = ({
+  imageUrl,
+  imageLabel,
+  imageBlurhash,
+  children,
+  style,
+  testID,
+  onCardPress,
+}: PropsWithChildren<HoliCardProps>) => {
   return (
     <Pressable testID={testID} style={[styles.container, style]} onPress={onCardPress}>
       {imageUrl ? (
         <HoliImage
           testID={`${testID}-cardImage`}
           source={{ uri: imageUrl }}
+          blurhash={imageBlurhash}
           label={imageLabel}
           style={styles.mainImage}
         />

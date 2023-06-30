@@ -1,5 +1,6 @@
 {
   "app.name": "Volunteering",
+  "app.subline": "via Voltastics",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",

@@ -15,7 +15,7 @@ COPY ./.next/standalone ./
 
 # due to our monorepo, server.js and other files "accidentally"
 # are placed in apps/web, so we move them back to the root
-RUN mv ./apps/web/* ./ && mv ./apps/web/.next ./
+RUN cp -r ./apps/web/* ./ && mv ./apps/web/.next ./ && rm -r ./apps/web
 
 # static could also be hosted by a CDN but we include it into
 # the container for now for simplicity reasons

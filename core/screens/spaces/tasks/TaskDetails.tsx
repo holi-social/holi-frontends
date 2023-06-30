@@ -3,13 +3,13 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -27,11 +27,10 @@ const { useParam } = createParam<TaskDetailsParams>()
 const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
+  const setScreenOptions = useSetScreenOptions()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-
-  const { setOptions } = useUnifiedNavigation()
 
   const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
@@ -44,7 +43,7 @@ const TaskDetails = () => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   useLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_left',
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
@@ -54,7 +53,7 @@ const TaskDetails = () => {
         footerShown: false,
       },
     })
-  }, [setOptions, t])
+  }, [setScreenOptions, t])
 
   if ((error && isNotFoundError(error)) || (!loading && !task)) {
     return (

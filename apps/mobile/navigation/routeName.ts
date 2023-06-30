@@ -16,12 +16,14 @@ export enum RouteName {
   EditSpace = 'EditSpace',
   CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
+  SpaceVideoCall = 'SpaceVideoCall',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
   CreateTask = 'CreateTask',
   EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
   CreateUpdate = 'CreateUpdate',
+  EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
 
@@ -33,6 +35,8 @@ export enum RouteName {
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
   ChangePassword = 'ChangePassword',
+  LegalDocuments = 'LegalDocuments',
+  Document = 'Document',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

@@ -68,15 +68,17 @@ const styles = StyleSheet.create({
   },
   empty: {
     alignItems: 'center',
+    paddingHorizontal: 8,
     paddingTop: 24,
+    paddingBottom: 16,
   },
   emptyMessage: {
     textAlign: 'center',
     color: colors.foreground20,
   },
   instruction: {
-    paddingVertical: 12,
     color: colors.foreground30,
     alignSelf: 'center',
+    paddingTop: 12,
   },
 })

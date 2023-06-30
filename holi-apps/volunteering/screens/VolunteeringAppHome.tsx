@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { onScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -24,6 +25,7 @@ const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
+  const setScreenOptions = useSetScreenOptions()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -53,7 +55,7 @@ const VolunteeringAppHome = () => {
     [updateParams]
   )
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const filters: VolunteeringFilters = { location, category }
   const isFiltering = !!(location || category)
 
@@ -76,7 +78,7 @@ const VolunteeringAppHome = () => {
         {isFiltering && <View style={styles.dot} />}
       </HoliButton>
     )
-    setOptions({
+    setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {title}
@@ -87,7 +89,7 @@ const VolunteeringAppHome = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [setOptions, navigate, t, title, isFiltering, showFilterModal])
+  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
 
   return (
     <SafeAreaProvider>

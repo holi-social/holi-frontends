@@ -4,7 +4,7 @@ const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   webpack: (config) => {
@@ -63,6 +63,7 @@ module.exports = withSentryConfig(
       'react-native-render-html',
       'react-native-animated-pagination-dot',
       'expo-modules-core',
+      'expo-camera',
       'expo-constants',
       'expo-status-bar',
       '@jsamr/react-native-li',
@@ -72,6 +73,7 @@ module.exports = withSentryConfig(
       '@holi/ui',
       '@holi/core',
       '@holi/api',
+      '@holi/chat',
     ],
     {
       resolveSymlinks: true,
