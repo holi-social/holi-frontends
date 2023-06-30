@@ -12,7 +12,7 @@ import * as Sentry from 'sentry-expo'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
-import { reactNativeTracing, reactNativeTracingSampleRate } from './rn_tracing'
+import { reactNativeTracing, reactNativeTracingSampleRate } from './tracing'
 
 const determineSentryEnvironment = () => {
   const environment = Constants.manifest?.extra?.environment
@@ -53,7 +53,9 @@ Sentry.init({
   tracesSampleRate: reactNativeTracingSampleRate,
 })
 
+const SentryInstrumentedApp = Sentry.Native.wrap(App)
+
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(App)
+registerRootComponent(SentryInstrumentedApp)

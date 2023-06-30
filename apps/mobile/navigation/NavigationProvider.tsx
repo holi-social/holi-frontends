@@ -7,7 +7,7 @@ import { createNavigationContainerRef } from '@react-navigation/native'
 
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
-import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/rn_tracing'
+import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
 import { colors } from '@holi/ui/styles/globalVars'
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
