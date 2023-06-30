@@ -1,15 +1,16 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
+import fetch from 'cross-fetch'
 // The Matrix SDK uses the TextEncoder internally.
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
 // We need this lightweight polyfill to support mobile.
 import 'fast-text-encoding'
-import type { IMatrixClientCreateOpts, MatrixClient } from 'matrix-js-sdk'
-import { createClient } from 'matrix-js-sdk'
+import type { MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
 import {
   CHAT_FRESH_LOGIN_KEY,
   CHAT_IDP_ID,
+  CHAT_LOGIN_URL,
   CHAT_TOKEN_KEY,
   CHAT_URL,
   CHAT_USER_ID_KEY,
@@ -24,11 +25,17 @@ import type {
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
-import { isString } from '@holi/core/helpers'
 
 export enum SSOAction {
   LOGIN = 'login',
   REGISTER = 'register',
+}
+
+interface LoginCredentials {
+  access_token: string
+  user_id: string
+  device_id: string
+  fresh_login: boolean
 }
 
 /**
@@ -46,74 +53,70 @@ export default class ChatLogin {
   private readonly freshLogin: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
   private readonly userIdKey: MatrixUserKey = CHAT_USER_ID_KEY
   private readonly chat_idp_id = CHAT_IDP_ID
+  private readonly serverLoginUrl = CHAT_LOGIN_URL + '/_matrix/client/r0/login'
 
-  readonly homeserverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY
+  readonly serverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY
   readonly deviceIdKey: MatrixDeviceIdKey = 'mx_device'
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 
-  private createTemporaryClient(options?: IMatrixClientCreateOpts): MatrixClient {
-    if (this.mxClient) return this.mxClient
-
-    this.mxClient = createClient({
-      baseUrl: this.serverUrl,
-      ...options,
-    })
-
-    return this.mxClient
+  /**
+   * Removes all the stored chat client credentials.
+   */
+  private clearSessionCredentials = async (): Promise<void> => {
+    await AsyncStore.multiRemove([this.serverTokenKey, this.deviceIdKey, this.userIdKey, this.freshLogin])
   }
 
-  public constructor(private readonly callbackUrl: string) {}
-
-  public getRedirectURL(action: SSOAction): string | null {
-    try {
-      const client = this.createTemporaryClient()
-      this.mxClient = null
-
-      return client.getSsoLoginUrl(this.callbackUrl, 'sso', this.chat_idp_id, action)
-    } catch (err) {
-      logError(err)
-      return null
-    }
-  }
-
-  public login = async (token: string | undefined): Promise<boolean> => {
-    if (!token) return false
-    const client = this.createTemporaryClient()
-
-    const { access_token, device_id, user_id } = await client.login('m.login.token', {
-      token: token,
-      initial_device_display_name: this.deviceName,
-    })
-
-    if (!isString(access_token) || !isString(device_id)) {
-      AsyncStore.setItem(this.freshLogin, 'false').catch((err) => logError(err))
-      return false
-    }
-
-    // Remove previously stored credentials
-    await AsyncStore.multiRemove([this.homeserverTokenKey, this.deviceIdKey, this.deviceIdKey, this.freshLogin])
+  private updateSessionCredentials = async ({
+    access_token,
+    user_id,
+    device_id,
+    fresh_login,
+  }: LoginCredentials): Promise<void> => {
+    await this.clearSessionCredentials()
 
     // Reset newly received credentials
     const multiSetCreds: [string, string][] = [
       // TODO: the `access_token` should be stored with some kind of encryption
-      [this.homeserverTokenKey, access_token],
+      [this.serverTokenKey, access_token],
       [this.deviceIdKey, device_id],
       [this.userIdKey, user_id],
-      [this.freshLogin, 'true'],
+      [this.freshLogin, `${fresh_login}`],
     ]
-    await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
 
-    return true
+    await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public restoreSessionCredentials = async (): Promise<ChatCredentials> => {
+  public setSessionCredentials = async (freshLogin: boolean): Promise<void> => {
+    const response = await fetch(this.serverLoginUrl, {
+      headers: {
+        accept: 'application/json',
+        'accept-language': 'en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,en-DE;q=0.6',
+        'cache-control': 'no-cache',
+        'content-type': 'application/json',
+        pragma: 'no-cache',
+      },
+      referrerPolicy: 'no-referrer',
+      body: '{"type":"org.matrix.login.jwt","initial_device_display_name":"' + this.deviceName + '"}',
+      method: 'POST',
+      mode: 'cors',
+    })
+
+    const credentials: LoginCredentials = await response.json()
+    await this.updateSessionCredentials({ ...credentials, fresh_login: freshLogin })
+  }
+
+  public logout = async (): Promise<void> => {
+    await this.clearSessionCredentials()
+  }
+
+  public getSessionCredentials = async (): Promise<ChatCredentials> => {
     const sessionCredentials = await getStoredSessionCreds()
 
     // TODO abort/retry loging on missing access
     if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
 
     if (sessionCredentials.freshLogin === true) {
-      await AsyncStore.removeItem(this.freshLogin)
+      await AsyncStore.setItem(this.freshLogin, 'false')
     }
 
     return sessionCredentials
@@ -122,5 +125,10 @@ export default class ChatLogin {
   public getLoginStatus = async (): Promise<boolean> => {
     const isLoggedin = await AsyncStore.getItem(this.freshLogin)
     return isLoggedin ? JSON.parse(isLoggedin) : false
+  }
+
+  public retryLogin = async (): Promise<ChatCredentials> => {
+    await this.setSessionCredentials(false)
+    return await this.getSessionCredentials()
   }
 }

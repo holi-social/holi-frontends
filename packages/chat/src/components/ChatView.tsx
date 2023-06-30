@@ -1,6 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import useChatLogin from '@holi/chat/src/client/useChatLogin'
@@ -8,50 +7,27 @@ import RoomView from '@holi/chat/src/components/RoomView'
 import { addRoomAtom, roomAtomsAtom } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { isStringOrUndefined } from '@holi/core/helpers'
-import useLinking from '@holi/core/navigation/hooks/useLinking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-const isWeb = Platform.OS === 'web'
-
 const ChatView = () => {
   const [chatClient, setChatClient] = useState<ChatClient | null>(null)
-  const { temporaryLoginClient } = useChatLogin()
+  const { chatLoginClient } = useChatLogin()
 
   const roomsAtoms = useAtomValue(roomAtomsAtom)
   const addRoom = useSetAtom(addRoomAtom)
 
-  const { parsedUrl } = useLinking()
   const { displayError } = useErrorHandling()
 
-  const paramAccessToken = parsedUrl.queryParams?.loginToken
-
-  //TODO: Move all the direct calls of the matrix client behind the Client Chat facade
+  // TODO: Check if the user is logged in
 
   /**
    * Login and initialize `ChatClient` with a `temporaryLoginClient`
    */
   useEffect(() => {
     const initMatrixClient = async () => {
-      // We log in the user if we encounter an access token in the query params.
-      // The use linking hook handles navigation and linking depending on the
-      // platform. It uses the same API as the expo-linking package. In this
-      // case, we are only interested if the paramAccessToken value is a string
-      // or undefined. The query param has the QueryParams | null type from the
-      // expo-linking package.
-      const paramToken = isStringOrUndefined(paramAccessToken) ? paramAccessToken : ''
-      const isLoggedIn = await temporaryLoginClient.login(paramToken)
-
-      if (isLoggedIn) {
-        if (isWeb) {
-          // Remove the access token from the Search Query Params
-          window.history.replaceState({}, document.title, '/chat')
-        }
-      }
-
-      const sessionCredentials = await temporaryLoginClient.restoreSessionCredentials()
+      const sessionCredentials = await chatLoginClient.getSessionCredentials()
       const client = new ChatClient(sessionCredentials)
       setChatClient(client)
 
@@ -59,7 +35,10 @@ const ChatView = () => {
     }
 
     initMatrixClient().catch((err) => {
-      // TODO: in case of a soft logout we would need to fetch a new token and do log again
+      chatLoginClient.retryLogin().then((sessionCredentials) => {
+        const client = new ChatClient(sessionCredentials)
+        setChatClient(client)
+      })
       displayError(err)
     })
     // This `useEffect` should only be called on mount (once) and should not have any dependencies.
@@ -69,10 +48,7 @@ const ChatView = () => {
   /** Add chat rooms joined by the logged in member */
   useEffect(() => {
     const addJoinedRooms = async () => {
-      if (!chatClient) {
-        logError(new Error('Can not join rooms without a client'))
-        return
-      }
+      if (!chatClient) return
 
       const rooms = await chatClient.getJoinedRooms()
       rooms.forEach((room) => {
@@ -91,10 +67,7 @@ const ChatView = () => {
   useEffect(() => {
     let unsubscribe: null | (() => void) = null
     const registerRoomInvitations = async () => {
-      if (!chatClient) {
-        logError(new Error('Can not register joined rooms without a client'))
-        return
-      }
+      if (!chatClient) return
 
       unsubscribe = await chatClient.subscribeToInvitations((roomId, hasInvitation) => {
         // TODO: get the latest threads if available.
@@ -122,6 +95,7 @@ const ChatView = () => {
     const roomIdResponse = await chatClient.createRoom(testUserIds)
     const roomId = roomIdResponse?.room_id
     if (!roomId) throw new Error('A Chat Room creation should return a room id')
+    addRoom({ id: roomId, threads: [], hasInvitation: false })
   }
 
   return (

@@ -1,12 +1,7 @@
-import { useCallback } from 'react'
-
-import ChatLogin, { SSOAction } from '@holi/chat/src/client/ChatLogin'
-import { logError } from '@holi/core/errors/helpers'
-import useLinking from '@holi/core/navigation/hooks/useLinking'
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 
 export interface UseChatLogin {
-  temporaryLoginClient: ChatLogin
-  handleSSORedirect: () => Promise<boolean>
+  chatLoginClient: ChatLogin
 }
 
 /**
@@ -14,24 +9,10 @@ export interface UseChatLogin {
  * necessary for login.
  */
 const useChatLogin = (): UseChatLogin => {
-  const { createUrl, openUrl } = useLinking()
-  const callbackUrl = createUrl('/chat')
-
-  const chatLoginClient = new ChatLogin(callbackUrl)
-  const redirectURL = chatLoginClient.getRedirectURL(SSOAction.LOGIN)
-
-  const handleSSORedirect = useCallback(async () => {
-    if (redirectURL === null) {
-      logError('Unable to retrieve chat server redirect URL')
-      return false
-    }
-
-    return await openUrl(redirectURL)
-  }, [openUrl, redirectURL])
+  const chatLoginClient = new ChatLogin()
 
   return {
-    handleSSORedirect,
-    temporaryLoginClient: chatLoginClient,
+    chatLoginClient,
   }
 }
 
