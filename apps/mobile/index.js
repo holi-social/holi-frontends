@@ -12,7 +12,7 @@ import * as Sentry from 'sentry-expo'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
-import { reactNativeTracing, reactNativeTracingSampleRate } from './tracing'
+import { reactNativeTracing } from './tracing'
 
 const determineSentryEnvironment = () => {
   const environment = Constants.manifest?.extra?.environment
@@ -50,7 +50,8 @@ Sentry.init({
     return event
   },
   integrations: [reactNativeTracing],
-  tracesSampleRate: reactNativeTracingSampleRate,
+  // sentry tracing is only testable and enabled on custom dev builds, so this only helps
+  tracesSampleRate: sentryEnvironment === 'development' ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.Native.wrap(App)
