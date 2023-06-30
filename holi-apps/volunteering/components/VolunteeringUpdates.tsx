@@ -64,8 +64,9 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
       appName={HOLI_APPS.VOLUNTEERING}
       renderItem={renderItem}
       data={engagementsToRender}
+      appIcon="hearts"
       heading={t('volunteering:app.name')}
-      headingIcon="hearts"
+      subline={t('volunteering:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
