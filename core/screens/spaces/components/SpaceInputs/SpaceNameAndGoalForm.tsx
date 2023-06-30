@@ -37,11 +37,6 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   return (
     <FormWrapper
       padTopBar={false}
-      bottomContent={
-        // <View>
-        <HoliButton label="">Close</HoliButton>
-        // </View>
-      }
       renderProp={(scrollToPropsFor) => (
         <View>
           <View style={styles.title}>
@@ -89,6 +84,7 @@ export default SpaceNameAndGoalForm
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 500,
     paddingBottom: 164,
     paddingHorizontal: 0,
     ...Platform.select({
@@ -98,7 +94,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    paddingTop: 600,
+    paddingTop: 80,
     paddingVertical: 24,
   },
   goalInputContainer: {

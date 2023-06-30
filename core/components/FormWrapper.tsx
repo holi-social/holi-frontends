@@ -22,9 +22,9 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
     const styles = createStyles(padTopBar)
 
     return (
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <HoliKeyboardSaveView bottomContent={bottomContent}>
-          <ScrollView {...scrollViewProps} ref={scrollViewRef} style={{ height: '100%' }}>
+          <ScrollView {...scrollViewProps} ref={scrollViewRef} style={styles.pageView}>
             <View style={[mixins.container, styles.container]}>{renderProp(scrollToInputWithId)}</View>
           </ScrollView>
         </HoliKeyboardSaveView>
@@ -46,7 +46,7 @@ const createStyles = (padTopBar: boolean) =>
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          height: '100vh',
+          minHeight: 100,
           marginHorizontal: 'auto',
         },
         android: {

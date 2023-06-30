@@ -1,5 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Platform, StyleProp, StyleSheet, View, ViewProps, ViewStyle, useWindowDimensions } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewProps,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 
 import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -49,7 +59,7 @@ const HoliKeyboardSaveView = ({
       if (isInitialCall) {
         if (isKeyboardOpen || isSoftkeyboardOpen) return
         if (offsetTopFromElement) {
-          setOffsetTop(offsetTopFromElement + 97)
+          setOffsetTop(offsetTopFromElement)
         }
       }
     },
@@ -84,24 +94,33 @@ const HoliKeyboardSaveView = ({
           {children}
         </View>
       </View>
-      {/* {bottomContent && isKeyboardOpen && <View style={styles.bottomBar}>{bottomContent}</View>} */}
-      {
-        <View
+
+      <KeyboardAvoidingView
+        style={{
+          position: 'fixed',
+          width: '100%', // for web
+          bottom: 0,
+          flex: 1,
+        }}
+      >
+        <SafeAreaView
           style={{
             position: 'fixed',
-            bottom: 97,
-            backgroundColor: colors.background10,
+            width: '100%', // for web
+            bottom: 0,
+            backgroundColor: colors.background20,
             borderTopColor: colors.background30,
             borderTopWidth: 1,
-            paddingVertical: 15,
             alignItems: 'flex-end',
+            justifyContent: 'center',
           }}
         >
-          <HoliButton variant="small" label="" style={{ width: 100, marginRight: 15 }}>
+          <HoliButton variant="small" label="" style={{ width: 120, marginRight: 0, marginVertical: 15 }}>
             Save
           </HoliButton>
-        </View>
-      }
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+      {/* {bottomContent && isKeyboardOpen && <View style={styles.bottomBar}>{bottomContent}</View>} */}
     </>
   )
 }
@@ -110,15 +129,15 @@ export default HoliKeyboardSaveView
 
 const styles = StyleSheet.create({
   outer: {
-    position: 'relative',
+    // position: 'relative',
     flex: 1,
   },
   inner: {
-    flex: 1,
+    // flex: 1,
   },
   bottomBar: {
     width: '100%',
     position: 'absolute',
-    bottom: 97,
+    // bottom: 97,
   },
 })

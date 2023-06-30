@@ -34,7 +34,8 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
 }: EditSpaceModalProps) => {
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
-  const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
+  // const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
+  const showFooter = false
 
   const mixins = useStyleMixins()
 
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   contentStyle: {
     flex: 1,
     paddingBottom: 0,
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
   },
   scrollView: {
     paddingBottom: 180,
