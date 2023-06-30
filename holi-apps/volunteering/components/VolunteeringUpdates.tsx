@@ -55,6 +55,7 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/engagement/${item.id}`)}
         title={title}
         imageSource={{ uri: item.imageUrl }}
+        footer={item.source}
       />
     )
   }
@@ -64,8 +65,9 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
       appName={HOLI_APPS.VOLUNTEERING}
       renderItem={renderItem}
       data={engagementsToRender}
+      appIcon="hearts"
       heading={t('volunteering:app.name')}
-      headingIcon="hearts"
+      subline={t('volunteering:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
