@@ -24,7 +24,7 @@ export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
 
 Sentry.init({
   dsn: sentryDsn || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
-  enableInExpoDevelopment: ['production'].includes(sentryEnvironment),
+  enableInExpoDevelopment: false, // tracing causes errors in expo go app
   environment: sentryEnvironment,
   debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   beforeSend: function (event, hint) {
