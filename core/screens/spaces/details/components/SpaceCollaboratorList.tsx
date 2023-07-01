@@ -25,8 +25,8 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
   let { data: spaceMembers } = usePaginationContext<SpaceMember>()
   if (filter) {
     spaceMembers = spaceMembers.filter((member) => {
-      const firstName = member.user.fullName.split(' ').at(0)
-      const lastName = member.user.fullName.split(' ').at(1)
+      const firstName = member.user.fullName.split(' ').at(0)?.toLowerCase()
+      const lastName = member.user.fullName.split(' ').at(1)?.toLowerCase()
       return member.user.fullName.startsWith(filter) || firstName?.startsWith(filter) || lastName?.startsWith(filter)
     })
   }
