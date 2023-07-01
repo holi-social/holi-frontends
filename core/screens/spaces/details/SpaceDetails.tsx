@@ -241,6 +241,7 @@ const SpaceDetails = () => {
       leaveSpaceAction,
       editAction,
       isMember,
+      manageCollaboratorsAction,
       isAdmin,
       isWeb,
       space,
