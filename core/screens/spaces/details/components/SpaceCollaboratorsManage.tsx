@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorsManageParams = {
@@ -23,74 +25,91 @@ const { useParam } = createParam<SpaceCollaboratorsManageParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
-  const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const mixins = useStyleMixins()
   const { openToast } = useToast()
+  const setScreenOptions = useSetScreenOptions()
+  const { t } = useTranslation()
+
+  useLayoutEffect(() => {
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      title: t('spaces.collaborators.manage.modal.title'),
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
 
   const handleNotImplemented = () => {
     openToast(t('global.comingSoon'), HoliToastType.SUCCESS)
   }
 
   return (
-    <DefaultLayout style={[mixins.container, styles.defaultLayout]}>
-      <View style={[mixins.container]}>
-        <HoliLink label="Collaborators" href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
+    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+      <View style={mixins.container}>
+        <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
           <View style={styles.link}>
-            <View style={styles.container}>
+            <View style={styles.wrapper}>
               <HoliIcon icon="team" style={styles.icon} />
-              <HoliText>{'Collaborators'}</HoliText>
+              <HoliText>{t('spaces.collaborators')}</HoliText>
             </View>
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliLink>
 
         <HoliLink
-          label="Roles and Permissions"
+          label={t('spaces.collaborators.manage.permissions')}
           href={`/spaces/${spaceIdOrName}/collaborators/`}
           onPress={handleNotImplemented}
         >
           <View style={styles.link}>
-            <View style={styles.container}>
+            <View style={styles.wrapper}>
               <HoliIcon icon="contacts" style={styles.icon} />
-              <HoliText>{'Roles and Permissions'}</HoliText>
+              <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
             </View>
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliLink>
 
-        <HoliLink label="Help" href={`/spaces/${spaceIdOrName}/collaborators/`} onPress={handleNotImplemented}>
+        <HoliLink
+          label={t('spaces.collaborators.manage.help')}
+          href={`/spaces/${spaceIdOrName}/collaborators/`}
+          onPress={handleNotImplemented}
+        >
           <View style={styles.link}>
-            <View style={styles.container}>
+            <View style={styles.wrapper}>
               <HoliIcon icon="help" style={styles.icon} />
-              <HoliText>{'Help'}</HoliText>
+              <HoliText>{t('spaces.collaborators.manage.help')}</HoliText>
             </View>
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliLink>
 
-        <HoliLink label="Welcome intro" href={`/spaces/${spaceIdOrName}/collaborators/`} onPress={handleNotImplemented}>
+        <HoliLink
+          label={t('spaces.collaborators.manage.welcome')}
+          href={`/spaces/${spaceIdOrName}/collaborators/`}
+          onPress={handleNotImplemented}
+        >
           <View style={styles.link}>
-            <View style={styles.container}>
+            <View style={styles.wrapper}>
               <HoliIcon icon="chat-heart" style={styles.icon} />
-              <HoliText>{'Welcome intro'}</HoliText>
+              <HoliText>{t('spaces.collaborators.manage.welcome')}</HoliText>
             </View>
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliLink>
       </View>
-    </DefaultLayout>
+    </ScrollHeaderLayout.Default>
   )
 }
 
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingTop: vars.topBarHeight,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
   },
   link: {
     flexDirection: 'row',
@@ -98,9 +117,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 8,
     marginTop: 20,
-    marginBottom: 16,
+    marginBottom: 8,
   },
-  container: {
+  wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     textAlign: 'center',

@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
@@ -38,6 +40,20 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const [search, setSearch] = useState<string>('')
   const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
+
+  useLayoutEffect(() => {
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      title: t('spaces.collaborators'),
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
@@ -99,7 +115,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   //           <HoliText>{fullName}</HoliText>
   //           {isAdmin && (
   //             <HoliText style={styles.adminTag} size="extrasmall">
-  //               Admin
+  //               {t('spaces.collaborators.permissions.role.admin')}
   //             </HoliText>
   //           )}
   //         </View>
@@ -178,18 +194,18 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+    <ScrollHeaderLayout.Default headerOverlap>
       <HoliTabs
         id="collaborator-tabs"
         style={{ flex: 1, paddingTop: vars.topBarHeight + 40 }}
         tabs={[
           {
-            title: 'All collaborators',
+            title: t('spaces.collaborators.manage.tabs.all'),
             style: styles.tabStyle,
             children: <AllCollaborators />,
           },
           {
-            title: 'Pending',
+            title: t('spaces.collaborators.manage.tabs.pending'),
             style: styles.tabStyle,
             children: <PendingCollaborators />,
           },
@@ -209,9 +225,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 }
 
 const styles = StyleSheet.create({
-  defaultLayout: {
-    // marginTop: 20,
-  },
   wrapper: {
     marginTop: 16,
   },
@@ -221,6 +234,7 @@ const styles = StyleSheet.create({
   tabStyle: {
     backgroundColor: colors.background20,
     paddingBottom: 24,
+    minHeight: '100%',
   },
   list: {
     backgroundColor: colors.background20,
