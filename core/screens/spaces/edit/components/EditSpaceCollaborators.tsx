@@ -1,8 +1,7 @@
-/* eslint-disable */
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -15,10 +14,8 @@ import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceMember } from '@holi/core/screens/spaces/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -41,6 +38,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const [search, setSearch] = useState<string>('')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { user: loggedInUser } = useLoggedInUser()
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -56,12 +54,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   }, [setScreenOptions, t])
 
   const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
+    variables: { idOrName: spaceIdOrName },
   })
 
-  const space = data?.spaceById
-  // const admins = space?.members.data.filter((member) => member.isAdministrator)
-  // const members = space?.members.data.filter((member) => !member.isAdministrator)
+  const space = data!.spaceById
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: SPACE_MEMBER_PAGE_SIZE,
@@ -71,99 +68,32 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     },
   }
 
-  const onDismiss = () => {
-    hidePermissions()
-    setSelectedMember(null)
-  }
-
   const handleNavigation = useCallback(
     (id: string) => {
-      onDismiss()
+      hidePermissions()
+      setSelectedMember(null)
       setTimeout(() => {
         navigate('/profile/' + id)
       })
     },
-    [navigate, onDismiss]
+    [navigate, hidePermissions]
   )
 
   const onSelectMember = useCallback(
     (member: SpaceMember) => {
-      // const userId = member.user.id
-      // const isAdmin = member.isAdministrator
-
-      setSelectedMember(member)
-      showPermissions()
+      const userId = member.user.id
+      if (isSpaceAdmin && loggedInUser?.id !== userId) {
+        setSelectedMember(member)
+        showPermissions()
+      } else {
+        handleNavigation(userId)
+      }
     },
-    [handleNavigation, showPermissions]
+    [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
-
-  // const CollaboratorItem = ({ collaborator, isAdmin }) => {
-  //   const { avatar, avatarDefaultColor, avatarLabel, fullName } = collaborator
-  //   return (
-  //     <HoliButton
-  //       // contentStyle={styles.collaborators}
-  //       inline
-  //       transparent
-  //       label={t('spaces.collaborators.permissions.label')}
-  //       onPress={() => onSelectMember(collaborator)}
-  //       // key={collaborator.id}
-  //       testID={'spaces-collaborators-item'}
-  //     >
-  //       <View style={styles.member}>
-  //         <HoliAvatar imageSrc={avatar} defaultColor={avatarDefaultColor} initials={avatarLabel} label={fullName} />
-  //         <View style={styles.memberInfo}>
-  //           <HoliText>{fullName}</HoliText>
-  //           {isAdmin && (
-  //             <HoliText style={styles.adminTag} size="extrasmall">
-  //               {t('spaces.collaborators.permissions.role.admin')}
-  //             </HoliText>
-  //           )}
-  //         </View>
-  //       </View>
-  //     </HoliButton>
-  //   )
-  // }
-
-  // const SpaceAdmins = () => {
-  //   return (
-  //     <>
-  //       <HoliText bold style={styles.sectionHeader}>
-  //         Admins
-  //       </HoliText>
-  //       <FlatList
-  //         data={admins}
-  //         renderItem={({ item }) => <CollaboratorItem collaborator={item.user} isAdmin={true} />}
-  //         keyExtractor={(item) => item.user.fullName}
-  //       />
-  //     </>
-  //   )
-  // }
-
-  // const SpaceMembers = () => {
-  //   return (
-  //     <>
-  //       <HoliText bold style={styles.sectionHeader}>
-  //         Collaborators
-  //       </HoliText>
-  //       <FlatList
-  //         data={members}
-  //         renderItem={({ item }) => <CollaboratorItem collaborator={item.user} isAdmin={false} />}
-  //         keyExtractor={(item) => item.user.fullName}
-  //       />
-  //     </>
-  //   )
-  // }
 
   const AllCollaborators = () => {
     return (
-      // <ScrollHeaderLayout.Default style={styles.list} headerOverlap>
-      //   <View style={mixins.container}>
-      //     {/* {admins && admins.length > 0 && <SpaceAdmins />}
-      //     {members && members.length > 0 && <SpaceMembers />} */}
-      //     <SpaceAdmins />
-      //     <SpaceMembers />
-      //   </View>
-      // </ScrollHeaderLayout.Default>
       <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
         <HoliTextInput
           placeholder={'Search collaborators'}
@@ -176,10 +106,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
         <Pagination
           query={spaceMembersQuery}
           queryOptions={queryOptions}
-          // fetchMoreButtonProps={{ style: styles.buttonContainer }}
           fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
-          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} filter={search} />
+          <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} filter={search} />
         </Pagination>
       </ScrollView>
     )
@@ -188,7 +117,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const PendingCollaborators = () => {
     return (
       <ScrollHeaderLayout.Default style={styles.list} headerOverlap>
-        <View></View>
+        <View />
       </ScrollHeaderLayout.Default>
     )
   }
@@ -213,7 +142,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       />
       {selectedMember && (
         <SpacePermissions
-          space={space!}
+          space={space}
           member={selectedMember}
           handleNavigation={handleNavigation}
           permissionsVisible={permissionsVisible}
@@ -238,22 +167,6 @@ const styles = StyleSheet.create({
   },
   list: {
     backgroundColor: colors.background20,
-  },
-  sectionHeader: {
-    marginTop: 24,
-    marginBottom: 8,
-  },
-  member: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    gap: 16,
-  },
-  memberInfo: {
-    gap: 1,
-  },
-  adminTag: {
-    color: colors.foreground20,
   },
 })
 
