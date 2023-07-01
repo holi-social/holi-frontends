@@ -57,7 +57,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
 
-  const space = data!.spaceById
+  const space = data?.spaceById
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const queryOptions: PaginationQueryHookOptions = {
@@ -96,10 +96,10 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     return (
       <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
         <HoliTextInput
-          placeholder={'Search collaborators'}
+          placeholder={t('spaces.collaborators.manage.search')}
           value={search}
           onChange={(value: string) => setSearch(value)}
-          accessibilityLabel={'Search collaborators'}
+          accessibilityLabel={t('spaces.collaborators.manage.search')}
           trailingIcon="search"
           style={styles.search}
         />
@@ -108,7 +108,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           queryOptions={queryOptions}
           fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
-          <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} filter={search} />
+          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} filter={search} />
         </Pagination>
       </ScrollView>
     )
@@ -142,7 +142,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       />
       {selectedMember && (
         <SpacePermissions
-          space={space}
+          space={space!}
           member={selectedMember}
           handleNavigation={handleNavigation}
           permissionsVisible={permissionsVisible}
