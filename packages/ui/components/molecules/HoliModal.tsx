@@ -197,18 +197,16 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   </View>
                 </PanGestureHandler>
               ) : (
-                <View style={styles.heading}>
-                  {false && (
-                    <HoliButton
-                      label={t('modal.backdrop')}
-                      style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
-                      onPress={onDismiss}
-                      transparent
-                      testID={`btn-to-close-${testID}`}
-                    >
-                      <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
-                    </HoliButton>
-                  )}
+                <View style={[styles.heading]}>
+                  <HoliButton
+                    label={t('modal.backdrop')}
+                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
+                    onPress={onDismiss}
+                    transparent
+                    testID={`btn-to-close-${testID}`}
+                  >
+                    <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
+                  </HoliButton>
 
                   {!!heading && (
                     <HoliHeading
@@ -256,7 +254,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    position: 'absolute', // TODO: this is causing the bottom footer to not follow the keyboard
+    // position: 'absolute', // TODO: this is causing the bottom footer to not follow the keyboard
     alignSelf: 'center',
     justifyContent: 'flex-end',
     width: '100%',
@@ -303,8 +301,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 30,
     width: '100%',
-    // position: 'relative',
-    position: 'absolute',
+    position: 'relative',
     alignItems: 'center',
   },
   title: {

@@ -30,6 +30,7 @@ export type HoliKeyboardSaveViewProps = {
   contentStyle?: StyleProp<ViewStyle>
   bottomContent?: React.ReactNode
   onHeightChange?: (newHeight: number) => void
+  initialOffsetTop?: number
   nativeProps?: ViewProps
   testID?: string
 }
@@ -41,6 +42,7 @@ const HoliKeyboardSaveView = ({
   contentStyle,
   bottomContent,
   onHeightChange = () => null,
+  initialOffsetTop = 70,
   nativeProps,
   testID,
   children,
@@ -49,9 +51,8 @@ const HoliKeyboardSaveView = ({
   const { isKeyboardOpen, keyboardHeight } = useKeyboard()
   const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [offsetTop, setOffsetTop] = useState(0)
+  const [offsetTop, setOffsetTop] = useState(65)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
-  const bottomBarOffset = 97
 
   const storeOffsetTop = useCallback(
     (offsetTopFromElement?: number) => {
@@ -95,31 +96,6 @@ const HoliKeyboardSaveView = ({
         </View>
       </View>
 
-      <KeyboardAvoidingView
-        style={{
-          position: 'fixed',
-          width: '100%', // for web
-          bottom: 0,
-          flex: 1,
-        }}
-      >
-        <SafeAreaView
-          style={{
-            position: 'fixed',
-            width: '100%', // for web
-            bottom: 0,
-            backgroundColor: colors.background20,
-            borderTopColor: colors.background30,
-            borderTopWidth: 1,
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-          }}
-        >
-          <HoliButton variant="small" label="" style={{ width: 120, marginRight: 0, marginVertical: 15 }}>
-            Save
-          </HoliButton>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
       {/* {bottomContent && isKeyboardOpen && <View style={styles.bottomBar}>{bottomContent}</View>} */}
     </>
   )
@@ -129,11 +105,11 @@ export default HoliKeyboardSaveView
 
 const styles = StyleSheet.create({
   outer: {
-    // position: 'relative',
+    position: 'relative',
     flex: 1,
   },
   inner: {
-    // flex: 1,
+    flex: 1,
   },
   bottomBar: {
     width: '100%',
