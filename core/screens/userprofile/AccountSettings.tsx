@@ -22,10 +22,6 @@ const AccountSettings = () => {
     setScreenOptions({ title: t('profile.settings.account.title') })
   }, [setScreenOptions, t])
 
-  const goTo = (url: string) => () => {
-    navigate(url)
-  }
-
   return (
     <ScrollHeaderLayout.Default>
       <LoginProtection>
@@ -33,7 +29,7 @@ const AccountSettings = () => {
           <MoreOptionItem
             label={t('profile.edit.changePassword')}
             icon="key-2"
-            onPress={goTo('/profile/settings/changePassword')}
+            onPress={() => navigate('/profile/settings/changePassword')}
             style={styles.settingsItem}
             testID="btn-change-password"
           />

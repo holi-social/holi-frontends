@@ -5,7 +5,7 @@ export interface Paged<T> {
   data: T[]
 }
 
-export type MemberSpaces = Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'members'>>
+export type MemberSpaces = Paged<Pick<Space, 'id' | 'name' | 'title' | 'cover' | 'coverBlurhash' | 'members'>>
 
 export interface GeolocationPoint {
   latitude: number

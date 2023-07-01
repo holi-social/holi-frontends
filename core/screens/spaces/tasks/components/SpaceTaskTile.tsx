@@ -49,6 +49,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             <HoliImage
               label={t('spaces.tasks.thumbnail.label')}
               source={{ uri: task.thumbnail }}
+              blurhash={task.thumbnailBlurhash}
               style={showFullView ? styles.imageShowFullView : styles.image}
             />
           )}
@@ -171,6 +172,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           <View style={styles.avatar}>
             <HoliAvatar
               imageSrc={task.creator.avatar}
+              imageBlurhash={task.creator.avatarBlurhash}
               label={task.creator.fullName || t('user.profileView.anonymous')}
               initials={task.creator.avatarLabel || ''}
               defaultColor={task.creator.avatarDefaultColor || ''}

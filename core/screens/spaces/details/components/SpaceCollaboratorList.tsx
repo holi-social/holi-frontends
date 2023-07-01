@@ -55,6 +55,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
             >
               <HoliAvatar
                 imageSrc={collaborator.avatar}
+                imageBlurhash={collaborator.avatarBlurhash}
                 label=""
                 accessibilityLabel={collaborator.fullName || t('user.profileView.anonymous')}
                 initials={collaborator.avatarLabel}

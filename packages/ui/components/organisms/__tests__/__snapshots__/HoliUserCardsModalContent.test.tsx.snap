@@ -42,7 +42,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               {
                 "marginBottom": 16,
                 "marginHorizontal": 24,
-                "textAlign": "center",
+                "textAlign": "left",
               },
               undefined,
             ],

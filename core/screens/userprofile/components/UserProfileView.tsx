@@ -28,6 +28,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
         <View>
           <HoliAvatar
             imageSrc={user.avatar}
+            imageBlurhash={user.avatarBlurhash}
             label={fullName}
             initials={user.avatarLabel}
             defaultColor={user.avatarDefaultColor}

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
@@ -30,13 +30,6 @@ const SettingsOverview = () => {
     setScreenOptions({ title: t('profile.settings.overview.title') })
   }, [setScreenOptions, t])
 
-  const goTo = useCallback(
-    (url: string) => () => {
-      navigate(url)
-    },
-    [navigate]
-  )
-
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
@@ -48,7 +41,7 @@ const SettingsOverview = () => {
             label={t('profile.settings.account.title')}
             icon="account-circle"
             iconRight="arrow"
-            onPress={goTo('/profile/settings/account')}
+            onPress={() => navigate('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
           />
@@ -67,6 +60,14 @@ const SettingsOverview = () => {
             iconRight="outlink"
             onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.title')}
+            icon="lock"
+            iconRight="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments')}
+            style={styles.settingsItem}
+            testID="btn-your-account"
           />
         </View>
 
@@ -98,7 +99,7 @@ const SettingsOverview = () => {
   )
 }
 
-export default memo(SettingsOverview)
+export default SettingsOverview
 
 const styles = StyleSheet.create({
   settingsOverview: {

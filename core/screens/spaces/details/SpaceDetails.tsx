@@ -3,8 +3,8 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import NotificationModal from '@holi/core/components/NotificationModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -165,24 +165,25 @@ const SpaceDetails = () => {
               />
             </HoliActionDrawer.Action>
           )}
-
-          <HoliActionDrawer.Action
-            isLoading={isLoadingLeaveSpace}
-            action="leave"
-            title={t('spaces.spaceDetails.leave')}
-            showConfirmation
-          >
-            <HoliActionDrawer.Confirmation
-              title={confirmationTitle}
-              description={confirmationDescription}
-              testID="space-leave"
-              handleConfirmation={leaveSpaceAction}
-              hasDismissBtn={dismissLeaveSpaceButton.show}
-              dismissText={dismissLeaveSpaceButton.text}
-              confirmText={confirmLeaveSpaceText}
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+          {isMember && (
+            <HoliActionDrawer.Action
+              isLoading={isLoadingLeaveSpace}
+              action="leave"
+              title={t('spaces.spaceDetails.leave')}
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={confirmationTitle}
+                description={confirmationDescription}
+                testID="space-leave"
+                handleConfirmation={leaveSpaceAction}
+                hasDismissBtn={dismissLeaveSpaceButton.show}
+                dismissText={dismissLeaveSpaceButton.text}
+                confirmText={confirmLeaveSpaceText}
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+          )}
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -239,7 +240,7 @@ const SpaceDetails = () => {
       deleteConfirmationAction,
       leaveSpaceAction,
       editAction,
-      manageCollaboratorsAction,
+      isMember,
       isAdmin,
       isWeb,
       space,

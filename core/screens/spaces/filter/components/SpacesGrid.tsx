@@ -36,6 +36,7 @@ const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
                 subtitle={space.location}
                 description={space.description}
                 imageSrc={space.cover}
+                imageBlurhash={space.coverBlurhash}
                 users={space.members.data.map((membership) => membership.user)}
                 href={`/spaces/${space.name}`}
                 size="large"

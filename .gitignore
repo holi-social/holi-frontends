@@ -13,3 +13,5 @@ build
 terraform*.log
 build-storybook.log
 coverage
+
+.idea

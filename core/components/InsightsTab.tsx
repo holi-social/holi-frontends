@@ -50,6 +50,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
                         width: THUMBNAIL_SIZE,
                         height: THUMBNAIL_SIZE,
                       }}
+                      blurhash={insight.headerImageBlurhash}
                       resizeMode="cover"
                     />
                   </View>

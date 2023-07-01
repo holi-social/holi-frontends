@@ -13,6 +13,7 @@ const insight: Insight = {
   datePublished: '',
   creator: user,
   headerImage: '',
+  headerImageBlurhash: '',
   topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
   posts: [],
   numberOfPosts: 0,

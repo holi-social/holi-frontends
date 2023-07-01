@@ -36,6 +36,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
           >
             <HoliAvatar
               imageSrc={item.avatar}
+              imageBlurhash={item.avatarBlurhash}
               label={item.fullName}
               initials={item.avatarLabel}
               defaultColor={item.avatarDefaultColor}

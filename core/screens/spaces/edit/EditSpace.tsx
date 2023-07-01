@@ -141,7 +141,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setScreenOptions, show, space.id, t, visible])
+  }, [hide, setScreenOptions, show, t, visible])
 
   if (error) {
     logError(error, `[EditSpace.tsx] ${error.message}`)

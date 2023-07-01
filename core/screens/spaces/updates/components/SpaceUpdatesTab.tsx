@@ -150,12 +150,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
                 {posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostPreview
-                      post={post}
-                      spaceIdOrName={space.name}
-                      spacePostQueryVariables={spacePostQueryVars}
-                      hasVisibilityIcon
-                    />
+                    <PostPreview post={post} spaceIdOrName={space.name} hasVisibilityIcon />
                   </HoliGridCell>
                 ))}
               </HoliGridWrapper>

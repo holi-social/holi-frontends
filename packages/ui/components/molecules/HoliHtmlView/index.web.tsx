@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
-import '@holi/core/static/stylesWeb.scss'
+import './styles.scss'
 
 export type HoliHtmlViewProps = {
   html: string
@@ -9,7 +9,7 @@ export type HoliHtmlViewProps = {
   testID?: string
 }
 
-const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ html, style, testID }) => {
+const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
   const defaultStyles = { borderStyle: 'solid', borderWidth: 0, overflow: 'auto' }
 
   if (!html) return null

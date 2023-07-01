@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.1.0', // user-facing value visible in stores
-  iosBuildNumber: '1.1.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 16, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.2.0', // user-facing value visible in stores
+  iosBuildNumber: '1.2.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 18, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -87,6 +87,9 @@ export default {
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
+      },
+      holi_nextjs_api: {
+        url: process.env.HOLI_NEXTJS_API_URL || 'http://localhost:3000',
       },
       environment: process.env.ENVIRONMENT_ID || 'development',
       sentry: {

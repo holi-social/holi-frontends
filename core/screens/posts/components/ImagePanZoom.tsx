@@ -8,9 +8,10 @@ import HoliImage from '@holi//ui/components/atoms/HoliImage'
 export type ImagePanZoomProps = {
   uri: string
   postTitle: string
+  blurhash?: string
 }
 
-const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
+const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle, blurhash }) => {
   const { t } = useTranslation()
   const [imageSize, setImageSize] = useState(() => ({ width: 0, height: 0 }))
 
@@ -31,6 +32,7 @@ const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
       <HoliImage
         style={{ width: '100%', height: '100%' }}
         source={{ uri }}
+        blurhash={blurhash}
         label={t('insights.posts.image.modal', { title: postTitle })}
       />
     </ImageZoom>

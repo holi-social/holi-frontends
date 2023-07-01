@@ -23,7 +23,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     ref
   ) => {
     const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
-    Loader ??= defaultLoader
+    Loader = defaultLoader || Loader
 
     const [startPoint, setStartPoint] = useState(0)
     const [pullChange, setPullChange] = useState(0)
@@ -75,8 +75,8 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
       <div
         className="refreshable-wrapper"
         style={{
-          overscrollBehaviorY: 'contain',
           marginTop: isLoading ? refreshHeight : pullChange,
+          overscrollBehaviorY: 'contain',
           // animate only on endPull
           transition: !startPoint ? 'all .3s ease-out' : '',
         }}

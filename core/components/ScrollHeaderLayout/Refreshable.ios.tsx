@@ -39,7 +39,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     // add SafeArea top automaticaly
     const additionalOffset = headerOverlap ? top : 0
     const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset + additionalOffset }} />
-    Loader ??= defaultLoader
+    Loader = defaultLoader || Loader
 
     const onScrollHandler = useScrollHandler(onScroll)
 

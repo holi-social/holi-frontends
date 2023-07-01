@@ -38,6 +38,7 @@ const LoginProfileButton = ({
       {user ? (
         <HoliAvatar
           imageSrc={user.avatar}
+          imageBlurhash={user.avatarBlurhash}
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
