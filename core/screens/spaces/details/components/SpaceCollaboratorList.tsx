@@ -14,14 +14,22 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpaceCollaboratorsProps = {
   space: Space
   onSelectMember: (member: SpaceMember) => void
+  filter?: string
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelectMember }) => {
+const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelectMember, filter }) => {
   const { t } = useTranslation()
   const { user: loggedInUser } = useLoggedInUser()
 
-  const { data: spaceMembers } = usePaginationContext<SpaceMember>()
+  let { data: spaceMembers } = usePaginationContext<SpaceMember>()
+  if (filter) {
+    spaceMembers = spaceMembers.filter((member) => {
+      const firstName = member.user.fullName.split(' ').at(0)
+      const lastName = member.user.fullName.split(' ').at(1)
+      return member.user.fullName.startsWith(filter) || firstName?.startsWith(filter) || lastName?.startsWith(filter)
+    })
+  }
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
