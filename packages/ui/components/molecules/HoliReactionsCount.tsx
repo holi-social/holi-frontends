@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
 import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
@@ -77,11 +77,12 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       >
         {count}
       </HoliText>
-      {active || hovered ? (
+      <View style={!active && !hovered ? styles.visuallyHidden : null}>
         <HoliLocalImage imageSource={ReactionIconFilled} width={24} height={24} label={labelText} isSvg />
-      ) : (
+      </View>
+      <View style={active || hovered ? styles.visuallyHidden : null}>
         <HoliLocalImage imageSource={ReactionIconOutlined} width={24} height={24} label={labelText} isSvg />
-      )}
+      </View>
     </HoliButton>
   )
 }
@@ -101,5 +102,9 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
     lineHeight: 24,
     marginBottom: -2,
+  },
+  visuallyHidden: {
+    visibility: 'hidden',
+    position: 'fixed',
   },
 })
