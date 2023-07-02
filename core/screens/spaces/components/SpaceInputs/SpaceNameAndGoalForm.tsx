@@ -2,15 +2,16 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import FormWrapper from '@holi/core/components/FormWrapper'
+import FormWrapper, { FormWrapperProps } from '@holi/core/components/FormWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
-export type SpaceNameAndGoalFormProps = {
+export interface SpaceNameAndGoalFormProps extends Partial<FormWrapperProps> {
   onChangeSpaceName: (name: string) => void
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
+  onSave: () => void
   spaceNameErrors?: string[]
   spaceGoalErrors?: string[]
   title: string
@@ -21,6 +22,9 @@ export type SpaceNameAndGoalFormProps = {
 const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   onChangeSpaceName,
   onChangeSpaceGoal,
+  onSave,
+  saveButtonDisabled,
+  loading,
   spaceName,
   spaceGoal,
   spaceNameErrors,
@@ -32,6 +36,9 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
     <FormWrapper
       padTopBar={false}
       isModal={true}
+      onSave={onSave}
+      saveButtonDisabled={saveButtonDisabled}
+      loading={loading}
       renderProp={(scrollToPropsFor) => (
         <>
           <View style={styles.title}>

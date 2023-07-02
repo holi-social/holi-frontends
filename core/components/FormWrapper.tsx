@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -10,14 +11,18 @@ import {
 } from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-interface Props extends ScrollViewProps {
+export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
+  onSave: () => void
+  saveButtonDisabled?: boolean
+  loading?: boolean
   padTopBar?: boolean
   isModal?: boolean
 }
@@ -25,8 +30,19 @@ interface Props extends ScrollViewProps {
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SMALL_DEVICE_HEIGHT = 600
 
-const FormWrapper = React.forwardRef<ScrollView, Props>(
-  ({ renderProp, padTopBar = true, isModal = false, ...scrollViewProps }: Props, ref) => {
+const FormWrapper = React.forwardRef<ScrollView, FormWrapperProps>(
+  (
+    {
+      renderProp,
+      onSave,
+      saveButtonDisabled,
+      loading,
+      padTopBar = true,
+      isModal = false,
+      ...scrollViewProps
+    }: FormWrapperProps,
+    ref
+  ) => {
     const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
     const [scrollContentHeight, setScrollContentHeight] = useState(0)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -34,6 +50,8 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
     const mixins = useStyleMixins()
     const { height: screenHeight } = useWindowDimensions()
     const { keyboardHeight } = useKeyboard()
+
+    const { t } = useTranslation()
 
     const onHeightChange = useCallback((newContainerHeight: number) => {
       const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
@@ -87,16 +105,18 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
             {/* Bottom Bar */}
             <View style={[styles.bottomBar]}>
               <View style={[mixins.container, styles.buttonContainer]}>
-                <HoliButton
-                  disabled={false}
-                  label={'test'}
+                <HoliButtonLoading
                   inline
                   variant="medium"
-                  onPress={() => console.log('hello')}
-                  testID="btn-submit-comment"
+                  disabled={loading || saveButtonDisabled}
+                  label={loading ? t('global.loading') : t('global.save')}
+                  onPress={onSave}
+                  testID="space-edit-modal-save-btn"
+                  icon={loading ? 'loader-4' : undefined}
+                  iconSpinning={saveButtonDisabled}
                 >
-                  {'Save'}
-                </HoliButton>
+                  {t('global.save')}
+                </HoliButtonLoading>
               </View>
             </View>
           </HoliKeyboardSaveView>

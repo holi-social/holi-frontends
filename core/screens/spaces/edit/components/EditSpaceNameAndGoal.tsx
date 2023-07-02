@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
@@ -12,6 +13,7 @@ import { Space } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface EditSpaceNameAndGoalProps {
@@ -60,11 +62,17 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={loading || !inputValid}
-      persistFooter={Platform.OS !== 'android'}
+    // <EditSpaceModal
+    //   onDismiss={onDismiss}
+    //   onSave={onSave}
+    //   saveButtonDisabled={loading || !inputValid}
+    //   persistFooter={Platform.OS !== 'android'}
+    //   scrollable={false}
+    // >
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
       scrollable={false}
     >
       <SpaceNameAndGoalForm
@@ -75,8 +83,12 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         spaceName={spaceName}
         spaceNameErrors={fieldErrors.title}
         spaceGoalErrors={fieldErrors.description}
+        loading={loading}
+        onSave={onSave}
+        saveButtonDisabled={loading || !inputValid}
       />
-    </EditSpaceModal>
+    </DefaultLayout>
+    // </EditSpaceModal>
 
     // <SpaceNameAndGoalForm
     //   title={t('spaces.input.nameAndGoal.title')}
@@ -151,5 +163,16 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
     // />
   )
 }
+
+const styles = StyleSheet.create({
+  layoutStyle: {
+    flex: 1,
+  },
+  contentStyle: {
+    flex: 1,
+    paddingBottom: 0,
+    backgroundColor: colors.background20,
+  },
+})
 
 export default EditSpaceNameAndGoal
