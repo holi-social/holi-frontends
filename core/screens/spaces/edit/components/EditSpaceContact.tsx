@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactForm'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
