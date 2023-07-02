@@ -60,12 +60,12 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
 
             <HoliConfirmation
               show={deleteModalVisible}
-              label={t('spaces.input.socialLinks.delete.confirmation.title')}
-              title={t('spaces.input.socialLinks.delete.confirmation.title')}
-              description={t('spaces.input.socialLinks.delete.confirmation.description')}
+              label={t('spaces.input.publicLinks.delete.confirmation.title')}
+              title={t('spaces.input.publicLinks.delete.confirmation.title')}
+              description={t('spaces.input.publicLinks.delete.confirmation.description')}
               onDismiss={() => setDeleteModalVisible(false)}
-              dismissText={t('spaces.input.socialLinks.delete.confirmation.no')}
-              confirmText={t('spaces.input.socialLinks.delete.confirmation.yes')}
+              dismissText={t('spaces.input.publicLinks.delete.confirmation.no')}
+              confirmText={t('spaces.input.publicLinks.delete.confirmation.yes')}
               testID="spaces-links-delete-confirmation"
               onConfirm={() => {
                 onDelete && onDelete(link.id)

@@ -30,7 +30,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
 
   const [addLinkToSpace, { loading }] = useMutation<AddExternalLinkResponse>(addExternalLinkMutation, {
     onCompleted: () => {
-      openToast(t('spaces.input.socialLinks.add.success'), HoliToastType.SUCCESS)
+      openToast(t('spaces.input.publicLinks.add.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
     onError: (e) => {
@@ -47,7 +47,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
       setSaveButtonDisabled(true)
     }
     if (url.length > 0 && !isValidUrl(url)) {
-      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.invalid'))
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
     } else {
       setValidationErrorTextUrl('')
     }
@@ -64,11 +64,11 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
 
   const onSave = () => {
     if (!url) {
-      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.mandatory'))
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.mandatory'))
       return
     }
     if (!name) {
-      setValidationErrorTextName(t('spaces.input.socialLinks.validation.name.mandatory'))
+      setValidationErrorTextName(t('spaces.input.publicLinks.validation.name.mandatory'))
       return
     }
 
@@ -98,7 +98,7 @@ const CreateSpaceLinks: React.VFC<CreateSpaceLinksProps> = ({ space, onDismiss }
               persistFooter={true}
             >
               <SpaceLinksForm
-                title={t('spaces.input.socialLinks.title')}
+                title={t('spaces.input.publicLinks.title')}
                 onChangeUrl={setUrl}
                 onChangeName={setName}
                 url={url}
