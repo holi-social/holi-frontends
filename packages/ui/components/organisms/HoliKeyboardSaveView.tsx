@@ -1,21 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewProps,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewProps, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
-
-import HoliText from '../atoms/HoliText'
-import HoliButton from '../molecules/HoliButton'
 
 /**
  * This component makes sure, that
@@ -28,9 +14,7 @@ import HoliButton from '../molecules/HoliButton'
 export type HoliKeyboardSaveViewProps = {
   style?: StyleProp<ViewStyle>
   contentStyle?: StyleProp<ViewStyle>
-  bottomContent?: React.ReactNode
   onHeightChange?: (newHeight: number) => void
-  initialOffsetTop?: number
   nativeProps?: ViewProps
   testID?: string
 }
@@ -40,9 +24,7 @@ const WITHOUT_MAX_HEIGHT = 10000
 const HoliKeyboardSaveView = ({
   style,
   contentStyle,
-  bottomContent,
   onHeightChange = () => null,
-  initialOffsetTop = 70,
   nativeProps,
   testID,
   children,
@@ -81,8 +63,6 @@ const HoliKeyboardSaveView = ({
 
   useEffect(calcMaxHeight, [viewPortHeight, calcMaxHeight])
 
-  console.log(calcMaxHeight, viewPortHeight)
-
   return (
     <>
       <View
@@ -95,8 +75,6 @@ const HoliKeyboardSaveView = ({
           {children}
         </View>
       </View>
-
-      {/* {bottomContent && isKeyboardOpen && <View style={styles.bottomBar}>{bottomContent}</View>} */}
     </>
   )
 }
@@ -110,10 +88,5 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-  },
-  bottomBar: {
-    width: '100%',
-    position: 'absolute',
-    // bottom: 97,
   },
 })

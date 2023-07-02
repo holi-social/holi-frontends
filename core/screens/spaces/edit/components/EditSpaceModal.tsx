@@ -49,7 +49,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       scrollable={scrollable}
     >
       {scrollable ? (
-        <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+        <ScrollView style={[styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
           {children}
         </ScrollView>
       ) : (
@@ -57,7 +57,7 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       )}
 
       {showFooter && (
-        <View style={[mixins.container, styles.footer]}>
+        <View style={[styles.footer]}>
           <HoliButton
             label={t('global.dismiss')}
             type="secondary"

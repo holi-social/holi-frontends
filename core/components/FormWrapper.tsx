@@ -1,8 +1,7 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   ScrollViewProps,
   StyleSheet,
@@ -10,7 +9,6 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -18,20 +16,17 @@ import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { useSetScreenOptions } from '../navigation/hooks/useScreenOptions'
-
 interface Props extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   padTopBar?: boolean
   isModal?: boolean
-  bottomContent?: React.ReactNode
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SMALL_DEVICE_HEIGHT = 600
 
 const FormWrapper = React.forwardRef<ScrollView, Props>(
-  ({ renderProp, padTopBar = true, isModal = false, bottomContent, ...scrollViewProps }: Props, ref) => {
+  ({ renderProp, padTopBar = true, isModal = false, ...scrollViewProps }: Props, ref) => {
     const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
     const [scrollContentHeight, setScrollContentHeight] = useState(0)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -39,9 +34,6 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
     const mixins = useStyleMixins()
     const { height: screenHeight } = useWindowDimensions()
     const { keyboardHeight } = useKeyboard()
-
-    const initialOffsetTop = useMemo(() => (isModal ? 70 : 0), [Platform.OS, isModal])
-    console.log(initialOffsetTop)
 
     const onHeightChange = useCallback((newContainerHeight: number) => {
       const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
@@ -78,7 +70,7 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
     return (
       <>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-          <HoliKeyboardSaveView onHeightChange={onHeightChange} initialOffsetTop={initialOffsetTop}>
+          <HoliKeyboardSaveView onHeightChange={onHeightChange}>
             <ScrollView
               ref={scrollViewRef}
               onContentSizeChange={scrollIntoView}
@@ -94,12 +86,12 @@ const FormWrapper = React.forwardRef<ScrollView, Props>(
             </ScrollView>
             {/* Bottom Bar */}
             <View style={[styles.bottomBar]}>
-              <View style={[styles.buttonContainer]}>
+              <View style={[mixins.container, styles.buttonContainer]}>
                 <HoliButton
                   disabled={false}
                   label={'test'}
-                  variant="small"
                   inline
+                  variant="medium"
                   onPress={() => console.log('hello')}
                   testID="btn-submit-comment"
                 >
@@ -121,14 +113,9 @@ export default FormWrapper
 const createStyles = (padTopBar: boolean, screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: padTopBar ? vars.topBarHeight + 10 : 0,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
-        web: {
-          // minHeight: '100vh',
-          marginHorizontal: 'auto',
-        },
         android: {
           paddingBottom: 0,
         },
@@ -138,8 +125,12 @@ const createStyles = (padTopBar: boolean, screenHeight: number) =>
       flex: 1,
       width: '100%',
       maxWidth: vars.maxScreenWidth,
-      marginHorizontal: 'auto',
       paddingBottom: 25,
+      ...Platform.select({
+        web: {
+          marginHorizontal: 'auto',
+        },
+      }),
     },
     scrollContent: {
       paddingBottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,

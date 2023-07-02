@@ -1,14 +1,10 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
-import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
-import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceNameAndGoalFormProps = {
   onChangeSpaceName: (name: string) => void
@@ -30,8 +26,6 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   spaceNameErrors,
   spaceGoalErrors,
   title,
-  style,
-  contentStyle,
 }: SpaceNameAndGoalFormProps) => {
   const { t } = useTranslation()
   return (
@@ -72,6 +66,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
             accessibilityLabel={t('spaces.input.goal.label')}
             testID="space-goal"
             inputProps={{ textAlignVertical: 'top' }}
+            style={styles.goalInputContainer}
             {...scrollToPropsFor('goal')}
           />
         </>
@@ -83,18 +78,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
 export default SpaceNameAndGoalForm
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: 164,
-    paddingHorizontal: 0,
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
   title: {
-    paddingTop: 80,
     paddingVertical: 24,
   },
   goalInputContainer: {
