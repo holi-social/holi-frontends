@@ -9,15 +9,15 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type SpaceTermsInputProps = {
+export interface SpaceTermsInputProps {
   title: string
   description: string
-  searchPlaceholder?: string
-  hint?: string
-  showSortNumber?: boolean
+  searchPlaceholder: string
   onSelect: (items: SortedTerm[]) => void
   selected: SortedTerm[]
   terms: SortedTerm[]
+  hint?: string
+  showSortNumber?: boolean
   testID?: string
 }
 

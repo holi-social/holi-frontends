@@ -30,6 +30,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   spaceNameErrors,
   spaceGoalErrors,
   title,
+  style,
 }: SpaceNameAndGoalFormProps) => {
   const { t } = useTranslation()
   return (
@@ -38,6 +39,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
+      style={style}
       renderProp={(scrollToPropsFor) => (
         <>
           <View style={styles.title}>

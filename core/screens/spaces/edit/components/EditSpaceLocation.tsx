@@ -1,13 +1,16 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceLocationProps {
   space: Space
@@ -56,21 +59,41 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={loading || !selectedLocation}
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
       scrollable={false}
     >
-      <SpaceLocationInput
-        title={t('spaces.input.location.title')}
-        description={t('spaces.input.location.description')}
-        onChange={setSelectedLocation}
-        location={selectedLocation}
-        validationErrorText={validationErrorText}
+      <FormWrapper
+        isModal={true}
+        onSave={onSave}
+        saveButtonDisabled={loading || !selectedLocation}
+        loading={loading}
+        renderProp={(scrollToPropsFor) => (
+          <SpaceLocationInput
+            title={t('spaces.input.location.title')}
+            description={t('spaces.input.location.description')}
+            onChange={setSelectedLocation}
+            location={selectedLocation}
+            validationErrorText={validationErrorText}
+            {...scrollToPropsFor('location')}
+          />
+        )}
       />
-    </EditSpaceModal>
+    </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  layoutStyle: {
+    flex: 1,
+  },
+  contentStyle: {
+    flex: 1,
+    paddingBottom: 0,
+    backgroundColor: colors.background20,
+  },
+})
 
 export default EditSpaceLocation
