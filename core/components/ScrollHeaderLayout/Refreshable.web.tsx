@@ -75,8 +75,8 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
       <div
         className="refreshable-wrapper"
         style={{
-          overscrollBehaviorY: 'contain',
           marginTop: isLoading ? refreshHeight : pullChange,
+          overscrollBehaviorY: 'contain',
           // animate only on endPull
           transition: !startPoint ? 'all .3s ease-out' : '',
         }}

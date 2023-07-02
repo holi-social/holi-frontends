@@ -77,8 +77,9 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       appName={HOLI_APPS.DONATIONS}
       renderItem={renderItem}
       data={projectsToRender}
+      appIcon="hand-heart"
       heading={t('donations:app.name')}
-      headingIcon="hand-heart"
+      subline={t('donations:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading}

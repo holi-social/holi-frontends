@@ -8,10 +8,14 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+// TODO: remove after implementing Chat
+const IS_CHAT_ENABLED = false
 
 const ChatHome = () => {
   const { t } = useTranslation()
@@ -22,14 +26,14 @@ const ChatHome = () => {
   const setScreenOptions = useSetScreenOptions()
 
   // TODO: remove after implementing the feature
-  useToastForNotAvailableFeature(true)
+  useToastForNotAvailableFeature(!IS_CHAT_ENABLED)
 
   useEffect(() => {
     setScreenOptions({
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
@@ -40,8 +44,10 @@ const ChatHome = () => {
     })
   }, [navigate, setScreenOptions, t, title])
 
-  return (
-    <ScrollHeaderLayout.Default>
+  return IS_CHAT_ENABLED ? (
+    <ChatHomeContent />
+  ) : (
+    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
       <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {' '}
