@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
   ScrollView,
   ScrollViewProps,
   StyleSheet,
@@ -22,6 +23,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => void
   saveButtonDisabled?: boolean
+  keyboardVerticalOffset?: number
   loading?: boolean
   padTopBar?: boolean
   isModal?: boolean
@@ -36,6 +38,7 @@ const FormWrapper = React.forwardRef<ScrollView, FormWrapperProps>(
       renderProp,
       onSave,
       saveButtonDisabled,
+      keyboardVerticalOffset,
       loading,
       padTopBar = true,
       isModal = false,
@@ -86,42 +89,44 @@ const FormWrapper = React.forwardRef<ScrollView, FormWrapperProps>(
     const styles = createStyles(padTopBar, screenHeight)
 
     return (
-      <>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-          <HoliKeyboardSaveView onHeightChange={onHeightChange}>
-            <ScrollView
-              ref={scrollViewRef}
-              onContentSizeChange={scrollIntoView}
-              style={styles.scrollView}
-              {...scrollViewProps}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.pageView}
+        keyboardVerticalOffset={keyboardVerticalOffset}
+      >
+        <HoliKeyboardSaveView onHeightChange={onHeightChange} style={{ position: 'relative' }}>
+          <ScrollView
+            ref={scrollViewRef}
+            onContentSizeChange={scrollIntoView}
+            style={styles.scrollView}
+            {...scrollViewProps}
+          >
+            <View
+              onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
+              style={[mixins.container, styles.scrollContent]}
             >
-              <View
-                onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
-                style={[mixins.container, styles.scrollContent]}
-              >
-                {renderProp(scrollToInputWithId)}
-              </View>
-            </ScrollView>
-            {/* Bottom Bar */}
-            <View style={[styles.bottomBar]}>
-              <View style={[mixins.container, styles.buttonContainer]}>
-                <HoliButtonLoading
-                  inline
-                  variant="medium"
-                  disabled={loading || saveButtonDisabled}
-                  label={loading ? t('global.loading') : t('global.save')}
-                  onPress={onSave}
-                  testID="space-edit-modal-save-btn"
-                  icon={loading ? 'loader-4' : undefined}
-                  iconSpinning={saveButtonDisabled}
-                >
-                  {t('global.save')}
-                </HoliButtonLoading>
-              </View>
+              {renderProp(scrollToInputWithId)}
             </View>
-          </HoliKeyboardSaveView>
-        </KeyboardAvoidingView>
-      </>
+          </ScrollView>
+          <SafeAreaView style={[styles.bottomBar]}>
+            <View style={[mixins.container, styles.buttonContainer]}>
+              <HoliButtonLoading
+                inline
+                variant="medium"
+                disabled={loading || saveButtonDisabled}
+                label={loading ? t('global.loading') : t('global.save')}
+                onPress={onSave}
+                testID="space-edit-modal-save-btn"
+                icon={loading ? 'loader-4' : undefined}
+                iconSpinning={saveButtonDisabled}
+              >
+                {t('global.save')}
+              </HoliButtonLoading>
+            </View>
+          </SafeAreaView>
+          {/* Bottom Bar */}
+        </HoliKeyboardSaveView>
+      </KeyboardAvoidingView>
     )
   }
 )
@@ -161,6 +166,8 @@ const createStyles = (padTopBar: boolean, screenHeight: number) =>
       }),
     },
     bottomBar: {
+      position: 'absolute',
+      bottom: 0,
       width: '100%',
       borderTopWidth: 1,
       borderTopColor: colors.background30,

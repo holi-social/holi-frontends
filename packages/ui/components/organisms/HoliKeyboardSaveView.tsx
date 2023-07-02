@@ -33,7 +33,7 @@ const HoliKeyboardSaveView = ({
   const { isKeyboardOpen, keyboardHeight } = useKeyboard()
   const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [offsetTop, setOffsetTop] = useState(65)
+  const [offsetTop, setOffsetTop] = useState(70)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
 
   const storeOffsetTop = useCallback(
@@ -64,18 +64,11 @@ const HoliKeyboardSaveView = ({
   useEffect(calcMaxHeight, [viewPortHeight, calcMaxHeight])
 
   return (
-    <>
-      <View
-        {...nativeProps}
-        ref={scrollViewRef}
-        style={[styles.outer, style, { maxHeight: maxHeight }]}
-        testID={testID}
-      >
-        <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
-          {children}
-        </View>
+    <View {...nativeProps} ref={scrollViewRef} style={[styles.outer, style, { maxHeight: maxHeight }]} testID={testID}>
+      <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
+        {children}
       </View>
-    </>
+    </View>
   )
 }
 

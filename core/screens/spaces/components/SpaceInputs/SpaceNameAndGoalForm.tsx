@@ -39,6 +39,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
+      keyboardVerticalOffset={98} // based on the height of the HoliModal's header
       renderProp={(scrollToPropsFor) => (
         <>
           <View style={styles.title}>

@@ -217,7 +217,7 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: vars.topBarHeight + 10,
+      paddingTop: vars.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
