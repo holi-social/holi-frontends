@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
@@ -18,7 +18,6 @@ type EditSpaceModalProps = {
   scrollable?: boolean
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   persistFooter?: boolean
-  scrollEnabled?: boolean
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -30,12 +29,10 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   scrollable = true,
   keyboardShouldPersistTaps = 'always',
   persistFooter = true,
-  scrollEnabled = true,
 }: EditSpaceModalProps) => {
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
-  // const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
-  const showFooter = false
+  const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
 
   const mixins = useStyleMixins()
 
@@ -48,16 +45,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
       contentStyle={styles.contentStyle}
       scrollable={scrollable}
     >
-      {scrollable ? (
-        <ScrollView style={[styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
-          {children}
-        </ScrollView>
-      ) : (
-        children
-      )}
-
+      <ScrollView style={[mixins.container, styles.scrollView]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+        {children}
+      </ScrollView>
       {showFooter && (
-        <View style={[styles.footer]}>
+        <View style={[mixins.container, styles.footer]}>
           <HoliButton
             label={t('global.dismiss')}
             type="secondary"
@@ -94,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   scrollView: {
-    paddingBottom: 180,
+    paddingBottom: 120,
   },
   footer: {
     position: 'absolute',

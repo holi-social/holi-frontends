@@ -11,7 +11,6 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -23,29 +22,15 @@ export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => void
   saveButtonDisabled?: boolean
-  keyboardVerticalOffset?: number
   loading?: boolean
-  padTopBar?: boolean
   isModal?: boolean
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SMALL_DEVICE_HEIGHT = 600
 
-const FormWrapper = React.forwardRef<ScrollView, FormWrapperProps>(
-  (
-    {
-      renderProp,
-      onSave,
-      saveButtonDisabled,
-      keyboardVerticalOffset,
-      loading,
-      padTopBar = true,
-      isModal = false,
-      ...scrollViewProps
-    }: FormWrapperProps,
-    ref
-  ) => {
+const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
+  ({ renderProp, onSave, saveButtonDisabled, loading, isModal = false, ...scrollViewProps }: FormWrapperProps, ref) => {
     const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
     const [scrollContentHeight, setScrollContentHeight] = useState(0)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -86,13 +71,14 @@ const FormWrapper = React.forwardRef<ScrollView, FormWrapperProps>(
     useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
     useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
 
-    const styles = createStyles(padTopBar, screenHeight)
+    const styles = createStyles(screenHeight)
 
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.pageView}
-        keyboardVerticalOffset={keyboardVerticalOffset}
+        keyboardVerticalOffset={isModal ? 98 : 0} // based on the height of the HoliModal's header
+        ref={ref}
       >
         <HoliKeyboardSaveView onHeightChange={onHeightChange} style={{ position: 'relative' }}>
           <ScrollView
@@ -135,7 +121,7 @@ FormWrapper.displayName = 'FormWrapper'
 
 export default FormWrapper
 
-const createStyles = (padTopBar: boolean, screenHeight: number) =>
+const createStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
       height: '100%', // prevents double scrollbars

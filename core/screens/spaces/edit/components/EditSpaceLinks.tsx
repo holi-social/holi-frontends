@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   modal: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingHorizontal: 16,
   },
   wrapper: {
