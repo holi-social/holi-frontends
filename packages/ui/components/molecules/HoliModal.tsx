@@ -254,7 +254,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    // position: 'absolute', // TODO: this is causing the bottom footer to not follow the keyboard
     alignSelf: 'center',
     justifyContent: 'flex-end',
     width: '100%',

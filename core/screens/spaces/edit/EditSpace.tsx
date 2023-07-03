@@ -421,7 +421,6 @@ const getStyles = (statusBarHeight: number) =>
     },
     modalHeader: {
       backgroundColor: colors.background20,
-      // display: 'none',
     },
     header: {
       alignItems: 'center',
