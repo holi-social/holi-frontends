@@ -7,12 +7,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type SpaceSocialLinkProps = {
+type SpacePublicLinkProps = {
   link: SpaceLink
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceSocialLink: React.VFC<SpaceSocialLinkProps> = ({ link, style }: SpaceSocialLinkProps) => {
+const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
   const { url, name, type } = link
 
   // For web URLs, the protocol ("http://", "https://") must be set accordingly: https://reactnative.dev/docs/linking
@@ -40,7 +40,7 @@ const SpaceSocialLink: React.VFC<SpaceSocialLinkProps> = ({ link, style }: Space
     </HoliButton>
   )
 }
-export default memo(SpaceSocialLink)
+export default memo(SpacePublicLink)
 
 const styles = StyleSheet.create({
   button: {
