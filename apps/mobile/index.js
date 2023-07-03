@@ -1,5 +1,4 @@
 import { ApolloError } from '@apollo/client'
-import { excludeGraphQLFetch } from 'apollo-link-sentry'
 import { CodedError, registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 // Polyfill for Intl including required locale data
@@ -50,7 +49,6 @@ Sentry.init({
 
     return event
   },
-  beforeBreadcrumb: excludeGraphQLFetch,
   integrations: [reactNativeTracing],
   // sentry tracing is only testable and enabled on custom dev builds, so having 'development' here is fine
   tracesSampleRate: ['staging', 'development'].includes(sentryEnvironment) ? 1 : 0.1,
