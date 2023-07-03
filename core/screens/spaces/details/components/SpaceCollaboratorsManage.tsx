@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -49,33 +49,34 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
-      <View style={mixins.container}>
-        <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
-          <View style={styles.link}>
-            <View style={styles.wrapper}>
-              <HoliIcon icon="team" style={styles.icon} />
-              <HoliText>{t('spaces.collaborators')}</HoliText>
+    <SafeAreaView>
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+        <View style={mixins.container}>
+          <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
+            <View style={styles.link}>
+              <View style={styles.wrapper}>
+                <HoliIcon icon="team" style={styles.icon} />
+                <HoliText>{t('spaces.collaborators')}</HoliText>
+              </View>
+              <HoliIcon icon="arrow-right-s" />
             </View>
-            <HoliIcon icon="arrow-right-s" />
-          </View>
-        </HoliLink>
+          </HoliLink>
 
-        <HoliLink
-          label={t('spaces.collaborators.manage.permissions')}
-          href={`/spaces/${spaceIdOrName}/collaborators/`}
-          onPress={handleNotImplemented}
-        >
-          <View style={styles.link}>
-            <View style={styles.wrapper}>
-              <HoliIcon icon="contacts" style={styles.icon} />
-              <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
+          <HoliLink
+            label={t('spaces.collaborators.manage.permissions')}
+            href={`/spaces/${spaceIdOrName}/collaborators/`}
+            onPress={handleNotImplemented}
+          >
+            <View style={styles.link}>
+              <View style={styles.wrapper}>
+                <HoliIcon icon="contacts" style={styles.icon} />
+                <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
+              </View>
+              <HoliIcon icon="arrow-right-s" />
             </View>
-            <HoliIcon icon="arrow-right-s" />
-          </View>
-        </HoliLink>
+          </HoliLink>
 
-        {/* <HoliLink
+          {/* <HoliLink
           label={t('spaces.collaborators.manage.help')}
           href={`/spaces/${spaceIdOrName}/collaborators/`}
           onPress={handleNotImplemented}
@@ -102,8 +103,9 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliLink> */}
-      </View>
-    </ScrollHeaderLayout.Default>
+        </View>
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
   )
 }
 
