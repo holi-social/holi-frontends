@@ -160,69 +160,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             http://betterplace.org
           </Text>
         </View>
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="18"
-          bbWidth="18"
-          color="#787777"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#787777",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 18,
-                "marginLeft": 12,
-                "marginTop": 4,
-                "stroke": "currentColor",
-                "width": 18,
-              },
-              {
-                "flex": 0,
-                "height": 18,
-                "width": 18,
-              },
-            ]
-          }
-          tintColor="#787777"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M426.667 128v85.333h-213.333v597.333h597.333v-213.333h85.333v256c0 11.315-4.497 22.17-12.497 30.17s-18.854 12.497-30.17 12.497h-682.667c-11.316 0-22.168-4.497-30.17-12.497s-12.497-18.854-12.497-30.17v-682.667c0-11.316 4.495-22.168 12.497-30.17s18.854-12.497 30.17-12.497h256zM750.336 213.333h-195.669v-85.333h341.333v341.333h-85.333v-195.669l-298.667 298.667-60.331-60.331 298.667-298.667z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>
