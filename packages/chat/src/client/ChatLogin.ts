@@ -7,14 +7,7 @@ import 'fast-text-encoding'
 import type { MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import {
-  CHAT_FRESH_LOGIN_KEY,
-  CHAT_IDP_ID,
-  CHAT_LOGIN_URL,
-  CHAT_TOKEN_KEY,
-  CHAT_URL,
-  CHAT_USER_ID_KEY,
-} from '@holi/chat/src/utils/constants'
+import { CHAT_FRESH_LOGIN_KEY, CHAT_LOGIN_URL, CHAT_TOKEN_KEY, CHAT_USER_ID_KEY } from '@holi/chat/src/utils/constants'
 import type {
   MatrixDeviceIdKey,
   MatrixDeviceName,
@@ -49,10 +42,8 @@ export default class ChatLogin {
   // combination with Flatlist's.
   // https://github.com/facebook/react-native/issues/36828
   private mxClient: MatrixClient | null = null
-  private readonly serverUrl: string = CHAT_URL
   private readonly freshLogin: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
   private readonly userIdKey: MatrixUserKey = CHAT_USER_ID_KEY
-  private readonly chat_idp_id = CHAT_IDP_ID
   private readonly serverLoginUrl = CHAT_LOGIN_URL + '/_matrix/client/r0/login'
 
   readonly serverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY

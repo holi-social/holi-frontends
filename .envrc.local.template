@@ -31,10 +31,6 @@ export ORY_ADMIN_ACCESS_TOKEN=
 # Use http://localhost:4455/graphql when running frontend against the local environment
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
 
-# Matrix Chat configuration
-export MX_HS_URL=https://local.chat.holi.social
-export MX_HS_NAME=local.chat.holi.social
-export MX_IS_URL=https://vector.im
-export MX_HS_KEY=mx_sso_hs_url
-export MX_TOKEN_KEY='mx_sso_token',
-export MX_LOGIN_URL_KEY='http://localhost:3000/api/chatlogin'
+# Holi Chat configuration
+export HOLI_CHAT_SERVER_URL=https://staging.chat.holi.social
+export HOLI_CHAT_IDENTITY_SERVER_URL=https://vector.im

@@ -76,12 +76,9 @@ export default {
     },
     extra: {
       chat: {
-        serverLoginUrl: process.env.MX_LOGIN_URL_KEY || 'http://localhost:3000/api/chatlogin',
-        serverTokenKey: process.env.MX_TOKEN_KEY || 'mx_sso_token',
-        serverUrlKey: process.env.MX_HS_KEY || 'mx_sso_hs_url',
-        serverName: process.env.MX_HS_NAME || 'local.chat.holi.social/',
-        serverUrl: process.env.MX_HS_URL || 'https://local.chat.holi.social/',
-        identityServerUrl: process.env.MX_IS_URL || 'https://vector.im',
+        serverLoginUrl: process.env.HOLI_API_GATEWAY + '/api/chatlogin',
+        serverUrl: process.env.HOLI_CHAT_SERVER_URL || 'https://staging.chat.holi.social/',
+        identityServerUrl: process.env.HOLI_CHAT_IDENTITY_SERVER_URL || 'https://vector.im',
       },
       ory: {
         url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
