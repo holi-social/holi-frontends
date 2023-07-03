@@ -16,6 +16,7 @@ import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -51,7 +52,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { loading, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -91,7 +92,11 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 
   const AllCollaborators = () => {
-    return (
+    return loading ? (
+      <View style={styles.loading}>
+        <HoliLottie animType={'loader'} />
+      </View>
+    ) : (
       <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
         <Pagination
           query={spaceMembersQuery}
@@ -154,6 +159,11 @@ const styles = StyleSheet.create({
   },
   list: {
     backgroundColor: colors.background20,
+  },
+  loading: {
+    maxWidth: 100,
+    alignSelf: 'center',
+    marginTop: 16,
   },
 })
 
