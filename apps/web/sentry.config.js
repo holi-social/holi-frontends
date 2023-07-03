@@ -1,3 +1,5 @@
+import { excludeGraphQLFetch } from 'apollo-link-sentry'
+
 import { EnvionmentId, environmentId } from './environment'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
@@ -9,6 +11,7 @@ const sentryConfig = {
   tracePropagationTargets: ['localhost', /^\//, 'holi.social'],
   enabled: [EnvionmentId.STAGING, EnvionmentId.PRODUCTION].includes(environmentId),
   environment: environmentId,
+  beforeBreadcrumb: excludeGraphQLFetch,
 }
 
 export default sentryConfig
