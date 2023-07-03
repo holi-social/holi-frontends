@@ -70,14 +70,13 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
         onSave={onSave}
         saveButtonDisabled={loading || !selectedLocation}
         loading={loading}
-        renderProp={(scrollToPropsFor) => (
+        renderProp={() => (
           <SpaceLocationInput
             title={t('spaces.input.location.title')}
             description={t('spaces.input.location.description')}
             onChange={setSelectedLocation}
             location={selectedLocation}
             validationErrorText={validationErrorText}
-            {...scrollToPropsFor('location')}
           />
         )}
       />

@@ -50,7 +50,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
      * The view should:
      * - scroll input field into viewport (with open keyboard)
      * - scroll down when input field increases
-     * - leave scrolling space to show 5 suggestions below
      * - prevent double scrollbars in web (no main page scrolling)
      */
     const scrollIntoView = useCallback(() => {

@@ -47,7 +47,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
-      renderProp={(scrollToPropsFor) => (
+      renderProp={() => (
         <View style={[styles.container, style]}>
           <View style={styles.title}>
             <HoliText size="extralarge">{title}</HoliText>
@@ -60,14 +60,12 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
             value={contactDescription}
             onChange={onChangeContactDescription}
             errorMessage={contactDescriptionErrors?.length ? contactDescriptionErrors[0] : undefined}
-            {...scrollToPropsFor('description')}
           />
           <View style={styles.inputContainer}>
             <SpaceContactEmailInput
               value={contactEmail}
               onChange={onChangeContactEmail}
               errorMessage={contactEmailErrors?.length ? contactEmailErrors[0] : undefined}
-              {...scrollToPropsFor('email')}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -75,7 +73,6 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
               value={contactPhone}
               onChange={onChangeContactPhone}
               errorMessage={contactPhoneErrors?.length ? contactPhoneErrors[0] : undefined}
-              {...scrollToPropsFor('phone')}
             />
           </View>
         </View>
