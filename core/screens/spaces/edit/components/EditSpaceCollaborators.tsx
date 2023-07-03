@@ -17,7 +17,6 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -35,7 +34,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
-  const [search, setSearch] = useState<string>('')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
@@ -95,20 +93,12 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   const AllCollaborators = () => {
     return (
       <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
-        <HoliTextInput
-          placeholder={t('spaces.collaborators.manage.search')}
-          value={search}
-          onChange={(value: string) => setSearch(value)}
-          accessibilityLabel={t('spaces.collaborators.manage.search')}
-          trailingIcon="search"
-          style={styles.search}
-        />
         <Pagination
           query={spaceMembersQuery}
           queryOptions={queryOptions}
           fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
-          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} filter={search} />
+          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} />
         </Pagination>
       </ScrollView>
     )
@@ -156,9 +146,6 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 16,
-  },
-  search: {
-    marginBottom: 8,
   },
   tabStyle: {
     backgroundColor: colors.background20,
