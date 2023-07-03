@@ -222,6 +222,7 @@ const getStyles = (screenHeight: number) =>
       overflow: 'hidden',
       ...Platform.select({
         web: {
+          paddingTop: vars.topBarHeight + 10,
           height: '100vh',
           marginHorizontal: 'auto',
         },
