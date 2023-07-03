@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
@@ -384,4 +385,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(SpaceDetails)
+export default withProfiler(memo(SpaceDetails), { name: 'SpaceDetails' })

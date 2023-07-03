@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
@@ -198,4 +199,4 @@ export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
   () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
 )
 
-export default SpaceUpdatesTab
+export default withProfiler(SpaceUpdatesTab, { name: 'SpaceUpdatesTab' })

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native'
@@ -143,7 +144,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
   )
 }
 
-export default VolunteeringListing
+export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' })
 
 const getStyles = (bottomInset = 0) =>
   StyleSheet.create({

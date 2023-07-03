@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -147,4 +148,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default OwnProfileView
+export default withProfiler(OwnProfileView, { name: 'OwnProfileView' })

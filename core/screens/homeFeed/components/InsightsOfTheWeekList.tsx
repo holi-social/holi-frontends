@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -70,7 +71,7 @@ const InsightsOfTheWeekList: React.FC = () => {
   )
 }
 
-export default InsightsOfTheWeekList
+export default withProfiler(InsightsOfTheWeekList, { name: 'InsightsOfTheWeekList' })
 
 const styles = StyleSheet.create({
   insightsSubtitle: {

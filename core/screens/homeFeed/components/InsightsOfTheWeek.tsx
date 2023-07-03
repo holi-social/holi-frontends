@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, View, ViewStyle } from 'react-native'
@@ -40,4 +41,4 @@ const InsightsOfTheWeek: React.FC<InsightsOfTheWeekProps> = (props: InsightsOfTh
   )
 }
 
-export default InsightsOfTheWeek
+export default withProfiler(InsightsOfTheWeek, { name: 'InsightsOfTheWeek' })

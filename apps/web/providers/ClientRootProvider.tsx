@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
@@ -41,4 +41,4 @@ const ClientRootProvider = ({ children }: PropsWithChildren<unknown>) => {
   )
 }
 
-export default Sentry.withProfiler(ClientRootProvider)
+export default withProfiler(ClientRootProvider, { name: 'ClientRootProvider' })

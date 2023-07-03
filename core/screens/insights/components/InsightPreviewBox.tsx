@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -26,7 +27,7 @@ interface Props extends BaseProps {
 
 type InsightPreviewBoxProps = SkeletonProps | Props
 
-const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
+const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
@@ -94,7 +95,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, loading
   )
 }
 
-export default InsightPreviewBox
+export default withProfiler(InsightPreviewBox, { name: 'InsightPreviewBox' })
 
 const styles = StyleSheet.create({
   mainImage: {

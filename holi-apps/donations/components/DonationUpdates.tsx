@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -87,4 +88,5 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
     />
   )
 }
-export default DonationUpdates
+
+export default withProfiler(DonationUpdates, { name: 'DonationUpdates' })

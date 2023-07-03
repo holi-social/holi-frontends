@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 
 import HomeFeed, { HomeFeedProps } from '@holi/core/screens/homeFeed/HomeFeed'
@@ -23,4 +24,4 @@ const HomeFeedOnboarding = (props: HomeFeedProps) => {
   )
 }
 
-export default memo(HomeFeedOnboarding)
+export default withProfiler(memo(HomeFeedOnboarding), { name: 'HomeFeedOnboarding' })
