@@ -35,14 +35,14 @@ const SuggestedTools: React.FC = () => {
       name: t('spaces.toolKit.toolIdeas.tool.debateModule'),
       org: 'Adhocracy +',
       url: 'https://adhocracy.plus/info/start/',
-      icon: 'group-line',
+      icon: 'group',
     },
     {
       id: '2',
       name: t('spaces.toolKit.toolIdeas.tool.groupWallet'),
       org: 'Elinor',
       url: 'https://elinor.network/en',
-      icon: 'wallet-3-line',
+      icon: 'wallet-3',
     },
     {
       id: '3',
