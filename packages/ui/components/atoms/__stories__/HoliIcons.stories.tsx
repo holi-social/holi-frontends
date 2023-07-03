@@ -28,25 +28,15 @@ Primary.argTypes = {
   color: { control: { type: 'color' } },
   icon: {
     type: 'select',
-    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
+    options: { ...Object.keys(ICONSET_FILLED), ...Object.keys(ICONSET_REGULAR) },
   },
   filled: { control: { type: 'boolean' } },
   size: { control: { type: 'number' } },
 }
 
 export const All = () => {
-  const [filteredIcons, setFilteredIcons] = useState(iconSelection.icons)
+  const iconList = { ...Object.keys(ICONSET_FILLED), ...Object.keys(ICONSET_REGULAR) }
   const [hoveredItem, setHoveredItem] = useState<string | null>()
-
-  const filter = (event) => {
-    const iconList = iconSelection.icons || []
-    const filterString = event.target.value
-    if (!filterString || filterString.length <= 3) {
-      setFilteredIcons(iconList)
-    }
-    const filteredItems = iconList.filter((icon) => icon?.properties?.name?.indexOf(filterString) >= 0)
-    setFilteredIcons(filteredItems)
-  }
 
   const setHoveredIcon = (icon: string, active: boolean) => {
     setHoveredItem(active ? icon : null)
@@ -54,22 +44,18 @@ export const All = () => {
 
   return (
     <div className="svg-preview">
-      <label>
-        Filter:
-        <input type="text" onChange={filter} />
-      </label>
       <div className="icons">
-        {filteredIcons.map((icon, index) => (
+        {iconList.map((icon, index) => (
           <div
             key={index}
             className="icon-container"
-            onMouseEnter={() => setHoveredIcon(icon?.properties?.name, true)}
-            onMouseLeave={() => setHoveredIcon(icon?.properties?.name, false)}
+            onMouseEnter={() => setHoveredIcon(icon, true)}
+            onMouseLeave={() => setHoveredIcon(icon, false)}
           >
             <a>
-              <HoliIcon icon={icon?.properties?.name} filled={icon?.properties?.name === hoveredItem} size={32} />
+              <HoliIcon icon={icon} filled={icon === hoveredItem} size={32} />
             </a>
-            <div>{icon?.properties?.name}</div>
+            <div>{icon}</div>
           </div>
         ))}
       </div>
