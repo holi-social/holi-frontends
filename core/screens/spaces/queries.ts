@@ -2,16 +2,16 @@ import { gql } from '@apollo/client/core'
 
 import { memberSpacesFragment } from '@holi/core/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
-import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces } from '@holi/core/types'
 
-export const SpaceMemberFragment = gql`
-  ${userAvatarFragment}
+export const FullSpaceMemberFragment = gql`
+  ${FullUserAvatarFragment}
   fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
       user {
-        ...UserAvatar
+        ...FullUserAvatar
       }
       isAdministrator
     }
@@ -20,7 +20,7 @@ export const SpaceMemberFragment = gql`
 
 // We only need 3 members for avatar pile
 export const SpaceFragment = gql`
-  ${SpaceMemberFragment}
+  ${FullSpaceMemberFragment}
   fragment FullSpace on Space {
     id
     title
@@ -75,7 +75,7 @@ export const SpaceFragment = gql`
       thumbnail
       thumbnailBlurhash
       creator {
-        ...UserAvatar
+        ...FullUserAvatar
       }
       skills {
         id
@@ -97,7 +97,7 @@ export const SpaceFragment = gql`
 
 // We only need 3 members for avatar pile
 export const SpaceOverviewFragment = gql`
-  ${SpaceMemberFragment}
+  ${FullSpaceMemberFragment}
   fragment OverviewSpace on Space {
     id
     title
