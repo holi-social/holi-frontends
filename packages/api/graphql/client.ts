@@ -1,7 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { SentryLink } from 'apollo-link-sentry'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
@@ -12,8 +11,6 @@ import { holiApiUrl } from '@holi/api/config'
 import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationPolicy } from './cachePolicies'
 import errorLink from './errorLink'
 import headerLink from './headerLink'
-
-const sentryLink = new SentryLink()
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -30,7 +27,7 @@ const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([sentryLink, headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const spacesKeyArgsFunction = (args: Record<string, any> | null) => {
