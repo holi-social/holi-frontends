@@ -75,7 +75,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
           </View>
         </HoliLink>
 
-        <HoliLink
+        {/* <HoliLink
           label={t('spaces.collaborators.manage.help')}
           href={`/spaces/${spaceIdOrName}/collaborators/`}
           onPress={handleNotImplemented}
@@ -101,7 +101,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
             </View>
             <HoliIcon icon="arrow-right-s" />
           </View>
-        </HoliLink>
+        </HoliLink> */}
       </View>
     </ScrollHeaderLayout.Default>
   )
