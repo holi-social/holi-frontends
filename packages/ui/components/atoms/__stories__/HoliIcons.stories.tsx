@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import iconSelection from '@holi/ui/assets/fonts/HoliIcons/regular/selection.json'
+import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -28,7 +28,7 @@ Primary.argTypes = {
   color: { control: { type: 'color' } },
   icon: {
     type: 'select',
-    options: iconSelection.icons.map((icon) => icon?.properties?.name),
+    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
   },
   filled: { control: { type: 'boolean' } },
   size: { control: { type: 'number' } },

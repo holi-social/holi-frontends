@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
+import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 
 export default {
@@ -71,7 +71,7 @@ const argTypes = {
   debounce: { description: 'Delay after typing before search starts', control: { type: 'number' } },
   trailingIcon: {
     type: 'select',
-    options: ICONSET_REGULAR,
+    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
   },
   suggestions: { description: 'Suggestions', control: false },
   loading: { description: 'Flag if suggestions are being loaded', control: { type: 'boolean' } },
