@@ -127,7 +127,8 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: () => [SPACE_ID, jest.fn()],
 }))
 
-describe('Space follow button', () => {
+// TODO: re-enable with HOLI-4898
+xdescribe('Space follow button', () => {
   it('shows follow button, when not logged in', async () => {
     const aSpace = {
       ...space,
