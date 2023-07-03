@@ -1,15 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
-export type SpaceNameInputProps = {
-  onChange: (name: string) => void
-  value: string
+export interface SpaceNameInputProps extends Partial<HoliTextInputProps> {
   errorMessage?: string
 }
 
-const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({ onChange, value, errorMessage }: SpaceNameInputProps) => {
+const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({
+  onChange,
+  value,
+  errorMessage,
+  ...props
+}: SpaceNameInputProps) => {
   const { t } = useTranslation()
 
   return (
@@ -21,6 +24,7 @@ const SpaceNameInput: React.VFC<SpaceNameInputProps> = ({ onChange, value, error
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
+      {...props}
       helperText={t('spaces.input.name.description')}
       accessibilityLabel={t('spaces.input.name.label')}
       testID="space-name"

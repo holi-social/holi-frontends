@@ -92,6 +92,101 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#f5ef3f",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -268,6 +363,98 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -455,6 +642,102 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -655,6 +938,101 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#f5ef3f",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -831,6 +1209,98 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -1018,6 +1488,102 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -1221,6 +1787,104 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -1403,6 +2067,101 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -1599,6 +2358,108 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -1808,6 +2669,104 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -1990,6 +2949,101 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -2196,6 +3250,108 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -2392,6 +3548,101 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#f5ef3f",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -2568,6 +3819,98 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -2755,6 +4098,102 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -2955,6 +4394,101 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#f5ef3f",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -3131,6 +4665,98 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#262424",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -3318,6 +4944,102 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#cc1820",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -3521,6 +5243,104 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -3703,6 +5523,101 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -3899,6 +5814,108 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -4108,6 +6125,104 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 </View>
 `;
 
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
 <View
   accessibilityLabel="test"
@@ -4290,6 +6405,101 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }
@@ -4486,6 +6696,108 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontSize": 16,
           "fontWeight": "500",
           "lineHeight": 19.2,
+          "textAlign": "center",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'medium' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      [
+        {
+          "width": "auto",
+        },
+        {
+          "backgroundColor": "#fff",
+          "borderColor": "#262424",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        {
+          "paddingVertical": 10,
+        },
+        {
+          "backgroundColor": "#ffebec",
+          "borderColor": "#cc1820",
+        },
+        {
+          "borderColor": "#ebebeb",
+        },
+        {
+          "backgroundColor": "#f5f5f5",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        {
+          "color": "#787777",
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 16.8,
           "textAlign": "center",
         }
       }

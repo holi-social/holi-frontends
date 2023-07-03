@@ -20,8 +20,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliButtonType = 'primary' | 'secondary' | 'warning' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'warning'] // keep in sync with all possible HoliButtonType values
-type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
-export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
+type HoliButtonVariant = 'default' | 'small' | 'medium' // for working code completion in vscode
+export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small', 'medium'] // keep in sync with all possible HoliButtonVariant values
 
 export interface HoliButtonProps {
   label: string
@@ -54,6 +54,7 @@ const HoliButton = ({
   ...props
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
+  const isMedium = variant === 'medium'
   const isPrimary = type === 'primary'
   const isWarning = type === 'warning'
 
@@ -71,7 +72,7 @@ const HoliButton = ({
     typeof props.children === 'string' ? (
       <HoliText
         style={[styles.text, isWarning ? styles.textWarning : {}, disabled ? styles.textDisabled : {}]}
-        size={isSmall ? 'small' : 'default'}
+        size={isSmall || isMedium ? 'small' : 'default'}
         bold={true}
         selectable={false}
       >
@@ -104,6 +105,9 @@ const HoliButton = ({
           result.push(styles.nonTransparent)
           if (isSmall) {
             result.push(styles.small)
+          }
+          if (isMedium) {
+            result.push(styles.medium)
           }
           if (isWarning) {
             result.push(styles.warning)
@@ -194,6 +198,9 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       borderRadius: 16,
       paddingHorizontal: 16,
       paddingVertical: 6,
+    },
+    medium: {
+      paddingVertical: 10,
     },
     textSmall: {
       fontSize: 14,
