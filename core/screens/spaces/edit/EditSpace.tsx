@@ -14,8 +14,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
+import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
-import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
 import EditSpaceContact from '@holi/core/screens/spaces/edit/components/EditSpaceContact'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/edit/components/EditSpaceCoverImage'
@@ -325,7 +325,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 ) : null}
               </SpaceSection>
               <SpaceSection
-                title={t('spaces.links.heading')}
+                title={t('spaces.input.publicLinks.heading')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.LINKS)}
                 testID="space-edit-links"
@@ -333,7 +333,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
                     {space.links.map((link, index) => (
-                      <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+                      <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
                     ))}
                   </View>
                 )}
