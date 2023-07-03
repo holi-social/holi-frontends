@@ -97,7 +97,7 @@ export const SpaceFragment = gql`
 
 // We only need 3 members for avatar pile
 export const SpaceOverviewFragment = gql`
-  fragment OverviewSpace on Space {
+  fragment SpaceOverview on Space {
     id
     title
     description
