@@ -19,7 +19,7 @@ export const FullSpaceMemberFragment = gql`
 `
 
 // We only need 3 members for avatar pile
-export const SpaceFragment = gql`
+export const FullSpaceFragment = gql`
   ${FullSpaceMemberFragment}
   fragment FullSpace on Space {
     id
@@ -152,7 +152,7 @@ export const sdgsQuery = gql`
 `
 
 export const spaceByIdQuery = gql`
-  ${SpaceFragment}
+  ${FullSpaceFragment}
 
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
