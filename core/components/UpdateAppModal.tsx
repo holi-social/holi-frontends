@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -93,4 +94,4 @@ const UpdateAppModal = () => {
   )
 }
 
-export default UpdateAppModal
+export default withProfiler(UpdateAppModal, { name: 'UpdateAppModal' })

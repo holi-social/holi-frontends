@@ -1,4 +1,5 @@
 import { DocumentNode, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -209,4 +210,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Spaces
+export default withProfiler(Spaces, { name: 'Spaces' })

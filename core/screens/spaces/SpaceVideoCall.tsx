@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
 import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -95,4 +96,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default SpaceVideoCall
+export default withProfiler(SpaceVideoCall, { name: 'SpaceVideoCall' })

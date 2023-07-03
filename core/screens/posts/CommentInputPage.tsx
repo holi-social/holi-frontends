@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -336,4 +337,4 @@ const getStyles = (screenHeight: number) =>
     },
   })
 
-export default memo(CommentInputPage)
+export default withProfiler(memo(CommentInputPage), { name: 'CommentInputPage' })

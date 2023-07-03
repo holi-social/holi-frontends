@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -75,4 +76,5 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     />
   )
 }
-export default VolunteeringUpdates
+
+export default withProfiler(VolunteeringUpdates, { name: 'VolunteeringUpdates' })

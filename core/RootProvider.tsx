@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { Platform, StyleSheet } from 'react-native'
@@ -55,4 +56,4 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   )
 }
 
-export default RootProvider
+export default withProfiler(RootProvider, { name: 'RootProvider' })

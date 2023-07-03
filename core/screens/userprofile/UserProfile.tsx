@@ -1,4 +1,5 @@
 import { useLazyQuery, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -288,4 +289,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(UserProfile)
+export default withProfiler(memo(UserProfile), { name: 'UserProfile' })

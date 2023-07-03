@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
@@ -78,4 +79,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default SpaceStorage
+export default withProfiler(SpaceStorage, { name: 'SpaceStorage' })

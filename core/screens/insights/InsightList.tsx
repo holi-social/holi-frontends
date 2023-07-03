@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -37,7 +38,7 @@ const InsightList: React.VFC<InsightsProps> = (props) => {
   )
 }
 
-export default InsightList
+export default withProfiler(InsightList, { name: 'InsightList' })
 
 const styles = StyleSheet.create({
   insight: {

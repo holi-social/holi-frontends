@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -69,4 +70,5 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
     />
   )
 }
-export default GoodNewsUpdates
+
+export default withProfiler(GoodNewsUpdates, { name: 'GoodNewsUpdates' })

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -60,4 +61,4 @@ const ChatHome = () => {
   )
 }
 
-export default memo(ChatHome)
+export default withProfiler(memo(ChatHome), { name: 'ChatHome' })

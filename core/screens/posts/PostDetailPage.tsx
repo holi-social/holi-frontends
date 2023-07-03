@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -213,4 +214,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(PostDetailPage)
+export default withProfiler(memo(PostDetailPage), { name: 'PostDetailPage' })

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
@@ -110,7 +111,7 @@ const SettingsOverview = () => {
   )
 }
 
-export default SettingsOverview
+export default withProfiler(SettingsOverview, { name: 'SettingsOverview' })
 
 const styles = StyleSheet.create({
   settingsOverview: {

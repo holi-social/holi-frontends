@@ -12,6 +12,7 @@ import * as Sentry from 'sentry-expo'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import App from './App'
+import { reactNativeTracing } from './tracing'
 
 const determineSentryEnvironment = () => {
   const environment = Constants.manifest?.extra?.environment
@@ -23,7 +24,7 @@ export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
 
 Sentry.init({
   dsn: sentryDsn || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
-  enableInExpoDevelopment: ['production'].includes(sentryEnvironment),
+  enableInExpoDevelopment: false, // tracing causes errors in expo go app
   environment: sentryEnvironment,
   debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   beforeSend: function (event, hint) {
@@ -48,9 +49,14 @@ Sentry.init({
 
     return event
   },
+  integrations: [reactNativeTracing],
+  // sentry tracing is only testable and enabled on custom dev builds, so having 'development' here is fine
+  tracesSampleRate: ['staging', 'development'].includes(sentryEnvironment) ? 1 : 0.1,
 })
+
+const SentryInstrumentedApp = Sentry.Native.wrap(App)
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(App)
+registerRootComponent(SentryInstrumentedApp)
