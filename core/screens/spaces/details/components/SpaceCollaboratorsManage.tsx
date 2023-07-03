@@ -61,7 +61,6 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
               <HoliIcon icon="arrow-right-s" />
             </View>
           </HoliLink>
-
           <HoliLink
             label={t('spaces.collaborators.manage.permissions')}
             href={`/spaces/${spaceIdOrName}/collaborators/`}
@@ -75,34 +74,6 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
               <HoliIcon icon="arrow-right-s" />
             </View>
           </HoliLink>
-
-          {/* <HoliLink
-          label={t('spaces.collaborators.manage.help')}
-          href={`/spaces/${spaceIdOrName}/collaborators/`}
-          onPress={handleNotImplemented}
-        >
-          <View style={styles.link}>
-            <View style={styles.wrapper}>
-              <HoliIcon icon="help" style={styles.icon} />
-              <HoliText>{t('spaces.collaborators.manage.help')}</HoliText>
-            </View>
-            <HoliIcon icon="arrow-right-s" />
-          </View>
-        </HoliLink>
-
-        <HoliLink
-          label={t('spaces.collaborators.manage.welcome')}
-          href={`/spaces/${spaceIdOrName}/collaborators/`}
-          onPress={handleNotImplemented}
-        >
-          <View style={styles.link}>
-            <View style={styles.wrapper}>
-              <HoliIcon icon="chat-heart" style={styles.icon} />
-              <HoliText>{t('spaces.collaborators.manage.welcome')}</HoliText>
-            </View>
-            <HoliIcon icon="arrow-right-s" />
-          </View>
-        </HoliLink> */}
         </View>
       </ScrollHeaderLayout.Default>
     </SafeAreaView>
