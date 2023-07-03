@@ -26,6 +26,7 @@ export enum RouteName {
   EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
+  SpaceInviteView = 'SpaceInviteView',
   Collaborators = 'Collaborators',
   EditCollaborators = 'EditCollaborators',
 
