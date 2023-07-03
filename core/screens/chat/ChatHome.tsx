@@ -3,7 +3,6 @@ import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import Chat from '@holi/chat/src/components/Chat'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -55,7 +54,6 @@ const ChatHome = () => {
           {' '}
         </HoliHeading>
         <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
-        <Chat />
       </View>
     </ScrollHeaderLayout.Default>
   )
