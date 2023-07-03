@@ -97,7 +97,6 @@ export const SpaceFragment = gql`
 
 // We only need 3 members for avatar pile
 export const SpaceOverviewFragment = gql`
-  ${FullSpaceMemberFragment}
   fragment OverviewSpace on Space {
     id
     title
@@ -113,7 +112,16 @@ export const SpaceOverviewFragment = gql`
       id
     }
     members(limit: 3) {
-      ...FullSpaceMember
+      totalResults
+      data {
+        user {
+          id
+          avatar
+          avatarBlurhash
+          avatarLabel
+          avatarDefaultColor
+        }
+      }
     }
   }
 `
