@@ -18843,10 +18843,10 @@ sentence-case@^3.0.4:
     tslib "^2.0.3"
     upper-case-first "^2.0.2"
 
-sentry-expo@~6.2.0:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-6.2.1.tgz#00fcac80ea4050310658d36333ae58a35709bd86"
-  integrity sha512-O72eJfKvP37L+L4ZNqQlRPSeaAN3MmTyEXA4eYV035Xta7Z8hq4MQPMshMskVde/cPVzZaqdaNMNgbOyvDkZ8g==
+sentry-expo@~6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-6.2.2.tgz#af593f5a5927773c7398d562b6063eb257d93aa0"
+  integrity sha512-3T710+Hw8QuaZujv2EFsL7oyOenQm0W81UWaeWsbT8EZfM6+orEusGu25EpdDyrkPLwgcFVKDAmcwJr17OJtuw==
   dependencies:
     "@expo/spawn-async" "^1.7.0"
     "@sentry/integrations" "7.37.2"
