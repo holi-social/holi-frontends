@@ -13,7 +13,7 @@ import { alwaysReplacePolicy, indexAwareOffsetLimitPagination, nestedPaginationP
 import errorLink from './errorLink'
 import headerLink from './headerLink'
 
-const sentryLink = new SentryLink({})
+const sentryLink = new SentryLink()
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds

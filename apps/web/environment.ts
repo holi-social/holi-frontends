@@ -15,12 +15,11 @@ export const environmentId: EnvionmentId = (() => {
   }
   // server + default case
   const serverEnvironment = process.env.ENVIRONMENT_ID || process.env.NEXT_PUBLIC_ENVIRONMENT_ID || process.env.NODE_ENV
-
   if (serverEnvironment in Object.values(EnvionmentId)) {
     return serverEnvironment as EnvionmentId
-  } else {
-    return EnvionmentId.DEVELOPMENT
   }
+
+  return EnvionmentId.DEVELOPMENT
 })()
 
 /** TODO: This is a tiny mock of a feature flag. If you want to enable SSR,
