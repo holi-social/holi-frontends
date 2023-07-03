@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -16,7 +16,7 @@ import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -52,7 +52,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     })
   }, [setScreenOptions, t])
 
-  const { loading, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -92,12 +92,8 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   )
 
   const AllCollaborators = () => {
-    return loading ? (
-      <View style={styles.loading}>
-        <HoliLottie animType={'loader'} />
-      </View>
-    ) : (
-      <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
+    return (
+      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
         <Pagination
           query={spaceMembersQuery}
           queryOptions={queryOptions}
@@ -111,14 +107,16 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   const PendingCollaborators = () => {
     return (
-      <ScrollHeaderLayout.Default style={styles.list} headerOverlap>
-        <View />
+      <ScrollHeaderLayout.Default style={[mixins.container, styles.pending]} headerOverlap>
+        <View>
+          <HoliText style={styles.soon}>{t('global.comingSoon')}</HoliText>
+        </View>
       </ScrollHeaderLayout.Default>
     )
   }
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.layout}>
+    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
@@ -149,28 +147,48 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 }
 
 const styles = StyleSheet.create({
-  layout: {
-    backgroundColor: colors.background20,
-  },
   wrapper: {
-    marginTop: 16,
+    backgroundColor: colors.background20,
+    ...Platform.select({
+      native: {
+        height: '100%',
+      },
+    }),
   },
   tabWrapper: {
-    flex: 1,
     paddingTop: vars.topBarHeight + 40,
     backgroundColor: colors.background10,
+    ...Platform.select({
+      native: {
+        height: '100%',
+      },
+    }),
   },
   tabStyle: {
     backgroundColor: colors.background20,
-    paddingBottom: 24,
-    minHeight: '100%',
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+      native: {
+        height: '100%',
+      },
+    }),
   },
-  list: {
+  all: {
+    paddingTop: 16,
+    backgroundColor: colors.background20,
+  },
+  pending: {
     backgroundColor: colors.background20,
   },
   loading: {
-    maxWidth: 100,
+    maxWidth: 60,
     alignSelf: 'center',
+    marginTop: 16,
+    backgroundColor: colors.background20,
+  },
+  soon: {
     marginTop: 16,
   },
 })
