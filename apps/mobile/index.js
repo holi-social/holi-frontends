@@ -50,8 +50,8 @@ Sentry.init({
     return event
   },
   integrations: [reactNativeTracing],
-  // sentry tracing is only testable and enabled on custom dev builds, so this only helps
-  tracesSampleRate: sentryEnvironment === 'development' ? 1 : 0.1,
+  // sentry tracing is only testable and enabled on custom dev builds, so having 'development' here is fine
+  tracesSampleRate: ['staging', 'development'].includes(sentryEnvironment) ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.Native.wrap(App)
