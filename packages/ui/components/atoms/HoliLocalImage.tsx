@@ -29,6 +29,7 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
     accessibilityRole: 'image',
     accessibilityLabel: label,
   }
+  if (!imageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
 
   return isSvg ? (
     <WithLocalSvg
