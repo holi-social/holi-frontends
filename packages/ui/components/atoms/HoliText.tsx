@@ -2,6 +2,7 @@ import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -21,6 +22,7 @@ export interface HoliTextProps extends TextProps {
   testID?: string
   numberOfLines?: number
   loading?: boolean
+  skeletonOptions?: SkeletonTextOptions
 }
 
 const HoliText = ({
@@ -31,7 +33,9 @@ const HoliText = ({
   color = 'black300',
   selectable = true,
   size = 'default',
+  numberOfLines,
   loading = false,
+  skeletonOptions = {},
   ...props
 }: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
@@ -39,13 +43,18 @@ const HoliText = ({
   const alignStyles = getAlignStyles(align)
 
   if (loading) {
+    const { numberOfLines: skeletonNumOfLines = numberOfLines ?? 1, width: skeletonWidth } = skeletonOptions
     const matchingStyle: { lineHeight: number } = styles[size]
-    const skeletonHeight = matchingStyle.lineHeight
-    const multiline = typeof props.numberOfLines == 'number'
+    const skeletonHeight = skeletonNumOfLines * matchingStyle.lineHeight
+    const multiline = numberOfLines !== 1
+
     return (
       <View style={props?.style}>
-        {multiline && <HoliSkeleton height={skeletonHeight} width={'100%'} borderRadius={4} />}
-        {!multiline && <HoliSkeleton height={skeletonHeight} width={'60%'} borderRadius={16} />}
+        {multiline ? (
+          <HoliSkeleton height={skeletonHeight} width={skeletonWidth ?? '100%'} borderRadius={4} />
+        ) : (
+          <HoliSkeleton height={skeletonHeight} width={skeletonWidth ?? '60%'} borderRadius={16} />
+        )}
       </View>
     )
   }
@@ -55,6 +64,7 @@ const HoliText = ({
       accessible={false}
       selectable={selectable}
       testID={testID}
+      numberOfLines={numberOfLines}
       {...props}
       style={StyleSheet.flatten([
         styles.base,
