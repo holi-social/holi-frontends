@@ -8,7 +8,7 @@ import { vars } from '@holi/ui/styles/globalVars'
 import styles from './styles.module.scss'
 
 interface Props extends HoliImageProps {
-  source: ImageSource | ImageSource[]
+  // careful, make sure any parameter here works in mobile as well
   style?: CSSProperties
 }
 

@@ -1,16 +1,22 @@
-import { ImageContentFit } from 'expo-image'
-import { ImageURISource } from 'react-native'
+import { Property } from 'csstype'
+import { ImageContentFit as ExpoResizeMode } from 'expo-image'
+import { ImageResizeMode as ReactNativeResizeMode } from 'react-native/Libraries/Image/ImageResizeMode'
 
-export type ResizeMode = ImageContentFit
+type WebResizeMode = Property.ObjectFit
+
+// we previously supported all of them, so this should be the common working subset
+export type ResizeMode = ReactNativeResizeMode & ExpoResizeMode & WebResizeMode
 
 export interface ImageSource {
   uri: string
+  // used to scale down image to a fixed size, use constant value!
   width: number
+  // used to scale down image to a fixed height, use constant value!
   height: number
 }
 
 export interface HoliImageProps {
-  source: ImageSource[] | ImageURISource
+  source: ImageSource | ImageSource[]
   blurhash?: string
   label: string
   resizeMode?: ResizeMode
