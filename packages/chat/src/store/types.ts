@@ -4,8 +4,11 @@ export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 
 export interface ChatRoom {
   id: string
+  name: string
   hasInvitation: boolean
-  threads: ChatMessage[]
+  threads?: ChatMessage[] // TODO: Move messages to other part of the store
+  notificationCount: number
+  lastThread: ChatMessage | undefined
 }
 
 export type ChatContentType = 'm.text'
