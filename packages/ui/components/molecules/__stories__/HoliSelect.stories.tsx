@@ -62,6 +62,7 @@ const args = {
   inputLabel: 'Label',
   accessibilityLabel: 'Accessibility label',
   placeholder: 'Nothing selected',
+  isRequired: true,
   options: initialOptions,
 }
 const argTypes = {

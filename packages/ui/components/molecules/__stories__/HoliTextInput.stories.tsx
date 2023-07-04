@@ -23,6 +23,7 @@ Primary.args = {
   maxNoOfCharacters: 50,
   inline: true,
   type: 'text',
+  isRequired: true,
 }
 Primary.argTypes = {
   type: {
