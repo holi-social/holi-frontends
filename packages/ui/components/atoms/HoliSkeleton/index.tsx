@@ -3,16 +3,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { Animated, Easing, LayoutRectangle, StyleSheet, View } from 'react-native'
 
+import { HoliSkeletonProps } from './types'
+
 // inspired by https://github.com/chramos/react-native-skeleton-placeholder/blob/master/src/skeleton-placeholder.tsx
 // (which is not compatible to our stack, because it clashes with expo)
-
-// fixed design choices
-export interface HoliSkeletonProps {
-  aspectRatio?: number
-  height: number | '100%' | 'auto'
-  width: '40%' | '60%' | '100%'
-  borderRadius: 0 | 4 | 16
-}
 
 const gradientWidth = 0.75 // relative
 

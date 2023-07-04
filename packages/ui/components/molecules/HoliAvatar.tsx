@@ -10,18 +10,29 @@ import { colors } from '@holi/ui/styles/globalVars'
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
-export type AvatarProps = {
-  imageSrc: string | undefined
-  label: string
-  accessibilityLabel?: string
-  defaultColor: string
-  initials: string
+interface BaseProps {
+  imageSrc?: string
   imageBlurhash?: string
+  accessibilityLabel?: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+  defaultColor?: string
   testID?: string
   style?: StyleProp<ViewStyle>
-  loading?: boolean
 }
+
+interface Props extends BaseProps {
+  label: string
+  initials: string
+  loading?: false
+}
+
+interface SkeletonProps extends BaseProps {
+  label?: string
+  initials?: string
+  loading: true
+}
+
+export type AvatarProps = Props | SkeletonProps
 
 export const sizes = {
   micro: 24,
@@ -33,7 +44,7 @@ export const sizes = {
 
 const HoliAvatar = ({
   size = 'medium',
-  defaultColor,
+  defaultColor = colors.background20,
   imageSrc,
   imageBlurhash,
   initials,
