@@ -121,7 +121,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               </HoliButtonLoading>
             </View>
           </SafeAreaView>
-          {/* Bottom Bar */}
         </HoliKeyboardSaveView>
       </KeyboardAvoidingView>
     )
@@ -179,7 +178,7 @@ const createStyles = (screenHeight: number) =>
       width: '100%',
       zIndex: 2,
       justifyContent: 'center',
-      alignItems: 'flex-end',
+      alignItems: 'center',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       ...Platform.select({
         web: {
@@ -190,5 +189,10 @@ const createStyles = (screenHeight: number) =>
     },
     button: {
       width: '100%',
+      ...Platform.select({
+        web: {
+          maxWidth: 600,
+        },
+      }),
     },
   })
