@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -43,10 +43,14 @@ const MoreOptionItem = ({
         </HoliText>
 
         {iconRight === 'arrow' && (
-          <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+          <View style={styles.iconRight}>
+            <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} />
+          </View>
         )}
         {iconRight === 'outlink' && (
-          <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+          <View style={styles.iconRight}>
+            <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+          </View>
         )}
       </HoliButton>
       {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
