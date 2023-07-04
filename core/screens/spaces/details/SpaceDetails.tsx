@@ -4,7 +4,6 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -22,7 +21,6 @@ import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboard
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -49,11 +47,12 @@ const SpaceDetails = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  // On initial page load on web `spaceIdOrName` is be undefined
+  // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
   const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
+    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -80,30 +79,21 @@ const SpaceDetails = () => {
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
 
   const { isLoggedIn } = useLoggedInUser()
 
-  const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
-  const { userId } = useAuth()
 
   useEffect(() => {
-    const mySpacesList = mySpacesData?.mySpaces.flatMap((section) => section.spaces.data) || []
-
-    if (
-      !isOnboarded &&
-      mySpacesList.some(
-        (space) => space.creator?.id !== userId && space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
-      )
-    ) {
+    if (isLoggedIn && !isCreator && isMember && !isOnboarded) {
       show()
     }
-  }, [mySpacesData, show, isOnboarded, userId])
+  }, [show, isLoggedIn, isCreator, isMember, isOnboarded])
 
   const handleModalClose = () => {
-    setIsOnboarded()
-    hide()
+    setIsOnboarded().finally(() => hide())
   }
 
   const editAction = useCallback(() => {
