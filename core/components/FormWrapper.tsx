@@ -30,7 +30,18 @@ const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SMALL_DEVICE_HEIGHT = 600
 
 const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
-  ({ renderProp, onSave, saveButtonDisabled, loading, isModal = false, ...scrollViewProps }: FormWrapperProps, ref) => {
+  (
+    {
+      renderProp,
+      onSave,
+      saveButtonDisabled,
+      loading,
+      isModal = false,
+      testID = 'form-wrapper',
+      ...scrollViewProps
+    }: FormWrapperProps,
+    ref
+  ) => {
     const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
     const [scrollContentHeight, setScrollContentHeight] = useState(0)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -101,9 +112,10 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 disabled={loading || saveButtonDisabled}
                 label={loading ? t('global.loading') : t('global.save')}
                 onPress={onSave}
-                testID="space-edit-modal-save-btn"
+                testID={`${testID}-save-btn`}
                 icon={loading ? 'loader-4' : undefined}
                 iconSpinning={saveButtonDisabled}
+                style={styles.button}
               >
                 {t('global.save')}
               </HoliButtonLoading>
@@ -175,5 +187,8 @@ const createStyles = (screenHeight: number) =>
           marginHorizontal: 'auto',
         },
       }),
+    },
+    button: {
+      width: '100%',
     },
   })
