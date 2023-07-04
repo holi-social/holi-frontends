@@ -9,10 +9,10 @@ export type ResizeMode = ReactNativeResizeMode & ExpoResizeMode & WebResizeMode
 
 export interface ImageSource {
   uri: string
-  // used to scale down image to a fixed size, use constant value!
-  width: number
-  // used to scale down image to a fixed height, use constant value!
-  height: number
+  // used to scale down image to a fixed width, use constant value, will be scaled to pixel density!
+  width?: number
+  // used to scale down image to a fixed height, use constant value, will be scaled to pixel density!
+  height?: number
 }
 
 export interface HoliImageProps {
