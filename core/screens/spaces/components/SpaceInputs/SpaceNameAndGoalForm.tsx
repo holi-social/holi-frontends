@@ -40,6 +40,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
       style={style}
+      testID="space-edit-modal"
       renderProp={(scrollToPropsFor) => (
         <>
           <View style={styles.title}>

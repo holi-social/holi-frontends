@@ -71,6 +71,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
         saveButtonDisabled={loading || !selectedLocation}
         loading={loading}
         keyboardShouldPersistTaps="always"
+        testID="space-edit-modal"
         renderProp={() => (
           <SpaceLocationInput
             title={t('spaces.input.location.title')}
