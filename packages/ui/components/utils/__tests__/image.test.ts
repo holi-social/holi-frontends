@@ -1,6 +1,7 @@
 import { ImageURISource, PixelRatio } from 'react-native'
 
-import { ImageSource, setImageKitParams, transformSourcesURL } from '@holi/ui/components/utils/image'
+import { setImageKitParams, transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/image'
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 it('should set a width based on s 2 pixel density as query param', () => {
   const pxr = PixelRatio.get()

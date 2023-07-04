@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ResizeModes } from '@holi/ui/components/utils/image'
+import { ResizeModes } from '@holi/ui/components/atoms/HoliImage/image'
 
 export default {
   title: 'Atoms/HoliImage',

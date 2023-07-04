@@ -1,24 +1,7 @@
-import type { ImageContentFit } from 'expo-image'
 import type { ImageURISource } from 'react-native'
 import { PixelRatio, Platform } from 'react-native'
 
-export interface ImageSource {
-  uri: string
-  width: number
-  height: number
-}
-
-export interface HoliImageProps {
-  source: ImageSource[] | ImageURISource
-  blurhash?: string
-  label: string
-  resizeMode?: ImageContentFit
-  /**
-   * Source sizes for web, see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-sizes
-   * The default value assumes the image will span the whole screen width until maxScreenWidth.
-   */
-  sizes?: string
-}
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 /** @description It handles the correct pixel density for native host platforms.
  * It returns the same input value for the web. Different sizes in the web are

@@ -4,8 +4,8 @@ import React from 'react'
 import type { AccessibilityProps } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import type { HoliImageProps } from '@holi/ui/components/utils/image'
-import { transformSourcesURL } from '@holi/ui/components/utils/image'
+import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/image'
+import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 // TODO: Unify the HoliImage component with Expo-Image
 // after the release of the Android regression fix.
