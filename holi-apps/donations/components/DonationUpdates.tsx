@@ -59,7 +59,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
         appName={HOLI_APPS.DONATIONS}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`)}
         title={item.title}
-        imageSource={sources.length ? sources : { uri: original?.url }}
+        imageSource={sources.length ? sources : original ? { uri: original?.url } : []}
         footer={
           <DonationProgress
             category={categories[0]}

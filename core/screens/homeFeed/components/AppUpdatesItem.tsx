@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  GestureResponderEvent,
-  ImageURISource,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
@@ -16,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface AppUpdatesItemProps {
   appName: string
-  imageSource: ImageSource[] | ImageURISource
+  imageSource: ImageSource | ImageSource[]
   title: string
   footer?: string | React.ReactNode
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void

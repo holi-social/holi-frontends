@@ -1,18 +1,18 @@
-import { ImageURISource, PixelRatio } from 'react-native'
+import { PixelRatio } from 'react-native'
 
-import { setImageKitParams, transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { setScalingParams, transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 it('should set a width based on s 2 pixel density as query param', () => {
   const pxr = PixelRatio.get()
   const width = 50
   const result = `w-${width * pxr}`
-  const source: ImageURISource = {
+  const source: ImageSource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
     width,
   }
 
-  const { uri } = setImageKitParams(source)
+  const { uri } = setScalingParams(source)
   const url = new URL(uri ?? '')
   expect(url.searchParams.get('tr')).toBe(result)
 })
@@ -22,12 +22,12 @@ it('should set the height based on s 2 pixel density as a query param', () => {
   const height = 1000
   const result = `h-${height * pxr}`
 
-  const source: ImageURISource = {
+  const source: ImageSource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
     height,
   }
 
-  const { uri } = setImageKitParams(source)
+  const { uri } = setScalingParams(source)
   const url = new URL(uri ?? '')
   expect(url.searchParams.get('tr')).toBe(result)
 })
@@ -38,12 +38,12 @@ it('should set width and height based on s 2 pixel density as a query param', ()
   const height = 150
   const result = `w-${width * pxr},h-${height * pxr}`
 
-  const source: ImageURISource = {
+  const source: ImageSource = {
     uri: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg',
     width,
     height,
   }
-  const { uri } = setImageKitParams(source)
+  const { uri } = setScalingParams(source)
   const url = new URL(uri ?? '')
   expect(url.searchParams.get('tr')).toBe(result)
 })

@@ -1,6 +1,6 @@
 import { Image as ExpoImage, ImageProps as ExpoImageProps } from 'expo-image'
 import React from 'react'
-import { Image as ReactNativeImage } from 'react-native'
+import { Image as ReactNativeImage, ViewProps } from 'react-native'
 import { AccessibilityProps } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
@@ -11,12 +11,13 @@ interface Props extends HoliImageProps {
   // careful, make sure any parameter here works in web as well
   style?: ExpoImageProps['style']
   testID?: ExpoImageProps['testID']
+  onLayout?: ViewProps['onLayout']
 }
 
 const useReactNativeImageForComparison = false
 
 // https://github.com/expo/expo/issues/21921 is fixed, so we can use expo-image again
-const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testID }: Props) => {
+const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testID, onLayout }: Props) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !!label,
     accessibilityRole: 'image',
@@ -31,6 +32,7 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
         style={style}
         resizeMode={resizeMode}
         testID={testID}
+        onLayout={onLayout}
         {...accessibilityProps}
       />
     )
@@ -43,6 +45,7 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
       style={style}
       contentFit={resizeMode}
       testID={testID}
+      onLayout={onLayout}
       {...accessibilityProps}
     />
   )

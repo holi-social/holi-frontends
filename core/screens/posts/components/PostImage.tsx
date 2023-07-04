@@ -11,7 +11,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type PostImageProps = {
   uri: string
-  imageBlurhash: string
+  imageBlurhash?: string
   height: number
   width: number
   postTitle: string

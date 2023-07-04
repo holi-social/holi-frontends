@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import React from 'react'
 
-import { setImageKitParams } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { HoliImageProps, ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -16,7 +16,7 @@ const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined =
   if (!Array.isArray(source)) return
   return source
     .map((source) => {
-      const { uri, width } = setImageKitParams(source)
+      const { uri, width } = setScalingParams(source)
       return `${uri} ${width}w`
     })
     .join(',')
@@ -24,7 +24,7 @@ const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined =
 
 const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: Props) => {
   const srcSet = createSrcSet(source)
-  const src = Array.isArray(source) ? setImageKitParams(source[0]) : setImageKitParams(source)
+  const src = Array.isArray(source) ? setScalingParams(source[0]) : setScalingParams(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
