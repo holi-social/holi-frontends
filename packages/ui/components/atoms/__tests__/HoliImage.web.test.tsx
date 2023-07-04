@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform } from 'react-native'
 import renderer from 'react-test-renderer'
 
-import HoliImage from '@holi/ui/components/atoms/HoliImage.web'
+import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 const allSources = [

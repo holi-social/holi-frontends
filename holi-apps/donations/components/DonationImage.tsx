@@ -2,8 +2,7 @@ import React from 'react'
 import { ImageStyle, StyleProp } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
-import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
+import { ImageSource, ResizeMode } from '@holi/ui/components/atoms/HoliImage/types'
 
 import { Picture } from '@holi-apps/donations/typings'
 

@@ -1,8 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { ResizeModes } from '@holi/ui/components/atoms/HoliImage/image'
-
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 
 export default {
@@ -30,7 +28,7 @@ const argTypes = {
   style: { description: 'Wrapper style override', control: false },
   resizeMode: {
     description: 'the resizeMode for the image',
-    options: ResizeModes, // An array of serializable values
+    options: ['cover', 'contain', 'fill'], // An array of serializable values
     control: {
       type: 'select',
     },

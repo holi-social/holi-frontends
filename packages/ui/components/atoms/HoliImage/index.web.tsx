@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import React from 'react'
 
-import { setImageKitParams } from '@holi/ui/components/atoms/HoliImage/image'
+import { setImageKitParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { HoliImageProps, ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import { vars } from '@holi/ui/styles/globalVars'
 

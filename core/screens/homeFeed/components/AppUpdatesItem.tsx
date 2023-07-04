@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 

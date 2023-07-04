@@ -4,7 +4,7 @@ import React from 'react'
 import type { AccessibilityProps } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/image'
+import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 // TODO: Unify the HoliImage component with Expo-Image

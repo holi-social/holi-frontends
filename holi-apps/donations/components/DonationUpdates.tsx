@@ -9,7 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'

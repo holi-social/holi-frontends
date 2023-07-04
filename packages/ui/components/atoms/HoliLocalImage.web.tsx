@@ -14,6 +14,7 @@ const HoliLocalImage = ({ imageSource, label, width, height, style, resizeMode =
   const pathFromImport = imageSource.default?.src
   const path = pathFromRequire || pathFromImport || `/${imageSource}`
 
+  // TODO sometimes we already use resizeMode="stretch", but it's not a valid value in next
   return (
     <View style={style}>
       <Image src={path as string} alt={label} width={width} height={height} objectFit={resizeMode} />
