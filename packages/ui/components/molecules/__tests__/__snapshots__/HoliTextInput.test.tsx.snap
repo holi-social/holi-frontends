@@ -491,6 +491,15 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         }
       >
         Label
+        <Text
+          style={
+            {
+              "color": "#6267e7",
+            }
+          }
+        >
+          *
+        </Text>
       </Text>
     </View>
     <View
