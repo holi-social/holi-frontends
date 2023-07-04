@@ -111,7 +111,6 @@ export const SpaceOverviewFragment = gql`
     creator {
       id
     }
-    connectionStatusToMyself
     members(limit: 3) {
       totalResults
       data {
