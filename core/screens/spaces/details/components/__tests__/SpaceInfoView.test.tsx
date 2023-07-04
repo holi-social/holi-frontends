@@ -12,6 +12,6 @@ describe('SpaceInfoView', () => {
     expect(screen.getByText('Hamburg, Germany')).toBeDefined()
     expect(screen.getByText('Animal Welfare')).toBeDefined()
     expect(screen.getByText('Environmental Protection')).toBeDefined()
-    expect(screen.getByText('spaces.links.heading')).toBeDefined()
+    expect(screen.getByText('spaces.spaceDetails.publicLinks')).toBeDefined()
   })
 })
