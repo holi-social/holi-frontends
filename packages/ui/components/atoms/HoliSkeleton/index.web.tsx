@@ -1,8 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 
-import { HoliSkeletonProps } from '@holi/ui/components/atoms/HoliSkeleton'
-
-import styles from './HoliSkeleton.module.scss'
+import styles from './styles.module.scss'
+import { HoliSkeletonProps } from './types'
 
 // inspired by https://github.com/dvtng/react-loading-skeleton/blob/master/src/Skeleton.tsx
 // (which is heavily cluttered and inflexible, that's why we don't use it directly)
