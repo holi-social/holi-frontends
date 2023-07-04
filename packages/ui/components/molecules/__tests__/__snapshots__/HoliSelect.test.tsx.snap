@@ -212,25 +212,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -578,26 +560,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 ]
               }
             >
-              <svg
-                color="#fff"
-                style={
-                  {
-                    "borderStyle": "solid",
-                    "borderWidth": 0,
-                    "color": "#fff",
-                    "display": "inline-block",
-                    "fill": "currentColor",
-                    "height": 20,
-                    "stroke": "currentColor",
-                    "width": 20,
-                  }
-                }
-                viewBox="0 0 1024 1024"
-              >
-                <path
-                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                />
-              </svg>
+              <View />
             </View>
           </View>
         </View>
@@ -709,26 +672,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 ]
               }
             >
-              <svg
-                color="#fff"
-                style={
-                  {
-                    "borderStyle": "solid",
-                    "borderWidth": 0,
-                    "color": "#fff",
-                    "display": "inline-block",
-                    "fill": "currentColor",
-                    "height": 20,
-                    "stroke": "currentColor",
-                    "width": 20,
-                  }
-                }
-                viewBox="0 0 1024 1024"
-              >
-                <path
-                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                />
-              </svg>
+              <View />
             </View>
           </View>
         </View>
@@ -1485,25 +1429,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -1851,26 +1777,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 ]
               }
             >
-              <svg
-                color="#fff"
-                style={
-                  {
-                    "borderStyle": "solid",
-                    "borderWidth": 0,
-                    "color": "#fff",
-                    "display": "inline-block",
-                    "fill": "currentColor",
-                    "height": 20,
-                    "stroke": "currentColor",
-                    "width": 20,
-                  }
-                }
-                viewBox="0 0 1024 1024"
-              >
-                <path
-                  d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                />
-              </svg>
+              <View />
             </View>
           </View>
         </View>
@@ -2726,25 +2633,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -2973,25 +2862,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -4168,25 +4039,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 16,
-                      "stroke": "currentColor",
-                      "width": 16,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM512 451.669l-120.661-120.704-60.373 60.373 120.704 120.661-120.704 120.661 60.373 60.373 120.661-120.704 120.661 120.704 60.373-60.373-120.704-120.661 120.704-120.661-60.373-60.373-120.661 120.704z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
             <View
@@ -4244,25 +4097,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -4757,25 +4592,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -4967,25 +4784,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>
@@ -5183,25 +4982,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                   ]
                 }
               >
-                <svg
-                  style={
-                    {
-                      "borderStyle": "solid",
-                      "borderWidth": 0,
-                      "color": "#262424",
-                      "display": "inline-block",
-                      "fill": "currentColor",
-                      "height": 22,
-                      "stroke": "currentColor",
-                      "width": 22,
-                    }
-                  }
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-                  />
-                </svg>
+                <View />
               </View>
             </View>
           </View>

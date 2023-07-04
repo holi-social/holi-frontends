@@ -30,7 +30,6 @@
     "expo-image-picker": "~14.1.1",
     "expo-linking": "~3.2.4",
     "react": "18.2.0",
-    "react-icomoon": "2.4.9",
     "react-native": "0.71.6",
     "react-native-svg": "12.3.0",
     "react-zoom-pan-pinch": "^2.1.3"

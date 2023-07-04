@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
+import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export default {
@@ -111,7 +111,7 @@ WithTrailingIcon.args = {
 WithTrailingIcon.argTypes = {
   trailingIcon: {
     type: 'select',
-    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
+    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
   },
 }
 

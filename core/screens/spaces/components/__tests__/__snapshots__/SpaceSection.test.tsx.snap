@@ -135,66 +135,7 @@ exports[`SpaceSection renders correctly 1`] = `
         >
           global.edit
         </Text>
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="24"
-          bbWidth="24"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#262424",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 24,
-                "stroke": "currentColor",
-                "width": 24,
-              },
-              {
-                "flex": 0,
-                "height": 24,
-                "width": 24,
-              },
-            ]
-          }
-          tintColor="#262424"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M213.333 810.671h60.331l397.397-397.398-60.331-60.331-397.397 397.398v60.331zM896 896.004h-768v-181.035l573.227-573.228c8-7.999 18.85-12.492 30.165-12.492s22.165 4.493 30.165 12.492l120.704 120.704c8 8.001 12.493 18.852 12.493 30.165s-4.493 22.164-12.493 30.165l-487.893 487.894h501.632v85.333zM671.061 292.611l60.331 60.331 60.331-60.331-60.331-60.331-60.331 60.331z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>
