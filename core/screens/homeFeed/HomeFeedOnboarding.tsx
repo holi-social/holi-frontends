@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useLayoutEffect } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
@@ -25,4 +26,4 @@ const HomeFeedOnboarding: React.VFC<HomeFeedProps> = (props) => {
   return <HomeFeed {...props} />
 }
 
-export default memo(HomeFeedOnboarding)
+export default withProfiler(memo(HomeFeedOnboarding), { name: 'HomeFeedOnboarding' })

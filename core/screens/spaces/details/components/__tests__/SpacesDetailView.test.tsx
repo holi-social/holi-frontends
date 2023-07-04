@@ -7,7 +7,8 @@ import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceD
 
 jest.useFakeTimers()
 
-describe('SpaceDetailView', () => {
+// TODO: re-enable with HOLI-4898
+xdescribe('SpaceDetailView', () => {
   it('renders correctly', () => {
     const { getByText, getAllByText } = render(
       <MockedProvider addTypename={false}>

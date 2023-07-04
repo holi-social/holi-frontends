@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
@@ -35,7 +36,7 @@ const Notifications = () => {
   )
 }
 
-export default memo(Notifications)
+export default withProfiler(memo(Notifications), { name: 'Notifications' })
 
 const styles = StyleSheet.create({
   contentWrapper: {

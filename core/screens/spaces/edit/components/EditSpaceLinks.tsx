@@ -11,6 +11,7 @@ import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceM
 import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink } from '@holi/core/screens/spaces/types'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -32,9 +33,9 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
 
   const [deleteLink] = useMutation(deleteSpaceLinkMutation, {
     onCompleted: () => {
-      openToast(t('spaces.input.socialLinks.delete.success'), HoliToastType.SUCCESS)
+      openToast(t('spaces.input.publicLinks.delete.success'), HoliToastType.SUCCESS)
     },
-    onError: (error) => displayError(error, t('spaces.input.socialLinks.delete.error')),
+    onError: (error) => displayError(error, t('spaces.input.publicLinks.delete.error')),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
 
@@ -59,18 +60,19 @@ const EditSpaceLinks: React.VFC<EditSpaceLinksProps> = ({ space, onDismiss }: Ed
   return (
     <EditSpaceModal onDismiss={onDismiss} onSave={onSave} scrollable={false}>
       <HoliText style={styles.title} size="extralarge">
-        {t('spaces.input.socialLinks.manage.title')}
+        {t('spaces.input.publicLinks.manage.title')}
       </HoliText>
-      <HoliText style={styles.subTitle}>{t('spaces.input.socialLinks.manage.subtitle')}</HoliText>
+      <HoliText style={styles.subTitle}>{t('spaces.input.publicLinks.manage.subtitle')}</HoliText>
       <View style={styles.buttonContainer}>
         <HoliButton
-          label={t('spaces.input.socialLinks.add.label')}
+          label={t('spaces.input.publicLinks.add.label')}
           type="secondary"
           style={styles.button}
           onPress={showCreate}
           inline
         >
-          <HoliText>{t('spaces.input.socialLinks.add.label')}</HoliText>
+          <HoliText style={styles.buttonText}>{t('spaces.input.publicLinks.add.label')}</HoliText>
+          <HoliIcon icon="add" size={24} />
         </HoliButton>
       </View>
 
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   modal: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingHorizontal: 16,
   },
   wrapper: {
@@ -123,6 +125,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 32,
+  },
+  buttonText: {
+    marginRight: 6,
   },
 })
 

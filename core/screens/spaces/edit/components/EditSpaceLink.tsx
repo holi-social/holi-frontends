@@ -31,7 +31,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
 
   const [updateLink, { loading }] = useMutation<UpdateExternalLinkResponse>(updateExternalLinkMutation, {
     onCompleted: () => {
-      openToast(t('spaces.input.socialLinks.update.success'), HoliToastType.SUCCESS)
+      openToast(t('spaces.input.publicLinks.update.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
     onError: (e) => {
@@ -47,7 +47,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       setSaveButtonDisabled(true)
     }
     if (url.length > 0 && !isValidUrl(url)) {
-      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.invalid'))
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
     } else {
       setValidationErrorTextUrl('')
     }
@@ -64,15 +64,15 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
 
   const onSave = () => {
     if (!url) {
-      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.mandatory'))
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.mandatory'))
       return
     }
     if (!isValidUrl(url)) {
-      setValidationErrorTextUrl(t('spaces.input.socialLinks.validation.url.invalid'))
+      setValidationErrorTextUrl(t('spaces.input.publicLinks.validation.url.invalid'))
       return
     }
     if (!name) {
-      setValidationErrorTextName(t('spaces.input.socialLinks.validation.name.mandatory'))
+      setValidationErrorTextName(t('spaces.input.publicLinks.validation.name.mandatory'))
       return
     }
 
@@ -102,7 +102,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
               persistFooter={true}
             >
               <SpaceLinksForm
-                title={t('spaces.input.socialLinks.edit.label')}
+                title={t('spaces.input.publicLinks.edit.label')}
                 onChangeUrl={setUrl}
                 onChangeName={setName}
                 url={url}

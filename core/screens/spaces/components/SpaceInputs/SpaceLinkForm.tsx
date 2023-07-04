@@ -32,26 +32,28 @@ const SpaceLinksForm: React.VFC<SpaceLinksFormProps> = ({
         {title}
       </HoliText>
       <HoliTextInput
-        placeholder={t('spaces.input.socialLinks.url.placeholder')}
-        inputLabel={t('spaces.input.socialLinks.url.label')}
+        placeholder={t('spaces.input.publicLinks.url.placeholder')}
+        inputLabel={t('spaces.input.publicLinks.url.label')}
         maxNoOfCharacters={500}
         validationErrorText={validationErrorTextUrl}
         value={url}
         onChange={onChangeUrl}
-        accessibilityLabel={t('spaces.input.socialLinks.url.label')}
+        accessibilityLabel={t('spaces.input.publicLinks.url.label')}
         testID="space-link-url"
         inputProps={{ autoFocus: true }}
         style={styles.input}
+        isRequired
       />
       <HoliTextInput
-        placeholder={t('spaces.input.socialLinks.name.placeholder')}
-        inputLabel={t('spaces.input.socialLinks.name.label')}
+        placeholder={t('spaces.input.publicLinks.name.placeholder')}
+        inputLabel={t('spaces.input.publicLinks.name.label')}
         maxNoOfCharacters={100}
         value={name}
         onChange={onChangeName}
-        accessibilityLabel={t('spaces.input.socialLinks.name.label')}
+        accessibilityLabel={t('spaces.input.publicLinks.name.label')}
         testID="space-link-name"
         validationErrorText={validationErrorTextName}
+        isRequired
       />
     </View>
   )

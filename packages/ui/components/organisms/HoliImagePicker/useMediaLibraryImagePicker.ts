@@ -7,6 +7,7 @@ import {
   useMediaLibraryPermissions,
 } from 'expo-image-picker'
 import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -19,6 +20,7 @@ export const useMediaLibraryImagePicker = () => {
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
   const isFileSizeValid = useFileSizeValidation()
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const verifyPermissions = useCallback(async () => {
     if (!mediaLibraryPermissionInfo) return false
@@ -29,13 +31,13 @@ export const useMediaLibraryImagePicker = () => {
     }
 
     if (mediaLibraryPermissionInfo.status === PermissionStatus.DENIED) {
-      // TODO: provide i18n message
-      displayError(new HoliError('Please, give access to your photos.'), 'Media Library permission denied')
+      const errorText = t('global.permissions.mediaLibrary.denied')
+      displayError(new HoliError(errorText), errorText)
       return false
     }
 
     return true
-  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError])
+  }, [mediaLibraryPermissionInfo, requestMediaLibraryPermission, displayError, t])
 
   const pickImages = useCallback(
     async ({ maxFileSizeInMB, ...pickerOptions }: HoliImagePickerOptions) => {

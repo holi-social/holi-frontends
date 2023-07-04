@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
+exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
 <View
   accessibilityLabel="OTHER"
   accessibilityRole="link"
@@ -76,7 +76,7 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
 </View>
 `;
 
-exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`] = `
+exports[`SpacePublicLink renders correctly when type is different than OTHER 1`] = `
 <View
   accessibilityLabel="FACEBOOK"
   accessibilityRole="link"

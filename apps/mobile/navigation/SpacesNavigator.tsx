@@ -8,7 +8,14 @@ import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/Spac
 import SpaceVideoCall, { SpaceVideoCallParams } from '@holi/core/screens/spaces/SpaceVideoCall'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import SpaceCollaboratorsManage, {
+  SpaceCollaboratorsManageParams,
+} from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
+import SpaceInviteView, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInviteView'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
+import EditSpaceCollaborators, {
+  EditSpaceCollaboratorsParams,
+} from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
 import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
@@ -36,6 +43,9 @@ export type SpacesScreens = {
   [RouteName.SpaceVideoCall]: SpaceVideoCallParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
+  [RouteName.SpaceInviteView]: SpaceInviteViewParams
+  [RouteName.Collaborators]: SpaceCollaboratorsManageParams
+  [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -69,6 +79,9 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
+      <SpacesStack.Screen name={RouteName.SpaceInviteView} component={SpaceInviteView} />
+      <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaboratorsManage} />
+      <SpacesStack.Screen name={RouteName.EditCollaborators} component={EditSpaceCollaborators} />
     </SpacesStack.Navigator>
   )
 }

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -51,4 +52,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DonationListingContainer
+export default withProfiler(DonationListingContainer, { name: 'DonationListingContainer' })

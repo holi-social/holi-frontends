@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -142,7 +143,7 @@ const DonationsAppProjectDetail = () => {
   )
 }
 
-export default memo(DonationsAppProjectDetail)
+export default withProfiler(memo(DonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({

@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -163,7 +164,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                   <HoliAvatar
                     imageSrc={user.avatar}
                     imageBlurhash={user.avatarBlurhash}
-                    label={user.fullName}
+                    label={user.fullName || t('user.profileView.anonymous')}
                     initials={user.avatarLabel || ''}
                     defaultColor={user.avatarDefaultColor || ''}
                     size="small"
@@ -217,11 +218,12 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: vars.topBarHeight + 10,
+      paddingTop: vars.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
         web: {
+          paddingTop: vars.topBarHeight + 10,
           height: '100vh',
           marginHorizontal: 'auto',
         },
@@ -335,4 +337,4 @@ const getStyles = (screenHeight: number) =>
     },
   })
 
-export default memo(CommentInputPage)
+export default withProfiler(memo(CommentInputPage), { name: 'CommentInputPage' })

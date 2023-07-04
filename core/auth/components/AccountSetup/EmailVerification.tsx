@@ -171,7 +171,9 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           maxNoOfCharacters={CODE_MAX_COUNT}
           showCharacterCount
           inputProps={{
-            keyboardType: 'numeric',
+            keyboardType: 'number-pad',
+            inputMode: 'decimal',
+            autoComplete: 'one-time-code',
           }}
           style={[styles.limitedBox, { alignSelf: 'center' }]}
           testID="email-verification-code"
