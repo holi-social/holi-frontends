@@ -27,25 +27,40 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   if (!source.width && !source.height) return source
   if (isImageSourceURIBase64(source)) return source
 
+  const uri = source.uri
   const calculatedWidth = calcPixelRatioSize(source.width)
   const calculatedHeight = calcPixelRatioSize(source.height)
 
-  if (source.uri.startsWith('https://ik.imagekit.io/')) {
+  if (uri.startsWith('https://ik.imagekit.io/')) {
     try {
-      const url = new URL(source.uri)
+      const url = new URL(uri)
 
       // String concatenation is much faster than template strings. Please do not replace.
       const width = calculatedWidth ? 'w-' + calculatedWidth : ''
       const height = calculatedHeight ? 'h-' + calculatedHeight : ''
       const params = width && height ? width + ',' + height : width + height
 
-      // potentially overrides previous value, if accidentally present
+      // will intentionally override previous value, if present
       url.searchParams.set('tr', params)
 
       return { ...source, uri: url.href }
     } catch (error) {
       return source
     }
+  } else if (uri.startsWith('https://betterplace-assets.betterplace.org/')) {
+    // betterplace images already come in pre-sized source arrays
+    return source
+  } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
+    // backend hack to force a maximum size when no frontend image width/height is set
+    // we rewrite this here with our params
+    const encodedOriginalUrl = uri.replace(/^.+\/plain\//, '')
+    const uriBase = uri.startsWith('https://dev-images')
+      ? 'https://dev-images.holi.social/'
+      : 'https://images.holi.social/'
+    const width = calculatedWidth ? ':' + calculatedWidth : ':'
+    const height = calculatedHeight ? ':' + calculatedHeight : ''
+    const newUri = uriBase + 'crop:0:0:ce/resize:auto' + width + height + '/plain/' + encodedOriginalUrl
+    return { ...source, uri: newUri }
   }
 
   return source
