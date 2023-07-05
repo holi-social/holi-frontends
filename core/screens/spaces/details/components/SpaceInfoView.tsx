@@ -80,7 +80,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
         </SpaceSection>
       )}
       {!!links.length && (
-        <SpaceSection title={t('spaces.links.heading')}>
+        <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
           <View style={styles.listContainer}>
             {links.map((link, index) => (
               <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
