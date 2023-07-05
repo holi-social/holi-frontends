@@ -13,9 +13,12 @@ interface Props extends HoliImageProps {
 }
 
 const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined => {
-  if (!Array.isArray(source)) return
+  if (!Array.isArray(source)) {
+    return undefined
+  }
   return source
     .map((source) => {
+      // TODO add fallback when width is null
       const { uri, width } = setScalingParams(source)
       return `${uri} ${width}w`
     })
