@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
@@ -54,6 +55,7 @@ const HoliAvatar = ({
   loading = false,
   ...props
 }: AvatarProps) => {
+  const { t } = useTranslation()
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
@@ -62,7 +64,7 @@ const HoliAvatar = ({
 
   const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    accessibilityLabel: label || accessibilityLabel,
+    accessibilityLabel: label || accessibilityLabel || t('user.profileForm.avatar'),
     accessibilityRole: 'image',
   }
 
