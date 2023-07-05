@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
 import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
@@ -96,15 +96,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
   text: {
     color: colors.foreground20,
     lineHeight: 24,
+    marginRight: 8,
     marginBottom: -2,
   },
   visuallyHidden: {
-    visibility: 'hidden',
-    position: 'fixed',
+    ...Platform.select({
+      native: {
+        display: 'none',
+      },
+      default: {
+        // only hiding the element on web to prefetch the icon within first network call
+        visibility: 'hidden',
+        position: 'fixed',
+      },
+    }),
   },
 })
