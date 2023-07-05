@@ -1,5 +1,8 @@
 import { Property } from 'csstype'
 import { ImageContentFit as ExpoResizeMode } from 'expo-image'
+import { ImageProps as ExpoImageProps } from 'expo-image/build/Image.types'
+import { CSSProperties } from 'react'
+import { ViewProps } from 'react-native'
 import { ImageResizeMode as ReactNativeResizeMode } from 'react-native/Libraries/Image/ImageResizeMode'
 
 type WebResizeMode = Property.ObjectFit
@@ -25,4 +28,16 @@ export interface HoliImageProps {
    * The default value assumes the image will span the whole screen width until maxScreenWidth.
    */
   sizes?: string
+}
+
+export interface MobileImageProps extends HoliImageProps {
+  // careful, make sure any parameter here works in web as well
+  style?: ExpoImageProps['style']
+  testID?: ExpoImageProps['testID']
+  onLayout?: ViewProps['onLayout']
+}
+
+interface WebImageProps extends HoliImageProps {
+  // careful, make sure any parameter here works in mobile as well
+  style?: CSSProperties
 }

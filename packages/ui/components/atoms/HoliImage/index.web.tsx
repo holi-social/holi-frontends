@@ -1,16 +1,10 @@
-import type { CSSProperties } from 'react'
 import React from 'react'
 
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { HoliImageProps, ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
+import { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 import { vars } from '@holi/ui/styles/globalVars'
 
 import styles from './styles.module.scss'
-
-interface Props extends HoliImageProps {
-  // careful, make sure any parameter here works in mobile as well
-  style?: CSSProperties
-}
 
 const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined => {
   if (!Array.isArray(source)) {
@@ -25,7 +19,7 @@ const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined =
     .join(',')
 }
 
-const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: Props) => {
+const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: WebImageProps) => {
   const srcSet = createSrcSet(source)
   const src = Array.isArray(source) ? setScalingParams(source[0]) : setScalingParams(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
