@@ -25,6 +25,8 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
     borderStyle: 'solid',
     borderWidth: 0,
     ...StyleSheet.flatten<ImageStyle>(props?.style),
+    width: size,
+    height: size,
   }
 
   if (props.spinning) {
