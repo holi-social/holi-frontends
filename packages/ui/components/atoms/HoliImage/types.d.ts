@@ -19,6 +19,7 @@ export interface ImageSource {
 }
 
 export interface HoliImageProps {
+  // empty array is a valid input and means no image will be displayed
   source: ImageSource | ImageSource[]
   blurhash?: string
   label: string
