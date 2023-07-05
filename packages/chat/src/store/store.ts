@@ -2,7 +2,9 @@ import { produce } from 'immer'
 import { atom, createStore } from 'jotai'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
+import { InvitationUpdate, createChatRoom, updateInvitation } from '@holi/chat/src/store/room'
+import { createChatMessage, updateThread } from '@holi/chat/src/store/threads'
+import type { ChatMessage, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
 import { logError } from '@holi/core/errors/helpers'
 
 /** Store **/
@@ -10,7 +12,7 @@ export const chatStore = createStore()
 
 /** Client **/
 // TODO: Check if the user is logged in
-const chat = new ChatClient()
+export const chat = new ChatClient()
 chat.start().catch((err) => logError(err))
 
 /** Rooms **/
@@ -24,21 +26,17 @@ chat.start().catch((err) => logError(err))
  * to use a selector, which can be found below under the Room Section (e.g `joinRoomAtom`).
  */
 export const roomAtomsAtom = atom<ChatRoomAtom[]>([])
-chatStore.set(roomAtomsAtom, [])
 
 /**
- * @name addRoomAtom (Write-Only)
- * @description Programmatically creates Atom Configs and adds them to the
+ * @name roomAtomsAtomSubscriber (Write-Only)
+ * @description Programmatically creates the initial rooms (Atom Configs) and adds them to the
  * room's state. It adds an atom to the atoms list container. It is a writable
- * atom in order to use `onMount`.
- * !Important do not read atoms from this derived atom.
+ * atom in order to use `onMount` to fill the initial state.
  */
-
-export const addRoomAtom = atom(
+export const roomAtomsAtomSubscriber = atom(
   (get) => get(roomAtomsAtom),
   (get, set, chatRoom: ChatRoom) => {
     const roomAtom = atom(chatRoom)
-
     const addChatRoom = produce((chatRoomAtoms: ChatRoomAtom[], room: ChatRoomAtom) => {
       const hasRoom = chatRoomAtoms.find((roomAtom) => get(roomAtom).id === get(room).id)
       if (hasRoom) return
@@ -49,11 +47,44 @@ export const addRoomAtom = atom(
   }
 )
 
-addRoomAtom.onMount = (setAtomValue) => {
+roomAtomsAtomSubscriber.onMount = (setAtom) => {
+  // We set all the joined rooms initially
   chat.getRooms().then((rooms) => {
-    rooms.forEach(setAtomValue)
+    rooms.forEach((room) => setAtom(createChatRoom(room)))
+  })
+
+  // In case of an invitation we would added by listening to this emitter.
+  chat.subscribeToInvitations((roomId, displayName, hasInvitation) => {
+    setAtom({
+      hasInvitation,
+      id: roomId,
+      name: displayName,
+      notificationCount: 1,
+      lastThread: undefined,
+    })
   })
 }
+
+export const createRoomAtom = atom(null, (get, set, userIds: string[]) => {
+  chat
+    .createRoom(userIds)
+    .then((response) => {
+      const roomId = response?.room_id
+      const room = chat.getRoom(roomId)
+      if (!room) return
+
+      const roomAtom = atom(createChatRoom(room))
+      // TODO: Remove immer producer duplication
+      const addChatRoom = produce((chatRoomAtoms: ChatRoomAtom[], room: ChatRoomAtom) => {
+        const hasRoom = chatRoomAtoms.find((roomAtom) => get(roomAtom).id === get(room).id)
+        if (hasRoom) return
+        chatRoomAtoms.push(room)
+      })
+
+      set(roomAtomsAtom, (prevRooms) => addChatRoom(prevRooms, roomAtom))
+    })
+    .catch((err) => logError(err))
+})
 
 /** Room */
 
@@ -76,8 +107,6 @@ export const selectRoomAtom = atom(null, (get, set, chatRoomAtom: ChatRoomAtom) 
   set(selectedRoomAtomAtom, chatRoomAtom)
 })
 
-type InvitationUpdate = Pick<ChatRoom, 'hasInvitation'>
-
 /**
  * @name selectedRoomAtomCreator (Read-Only)
  * @description Verifies if the room atom is currently selected
@@ -91,18 +120,67 @@ export const selectedRoomAtomCreator = (roomAtom: ChatRoomAtom) => {
  * @description This updates the room and sets the changed room invitation from
  * the selected atom from the `selectedRoomAtomAtom`.
  */
-export const joinRoomAtom = atom(null, (get, set, update: InvitationUpdate) => {
+export const joinRoomAtom = atom(null, (get, set, roomUpdate: InvitationUpdate) => {
   const selectedRoomAtom = get(selectedRoomAtomAtom)
   if (!selectedRoomAtom) return
-
-  const updateInvitation = produce((draft: ChatRoom, update: InvitationUpdate) => {
-    draft.hasInvitation = update.hasInvitation
+  chat.joinRoom(roomUpdate.id).then((hasJoined) => {
+    if (!hasJoined) return
+    set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, roomUpdate))
   })
-
-  set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, update))
 })
 
 /** Room Threads */
+
+/**
+ * @name roomAtomsAtom (Read-Only)
+ * @description It collects all the joined room's messages on a map for later easy access O(1).
+ *Only reading from this atom is allowed.
+ */
+
+export const threadsAtomsAtomMap = atom(new Map<string, ChatMessage[]>())
+
+threadsAtomsAtomMap.onMount = (setAtom) => {
+  chat.subscribeToMessages((roomId, event) => {
+    const threadsMap = chatStore.get(threadsAtomsAtomMap)
+    const msg = createChatMessage(roomId, event)
+    const threads = updateThread(threadsMap.get(roomId) ?? [], msg)
+    threadsMap.set(roomId, threads)
+    setAtom(threadsMap)
+  })
+}
+
+export const addThreadToAtomsAtomMap = atom(
+  (get) => get(threadsAtomsAtomMap),
+  (get, set, message: CreateMessage) => {
+    chat
+      .sendTextMessage(message.roomId, message.text)
+      .then((eventId) => {
+        const threadsMap = get(threadsAtomsAtomMap)
+        const threads = threadsMap.get(message.roomId)
+        const userId = chat.getUserId()
+        if (!threads) return
+
+        const chatMessage: ChatMessage = {
+          id: eventId,
+          room_id: message.roomId,
+          sender: userId ?? undefined,
+          content: {
+            body: message.text,
+            msgtype: 'm.text',
+          },
+        }
+
+        set(threadsAtomsAtomMap, (prevMap) => {
+          const threadsMap = new Map(prevMap)
+          const threads = updateThread(threadsMap.get(message.roomId) ?? [], chatMessage)
+          threadsMap.set(message.roomId, threads)
+
+          return threadsMap
+        })
+      })
+      .catch((err) => logError(err))
+  }
+)
 
 /**
  * @name selectedRoomThreadAtom (Read-Only)
@@ -110,36 +188,35 @@ export const joinRoomAtom = atom(null, (get, set, update: InvitationUpdate) => {
  * also updated by the selector pattern, just like in addMsgToThreadAtom.
  */
 export const selectedRoomThreadAtom = atom<ChatMessage[]>([])
-chatStore.set(selectedRoomThreadAtom, [])
 
 /**
- * @name selectedRoomThreadAtom (Write-Only)
- * @description An atom holds a list of all messages related to a room. They are
- * also updated by the selector pattern, just like in addMsgToThreadAtom.
- * !Important it should never be used to read, the read property is necessary
- * to listen to unMount.
+ * @name addMessageToThreadAtom (Write-Only)
+ * @description
  */
 
-export const addMsgToThreadAtom = atom(
-  (get) => get(selectedRoomThreadAtom),
-  (get, set, message: ChatMessage) => {
-    const selectedRoomAtom = get(selectedRoomAtomAtom)
-    if (!selectedRoomAtom) return
+export const addMessageToThreadAtom = atom(null, (get, set, message: CreateMessage) => {
+  const selectedRoomAtom = get(selectedRoomAtomAtom)
+  if (!selectedRoomAtom) return
 
-    const updateThread = produce((threads: ChatMessage[], msg: ChatMessage) => {
-      threads.push(msg)
+  chat
+    .sendTextMessage(message.roomId, message.text)
+    .then((eventId) => {
+      const threadsMap = chatStore.get(threadsAtomsAtomMap)
+      const threads = threadsMap.get(message.roomId)
+      const userId = chat.getUserId()
+      if (!threads) return
+
+      const chatMessage: ChatMessage = {
+        id: eventId,
+        room_id: message.roomId,
+        sender: userId ?? undefined,
+        content: {
+          body: message.text,
+          msgtype: 'm.text',
+        },
+      }
+
+      set(selectedRoomThreadAtom, (threads) => updateThread(threads, chatMessage))
     })
-
-    set(selectedRoomThreadAtom, (threads) => updateThread(threads, message))
-  }
-)
-
-addMsgToThreadAtom.onMount = () => {
-  return chatStore.sub(selectedRoomAtomAtom, () => {
-    const roomAtom = chatStore.get(selectedRoomAtomAtom)
-    if (!roomAtom) return
-
-    const room = chatStore.get(roomAtom)
-    if (!room) return
-  })
-}
+    .catch((err) => logError(err))
+})

@@ -15,12 +15,12 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import { Membership } from '@holi/chat/src/client/types'
-import { ChatRoom, createRoomMessage } from '@holi/chat/src/store'
-import type { ChatMessage, ChatMessageContent } from '@holi/chat/src/store'
+import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
 
 import { RoomId } from './types'
+import { hasMxClient } from './utils'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
@@ -33,7 +33,8 @@ import { RoomId } from './types'
 export default class ChatClient {
   private mxClient: MatrixClient | null = null
   private clientCredentials: ChatCredentials | null = null
-  private rooms: ChatRoom[] = []
+  private rooms: Room[] = []
+  private selectedRoom: string | null = null
   private readonly login = new ChatLogin()
 
   private createClient(credentials: ChatCredentials): MatrixClient {
@@ -65,30 +66,14 @@ export default class ChatClient {
     return this.mxClient
   }
 
-  private createChatMessage(event: MatrixEvent, roomId = ''): ChatMessage {
-    return {
-      id: event.getId() ?? '',
-      content: event.getContent(),
-      timestamp: event.getTs(),
-      room_id: event.getRoomId() ?? roomId,
-      sender: event.getSender(),
+  private verifyMxClient(client: MatrixClient | null): client is MatrixClient {
+    const hasClient = hasMxClient(client)
+    if (!hasClient) {
+      logError(Error('Can not do client operations without  a client'))
+      return false
     }
-  }
 
-  private createChatRoom(room: Room, hasInvitation = false): ChatRoom {
-    const lastMessageEvent = room.getLastThread()?.events.find((e) => e.getType() === 'm.room.message')
-    const lastThreadMessage = lastMessageEvent ? this.createChatMessage(lastMessageEvent) : undefined
-    return {
-      hasInvitation,
-      id: room.roomId,
-      notificationCount: room.getUnreadNotificationCount(),
-      name: room.name || room.getDefaultRoomName(this.mxClient?.getUserId() ?? ''),
-      lastThread: lastThreadMessage,
-    }
-  }
-
-  private hasMxClient(client: MatrixClient | null): client is MatrixClient {
-    return !!client
+    return true
   }
 
   public constructor(private readonly credentials?: ChatCredentials) {
@@ -108,17 +93,16 @@ export default class ChatClient {
       // eslint-disable-next-line no-console
       console.log({ state, prevState })
       if (state !== SyncState.Prepared) return
-      if (!this.hasMxClient(this.mxClient)) return
+      if (!hasMxClient(this.mxClient)) return
 
-      const mxRooms = this.mxClient.store.getRooms()
-      this.rooms = mxRooms.map((room) => this.createChatRoom(room))
+      this.rooms = this.mxClient.store.getRooms()
     })
   }
 
   /** Rooms */
   public createRoom = async (targetIds: string[]): Promise<RoomId> => {
+    if (!this.verifyMxClient(this.mxClient)) throw new Error('Unable to create a room without a client')
     if (targetIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant create a room without a client')
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -141,31 +125,40 @@ export default class ChatClient {
     return await this.mxClient.createRoom({ ...dmRoomOptions, invite: targetIds })
   }
 
-  public getRooms = async (): Promise<ChatRoom[]> => {
-    return new Promise<ChatRoom[]>((resolve) => {
-      if (!this.hasMxClient(this.mxClient)) throw new Error('Cant get a rooms without a client')
-      if (this.rooms.length > 0) resolve(this.rooms)
+  public getRoom = (id: string) => {
+    if (!this.verifyMxClient(this.mxClient)) return
+    return this.mxClient.getRoom(id)
+  }
+
+  public getRooms = async (): Promise<Room[]> => {
+    return new Promise<Room[]>((resolve) => {
+      if (!this.verifyMxClient(this.mxClient) || this.rooms.length > 0) {
+        resolve(this.rooms)
+        return
+      }
 
       this.mxClient.on(ClientEvent.Sync, (state: SyncState) => {
-        if (state === SyncState.Prepared && this.hasMxClient(this.mxClient)) {
+        if (state === SyncState.Prepared) {
+          if (!this.verifyMxClient(this.mxClient)) return
           const mxRooms = this.mxClient.store.getRooms()
-          const rooms = mxRooms.map((room) => this.createChatRoom(room))
+          const rooms = mxRooms.map((room) => room)
           resolve(rooms)
         }
       })
     })
   }
 
-  public getRoomMessages(room: Room): ChatMessage[] {
-    return room
-      .getLiveTimeline()
-      .getEvents()
-      .filter((event) => event.getType() === 'm.room.message')
-      .map((event) => createRoomMessage(room.roomId, event))
+  public getSelectedRoom(): string | null {
+    return this.selectedRoom
+  }
+
+  public getUserId = (): string | null => {
+    if (!this.verifyMxClient(this.mxClient)) return null
+    return this.mxClient.getUserId()
   }
 
   public hasPendingInvitation = async (event: MatrixEvent): Promise<boolean> => {
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant join a room without a client')
+    this.verifyMxClient(this.mxClient)
     const pushAction = event.getPushActions()
     if (!pushAction?.notify) return false
 
@@ -178,7 +171,7 @@ export default class ChatClient {
   }
 
   public joinRoom = async (roomId: string): Promise<boolean> => {
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant join a room without a client')
+    if (!this.verifyMxClient(this.mxClient)) return false
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
       logError(new Error('There was a problem joining the room after accepting invitation'))
@@ -189,7 +182,7 @@ export default class ChatClient {
   }
 
   public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant sent a message without a client')
+    if (!this.verifyMxClient(this.mxClient)) return ''
     const content: ChatMessageContent = {
       body: text,
       msgtype: 'm.text',
@@ -200,40 +193,62 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
+  public setSelectedRoom(id: string): void {
+    this.selectedRoom = id
+  }
+
   public subscribeToInvitations = async (
-    callback: (roomId: string, hasInvitation: boolean) => void
-  ): Promise<() => void> => {
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant susbscribe without a client')
+    callback: (roomId: string, name: string, hasInvitation: boolean) => void
+  ): Promise<(() => void) | void> => {
+    if (!this.verifyMxClient(this.mxClient)) return
     const memberInvitationHandler = async (event: MatrixEvent) => {
       const hasInvitation = await this.hasPendingInvitation(event)
       const roomId = event.getRoomId()
-      if (!hasInvitation || !roomId) return
-      callback(roomId, hasInvitation)
+      const { displayname } = event.getContent()
+
+      if (!hasInvitation || !roomId || !displayname) return
+      callback(roomId, displayname, hasInvitation)
     }
 
     this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)
 
     return () => {
-      if (!this.hasMxClient(this.mxClient)) throw new Error('Cant unsusbscribe without a client')
+      if (!this.verifyMxClient(this.mxClient)) return
       this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHandler)
     }
   }
 
-  public subscribeToMessages = async (roomId: string, callback: (msg: ChatMessage) => void): Promise<() => void> => {
-    if (!this.hasMxClient(this.mxClient)) throw new Error('Cant susbscribe without a client')
+  public subscribeToMessages(callback: (roomId: string, event: MatrixEvent) => void): (() => void) | void {
+    if (!this.verifyMxClient(this.mxClient)) return
 
-    const incomingMessageHandler = async (event: MatrixEvent) => {
+    const incomingMessagesHandler = (event: MatrixEvent) => {
       if (event.getType() !== 'm.room.message') return
-      if (roomId !== event.getRoomId()) return
-
-      callback(createRoomMessage(roomId, event))
+      const roomId = event.getRoomId()
+      if (!roomId) return
+      callback(roomId, event)
     }
 
-    this.mxClient.on(RoomEvent.Timeline, incomingMessageHandler)
+    this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
 
     return () => {
-      if (!this.hasMxClient(this.mxClient)) throw new Error('Cant unsusbscribe without a client')
-      this.mxClient.off(RoomEvent.Timeline, incomingMessageHandler)
+      if (!this.verifyMxClient(this.mxClient)) return
+      this.mxClient.off(RoomEvent.Timeline, incomingMessagesHandler)
+    }
+  }
+
+  public subscribeToRoomMessages(roomId: string, callback: (event: MatrixEvent) => void): (() => void) | void {
+    if (!this.verifyMxClient(this.mxClient)) return
+    const incomingMessagesHandler = (event: MatrixEvent) => {
+      if (event.getType() !== 'm.room.message') return
+      if (roomId !== event.getRoomId()) return
+      callback(event)
+    }
+
+    this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
+
+    return () => {
+      if (!this.verifyMxClient(this.mxClient)) return
+      this.mxClient.off(RoomEvent.Timeline, incomingMessagesHandler)
     }
   }
 }

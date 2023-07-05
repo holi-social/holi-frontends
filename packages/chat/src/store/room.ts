@@ -1,14 +1,24 @@
-import type { MatrixEvent } from 'matrix-js-sdk'
+import { produce } from 'immer'
+import type { Room } from 'matrix-js-sdk'
 
-import type { ChatMessage } from '@holi/chat/src/store/types'
+import { createChatMessage } from '@holi/chat/src/store/threads'
+import type { ChatRoom } from '@holi/chat/src/store/types'
 
-export const createRoomMessage = (roomId: string, event: MatrixEvent): ChatMessage => {
-  const timestamp = event.getTs()
+export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
+
+export const updateInvitation = produce((chatRoom: ChatRoom, update: InvitationUpdate) => {
+  chatRoom.hasInvitation = update.hasInvitation
+})
+
+export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
+  const lastMessageEvent = room.getLastThread()?.events.find((e) => e.getType() === 'm.room.message')
+  const lastThreadMessage = lastMessageEvent ? createChatMessage(room.roomId, lastMessageEvent) : undefined
+
   return {
-    timestamp,
-    content: event.getContent(),
-    room_id: roomId,
-    sender: event.getSender(),
-    id: event.getId() ?? event.getContent().body + timestamp,
+    hasInvitation,
+    id: room.roomId,
+    notificationCount: room.getUnreadNotificationCount(),
+    name: room.name,
+    lastThread: lastThreadMessage,
   }
 }
