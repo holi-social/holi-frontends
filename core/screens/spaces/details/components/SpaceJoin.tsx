@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import client from '@holi/api/graphql/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -13,6 +13,7 @@ import {
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -22,10 +23,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
   space: Space
+  hideParent?: () => void
+  showOnboarding?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
+const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboarding, ...props }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
@@ -60,6 +63,11 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
       })
     }
 
+    if (showOnboarding) {
+      showOnboarding()
+      return
+    }
+
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -69,7 +77,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
     }).then(() => {
       showJoinOverlay()
     })
-  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, openLoginModal, t, showJoinOverlay])
+  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, openLoginModal, t, showJoinOverlay, showOnboarding])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -85,16 +93,38 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
 
+  const completeOnboarding = useCallback(() => {
+    hideJoinOverlay()
+    hideParent?.()
+  }, [hideJoinOverlay, hideParent])
+
   const SpaceJoinOverlay = () => {
     return (
-      <HoliModal label={'space.join.overlay'} {...joinOverlayProps} testID="space-join-overlay">
+      <HoliModal
+        heading={t('spaces.collaborate.onboarding.header')}
+        label={'space.join.overlay'}
+        {...joinOverlayProps}
+        testID="space-join-overlay"
+        autoHeight={false}
+        relativeHeight={1}
+        style={styles.modalHeader}
+      >
         <HoliModalContentWrapper
           actionButtonText={t('spaces.join.overlay.button')}
-          onActionButtonPress={hideJoinOverlay}
-          headlineText={t('spaces.join.overlay.title')}
+          onActionButtonPress={completeOnboarding}
           style={styles.modalContentWrapper}
           headlineStyle={styles.headline}
         >
+          <View style={styles.imageContainer}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
+              isSvg
+              width={72}
+              height={72}
+              label={t('spaces.collaborate.onboarding.image.mail.label')}
+            />
+          </View>
+          <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
           <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
         </HoliModalContentWrapper>
       </HoliModal>
@@ -152,11 +182,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
   },
   text: {
+    marginTop: 16,
     marginBottom: 40,
     color: colors.foreground20,
   },
+  modalHeader: {
+    backgroundColor: colors.background30,
+  },
   modalContentWrapper: {
     paddingHorizontal: 24,
+    backgroundColor: colors.background30,
+  },
+  imageContainer: {
+    alignItems: 'flex-start',
+    paddingVertical: 16,
   },
   link: {
     display: 'flex',
