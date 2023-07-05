@@ -53,6 +53,7 @@ const SpaceDetails = () => {
   const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
     fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    skip: !spaceIdOrName,
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
