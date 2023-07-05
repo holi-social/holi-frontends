@@ -21,6 +21,19 @@ const calcPixelRatioSize = (value: number | undefined): number | undefined => {
 /** @description Checks if `uri` of ImageSource is Base64 */
 const isImageSourceURIBase64 = ({ uri }: ImageSource) => !!uri?.startsWith('data:image')
 
+const holiImageScaling = (
+  isProd: boolean,
+  calculatedWidth: number | undefined,
+  calculatedHeight: number | undefined,
+  encodedOriginalUrl: string
+) => {
+  const uriBase = isProd ? 'https://images.holi.social/' : 'https://dev-images.holi.social/'
+  const width = calculatedWidth ? ':' + calculatedWidth : ':'
+  const height = calculatedHeight ? ':' + calculatedHeight : ''
+  // https://docs.imgproxy.net/generating_the_url?id=resize
+  return uriBase + 'crop:0:0:ce/resize:auto' + width + height + '/plain/' + encodedOriginalUrl
+}
+
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setScalingParams = (source: ImageSource): ImageSource => {
@@ -53,17 +66,23 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params
-    const encodedOriginalUrl = uri.replace(/^.+\/plain\//, '')
-    const uriBase = uri.startsWith('https://dev-images')
-      ? 'https://dev-images.holi.social/'
-      : 'https://images.holi.social/'
-    const width = calculatedWidth ? ':' + calculatedWidth : ':'
-    const height = calculatedHeight ? ':' + calculatedHeight : ''
-    const newUri = uriBase + 'crop:0:0:ce/resize:auto' + width + height + '/plain/' + encodedOriginalUrl
-    return { ...source, uri: newUri }
+    return {
+      ...source,
+      uri: holiImageScaling(
+        uri.startsWith('https://images'),
+        calculatedWidth,
+        calculatedHeight,
+        uri.replace(/^.+\/plain\//, '')
+      ),
+    }
+  } else {
+    // unknown image provider, default scaling
+    return {
+      ...source,
+      // TODO detect production
+      uri: holiImageScaling(false, calculatedWidth, calculatedHeight, encodeURIComponent(uri)),
+    }
   }
-
-  return source
 }
 
 /** @description It handles the image sources, array, or single source and

@@ -17,13 +17,13 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
     accessibilityLabel: label,
   }
 
-  const sources = transformSourcesURL(source)
+  const transformedSource = transformSourcesURL(source)
 
   if (useReactNativeImageForComparison) {
     // no blurhash available
     return (
       <ReactNativeImage
-        source={sources}
+        source={transformedSource}
         style={style}
         resizeMode={resizeMode}
         testID={testID}
@@ -35,7 +35,7 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
 
   return (
     <ExpoImage
-      source={sources}
+      source={transformedSource}
       placeholder={blurhash}
       style={style}
       contentFit={resizeMode}
