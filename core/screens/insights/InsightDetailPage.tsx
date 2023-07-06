@@ -109,13 +109,7 @@ const InsightDetailPage = () => {
 
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
-          <HoliHeading
-            size="xSmall"
-            style={styles.categoryHeadline}
-            testID="insight-category"
-            loading={initLoading}
-            skeletonOptions={{ width: '40%' }}
-          >
+          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category" loading={initLoading}>
             {insight?.topic?.title}
           </HoliHeading>
 
@@ -125,7 +119,8 @@ const InsightDetailPage = () => {
             style={styles.insightHeadline}
             testID="insight-headline"
             loading={initLoading}
-            skeletonOptions={{ numberOfLines: 2 }}
+            // large font size (-> radius=16) with multiple lines expected
+            skeletonOptions={{ numberOfLines: 2, borderRadius: 16 }}
           >
             {insight?.title}
           </HoliHeading>

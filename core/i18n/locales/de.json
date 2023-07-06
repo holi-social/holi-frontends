@@ -679,6 +679,7 @@
   "user.profile.validation.firstName.minCharacters": "Vorname sollte mindestens {{value}} Zeichen haben",
   "user.profileForm.aboutMe": "Über mich",
   "user.profileForm.aboutMePlaceholder": "Erzähle ein wenig über dich…",
+  "user.profileForm.avatar": "Nutzer's Profilbild",
   "user.profileForm.firstName": "Vorname",
   "user.profileForm.firstName.mandatory": "Vorname*",
   "user.profileForm.firstNamePlaceholder": "Wie möchtest du genannt werden?",

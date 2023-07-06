@@ -3,6 +3,7 @@ import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, View } from 
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -51,25 +52,16 @@ const HoliHeading = ({
   testID,
   numberOfLines,
   loading = false,
-  skeletonOptions = {},
+  skeletonOptions,
   ...props
 }: React.PropsWithChildren<HoliHeadingProps & TextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
   if (loading) {
-    const { numberOfLines: skeletonNumOfLines = numberOfLines ?? 1, width: skeletonWidth } = skeletonOptions
-    const matchingStyle: { lineHeight: number } = styles[size]
-    const skeletonHeight = skeletonNumOfLines * matchingStyle.lineHeight
-    const multiline = numberOfLines !== 0
-
     return (
       <View style={props?.style}>
-        {multiline ? (
-          <HoliSkeleton height={skeletonHeight} width={skeletonWidth ?? '100%'} borderRadius={4} />
-        ) : (
-          <HoliSkeleton height={skeletonHeight} width={skeletonWidth ?? '40%'} borderRadius={16} />
-        )}
+        <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '40%')} />
       </View>
     )
   }

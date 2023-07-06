@@ -678,6 +678,7 @@
   "user.profile.validation.firstName.minCharacters": "First name should have at least {{value}} characters",
   "user.profileForm.aboutMe": "About me",
   "user.profileForm.aboutMePlaceholder": "Tell us about yourself…",
+  "user.profileForm.avatar": "User avatar",
   "user.profileForm.firstName": "First name",
   "user.profileForm.firstName.mandatory": "First name*",
   "user.profileForm.firstNamePlaceholder": "How would you like to be called?",
