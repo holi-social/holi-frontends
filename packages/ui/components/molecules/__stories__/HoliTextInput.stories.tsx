@@ -136,7 +136,7 @@ Password.argTypes = {
   },
 }
 
-export const WithCharactorCount = ({ ...args }) => {
+export const WithCharacterCount = ({ ...args }) => {
   const [inputValue, setInputValue] = useState('')
   return (
     <HoliTextInput
@@ -153,12 +153,12 @@ export const WithCharactorCount = ({ ...args }) => {
   )
 }
 
-WithCharactorCount.argTypes = {
+WithCharacterCount.argTypes = {
   showCharacterCount: { description: 'Charactor count', control: { type: 'boolean' } },
   maxNoOfCharacters: { description: 'Max number of charactors', type: 'number', control: { type: 'number' } },
 }
 
-WithCharactorCount.args = {
+WithCharacterCount.args = {
   showCharacterCount: true,
   maxNoOfCharacters: 10,
 }
