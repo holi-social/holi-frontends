@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react'
-import IcoMoon from 'react-icomoon'
-import { Animated, Easing, Platform, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { Animated, Easing, StyleProp, StyleSheet, View } from 'react-native'
+import { ImageStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
+import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliIconProps = {
@@ -12,31 +14,19 @@ export type HoliIconProps = {
   filled?: boolean
   size?: number
   testID?: string
-  style?: StyleProp<ViewStyle | TextStyle>
+  style?: StyleProp<ImageStyle>
 }
 
 const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconProps) => {
-  const iconSet = props?.filled
-    ? require('@holi/ui/assets/fonts/HoliIcons/filled/selection.json')
-    : require('@holi/ui/assets/fonts/HoliIcons/regular/selection.json')
-
-  const mobileProps =
-    Platform.OS === 'web'
-      ? {}
-      : {
-          native: true,
-          SvgComponent: require('react-native-svg').Svg,
-          PathComponent: require('react-native-svg').Path,
-        }
-
-  const icoMoonProps = { size: 24, ...props }
-  delete icoMoonProps.filled
-  delete icoMoonProps.spinning
+  const icon = !props.filled ? ICONSET_REGULAR[props.icon] : ICONSET_FILLED[props.icon]
+  const size = props?.size || 24
   const styling = {
     color: props?.color || colors.foreground30,
     borderStyle: 'solid',
     borderWidth: 0,
-    ...StyleSheet.flatten<ViewStyle>(props?.style),
+    ...StyleSheet.flatten<ImageStyle>(props?.style),
+    width: size,
+    height: size,
   }
 
   if (props.spinning) {
@@ -56,13 +46,17 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
       spinValue.setValue(0)
     })
     return (
-      <Animated.View style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
-        <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
+      <Animated.View testID={props.testID} style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
+        <HoliLocalImage {...props} imageSource={icon} label={''} width={size} height={size} isSvg style={styling} />
       </Animated.View>
     )
   }
 
-  return <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
+  return (
+    <View testID={props.testID}>
+      <HoliLocalImage {...props} imageSource={icon} label={''} width={size} height={size} isSvg style={styling} />
+    </View>
+  )
 }
 
 export default HoliIcon

@@ -47,6 +47,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
       onSave={onSave}
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
+      testID="space-edit-modal"
       renderProp={() => (
         <View style={[styles.container, style]}>
           <View style={styles.title}>

@@ -325,7 +325,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 ) : null}
               </SpaceSection>
               <SpaceSection
-                title={t('spaces.input.publicLinks.heading')}
+                title={t('spaces.spaceDetails.publicLinks')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.LINKS)}
                 testID="space-edit-links"
