@@ -3,11 +3,11 @@ import React, { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
-  addThreadToAtomsAtomMap,
   joinRoomAtom,
+  roomMessagesAtom,
+  roomMessagesSubscriberAtom,
   selectRoomAtom,
   selectedRoomAtomCreator,
-  threadsAtomsAtomMap,
 } from '@holi/chat/src/store/store'
 import { ChatRoom } from '@holi/chat/src/store/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -22,14 +22,12 @@ interface Props {
 
 const RoomView = ({ roomAtom }: Props) => {
   const room = useAtomValue(roomAtom)
-
-  const map = useAtomValue(threadsAtomsAtomMap)
-  const thread = useMemo(() => map.get(room.id) ?? [], [map, room.id])
+  const messages = useAtomValue(roomMessagesAtom)
+  const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
 
   const joinRoom = useSetAtom(joinRoomAtom)
   const selectRoom = useSetAtom(selectRoomAtom)
   const isSelectedRoom = useAtomValue(useMemo(() => selectedRoomAtomCreator(roomAtom), [roomAtom]))
-  const [, addMessage] = useAtom(addThreadToAtomsAtomMap)
 
   const [text, setText] = useState('')
 
@@ -45,7 +43,7 @@ const RoomView = ({ roomAtom }: Props) => {
       </HoliBox>
 
       {isSelectedRoom &&
-        thread.map((msg, idx) => {
+        messages.map((msg, idx) => {
           return (
             <HoliBox key={idx + 'msg' + msg.timestamp} padding={[20, 20]}>
               <HoliText>{msg.content.body}</HoliText>
@@ -63,7 +61,7 @@ const RoomView = ({ roomAtom }: Props) => {
               onChange={setText}
             />
           </HoliBox>
-          <HoliButton label={'send message'} onPress={() => addMessage({ roomId: room.id, text: text })}>
+          <HoliButton label={'send message'} onPress={() => sendMessage({ roomId: room.id, text: text })}>
             Send Message
           </HoliButton>
         </>

@@ -2,19 +2,27 @@ import { useAtom, useAtomValue } from 'jotai'
 import React, { useEffect, useRef } from 'react'
 
 import RoomView from '@holi/chat/src/components/RoomView'
-import { createRoomAtom, roomAtomsAtom, roomAtomsAtomSubscriber, threadsAtomsAtomMap } from '@holi/chat/src/store'
+import {
+  createRoomAtom,
+  roomAtomsAtom,
+  roomAtomsAtomSubscriber,
+  roomMessagesAtom,
+  roomMessagesSubscriberAtom,
+} from '@holi/chat/src/store'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-// TODO: implement custom hooks
 const ChatView = () => {
+  // TODO: implement custom hooks specially for subscriber atoms
+  useAtom(roomMessagesAtom)
+  useAtom(roomAtomsAtomSubscriber)
+  useAtom(roomMessagesSubscriberAtom)
+
   const commitRef = useRef(0)
   const roomsAtoms = useAtomValue(roomAtomsAtom)
-  const [, createRoom] = useAtom(createRoomAtom)
-  useAtomValue(threadsAtomsAtomMap)
 
-  useAtom(roomAtomsAtomSubscriber)
+  const [, createRoom] = useAtom(createRoomAtom)
 
   useEffect(() => {
     commitRef.current += 1

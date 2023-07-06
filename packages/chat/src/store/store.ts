@@ -1,6 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
 import { atom, createStore } from 'jotai'
 
+import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src//utils'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { InvitationUpdate, createChatRoom, updateInvitation } from '@holi/chat/src/store/room'
 import { createChatMessage, updateThread } from '@holi/chat/src/store/threads'
@@ -101,10 +103,12 @@ const selectedRoomAtomAtom = atom<ChatRoomAtom | null>(null)
 /**
  * @name selectRoomAtom (Write-Only)
  * @description Merely a write-only atom that delegates the currently selected
- * room.
+ * room. It also stores the current selected room in local storage for later use.
  */
 export const selectRoomAtom = atom(null, (get, set, chatRoomAtom: ChatRoomAtom) => {
+  const room = get(chatRoomAtom)
   set(selectedRoomAtomAtom, chatRoomAtom)
+  AsyncStorage.setItem(CHAT_SELECTED_ROOM_ID_KEY, room.id).catch((err) => logError(err))
 })
 
 /**
@@ -132,10 +136,58 @@ export const joinRoomAtom = atom(null, (get, set, roomUpdate: InvitationUpdate) 
 /** Room Threads */
 
 /**
- * @name roomAtomsAtom (Read-Only)
+ * @name roomMessagesAtom (Read-Only)
  * @description It collects all the joined room's messages on a map for later easy access O(1).
  *Only reading from this atom is allowed.
  */
+
+export const roomMessagesAtom = atom<ChatMessage[]>([])
+
+const isCreateMessage = (input: CreateMessage | ChatMessage): input is CreateMessage => {
+  // eslint-disable-next-line no-prototype-builtins
+  return input.hasOwnProperty('text') && input.hasOwnProperty('roomId')
+}
+
+/**
+ * @name roomMessagesSubscriberAtom (Write-Only)
+ * @description
+ */
+export const roomMessagesSubscriberAtom = atom(
+  (get) => get(roomMessagesAtom),
+  (get, set, message: CreateMessage | ChatMessage) => {
+    const isMsgCreation = isCreateMessage(message)
+
+    // Add message from an incoming event to the messages array
+    if (!isMsgCreation) {
+      set(roomMessagesAtom, (prevMessages) => updateThread(prevMessages, message))
+      return
+    }
+
+    // Add a message from an user action
+    chat.sendTextMessage(message.roomId, message.text).then((eventId) => {
+      set(roomMessagesAtom, (prevMessages) =>
+        updateThread(prevMessages, {
+          id: eventId,
+          room_id: message.roomId,
+          sender: chat.getUserId() ?? undefined,
+          content: {
+            body: message.text,
+            msgtype: 'm.text',
+          },
+        })
+      )
+    })
+  }
+)
+
+roomMessagesSubscriberAtom.onMount = (setAtom) => {
+  chat.subscribeToMessages((roomId, event) => {
+    AsyncStorage.getItem(CHAT_SELECTED_ROOM_ID_KEY).then((selectedId) => {
+      if (selectedId !== roomId) return
+      setAtom(createChatMessage(roomId, event))
+    })
+  })
+}
 
 export const threadsAtomsAtomMap = atom(new Map<string, ChatMessage[]>())
 
@@ -181,42 +233,3 @@ export const addThreadToAtomsAtomMap = atom(
       .catch((err) => logError(err))
   }
 )
-
-/**
- * @name selectedRoomThreadAtom (Read-Only)
- * @description An atom holds a list of all messages related to a room. They are
- * also updated by the selector pattern, just like in addMsgToThreadAtom.
- */
-export const selectedRoomThreadAtom = atom<ChatMessage[]>([])
-
-/**
- * @name addMessageToThreadAtom (Write-Only)
- * @description
- */
-
-export const addMessageToThreadAtom = atom(null, (get, set, message: CreateMessage) => {
-  const selectedRoomAtom = get(selectedRoomAtomAtom)
-  if (!selectedRoomAtom) return
-
-  chat
-    .sendTextMessage(message.roomId, message.text)
-    .then((eventId) => {
-      const threadsMap = chatStore.get(threadsAtomsAtomMap)
-      const threads = threadsMap.get(message.roomId)
-      const userId = chat.getUserId()
-      if (!threads) return
-
-      const chatMessage: ChatMessage = {
-        id: eventId,
-        room_id: message.roomId,
-        sender: userId ?? undefined,
-        content: {
-          body: message.text,
-          msgtype: 'm.text',
-        },
-      }
-
-      set(selectedRoomThreadAtom, (threads) => updateThread(threads, chatMessage))
-    })
-    .catch((err) => logError(err))
-})
