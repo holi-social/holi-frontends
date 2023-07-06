@@ -24,7 +24,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
-import VolunteeringPartnerContainer from '@holi-apps/volunteering/components/VolunteeringPartnerContainer'
+import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
 import {
   AppVolunteeringEngagementByIdResponse,
   TrackEngagementViewResponse,
@@ -124,7 +124,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
   const providerContainer = (
-    <VolunteeringPartnerContainer
+    <VolunteeringPartnerCard
       title={t('volunteering:engagementDetail.provider')}
       name={engagement.source}
       partner={VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]}
@@ -137,7 +137,12 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
         <View style={styles.organizerInfoRow}>
           {(!!organizer.imageUrl && (
-            <HoliImage source={{ uri: organizer.imageUrl }} style={styles.partnerImage} label={organizer.name ?? ''} />
+            <HoliImage
+              source={{ uri: organizer.imageUrl }}
+              style={styles.partnerImage}
+              label={organizer.name ?? ''}
+              resizeMode={'contain'}
+            />
           )) || <></>}
           <HoliText>{organizer.name}</HoliText>
         </View>
@@ -167,7 +172,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
-            <VolunteeringPartnerContainer
+            <VolunteeringPartnerCard
               title={t('volunteering:engagementDetail.technicalPartner')}
               name={engagement.source}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
