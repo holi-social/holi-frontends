@@ -174,7 +174,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             {!!partner && providerContainer}
             <VolunteeringPartnerCard
               title={t('volunteering:engagementDetail.technicalPartner')}
-              name={engagement.source}
+              name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />
           </View>
