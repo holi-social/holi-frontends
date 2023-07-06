@@ -125,7 +125,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
   const providerContainer = (
     <VolunteeringPartnerCard
-      title={t('volunteering:engagementDetail.provider')}
+      headline={t('volunteering:engagementDetail.provider')}
       name={engagement.source}
       partner={VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]}
     />
@@ -173,7 +173,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
             <VolunteeringPartnerCard
-              title={t('volunteering:engagementDetail.technicalPartner')}
+              headline={t('volunteering:engagementDetail.technicalPartner')}
               name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />

@@ -1,4 +1,5 @@
 {
+  "shared.partner.link.title": "Seite von {{source}}",
   "app.name": "Engagement",
   "app.subline": "via Voltastics",
   "engagement.country": "Deutschland",
@@ -7,7 +8,6 @@
   "engagementDetail.getInTouch": "Kontakt aufnehmen",
   "engagementDetail.notFound": "Projekt mit ID {{engagementId}} wurde nicht gefunden",
   "engagementDetail.organizer": "Organisator",
-  "engagementDetail.partner.link.btn": "Seite von {{source}}",
   "engagementDetail.provider": "Vermittler",
   "engagementDetail.technicalPartner": "Technischer Partner",
   "filter.category.label": "Themen, die mich interessieren",
