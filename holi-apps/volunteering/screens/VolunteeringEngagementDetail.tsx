@@ -17,7 +17,6 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -31,35 +30,45 @@ import {
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer } from '@holi-apps/volunteering/types'
+import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
 
 const VOLUNTEERING_IMG_SOURCES_MAPPING: {
-  [name: string]: { imgSource: StaticImageData; url: string; isSvg: boolean }
+  [name: string]: PartnerProps
 } = {
   Voltastics: {
-    imgSource: require('@holi/ui/assets/img/volunteering/voltastics.png'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-logo.png'),
+      isSvg: false,
+    },
     url: 'https://voltastics.com/',
-    isSvg: false,
   },
   'Aktion Mensch': {
-    imgSource: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
-    isSvg: true,
   },
   'vostel.de': {
-    imgSource: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+      isSvg: false,
+    },
     url: 'https://vostel.de/de/ueber_vostel',
-    isSvg: false,
   },
   GoNature: {
-    imgSource: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://gonature.de/ueber-uns',
-    isSvg: true,
   },
   GoVolunteer: {
-    imgSource: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://govolunteer.com/ueber-uns',
-    isSvg: true,
   },
 }
 

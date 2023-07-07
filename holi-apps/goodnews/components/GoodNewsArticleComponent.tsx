@@ -1,11 +1,10 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -14,13 +13,26 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
+import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
+import { PartnerProps } from '@holi-apps/volunteering/types'
 
 const GOODNEWS_IMG_SOURCES_MAPPING: {
-  [name: string]: { imgSource: StaticImageData; url?: string; isSvg: boolean }
+  [name: string]: PartnerProps
 } = {
-  GoodNews: {
-    imgSource: require('@holi/ui/assets/img/goodnews/goodnews.png'),
-    isSvg: false,
+  'goodnews.eu': {
+    logo: {
+      src: require('@holi/ui/assets/img/goodnews/goodnews-logo.png'),
+      width: 40,
+      height: 40,
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/goodnews/goodnews-wordmark.png'),
+      width: 161,
+      height: 24,
+      isSvg: false,
+    },
+    url: 'https://goodnews.eu',
   },
 }
 
@@ -38,6 +50,12 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const [showPartnerModal, setShowPartnerModal] = useState(false)
+  const closeModal = useCallback(() => {
+    setShowPartnerModal(false)
+  }, [])
+  const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
+
   return (
     <View
       style={[styles.container, style]}
@@ -54,16 +72,24 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
         <HoliBox padding={[0, 0, 16, 0]}>
-          <PartnerInfoRow rowText={t('goodnews:app.subline')} partner={GOODNEWS_IMG_SOURCES_MAPPING['GoodNews']} />
+          <PartnerInfoRow
+            rowText={t('goodnews:app.subline')}
+            showOutlinkIcon={false}
+            partner={partner}
+            onPress={() => setShowPartnerModal(true)}
+          />
         </HoliBox>
+        <PartnerModal
+          headline={t('goodnews:listing.partnerModal.headline')}
+          text={t('goodnews:listing.partnerModal.text')}
+          buttonText={t('goodnews:listing.partnerModal.link.text')}
+          partner={partner}
+          show={showPartnerModal}
+          onDismiss={closeModal}
+        />
         <HoliText size="small" style={styles.source}>
           {article.source}
         </HoliText>
-        {false && !!article.source && (
-          <HoliText size="small" style={styles.source}>
-            {article.source}
-          </HoliText>
-        )}
         <HoliHeading level="1" size="large" style={styles.headline}>
           {article.headline}
         </HoliHeading>

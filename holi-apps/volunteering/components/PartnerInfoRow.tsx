@@ -5,44 +5,42 @@
    it in other apps from volunteering app now
  */
 import React, { memo } from 'react'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type PartnerInfoRowProps = {
-  headline?: string
-  rowText: string
-  linkTitle?: string
-  partner: { imgSource: StaticImageData; url?: string; isSvg?: boolean }
-}
+import { PartnerInfoRowProps } from '@holi-apps/volunteering/types'
 
 const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
   headline,
   rowText,
+  showOutlinkIcon = true,
   linkTitle,
   partner,
+  onPress,
 }: PartnerInfoRowProps) => {
+  const logoWidth = partner.logo?.width || 40
+  const logoHeight = partner.logo?.height || 40
+  const styles = getStyles(logoWidth)
+
   return (
-    <HoliButton transparent onPress={() => (partner?.url ? Linking.openURL(partner?.url) : '')} label={linkTitle ?? ''}>
+    <HoliButton transparent onPress={onPress} label={linkTitle ?? ''}>
       <View style={styles.partnerInfoRow}>
-        {!!partner?.imgSource && (
+        {!!partner.logo && !!partner.logo.src && (
           <View style={styles.partnerImage}>
-            {!!partner.imgSource && (
-              <HoliLocalImage
-                imageSource={partner.imgSource}
-                isSvg={partner.isSvg}
-                width={40}
-                height={40}
-                label={headline ?? ''}
-                resizeMode="contain"
-                style={{ backgroundColor: colors.white100 }}
-              />
-            )}
+            <HoliLocalImage
+              imageSource={partner.logo.src}
+              isSvg={partner.isSvg}
+              width={logoWidth}
+              height={logoHeight}
+              label={headline ?? ''}
+              resizeMode="contain"
+              style={{ backgroundColor: colors.white100 }}
+            />
           </View>
         )}
         {!!rowText && (
@@ -50,7 +48,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
             <HoliText>{rowText}</HoliText>
           </View>
         )}
-        {partner?.url && <HoliIcon icon="share-box" size={20} color={colors.foreground30} />}
+        {showOutlinkIcon && partner?.url && <HoliIcon icon="share-box" size={20} color={colors.foreground30} />}
       </View>
     </HoliButton>
   )
@@ -58,17 +56,17 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
 
 export default memo(PartnerInfoRow)
 
-const styles = StyleSheet.create({
-  partnerImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    overflow: 'hidden',
-    marginRight: 16,
-  },
-  partnerInfoRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
+const getStyles = (logoWidth: number) => {
+  return StyleSheet.create({
+    partnerImage: {
+      borderRadius: logoWidth / 2,
+      overflow: 'hidden',
+      marginRight: 16,
+    },
+    partnerInfoRow: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  })
+}

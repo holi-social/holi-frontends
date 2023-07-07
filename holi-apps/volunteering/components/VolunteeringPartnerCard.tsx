@@ -1,17 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
+import { PartnerProps } from '@holi-apps/volunteering/types'
 
 type VolunteeringPartnerContainerProps = {
   headline: string
   name: string
-  partner: { imgSource: StaticImageData; url: string; isSvg: boolean }
+  partner: PartnerProps
 }
 
 const VolunteeringPartnerCard: React.VFC<VolunteeringPartnerContainerProps> = ({
@@ -29,6 +29,7 @@ const VolunteeringPartnerCard: React.VFC<VolunteeringPartnerContainerProps> = ({
           rowText={name}
           linkTitle={t('volunteering:shared.partner.link.title', { source: name })}
           partner={partner}
+          onPress={() => (partner?.url ? Linking.openURL(partner?.url) : null)}
         />
       </HoliBox>
     </View>
