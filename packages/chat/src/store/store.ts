@@ -4,8 +4,8 @@ import { atom, createStore } from 'jotai'
 
 import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src//utils'
 import ChatClient from '@holi/chat/src/client/ChatClient'
+import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import { InvitationUpdate, createChatRoom, updateInvitation } from '@holi/chat/src/store/room'
-import { createChatMessage, updateThread } from '@holi/chat/src/store/threads'
 import type { ChatMessage, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
 import { logError } from '@holi/core/errors/helpers'
 
@@ -133,7 +133,7 @@ export const joinRoomAtom = atom(null, (get, set, roomUpdate: InvitationUpdate) 
   })
 })
 
-/** Room Threads */
+/** Room Messages */
 
 /**
  * @name roomMessagesAtom (Read-Only)
@@ -159,24 +159,12 @@ export const roomMessagesSubscriberAtom = atom(
 
     // Add message from an incoming event to the messages array
     if (!isMsgCreation) {
-      set(roomMessagesAtom, (prevMessages) => updateThread(prevMessages, message))
+      set(roomMessagesAtom, (prevMessages) => updateMessages(prevMessages, message))
       return
     }
 
     // Add a message from an user action
-    chat.sendTextMessage(message.roomId, message.text).then((eventId) => {
-      set(roomMessagesAtom, (prevMessages) =>
-        updateThread(prevMessages, {
-          id: eventId,
-          room_id: message.roomId,
-          sender: chat.getUserId() ?? undefined,
-          content: {
-            body: message.text,
-            msgtype: 'm.text',
-          },
-        })
-      )
-    })
+    chat.sendTextMessage(message.roomId, message.text)
   }
 )
 
@@ -189,13 +177,14 @@ roomMessagesSubscriberAtom.onMount = (setAtom) => {
   })
 }
 
+// TODO / FIXME: In order for this to work we need to do a `Record<string, ChatMessage[]>`
 export const threadsAtomsAtomMap = atom(new Map<string, ChatMessage[]>())
 
 threadsAtomsAtomMap.onMount = (setAtom) => {
   chat.subscribeToMessages((roomId, event) => {
     const threadsMap = chatStore.get(threadsAtomsAtomMap)
     const msg = createChatMessage(roomId, event)
-    const threads = updateThread(threadsMap.get(roomId) ?? [], msg)
+    const threads = updateMessages(threadsMap.get(roomId) ?? [], msg)
     threadsMap.set(roomId, threads)
     setAtom(threadsMap)
   })
@@ -224,7 +213,7 @@ export const addThreadToAtomsAtomMap = atom(
 
         set(threadsAtomsAtomMap, (prevMap) => {
           const threadsMap = new Map(prevMap)
-          const threads = updateThread(threadsMap.get(message.roomId) ?? [], chatMessage)
+          const threads = updateMessages(threadsMap.get(message.roomId) ?? [], chatMessage)
           threadsMap.set(message.roomId, threads)
 
           return threadsMap

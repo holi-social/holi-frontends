@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import type { Room } from 'matrix-js-sdk'
 
-import { createChatMessage } from '@holi/chat/src/store/threads'
+import { createChatMessage } from '@holi/chat/src/store/messages'
 import type { ChatRoom } from '@holi/chat/src/store/types'
 
 export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
