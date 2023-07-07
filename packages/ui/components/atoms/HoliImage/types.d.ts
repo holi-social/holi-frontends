@@ -12,9 +12,15 @@ export type ResizeMode = ReactNativeResizeMode & ExpoResizeMode & WebResizeMode
 
 export interface ImageSource {
   uri: string
-  // used to scale down image to a fixed width, use constant value, will be scaled to pixel density!
+  // to scale down image to fixed width
+  // use constant value, will be scaled to pixel density!
+  // when there is an aspect ratio mismatch,
+  // requested width+height is filled (from image center) and overlap is cropped
   width?: number
-  // used to scale down image to a fixed height, use constant value, will be scaled to pixel density!
+  // used to scale down image to this fixed height
+  // use constant value, will be scaled to pixel density!
+  // when there is an aspect ratio mismatch,
+  // requested width+height is filled (from image center) and overlap is cropped
   height?: number
 }
 

@@ -30,8 +30,15 @@ const holiImageScaling = (
   const uriBase = isProd ? 'https://images.holi.social/' : 'https://dev-images.holi.social/'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
   const height = calculatedHeight ? ':' + calculatedHeight : ''
+  // https://docs.imgproxy.net/generating_the_url?id=crop
+  // - 'crop' section seems to be required, '0:0' means using full width/height of source
   // https://docs.imgproxy.net/generating_the_url?id=resize
-  return uriBase + 'crop:0:0:ce/resize:auto' + width + height + '/plain/' + encodedOriginalUrl
+  // - 'resize' section fills given space by width and height and crops overhanging parts
+  // - we use 'fill-down' instead of 'fill' to keep the requested aspect ratio,
+  //   even when images are smaller than the requested sizes
+  // - cropping is done with centered gravity
+  // - pictures are not enlarged to requested size (to keep bandwidth lower)
+  return uriBase + 'crop:0:0/resize:fill-down' + width + height + '/plain/' + encodedOriginalUrl
 }
 
 /** @description Appends the ImageKit image transformation query parameter to
@@ -66,22 +73,18 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params
-    return {
-      ...source,
-      uri: holiImageScaling(
-        uri.startsWith('https://images'),
-        calculatedWidth,
-        calculatedHeight,
-        uri.replace(/^.+\/plain\//, '')
-      ),
-    }
+    const newUri = holiImageScaling(
+      uri.startsWith('https://images'),
+      calculatedWidth,
+      calculatedHeight,
+      uri.replace(/^.+\/plain\//, '')
+    )
+    return { ...source, uri: newUri }
   } else {
     // unknown image provider, default scaling
-    return {
-      ...source,
-      // TODO detect production
-      uri: holiImageScaling(false, calculatedWidth, calculatedHeight, encodeURIComponent(uri)),
-    }
+    // TODO detect production
+    const newUri = holiImageScaling(false, calculatedWidth, calculatedHeight, encodeURIComponent(uri))
+    return { ...source, uri: newUri }
   }
 }
 
