@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
-import { atom, createStore } from 'jotai'
+import { atom, createStore, useAtom, useAtomValue, useSetAtom } from 'jotai'
 
 import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src//utils'
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -50,9 +50,10 @@ export const roomAtomsAtomSubscriber = atom(
 )
 
 roomAtomsAtomSubscriber.onMount = (setAtom) => {
+  const userId = chat.getUserId()
   // We set all the joined rooms initially
   chat.getRooms().then((rooms) => {
-    rooms.forEach((room) => setAtom(createChatRoom(room)))
+    rooms.forEach((room) => setAtom(createChatRoom(room, userId)))
   })
 
   // In case of an invitation we would added by listening to this emitter.
@@ -62,12 +63,20 @@ roomAtomsAtomSubscriber.onMount = (setAtom) => {
       id: roomId,
       name: displayName,
       notificationCount: 1,
-      lastThread: undefined,
+      lastMessage: undefined,
+      timestamp: undefined,
     })
   })
 }
 
-export const createRoomAtom = atom(null, (get, set, userIds: string[]) => {
+export const useRoomAtoms = () => {
+  useAtom(roomAtomsAtomSubscriber)
+  const roomsAtoms = useAtomValue(roomAtomsAtom)
+  const createRoomAtom = useSetAtom(addToRoomAtoms)
+  return [roomsAtoms, createRoomAtom] as const
+}
+
+export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
   chat
     .createRoom(userIds)
     .then((response) => {
@@ -75,7 +84,7 @@ export const createRoomAtom = atom(null, (get, set, userIds: string[]) => {
       const room = chat.getRoom(roomId)
       if (!room) return
 
-      const roomAtom = atom(createChatRoom(room))
+      const roomAtom = atom(createChatRoom(room, null))
       // TODO: Remove immer producer duplication
       const addChatRoom = produce((chatRoomAtoms: ChatRoomAtom[], room: ChatRoomAtom) => {
         const hasRoom = chatRoomAtoms.find((roomAtom) => get(roomAtom).id === get(room).id)

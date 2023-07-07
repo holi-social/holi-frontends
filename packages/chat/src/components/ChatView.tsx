@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 
 import RoomView from '@holi/chat/src/components/RoomView'
 import {
-  createRoomAtom,
+  addToRoomAtoms,
   roomAtomsAtom,
   roomAtomsAtomSubscriber,
   roomMessagesAtom,
@@ -21,7 +21,7 @@ const ChatView = () => {
   const commitRef = useRef(0)
   const roomsAtoms = useAtomValue(roomAtomsAtom)
 
-  const [, createRoom] = useAtom(createRoomAtom)
+  const [, createRoomAtom] = useAtom(addToRoomAtoms)
 
   useEffect(() => {
     commitRef.current += 1
@@ -32,7 +32,7 @@ const ChatView = () => {
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
     const userIds: string[] = ['@sonja_palma:local.chat.holi.social']
-    createRoom(userIds)
+    createRoomAtom(userIds)
   }
 
   return (
