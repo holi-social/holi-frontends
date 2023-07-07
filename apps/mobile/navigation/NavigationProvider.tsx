@@ -7,6 +7,7 @@ import { createNavigationContainerRef } from '@react-navigation/native'
 
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
+import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
 import { colors } from '@holi/ui/styles/globalVars'
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
@@ -39,7 +40,14 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 }
 
 const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => (
-  <NavigationContainer ref={navigationRef} theme={navigationTheme} linking={rootLinkingConfig}>
+  <NavigationContainer
+    ref={navigationRef}
+    theme={navigationTheme}
+    linking={rootLinkingConfig}
+    onReady={() => {
+      reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
+    }}
+  >
     {children}
   </NavigationContainer>
 )

@@ -35,21 +35,19 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
 
   return (
     <HoliHorizontalRow>
-      {isLoggedIn && (
-        <NotificationBadge visible={hasNewNotifications}>
-          <HoliButton
-            label={t('notifications.title')}
-            inline
-            testID="btn-to-notifications"
-            transparent
-            onPress={() => {
-              navigate('/notifications')
-            }}
-          >
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-        </NotificationBadge>
-      )}
+      <NotificationBadge visible={hasNewNotifications}>
+        <HoliButton
+          label={t('notifications.title')}
+          inline
+          testID="btn-to-notifications"
+          transparent
+          onPress={() => {
+            navigate('/notifications')
+          }}
+        >
+          <HoliIcon icon="notification-2" size={24} color={tintColor} />
+        </HoliButton>
+      </NotificationBadge>
 
       <HoliButton
         label={t('navigation.search')}

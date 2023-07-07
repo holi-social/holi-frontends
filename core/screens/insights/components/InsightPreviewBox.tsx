@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -6,19 +7,53 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface InsightPreviewBoxProps {
-  insight: Insight
+interface BaseProps {
   style?: StyleProp<ViewStyle>
 }
+interface SkeletonProps extends BaseProps {
+  loading: true
+  insight?: Insight
+}
+interface Props extends BaseProps {
+  loading?: false
+  insight: Insight
+}
 
-const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
+type InsightPreviewBoxProps = SkeletonProps | Props
+
+const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+
+  if (loading) {
+    return (
+      <View {...props}>
+        <HoliSkeleton aspectRatio={327 / 206} borderRadius={16} height={'auto'} width={'100%'} />
+
+        <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle} loading />
+
+        <HoliHeading
+          level="2"
+          selectable={true}
+          size="small"
+          numberOfLines={3}
+          style={styles.spaceTop}
+          loading
+          skeletonOptions={{ numberOfLines: 2 }}
+        />
+
+        <HoliText size="small" style={styles.spaceTop} selectable={true} loading />
+
+        <HoliUserAvatarPile loading usersToShow={3} counter collapse style={styles.avatarPile} />
+      </View>
+    )
+  }
 
   const editors = insight.involvedUsers.data
 
@@ -38,7 +73,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         />
 
         {!!insight.topic && (
-          <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+          <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle}>
             {insight.topic.title}
           </HoliHeading>
         )}
@@ -68,7 +103,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
   )
 }
 
-export default InsightPreviewBox
+export default withProfiler(InsightPreviewBox, { name: 'InsightPreviewBox' })
 
 const styles = StyleSheet.create({
   mainImage: {
@@ -77,7 +112,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.background30,
   },
-  cagetory: {
+  topicTitle: {
     color: colors.brandColorB30,
     marginTop: 16,
   },

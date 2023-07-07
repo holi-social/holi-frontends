@@ -114,16 +114,15 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 const testShareSpace = async (page: Page) => {
   // open space share modal
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
-  await clickElementByTestId(page, 'space-options-btn')
-  await clickElementByTestId(page, 'space-share')
+  await clickElementByTestId(page, 'space-share-btn')
 
   //check if shared link is correct
-  const spaceShareLink = await locateElementByTestId(page, 'space-share-confirmation-description')
+  const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
   const spaceShareLinkText = await spaceShareLink.innerText()
   expect(spaceShareLinkText).toBe(page.url())
 
   // copy link and close modal / options
-  await clickElementByTestId(page, 'space-share-confirmation-confirm')
+  await clickElementByTestId(page, 'space-share-url-btn')
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await page.waitForSelector(byTestId('space-options-btn'))
 }

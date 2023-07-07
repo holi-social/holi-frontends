@@ -29,9 +29,10 @@ export const useActionDrawerContext = () => {
 export interface ActionDrawerProps {
   label: string
   testID?: string
+  variant?: 'default' | 'dark'
 }
 
-export const Drawer = ({ children, label, testID }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
+export const Drawer = ({ children, label, testID, variant }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
   const { visible: visibleModal, show: showModal, hide: hideModal } = useModalState()
@@ -45,7 +46,7 @@ export const Drawer = ({ children, label, testID }: PropsWithChildren<ActionDraw
   return (
     <ActionDrawerContext.Provider value={contextValue}>
       <HoliButton transparent inline label={label} onPress={showModal} testID={testID}>
-        <HoliIcon icon="more" color={colors.foreground20} />
+        <HoliIcon icon="more" color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
       </HoliButton>
 
       <HoliModal

@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -142,7 +143,7 @@ const DonationsAppProjectDetail = () => {
   )
 }
 
-export default memo(DonationsAppProjectDetail)
+export default withProfiler(memo(DonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({

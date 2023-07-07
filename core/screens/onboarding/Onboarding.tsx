@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useState } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -156,4 +157,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Onboarding
+export default withProfiler(Onboarding, { name: 'Onboarding' })

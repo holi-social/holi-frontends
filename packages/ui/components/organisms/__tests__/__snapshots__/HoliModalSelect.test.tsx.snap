@@ -119,66 +119,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             Public
           </Text>
         </View>
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="22"
-          bbWidth="22"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#262424",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 22,
-                "stroke": "currentColor",
-                "width": 22,
-              },
-              {
-                "flex": 0,
-                "height": 22,
-                "width": 22,
-              },
-            ]
-          }
-          tintColor="#262424"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>,
@@ -522,67 +463,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     ]
                   }
                 >
-                  <RNSVGSvgView
-                    align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
-                    color="#262424"
-                    focusable={false}
-                    meetOrSlice={0}
-                    minX={0}
-                    minY={0}
-                    style={
-                      [
-                        {
-                          "backgroundColor": "transparent",
-                          "borderWidth": 0,
-                        },
-                        {
-                          "borderStyle": "solid",
-                          "borderWidth": 0,
-                          "color": "#262424",
-                          "display": "flex",
-                          "fill": "currentColor",
-                          "flexDirection": "row",
-                          "flexWrap": "wrap",
-                          "height": 22,
-                          "stroke": "currentColor",
-                          "width": 22,
-                        },
-                        {
-                          "flex": 0,
-                          "height": 22,
-                          "width": 22,
-                        },
-                      ]
-                    }
-                    tintColor="#262424"
-                    vbHeight={1024}
-                    vbWidth={1024}
-                  >
-                    <RNSVGGroup
-                      fill={
-                        {
-                          "type": 2,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                          "stroke",
-                        ]
-                      }
-                      stroke={
-                        {
-                          "type": 2,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM414.293 839.125c-42.095-89.289-66.48-185.89-71.808-284.459h-169.173c8.303 65.66 35.495 127.497 78.275 177.993s99.304 87.484 162.706 106.466zM427.947 554.667c6.443 104.064 36.181 201.813 84.053 288.085 49.165-88.55 77.884-186.987 84.053-288.085h-168.107zM850.688 554.667h-169.173c-5.329 98.569-29.713 195.17-71.808 284.459 63.403-18.982 119.927-55.97 162.705-106.466 42.782-50.496 69.973-112.333 78.276-177.993zM173.312 469.333h169.173c5.328-98.569 29.713-195.171 71.808-284.459-63.402 18.982-119.927 55.968-162.706 106.466s-69.972 112.333-78.275 177.993zM427.989 469.333h168.021c-6.153-101.094-34.859-199.529-84.011-288.085-49.165 88.553-77.884 186.988-84.053 288.085h0.043zM609.707 184.875c42.095 89.288 66.479 185.89 71.808 284.459h169.173c-8.303-65.66-35.494-127.495-78.276-177.993-42.778-50.498-99.302-87.485-162.705-106.466z"
-                      />
-                    </RNSVGGroup>
-                  </RNSVGSvgView>
+                  <View />
                   <View
                     style={
                       {
@@ -704,66 +585,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             }
                           }
                         >
-                          <RNSVGSvgView
-                            align="xMidYMid"
-                            bbHeight="20"
-                            bbWidth="20"
-                            focusable={false}
-                            meetOrSlice={0}
-                            minX={0}
-                            minY={0}
-                            style={
-                              [
-                                {
-                                  "backgroundColor": "transparent",
-                                  "borderWidth": 0,
-                                },
-                                {
-                                  "borderStyle": "solid",
-                                  "borderWidth": 0,
-                                  "color": "#fff",
-                                  "display": "flex",
-                                  "fill": "currentColor",
-                                  "flexDirection": "row",
-                                  "flexWrap": "wrap",
-                                  "height": 20,
-                                  "stroke": "currentColor",
-                                  "width": 20,
-                                },
-                                {
-                                  "flex": 0,
-                                  "height": 20,
-                                  "width": 20,
-                                },
-                              ]
-                            }
-                            tintColor="#fff"
-                            vbHeight={1024}
-                            vbWidth={1024}
-                          >
-                            <RNSVGGroup
-                              fill={
-                                {
-                                  "type": 2,
-                                }
-                              }
-                              propList={
-                                [
-                                  "fill",
-                                  "stroke",
-                                ]
-                              }
-                              stroke={
-                                {
-                                  "type": 2,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-                              />
-                            </RNSVGGroup>
-                          </RNSVGSvgView>
+                          <View />
                         </View>
                       </View>
                     </View>
@@ -837,67 +659,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     ]
                   }
                 >
-                  <RNSVGSvgView
-                    align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
-                    color="#262424"
-                    focusable={false}
-                    meetOrSlice={0}
-                    minX={0}
-                    minY={0}
-                    style={
-                      [
-                        {
-                          "backgroundColor": "transparent",
-                          "borderWidth": 0,
-                        },
-                        {
-                          "borderStyle": "solid",
-                          "borderWidth": 0,
-                          "color": "#262424",
-                          "display": "flex",
-                          "fill": "currentColor",
-                          "flexDirection": "row",
-                          "flexWrap": "wrap",
-                          "height": 22,
-                          "stroke": "currentColor",
-                          "width": 22,
-                        },
-                        {
-                          "flex": 0,
-                          "height": 22,
-                          "width": 22,
-                        },
-                      ]
-                    }
-                    tintColor="#262424"
-                    vbHeight={1024}
-                    vbWidth={1024}
-                  >
-                    <RNSVGGroup
-                      fill={
-                        {
-                          "type": 2,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                          "stroke",
-                        ]
-                      }
-                      stroke={
-                        {
-                          "type": 2,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM414.293 839.125c-42.095-89.289-66.48-185.89-71.808-284.459h-169.173c8.303 65.66 35.495 127.497 78.275 177.993s99.304 87.484 162.706 106.466zM427.947 554.667c6.443 104.064 36.181 201.813 84.053 288.085 49.165-88.55 77.884-186.987 84.053-288.085h-168.107zM850.688 554.667h-169.173c-5.329 98.569-29.713 195.17-71.808 284.459 63.403-18.982 119.927-55.97 162.705-106.466 42.782-50.496 69.973-112.333 78.276-177.993zM173.312 469.333h169.173c5.328-98.569 29.713-195.171 71.808-284.459-63.402 18.982-119.927 55.968-162.706 106.466s-69.972 112.333-78.275 177.993zM427.989 469.333h168.021c-6.153-101.094-34.859-199.529-84.011-288.085-49.165 88.553-77.884 186.988-84.053 288.085h0.043zM609.707 184.875c42.095 89.288 66.479 185.89 71.808 284.459h169.173c-8.303-65.66-35.494-127.495-78.276-177.993-42.778-50.498-99.302-87.485-162.705-106.466z"
-                      />
-                    </RNSVGGroup>
-                  </RNSVGSvgView>
+                  <View />
                   <View
                     style={
                       {
@@ -1140,66 +902,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
             }
           }
         />
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="22"
-          bbWidth="22"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#262424",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 22,
-                "stroke": "currentColor",
-                "width": 22,
-              },
-              {
-                "flex": 0,
-                "height": 22,
-                "width": 22,
-              },
-            ]
-          }
-          tintColor="#262424"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>,
@@ -1323,66 +1026,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             }
           }
         />
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="22"
-          bbWidth="22"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#262424",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 22,
-                "stroke": "currentColor",
-                "width": 22,
-              },
-              {
-                "flex": 0,
-                "height": 22,
-                "width": 22,
-              },
-            ]
-          }
-          tintColor="#262424"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>,
@@ -1726,67 +1370,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     ]
                   }
                 >
-                  <RNSVGSvgView
-                    align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
-                    color="#262424"
-                    focusable={false}
-                    meetOrSlice={0}
-                    minX={0}
-                    minY={0}
-                    style={
-                      [
-                        {
-                          "backgroundColor": "transparent",
-                          "borderWidth": 0,
-                        },
-                        {
-                          "borderStyle": "solid",
-                          "borderWidth": 0,
-                          "color": "#262424",
-                          "display": "flex",
-                          "fill": "currentColor",
-                          "flexDirection": "row",
-                          "flexWrap": "wrap",
-                          "height": 22,
-                          "stroke": "currentColor",
-                          "width": 22,
-                        },
-                        {
-                          "flex": 0,
-                          "height": 22,
-                          "width": 22,
-                        },
-                      ]
-                    }
-                    tintColor="#262424"
-                    vbHeight={1024}
-                    vbWidth={1024}
-                  >
-                    <RNSVGGroup
-                      fill={
-                        {
-                          "type": 2,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                          "stroke",
-                        ]
-                      }
-                      stroke={
-                        {
-                          "type": 2,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM414.293 839.125c-42.095-89.289-66.48-185.89-71.808-284.459h-169.173c8.303 65.66 35.495 127.497 78.275 177.993s99.304 87.484 162.706 106.466zM427.947 554.667c6.443 104.064 36.181 201.813 84.053 288.085 49.165-88.55 77.884-186.987 84.053-288.085h-168.107zM850.688 554.667h-169.173c-5.329 98.569-29.713 195.17-71.808 284.459 63.403-18.982 119.927-55.97 162.705-106.466 42.782-50.496 69.973-112.333 78.276-177.993zM173.312 469.333h169.173c5.328-98.569 29.713-195.171 71.808-284.459-63.402 18.982-119.927 55.968-162.706 106.466s-69.972 112.333-78.275 177.993zM427.989 469.333h168.021c-6.153-101.094-34.859-199.529-84.011-288.085-49.165 88.553-77.884 186.988-84.053 288.085h0.043zM609.707 184.875c42.095 89.288 66.479 185.89 71.808 284.459h169.173c-8.303-65.66-35.494-127.495-78.276-177.993-42.778-50.498-99.302-87.485-162.705-106.466z"
-                      />
-                    </RNSVGGroup>
-                  </RNSVGSvgView>
+                  <View />
                   <View
                     style={
                       {
@@ -1980,67 +1564,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     ]
                   }
                 >
-                  <RNSVGSvgView
-                    align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
-                    color="#262424"
-                    focusable={false}
-                    meetOrSlice={0}
-                    minX={0}
-                    minY={0}
-                    style={
-                      [
-                        {
-                          "backgroundColor": "transparent",
-                          "borderWidth": 0,
-                        },
-                        {
-                          "borderStyle": "solid",
-                          "borderWidth": 0,
-                          "color": "#262424",
-                          "display": "flex",
-                          "fill": "currentColor",
-                          "flexDirection": "row",
-                          "flexWrap": "wrap",
-                          "height": 22,
-                          "stroke": "currentColor",
-                          "width": 22,
-                        },
-                        {
-                          "flex": 0,
-                          "height": 22,
-                          "width": 22,
-                        },
-                      ]
-                    }
-                    tintColor="#262424"
-                    vbHeight={1024}
-                    vbWidth={1024}
-                  >
-                    <RNSVGGroup
-                      fill={
-                        {
-                          "type": 2,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                          "stroke",
-                        ]
-                      }
-                      stroke={
-                        {
-                          "type": 2,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM414.293 839.125c-42.095-89.289-66.48-185.89-71.808-284.459h-169.173c8.303 65.66 35.495 127.497 78.275 177.993s99.304 87.484 162.706 106.466zM427.947 554.667c6.443 104.064 36.181 201.813 84.053 288.085 49.165-88.55 77.884-186.987 84.053-288.085h-168.107zM850.688 554.667h-169.173c-5.329 98.569-29.713 195.17-71.808 284.459 63.403-18.982 119.927-55.97 162.705-106.466 42.782-50.496 69.973-112.333 78.276-177.993zM173.312 469.333h169.173c5.328-98.569 29.713-195.171 71.808-284.459-63.402 18.982-119.927 55.968-162.706 106.466s-69.972 112.333-78.275 177.993zM427.989 469.333h168.021c-6.153-101.094-34.859-199.529-84.011-288.085-49.165 88.553-77.884 186.988-84.053 288.085h0.043zM609.707 184.875c42.095 89.288 66.479 185.89 71.808 284.459h169.173c-8.303-65.66-35.494-127.495-78.276-177.993-42.778-50.498-99.302-87.485-162.705-106.466z"
-                      />
-                    </RNSVGGroup>
-                  </RNSVGSvgView>
+                  <View />
                   <View
                     style={
                       {
@@ -2283,66 +1807,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             }
           }
         />
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="22"
-          bbWidth="22"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
-          style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#262424",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 22,
-                "stroke": "currentColor",
-                "width": 22,
-              },
-              {
-                "flex": 0,
-                "height": 22,
-                "width": 22,
-              },
-            ]
-          }
-          tintColor="#262424"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
-            }
-            propList={
-              [
-                "fill",
-                "stroke",
-              ]
-            }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
-          >
-            <RNSVGPath
-              d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+        <View />
       </View>
     </View>
   </View>,

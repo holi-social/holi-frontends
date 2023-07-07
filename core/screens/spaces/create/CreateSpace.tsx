@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -157,7 +158,7 @@ const CreateSpace = () => {
   )
 }
 
-export default CreateSpace
+export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 
 const styles = StyleSheet.create({
   wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background10 },

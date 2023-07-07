@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -125,4 +126,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default memo(FilteredSpaces)
+export default withProfiler(memo(FilteredSpaces), { name: 'FilteredSpaces' })

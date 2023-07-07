@@ -1,12 +1,15 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
 
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
+import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
 export type HoliTextSize = (typeof HoliTextSizes)[number]
-export type HoliTextColor = 'black300' | 'error200' | 'gray200' | 'gray300' | 'white100'
+export type HoliTextColor = 'black300' | 'error200' | 'gray200' | 'gray300' | 'white100' | 'brandB300'
 
 // TODO: remove the style prop from the interface as it break design and
 // introduce bugs.
@@ -19,6 +22,8 @@ export interface HoliTextProps extends TextProps {
   style?: StyleProp<TextStyle>
   testID?: string
   numberOfLines?: number
+  loading?: boolean
+  skeletonOptions?: SkeletonTextOptions
 }
 
 const HoliText = ({
@@ -29,17 +34,29 @@ const HoliText = ({
   color = 'black300',
   selectable = true,
   size = 'default',
+  numberOfLines,
+  loading = false,
+  skeletonOptions,
   ...props
 }: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const alignStyles = getAlignStyles(align)
 
+  if (loading) {
+    return (
+      <View style={props?.style}>
+        <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '60%')} />
+      </View>
+    )
+  }
+
   return (
     <Text
       accessible={false}
       selectable={selectable}
       testID={testID}
+      numberOfLines={numberOfLines}
       {...props}
       style={StyleSheet.flatten([
         styles.base,
@@ -98,6 +115,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     error200: {
       color: colors.error20,
+    },
+    brandB300: {
+      color: colors.brandColorB30,
     },
     bold: {
       fontWeight: '500',

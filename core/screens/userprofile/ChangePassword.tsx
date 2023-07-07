@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
   getSessionFromStorage,
@@ -20,6 +19,7 @@ import {
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'

@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -77,8 +78,9 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       appName={HOLI_APPS.DONATIONS}
       renderItem={renderItem}
       data={projectsToRender}
+      appIcon="hand-heart"
       heading={t('donations:app.name')}
-      headingIcon="hand-heart"
+      subline={t('donations:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading}
@@ -86,4 +88,5 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
     />
   )
 }
-export default DonationUpdates
+
+export default withProfiler(DonationUpdates, { name: 'DonationUpdates' })

@@ -69,6 +69,10 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditUpdate]: 'spaces/:spaceIdOrName/updates/:postId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
         [RouteName.SpaceUpdateCommentInputPage]: 'spaces/:spaceIdOrName/updates/:postId/comment',
+        [RouteName.SpaceInviteView]: 'spaces/:spaceIdOrName/invite',
+        [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
+        [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
+        [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
       },
     },
 

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -33,10 +34,6 @@ const InsightsOfTheWeekList: React.FC = () => {
 
   if (error) {
     logError(error, `[InsightsOfTheWeekList.tsx] ${error.message}`)
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
     return <></>
   }
 
@@ -77,7 +74,7 @@ const InsightsOfTheWeekList: React.FC = () => {
         inline
       >
         <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile users={insightsCreators} collapse />
+          <HoliUserAvatarPile users={insightsCreators} collapse loading={loading} />
           <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
             {t('insights.editors.editedBy')}
           </HoliText>
@@ -93,12 +90,12 @@ const InsightsOfTheWeekList: React.FC = () => {
         />
       </HoliModal>
 
-      <InsightList style={styles.insightList} insights={insights} />
+      <InsightList style={styles.insightList} loading={loading} insights={insights} />
     </>
   )
 }
 
-export default InsightsOfTheWeekList
+export default withProfiler(InsightsOfTheWeekList, { name: 'InsightsOfTheWeekList' })
 
 const styles = StyleSheet.create({
   insightsSubtitle: {

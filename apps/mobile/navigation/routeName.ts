@@ -26,6 +26,10 @@ export enum RouteName {
   EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
+  SpaceInviteView = 'SpaceInviteView',
+  Collaborators = 'Collaborators',
+  SpaceRolesPermissions = 'SpaceRolesPermissions',
+  EditCollaborators = 'EditCollaborators',
 
   // Chat Stack
   ChatHome = 'ChatHome',

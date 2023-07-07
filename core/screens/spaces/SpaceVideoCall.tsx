@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
 import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
@@ -95,4 +96,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default SpaceVideoCall
+export default withProfiler(SpaceVideoCall, { name: 'SpaceVideoCall' })

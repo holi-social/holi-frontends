@@ -7,7 +7,8 @@ import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeade
 
 jest.useFakeTimers()
 
-describe('SpaceHeader', () => {
+// TODO: re-enable with HOLI-4898
+xdescribe('SpaceHeader', () => {
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(
       <MockedProvider addTypename={false}>

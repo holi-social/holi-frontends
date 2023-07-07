@@ -197,7 +197,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   </View>
                 </PanGestureHandler>
               ) : (
-                <View style={styles.heading}>
+                <View style={[styles.heading]}>
                   <HoliButton
                     label={t('modal.backdrop')}
                     style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}

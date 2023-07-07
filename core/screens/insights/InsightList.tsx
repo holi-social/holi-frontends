@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -10,29 +11,34 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 export type InsightsProps = {
   insights: Insight[]
   style?: StyleProp<ViewStyle>
+  loading?: boolean
 }
 
 const InsightList: React.VFC<InsightsProps> = (props) => {
   const insightGridItemsInRow = useBreakpointMatcher()
+  const loading = props.loading ?? false
 
   return (
     <View style={props.style}>
       {/* insights */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          props.insights.map((insight) => (
-            <HoliGridCell key={insight.id}>
-              <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
-            </HoliGridCell>
-          ))
-        }
+        {loading
+          ? new Array(4).fill(1).map((_, idx) => (
+              <HoliGridCell key={idx}>
+                <InsightPreviewBox style={styles.insight} loading />
+              </HoliGridCell>
+            ))
+          : props.insights.map((insight) => (
+              <HoliGridCell key={insight.id}>
+                <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
+              </HoliGridCell>
+            ))}
       </HoliGridWrapper>
     </View>
   )
 }
 
-export default InsightList
+export default withProfiler(InsightList, { name: 'InsightList' })
 
 const styles = StyleSheet.create({
   insight: {
