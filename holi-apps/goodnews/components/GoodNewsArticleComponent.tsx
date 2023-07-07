@@ -4,6 +4,8 @@ import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewSt
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { useImageScalingWindowDimensions } from '@holi/ui/components/atoms/HoliImage/useImageScalingWindowDimensions'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -25,6 +27,10 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
 }: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
+    relativeHeight: Platform.OS === 'web' ? 0.75 : 0.5,
+  })
+  const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 
   return (
     <View
@@ -33,7 +39,8 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >
-      <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
+      {/** TODO replace ImageBackground with a holi component that has all image sizing features like HoliImage */}
+      <ImageBackground source={{ uri: scaledImageUri }} resizeMode="cover" style={styles.headerBackgroundImage}>
         {!!article.pictureCredit && (
           <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
             {article.pictureCredit}
