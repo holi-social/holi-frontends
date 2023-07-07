@@ -38,7 +38,11 @@ const holiImageScaling = (
   //   even when images are smaller than the requested sizes
   // - cropping is done with centered gravity
   // - pictures are not enlarged to requested size (to keep bandwidth lower)
-  return uriBase + 'crop:0:0/resize:fill-down' + width + height + '/plain/' + encodedOriginalUrl
+  // https://docs.imgproxy.net/generating_the_url?id=format
+  // - 'ext' section forces a file format, we use webp (better than jpg on 80% quality)
+  // https://docs.imgproxy.net/generating_the_url?id=quality
+  // - 'quality' section forces a compression quality, we use the default 80% explicitly
+  return uriBase + 'crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
 }
 
 /** @description Appends the ImageKit image transformation query parameter to
