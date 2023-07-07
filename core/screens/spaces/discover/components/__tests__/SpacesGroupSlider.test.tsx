@@ -76,7 +76,8 @@ describe('SpacesGroupSlider', () => {
     expect(coverImage.props.proxiedProperties.source).toEqual([{ uri: 'https://www.example.com/space1.jpg' }])
     expect(avatarImage.props.proxiedProperties.source).toEqual([
       {
-        uri: 'https://www.example.com/avatar.jpg?tr=w-48',
+        height: 24,
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
         width: 24,
       },
     ])

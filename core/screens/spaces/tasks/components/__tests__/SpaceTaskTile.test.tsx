@@ -23,7 +23,13 @@ describe('SpaceTaskTile', () => {
 
     const avatarImage = getAllByRole('image')[1] // the avatar is the second image (after thumbnail)
     const proxiedImgProps = avatarImage.props.proxiedProperties
-    expect(proxiedImgProps.source).toStrictEqual([{ uri: 'https://www.example.com/avatar.jpg?tr=w-128', width: 64 }])
+    expect(proxiedImgProps.source).toStrictEqual([
+      {
+        height: 64,
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
+        width: 64,
+      },
+    ])
     expect(proxiedImgProps.accessibilityLabel).toEqual('Some Body')
   })
 })
