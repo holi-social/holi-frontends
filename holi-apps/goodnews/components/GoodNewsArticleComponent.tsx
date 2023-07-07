@@ -20,13 +20,15 @@ type GoodNewsArticleComponentProps = {
   accessible?: boolean
 }
 
-const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
+const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
   style,
 }: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  // keep in sync with GoodNewsTeaserComponent
   const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
     relativeHeight: Platform.OS === 'web' ? 0.75 : 0.5,
   })
