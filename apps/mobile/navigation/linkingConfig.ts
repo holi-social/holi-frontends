@@ -72,6 +72,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceInviteView]: 'spaces/:spaceIdOrName/invite',
         [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
         [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
+        [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
       },
     },
 
