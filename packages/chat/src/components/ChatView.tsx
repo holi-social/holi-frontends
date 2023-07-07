@@ -14,7 +14,6 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const ChatView = () => {
-  // TODO: implement custom hooks specially for subscriber atoms
   useAtom(roomMessagesAtom)
   useAtom(roomAtomsAtomSubscriber)
   useAtom(roomMessagesSubscriberAtom)

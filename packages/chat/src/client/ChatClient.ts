@@ -58,7 +58,7 @@ export default class ChatClient {
 
     const notifTimelineSet = new EventTimelineSet(undefined, {
       timelineSupport: true,
-      pendingEvents: false,
+      pendingEvents: true,
     })
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
