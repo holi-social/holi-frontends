@@ -16,7 +16,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 // TODO: remove after implementing Chat
-const IS_CHAT_ENABLED = false
+const IS_CHAT_ENABLED = true
 
 const ChatHome = () => {
   const { t } = useTranslation()

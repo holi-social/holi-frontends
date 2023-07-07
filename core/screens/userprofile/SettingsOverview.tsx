@@ -17,7 +17,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const IS_CHAT_ENABLED = false
+const IS_CHAT_ENABLED = true
 const chatLoginClient = new ChatLogin()
 
 const SettingsOverview = () => {

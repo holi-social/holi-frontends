@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import useChatLogin from '@holi/chat/src/client/useChatLogin'
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -32,7 +32,8 @@ export type LoginParams = {
   return_to?: string
 }
 
-const IS_CHAT_ENABLED = false
+const chatLoginClient = new ChatLogin()
+const IS_CHAT_ENABLED = true
 
 const { useParam } = createParam<LoginParams>()
 
@@ -48,7 +49,6 @@ const Login = () => {
   const { onOnboardingStateChange } = useOnboarding()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
-  const { chatLoginClient } = useChatLogin()
 
   const isLoggedIn = !!userId
 
