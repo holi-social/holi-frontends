@@ -8,6 +8,8 @@ import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import InsightsFAQ from '@holi/core/screens/homeFeed/insightsFAQ'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { Insight } from '@holi/core/screens/insights/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -19,6 +21,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const InsightsOfTheWeekList: React.FC = () => {
   const { t } = useTranslation()
+
+  const { user } = useLoggedInUser()
 
   const {
     show: showInsightsFAQ,
@@ -40,9 +44,11 @@ const InsightsOfTheWeekList: React.FC = () => {
   return (
     <>
       {/* Headline */}
-      <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
-        {t('homeFeed.heading')}
-      </HoliHeading>
+      <HoliBox padding={[0, 0, 8, 0]}>
+        <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
+          {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
+        </HoliHeading>
+      </HoliBox>
 
       {/* Insight FAQ with Popup */}
       <HoliButton
@@ -53,33 +59,41 @@ const InsightsOfTheWeekList: React.FC = () => {
         testID="home-feed-insights-subtitle-button"
         inline
       >
-        <View style={styles.insightsSubtitleContent}>
-          <HoliHeading level="3" size="small" testID="home-feed-insights-subtitle" style={styles.insightsSubtitleText}>
-            {t('homeFeed.insights.subtitle')}
-          </HoliHeading>
-          <HoliIcon icon="information" size={20} filled={false} color={colors.foreground20} />
-        </View>
+        <HoliBox padding={[8, 0]}>
+          <View style={styles.insightsSubtitleContent}>
+            <HoliHeading
+              level="3"
+              size="small"
+              testID="home-feed-insights-subtitle"
+              style={styles.insightsSubtitleText}
+            >
+              {t('homeFeed.insights.subtitle')}
+            </HoliHeading>
+            <HoliIcon icon="information" size={20} filled={false} color={colors.foreground20} />
+          </View>
+        </HoliBox>
       </HoliButton>
       <HoliModal label={t('homeFeed.insights.subtitle')} {...insightFAQModalProps} testID="insights-faq-modal">
         <InsightsFAQ onDismiss={hideInsightsFAQ} />
       </HoliModal>
 
       {/* Curators with popup */}
-      <HoliButton
-        label={t('insights.editors.modal.title')}
-        transparent
-        style={styles.editorsButton}
-        onPress={showEditorsModal}
-        testID="avatar-pile-open-modal-button"
-        inline
-      >
-        <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile users={insightsCreators} collapse loading={loading} />
-          <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
-            {t('insights.editors.editedBy')}
-          </HoliText>
-        </View>
-      </HoliButton>
+      <HoliBox padding={[8, 0]}>
+        <HoliButton
+          label={t('insights.editors.modal.title')}
+          transparent
+          onPress={showEditorsModal}
+          testID="avatar-pile-open-modal-button"
+          inline
+        >
+          <View style={styles.editorsButtonContent}>
+            <HoliUserAvatarPile users={insightsCreators} collapse loading={loading} />
+            <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
+              {t('insights.editors.editedBy')}
+            </HoliText>
+          </View>
+        </HoliButton>
+      </HoliBox>
 
       <HoliModal label={t('insights.editors.modal.title')} {...editorsModalProps} testID="insight-editors-modal">
         <HoliUserCardsModalContent
@@ -98,20 +112,14 @@ const InsightsOfTheWeekList: React.FC = () => {
 export default withProfiler(InsightsOfTheWeekList, { name: 'InsightsOfTheWeekList' })
 
 const styles = StyleSheet.create({
-  insightsSubtitle: {
-    marginTop: 8,
-  },
   insightsSubtitleContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   insightsSubtitleText: {
     fontWeight: '400',
     color: colors.foreground20,
-  },
-  editorsButton: {
-    marginTop: 8,
   },
   editorsButtonContent: {
     flexDirection: 'row',
@@ -123,6 +131,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   insightList: {
-    marginTop: 36,
+    marginTop: 24,
   },
 })
