@@ -8,7 +8,8 @@ export interface ChatRoom {
   name: string
   hasInvitation: boolean
   notificationCount: number
-  lastThread: ChatMessage | undefined
+  lastMessage: ChatMessage | undefined
+  timestamp: number | undefined
 }
 
 export type ChatContentType = 'm.text'
