@@ -4,14 +4,18 @@ import { Platform, StyleSheet } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
 }
+const { useParam } = createParam<SpaceVideoCallListParams>()
 
 const SpaceVideoCallList = () => {
+  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
 
   const setScreenOptions = useSetScreenOptions()
@@ -30,7 +34,9 @@ const SpaceVideoCallList = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap />
+      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+        <VideoCallLinks spaceIdOrName={spaceIdOrName} />
+      </ScrollHeaderLayout.Default>
     </>
   )
 }
@@ -42,22 +48,5 @@ const styles = StyleSheet.create({
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
     marginTop: 10,
     backgroundColor: colors.background20,
-  },
-  tabStyle: {
-    backgroundColor: colors.background20,
-    paddingBottom: 24,
-  },
-  overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: vars.topBarHeight,
-    right: 24,
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    justifyContent: 'center',
   },
 })

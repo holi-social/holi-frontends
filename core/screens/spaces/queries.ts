@@ -92,6 +92,14 @@ export const SpaceFragment = gql`
       title
       number
     }
+    videoCallLinks {
+      data {
+        id
+        url
+        roomName
+        created
+      }
+    }
   }
 `
 

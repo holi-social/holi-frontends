@@ -746,5 +746,9 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}"
+  "wizard.stepsCount": "Step {{current}} of {{total}}",
+  "spaces.input.videoCallLink.roomName.placeholder": "Enter a descriptive name...",
+  "spaces.input.videoCallLink.roomName.label": "Room name",
+  "spaces.input.videoCallLink.generate": "Generate link",
+  "spaces.input.videoCallLink.generating": "Generating link"
 }
