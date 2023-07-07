@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import useChatLogin from '@holi/chat/src/client/useChatLogin'
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -18,13 +18,15 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const IS_CHAT_ENABLED = false
+const chatLoginClient = new ChatLogin()
+
 const SettingsOverview = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { logout, isLoggingOut } = useLogout()
-  const { chatLoginClient } = useChatLogin()
+
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
       if (IS_CHAT_ENABLED) {
