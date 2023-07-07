@@ -20,6 +20,9 @@ type GoodNewsArticleComponentProps = {
   accessible?: boolean
 }
 
+export const relativeImageHeightWeb = 0.75 // estimated
+export const relativeImageHeightMobile = 0.5 // estimated
+
 const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
@@ -28,9 +31,8 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  // keep in sync with GoodNewsTeaserComponent
   const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
-    relativeHeight: Platform.OS === 'web' ? 0.75 : 0.5,
+    relativeHeight: Platform.OS === 'web' ? relativeImageHeightWeb : relativeImageHeightMobile,
   })
   const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 
