@@ -12,6 +12,9 @@ import SpaceCollaboratorsManage, {
   SpaceCollaboratorsManageParams,
 } from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
 import SpaceInviteView, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInviteView'
+import SpaceRolesPermissions, {
+  SpaceRolesPermissionsParams,
+} from '@holi/core/screens/spaces/details/components/SpaceRolesPermissions'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
 import EditSpaceCollaborators, {
   EditSpaceCollaboratorsParams,
@@ -46,6 +49,7 @@ export type SpacesScreens = {
   [RouteName.SpaceInviteView]: SpaceInviteViewParams
   [RouteName.Collaborators]: SpaceCollaboratorsManageParams
   [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
+  [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -82,6 +86,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceInviteView} component={SpaceInviteView} />
       <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaboratorsManage} />
       <SpacesStack.Screen name={RouteName.EditCollaborators} component={EditSpaceCollaborators} />
+      <SpacesStack.Screen name={RouteName.SpaceRolesPermissions} component={SpaceRolesPermissions} />
     </SpacesStack.Navigator>
   )
 }

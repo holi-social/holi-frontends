@@ -5,7 +5,7 @@ import type { HoliImageProps, ImageSource } from '@holi/ui/components/utils/imag
 import { setImageKitParams } from '@holi/ui/components/utils/image'
 import { vars } from '@holi/ui/styles/globalVars'
 
-import styles from './HoliImage.module.scss'
+import styles from './styles.module.scss'
 
 interface Props extends HoliImageProps {
   source: ImageSource | ImageSource[]

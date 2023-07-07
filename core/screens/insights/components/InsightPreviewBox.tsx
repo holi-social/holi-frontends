@@ -38,7 +38,15 @@ const InsightPreviewBox: React.FC<InsightPreviewBoxProps> = ({ insight, loading,
 
         <HoliHeading level="3" selectable={true} size="xSmall" style={styles.topicTitle} loading />
 
-        <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop} loading />
+        <HoliHeading
+          level="2"
+          selectable={true}
+          size="small"
+          numberOfLines={3}
+          style={styles.spaceTop}
+          loading
+          skeletonOptions={{ numberOfLines: 2 }}
+        />
 
         <HoliText size="small" style={styles.spaceTop} selectable={true} loading />
 
