@@ -26,6 +26,7 @@ import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/Cr
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
 import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
+import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -44,6 +45,7 @@ export type SpacesScreens = {
   [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
   [RouteName.SpaceStorage]: SpaceStorageParams
   [RouteName.SpaceVideoCall]: SpaceVideoCallParams
+  [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
   [RouteName.SpaceInviteView]: SpaceInviteViewParams
@@ -74,6 +76,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
       <SpacesStack.Screen name={RouteName.SpaceVideoCall} component={SpaceVideoCall} />
+      <SpacesStack.Screen name={RouteName.SpaceVideoCallList} component={SpaceVideoCallList} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />

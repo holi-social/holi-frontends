@@ -681,6 +681,7 @@
   "spaces.updates.noResults.tagline": "Keine Updates bisher",
   "spaces.validation.avatar.invalid_image": "Die hochgeladene Datei ist entweder kein valides Bild oder die Datei ist beschädigt",
   "spaces.validation.avatar.max_upload_size": "Die hochgeladene Datei ist größer als 8MB",
+  "spaces.videocall.header": "Virtuelle Meetings",
   "update.modal.description": "Bitte aktualisiere die App",
   "update.modal.dialog.confirm": "Update",
   "update.modal.dialog.dismiss": "App schließen",

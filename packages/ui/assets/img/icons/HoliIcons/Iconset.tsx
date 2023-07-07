@@ -51,6 +51,7 @@ export const ICONSET_REGULAR: Record<string, StaticImageData> = {
   instagram: require('@holi/ui/assets/img/icons/HoliIcons/regular/instagram.svg'),
   'key-2': require('@holi/ui/assets/img/icons/HoliIcons/regular/key-2.svg'),
   'link-m': require('@holi/ui/assets/img/icons/HoliIcons/regular/link-m.svg'),
+  vidicon: require('@holi/ui/assets/img/icons/HoliIcons/regular/vidicon.svg'),
   linkedin: require('@holi/ui/assets/img/icons/HoliIcons/regular/linkedin.svg'),
   links: require('@holi/ui/assets/img/icons/HoliIcons/regular/links.svg'),
   'loader-4': require('@holi/ui/assets/img/icons/HoliIcons/regular/loader-4.svg'),

@@ -680,6 +680,7 @@
   "spaces.updates.noResults.tagline": "No Updates yet",
   "spaces.validation.avatar.invalid_image": "The file you uploaded is not a valid image or the file is corrupt",
   "spaces.validation.avatar.max_upload_size": "The file you uploaded is bigger than 8MB",
+  "spaces.videocall.header": "Video calls",
   "update.modal.description": "Please update the app",
   "update.modal.dialog.confirm": "Update",
   "update.modal.dialog.dismiss": "Close app",

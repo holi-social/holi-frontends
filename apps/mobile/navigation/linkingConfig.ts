@@ -62,6 +62,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/:toolIdOrName/edit',
         [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
         [RouteName.SpaceVideoCall]: 'spaces/:spaceIdOrName/videocall',
+        [RouteName.SpaceVideoCallList]: 'spaces/:spaceIdOrName/video-call',
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/tasks/create',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
         [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
