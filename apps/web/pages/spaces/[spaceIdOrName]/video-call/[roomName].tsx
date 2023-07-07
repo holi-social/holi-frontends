@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import SpaceVideoCall from '@holi/core/screens/spaces/SpaceVideoCall'
+import SpaceVideoCall from '@holi/core/screens/spaces/videoCall/SpaceVideoCall'
 
 const SpaceVideoCallPage: NextPage = () => <SpaceVideoCall />
 

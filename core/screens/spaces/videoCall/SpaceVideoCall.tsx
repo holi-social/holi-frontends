@@ -18,12 +18,14 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceVideoCallParams = {
   spaceIdOrName: string
+  roomName: string
 }
 
 const { useParam } = createParam<SpaceVideoCallParams>()
 
 const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const [roomName] = useParam('roomName')
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
@@ -34,7 +36,9 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   })
   const space = data?.spaceById
   const displayNameParam = user?.firstName ? `&userInfo.displayName="${user?.firstName}"` : ''
-  const videoCallUrl = getUrlForSpaceVideoCall(space) + encodeURI('#config.disableDeepLinking=true' + displayNameParam)
+  const videoCallUrl = encodeURI(
+    `${getUrlForSpaceVideoCall(space, roomName)}#config.disableDeepLinking=true${displayNameParam}`
+  )
 
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {
