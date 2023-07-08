@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,6 +7,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -50,10 +51,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const [showPartnerModal, setShowPartnerModal] = useState(false)
-  const closeModal = useCallback(() => {
-    setShowPartnerModal(false)
-  }, [])
+  const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
   return (
@@ -76,7 +74,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
             partner={partner}
-            onPress={() => setShowPartnerModal(true)}
+            onPress={showPartnerModal}
           />
         </HoliBox>
         <PartnerModal
@@ -84,7 +82,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
           text={t('goodnews:listing.partnerModal.text')}
           buttonText={t('goodnews:listing.partnerModal.link.text')}
           partner={partner}
-          show={showPartnerModal}
+          show={show}
           onDismiss={closeModal}
         />
         <HoliText size="small" style={styles.source}>
