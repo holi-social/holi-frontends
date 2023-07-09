@@ -322,6 +322,7 @@
   "spaces.collaborate.onboarding.input.label": "Message",
   "spaces.collaborate.onboarding.optional": "This information is optional",
   "spaces.collaborate.onboarding.title": "It's great that you would like to collaborate.",
+  "spaces.collaborate.onboarding.request": "I want to collaborate",
   "spaces.collaborators": "Collaborators",
   "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.loadMoreButton": "See more",
