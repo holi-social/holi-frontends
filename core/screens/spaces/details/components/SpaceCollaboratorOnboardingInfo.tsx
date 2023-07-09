@@ -11,25 +11,31 @@ const SpaceCollaboratorOnboardingInfo: React.FC = () => {
   const { t } = useTranslation()
 
   return (
-    <View style={[mixins.container, styles.wrapper]}>
+    <View style={mixins.container}>
       <HoliText style={styles.header} size="large">
         {t('spaces.collaborate.onboarding.info.header')}
       </HoliText>
       <View style={styles.row}>
         <View style={styles.count}>
-          <HoliText size="large">1</HoliText>
+          <HoliText size="large" style={styles.italic}>
+            1
+          </HoliText>
         </View>
         <HoliText style={styles.text}>{t('spaces.collaborate.onboarding.info.text1')}</HoliText>
       </View>
       <View style={styles.row}>
         <View style={styles.count}>
-          <HoliText size="large">2</HoliText>
+          <HoliText size="large" style={styles.italic}>
+            2
+          </HoliText>
         </View>
         <HoliText style={styles.text}>{t('spaces.collaborate.onboarding.info.text2')}</HoliText>
       </View>
       <View style={styles.row}>
         <View style={styles.count}>
-          <HoliText size="large">3</HoliText>
+          <HoliText size="large" style={styles.italic}>
+            3
+          </HoliText>
         </View>
         <HoliText style={styles.text}>{t('spaces.collaborate.onboarding.info.text3')}</HoliText>
       </View>
@@ -38,17 +44,13 @@ const SpaceCollaboratorOnboardingInfo: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: 20,
-    borderColor: colors.brandColorB20,
-  },
   header: {
     marginBottom: 20,
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    alignItems: 'flex-start',
+    marginBottom: 16,
   },
   count: {
     alignItems: 'center',
@@ -60,8 +62,10 @@ const styles = StyleSheet.create({
     borderColor: colors.brandColorB20,
     borderWidth: 1,
     flexShrink: 0,
-    fontStyle: 'italic',
     marginRight: 16,
+  },
+  italic: {
+    fontStyle: 'italic',
   },
   text: {
     flex: 1,
