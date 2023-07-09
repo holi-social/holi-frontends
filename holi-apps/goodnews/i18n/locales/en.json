@@ -1,6 +1,9 @@
 {
   "app.name": "Good News",
   "app.subline": "curated by goodnews.eu",
+  "listing.partnerModal.headline": "Your daily dose of optimism",
+  "listing.partnerModal.text": "The most important good news, innovations, and solutions from around the world, brought to you every day, from Monday to Friday.",
+  "listing.partnerModal.link.text": "curated by goodnews.eu",
   "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "Continue reading",
   "listing.teaser.title": "Looking for more?",
