@@ -1,17 +1,9 @@
-import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import client from '@holi/api/graphql/client'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
-import {
-  UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
+import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,61 +15,18 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
   space: Space
-  hideParent?: () => void
   showOnboarding?: () => void
+  onboarding?: boolean
+  message?: string | undefined
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboarding, ...props }) => {
+const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, onboarding, showOnboarding, message, ...props }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
-  const { displayError } = useErrorHandling()
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-      update: (cache) => {
-        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-      },
-
-      onError(error) {
-        client.cache.evict({ id: client.cache.identify(space) })
-
-        if (error.message.includes('Not requested to join community')) {
-          displayError(error, t('spaces.join.error.already-revoked'))
-        } else {
-          displayError(error, t('spaces.join.error'))
-        }
-      },
-    }
-  )
-
-  const submitJoinRequest = useCallback(() => {
-    if (!isLoggedIn) {
-      return openLoginModal({
-        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
-      })
-    }
-
-    if (showOnboarding) {
-      showOnboarding()
-      return
-    }
-
-    updateSpaceUserConnection({
-      variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        spaceId: space.id,
-      },
-    }).then(() => {
-      showJoinOverlay()
-    })
-  }, [isLoggedIn, updateSpaceUserConnection, space.id, space.title, openLoginModal, t, showJoinOverlay, showOnboarding])
+  const { loading, submitJoinRequest, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -93,10 +42,14 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboardin
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
 
-  const completeOnboarding = useCallback(() => {
-    hideJoinOverlay()
-    hideParent?.()
-  }, [hideJoinOverlay, hideParent])
+  const handleRequest = () => {
+    if (onboarding) {
+      showOnboarding?.()
+    } else {
+      submitJoinRequest()
+      // console.log('join request submitted AFTER --------')
+    }
+  }
 
   const SpaceJoinOverlay = () => {
     return (
@@ -111,7 +64,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboardin
       >
         <HoliModalContentWrapper
           actionButtonText={t('spaces.join.overlay.button')}
-          onActionButtonPress={completeOnboarding}
+          onActionButtonPress={hideJoinOverlay}
           style={styles.modalContentWrapper}
           headlineStyle={styles.headline}
         >
@@ -136,9 +89,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboardin
       {!isRequestor && !isMember && (
         <HoliButton
           inline
-          variant="small"
           label={t('spaces.join.btnRequest')}
-          onPress={submitJoinRequest}
+          onPress={handleRequest}
           style={props.style}
           disabled={loading}
         >
@@ -149,7 +101,6 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, hideParent, showOnboardin
         <HoliButton
           inline
           type="secondary"
-          variant="small"
           label={t('spaces.join.btnPending')}
           onPress={() => setWithdrawDialogIsOpen(true)}
           style={props.style}

@@ -35,7 +35,6 @@ export const useSpaceJoinRequest = (
       update: (cache) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
       },
-
       onError(error) {
         client.cache.evict({ id: client.cache.identify(space) })
 
@@ -44,6 +43,10 @@ export const useSpaceJoinRequest = (
         } else {
           displayError(error, t('spaces.join.error'))
         }
+      },
+      onCompleted() {
+        // console.log('updateSpaceUserConnection finished')
+        // showJoinOverlay()
       },
     }
   )
@@ -61,9 +64,9 @@ export const useSpaceJoinRequest = (
         message: message === '' ? null : message,
         spaceId: space.id,
       },
-    }).then(() => {
-      showJoinOverlay()
     })
+    showJoinOverlay()
+    // console.log('join request submitted')
   }
 
   return {
