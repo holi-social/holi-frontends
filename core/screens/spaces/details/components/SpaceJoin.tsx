@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
@@ -8,13 +8,10 @@ import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/component
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 export type SpaceJoinProps = {
   space: Space
@@ -25,7 +22,7 @@ export type SpaceJoinProps = {
 const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { t } = useTranslation()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
-  const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
+  const { show: showJoinOverlay } = useModalState()
   const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
   const { isLoggedIn } = useLoggedInUser()
@@ -52,39 +49,6 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
       })
     }
     showOnboarding()
-  }
-
-  const SpaceJoinOverlay = () => {
-    return (
-      <HoliModal
-        heading={t('spaces.collaborate.onboarding.header')}
-        label={'space.join.overlay'}
-        {...joinOverlayProps}
-        testID="space-join-overlay"
-        autoHeight={false}
-        relativeHeight={1}
-        style={styles.modalHeader}
-      >
-        <HoliModalContentWrapper
-          actionButtonText={t('spaces.join.overlay.button')}
-          onActionButtonPress={hideJoinOverlay}
-          style={styles.modalContentWrapper}
-          headlineStyle={styles.headline}
-        >
-          <View style={styles.imageContainer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
-              isSvg
-              width={72}
-              height={72}
-              label={t('spaces.collaborate.onboarding.image.mail.label')}
-            />
-          </View>
-          <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
-          <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
-        </HoliModalContentWrapper>
-      </HoliModal>
-    )
   }
 
   return (
@@ -127,47 +91,14 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
         onConfirm={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
-      <SpaceJoinOverlay />
-      <SpaceCollaboratorOnboarding space={space} hideOnboarding={hideOnboarding} visible={onboardingVisible} />
+      <SpaceCollaboratorOnboarding
+        space={space}
+        hideOnboarding={hideOnboarding}
+        visible={onboardingVisible}
+        onboarding={isRequestor || isMember}
+      />
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  headline: {
-    textAlign: 'left',
-    marginHorizontal: 0,
-  },
-  text: {
-    marginTop: 16,
-    marginBottom: 40,
-    color: colors.foreground20,
-  },
-  modalHeader: {
-    backgroundColor: colors.background30,
-  },
-  modalContentWrapper: {
-    paddingHorizontal: 24,
-    backgroundColor: colors.background30,
-  },
-  imageContainer: {
-    alignItems: 'flex-start',
-    paddingVertical: 16,
-  },
-  link: {
-    display: 'flex',
-    flex: 1,
-  },
-  userCard: {
-    flex: 1,
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  overlayButton: {
-    marginTop: 40,
-  },
-})
 
 export default SpaceJoin

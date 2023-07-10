@@ -1,49 +1,83 @@
-import React, { useCallback, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
-import { Space } from '@holi/core/screens/spaces/types'
+import client from '@holi/api/graphql/client'
+import FormWrapper from '@holi/core/components/FormWrapper'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import {
+  UpdateSpaceUserConnectionResponse,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/details/mutations'
+import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
-
-// import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
-// import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-// import HoliButton from '@holi/ui/components/molecules/HoliButton'
-// import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceCollaboratorOnboardingProps {
   space: Space
   visible: boolean
   hideOnboarding: () => void
+  onboarding: boolean
 }
 
 const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = ({
   space,
   visible,
   hideOnboarding,
+  onboarding = false,
 }) => {
-  // const mixins = useStyleMixins()
-  // const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
   const { t } = useTranslation()
-
-  const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
   const [message, setMessage] = useState<string>('')
-  const { isKeyboardOpen } = useKeyboard()
-  const { isSoftkeyboardOpen } = useSoftKeyboard()
-  const keyboardPresent = isKeyboardOpen || isSoftkeyboardOpen
 
-  const { submitJoinRequest } = useSpaceJoinRequest(space, showJoinOverlay, message)
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
+  const { displayError } = useErrorHandling()
 
-  const completeOnboarding = useCallback(() => {
-    hideJoinOverlay()
-    hideOnboarding()
-  }, [hideJoinOverlay, hideOnboarding])
+  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+    updateSpaceUserConnectionMutation,
+    {
+      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+      update: (cache) => {
+        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+      },
+      onError(error) {
+        client.cache.evict({ id: client.cache.identify(space) })
+
+        if (error.message.includes('Not requested to join community')) {
+          displayError(error, t('spaces.join.error.already-revoked'))
+        } else {
+          displayError(error, t('spaces.join.error'))
+        }
+      },
+    }
+  )
+
+  const submitJoinRequest = () => {
+    if (!isLoggedIn) {
+      return openLoginModal({
+        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+      })
+    }
+    updateSpaceUserConnection({
+      variables: {
+        connectAction: SpaceConnectionAction.CONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        message: message === '' ? null : message,
+        spaceId: space.id,
+      },
+    })
+  }
+
+  const insets = useSafeAreaInsets()
+
+  const styles = createStyles(insets.bottom)
 
   return (
     <>
@@ -53,53 +87,77 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         heading={t('spaces.collaborate.onboarding.header')}
         onDismiss={hideOnboarding}
         autoHeight={false}
+        relativeHeight={1}
         style={styles.modal}
       >
-        <HoliModalContentWrapper
-          actionButtonText={t('spaces.collaborate.onboarding.request')}
-          onActionButtonPress={submitJoinRequest}
-          style={[styles.modalContentWrapper, keyboardPresent && styles.modalWithKeyboard]}
-          headlineStyle={styles.headline}
-        >
-          <View>
-            <View style={styles.imageContainer}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                isSvg
-                width={72}
-                height={72}
-                label={t('spaces.collaborate.onboarding.image.sparkle.label')}
-              />
-            </View>
-            <HoliText size="extralarge" bold={false}>
-              {t('spaces.collaborate.onboarding.title')}
-            </HoliText>
-            <HoliText style={styles.desc}>{t('spaces.collaborate.onboarding.desc')}</HoliText>
-            <HoliTextInput
-              placeholder={t('spaces.collaborate.onboarding.input')}
-              accessibilityLabel={t('spaces.collaborate.onboarding.input')}
-              style={styles.input}
-              noOfVisibleLines={5}
-              showCharacterCount
-              inputLabel={t('spaces.collaborate.onboarding.input.label')}
-              maxNoOfVisibleLines={5}
-              maxNoOfCharacters={1000}
-              isRequired={false}
-              value={message}
-              onChange={setMessage}
-            />
-            <HoliText size="extrasmall" style={styles.optional}>
-              {t('spaces.collaborate.onboarding.optional')}
-            </HoliText>
+        <FormWrapper
+          onSave={onboarding ? hideOnboarding : submitJoinRequest}
+          saveButtonDisabled={loading}
+          loading={loading}
+          buttonLabel={onboarding ? t('spaces.join.overlay.button') : t('spaces.collaborate.onboarding.request')}
+          testID="space-join-request-modal"
+          keyboardShouldPersistTaps="never"
+          isModal={false}
+          renderProp={() => {
+            if (onboarding) {
+              return (
+                <>
+                  <View style={styles.imageContainer}>
+                    <HoliLocalImage
+                      imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
+                      isSvg
+                      width={72}
+                      height={72}
+                      label={t('spaces.collaborate.onboarding.image.mail.label')}
+                    />
+                  </View>
+                  <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
+                  <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
+                </>
+              )
+            }
+            return (
+              <View>
+                <View style={styles.imageContainer}>
+                  <HoliLocalImage
+                    imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                    isSvg
+                    width={72}
+                    height={72}
+                    label={t('spaces.collaborate.onboarding.image.sparkle.label')}
+                  />
+                </View>
+                <HoliText size="extralarge" bold={false}>
+                  {t('spaces.collaborate.onboarding.title')}
+                </HoliText>
+                <HoliText style={styles.desc}>{t('spaces.collaborate.onboarding.desc')}</HoliText>
+                <HoliTextInput
+                  placeholder={t('spaces.collaborate.onboarding.input')}
+                  accessibilityLabel={t('spaces.collaborate.onboarding.input')}
+                  style={styles.input}
+                  noOfVisibleLines={5}
+                  showCharacterCount
+                  inputLabel={t('spaces.collaborate.onboarding.input.label')}
+                  maxNoOfVisibleLines={5}
+                  maxNoOfCharacters={1000}
+                  isRequired={false}
+                  value={message}
+                  onChange={setMessage}
+                />
+                <HoliText size="extrasmall" style={styles.optional}>
+                  {t('spaces.collaborate.onboarding.optional')}
+                </HoliText>
 
-            {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
+                {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
               <View style={styles.info}>
                 <HoliIcon icon="information" />
                 <HoliText>{t('spaces.collaborate.onboarding.active')}</HoliText>
               </View>
             </HoliButton> */}
-          </View>
-        </HoliModalContentWrapper>
+              </View>
+            )
+          }}
+        />
 
         {/* <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <View style={[mixins.container, styles.infoModal]}>
@@ -107,87 +165,53 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
           </View>
         </HoliModal> */}
       </HoliModal>
-
-      <HoliModal
-        heading={t('spaces.collaborate.onboarding.header')}
-        label={'space.join.overlay'}
-        {...joinOverlayProps}
-        testID="space-join-overlay"
-        autoHeight={false}
-        relativeHeight={1}
-        style={styles.modalHeader}
-      >
-        <HoliModalContentWrapper
-          actionButtonText={t('spaces.join.overlay.button')}
-          onActionButtonPress={completeOnboarding}
-          style={styles.modalContentWrapper}
-          headlineStyle={styles.headline}
-        >
-          <View style={styles.imageContainer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
-              isSvg
-              width={72}
-              height={72}
-              label={t('spaces.collaborate.onboarding.image.mail.label')}
-            />
-          </View>
-          <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
-          <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
-        </HoliModalContentWrapper>
-      </HoliModal>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: colors.background30,
-    minHeight: '100%',
-  },
-  modalWithKeyboard: {
-    bottom: 150,
-  },
-  modalHeader: {
-    backgroundColor: colors.background30,
-  },
-  modalContentWrapper: {
-    paddingHorizontal: 24,
-    backgroundColor: colors.background30,
-    paddingBottom: 24,
-  },
-  headline: {
-    textAlign: 'left',
-    marginHorizontal: 0,
-  },
-  text: {
-    marginTop: 16,
-    marginBottom: 40,
-    color: colors.foreground20,
-  },
-  imageContainer: {
-    alignItems: 'flex-start',
-    paddingVertical: 16,
-  },
-  desc: {
-    marginVertical: 16,
-  },
-  input: {
-    marginVertical: 16,
-  },
-  optional: {
-    marginTop: -32,
-    color: colors.foreground20,
-  },
-  // info: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   gap: 4,
-  //   marginTop: 32,
-  // },
-  // infoModal: {
-  //   marginBottom: 20,
-  // },
-})
+const createStyles = (bottomInsets: number) =>
+  StyleSheet.create({
+    modal: {
+      flex: 1,
+      backgroundColor: colors.background20,
+      ...Platform.select({
+        // TODO: Fix FormWrapper usage to avoid this
+        ios: {
+          paddingBottom: bottomInsets > 0 ? 90 : 0,
+        },
+        web: {
+          paddingBottom: 70,
+        },
+      }),
+    },
+    text: {
+      marginTop: 16,
+      marginBottom: 40,
+      color: colors.foreground20,
+    },
+    imageContainer: {
+      alignItems: 'flex-start',
+      paddingVertical: 16,
+    },
+    desc: {
+      marginVertical: 16,
+    },
+    input: {
+      marginVertical: 16,
+    },
+    optional: {
+      marginTop: -32,
+      color: colors.foreground20,
+    },
+    // info: {
+    //   flexDirection: 'row',
+    //   alignItems: 'center',
+    //   gap: 4,
+    //   marginTop: 32,
+    // },
+    // infoModal: {
+    //   marginBottom: 20,
+    // },
+  })
 
 export default SpaceCollaboratorOnboarding
