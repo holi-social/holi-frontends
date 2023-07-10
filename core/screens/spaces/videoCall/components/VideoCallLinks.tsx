@@ -51,7 +51,9 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }:
   return (
     <View style={style}>
       <AddVideoCallLink space={space} />
-      <HoliHeading style={styles.heading}>{t('spaces.videocall.generatedLinks.heading')}</HoliHeading>
+      {videoCallLinks.length > 0 && (
+        <HoliHeading style={styles.heading}>{t('spaces.videocall.generatedLinks.heading')}</HoliHeading>
+      )}
       {videoCallLinks.map((link) => (
         <VideoCallLinkCard key={link.id} space={space} videoCallLink={link} />
       ))}
@@ -63,7 +65,6 @@ export default VideoCallLinks
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 16,
-    marginBottom: 8,
+    marginVertical: 16,
   },
 })

@@ -5,7 +5,7 @@ import { Clipboard, Platform, Share } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-export type UseShareLink = [string, () => void]
+export type UseShareLink = [string, () => Promise<void>]
 
 export const useShareLink = (title: string, link: string, externalLink = false): UseShareLink => {
   const url = useRef('')
@@ -42,7 +42,7 @@ export const useShareLink = (title: string, link: string, externalLink = false):
     }
   }, [displayError, title])
 
-  const shareLinkWeb = useCallback(() => {
+  const shareLinkWeb = useCallback(async () => {
     Clipboard.setString(url.current)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
   }, [openToast, t])

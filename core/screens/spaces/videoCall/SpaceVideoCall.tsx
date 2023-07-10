@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { getUrlForSpaceVideoCall } from '@holi/core/screens/spaces/helpers/urls'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -39,6 +40,15 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   const videoCallUrl = encodeURI(
     `${getUrlForSpaceVideoCall(space, roomName)}#config.disableDeepLinking=true${displayNameParam}`
   )
+  const setScreenOptions = useSetScreenOptions()
+
+  useLayoutEffect(() => {
+    if (roomName) {
+      setScreenOptions({
+        title: roomName,
+      })
+    }
+  }, [roomName, setScreenOptions])
 
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {
@@ -91,7 +101,7 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight,
+      minHeight: deviceHeight - +vars.topBarHeight - 20,
       marginTop: vars.topBarHeight,
     },
     messageContainer: {

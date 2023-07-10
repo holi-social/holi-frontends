@@ -42,7 +42,7 @@ export interface ActionProps {
   isLoading?: boolean
   variant?: 'default' | 'danger'
   showConfirmation?: boolean
-  handleAction?: (event: SyntheticEvent | GestureResponderEvent) => void
+  handleAction?: (event: SyntheticEvent | GestureResponderEvent) => Promise<void> | void
   testID?: string
 }
 
@@ -64,9 +64,9 @@ export const Action = ({
   const variantColor = isDanger ? colors.error20 : colors.foreground30
   const colorName = isDanger ? 'error200' : 'black300'
 
-  const handleOnPress = (e: SyntheticEvent | GestureResponderEvent) => {
+  const handleOnPress = async (e: SyntheticEvent | GestureResponderEvent) => {
     if (showConfirmation) setShowConfirmation(showConfirmation)
-    handleAction?.(e)
+    await handleAction?.(e)
     !showConfirmation && hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
   }
 

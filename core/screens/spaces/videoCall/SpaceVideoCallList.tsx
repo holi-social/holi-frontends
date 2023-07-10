@@ -63,6 +63,7 @@ export default SpaceVideoCallList
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    paddingBottom: 0,
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
