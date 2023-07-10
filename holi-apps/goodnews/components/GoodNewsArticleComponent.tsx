@@ -14,6 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
@@ -45,9 +46,6 @@ type GoodNewsArticleComponentProps = {
   accessible?: boolean
 }
 
-export const relativeImageHeightWeb = 0.75 // estimated
-export const relativeImageHeightMobile = 0.5 // estimated
-
 const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
@@ -60,7 +58,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
   const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
-    relativeHeight: Platform.OS === 'web' ? relativeImageHeightWeb : relativeImageHeightMobile,
+    relativeHeight: relativeArticleImageHeightScaling,
   })
   const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 

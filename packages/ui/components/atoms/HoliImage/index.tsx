@@ -7,7 +7,8 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
-const useReactNativeImageForComparison = false
+// left in here for future possibility of speed comparison
+const debugWithReactNativeImage = false
 
 // https://github.com/expo/expo/issues/21921 is fixed, so we can use expo-image again
 const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testID, onLayout }: MobileImageProps) => {
@@ -19,8 +20,8 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
 
   const transformedSource = transformSourcesURL(source)
 
-  if (useReactNativeImageForComparison) {
-    // no blurhash available
+  if (debugWithReactNativeImage && (resizeMode === 'cover' || resizeMode === 'contain' || resizeMode === undefined)) {
+    // no blurhash available, only applicable to certain resize modes
     return (
       <ReactNativeImage
         source={transformedSource}

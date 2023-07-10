@@ -35,5 +35,5 @@ export type HoliLocalImageProps = {
   /**
    * The resizeMode to apply to the image. Default 'cover'. Using the React Native values and mapping them to corresponding object-fit values for web.
    */
-  resizeMode?: 'cover' | 'contain' | 'stretch'
+  resizeMode?: 'cover' | 'contain' | 'stretch' // add more, if you need more
 }

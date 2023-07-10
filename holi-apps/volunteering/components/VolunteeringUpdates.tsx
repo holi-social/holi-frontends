@@ -55,8 +55,7 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
         appName={HOLI_APPS.VOLUNTEERING}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/engagement/${item.id}`)}
         title={title}
-        imageSource={item.imageUrl ? { uri: item.imageUrl, width: 160, height: 160 } : []}
-        imageSizes={'160px'}
+        imageSourceUri={item.imageUrl}
         footer={item.source}
       />
     )

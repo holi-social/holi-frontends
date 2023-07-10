@@ -28,7 +28,7 @@ const argTypes = {
   style: { description: 'Wrapper style override', control: false },
   resizeMode: {
     description: 'the resizeMode for the image',
-    options: ['cover', 'contain', 'fill'], // An array of serializable values
+    options: ['cover', 'contain', 'fill', 'none', 'scale-down', undefined], // An array of serializable values
     control: {
       type: 'select',
     },
