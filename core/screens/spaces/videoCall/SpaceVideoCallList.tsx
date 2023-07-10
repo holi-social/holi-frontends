@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
     marginTop: 10,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight + 40,
+    paddingTop: vars.topBarHeight + 60,
   },
   card: {
     marginBottom: 16,
