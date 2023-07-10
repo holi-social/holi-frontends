@@ -2,9 +2,11 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -26,6 +28,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
   const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -40,6 +44,15 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
+
+  const handleRequest = () => {
+    if (!isLoggedIn) {
+      return openLoginModal({
+        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+      })
+    }
+    showOnboarding()
+  }
 
   const SpaceJoinOverlay = () => {
     return (
@@ -80,7 +93,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
         <HoliButton
           inline
           label={t('spaces.join.btnRequest')}
-          onPress={showOnboarding}
+          onPress={handleRequest}
           variant="small"
           style={props.style}
           disabled={loading}
