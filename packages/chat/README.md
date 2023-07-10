@@ -6,6 +6,7 @@ contains
   - [Getting started](#getting-started)
     - [Development](#development)
     - [Local Development](#local-backend-development)
+  - [Architecture](#architecture)
 
 ## Getting started
 
@@ -45,7 +46,21 @@ home `holi-url/chat.
 
 ## Architecture
 
-// TODO: in progress documentation. It's more of a mind dump to remind myself to update the documentation.
+We use the matrix protocol for secure and decentralized communication in the holi chat. It comprises two central systems; a chat home server and a client. We host our own [Synapse homeserver](https://matrix-org.github.io/synapse/latest/) used locally for development or on the deployed staging server. Our home server is necessary for hosting our holi user accounts.
 
-The Matrix protocol uses an event-driven architecture. In the front end, it's essential to separate read and write
-operations for the Matrix Store.
+The matrix protocol uses an event-driven architecture. In the front end, it's essential to separate read and write operations to ensure we are not encountering any wasteful re-renders. We hide the **matrix-js-sdk** client behind a `ChatClient` facade (bulk accessor) that hides matrix complexity for the holi chat. The `ChatClient` is a singleton and only communicates with the `Store.`
+
+// TODO: Continue updating the documentation
+### ChatLogin
+
+### ChatClient
+
+### Jōtai Store
+Check the Jōtai documentation for more information. You can find the link in the references below.
+
+
+## References
+[matrix](https://matrix.org/)
+[matrix documentation](https://matrix.org/docs/chat_basics/matrix-for-im/)
+[matrix-js-sdk](https://matrix-org.github.io/matrix-js-sdk/)
+[Jotai](https://jotai.org/)
