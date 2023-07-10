@@ -54,7 +54,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
-  const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
+  const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
   const partner = DONATIONS_IMG_SOURCES_MAPPING['betterplace.org']
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
         text={t('donations:listing.partnerModal.text')}
         buttonText={t('donations:listing.partnerModal.link.text')}
         partner={partner}
-        show={show}
+        show={partnerModalVisible}
         onDismiss={closeModal}
       />
       {isFiltering && (
