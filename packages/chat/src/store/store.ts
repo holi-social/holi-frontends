@@ -7,6 +7,7 @@ import ChatClient from '@holi/chat/src/client/ChatClient'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import { InvitationUpdate, createChatRoom, updateInvitation } from '@holi/chat/src/store/room'
 import type { ChatMessage, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
+import { isCreateMessage } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 
 /** Store **/
@@ -165,11 +166,6 @@ export const joinRoomAtom = atom(null, (get, set, roomUpdate: InvitationUpdate) 
  */
 
 export const roomMessagesAtom = atom<ChatMessage[]>([])
-
-const isCreateMessage = (input: CreateMessage | ChatMessage): input is CreateMessage => {
-  // eslint-disable-next-line no-prototype-builtins
-  return input.hasOwnProperty('text') && input.hasOwnProperty('roomId')
-}
 
 /**
  * @name roomMessagesSubscriberAtom (Write-Only)
