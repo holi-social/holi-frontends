@@ -4,8 +4,8 @@ exports[`renders correctly for web passes aspect ratio 1`] = `
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
-  srcSet="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
+  src="http://placekitten.com/320/213"
+  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
     {
       "aspectRatio": "1.7777777777777777",
@@ -19,8 +19,8 @@ exports[`renders correctly for web passes sizes property  based on s 2 pixel den
 <img
   alt="alt text"
   sizes="500px"
-  src="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
-  srcSet="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
+  src="http://placekitten.com/320/213"
+  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
     {
       "objectFit": "cover",
@@ -69,8 +69,8 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
-  srcSet="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
+  src="http://placekitten.com/320/213"
+  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
     {
       "objectFit": "contain",
@@ -83,8 +83,8 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
-  srcSet="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
+  src="http://placekitten.com/320/213"
+  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
     {
       "objectFit": "cover",
@@ -97,8 +97,8 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 <img
   alt="alt text"
   sizes="(min-width:1200px) 1200px, 100vw"
-  src="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
-  srcSet="https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fill-down:/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
+  src="http://placekitten.com/320/213"
+  srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
     {
       "objectFit": "fill",
