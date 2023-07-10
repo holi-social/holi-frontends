@@ -307,7 +307,7 @@ const SpaceDetails = () => {
           <SpaceCollaboratorOnboarding space={space} hideOnboarding={hideOnboarding} visible={onboardingVisible} />
           <View style={styles.floatingContainer}>
             <SpaceFollow space={space} />
-            <SpaceJoin space={space} onboarding={true} showOnboarding={showOnboarding} />
+            <SpaceJoin space={space} showOnboarding={showOnboarding} />
           </View>
         </>
       )}

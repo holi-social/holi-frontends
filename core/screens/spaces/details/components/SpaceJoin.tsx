@@ -16,17 +16,16 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceJoinProps = {
   space: Space
   showOnboarding?: () => void
-  onboarding?: boolean
   message?: string | undefined
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, onboarding, showOnboarding, message, ...props }) => {
+const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, showOnboarding, message, ...props }) => {
   const { t } = useTranslation()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
 
-  const { loading, submitJoinRequest, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
+  const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -41,15 +40,6 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, onboarding, showOnboardin
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
-
-  const handleRequest = () => {
-    if (onboarding) {
-      showOnboarding?.()
-    } else {
-      submitJoinRequest()
-      // console.log('join request submitted AFTER --------')
-    }
-  }
 
   const SpaceJoinOverlay = () => {
     return (
@@ -90,7 +80,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, onboarding, showOnboardin
         <HoliButton
           inline
           label={t('spaces.join.btnRequest')}
-          onPress={handleRequest}
+          onPress={showOnboarding}
           style={props.style}
           disabled={loading}
         >

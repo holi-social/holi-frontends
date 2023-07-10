@@ -44,10 +44,6 @@ export const useSpaceJoinRequest = (
           displayError(error, t('spaces.join.error'))
         }
       },
-      onCompleted() {
-        // console.log('updateSpaceUserConnection finished')
-        // showJoinOverlay()
-      },
     }
   )
 
@@ -66,7 +62,6 @@ export const useSpaceJoinRequest = (
       },
     })
     showJoinOverlay()
-    // console.log('join request submitted')
   }
 
   return {
