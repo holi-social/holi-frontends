@@ -9,7 +9,6 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
@@ -45,14 +44,8 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
 
   const renderItem = ({ item }: { item: Project }) => {
     const { categories, donationsCount, progressPercentage, openAmountInCents, picture } = item
-    const sources: ImageSource[] = picture
-      .filter((picture) => !!picture.width && !!picture.height)
-      .map((picture) => ({
-        // TODO this might set the wrong values (since it doesn't respect pixel-density)
-        uri: picture.url,
-        width: picture.width || 0,
-        height: picture.height || 0,
-      }))
+    // we can't crop + fill mismatching required width+height combinations to the source images with the betterplace api,
+    // so we use the original on our image service
     const original = picture.find(({ type }) => type === 'original')
 
     return (
@@ -60,7 +53,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
         appName={HOLI_APPS.DONATIONS}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`)}
         title={item.title}
-        imageSource={sources.length ? sources : original ? { uri: original?.url, width: 160, height: 160 } : []}
+        imageSource={original ? { uri: original?.url, width: 160, height: 160 } : []}
         imageSizes={'160px'}
         footer={
           <DonationProgress

@@ -5,7 +5,7 @@ import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
-const debugMode = true
+const debugMode = false
 
 /** @description It handles the correct pixel density for native host platforms.
  * It returns the same input value for the web. Different sizes in the web can
@@ -82,9 +82,6 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
     } catch (error) {
       return source
     }
-  } else if (uri.startsWith('https://betterplace-assets.betterplace.org/')) {
-    // betterplace images already come in pre-sized source arrays
-    return source
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params

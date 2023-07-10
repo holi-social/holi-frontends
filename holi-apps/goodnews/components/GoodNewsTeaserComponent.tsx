@@ -5,7 +5,7 @@ import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'reac
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { useImageScalingWindowDimensions } from '@holi/ui/components/atoms/HoliImage/useImageScalingWindowDimensions'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -35,7 +35,7 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
   const mixins = useStyleMixins()
 
   // keep in sync with GoodNewsArticleComponent
-  const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
+  const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
     relativeHeight: Platform.OS === 'web' ? relativeImageHeightWeb : relativeImageHeightMobile,
   })
   const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })

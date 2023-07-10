@@ -18,7 +18,7 @@ interface ImageScaledSize {
 const webCacheBucketSize = 250
 const maxWidth = 1200
 
-export const useImageScalingWindowDimensions = (
+export const useWindowDimensionsWithImageScaling = (
   { relativeWidth = 1, relativeHeight = 1 }: ImageScalingParams = { relativeWidth: 1, relativeHeight: 1 }
 ): ImageScaledSize => {
   const { width, height, scale, fontScale } = useWindowDimensions()
