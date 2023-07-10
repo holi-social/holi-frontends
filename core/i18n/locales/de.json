@@ -529,6 +529,7 @@
   "spaces.invite.search.hint": "Personen, die du direkt einlädst, werden zu Collaborator des Spaces.",
   "spaces.invite.search.input": "E-Mail oder Namen eingeben",
   "spaces.invite.search.title": "Einladen über E-Mail oder Name",
+  "spaces.invite.success": "Einladung versendet",
   "spaces.join.btnPending": "Anfrage ausstehend",
   "spaces.join.btnRequest": "Beitreten",
   "spaces.join.error": "Es gab einen Fehler beim Beitritt zu diesem Space. Bitte probiere es später nochmal",

@@ -37,4 +37,16 @@ export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
 }
 
+export const inviteToSpaceByEmailMutation = gql`
+  mutation InviteToSpaceByEmail($email: String!, $spaceId: UUID!) {
+    inviteToSpaceByEmail(email: $email, spaceId: $spaceId) {
+      success
+    }
+  }
+`
+
+export type InviteToSpaceByEmailResponse = {
+  success: boolean
+}
+
 export type SpaceUserConnectionType = string

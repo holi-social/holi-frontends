@@ -528,6 +528,7 @@
   "spaces.invite.search.hint": "People you directly invite will become collaborators of the Space.",
   "spaces.invite.search.input": "Enter email or search for a name",
   "spaces.invite.search.title": "Invite via email or name",
+  "spaces.invite.success": "Invitation sent",
   "spaces.join.btnPending": "Waiting to join",
   "spaces.join.btnRequest": "Collaborate",
   "spaces.join.error": "There was an error updating the connection with this Space. Please retry later",
