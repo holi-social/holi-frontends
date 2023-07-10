@@ -51,9 +51,6 @@ const holiImageScaling = (
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setScalingParams = (source: ImageSource): ImageSource => {
-  if (!source.width && !source.height) return source
-  if (isImageSourceURIBase64(source)) return source
-
   const uri = source.uri
   const calculatedWidth = calcPixelRatioSize(source.width)
   const calculatedHeight = calcPixelRatioSize(source.height)
@@ -61,8 +58,14 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   if (debugMode) {
     const width = calculatedWidth ?? calcPixelRatioSize(1200)
     const height = calculatedHeight ?? calcPixelRatioSize(1200)
-    const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg'
+    const padding = '    ' // increase/decrease, if needed to see image size
+    const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
+    const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
     return { ...source, uri: newUri }
+  } else if (!calculatedWidth && !calculatedHeight) {
+    return source
+  } else if (isImageSourceURIBase64(source)) {
+    return source
   } else if (uri.startsWith('https://ik.imagekit.io/')) {
     try {
       const url = new URL(uri)
