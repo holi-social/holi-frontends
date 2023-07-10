@@ -1,14 +1,17 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
+import { useShareLink } from '@holi/core/hooks/useShareLink'
+import i18n from '@holi/core/i18n'
+import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { jitsiUrl } from '@holi/core/screens/spaces/helpers/config'
 import { Space, VideoCallLink } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface VideoCallLinkCardProps {
   space: Space
@@ -26,37 +29,69 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallL
       navigate(webViewUrl)
     }
   }, [navigate, space.name, videoCallLink.url])
+
+  const [, shareLink] = useShareLink(videoCallLink.roomName, videoCallLink.url, true)
+
+  const formattedDate = useMemo(() => {
+    const dateString = getRelativeDateString(videoCallLink.created, i18n.language)
+    return dateString.charAt(0).toUpperCase() + dateString.slice(1)
+  }, [videoCallLink.created])
+
   return (
-    <View>
-      <HoliButton transparent label={videoCallLink.roomName} onPress={navigateToVideoCall}>
-        <HoliText>{videoCallLink.created}</HoliText>
+    <View style={styles.card}>
+      <View style={styles.cardContent}>
+        <HoliText style={styles.detailText}>{formattedDate}</HoliText>
         <HoliHeading level="2">{videoCallLink.roomName}</HoliHeading>
-        <HoliText>{videoCallLink.url}</HoliText>
-      </HoliButton>
+        <HoliText style={styles.detailText}>{videoCallLink.url}</HoliText>
+      </View>
       <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-video-call-link-more-options">
-        <HoliHeading level="2">{videoCallLink.roomName}</HoliHeading>
-        <HoliText>{videoCallLink.url}</HoliText>
-        {/* <HoliActionDrawer.Action
-          isLoading={isLoadingDeleteTask}
-          action="delete"
-          title={t('spaces.digitalTool.delete.label')}
-          variant="danger"
-          testID="btn-to-delete-task"
-          showConfirmation
-        >
-          <HoliActionDrawer.Confirmation
-            title={t('spaces.tasks.delete.confirmation.title')}
-            description={t('spaces.tasks.delete.confirmation.description')}
-            testID="task-delete"
-            handleConfirmation={deleteTask}
-            buttonType="warning"
-            hasDismissBtn
-            requireLogin
-          />
-        </HoliActionDrawer.Action> */}
+        <HoliHeading level="2" style={styles.optionsHeading}>
+          {videoCallLink.roomName}
+        </HoliHeading>
+        <HoliText style={[styles.detailText, styles.optionsLink]}>{videoCallLink.url}</HoliText>
+        <HoliActionDrawer.Action
+          action="external"
+          title={t('spaces.videocall.link.open')}
+          testID="videocall-link-open-btn"
+          handleAction={navigateToVideoCall}
+        />
+        <HoliActionDrawer.Action
+          action="share"
+          title={t('global.share')}
+          testID="videocall-link-share-btn"
+          handleAction={shareLink}
+        />
       </HoliActionDrawer.Drawer>
     </View>
   )
 }
 
 export default VideoCallLinkCard
+
+const styles = StyleSheet.create({
+  card: {
+    flexDirection: 'row',
+    backgroundColor: colors.background10,
+    padding: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.background30,
+    alignItems: 'center',
+  },
+  cardContent: {
+    flex: 1,
+  },
+  detailText: {
+    color: colors.foreground20,
+  },
+  optionsHeading: {
+    marginBottom: 12,
+  },
+  optionsLink: {
+    paddingBottom: 24,
+    borderBottomWidth: 1,
+    borderColor: colors.background30,
+    marginBottom: 24,
+  },
+})

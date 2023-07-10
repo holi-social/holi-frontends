@@ -83,7 +83,6 @@ export interface Space {
   posts?: Paged<Post>
   hasPublicPosts?: boolean
   hasPrivatePosts?: boolean
-  videoCallLinks?: Paged<VideoCallLink>
 }
 
 export enum SpaceSectionType {

@@ -1,60 +1,66 @@
-import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleProp, View, ViewStyle } from 'react-native'
+import { z } from 'zod'
 
+import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { createUUID } from '@holi/core/helpers'
 import { generateSpaceVideoCallUrl } from '@holi/core/screens/spaces/helpers/urls'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
-import {
-  AddVideoCallLinkResponse,
-  AddVideoCallLinkSchema,
-  addVideoCallLinkMutation,
-} from '@holi/core/screens/spaces/videoCall/mutations'
+import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 interface AddVideoCallLinkProps {
   space: Space
+  style?: StyleProp<ViewStyle>
 }
 
-const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space }: AddVideoCallLinkProps) => {
+const AddVideoCallLinkSchema = z.object({
+  roomName: z.string().trim().min(1).max(50).optional(),
+})
+
+const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: AddVideoCallLinkProps) => {
   const { t } = useTranslation()
   const [roomName, setRoomName] = useState('')
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const [loading, setLoading] = useState(false)
   const [inputValid, setInputValid] = useState(false)
-  const { handleGraphQLError } = useFieldErrors({
+  const { addVideoCallLink } = useVideoCallLinkStorage(space.name)
+  const { translateFieldErrors } = useFieldErrors({
+    i18nPrefix: 'spaces.videocall.link',
     handledFieldErrors: ['roomName'],
   })
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
-  const [addVideoCallLink, { loading }] = useMutation<AddVideoCallLinkResponse>(addVideoCallLinkMutation, {
-    onCompleted: () => setRoomName(''),
-    onError: (error) => setFieldErrors(handleGraphQLError(error)),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.name } }],
-  })
-
-  const createLink = useCallback(() => {
+  const createLink = useCallback(async () => {
+    setLoading(true)
     const url = generateSpaceVideoCallUrl(space, roomName)
     return addVideoCallLink({
-      variables: {
-        input: {
-          spaceId: space.id,
-          url,
-          roomName,
-        },
-      },
+      id: createUUID(),
+      url,
+      roomName,
+      created: new Date().toISOString(),
+    }).finally(() => {
+      setLoading(false)
+      setRoomName('')
     })
+    // TODO(SF) display toast
   }, [addVideoCallLink, roomName, space])
 
   useEffect(() => {
     const resultSchema = AddVideoCallLinkSchema.safeParse({
       roomName,
     })
+    if (!resultSchema.success) {
+      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+      setFieldErrors(translateFieldErrors(fieldErrors))
+    }
     setInputValid(resultSchema.success)
-  }, [roomName])
+  }, [roomName, translateFieldErrors])
 
   return (
-    <>
+    <View style={style}>
       <HoliTextInput
         placeholder={t('spaces.input.videoCallLink.roomName.placeholder')}
         inputLabel={t('spaces.input.videoCallLink.roomName.label')}
@@ -63,7 +69,6 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space }: AddVideoCa
         onChange={setRoomName}
         accessibilityLabel={t('spaces.input.videoCallLink.roomName.label')}
         testID="video-call-link-room-name"
-        style={{ marginTop: 16 }}
         isRequired={true}
         maxNoOfCharacters={50}
       />
@@ -74,8 +79,9 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space }: AddVideoCa
         testID="video-call-link-generate-btn"
         icon={loading ? 'loader-4' : undefined}
         iconSpinning={loading}
+        style={{ marginVertical: 16 }}
       />
-    </>
+    </View>
   )
 }
 

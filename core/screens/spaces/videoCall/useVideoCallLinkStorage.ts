@@ -1,0 +1,46 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
+import AsyncStore from '@react-native-async-storage/async-storage'
+import { useCallback, useEffect } from 'react'
+
+import { logError } from '@holi/core/errors/helpers'
+import { VideoCallLink } from '@holi/core/screens/spaces/types'
+
+export const VIDEO_CALL_LINK_STORAGE_NAME = 'space-videocall-links_'
+
+export interface UseVideoCallLinkStorage {
+  videoCallLinks: VideoCallLink[]
+  addVideoCallLink: (videoCallLink: VideoCallLink) => Promise<void>
+}
+const videoCallLinksVar = makeVar<VideoCallLink[]>([])
+
+export const useVideoCallLinkStorage = (spaceName?: string): UseVideoCallLinkStorage => {
+  const storageKey = VIDEO_CALL_LINK_STORAGE_NAME + spaceName
+  const videoCallLinks = useReactiveVar(videoCallLinksVar)
+
+  useEffect(() => {
+    if (spaceName) {
+      AsyncStore.getItem(storageKey)?.then(async (value) => {
+        try {
+          const links = value ? JSON.parse(value) : []
+          videoCallLinksVar(links)
+        } catch (error) {
+          logError(error, '[space/videoCall/storage.ts] Could not parse stored video call links')
+        }
+      })
+    }
+  }, [spaceName, storageKey])
+
+  const addVideoCallLink = useCallback(
+    async (videoCallLink: VideoCallLink) => {
+      const newLinks = [videoCallLink, ...videoCallLinks]
+      videoCallLinksVar(newLinks)
+      await AsyncStore.setItem(storageKey, JSON.stringify(newLinks))
+    },
+    [storageKey, videoCallLinks]
+  )
+
+  return {
+    videoCallLinks,
+    addVideoCallLink,
+  }
+}

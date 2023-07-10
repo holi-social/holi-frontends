@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -8,15 +9,17 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import AddVideoCallLink from '@holi/core/screens/spaces/videoCall/components/AddVideoCallLink'
 import VideoCallLinkCard from '@holi/core/screens/spaces/videoCall/components/VideoCallLinkCard'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 interface VideoCallLinksProps {
   spaceIdOrName: string | undefined
+  style?: StyleProp<ViewStyle>
 }
 
-const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName }: VideoCallLinksProps) => {
+const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }: VideoCallLinksProps) => {
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
+  const { t } = useTranslation()
 
   const {
     data,
@@ -29,6 +32,8 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName }: VideoC
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+
+  const { videoCallLinks } = useVideoCallLinkStorage(space?.name)
 
   if (errorSpace) {
     logError(errorSpace, `[VideoCallLinks.tsx] ${errorSpace.message}`)
@@ -44,10 +49,10 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName }: VideoC
   }
 
   return (
-    <View style={[mixins.container, styles.container]}>
+    <View style={style}>
       <AddVideoCallLink space={space} />
-      {/* TODO(SF) add pagination */}
-      {space?.videoCallLinks?.data?.map((link) => (
+      <HoliHeading style={styles.heading}>{t('spaces.videocall.generatedLinks.heading')}</HoliHeading>
+      {videoCallLinks.map((link) => (
         <VideoCallLinkCard key={link.id} space={space} videoCallLink={link} />
       ))}
     </View>
@@ -57,7 +62,8 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName }: VideoC
 export default VideoCallLinks
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 24,
+  heading: {
+    marginTop: 16,
+    marginBottom: 8,
   },
 })

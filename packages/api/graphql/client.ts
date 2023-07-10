@@ -89,7 +89,6 @@ export const createCache = () =>
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
-          videoCallLinks: alwaysReplacePolicy,
         },
       },
       SpacePaged: {
@@ -98,11 +97,6 @@ export const createCache = () =>
         },
       },
       SpaceMemberPaged: {
-        fields: {
-          data: nestedPaginationPolicy(['idOrName']),
-        },
-      },
-      VideoCallLinksPaged: {
         fields: {
           data: nestedPaginationPolicy(['idOrName']),
         },
