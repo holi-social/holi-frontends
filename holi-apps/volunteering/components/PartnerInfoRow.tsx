@@ -34,7 +34,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
           <View style={styles.partnerImage}>
             <HoliLocalImage
               imageSource={partner.logo.src}
-              isSvg={partner.isSvg}
+              isSvg={partner.logo.isSvg}
               width={logoWidth}
               height={logoHeight}
               label={headline ?? ''}

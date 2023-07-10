@@ -49,6 +49,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
             <HoliBox padding={[18, 0]}>
               <HoliLocalImage
                 imageSource={partner.wordmark.src}
+                isSvg={partner.wordmark.isSvg}
                 label={''}
                 width={partner.wordmark.width || 100}
                 height={partner.wordmark.height || 100}
