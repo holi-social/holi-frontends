@@ -61,7 +61,7 @@ const getStyles = (logoWidth: number) => {
     partnerImage: {
       borderRadius: logoWidth / 2,
       overflow: 'hidden',
-      marginRight: 16,
+      marginRight: 8,
     },
     partnerInfoRow: {
       flexDirection: 'row',
