@@ -12,7 +12,7 @@ export type StaticImageData = {
 
 export type HoliLocalImageProps = {
   imageSource: StaticImageData
-  // we need the hint if the image source is an svg because for images defined via require()-calls,
+  // we need the hint if the image source is a svg because for images defined via require()-calls,
   // we can't know, at least on mobile, where the resulting type of the require is number
   isSvg?: boolean
   /**

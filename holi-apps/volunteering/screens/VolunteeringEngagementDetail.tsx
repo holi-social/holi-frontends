@@ -16,47 +16,59 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
+import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
 import {
   AppVolunteeringEngagementByIdResponse,
   TrackEngagementViewResponse,
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer } from '@holi-apps/volunteering/types'
+import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
 
 const VOLUNTEERING_IMG_SOURCES_MAPPING: {
-  [name: string]: { imgSource: StaticImageData; url: string; isSvg: boolean }
+  [name: string]: PartnerProps
 } = {
+  Voltastics: {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-logo.png'),
+      isSvg: false,
+    },
+    url: 'https://voltastics.com/',
+  },
   'Aktion Mensch': {
-    imgSource: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
-    isSvg: true,
   },
   'vostel.de': {
-    imgSource: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+      isSvg: false,
+    },
     url: 'https://vostel.de/de/ueber_vostel',
-    isSvg: false,
   },
   GoNature: {
-    imgSource: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://gonature.de/ueber-uns',
-    isSvg: true,
   },
   GoVolunteer: {
-    imgSource: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+      isSvg: true,
+    },
     url: 'https://govolunteer.com/ueber-uns',
-    isSvg: true,
   },
 }
 
@@ -120,34 +132,12 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   }
 
   const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
-
   const providerContainer = (
-    <View style={styles.cardContainer}>
-      <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
-      <HoliButton
-        transparent
-        onPress={() => Linking.openURL(partner?.url)}
-        label={t('volunteering:engagementDetail.provider.link.btn', { source: engagement.source })}
-      >
-        <View style={styles.providerInfoRow}>
-          {!!partner?.imgSource && (
-            <HoliLocalImage
-              imageSource={partner.imgSource}
-              isSvg={partner.isSvg}
-              width={40}
-              height={40}
-              style={styles.providerImage}
-              label={t('volunteering:engagementDetail.provider')}
-              resizeMode="contain"
-            />
-          )}
-          <View style={{ flex: 3 }}>
-            <HoliText>{engagement.source}</HoliText>
-          </View>
-          <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
-        </View>
-      </HoliButton>
-    </View>
+    <VolunteeringPartnerCard
+      headline={t('volunteering:engagementDetail.provider')}
+      name={engagement.source}
+      partner={VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]}
+    />
   )
 
   const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
@@ -156,7 +146,12 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
         <View style={styles.organizerInfoRow}>
           {(!!organizer.imageUrl && (
-            <HoliImage source={{ uri: organizer.imageUrl }} style={styles.organizerLogo} label={organizer.name ?? ''} />
+            <HoliImage
+              source={{ uri: organizer.imageUrl }}
+              style={styles.partnerImage}
+              label={organizer.name ?? ''}
+              resizeMode={'contain'}
+            />
           )) || <></>}
           <HoliText>{organizer.name}</HoliText>
         </View>
@@ -186,6 +181,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
+            <VolunteeringPartnerCard
+              headline={t('volunteering:engagementDetail.technicalPartner')}
+              name={'Voltastics'}
+              partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
+            />
           </View>
         )}
       </ScrollHeaderLayout.Refreshable>
@@ -242,13 +242,10 @@ const getStyles = (statusBarHeight: number) =>
       alignItems: 'center',
       marginTop: 16,
     },
-    organizerLogo: {
+    partnerImage: {
       width: 40,
       height: 40,
       borderRadius: 20,
-      marginRight: 16,
-    },
-    providerImage: {
       marginRight: 16,
     },
     providerInfoRow: {

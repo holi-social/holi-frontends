@@ -50,6 +50,11 @@ const NotificationWithSpaceAvatar = ({
                 <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
                   {getRelativeDateString(created, i18n.language)}
                 </HoliText>
+                {notification.options.message && (
+                  <HoliText size="small" style={[styles.fontColorGray, styles.message]}>
+                    {notification.options.message}
+                  </HoliText>
+                )}
               </>
             )}
           </View>
@@ -82,6 +87,10 @@ const styles = StyleSheet.create({
   },
   readStatus: {
     marginLeft: 12,
+  },
+  message: {
+    marginTop: 16,
+    marginBottom: 4,
   },
   imageContainer: {
     position: 'relative',

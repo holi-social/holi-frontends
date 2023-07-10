@@ -61,7 +61,8 @@ const LinkHub = () => {
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
-          style={{ flex: 1, paddingTop: vars.topBarHeight + 40 }}
+          style={{ flex: 1, paddingTop: vars.topBarHeight + 40, backgroundColor: colors.background10 }}
+          backgroundColor={colors.background20}
           tabs={[
             {
               title: t('spaces.toolKit.allTools.label'),

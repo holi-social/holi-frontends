@@ -362,6 +362,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     gap: 14,
   },
+  floatingContainer: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 42,
+    left: 0,
+    right: 0,
+    gap: 8,
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
 })
 
 export default withProfiler(memo(SpaceDetails), { name: 'SpaceDetails' })
