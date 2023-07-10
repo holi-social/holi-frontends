@@ -3,6 +3,8 @@ import locale from 'locale'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
+import { sanitizeBuffer } from '@holi/web/utils'
+
 const docTypes = ['imprint', 'privacyPolicy', 'communityGuidelines', 'insightsFAQ'] as const
 
 export type DocType = (typeof docTypes)[number]
@@ -34,8 +36,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const locales = new locale.Locales(req.headers['accept-language'], 'en')
     const lang: string = locales.best(supportedLocales).language
     const document = getDocumentFor(docType, lang)
+    const sanitizedDocument = sanitizeBuffer(document)
     res.setHeader('Content-Type', 'text/html')
-    res.send(document)
+    res.send(sanitizedDocument)
   } else {
     res.status(400).send(`Bad Request: document "${docType}" not found`)
   }

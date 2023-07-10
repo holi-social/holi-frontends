@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -277,7 +278,7 @@ const SpaceDetails = () => {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           isLoading: refreshing,
@@ -286,6 +287,7 @@ const SpaceDetails = () => {
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
+        keyboardShouldPersistTaps="handled"
       >
         <SpaceDetailView
           style={styles.spaceDetailView}
@@ -297,7 +299,7 @@ const SpaceDetails = () => {
       </ScrollHeaderLayout.Refreshable>
       {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {isMember && currentTabIndex === 1 && <UpdateButton />}
-    </>
+    </SafeAreaProvider>
   )
 }
 
@@ -361,6 +363,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     gap: 14,
+  },
+  floatingContainer: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 42,
+    left: 0,
+    right: 0,
+    gap: 8,
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 })
 

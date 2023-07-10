@@ -47,6 +47,7 @@ export const notificationsQuery = gql`
             avatarDefaultColor
           }
           teaser
+          message
         }
       }
       totalResults

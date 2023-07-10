@@ -16,7 +16,6 @@ interface SpaceInvolvementProps {
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
   const isCollaborator = isAdmin || isMember
 
   return (
@@ -26,7 +25,9 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         {isCollaborator ? (
           <TaskCollaborationCard isAdmin={isAdmin} space={space} />
         ) : (
-          <SpaceTaskList isAdmin={isAdmin} space={space} />
+          <>
+            <SpaceTaskList isAdmin={isAdmin} space={space} />
+          </>
         )}
         {isCollaborator && <NewToolsTeaser />}
       </View>
