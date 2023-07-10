@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -188,24 +188,26 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
-      <HoliTabs
-        id="collaborator-tabs"
-        style={styles.tabWrapper}
-        tabs={[
-          {
-            title: 'Admin',
-            style: styles.tabStyle,
-            children: <AdminTab />,
-          },
-          {
-            title: 'Collaborator',
-            style: styles.tabStyle,
-            children: <CollaboratorTab />,
-          },
-        ]}
-      />
-    </ScrollHeaderLayout.Default>
+    <SafeAreaView>
+      <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+        <HoliTabs
+          id="collaborator-tabs"
+          style={styles.tabWrapper}
+          tabs={[
+            {
+              title: 'Admin',
+              style: styles.tabStyle,
+              children: <AdminTab />,
+            },
+            {
+              title: 'Collaborator',
+              style: styles.tabStyle,
+              children: <CollaboratorTab />,
+            },
+          ]}
+        />
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
   )
 }
 
@@ -240,6 +242,7 @@ const styles = StyleSheet.create({
   },
   all: {
     paddingTop: 16,
+    paddingBottom: 40,
     backgroundColor: colors.background20,
   },
   section: {

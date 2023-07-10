@@ -564,7 +564,7 @@
   "spaces.resources.category.videoCall": "Virtuelle Meetings",
   "spaces.resources.category.wallet": "Wallet",
   "spaces.rolesAndPermissions.filesAndDocuments.create": "Dokumente erstellen und bearbeiten, Tabellen und Präsentationen auf dem Desktop",
-  "spaces.rolesAndPermissions.filesAndDocuments.edit": "Dateien bearbeiten und löschen, nur entsprechend der Berechtigungen des Besitzers",
+  "spaces.rolesAndPermissions.filesAndDocuments.edit": "Dateien bearbeiten und löschen, wenn der Besitzer der Dateien die Erlaubnis erteilt hat",
   "spaces.rolesAndPermissions.filesAndDocuments.title": "Dateien und Dokumente",
   "spaces.rolesAndPermissions.filesAndDocuments.upload": "Dateien hochladen",
   "spaces.rolesAndPermissions.general.delete": "Space löschen",
