@@ -58,7 +58,7 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   if (debugMode) {
     const width = calculatedWidth ?? calcPixelRatioSize(1200)
     const height = calculatedHeight ?? calcPixelRatioSize(1200)
-    const padding = '    ' // increase/decrease, if needed to see image size
+    const padding = encodeURIComponent('    ') // increase/decrease, if needed to see image size
     const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
     const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
     return { ...source, uri: newUri }
