@@ -45,7 +45,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
       title: t('spaces.collaborators'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />,
       navigationCustomOptions: {
         footerShown: false,
       },

@@ -20,12 +20,14 @@ export const updateSpaceUserConnectionMutation = gql`
     $connectionType: SpaceUserConnectionType!
     $spaceId: UUID!
     $userId: UUID
+    $message: String
   ) {
     updateSpaceUserConnection(
       connectAction: $connectAction
       connectionType: $connectionType
       spaceId: $spaceId
       userId: $userId
+      message: $message
     ) {
       id
       connectionStatusToMyself
@@ -35,6 +37,18 @@ export const updateSpaceUserConnectionMutation = gql`
 
 export type UpdateSpaceUserConnectionResponse = {
   updateSpaceUserConnection: Space
+}
+
+export const inviteToSpaceByEmailMutation = gql`
+  mutation InviteToSpaceByEmail($email: String!, $spaceId: UUID!) {
+    inviteToSpaceByEmail(email: $email, spaceId: $spaceId) {
+      success
+    }
+  }
+`
+
+export type InviteToSpaceByEmailResponse = {
+  success: boolean
 }
 
 export type SpaceUserConnectionType = string

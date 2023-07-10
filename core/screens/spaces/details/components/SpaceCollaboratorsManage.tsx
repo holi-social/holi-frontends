@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,7 +12,6 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -27,7 +26,6 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const mixins = useStyleMixins()
-  const { openToast } = useToast()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
 
@@ -37,16 +35,12 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
       title: t('spaces.collaborators.manage.modal.title'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
   }, [setScreenOptions, t])
-
-  const handleNotImplemented = () => {
-    openToast(t('global.comingSoon'), HoliToastType.SUCCESS)
-  }
 
   return (
     <SafeAreaView>
@@ -63,8 +57,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
           </HoliLink>
           <HoliLink
             label={t('spaces.collaborators.manage.permissions')}
-            href={`/spaces/${spaceIdOrName}/collaborators/`}
-            onPress={handleNotImplemented}
+            href={`/spaces/${spaceIdOrName}/collaborators/rolesAndPermissions`}
           >
             <View style={styles.link}>
               <View style={styles.wrapper}>

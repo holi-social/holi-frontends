@@ -1,4 +1,6 @@
 {
+  "shared.partner.link.title": "Page of {{source}}",
+  "shared.partner.modal.close": "Got it",
   "app.name": "Volunteering",
   "app.subline": "via Voltastics",
   "engagement.country": "Germany",
@@ -8,7 +10,7 @@
   "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "engagementDetail.organizer": "Organiser",
   "engagementDetail.provider": "Provided via",
-  "engagementDetail.provider.link.btn": "Page of {{source}}",
+  "engagementDetail.technicalPartner": "Technical partner",
   "filter.category.label": "Topics you are interested in",
   "filter.category.placeholder": "Select topic",
   "filter.heading": "Filter opportunities",

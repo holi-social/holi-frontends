@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
   },
   holiTabs: {
     flex: 1,
+    backgroundColor: colors.background10,
   },
   tabStyle: {
     minHeight: '100%',
