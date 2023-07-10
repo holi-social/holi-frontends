@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -15,16 +16,15 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceJoinProps = {
   space: Space
-  showOnboarding?: () => void
   message?: string | undefined
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, showOnboarding, message, ...props }) => {
+const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { t } = useTranslation()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
-
+  const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
 
   const submitWithdraw = useCallback(() => {
@@ -81,6 +81,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, showOnboarding, message, 
           inline
           label={t('spaces.join.btnRequest')}
           onPress={showOnboarding}
+          variant="small"
           style={props.style}
           disabled={loading}
         >
@@ -91,6 +92,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, showOnboarding, message, 
         <HoliButton
           inline
           type="secondary"
+          variant="small"
           label={t('spaces.join.btnPending')}
           onPress={() => setWithdrawDialogIsOpen(true)}
           style={props.style}
@@ -113,6 +115,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, showOnboarding, message, 
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
       <SpaceJoinOverlay />
+      <SpaceCollaboratorOnboarding space={space} hideOnboarding={hideOnboarding} visible={onboardingVisible} />
     </>
   )
 }

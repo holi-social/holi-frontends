@@ -20,10 +20,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType } from '@holi/core/queries'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
-import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
-import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
-import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
 import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
@@ -89,7 +86,6 @@ const SpaceDetails = () => {
   const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
-  const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { userId } = useAuth()
 
   useEffect(() => {
@@ -301,16 +297,6 @@ const SpaceDetails = () => {
       </ScrollHeaderLayout.Refreshable>
       {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {isMember && currentTabIndex === 1 && <UpdateButton />}
-
-      {!isMember && currentTabIndex === 2 && (
-        <>
-          <SpaceCollaboratorOnboarding space={space} hideOnboarding={hideOnboarding} visible={onboardingVisible} />
-          <View style={styles.floatingContainer}>
-            <SpaceFollow space={space} />
-            <SpaceJoin space={space} showOnboarding={showOnboarding} />
-          </View>
-        </>
-      )}
     </>
   )
 }

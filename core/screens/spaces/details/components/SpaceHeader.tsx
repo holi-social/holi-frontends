@@ -5,9 +5,11 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/details/components/SpaceCollaborators'
+import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
 import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvite'
+import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,42 +36,41 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const openModal = useCallback(() => {
     setModalVisible(true)
   }, [setModalVisible])
 
   return (
-    <>
-      <View style={[styles.container, style]} testID="space-header">
-        <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-        <SpaceAvatar space={space} />
-        <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
-          {space.title}
-        </HoliHeading>
-        <View style={styles.avatarPileContainer}>
-          <HoliButton
-            label={t('spaces.collaborators.showModal')}
-            transparent
-            inline
-            onPress={openModal}
-            testID="btn-to-open-space-collaborators-modal"
-          >
-            <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
-              <HoliText size="small" style={styles.avatarPileText}>
-                {t('spaces.members.member', { count: space.members.totalResults })}
-              </HoliText>
-            </HoliUserAvatarPile>
-          </HoliButton>
-        </View>
-
-        <View style={[styles.actionButtons, isMember && { marginTop: 32 }]}>
-          <SpaceShare space={space} />
-          <SpaceInvite spaceIdOrName={space.name} space={space} />
-        </View>
+    <View style={[styles.container, style]} testID="space-header">
+      <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
+      <SpaceAvatar space={space} />
+      <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
+        {space.title}
+      </HoliHeading>
+      <View style={styles.avatarPileContainer}>
+        <HoliButton
+          label={t('spaces.collaborators.showModal')}
+          transparent
+          inline
+          onPress={openModal}
+          testID="btn-to-open-space-collaborators-modal"
+        >
+          <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
+            <HoliText size="small" style={styles.avatarPileText}>
+              {t('spaces.members.member', { count: space.members.totalResults })}
+            </HoliText>
+          </HoliUserAvatarPile>
+        </HoliButton>
       </View>
-    </>
+
+      <View style={styles.actionButtons}>
+        <SpaceShare space={space} />
+        <SpaceInvite spaceIdOrName={space.name} space={space} />
+        <SpaceFollow space={space} />
+        <SpaceJoin space={space} />
+      </View>
+    </View>
   )
 }
 
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     color: colors.foreground30,
   },
   actionButtons: {
+    marginTop: 32,
     flexDirection: 'row',
     maxWidth: 420,
     flexWrap: 'wrap',
