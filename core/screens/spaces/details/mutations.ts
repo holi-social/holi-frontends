@@ -20,12 +20,14 @@ export const updateSpaceUserConnectionMutation = gql`
     $connectionType: SpaceUserConnectionType!
     $spaceId: UUID!
     $userId: UUID
+    $message: String
   ) {
     updateSpaceUserConnection(
       connectAction: $connectAction
       connectionType: $connectionType
       spaceId: $spaceId
       userId: $userId
+      message: $message
     ) {
       id
       connectionStatusToMyself
