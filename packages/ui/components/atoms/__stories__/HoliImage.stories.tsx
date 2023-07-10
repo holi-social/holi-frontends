@@ -32,7 +32,7 @@ const argTypes = {
   },
   resizeMode: {
     description: 'the resizeMode for the image',
-    options: ['cover', 'contain'], // An array of serializable values
+    options: ['cover', 'contain', 'fill', 'none', 'scale-down', undefined], // An array of serializable values
     control: {
       type: 'select',
     },

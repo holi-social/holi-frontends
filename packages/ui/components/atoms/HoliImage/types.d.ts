@@ -3,12 +3,10 @@ import { ImageContentFit as ExpoResizeMode } from 'expo-image'
 import { ImageProps as ExpoImageProps } from 'expo-image/build/Image.types'
 import { CSSProperties } from 'react'
 import { ViewProps } from 'react-native'
-import { ImageResizeMode as ReactNativeResizeMode } from 'react-native/Libraries/Image/ImageResizeMode'
 
 type WebResizeMode = Property.ObjectFit
 
-// we previously supported all of them, so this should be the common working subset
-export type ResizeMode = ReactNativeResizeMode & ExpoResizeMode & WebResizeMode
+export type ResizeMode = ExpoResizeMode & WebResizeMode
 
 export interface ImageSource {
   uri: string
