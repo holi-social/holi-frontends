@@ -32,7 +32,7 @@ import {
 } from '@holi-apps/volunteering/queries'
 import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
 
-const VOLUNTEERING_IMG_SOURCES_MAPPING: {
+export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: PartnerProps
 } = {
   Voltastics: {
@@ -61,11 +61,23 @@ const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       src: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
       isSvg: true,
     },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-wordmark.svg'),
+      width: 132,
+      height: 42,
+      isSvg: true,
+    },
     url: 'https://gonature.de/ueber-uns',
   },
   GoVolunteer: {
     logo: {
       src: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-wordmark.svg'),
+      width: 178,
+      height: 36,
       isSvg: true,
     },
     url: 'https://govolunteer.com/ueber-uns',

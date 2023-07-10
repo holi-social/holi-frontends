@@ -23,22 +23,20 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
   partners,
   onPress,
 }: PartnerInfoRowProps) => {
-  const logoWidth = partners[0].logo?.width || 40
-  const logoHeight = partners[0].logo?.height || 40
-  const styles = getStyles(logoWidth)
-
   return (
     <HoliButton transparent onPress={onPress} label={linkTitle ?? ''}>
       <View style={styles.partnerInfoRow}>
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          partners.map((partner) => {
-            //const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
-
+          Object.keys(partners).map((partnerKey, idx) => {
+            const partner = partners[partnerKey]
+            const logoWidth = partner.logo?.width || 40
+            const logoHeight = partner.logo?.height || 40
+            const logoStyles = getLogoStyles(logoWidth, idx)
             return (
               !!partner.logo &&
               !!partner.logo.src && (
-                <View style={styles.partnerImage}>
+                <View style={logoStyles.partnerImage}>
                   <HoliLocalImage
                     imageSource={partner.logo.src}
                     isSvg={partner.logo.isSvg}
@@ -66,17 +64,23 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
 
 export default memo(PartnerInfoRow)
 
-const getStyles = (logoWidth: number) => {
+const getLogoStyles = (logoWidth: number, idx: number) => {
   return StyleSheet.create({
     partnerImage: {
       borderRadius: logoWidth / 2,
+      borderWidth: 1,
+      borderColor: colors.foreground30,
       overflow: 'hidden',
       marginRight: 8,
-    },
-    partnerInfoRow: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+      marginLeft: idx ? -24 : 0,
+      zIndex: idx * -1,
     },
   })
 }
+const styles = StyleSheet.create({
+  partnerInfoRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
