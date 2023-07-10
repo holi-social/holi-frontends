@@ -47,6 +47,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         heading={t('spaces.collaborate.onboarding.header')}
         onDismiss={hideOnboarding}
         autoHeight={false}
+        relativeHeight={1}
         style={styles.modal}
       >
         <FormWrapper
@@ -56,6 +57,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
           loading={loading}
           buttonLabel={t('spaces.collaborate.onboarding.request')}
           testID="space-join-request-modal"
+          keyboardShouldPersistTaps="never"
           renderProp={() => (
             <View>
               <View style={styles.imageContainer}>
