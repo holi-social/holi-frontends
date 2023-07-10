@@ -1,5 +1,6 @@
 import { PixelRatio, Platform } from 'react-native'
 
+import { imagesUrl } from '@holi/core/auth/helpers/config'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 /** @description It handles the correct pixel density for native host platforms.
@@ -22,12 +23,10 @@ const calcPixelRatioSize = (value: number | undefined): number | undefined => {
 const isImageSourceURIBase64 = ({ uri }: ImageSource) => !!uri?.startsWith('data:image')
 
 const holiImageScaling = (
-  isProd: boolean,
   calculatedWidth: number | undefined,
   calculatedHeight: number | undefined,
   encodedOriginalUrl: string
 ) => {
-  const uriBase = isProd ? 'https://images.holi.social/' : 'https://dev-images.holi.social/'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
   const height = calculatedHeight ? ':' + calculatedHeight : ''
   // https://docs.imgproxy.net/generating_the_url?id=crop
@@ -42,7 +41,7 @@ const holiImageScaling = (
   // - 'ext' section forces a file format, we use webp (better than jpg on 80% quality)
   // https://docs.imgproxy.net/generating_the_url?id=quality
   // - 'quality' section forces a compression quality, we use the default 80% explicitly
-  return uriBase + 'crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
+  return imagesUrl + '/crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
 }
 
 /** @description Appends the ImageKit image transformation query parameter to
@@ -77,17 +76,11 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params
-    const newUri = holiImageScaling(
-      uri.startsWith('https://images'),
-      calculatedWidth,
-      calculatedHeight,
-      uri.replace(/^.+\/plain\//, '')
-    )
+    const newUri = holiImageScaling(calculatedWidth, calculatedHeight, uri.replace(/^.+\/plain\//, ''))
     return { ...source, uri: newUri }
   } else {
     // unknown image provider, default scaling
-    // TODO detect production
-    const newUri = holiImageScaling(false, calculatedWidth, calculatedHeight, encodeURIComponent(uri))
+    const newUri = holiImageScaling(calculatedWidth, calculatedHeight, encodeURIComponent(uri))
     return { ...source, uri: newUri }
   }
 }
