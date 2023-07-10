@@ -40,6 +40,12 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       src: require('@holi/ui/assets/img/volunteering/voltastics-logo.png'),
       isSvg: false,
     },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-wordmark.png'),
+      width: 159,
+      height: 24,
+      isSvg: false,
+    },
     url: 'https://voltastics.com/',
   },
   'Aktion Mensch': {
@@ -47,11 +53,23 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       src: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
       isSvg: true,
     },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-wordmark.svg'),
+      width: 60,
+      height: 24,
+      isSvg: true,
+    },
     url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
   },
   'vostel.de': {
     logo: {
       src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-wordmark.png'),
+      width: 73,
+      height: 24,
       isSvg: false,
     },
     url: 'https://vostel.de/de/ueber_vostel',

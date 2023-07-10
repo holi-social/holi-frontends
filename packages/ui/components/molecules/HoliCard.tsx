@@ -8,7 +8,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export interface HoliCardProps {
   imageUrl: string | undefined
   imageLabel: string
-  imageBlurhash: string
+  imageBlurhash?: string
   style?: StyleProp<ViewStyle>
   testID?: string
   onCardPress: () => void
