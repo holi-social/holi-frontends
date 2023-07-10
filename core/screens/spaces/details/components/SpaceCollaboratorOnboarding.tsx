@@ -2,19 +2,20 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+// import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
+// import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+// import HoliButton from '@holi/ui/components/molecules/HoliButton'
+// import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceCollaboratorOnboardingProps {
   space: Space
@@ -27,9 +28,10 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   visible,
   hideOnboarding,
 }) => {
-  const mixins = useStyleMixins()
+  // const mixins = useStyleMixins()
+  // const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
   const { t } = useTranslation()
-  const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
+
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
   const [message, setMessage] = useState<string>('')
   const { isKeyboardOpen } = useKeyboard()
@@ -90,20 +92,20 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
               {t('spaces.collaborate.onboarding.optional')}
             </HoliText>
 
-            <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
+            {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
               <View style={styles.info}>
                 <HoliIcon icon="information" />
                 <HoliText>{t('spaces.collaborate.onboarding.active')}</HoliText>
               </View>
-            </HoliButton>
+            </HoliButton> */}
           </View>
         </HoliModalContentWrapper>
 
-        <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
+        {/* <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <View style={[mixins.container, styles.infoModal]}>
             <SpaceCollaboratorOnboardingInfo />
           </View>
-        </HoliModal>
+        </HoliModal> */}
       </HoliModal>
 
       <HoliModal
@@ -177,15 +179,15 @@ const styles = StyleSheet.create({
     marginTop: -32,
     color: colors.foreground20,
   },
-  info: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginTop: 32,
-  },
-  infoModal: {
-    marginBottom: 20,
-  },
+  // info: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   gap: 4,
+  //   marginTop: 32,
+  // },
+  // infoModal: {
+  //   marginBottom: 20,
+  // },
 })
 
 export default SpaceCollaboratorOnboarding
