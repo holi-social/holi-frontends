@@ -51,7 +51,6 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         style={styles.modal}
       >
         <FormWrapper
-          isModal={true}
           onSave={submitJoinRequest}
           saveButtonDisabled={loading}
           loading={loading}
