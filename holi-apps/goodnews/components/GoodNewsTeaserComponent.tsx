@@ -11,10 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import {
-  relativeImageHeightMobile,
-  relativeImageHeightWeb,
-} from '@holi-apps/goodnews/components/GoodNewsArticleComponent'
+import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsTeaserComponentProps = {
@@ -34,9 +31,8 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  // keep in sync with GoodNewsArticleComponent
   const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
-    relativeHeight: Platform.OS === 'web' ? relativeImageHeightWeb : relativeImageHeightMobile,
+    relativeHeight: relativeArticleImageHeightScaling,
   })
   const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 
