@@ -70,9 +70,6 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
     } catch (error) {
       return source
     }
-  } else if (uri.startsWith('https://betterplace-assets.betterplace.org/')) {
-    // betterplace images already come in pre-sized source arrays
-    return source
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params

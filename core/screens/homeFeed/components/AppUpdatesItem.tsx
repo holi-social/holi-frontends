@@ -2,23 +2,22 @@ import React from 'react'
 import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface AppUpdatesItemProps {
   appName: string
-  imageSource: HoliImageProps['source']
-  imageSizes: HoliImageProps['sizes']
+  imageSourceUri?: string
   title: string
   footer?: string | React.ReactNode
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }
 
+const quadraticImageLength = 160 // px
+
 const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
-  imageSource,
-  imageSizes,
+  imageSourceUri,
   title,
   footer,
   onPress,
@@ -37,7 +36,14 @@ const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
       testID={`${appName}-updates-item`}
       inline
     >
-      <HoliImage source={imageSource} label={title} sizes={imageSizes} style={styles.mainImage} />
+      <HoliImage
+        source={
+          imageSourceUri ? { uri: imageSourceUri, width: quadraticImageLength, height: quadraticImageLength } : []
+        }
+        label={title}
+        sizes={quadraticImageLength + 'px'}
+        style={styles.mainImage}
+      />
 
       <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 16 }}>
         {title}
