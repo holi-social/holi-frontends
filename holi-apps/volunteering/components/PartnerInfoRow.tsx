@@ -20,35 +20,45 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
   rowText,
   showOutlinkIcon = true,
   linkTitle,
-  partner,
+  partners,
   onPress,
 }: PartnerInfoRowProps) => {
-  const logoWidth = partner.logo?.width || 40
-  const logoHeight = partner.logo?.height || 40
+  const logoWidth = partners[0].logo?.width || 40
+  const logoHeight = partners[0].logo?.height || 40
   const styles = getStyles(logoWidth)
 
   return (
     <HoliButton transparent onPress={onPress} label={linkTitle ?? ''}>
       <View style={styles.partnerInfoRow}>
-        {!!partner.logo && !!partner.logo.src && (
-          <View style={styles.partnerImage}>
-            <HoliLocalImage
-              imageSource={partner.logo.src}
-              isSvg={partner.logo.isSvg}
-              width={logoWidth}
-              height={logoHeight}
-              label={headline ?? ''}
-              resizeMode="contain"
-              style={{ backgroundColor: colors.white100 }}
-            />
-          </View>
-        )}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          partners.map((partner) => {
+            //const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
+
+            return (
+              !!partner.logo &&
+              !!partner.logo.src && (
+                <View style={styles.partnerImage}>
+                  <HoliLocalImage
+                    imageSource={partner.logo.src}
+                    isSvg={partner.logo.isSvg}
+                    width={logoWidth}
+                    height={logoHeight}
+                    label={headline ?? ''}
+                    resizeMode="contain"
+                    style={{ backgroundColor: colors.white100 }}
+                  />
+                </View>
+              )
+            )
+          })
+        }
         {!!rowText && (
           <View style={{ flex: 3 }}>
             <HoliText>{rowText}</HoliText>
           </View>
         )}
-        {showOutlinkIcon && partner?.url && <HoliIcon icon="share-box" size={20} color={colors.foreground30} />}
+        {showOutlinkIcon && partners[0]?.url && <HoliIcon icon="share-box" size={20} color={colors.foreground30} />}
       </View>
     </HoliButton>
   )

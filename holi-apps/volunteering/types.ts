@@ -8,7 +8,7 @@ export type PartnerInfoRowProps = {
   rowText: string
   showOutlinkIcon?: boolean
   linkTitle?: string
-  partner: { imgSource?: StaticImageData; logo?: PartnerAssetProps; url?: string; isSvg?: boolean }
+  partners: [{ imgSource?: StaticImageData; logo?: PartnerAssetProps; url?: string; isSvg?: boolean }]
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 

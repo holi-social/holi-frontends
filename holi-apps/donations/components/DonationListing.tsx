@@ -91,7 +91,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       <PartnerInfoRow
         rowText={t('donations:app.subline')}
         showOutlinkIcon={false}
-        partner={partner}
+        partners={[partner]}
         onPress={showPartnerModal}
       />
       <PartnerModal

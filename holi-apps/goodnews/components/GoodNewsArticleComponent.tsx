@@ -73,7 +73,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
           <PartnerInfoRow
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
-            partner={partner}
+            partners={[partner]}
             onPress={showPartnerModal}
           />
         </HoliBox>
