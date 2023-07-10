@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -9,7 +10,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
@@ -31,14 +31,9 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   // const mixins = useStyleMixins()
   // const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
   const { t } = useTranslation()
-
   const { show: showJoinOverlay, hide: hideJoinOverlay, props: joinOverlayProps } = useModalState()
   const [message, setMessage] = useState<string>('')
-  const { isKeyboardOpen } = useKeyboard()
-  const { isSoftkeyboardOpen } = useSoftKeyboard()
-  const keyboardPresent = isKeyboardOpen || isSoftkeyboardOpen
-
-  const { submitJoinRequest } = useSpaceJoinRequest(space, showJoinOverlay, message)
+  const { loading, submitJoinRequest } = useSpaceJoinRequest(space, showJoinOverlay, message)
 
   const completeOnboarding = useCallback(() => {
     hideJoinOverlay()
@@ -55,51 +50,54 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         autoHeight={false}
         style={styles.modal}
       >
-        <HoliModalContentWrapper
-          actionButtonText={t('spaces.collaborate.onboarding.request')}
-          onActionButtonPress={submitJoinRequest}
-          style={[styles.modalContentWrapper, keyboardPresent && styles.modalWithKeyboard]}
-          headlineStyle={styles.headline}
-        >
-          <View>
-            <View style={styles.imageContainer}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
-                isSvg
-                width={72}
-                height={72}
-                label={t('spaces.collaborate.onboarding.image.sparkle.label')}
+        <FormWrapper
+          isModal={true}
+          onSave={submitJoinRequest}
+          saveButtonDisabled={loading}
+          loading={loading}
+          buttonLabel={t('spaces.collaborate.onboarding.request')}
+          testID="space-join-request-modal"
+          renderProp={() => (
+            <View>
+              <View style={styles.imageContainer}>
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_sparkle.svg')}
+                  isSvg
+                  width={72}
+                  height={72}
+                  label={t('spaces.collaborate.onboarding.image.sparkle.label')}
+                />
+              </View>
+              <HoliText size="extralarge" bold={false}>
+                {t('spaces.collaborate.onboarding.title')}
+              </HoliText>
+              <HoliText style={styles.desc}>{t('spaces.collaborate.onboarding.desc')}</HoliText>
+              <HoliTextInput
+                placeholder={t('spaces.collaborate.onboarding.input')}
+                accessibilityLabel={t('spaces.collaborate.onboarding.input')}
+                style={styles.input}
+                noOfVisibleLines={5}
+                showCharacterCount
+                inputLabel={t('spaces.collaborate.onboarding.input.label')}
+                maxNoOfVisibleLines={5}
+                maxNoOfCharacters={1000}
+                isRequired={false}
+                value={message}
+                onChange={setMessage}
               />
-            </View>
-            <HoliText size="extralarge" bold={false}>
-              {t('spaces.collaborate.onboarding.title')}
-            </HoliText>
-            <HoliText style={styles.desc}>{t('spaces.collaborate.onboarding.desc')}</HoliText>
-            <HoliTextInput
-              placeholder={t('spaces.collaborate.onboarding.input')}
-              accessibilityLabel={t('spaces.collaborate.onboarding.input')}
-              style={styles.input}
-              noOfVisibleLines={5}
-              showCharacterCount
-              inputLabel={t('spaces.collaborate.onboarding.input.label')}
-              maxNoOfVisibleLines={5}
-              maxNoOfCharacters={1000}
-              isRequired={false}
-              value={message}
-              onChange={setMessage}
-            />
-            <HoliText size="extrasmall" style={styles.optional}>
-              {t('spaces.collaborate.onboarding.optional')}
-            </HoliText>
+              <HoliText size="extrasmall" style={styles.optional}>
+                {t('spaces.collaborate.onboarding.optional')}
+              </HoliText>
 
-            {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
+              {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
               <View style={styles.info}>
                 <HoliIcon icon="information" />
                 <HoliText>{t('spaces.collaborate.onboarding.active')}</HoliText>
               </View>
             </HoliButton> */}
-          </View>
-        </HoliModalContentWrapper>
+            </View>
+          )}
+        />
 
         {/* <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <View style={[mixins.container, styles.infoModal]}>
@@ -142,18 +140,15 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     minHeight: '100%',
   },
-  modalWithKeyboard: {
-    bottom: 150,
-  },
   modalHeader: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
   },
   modalContentWrapper: {
     paddingHorizontal: 24,
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingBottom: 24,
   },
   headline: {
