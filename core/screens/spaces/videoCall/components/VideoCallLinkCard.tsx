@@ -40,9 +40,13 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallL
   return (
     <View style={styles.card}>
       <View style={styles.cardContent}>
-        <HoliText style={styles.detailText}>{formattedDate}</HoliText>
-        <HoliHeading level="2">{videoCallLink.roomName}</HoliHeading>
-        <HoliText style={styles.detailText}>{videoCallLink.url}</HoliText>
+        <HoliText style={styles.detailText} size="extrasmall">
+          {formattedDate}
+        </HoliText>
+        <HoliHeading level="3">{videoCallLink.roomName}</HoliHeading>
+        <HoliText style={styles.detailText} size="extrasmall">
+          {videoCallLink.url}
+        </HoliText>
       </View>
       <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-video-call-link-more-options">
         <HoliHeading level="2" style={styles.optionsHeading}>
@@ -87,6 +91,7 @@ const styles = StyleSheet.create({
   },
   optionsHeading: {
     marginBottom: 12,
+    fontWeight: '400',
   },
   optionsLink: {
     paddingBottom: 24,
