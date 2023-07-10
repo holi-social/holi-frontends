@@ -21,19 +21,27 @@ chat.start().catch((err) => logError(err))
 
 /**
  * @name roomAtomsAtom (Read-Only)
- * @description Rooms are in Jōtai a pattern called **Atom Configs In An Atom** (or
- * Atoms in a Atom). A Atom is a config without a value until the value has
- * mounted in React. The benefit of this approach is that if a room changes,
- * only the updated room will be re-rendered. To edit a particular room, you need
- * to use a selector, which can be found below under the Room Section (e.g `joinRoomAtom`).
+ * @description An array of room atoms, each atom contains the room
+ * (conversation) of the logged-in user. To get the room information, you must
+ * pass the single room to a const room = useAtomValue(roomAtom) to access this
+ * read-only value.
+ *
+ * IMPORTANT! Do not set values to the room using this atom. It would be best to
+ * use a  `createRoomAtom` derived atom to set values (updating the state).To
+ * edit a particular room, you need to use a selector, which can be found below
+ * under the Room Section (e.g `createRoomAtom`).
  */
 export const roomAtomsAtom = atom<ChatRoomAtom[]>([])
 
 /**
  * @name roomAtomsAtomSubscriber (Write-Only)
- * @description Programmatically creates the initial rooms (Atom Configs) and adds them to the
- * room's state. It adds an atom to the atoms list container. It is a writable
- * atom in order to use `onMount` to fill the initial state.
+ * @description A write-only atom that programmatically creates a room based on
+ * the Matrix Client store and listens to the room invitation event emitter for
+ * creating rooms (`onMount`). Implementing a write-only atom has null as the
+ * first argument, not the getter function. We require a getter function because
+ * we subscribe to events in the `onMount` lifecycle.
+ *
+ * IMPORTANT! Do not use this atom to read/access rooms.
  */
 export const roomAtomsAtomSubscriber = atom(
   (get) => get(roomAtomsAtom),
@@ -50,12 +58,13 @@ export const roomAtomsAtomSubscriber = atom(
 )
 
 roomAtomsAtomSubscriber.onMount = (setAtom) => {
-  // We set all the joined rooms initially
+  // Initially, set all the rooms based on the Matrix Store `onMount`.
   chat.getRooms().then((rooms) => {
     rooms.forEach((room) => setAtom(createChatRoom(room)))
   })
 
-  // In case of an invitation we would added by listening to this emitter.
+  // Listens to the room invitations using the `ChatClient`, which forwards the
+  // Matrix invitations events to our store.
   chat.subscribeToInvitations((roomId, displayName, hasInvitation) => {
     setAtom({
       hasInvitation,
@@ -67,6 +76,13 @@ roomAtomsAtomSubscriber.onMount = (setAtom) => {
   })
 }
 
+/**
+ * @name createRoomAtom (Write-Only)
+ * @description A write-only atom action that triggers the creation of a new
+ * room atom. A room is a conversation between 1 and n users. They are used in
+ * events triggered by, e.g., an `onPress` event. It's a write-only Jōtai atom
+ * because the first argument is `null`; we don't have a getter function.
+ */
 export const createRoomAtom = atom(null, (get, set, userIds: string[]) => {
   chat
     .createRoom(userIds)
@@ -92,18 +108,22 @@ export const createRoomAtom = atom(null, (get, set, userIds: string[]) => {
 
 /**
  * @name selectedRoomAtomAtom (Read-Only)
- * @description A container to hold a selected atom. As mentioned above, a
- * single room is unavailable through the `useAtom` hook for an update. Jōtai
- * has the concept of selectors; derived atoms point to a particular atom in the
- * list. This allows us to cheaply change them, removing unnecessary rerenders.
- * This pattern is also known as **Atoms Holding Atoms**.
+ * @description In our data structure, we only have a list of room atoms. To
+ * select a room, for example, when you press on one of the rooms from a
+ * conversation list, we need a way to zoom in on the currently active room. It
+ * is a container atom and should not be exported. It exists to derive read-only
+ * and write-only atoms out of it.
+ *
+ * IMPORTANT! Please do not use this atom to set a selected room because it's
+ * read-only; you can look at selectRoomAtom.
  */
 const selectedRoomAtomAtom = atom<ChatRoomAtom | null>(null)
 
 /**
  * @name selectRoomAtom (Write-Only)
- * @description Merely a write-only atom that delegates the currently selected
- * room. It also stores the current selected room in local storage for later use.
+ * @description A write-only atom that receives a chatRoomAtom and sets it as
+ * the currently selected room atom. It also stores the id of the currently
+ * selected Atom in the AsyncStorage for possible future references.
  */
 export const selectRoomAtom = atom(null, (get, set, chatRoomAtom: ChatRoomAtom) => {
   const room = get(chatRoomAtom)
@@ -113,7 +133,10 @@ export const selectRoomAtom = atom(null, (get, set, chatRoomAtom: ChatRoomAtom) 
 
 /**
  * @name selectedRoomAtomCreator (Read-Only)
- * @description Verifies if the room atom is currently selected
+ * @description A function that returns a derived read-only atom from
+ * `selectedRoomAtomAtom` that can be created dynamically during rendering. Wrap
+ * dynamically created atoms in React's `useMemo` or `useRef` hook for
+ * memoization. If you forget to do so can cause an infinite loop.
  */
 export const selectedRoomAtomCreator = (roomAtom: ChatRoomAtom) => {
   return atom((get) => roomAtom === get(selectedRoomAtomAtom))
