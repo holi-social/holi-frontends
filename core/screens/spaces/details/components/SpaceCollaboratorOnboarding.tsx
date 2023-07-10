@@ -8,7 +8,6 @@ import { Space } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -115,24 +114,30 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         relativeHeight={1}
         style={styles.modalHeader}
       >
-        <HoliModalContentWrapper
-          actionButtonText={t('spaces.join.overlay.button')}
-          onActionButtonPress={completeOnboarding}
+        <FormWrapper
+          isModal={true}
+          onSave={completeOnboarding}
+          saveButtonDisabled={loading}
+          loading={loading}
+          buttonLabel={t('spaces.join.overlay.button')}
+          testID="space-join-request-success-modal"
           style={styles.modalContentWrapper}
-          headlineStyle={styles.headline}
-        >
-          <View style={styles.imageContainer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
-              isSvg
-              width={72}
-              height={72}
-              label={t('spaces.collaborate.onboarding.image.mail.label')}
-            />
-          </View>
-          <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
-          <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
-        </HoliModalContentWrapper>
+          renderProp={() => (
+            <>
+              <View style={styles.imageContainer}>
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_mail.svg')}
+                  isSvg
+                  width={72}
+                  height={72}
+                  label={t('spaces.collaborate.onboarding.image.mail.label')}
+                />
+              </View>
+              <HoliText size="extralarge">{t('spaces.join.overlay.title')}</HoliText>
+              <HoliText style={styles.text}>{t('spaces.join.overlay.text')}</HoliText>
+            </>
+          )}
+        />
       </HoliModal>
     </>
   )
