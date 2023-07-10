@@ -14,6 +14,7 @@ export const ICONSET_REGULAR: Record<string, StaticImageData> = {
   'arrow-right': require('@holi/ui/assets/img/icons/HoliIcons/regular/arrow-right.svg'),
   'arrow-up-s': require('@holi/ui/assets/img/icons/HoliIcons/regular/arrow-up-s.svg'),
   at: require('@holi/ui/assets/img/icons/HoliIcons/regular/at.svg'),
+  'calendar-check': require('@holi/ui/assets/img/icons/HoliIcons/regular/calendar-check.svg'),
   'calendar-event': require('@holi/ui/assets/img/icons/HoliIcons/regular/calendar-event.svg'),
   'chat-3': require('@holi/ui/assets/img/icons/HoliIcons/regular/chat-3.svg'),
   'chat-heart': require('@holi/ui/assets/img/icons/HoliIcons/regular/chat-heart.svg'),
@@ -88,6 +89,7 @@ export const ICONSET_REGULAR: Record<string, StaticImageData> = {
   'user-smile': require('@holi/ui/assets/img/icons/HoliIcons/regular/user-smile.svg'),
   'user-unfollow': require('@holi/ui/assets/img/icons/HoliIcons/regular/user-unfollow.svg'),
   user: require('@holi/ui/assets/img/icons/HoliIcons/regular/user.svg'),
+  'video-chat': require('@holi/ui/assets/img/icons/HoliIcons/regular/video-chat.svg'),
   'wallet-3': require('@holi/ui/assets/img/icons/HoliIcons/regular/wallet-3.svg'),
   whatsapp: require('@holi/ui/assets/img/icons/HoliIcons/regular/whatsapp.svg'),
 }
@@ -106,6 +108,7 @@ export const ICONSET_FILLED: Record<string, StaticImageData> = {
   'arrow-right': require('@holi/ui/assets/img/icons/HoliIcons/filled/arrow-right.svg'),
   'arrow-up-s': require('@holi/ui/assets/img/icons/HoliIcons/filled/arrow-up-s.svg'),
   at: require('@holi/ui/assets/img/icons/HoliIcons/filled/at.svg'),
+  'calendar-check': require('@holi/ui/assets/img/icons/HoliIcons/filled/calendar-check.svg'),
   'calendar-event': require('@holi/ui/assets/img/icons/HoliIcons/filled/calendar-event.svg'),
   'chat-3': require('@holi/ui/assets/img/icons/HoliIcons/filled/chat-3.svg'),
   'chat-heart': require('@holi/ui/assets/img/icons/HoliIcons/filled/chat-heart.svg'),
@@ -176,6 +179,7 @@ export const ICONSET_FILLED: Record<string, StaticImageData> = {
   'user-smile': require('@holi/ui/assets/img/icons/HoliIcons/filled/user-smile.svg'),
   'user-unfollow': require('@holi/ui/assets/img/icons/HoliIcons/filled/user-unfollow.svg'),
   user: require('@holi/ui/assets/img/icons/HoliIcons/filled/user.svg'),
+  'video-chat': require('@holi/ui/assets/img/icons/HoliIcons/filled/video-chat.svg'),
   'wallet-3': require('@holi/ui/assets/img/icons/HoliIcons/filled/wallet-3.svg'),
   whatsapp: require('@holi/ui/assets/img/icons/HoliIcons/filled/whatsapp.svg'),
 }

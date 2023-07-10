@@ -45,10 +45,10 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
   useLayoutEffect(() => {
     if (roomName) {
       setScreenOptions({
-        title: roomName,
+        title: t('spaces.videocall.webview.heading', { roomName }),
       })
     }
-  }, [roomName, setScreenOptions])
+  }, [roomName, setScreenOptions, t])
 
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {

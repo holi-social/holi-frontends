@@ -45,7 +45,6 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
       setLoading(false)
       setRoomName('')
     })
-    // TODO(SF) display toast
   }, [addVideoCallLink, roomName, space])
 
   useEffect(() => {

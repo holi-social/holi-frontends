@@ -689,6 +689,7 @@
   "spaces.videocall.header": "Video calls",
   "spaces.videocall.link.open": "Enter video call room",
   "spaces.videocall.schedule.heading": "Schedule a video call meeting",
+  "spaces.videocall.webview.heading": "Video call - {{roomName}}",
   "update.modal.description": "Please update the app",
   "update.modal.dialog.confirm": "Update",
   "update.modal.dialog.dismiss": "Close app",

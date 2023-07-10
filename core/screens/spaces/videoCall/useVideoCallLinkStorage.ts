@@ -6,6 +6,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { VideoCallLink } from '@holi/core/screens/spaces/types'
 
 export const VIDEO_CALL_LINK_STORAGE_NAME = 'space-videocall-links_'
+export const MAX_VIDEO_CALL_LINK_LIST_LENGTH = 20
 
 export interface UseVideoCallLinkStorage {
   videoCallLinks: VideoCallLink[]
@@ -32,7 +33,7 @@ export const useVideoCallLinkStorage = (spaceName?: string): UseVideoCallLinkSto
 
   const addVideoCallLink = useCallback(
     async (videoCallLink: VideoCallLink) => {
-      const newLinks = [videoCallLink, ...videoCallLinks]
+      const newLinks = [videoCallLink, ...videoCallLinks].slice(0, MAX_VIDEO_CALL_LINK_LIST_LENGTH)
       videoCallLinksVar(newLinks)
       await AsyncStore.setItem(storageKey, JSON.stringify(newLinks))
     },

@@ -37,20 +37,19 @@ const SpaceVideoCallList = () => {
     })
   }, [setScreenOptions, t])
 
-  // TODO(SF) replace icons, make icons purple?
   return (
     <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
       <View style={mixins.container}>
         <CollaboratorAreaCard
           title={t('spaces.videocall.schedule.heading')}
-          headerLeftIcon="calendar-event"
+          headerLeftIcon="calendar-check"
           headerRightIcon="arrow-right-s"
           onPressHeaderLeft={showFeatureNotImplementedToast}
           onPressHeaderRight={showFeatureNotImplementedToast}
           headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
           style={styles.card}
         />
-        <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon="vidicon">
+        <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon="video-chat">
           <VideoCallLinks spaceIdOrName={spaceIdOrName} style={styles.container} />
         </CollaboratorAreaCard>
       </View>
