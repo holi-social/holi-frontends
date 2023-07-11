@@ -124,7 +124,7 @@
   "homeFeed.headerTitle.goodMorning": "Good morning",
   "homeFeed.headerTitle.goodNight": "Good night",
   "homeFeed.heading": "Hey {{firstname}}! 👋",
-  "homeFeed.insights.subtitle": "Welcome to the holi_Feed!",
+  "homeFeed.insights.subtitle": "Welcome to the holi Feed!",
   "homeFeed.insights.loadMoreText": "See more Insights",
   "homeFeed.insights.error.notFound": "Document not found",
   "homeFeed.testingBanner": "Beta release for testing only",
