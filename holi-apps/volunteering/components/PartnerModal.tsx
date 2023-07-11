@@ -81,27 +81,22 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   return (
     <HoliModal
       label={headline ?? ''}
-      style={isMultiplePartners ? styles.modal : null}
-      /*TODO: make modal full height if isMultiplePartners
-        this would need to make all apps true pages instead of modal screens
-        --> omitted for now
-       */
-      //relativeHeight={isMultiplePartners ? 1 : undefined}
+      style={[styles.flexWrapper, isMultiplePartners ? styles.modal : null]}
+      autoHeight={!isMultiplePartners}
+      relativeHeight={isMultiplePartners ? 1 : undefined}
       show={show}
       onDismiss={onDismiss}
     >
       <HoliModalContentWrapper
         actionButtonText={t('volunteering:shared.partner.modal.close')}
         onActionButtonPress={onDismiss}
+        style={styles.flexWrapper}
       >
         <HoliBox padding={[24, 24, 32, 24]}>
           <View style={isMultiplePartners ? styles.cardContainer : null}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              Object.keys(partners).map((partnerKey) => {
-                return partnerCard(partnerKey)
-              })
-            }
+            {Object.keys(partners).map((partnerKey) => {
+              return partnerCard(partnerKey)
+            })}
           </View>
         </HoliBox>
       </HoliModalContentWrapper>
@@ -112,6 +107,10 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
 export default memo(PartnerModal)
 
 const styles = StyleSheet.create({
+  flexWrapper: {
+    flex: 1,
+    flexGrow: 1,
+  },
   modal: {
     backgroundColor: colors.background20,
   },
