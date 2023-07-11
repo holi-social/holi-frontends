@@ -81,8 +81,8 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   return (
     <HoliModal
       label={headline ?? ''}
-      style={[styles.flexWrapper, isMultiplePartners ? styles.modal : null]}
-      autoHeight={!isMultiplePartners}
+      style={[isMultiplePartners ? styles.flexWrapper : null, isMultiplePartners ? styles.modal : null]}
+      autoHeight={isMultiplePartners ? false : undefined}
       relativeHeight={isMultiplePartners ? 1 : undefined}
       show={show}
       onDismiss={onDismiss}
@@ -90,7 +90,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
       <HoliModalContentWrapper
         actionButtonText={t('volunteering:shared.partner.modal.close')}
         onActionButtonPress={onDismiss}
-        style={styles.flexWrapper}
+        style={isMultiplePartners ? styles.flexWrapper : null}
       >
         <HoliBox padding={[24, 24, 32, 24]}>
           <View style={isMultiplePartners ? styles.cardContainer : null}>
