@@ -180,6 +180,9 @@ const createStyles = (bottomInsets: number) =>
         ios: {
           paddingBottom: bottomInsets > 0 ? 90 : 0,
         },
+        android: {
+          paddingBottom: 85,
+        },
       }),
     },
     text: {
