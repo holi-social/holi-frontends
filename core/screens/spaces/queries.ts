@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { memberSpacesFragment } from '@holi/core/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment, FullUserFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces } from '@holi/core/types'
 
 export const FullSpaceMemberFragment = gql`
@@ -21,6 +21,7 @@ export const FullSpaceMemberFragment = gql`
 // We only need 3 members for avatar pile
 export const FullSpaceFragment = gql`
   ${FullSpaceMemberFragment}
+  ${FullUserFragment}
   fragment FullSpace on Space {
     id
     title
@@ -29,6 +30,9 @@ export const FullSpaceFragment = gql`
     contactPhone
     contactDescription
     created
+    creator {
+      ...FullUser
+    }
     avatar
     avatarBlurhash
     cover

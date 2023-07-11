@@ -132,7 +132,6 @@ export enum SpaceConnectionType {
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
   ADMINISTRATOR = 'ADMINISTRATOR',
-  CREATOR = 'CREATOR', // deprecated, please use space.creator instead
 }
 
 export enum SpaceConnectionAction {

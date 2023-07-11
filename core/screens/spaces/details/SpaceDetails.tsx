@@ -4,6 +4,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -24,7 +25,6 @@ import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceSh
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -80,21 +80,21 @@ const SpaceDetails = () => {
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
-
-  const { isLoggedIn } = useLoggedInUser()
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
+  const { userId } = useAuth()
+
+  const isCreator = space?.creator?.id === userId
 
   useEffect(() => {
-    if (isLoggedIn && !isCreator && isMember && !isOnboarded) {
+    if (!isOnboarded && !isCreator && isMember) {
       show()
     }
-  }, [show, isLoggedIn, isCreator, isMember, isOnboarded])
+  }, [space, show, isOnboarded, userId, isCreator, isMember])
 
   const handleModalClose = () => {
-    setIsOnboarded().finally(() => hide())
+    setIsOnboarded().finally(hide)
   }
 
   const editAction = useCallback(() => {
