@@ -42,7 +42,7 @@ const DonationsAppProjectDetail = () => {
 
   const mixins = useStyleMixins()
 
-  const { screenHeight: deviceHeight, imageWidth } = useWindowDimensionsWithImageScaling()
+  const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
   const { loading, data, error, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
     variables: {
@@ -95,7 +95,7 @@ const DonationsAppProjectDetail = () => {
         style={{ backgroundColor: colors.background30 }}
         headerOverlap
       >
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+        <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
             <HoliHeading level="1" size={'large'}>
