@@ -30,7 +30,7 @@ const DonationImage: React.FC<DonationImageProps> = ({
 
   return (
     <HoliImage
-      source={original ? { uri: original?.url, width: width, height } : []}
+      source={original ? { uri: original?.url, width, height } : []}
       label={label}
       style={style}
       resizeMode={resizeMode}

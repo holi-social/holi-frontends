@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -22,11 +23,9 @@ import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboard
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -49,11 +48,13 @@ const SpaceDetails = () => {
 
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  // On initial page load on web `spaceIdOrName` is be undefined
+  // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
   const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
+    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    skip: !spaceIdOrName,
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -81,29 +82,20 @@ const SpaceDetails = () => {
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const { isLoggedIn } = useLoggedInUser()
-
-  const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
   const { userId } = useAuth()
 
-  useEffect(() => {
-    const mySpacesList = mySpacesData?.mySpaces.flatMap((section) => section.spaces.data) || []
+  const isCreator = space?.creator?.id === userId
 
-    if (
-      !isOnboarded &&
-      mySpacesList.some(
-        (space) => space.creator?.id !== userId && space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
-      )
-    ) {
+  useEffect(() => {
+    if (!isOnboarded && !isCreator && isMember) {
       show()
     }
-  }, [mySpacesData, show, isOnboarded, userId])
+  }, [space, show, isOnboarded, userId, isCreator, isMember])
 
   const handleModalClose = () => {
-    setIsOnboarded()
-    hide()
+    setIsOnboarded().finally(hide)
   }
 
   const editAction = useCallback(() => {
@@ -277,7 +269,7 @@ const SpaceDetails = () => {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           isLoading: refreshing,
@@ -286,6 +278,7 @@ const SpaceDetails = () => {
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
+        keyboardShouldPersistTaps="handled"
       >
         <SpaceDetailView
           style={styles.spaceDetailView}
@@ -297,7 +290,7 @@ const SpaceDetails = () => {
       </ScrollHeaderLayout.Refreshable>
       {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {isMember && currentTabIndex === 1 && <UpdateButton />}
-    </>
+    </SafeAreaProvider>
   )
 }
 

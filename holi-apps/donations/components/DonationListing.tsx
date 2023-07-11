@@ -91,16 +91,14 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       <PartnerInfoRow
         rowText={t('donations:app.subline')}
         showOutlinkIcon={false}
-        partner={partner}
+        partners={{ 'betterplace.org': partner }}
         onPress={showPartnerModal}
       />
       <PartnerModal
-        headline={t('donations:listing.partnerModal.headline')}
-        text={t('donations:listing.partnerModal.text')}
-        buttonText={t('donations:listing.partnerModal.link.text')}
-        partner={partner}
+        partners={{ 'betterplace.org': partner }}
         show={partnerModalVisible}
         onDismiss={closeModal}
+        i18nNamespace={'donations'}
       />
       {isFiltering && (
         <HoliBox padding={[16, 0, 0, 0]}>

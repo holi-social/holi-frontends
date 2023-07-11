@@ -1,16 +1,18 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import { GOODNEWS_IMG_SOURCES_MAPPING } from '@holi-apps/goodnews/components/GoodNewsArticleComponent'
 import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
@@ -64,6 +66,8 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
     })
   }
 
+  const wordmark = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu'].wordmark
+
   return (
     <View
       style={[mixins.container, styles.container, style]}
@@ -72,9 +76,25 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
       testID="goodnews-teaser-container"
     >
       <View style={styles.lookingForMore}>
-        <HoliHeading level="1">{t('goodnews:listing.teaser.title')}</HoliHeading>
+        {!!wordmark && !!wordmark.src && (
+          <HoliLocalImage
+            imageSource={wordmark.src}
+            isSvg={wordmark.isSvg}
+            label={''}
+            width={107}
+            height={16}
+            resizeMode={'contain'}
+          />
+        )}
         <HoliText size="large" style={styles.description}>
-          {t('goodnews:listing.teaser.description')}
+          <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
+            <HoliTextLink
+              label={t('goodnews:listing.teaser.textLink.url')}
+              href={t('goodnews:listing.teaser.textLink.url')}
+              external
+              variant="inline"
+            />
+          </Trans>
         </HoliText>
         <HoliButton
           label={t('goodnews:button.loadMoreArticles.label')}
@@ -111,14 +131,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   description: {
-    paddingVertical: 16,
     textAlign: 'center',
   },
   lookingForMore: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    gap: 32,
     paddingBottom: 72,
+  },
+  textLink: {
+    fontSize: undefined,
+    fontWeight: '500',
   },
   imageContainer: {
     borderColor: colors.foreground30,

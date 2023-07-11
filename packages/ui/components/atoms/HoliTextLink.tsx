@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliLinkSize = Exclude<HoliTextSize, 'extralarge' | 'large'>
-type HoliLinkVariant = 'primary' | 'secondary'
+type HoliLinkVariant = 'primary' | 'secondary' | 'inline'
 
 export interface HoliTextLinkProps extends UseLinkProps {
   /** Children are optional when using it in combination with the <Trans> component. */
@@ -55,5 +55,11 @@ export const styles = StyleSheet.create({
   },
   secondary: {
     color: colors.foreground30,
+  },
+  inline: {
+    color: undefined,
+    fontSize: undefined,
+    lineHeight: undefined,
+    fontWeight: '500',
   },
 })

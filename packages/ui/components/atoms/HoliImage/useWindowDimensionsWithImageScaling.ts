@@ -8,9 +8,10 @@ interface ImageScalingParams {
 interface ImageScaledSize {
   imageWidth: number
   imageHeight: number
-  // affected by window sizing!
-  screenWidth: number
-  screenHeight: number
+  // so called 'inner width', affected by window sizing!
+  windowWidth: number
+  // so called 'inner height', affected by window sizing!
+  windowHeight: number
   scale: number
   fontScale: number
 }
@@ -41,8 +42,8 @@ export const useWindowDimensionsWithImageScaling = (
   return {
     imageWidth,
     imageHeight,
-    screenWidth: width,
-    screenHeight: height,
+    windowWidth: width,
+    windowHeight: height,
     scale,
     fontScale,
   }

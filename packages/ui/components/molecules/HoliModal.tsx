@@ -103,6 +103,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
 
   const onGestureEnd = (event: HandlerStateChangeEvent) => {
     // if dragged more than 150px down, dismiss the modal
+    // TODO: use relative, screen height based value instead of absolute
     if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 150) {
       onDismiss()
     } else {

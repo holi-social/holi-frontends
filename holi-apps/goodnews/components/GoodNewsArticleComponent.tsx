@@ -20,7 +20,7 @@ import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import { PartnerProps } from '@holi-apps/volunteering/types'
 
-const GOODNEWS_IMG_SOURCES_MAPPING: {
+export const GOODNEWS_IMG_SOURCES_MAPPING: {
   [name: string]: PartnerProps
 } = {
   'goodnews.eu': {
@@ -82,17 +82,15 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
           <PartnerInfoRow
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
-            partner={partner}
+            partners={{ 'goodnews.eu': partner }}
             onPress={showPartnerModal}
           />
         </HoliBox>
         <PartnerModal
-          headline={t('goodnews:listing.partnerModal.headline')}
-          text={t('goodnews:listing.partnerModal.text')}
-          buttonText={t('goodnews:listing.partnerModal.link.text')}
-          partner={partner}
+          partners={{ 'goodnews.eu': partner }}
           show={show}
           onDismiss={closeModal}
+          i18nNamespace={'goodnews'}
         />
         <HoliText size="small" style={styles.source}>
           {article.source}
