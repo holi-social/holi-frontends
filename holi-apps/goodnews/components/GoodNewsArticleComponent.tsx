@@ -6,7 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { useImageScalingWindowDimensions } from '@holi/ui/components/atoms/HoliImage/useImageScalingWindowDimensions'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -57,7 +57,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
-  const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
+  const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
     relativeHeight: relativeArticleImageHeightScaling,
   })
   const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })

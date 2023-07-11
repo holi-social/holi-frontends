@@ -11,8 +11,8 @@ const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined =
     return undefined
   }
   return source
+    .filter((source) => !!source.width)
     .map((source) => {
-      // TODO add fallback when width is null
       const { uri, width } = setScalingParams(source)
       return `${uri} ${width}w`
     })

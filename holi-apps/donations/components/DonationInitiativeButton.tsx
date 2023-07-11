@@ -27,7 +27,13 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
-          <DonationImage picture={initiative.picture} label={name} style={styles.initiativeImage} />
+          <DonationImage
+            picture={initiative.picture}
+            label={name}
+            style={styles.initiativeImage}
+            width={56}
+            height={56}
+          />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
