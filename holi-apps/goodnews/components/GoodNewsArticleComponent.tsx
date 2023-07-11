@@ -5,6 +5,8 @@ import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewSt
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { useImageScalingWindowDimensions } from '@holi/ui/components/atoms/HoliImage/useImageScalingWindowDimensions'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -12,6 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
@@ -43,7 +46,7 @@ type GoodNewsArticleComponentProps = {
   accessible?: boolean
 }
 
-const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
+const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
   style,
@@ -54,6 +57,11 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
   const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
+  const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
+    relativeHeight: relativeArticleImageHeightScaling,
+  })
+  const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
+
   return (
     <View
       style={[styles.container, style]}
@@ -61,7 +69,8 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >
-      <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
+      {/** TODO replace ImageBackground with a holi component that has all image sizing features like HoliImage */}
+      <ImageBackground source={{ uri: scaledImageUri }} resizeMode="cover" style={styles.headerBackgroundImage}>
         {!!article.pictureCredit && (
           <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
             {article.pictureCredit}
