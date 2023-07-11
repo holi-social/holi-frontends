@@ -174,16 +174,11 @@ const createStyles = (bottomInsets: number) =>
     modal: {
       flex: 1,
       backgroundColor: colors.background20,
+      paddingBottom: 70,
       ...Platform.select({
         // TODO: Fix FormWrapper usage to avoid this
         ios: {
           paddingBottom: bottomInsets > 0 ? 90 : 0,
-        },
-        android: {
-          paddingBottom: 70,
-        },
-        web: {
-          paddingBottom: 70,
         },
       }),
     },
