@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client/core'
 
 import { Comment, Post } from '@holi/core/screens/posts/types'
-import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PostCommentFragment = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
   fragment PostCommentFull on PostComment {
     id
     text
     created
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     mentions {
       id
@@ -48,7 +48,7 @@ export const LinkFragment = gql`
 `
 
 export const PostFragment = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
@@ -58,13 +58,13 @@ export const PostFragment = gql`
     text
     created
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     numberOfComments
     commenters {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     image {
@@ -87,7 +87,7 @@ export const PostFragment = gql`
 `
 
 export const PostDetailsFragment = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
   ${PostCommentFragment}
   ${PostImageFragment}
   ${LinkFragment}
@@ -98,13 +98,13 @@ export const PostDetailsFragment = gql`
     text
     created
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     numberOfComments
     commenters {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     comments {

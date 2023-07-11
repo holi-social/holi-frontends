@@ -5,8 +5,8 @@ import { memberSpacesFragment } from '@holi/core/queries'
 import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 import type { MemberSpaces, Paged } from '@holi/core/types'
 
-export const userAvatarFragment = gql`
-  fragment UserAvatar on User {
+export const FullUserAvatarFragment = gql`
+  fragment FullUserAvatar on User {
     id
     avatar
     avatarBlurhash
@@ -18,7 +18,7 @@ export const userAvatarFragment = gql`
   }
 `
 
-export const userFragment = gql`
+export const FullUserFragment = gql`
   fragment FullUser on User {
     id
     avatar
@@ -50,7 +50,7 @@ export const userFragment = gql`
 `
 
 export const authenticatedUserQuery = gql`
-  ${userFragment}
+  ${FullUserFragment}
 
   query AuthenticatedUser {
     authenticatedUser {
@@ -68,7 +68,7 @@ export interface UserByIdResponse {
 }
 
 export const userByIdQuery = gql`
-  ${userFragment}
+  ${FullUserFragment}
 
   query UserById($userId: UUID!) {
     userById(id: $userId) {
@@ -83,7 +83,7 @@ export interface UserbyIdWithSpacesResponse {
 }
 
 export const userByIdWithSpacesQuery = gql`
-  ${userFragment}
+  ${FullUserFragment}
   ${memberSpacesFragment}
 
   query UserByIdWithSpaces($userId: UUID!) {
@@ -97,11 +97,11 @@ export const userByIdWithSpacesQuery = gql`
 `
 
 export const userByNameQuery = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
   query UserByName($substring: String!, $limit: Int, $offset: Int) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
   }
@@ -141,7 +141,7 @@ export type UpdateConnectionWithUserResponse = {
 }
 
 export const updateUserMutation = gql`
-  ${userFragment}
+  ${FullUserFragment}
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
     updateAuthenticatedUser(input: $input) {
@@ -151,7 +151,7 @@ export const updateUserMutation = gql`
 `
 
 export const updateConnectionWithUserMutation = gql`
-  ${userFragment}
+  ${FullUserFragment}
 
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {

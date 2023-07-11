@@ -28,7 +28,7 @@ const VolunteeringPartnerCard: React.VFC<VolunteeringPartnerContainerProps> = ({
           headline={headline}
           rowText={name}
           linkTitle={t('volunteering:shared.partner.link.title', { source: name })}
-          partner={partner}
+          partners={[partner]}
           onPress={() => (partner?.url ? Linking.openURL(partner?.url) : null)}
         />
       </HoliBox>
