@@ -83,6 +83,7 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
             <HoliTextLink
               label={t('goodnews:listing.teaser.textLink.url')}
               href={t('goodnews:listing.teaser.textLink.url')}
+              external
               variant="inline"
             />
           </Trans>
