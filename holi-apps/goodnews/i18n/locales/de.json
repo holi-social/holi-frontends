@@ -1,9 +1,9 @@
 {
   "app.name": "Gute Nachrichten",
   "app.subline": "kuratiert von goodnews.eu",
-  "listing.partnerModal.headline": "Die tägliche Dosis Optimismus",
-  "listing.partnerModal.text": "Die wichtigsten guten Nachrichten, Innovationen und Lösungen aus der ganzen Welt, jeden Tag von Montag bis Freitag.",
-  "listing.partnerModal.link.text": "kuratiert von goodnews.eu",
+  "listing.partnerModal.goodnews.eu.headline": "Die tägliche Dosis Optimismus",
+  "listing.partnerModal.goodnews.eu.text": "Die wichtigsten guten Nachrichten, Innovationen und Lösungen aus der ganzen Welt, jeden Tag von Montag bis Freitag.",
+  "listing.partnerModal.goodnews.eu.buttonText": "kuratiert von goodnews.eu",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weiterlesen",
   "listing.teaser.title": "Auf der Suche nach mehr?",

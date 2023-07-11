@@ -73,17 +73,15 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
           <PartnerInfoRow
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
-            partner={partner}
+            partners={{ 'goodnews.eu': partner }}
             onPress={showPartnerModal}
           />
         </HoliBox>
         <PartnerModal
-          headline={t('goodnews:listing.partnerModal.headline')}
-          text={t('goodnews:listing.partnerModal.text')}
-          buttonText={t('goodnews:listing.partnerModal.link.text')}
-          partner={partner}
+          partners={{ 'goodnews.eu': partner }}
           show={show}
           onDismiss={closeModal}
+          i18nNamespace={'goodnews'}
         />
         <HoliText size="small" style={styles.source}>
           {article.source}
