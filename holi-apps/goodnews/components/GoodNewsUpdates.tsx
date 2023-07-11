@@ -49,7 +49,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
         appName={HOLI_APPS.GOOD_NEWS}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path}?${params.toString()}`)}
         title={item.headline}
-        imageSource={{ uri: item.pictureUrl }}
+        imageSourceUri={item.pictureUrl}
         footer={formattedDate}
       />
     )

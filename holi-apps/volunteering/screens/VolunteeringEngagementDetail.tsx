@@ -32,12 +32,18 @@ import {
 } from '@holi-apps/volunteering/queries'
 import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
 
-const VOLUNTEERING_IMG_SOURCES_MAPPING: {
+export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: PartnerProps
 } = {
   Voltastics: {
     logo: {
       src: require('@holi/ui/assets/img/volunteering/voltastics-logo.png'),
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-wordmark.png'),
+      width: 159,
+      height: 24,
       isSvg: false,
     },
     url: 'https://voltastics.com/',
@@ -47,11 +53,23 @@ const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       src: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
       isSvg: true,
     },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-wordmark.svg'),
+      width: 60,
+      height: 24,
+      isSvg: true,
+    },
     url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
   },
   'vostel.de': {
     logo: {
       src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-wordmark.png'),
+      width: 73,
+      height: 24,
       isSvg: false,
     },
     url: 'https://vostel.de/de/ueber_vostel',
@@ -61,11 +79,23 @@ const VOLUNTEERING_IMG_SOURCES_MAPPING: {
       src: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
       isSvg: true,
     },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-wordmark.svg'),
+      width: 132,
+      height: 42,
+      isSvg: true,
+    },
     url: 'https://gonature.de/ueber-uns',
   },
   GoVolunteer: {
     logo: {
       src: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-wordmark.svg'),
+      width: 178,
+      height: 36,
       isSvg: true,
     },
     url: 'https://govolunteer.com/ueber-uns',

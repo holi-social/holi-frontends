@@ -3,6 +3,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { useImageScalingWindowDimensions } from '@holi/ui/components/atoms/HoliImage/useImageScalingWindowDimensions'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
@@ -11,6 +13,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { GOODNEWS_IMG_SOURCES_MAPPING } from '@holi-apps/goodnews/components/GoodNewsArticleComponent'
+import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsTeaserComponentProps = {
@@ -21,7 +24,7 @@ type GoodNewsTeaserComponentProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
+const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
   article,
   style,
   fetchMore,
@@ -29,6 +32,11 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
 }: GoodNewsTeaserComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  const { imageWidth, imageHeight } = useImageScalingWindowDimensions({
+    relativeHeight: relativeArticleImageHeightScaling,
+  })
+  const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 
   const imageContainerAnimation = new Animated.Value(0)
   const imageContainerAnimationStyle = {
@@ -101,7 +109,7 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
       </View>
       <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]}>
         <HoliImage
-          source={{ uri: article.pictureUrl }}
+          source={{ uri: scaledImageUri }}
           label={article.headline}
           style={styles.mainImage}
           testID="goodnews-teaser-image"

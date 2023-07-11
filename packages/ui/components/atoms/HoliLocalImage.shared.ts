@@ -1,7 +1,5 @@
 import { ImageStyle, StyleProp } from 'react-native'
 
-import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
-
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
 export type StaticImageData = {
@@ -37,5 +35,5 @@ export type HoliLocalImageProps = {
   /**
    * The resizeMode to apply to the image. Default 'cover'. Using the React Native values and mapping them to corresponding object-fit values for web.
    */
-  resizeMode?: ResizeMode
+  resizeMode?: 'cover' | 'contain' | 'stretch' // add more, if you need more
 }
