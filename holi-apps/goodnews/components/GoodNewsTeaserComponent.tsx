@@ -86,7 +86,7 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
             resizeMode={'contain'}
           />
         )}
-        <HoliText size="large" style={styles.description}>
+        <HoliText style={styles.description}>
           <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
             <HoliTextLink
               label={t('goodnews:listing.teaser.textLink.url')}
