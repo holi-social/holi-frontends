@@ -82,7 +82,7 @@ export enum SpaceSectionType {
   FOLLOWER = 'FOLLOWER',
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
-  CREATOR = 'CREATOR',
+  CREATOR = 'CREATOR', // deprecated, please use space.creator instead
 }
 
 export type SpaceSection = {
