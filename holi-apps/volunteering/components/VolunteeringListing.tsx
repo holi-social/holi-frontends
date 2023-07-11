@@ -9,6 +9,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -34,12 +35,13 @@ type VolunteeringListingProps = {
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters, onScroll, filters = {} }) => {
+const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters, onScroll, filters = {} }) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const insets = useSafeAreaInsets()
   const styles = getStyles(insets.bottom)
+  const { imageWidth } = useWindowDimensionsWithImageScaling()
 
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
@@ -82,6 +84,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
       <HoliCard
         imageUrl={item.imageUrl}
         imageLabel={item.title ?? ''}
+        imageWidth={imageWidth}
         testID="btn-to-volunteering-engagement"
         onCardPress={() => handleCardPress(item)}
       >

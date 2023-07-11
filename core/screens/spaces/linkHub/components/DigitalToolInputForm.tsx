@@ -81,11 +81,12 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   }, [selectedCollection, collectionTypes])
 
   const ThumbnailUploader = () => {
+    const thumbnailUri = thumbnail?.uri ?? currentThumbnail
     return (
       <View style={styles.thumbnailContainer}>
-        {currentThumbnail || thumbnail ? (
+        {thumbnailUri ? (
           <HoliImage
-            source={{ uri: thumbnail?.uri || currentThumbnail }}
+            source={{ uri: thumbnailUri }}
             blurhash={thumbnailBlurhash}
             label={t('spaces.input.digitalTool.thumbnail.label')}
             style={styles.thumbnail}
