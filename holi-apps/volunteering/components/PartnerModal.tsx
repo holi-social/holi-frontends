@@ -42,7 +42,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
   const partnerCard = (partnerKey: string) => {
     const partner = partners[partnerKey]
     return (
-      <View style={isMultiplePartners ? styles.card : null}>
+      <View style={isMultiplePartners ? styles.card : null} key={partnerKey}>
         <HoliBox padding={isMultiplePartners ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
           {!!partner.wordmark && !!partner.wordmark?.src && (
             <HoliBox padding={[18, 0]}>
@@ -82,6 +82,11 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
     <HoliModal
       label={headline ?? ''}
       style={isMultiplePartners ? styles.modal : null}
+      /*TODO: make modal full height if isMultiplePartners
+        this would need to make all apps true pages instead of modal screens
+        --> omitted for now
+       */
+      //relativeHeight={isMultiplePartners ? 1 : undefined}
       show={show}
       onDismiss={onDismiss}
     >

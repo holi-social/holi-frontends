@@ -36,7 +36,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
             return (
               !!partner.logo &&
               !!partner.logo.src && (
-                <View style={logoStyles.partnerImage}>
+                <View style={logoStyles.partnerImage} key={partnerKey}>
                   <HoliLocalImage
                     imageSource={partner.logo.src}
                     isSvg={partner.logo.isSvg}
