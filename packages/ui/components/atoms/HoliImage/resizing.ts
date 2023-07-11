@@ -3,6 +3,10 @@ import { PixelRatio, Platform } from 'react-native'
 import { imagesUrl } from '@holi/core/auth/helpers/config'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
+// meant for dev: you see the dimension that would be loaded as a black image
+// useful when determining whether the correct srcSet is loaded
+const debugMode = false
+
 /** @description It handles the correct pixel density for native host platforms.
  * It returns the same input value for the web. Different sizes in the web can
  * also be regulated by the `srcSet` attribute. */
@@ -47,14 +51,22 @@ const holiImageScaling = (
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
 export const setScalingParams = (source: ImageSource): ImageSource => {
-  if (!source.width && !source.height) return source
-  if (isImageSourceURIBase64(source)) return source
-
   const uri = source.uri
   const calculatedWidth = calcPixelRatioSize(source.width)
   const calculatedHeight = calcPixelRatioSize(source.height)
 
-  if (uri.startsWith('https://ik.imagekit.io/')) {
+  if (debugMode) {
+    const width = calculatedWidth ?? calcPixelRatioSize(1200)
+    const height = calculatedHeight ?? calcPixelRatioSize(1200)
+    const padding = encodeURIComponent('    ') // increase/decrease, if needed to see image size
+    const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
+    const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
+    return { ...source, uri: newUri }
+  } else if (!calculatedWidth && !calculatedHeight) {
+    return source
+  } else if (isImageSourceURIBase64(source)) {
+    return source
+  } else if (uri.startsWith('https://ik.imagekit.io/')) {
     try {
       const url = new URL(uri)
 

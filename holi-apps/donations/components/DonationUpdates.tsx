@@ -44,6 +44,8 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
 
   const renderItem = ({ item }: { item: Project }) => {
     const { categories, donationsCount, progressPercentage, openAmountInCents, picture } = item
+    // we can't crop + fill mismatching required width+height combinations to the source images with the betterplace api,
+    // so we use the original on our image service
     const original = picture.find(({ type }) => type === 'original')
 
     return (

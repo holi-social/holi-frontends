@@ -8,9 +8,10 @@ interface ImageScalingParams {
 interface ImageScaledSize {
   imageWidth: number
   imageHeight: number
-  // affected by window sizing!
-  screenWidth: number
-  screenHeight: number
+  // so called 'inner width', affected by window sizing!
+  windowWidth: number
+  // so called 'inner height', affected by window sizing!
+  windowHeight: number
   scale: number
   fontScale: number
 }
@@ -23,7 +24,7 @@ const normalizeWebDimension = (widthOrHeight: number) => {
   return Platform.OS === 'web' ? webCacheBucketSize * Math.floor(widthOrHeight / webCacheBucketSize) : widthOrHeight
 }
 
-export const useImageScalingWindowDimensions = (
+export const useWindowDimensionsWithImageScaling = (
   { relativeWidth = 1, relativeHeight = 1 }: ImageScalingParams = { relativeWidth: 1, relativeHeight: 1 }
 ): ImageScaledSize => {
   const { width, height, scale, fontScale } = useWindowDimensions()
@@ -41,8 +42,8 @@ export const useImageScalingWindowDimensions = (
   return {
     imageWidth,
     imageHeight,
-    screenWidth: width,
-    screenHeight: height,
+    windowWidth: width,
+    windowHeight: height,
     scale,
     fontScale,
   }
