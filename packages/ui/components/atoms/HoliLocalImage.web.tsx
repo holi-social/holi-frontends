@@ -11,9 +11,11 @@ import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.sh
 
 const HoliLocalImage = ({ imageSource, label, width, height, style, resizeMode = 'cover' }: HoliLocalImageProps) => {
   if (!imageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
+  const webResizeMode = resizeMode === 'stretch' ? 'fill' : resizeMode
+
   return (
     <View style={style}>
-      <Image src={imageSource as string} alt={label} width={width} height={height} objectFit={resizeMode} />
+      <Image src={imageSource as string} alt={label} width={width} height={height} objectFit={webResizeMode} />
     </View>
   )
 }

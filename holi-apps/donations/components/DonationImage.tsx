@@ -1,16 +1,14 @@
 import React from 'react'
-import { ImageStyle, StyleProp } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
-import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
+import { ImageSource, MobileImageProps, ResizeMode, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 import { Picture } from '@holi-apps/donations/typings'
 
 type DonationImageProps = {
   picture: Picture[]
   label: string
-  style?: StyleProp<ImageStyle>
+  style?: MobileImageProps['style'] & WebImageProps['style']
   resizeMode?: ResizeMode
   sizes?: string
 }
@@ -30,11 +28,11 @@ const DonationImage: React.VFC<DonationImageProps> = ({
       width: picture.width || 0,
       height: picture.height || 0,
     }))
-  const original = picture.find(({ type }) => type === 'original')
+  const originalUrl = picture.find(({ type }) => type === 'original')?.url
 
   return (
     <HoliImage
-      source={sources.length ? sources : { uri: original?.url }}
+      source={sources.length ? sources : originalUrl ? { uri: originalUrl } : []}
       label={label}
       style={style}
       resizeMode={resizeMode}
