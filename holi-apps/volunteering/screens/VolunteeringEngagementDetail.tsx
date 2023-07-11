@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -17,6 +17,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -110,7 +111,7 @@ const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
-const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
+const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
@@ -131,7 +132,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
+  const { windowHeight, windowWidth, imageWidth } = useWindowDimensionsWithImageScaling()
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
 
@@ -177,7 +178,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <View style={styles.organizerInfoRow}>
           {(!!organizer.imageUrl && (
             <HoliImage
-              source={{ uri: organizer.imageUrl }}
+              source={{ uri: organizer.imageUrl, width: styles.partnerImage.width, height: styles.partnerImage.height }}
               style={styles.partnerImage}
               label={organizer.name ?? ''}
               resizeMode={'contain'}
@@ -191,9 +192,9 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={[styles.cardContainer, { maxWidth: deviceWidth }]}>
+      <View style={[styles.cardContainer, { maxWidth: windowWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
-        <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
+        <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
         {organizer && <Organizer organizer={organizer} />}
       </View>
     )
@@ -207,8 +208,8 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         headerOverlap
       >
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
-            <VolunteeringDetailHeader engagement={engagement} />
+          <View style={[mixins.container, styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+            <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
             <VolunteeringPartnerCard

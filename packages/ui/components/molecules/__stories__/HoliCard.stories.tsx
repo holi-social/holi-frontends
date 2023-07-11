@@ -34,6 +34,7 @@ export const BasicExample: ComponentStory<typeof HoliCard> = Template.bind({})
 BasicExample.argTypes = {
   imageUrl: { description: 'Image Url', required: true, control: { type: 'text' } },
   imageLabel: { description: 'Accessibility Label', control: { type: 'text' } },
+  imageWidth: { description: 'Requested image width', control: { type: 'number' } },
   testID: { description: 'Test id', control: { type: 'text' } },
   style: { description: 'Custom styles' },
   onCardPress: { description: 'Call back method to handle card press' },
@@ -42,6 +43,7 @@ BasicExample.argTypes = {
 BasicExample.args = {
   imageUrl: 'https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg',
   imageLabel: 'volunteering',
+  imageWidth: 1200,
   testID: 'holiCard',
   style: { width: 300, height: 600 },
   onCardPress: handleCardPress,

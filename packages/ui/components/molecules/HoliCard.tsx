@@ -9,6 +9,7 @@ export interface HoliCardProps {
   imageUrl: string | undefined
   imageLabel: string
   imageBlurhash?: string
+  imageWidth: number
   style?: StyleProp<ViewStyle>
   testID?: string
   onCardPress: () => void
@@ -22,6 +23,7 @@ const HoliCard = ({
   imageUrl,
   imageLabel,
   imageBlurhash,
+  imageWidth,
   children,
   style,
   testID,
@@ -32,7 +34,7 @@ const HoliCard = ({
       {imageUrl ? (
         <HoliImage
           testID={`${testID}-cardImage`}
-          source={{ uri: imageUrl }}
+          source={{ uri: imageUrl, width: imageWidth }}
           blurhash={imageBlurhash}
           label={imageLabel}
           style={styles.mainImage}
