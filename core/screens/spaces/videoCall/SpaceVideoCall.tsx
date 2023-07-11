@@ -13,6 +13,7 @@ import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { getUrlForSpaceVideoCall } from '@holi/core/screens/spaces/helpers/urls'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -36,16 +37,18 @@ const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
     variables: { idOrName: spaceIdOrName },
   })
   const space = data?.spaceById
-  const displayNameParam = user?.firstName ? `&userInfo.displayName="${user?.firstName}"` : ''
-  const videoCallUrl = encodeURI(
-    `${getUrlForSpaceVideoCall(space, roomName)}#config.disableDeepLinking=true${displayNameParam}`
-  )
+  const displayNameParam = user?.fullName ? `#userInfo.displayName="${user?.fullName}"` : ''
+  const videoCallUrl = encodeURI(`${getUrlForSpaceVideoCall(space, roomName)}${displayNameParam}`)
   const setScreenOptions = useSetScreenOptions()
 
   useLayoutEffect(() => {
     if (roomName) {
       setScreenOptions({
-        title: t('spaces.videocall.webview.heading', { roomName }),
+        headerTitle: () => (
+          <HoliHeading level="1" size="small" numberOfLines={1}>
+            {t('spaces.videocall.webview.heading', { roomName })}
+          </HoliHeading>
+        ),
       })
     }
   }, [roomName, setScreenOptions, t])
