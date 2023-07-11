@@ -20,7 +20,7 @@ import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
 import { PartnerProps } from '@holi-apps/volunteering/types'
 
-const GOODNEWS_IMG_SOURCES_MAPPING: {
+export const GOODNEWS_IMG_SOURCES_MAPPING: {
   [name: string]: PartnerProps
 } = {
   'goodnews.eu': {
