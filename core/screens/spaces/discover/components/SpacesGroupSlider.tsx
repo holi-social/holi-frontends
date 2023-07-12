@@ -14,13 +14,25 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const SPACES_PAGE_SIZE = 10
 
-type SpacesGroupSliderProps = {
-  group: DiscoverSpacesGroup
+interface BaseProps {
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
+interface SkeletonProps extends BaseProps {
+  loading: true
+  group?: DiscoverSpacesGroup
+}
+
+interface Props extends BaseProps {
+  loading?: false
+  group: DiscoverSpacesGroup
+}
+
+type SpacesGroupSliderProps = SkeletonProps | Props
+
+const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
+  loading,
   group,
   style,
   testID = 'spaces-group-slider',
@@ -30,19 +42,17 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { topics, skills } = useContext(SpaceTermContext)
   const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
-  const { topicId, skillId, locationId, spaces } = group
+  const topicId = group?.topicId
+  const skillId = group?.skillId
 
   const topic = useMemo(() => topics.find((topic) => topic.id === topicId), [topics, topicId])
   const skill = useMemo(() => skills.find((skill) => skill.id === skillId), [skills, skillId])
 
-  const { totalResults = 0, data: spacesData = [] } = spaces || {}
+  const { totalResults = 0, data: spacesData = [] } = group?.spaces || {}
   const hasMore = totalResults > SPACES_PAGE_SIZE
 
+  const locationId = group?.locationId
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
-
-  if (!spacesData.length || loadingGeolocation) {
-    return <></>
-  }
 
   const topicQuery = topic ? 'topic=' + topic.slug : ''
   const skillQuery = skill ? 'skill=' + skill.slug : ''
@@ -53,6 +63,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   return (
     <View style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
+        {loading && <SpacesFilterPill loading={true} style={styles.pill} />}
         {topic && (
           <SpacesFilterPill
             testID="spaces-topic-title"
@@ -62,10 +73,12 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
-        {!!locationId && geolocationDetails && (
+        {!!locationId && (
           <SpacesFilterPill
             testID="spaces-location-title"
-            label={geolocationDetails.name}
+            // never shows an empty string because we would be in a loading state
+            label={geolocationDetails?.name ?? ''}
+            loading={loadingGeolocation}
             filterType="location"
             style={styles.pill}
             onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
@@ -82,6 +95,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
         )}
       </View>
       <SpacesHorizontalSlider
+        loading={loading}
         testID="spaces-group-slider"
         slideGap={8}
         seeMoreButton={
@@ -95,22 +109,26 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
           ) : undefined
         }
       >
-        {spacesData.map((space: Space) => (
-          <HoliBlockItem
-            key={space.id}
-            label={space.title}
-            title={space.title}
-            subtitle={space.location}
-            description={space.description}
-            imageSrc={space.cover}
-            imageBlurhash={space.coverBlurhash}
-            users={space.members.data.map((membership: SpaceMember) => membership.user)}
-            href={`/spaces/${space.name}`}
-            size="large"
-            testID="space-link"
-            totalUserCount={space.members.totalResults}
-          />
-        ))}
+        {loading
+          ? new Array(2).fill(1).map((_, idx) => {
+              return <HoliBlockItem key={idx} loading={true} size="large" />
+            })
+          : spacesData.map((space: Space) => (
+              <HoliBlockItem
+                key={space.id}
+                label={space.title}
+                title={space.title}
+                subtitle={space.location}
+                description={space.description}
+                imageSrc={space.cover}
+                imageBlurhash={space.coverBlurhash}
+                users={space.members.data.map((membership: SpaceMember) => membership.user)}
+                href={`/spaces/${space.name}`}
+                size="large"
+                testID="space-link"
+                totalUserCount={space.members.totalResults}
+              />
+            ))}
       </SpacesHorizontalSlider>
     </View>
   )

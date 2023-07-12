@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 type SpacesHorizontalSliderProps = {
+  loading?: boolean
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactElement
   testID?: string
@@ -9,6 +10,7 @@ type SpacesHorizontalSliderProps = {
 }
 
 const SpacesHorizontalSlider = ({
+  loading = false,
   style,
   testID = 'holi-slider',
   seeMoreButton,
@@ -21,7 +23,12 @@ const SpacesHorizontalSlider = ({
   return (
     <View style={style} testID={testID}>
       {children && (
-        <ScrollView horizontal nestedScrollEnabled contentContainerStyle={styles.scrollViewContainer}>
+        <ScrollView
+          scrollEnabled={!loading}
+          horizontal
+          nestedScrollEnabled
+          contentContainerStyle={styles.scrollViewContainer}
+        >
           {React.Children.map(children, (space, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {space}

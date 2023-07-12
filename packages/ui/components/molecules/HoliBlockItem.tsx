@@ -7,11 +7,12 @@ import { useFallbackImage } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliBlockItemProps {
+interface BaseProps {
   title: string
   subtitle?: string
   description?: string
@@ -26,9 +27,24 @@ export interface HoliBlockItemProps {
   totalUserCount?: number
 }
 
+interface SkeletonProps extends Partial<BaseProps> {
+  loading: true
+}
+
+interface Props extends BaseProps {
+  loading?: false
+}
+
+type HoliBlockItemProps = SkeletonProps | Props
+
 const SMALL_IMAGE_DIMENSION = 64
+const SMALL_OUTER_BORDER_RADIUS = 8
+
+const LARGE_SKELETON_HEIGHT = 252 // very hard to calculate, estimated for simplicity
+const LARGE_OUTER_BORDER_RADIUS = 16
 
 const HoliBlockItem = ({
+  loading,
   title,
   subtitle,
   description,
@@ -49,6 +65,16 @@ const HoliBlockItem = ({
   const imageSource = isSmall
     ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
     : { uri: imageSrc ? imageSrc : fallbackImageUri }
+
+  if (loading) {
+    return (
+      <HoliSkeleton
+        height={isSmall ? SMALL_IMAGE_DIMENSION : LARGE_SKELETON_HEIGHT}
+        width={'100%'}
+        borderRadius={isSmall ? SMALL_OUTER_BORDER_RADIUS : LARGE_OUTER_BORDER_RADIUS}
+      />
+    )
+  }
 
   return (
     <View style={styles.container} testID={testID}>
@@ -141,7 +167,7 @@ const stylesSmall = StyleSheet.create({
     height: SMALL_IMAGE_DIMENSION,
   },
   image: {
-    borderRadius: 8,
+    borderRadius: SMALL_OUTER_BORDER_RADIUS,
     height: '100%',
   },
   usersPile: {
@@ -178,7 +204,7 @@ const stylesLarge = StyleSheet.create({
   container: {
     padding: 8,
     paddingBottom: 16,
-    borderRadius: 18,
+    borderRadius: LARGE_OUTER_BORDER_RADIUS,
     backgroundColor: colors.background10,
   },
   mainSection: {
