@@ -24,6 +24,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           },
         },
         [RouteName.Chat]: {
+          initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
           },
@@ -73,6 +74,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
         [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
+      },
+    },
+
+    [RouteName.ChatStack]: {
+      screens: {
+        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
       },
     },
 
