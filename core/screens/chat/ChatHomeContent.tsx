@@ -5,11 +5,7 @@ import { FlatList, Platform, SafeAreaView, StyleSheet, View } from 'react-native
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { onScreenScrollY, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import ConversationItem, {
-  ROOM_ITEM_HEIGHT,
-  ROOM_ITEM_VERTICAL_PADDING,
-} from '@holi/core/screens/chat/components/RoomItem'
-import { chatConversationSeed } from '@holi/core/screens/chat/components/seed'
+import { chatRoomListSeed } from '@holi/core/screens/chat/components/seed'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -55,7 +51,7 @@ const ChatHomeContent = () => {
     )
   }
 
-  if (!chatConversationSeed.length) {
+  if (!chatRoomListSeed.length) {
     return (
       <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
         <View style={mixins.container}>
@@ -85,8 +81,7 @@ const ChatHomeContent = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <FlatList
-        data={chatConversationSeed}
-        renderItem={({ item }) => (
+        data={chatRoomListSeed}
           <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
             <ConversationItem room={item} />
           </HoliBox>
