@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, View, ViewStyle } from 'react-native'
+import { Keyboard, StyleProp, View, ViewStyle } from 'react-native'
 import { z } from 'zod'
 
 import { FieldError } from '@holi/core/errors/helpers'
@@ -44,6 +44,7 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
     }).finally(() => {
       setLoading(false)
       setRoomName('')
+      Keyboard.dismiss()
     })
   }, [addVideoCallLink, roomName, space])
 

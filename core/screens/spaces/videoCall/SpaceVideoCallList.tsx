@@ -38,7 +38,7 @@ const SpaceVideoCallList = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+    <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
       <View style={mixins.container}>
         <CollaboratorAreaCard
           title={t('spaces.videocall.schedule.heading')}
