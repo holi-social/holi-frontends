@@ -12,9 +12,6 @@ const SpaceCollaboratorOnboardingInfo: React.FC = () => {
 
   return (
     <View style={mixins.container}>
-      <HoliText style={styles.header} size="large">
-        {t('spaces.collaborate.onboarding.info.header')}
-      </HoliText>
       <View style={styles.row}>
         <View style={styles.count}>
           <HoliText size="large" style={styles.italic}>
@@ -44,9 +41,6 @@ const SpaceCollaboratorOnboardingInfo: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-start',

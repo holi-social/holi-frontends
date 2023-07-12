@@ -161,6 +161,9 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
 
         {/* <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <View style={[mixins.container, styles.infoModal]}>
+            <HoliText style={styles.header} size="large">
+              {t('spaces.collaborate.onboarding.info.header')}
+            </HoliText>
             <SpaceCollaboratorOnboardingInfo />
           </View>
         </HoliModal> */}
@@ -212,6 +215,10 @@ const createStyles = (bottomInsets: number) =>
     // },
     // infoModal: {
     //   marginBottom: 20,
+    // },
+    // header: {
+    //   marginBottom: 24,
+    //   marginLeft: 20,
     // },
   })
 

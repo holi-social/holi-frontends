@@ -22,6 +22,10 @@ import EditSpaceCollaborators, {
 import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
 import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
+import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboarding'
+import SpaceOnboardingSteps, {
+  SpaceOnboardingStepsParams,
+} from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
@@ -50,6 +54,8 @@ export type SpacesScreens = {
   [RouteName.Collaborators]: SpaceCollaboratorsManageParams
   [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
   [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
+  [RouteName.SpaceOnboarding]: SpaceOnboardingParams
+  [RouteName.SpaceOnboardingSteps]: SpaceOnboardingStepsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -87,6 +93,8 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaboratorsManage} />
       <SpacesStack.Screen name={RouteName.EditCollaborators} component={EditSpaceCollaborators} />
       <SpacesStack.Screen name={RouteName.SpaceRolesPermissions} component={SpaceRolesPermissions} />
+      <SpacesStack.Screen name={RouteName.SpaceOnboarding} component={SpaceOnboarding} />
+      <SpacesStack.Screen name={RouteName.SpaceOnboardingSteps} component={SpaceOnboardingSteps} />
     </SpacesStack.Navigator>
   )
 }
