@@ -23,7 +23,7 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallL
   const { navigate } = useRouting()
 
   const navigateToVideoCall = useCallback(() => {
-    if (Platform.OS !== 'android') {
+    if (Platform.OS === 'web') {
       Linking.openURL(videoCallLink.url)
     } else {
       const webViewUrl = videoCallLink.url.replace(jitsiUrl, `/spaces/${space.name}/video-call`)
