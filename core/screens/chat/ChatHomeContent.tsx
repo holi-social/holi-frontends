@@ -5,9 +5,11 @@ import { FlatList, Platform, SafeAreaView, StyleSheet, View } from 'react-native
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { onScreenScrollY, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import RoomItem, { ROOM_ITEM_HEIGHT, ROOM_ITEM_VERTICAL_PADDING } from '@holi/core/screens/chat/components/RoomItem'
 import { chatRoomListSeed } from '@holi/core/screens/chat/components/seed'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -82,9 +84,13 @@ const ChatHomeContent = () => {
     <SafeAreaView style={styles.wrapper}>
       <FlatList
         data={chatRoomListSeed}
-          <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
-            <ConversationItem room={item} />
-          </HoliBox>
+        renderItem={({ item, index }) => (
+          // TODO: add correct label
+          <HoliLink href={`/chat/rooms/${index}`} label="">
+            <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
+              <RoomItem room={item} />
+            </HoliBox>
+          </HoliLink>
         )}
         // use ListHeaderComponent to add padding bottom for HeaderAnimated
         ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
