@@ -160,6 +160,7 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
+            backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             tabs={[
               {
