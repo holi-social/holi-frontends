@@ -22,6 +22,12 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
+  {
+    id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
+    icon: 'vidicon',
+    translationKey: 'spaces.resources.category.videoCall',
+    path: '/video-call',
+  },
 ]
 
 export const RESOURCES_COMING_SOON: ResourceCategory[] = [

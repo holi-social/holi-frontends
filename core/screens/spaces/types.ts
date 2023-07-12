@@ -49,6 +49,13 @@ export interface SpaceCollaborationTool {
   thumbnailBlurhash?: string
 }
 
+export interface VideoCallLink {
+  id: string
+  url: string
+  roomName: string
+  created: string
+}
+
 export interface Space {
   id: string
   title: string
