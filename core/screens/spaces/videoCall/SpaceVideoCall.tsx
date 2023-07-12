@@ -25,7 +25,7 @@ export type SpaceVideoCallParams = {
 
 const { useParam } = createParam<SpaceVideoCallParams>()
 
-const SpaceVideoCall: React.FC<SpaceVideoCallParams> = () => {
+const SpaceVideoCall: React.FC = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [roomName] = useParam('roomName')
   const { t } = useTranslation()
