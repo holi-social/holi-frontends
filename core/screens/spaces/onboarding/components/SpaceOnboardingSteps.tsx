@@ -6,18 +6,17 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { getOrdinal } from '@holi/core/helpers/getOrdinal'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
+import SpaceOnboardingStepsInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepsInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -82,41 +81,6 @@ const SpaceOnboardingSteps = () => {
     // console.log(stepsList)
   }
 
-  const Steps = () => {
-    const stepsArray = []
-    for (let step = 1; step <= Object.keys(stepsList).length; step++) {
-      const label = getOrdinal(step) + ' step'
-      stepsArray.push(
-        <View style={styles.input} key={step}>
-          <HoliTextInput
-            key={step}
-            maxNoOfCharacters={240}
-            accessibilityLabel={label}
-            showCharacterCount
-            inputLabel={label}
-            noOfVisibleLines={3}
-            maxNoOfVisibleLines={3}
-            value={stepsList[step - 1].text}
-            onChange={(value) => handleChange(step, value)}
-            placeholder={t('spaces.onboarding.steps.describe')}
-            style={[styles.inputField, step === 1 && styles.inputFieldWithoutDelete]}
-          />
-          {step !== 1 && (
-            <HoliButton
-              label={t('spaces.onboarding.steps.remove')}
-              onPress={() => removeStep(step)}
-              transparent
-              style={styles.removeStepBtn}
-            >
-              <HoliIcon icon="delete" size={22} />
-            </HoliButton>
-          )}
-        </View>
-      )
-    }
-    return <View>{stepsArray}</View>
-  }
-
   if (!isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
@@ -147,12 +111,17 @@ const SpaceOnboardingSteps = () => {
             renderProp={() => {
               return (
                 <>
-                  <Steps />
+                  <SpaceOnboardingStepsInput
+                    stepsList={stepsList}
+                    handleChange={handleChange}
+                    removeStep={removeStep}
+                  />
                   <HoliButton
                     label={t('spaces.onboarding.steps.add')}
                     onPress={addStep}
                     variant="medium"
                     type="secondary"
+                    inline
                     style={styles.addStepBtn}
                   >
                     <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
@@ -209,41 +178,6 @@ const styles = StyleSheet.create({
   example: {
     width: 'auto',
     marginBottom: 40,
-  },
-  input: {
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
-  inputField: {
-    width: 'auto',
-    flexGrow: 1,
-    ...Platform.select({
-      native: {
-        maxWidth: '80%',
-        width: '200%',
-      },
-    }),
-  },
-  inputFieldWithoutDelete: {
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
-      },
-    }),
-  },
-  removeStepBtn: {
-    borderWidth: 1,
-    backgroundColor: colors.white100,
-    borderRadius: 50,
-    padding: 12,
-    width: 'auto',
   },
   addStepBtn: {
     marginTop: 24,
