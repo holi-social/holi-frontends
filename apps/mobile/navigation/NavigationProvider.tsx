@@ -27,13 +27,7 @@ const navigationTheme: Theme = {
 // or holi://profiles/dieter to open the corresponding screen on the app). See
 // https://reactnavigation.org/docs/deep-linking and https://reactnavigation.org/docs/configuring-links for details
 export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
-  prefixes: [
-    Linking.createURL('/'),
-    'holi://',
-    'https://app.holi.social',
-    'https://*.dev.holi.social',
-    'https://*.web.project-holi.org',
-  ],
+  prefixes: [Linking.createURL('/'), 'holi://', 'https://app.holi.social', 'https://*.dev.holi.social'],
   // this deep linking config needs to reflect the stacking structure of the navigators
   // see also https://reactnavigation.org/docs/configuring-links#mapping-path-to-route-names
   config: linkingConfig,
