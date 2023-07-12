@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
-import { Conversation } from '@holi/core/screens/chat/components/seed'
+import { Room } from '@holi/core/screens/chat/components/seed'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomItemProps {
-  room: Conversation
+  room: Room
   testID?: string
 }
 
@@ -20,7 +20,8 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 
 const RoomItem = ({ room, testID }: RoomItemProps) => {
   const { t, i18n } = useTranslation()
-  const { user, lastMessage, unseenMessageCount } = room
+  const { user, messages, unseenMessageCount } = room
+  const lastMessage = messages[messages.length - 1]
   const userFullName = user.fullName || t('user.profileView.anonymous')
   const hasUnseenMessages = unseenMessageCount > 0
 
@@ -57,7 +58,7 @@ const RoomItem = ({ room, testID }: RoomItemProps) => {
           </HoliText>
         </View>
 
-        <HoliText numberOfLines={1} style={styles.fontColorGray}>
+        <HoliText numberOfLines={1} color="gray300">
           {lastMessage.text}
         </HoliText>
       </View>
