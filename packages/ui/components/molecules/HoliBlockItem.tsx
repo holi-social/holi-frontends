@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useFallbackImage } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -25,6 +25,7 @@ interface BaseProps {
   size?: 'small' | 'large'
   testID?: string
   totalUserCount?: number
+  cardWidth?: number
 }
 
 interface SkeletonProps extends Partial<BaseProps> {
@@ -40,8 +41,9 @@ type HoliBlockItemProps = SkeletonProps | Props
 const SMALL_IMAGE_DIMENSION = 64
 const SMALL_OUTER_BORDER_RADIUS = 8
 
-const LARGE_SKELETON_HEIGHT = 252 // very hard to calculate, estimated for simplicity
+const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 315 : 252 // very hard to calculate, estimated for simplicity
 const LARGE_OUTER_BORDER_RADIUS = 16
+const LARGE_IMAGE_ASPECT_RATIO = 240 / 160
 
 const HoliBlockItem = ({
   loading,
@@ -57,14 +59,24 @@ const HoliBlockItem = ({
   testID,
   size = 'small',
   totalUserCount,
+  cardWidth = 0,
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
   const fallbackImageUri = useFallbackImage().uri
+  const largeImageWidth = cardWidth - 2 * styles.container.padding
   const imageSource = isSmall
-    ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
-    : { uri: imageSrc ? imageSrc : fallbackImageUri }
+    ? {
+        uri: imageSrc ? imageSrc : fallbackImageUri,
+        width: SMALL_IMAGE_DIMENSION,
+        height: SMALL_IMAGE_DIMENSION,
+      }
+    : {
+        uri: imageSrc ? imageSrc : fallbackImageUri,
+        width: largeImageWidth,
+        height: Math.ceil(largeImageWidth / LARGE_IMAGE_ASPECT_RATIO),
+      }
 
   if (loading) {
     return (
@@ -146,6 +158,7 @@ export default HoliBlockItem
 
 const stylesSmall = StyleSheet.create({
   container: {
+    padding: 0,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -217,7 +230,7 @@ const stylesLarge = StyleSheet.create({
     marginBottom: 16,
   },
   image: {
-    aspectRatio: 240 / 160,
+    aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
     borderRadius: 8,
     maxWidth: '100%',
   },

@@ -40,6 +40,8 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const { topics, skills } = useContext(SpaceTermContext)
+  // fine for image scaling, because web is constant and mobile can't get resized
+  const cardWidth = Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12
   const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
   const topicId = group?.topicId
@@ -97,6 +99,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
       <SpacesHorizontalSlider
         loading={loading}
         testID="spaces-group-slider"
+        cardWidth={cardWidth}
         slideGap={8}
         seeMoreButton={
           hasMore ? (
@@ -110,7 +113,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
         }
       >
         {loading
-          ? new Array(2).fill(1).map((_, idx) => {
+          ? new Array(Platform.OS == 'web' ? 10 : 2).fill(1).map((_, idx) => {
               return <HoliBlockItem key={idx} loading={true} size="large" />
             })
           : spacesData.map((space: Space) => (
@@ -127,6 +130,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
                 size="large"
                 testID="space-link"
                 totalUserCount={space.members.totalResults}
+                cardWidth={cardWidth}
               />
             ))}
       </SpacesHorizontalSlider>

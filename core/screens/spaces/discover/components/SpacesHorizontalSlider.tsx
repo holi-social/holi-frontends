@@ -1,11 +1,12 @@
 import React, { memo } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 type SpacesHorizontalSliderProps = {
   loading?: boolean
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactElement
   testID?: string
+  cardWidth: number
   slideGap: number
 }
 
@@ -15,16 +16,17 @@ const SpacesHorizontalSlider = ({
   testID = 'holi-slider',
   seeMoreButton,
   children,
+  cardWidth,
   slideGap,
 }: React.PropsWithChildren<SpacesHorizontalSliderProps>) => {
-  const { width: screenWidth } = useWindowDimensions()
-  const styles = getStyles(screenWidth)
+  const styles = getStyles(cardWidth)
 
   return (
     <View style={style} testID={testID}>
       {children && (
         <ScrollView
-          scrollEnabled={!loading}
+          // on web scrollbar would jump when changing this, so we don't disable there
+          scrollEnabled={Platform.OS === 'web' ? true : !loading}
           horizontal
           nestedScrollEnabled
           contentContainerStyle={styles.scrollViewContainer}
@@ -42,10 +44,10 @@ const SpacesHorizontalSlider = ({
 }
 export default memo(SpacesHorizontalSlider)
 
-const getStyles = (screenWidth: number) =>
+const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
+      width: cardWidth,
     },
     scrollViewContainer: {
       paddingVertical: 13,
