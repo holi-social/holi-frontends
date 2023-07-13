@@ -25,7 +25,7 @@ interface BaseProps {
   size?: 'small' | 'large'
   testID?: string
   totalUserCount?: number
-  cardWidth?: number
+  cardWidthForImageScaling?: number
 }
 
 interface SkeletonProps extends Partial<BaseProps> {
@@ -59,13 +59,13 @@ const HoliBlockItem = ({
   testID,
   size = 'small',
   totalUserCount,
-  cardWidth = 0,
+  cardWidthForImageScaling,
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
   const fallbackImageUri = useFallbackImage().uri
-  const largeImageWidth = cardWidth - 2 * styles.container.padding
+  const largeImageWidth = cardWidthForImageScaling ? cardWidthForImageScaling - 2 * styles.container.padding : undefined
   const imageSource = isSmall
     ? {
         uri: imageSrc ? imageSrc : fallbackImageUri,
@@ -75,7 +75,7 @@ const HoliBlockItem = ({
     : {
         uri: imageSrc ? imageSrc : fallbackImageUri,
         width: largeImageWidth,
-        height: Math.ceil(largeImageWidth / LARGE_IMAGE_ASPECT_RATIO),
+        height: largeImageWidth ? Math.ceil(largeImageWidth / LARGE_IMAGE_ASPECT_RATIO) : undefined,
       }
 
   if (loading) {

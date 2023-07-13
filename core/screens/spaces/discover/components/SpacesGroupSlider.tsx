@@ -130,7 +130,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
                 size="large"
                 testID="space-link"
                 totalUserCount={space.members.totalResults}
-                cardWidth={cardWidth}
+                cardWidthForImageScaling={cardWidth}
               />
             ))}
       </SpacesHorizontalSlider>

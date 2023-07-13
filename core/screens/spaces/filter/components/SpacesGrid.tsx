@@ -6,6 +6,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -14,14 +15,16 @@ type SpacesGridProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const spaceBreakpointGridValues: [number, unknown][] = [
+const spaceBreakpointGridValues: [number, number][] = [
   [0, 2],
   [+vars.breakpointM, 3],
   [+vars.breakpointL, 4],
 ]
 
 const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
-  const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues)
+  const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues) ?? 2
+  // approximation, because of padding images are a bit to large, but that's ok
+  const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })
 
   return (
     <View style={[style]}>
@@ -42,6 +45,7 @@ const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
                 size="large"
                 testID="space-link"
                 totalUserCount={space.members.totalResults}
+                cardWidthForImageScaling={imageWidth}
               />
             </HoliGridCell>
           ))
