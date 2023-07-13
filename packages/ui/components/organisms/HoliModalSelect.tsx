@@ -70,6 +70,14 @@ const HoliModalSelect = <IDType extends string>({
     },
   })
 
+  const handleOnChange = useCallback(
+    async (option: HoliModalSelectOption<IDType>) => {
+      await hide()
+      onChange(option)
+    },
+    [onChange, hide]
+  )
+
   const renderOption = useCallback(
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
@@ -80,8 +88,7 @@ const HoliModalSelect = <IDType extends string>({
         transparent
         disabled={option.disabled}
         onPress={() => {
-          onChange(option)
-          hide()
+          handleOnChange(option)
         }}
         testID={`item-${testID}`}
       >
@@ -112,7 +119,7 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [onChange, testID, hide, isDense, styles]
+    [styles.optionCardContent, styles.optionCard, styles.optionTextContainer, isDense, testID, handleOnChange]
   )
 
   return (
