@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View, ViewStyle } from 'react-native'
@@ -79,7 +80,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   )
 }
 
-export default UserSuggestions
+export default withProfiler(UserSuggestions, { name: 'UserSuggestions' })
 
 const styles = StyleSheet.create({
   itemsContainer: {

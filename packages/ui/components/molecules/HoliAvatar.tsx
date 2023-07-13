@@ -1,24 +1,39 @@
 import * as React from 'react'
-import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { AccessibilityProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
-export type AvatarProps = {
-  imageSrc: string | undefined
-  label: string
+interface BaseProps {
+  imageSrc?: string
+  imageBlurhash?: string
   accessibilityLabel?: string
-  defaultColor: string
-  initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+  defaultColor?: string
   testID?: string
   style?: StyleProp<ViewStyle>
 }
+
+interface Props extends BaseProps {
+  label: string
+  initials: string
+  loading?: false
+}
+
+interface SkeletonProps extends BaseProps {
+  label?: string
+  initials?: string
+  loading: true
+}
+
+export type AvatarProps = Props | SkeletonProps
 
 export const sizes = {
   micro: 24,
@@ -30,23 +45,25 @@ export const sizes = {
 
 const HoliAvatar = ({
   size = 'medium',
-  defaultColor,
+  defaultColor = colors.background20,
   imageSrc,
+  imageBlurhash,
   initials,
   label,
   accessibilityLabel,
   style,
+  loading = false,
   ...props
 }: AvatarProps) => {
+  const { t } = useTranslation()
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
-  const imageUri: ImageSourcePropType = { uri: imageSrc, width }
   const sizeClass = size || 'medium'
 
   const accessibilityPropsInitials: AccessibilityProps = {
     accessible: false,
-    accessibilityLabel: label || accessibilityLabel,
+    accessibilityLabel: label || accessibilityLabel || t('user.profileForm.avatar'),
     accessibilityRole: 'image',
   }
 
@@ -60,9 +77,17 @@ const HoliAvatar = ({
         styles[sizeClass],
       ]}
     >
-      {hasImage ? (
-        <HoliImage label={label} source={imageUri} style={styles.image} resizeMode="cover" />
-      ) : (
+      {loading && <HoliSkeleton height={'100%'} width={'100%'} borderRadius={0} />}
+      {!loading && hasImage && (
+        <HoliImage
+          label={label ?? ''} // only null when loading
+          source={{ uri: imageSrc, width, height: width }}
+          blurhash={imageBlurhash}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      )}
+      {!loading && !hasImage && (
         <HoliText style={styles.inititals} {...accessibilityPropsInitials}>
           {initials}
         </HoliText>

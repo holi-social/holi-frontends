@@ -1,10 +1,11 @@
 import { useLazyQuery, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { Suspense, memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
@@ -288,4 +289,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(UserProfile)
+export default withProfiler(memo(UserProfile), { name: 'UserProfile' })

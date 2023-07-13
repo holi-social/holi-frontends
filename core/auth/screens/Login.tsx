@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/DefaultLayout'
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -13,6 +13,7 @@ import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/he
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { confirmOAuth2Login } from '@holi/core/helpers/oauth2'
@@ -30,6 +31,9 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 export type LoginParams = {
   return_to?: string
 }
+
+const IS_CHAT_ENABLED = false
+const chatLoginClient = new ChatLogin()
 
 const { useParam } = createParam<LoginParams>()
 
@@ -90,6 +94,12 @@ const Login = () => {
       await setUserLoggedIn(data as OrySessionContext)
       await onOnboardingStateChange('finished')
       confirmOAuth2Login()
+
+      // Get Matrix Server Token
+      // Currently its disabled
+      if (IS_CHAT_ENABLED) {
+        await chatLoginClient.setSessionCredentials(true)
+      }
 
       if (Platform.OS === 'web' && return_to) {
         // server side redirect, see: See apps/web/pages/oauth2/login.tsx

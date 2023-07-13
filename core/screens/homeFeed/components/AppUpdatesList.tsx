@@ -6,6 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -15,8 +16,9 @@ type AppUpdatesListProps = {
   renderItem: ListRenderItem<any>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[]
+  appIcon: string
   heading: string
-  headingIcon: string
+  subline: string
   onPressSeeMore: (event: React.SyntheticEvent | GestureResponderEvent) => void
   labelSeeMore: string
   loading?: boolean
@@ -28,8 +30,9 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   appName,
   renderItem,
   data,
+  appIcon,
   heading,
-  headingIcon,
+  subline,
   onPressSeeMore,
   labelSeeMore,
   loading,
@@ -48,10 +51,11 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
       <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
         <View style={styles.header} testID={`${appName}-updates-heading`}>
           <View style={styles.iconContainer}>
-            <HoliIcon icon={headingIcon} size={20} color={colors.foreground20} />
+            <HoliIcon icon={appIcon} size={20} color={colors.foreground20} />
           </View>
-          <View>
-            <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
+          <View style={{ gap: 4 }}>
+            <HoliHeading>{heading}</HoliHeading>
+            <HoliText style={{ color: colors.foreground20 }}>{subline}</HoliText>
           </View>
         </View>
       </HoliButton>
@@ -82,6 +86,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    gap: 12,
   },
   headerContainer: { alignSelf: 'flex-start' },
   iconContainer: {

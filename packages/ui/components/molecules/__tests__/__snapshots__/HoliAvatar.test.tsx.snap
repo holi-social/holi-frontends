@@ -42,7 +42,8 @@ exports[`React tree renders correctly 1`] = `
         "placeholder": [],
         "source": [
           {
-            "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg?tr=w-256",
+            "height": 128,
+            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
             "width": 128,
           },
         ],

@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
@@ -137,4 +138,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceCollaborators
+export default withProfiler(SpaceCollaborators, { name: 'SpaceCollaborators' })

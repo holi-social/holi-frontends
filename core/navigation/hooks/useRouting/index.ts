@@ -37,18 +37,23 @@ const useRouting = (): RoutingState => {
     (routeName: string) => {
       const state = getStateFromPath(routeName, linkingConfig)
       if (state) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const action: any = getActionFromState(state)
-        if (action) {
-          const { name, params } = action?.payload || {}
+        const action = getActionFromState(state)
 
-          if (name) {
-            dispatch(StackActions.replace(name, params))
-          } else {
-            dispatch(action)
+        switch (action?.type) {
+          case 'NAVIGATE': {
+            const { name, params } = action.payload
+            name ? dispatch(StackActions.replace(name, params)) : dispatch(action)
+            break
           }
-        } else {
-          reset(state)
+          case 'GO_BACK':
+          case 'RESET':
+          case 'SET_PARAMS':
+            dispatch(action)
+            break
+          case undefined:
+          default:
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            reset(state as any)
         }
       } else {
         linkTo(routeName)

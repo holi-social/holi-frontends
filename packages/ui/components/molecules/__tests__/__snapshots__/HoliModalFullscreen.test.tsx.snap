@@ -111,67 +111,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
               ]
             }
           >
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight="24"
-              bbWidth="24"
-              color="#fff"
-              focusable={false}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "borderStyle": "solid",
-                    "borderWidth": 0,
-                    "color": "#fff",
-                    "display": "flex",
-                    "fill": "currentColor",
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "height": 24,
-                    "stroke": "currentColor",
-                    "width": 24,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 24,
-                    "width": 24,
-                  },
-                ]
-              }
-              tintColor="#fff"
-              vbHeight={1024}
-              vbWidth={1024}
-            >
-              <RNSVGGroup
-                fill={
-                  {
-                    "type": 2,
-                  }
-                }
-                propList={
-                  [
-                    "fill",
-                    "stroke",
-                  ]
-                }
-                stroke={
-                  {
-                    "type": 2,
-                  }
-                }
-              >
-                <RNSVGPath
-                  d="M512.030 451.678l211.2-211.199 60.331 60.331-211.2 211.199 211.2 211.2-60.331 60.331-211.2-211.2-211.199 211.2-60.331-60.331 211.199-211.2-211.199-211.199 60.331-60.331 211.199 211.199z"
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+            <View />
           </View>
         </View>
       </View>

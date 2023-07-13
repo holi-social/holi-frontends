@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
+import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export default {
@@ -23,6 +23,7 @@ Primary.args = {
   maxNoOfCharacters: 50,
   inline: true,
   type: 'text',
+  isRequired: true,
 }
 Primary.argTypes = {
   type: {
@@ -111,7 +112,7 @@ WithTrailingIcon.args = {
 WithTrailingIcon.argTypes = {
   trailingIcon: {
     type: 'select',
-    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
+    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
   },
 }
 
@@ -135,7 +136,7 @@ Password.argTypes = {
   },
 }
 
-export const WithCharactorCount = ({ ...args }) => {
+export const WithCharacterCount = ({ ...args }) => {
   const [inputValue, setInputValue] = useState('')
   return (
     <HoliTextInput
@@ -152,12 +153,12 @@ export const WithCharactorCount = ({ ...args }) => {
   )
 }
 
-WithCharactorCount.argTypes = {
+WithCharacterCount.argTypes = {
   showCharacterCount: { description: 'Charactor count', control: { type: 'boolean' } },
   maxNoOfCharacters: { description: 'Max number of charactors', type: 'number', control: { type: 'number' } },
 }
 
-WithCharactorCount.args = {
+WithCharacterCount.args = {
   showCharacterCount: true,
   maxNoOfCharacters: 10,
 }

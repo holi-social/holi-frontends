@@ -1,5 +1,9 @@
 {
   "app.name": "Spenden",
+  "app.subline": "über betterplace.org",
+  "listing.partnerModal.betterplace.org.headline": "Deutschlands größte Spendenplattform",
+  "listing.partnerModal.betterplace.org.text": "Die Förderung von Transparenz ist einer der Grundgedanken von betterplace.org. Deshalb verlangt betterplace von den Projekten, die über die Plattform Spenden sammeln, dass sie der Gemeinschaft mitteilen, wie sie diese Spenden verwenden.",
+  "listing.partnerModal.betterplace.org.buttonText": "bereitgestellt von betterplace",
   "category.Emergency Aid Ukraine ": "Nothilfe Ukraine",
   "category.LGBTQIA": "LGBTQIA+",
   "category.aid_syria": "Nothilfe Syrien",
@@ -30,6 +34,7 @@
   "category.weihnachtsstreamerei-animals": "Tiere zu Weihnachten",
   "category.weihnachtsstreamerei-emergency": "Nothilfe zu Weihnachten",
   "category.weihnachtsstreamerei-health": "Gesundheit zu Weihnachten",
+  "donationListing.heading": "Aktuelle Spendenprojekte für dich",
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
   "donationListing.loadMoreButton.text": "Weitere Projekte",
   "donationListing.loading": "Lädt Spendenprojekte…",

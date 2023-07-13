@@ -41,6 +41,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
         description={t('spaces.input.coverImage.remove.description')}
         onUploadImage={handleImageUpload}
         image={coverImage}
+        blurhash={space.coverBlurhash}
         currentImageUri={space.cover}
       />
     </EditSpaceModal>

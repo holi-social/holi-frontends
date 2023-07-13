@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -14,9 +15,11 @@ import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/qu
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -37,13 +40,17 @@ const InsightDetailPage = () => {
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
-  const { loading, error, data, refetch } = useQuery<InsightByIdResponse>(insightById, {
+  const {
+    data: { insightById: insight } = {},
+    error,
+    loading: loadingInsight,
+    refetch,
+  } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     notifyOnNetworkStatusChange: true,
   })
+  const initLoading = loadingInsight && !insight
   const setScreenOptions = useSetScreenOptions()
-
-  const insight = data?.insightById
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -61,12 +68,18 @@ const InsightDetailPage = () => {
 
   if (error) logError(error, `[InsightDetailPage.tsx] ${error.message}`)
 
-  if (!data && loading) return null
+  if (!loadingInsight && !insight) {
+    return (
+      <ScrollHeaderLayout.Default style={mixins.container}>
+        <HoliBox padding={[24, 0]}>
+          <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
+        </HoliBox>
+      </ScrollHeaderLayout.Default>
+    )
+  }
 
-  if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
-
-  const posts: Post[] = insight.posts || []
-  const author = insight.creator
+  const posts: Post[] = insight?.posts || []
+  const author = insight?.creator
 
   return (
     <>
@@ -81,48 +94,69 @@ const InsightDetailPage = () => {
         headerOverlap
       >
         {/* Image section */}
-        <ImageBackground
-          source={{ uri: insight?.headerImage }}
-          resizeMode="cover"
-          style={styles.insightBackgroundImage}
-          imageStyle={styles.insightImage}
-        />
+        {initLoading ? (
+          <View style={styles.insightBackgroundImage}>
+            <HoliSkeleton height="100%" width="100%" borderRadius={0} />
+          </View>
+        ) : (
+          <ImageBackground
+            source={{ uri: insight?.headerImage }}
+            resizeMode="cover"
+            style={styles.insightBackgroundImage}
+            imageStyle={styles.insightImage}
+          />
+        )}
 
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
-          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category">
+          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category" loading={initLoading}>
             {insight?.topic?.title}
           </HoliHeading>
 
-          <HoliHeading level="1" size="super" style={styles.insightHeadline} testID="insight-headline">
-            {insight.title}
+          <HoliHeading
+            level="1"
+            size="super"
+            style={styles.insightHeadline}
+            testID="insight-headline"
+            loading={initLoading}
+            // large font size (-> radius=16) with multiple lines expected
+            skeletonOptions={{ numberOfLines: 2, borderRadius: 16 }}
+          >
+            {insight?.title}
           </HoliHeading>
 
-          <HoliText style={styles.insightText}>{insight.description}</HoliText>
+          <HoliText style={styles.insightText} loading={initLoading} skeletonOptions={{ numberOfLines: 10 }}>
+            {insight?.description}
+          </HoliText>
 
           {/* Author  */}
-          {author && (
+          {(initLoading || author) && (
             <View style={styles.authorInfo}>
               <HoliButton
                 transparent
-                label={t('user.cards.modal.showInfo', { name: author.fullName })}
-                onPress={() => setShowCuratorModal(true)}
+                label={t('user.cards.modal.showInfo', { name: author?.fullName })}
+                onPress={initLoading ? () => setShowCuratorModal(true) : undefined}
               >
                 <View style={styles.authorInfoInner}>
                   <HoliAvatar
-                    imageSrc={author.avatar}
-                    label={author.fullName}
-                    initials={author.avatarLabel || ''}
-                    defaultColor={author.avatarDefaultColor || ''}
+                    imageSrc={author?.avatar}
+                    imageBlurhash={author?.avatarBlurhash}
+                    label={author?.fullName ?? ''}
+                    initials={author?.avatarLabel || ''}
+                    defaultColor={author?.avatarDefaultColor || ''}
                     size="small"
                     style={styles.authorInfoAvatar}
+                    loading={initLoading}
                   />
-
-                  <HoliText size="small" style={styles.authorInfoText}>
-                    <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                      <HoliText size="small" />
-                    </Trans>
-                  </HoliText>
+                  {initLoading ? (
+                    <HoliSkeleton width="40%" height={20} borderRadius={4} />
+                  ) : (
+                    <HoliText size="small" style={styles.authorInfoText}>
+                      <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author?.fullName }}>
+                        <HoliText size="small" />
+                      </Trans>
+                    </HoliText>
+                  )}
                 </View>
               </HoliButton>
             </View>
@@ -222,4 +256,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(InsightDetailPage)
+export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })

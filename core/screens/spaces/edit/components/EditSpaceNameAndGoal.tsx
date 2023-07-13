@@ -1,14 +1,15 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
+import { StyleSheet } from 'react-native'
 
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceNameAndGoalProps {
   space: Space
@@ -55,11 +56,11 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={loading || !inputValid}
-      persistFooter={Platform.OS !== 'android'}
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
+      scrollable={false}
     >
       <SpaceNameAndGoalForm
         title={t('spaces.input.nameAndGoal.title')}
@@ -69,9 +70,23 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         spaceName={spaceName}
         spaceNameErrors={fieldErrors.title}
         spaceGoalErrors={fieldErrors.description}
+        loading={loading}
+        onSave={onSave}
+        saveButtonDisabled={loading || !inputValid}
       />
-    </EditSpaceModal>
+    </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  layoutStyle: {
+    flex: 1,
+  },
+  contentStyle: {
+    flex: 1,
+    paddingBottom: 0,
+    backgroundColor: colors.background20,
+  },
+})
 
 export default EditSpaceNameAndGoal

@@ -24,6 +24,7 @@ const SpaceAvatar = ({ space, size, testID, style }: SpaceAvatarProps) => {
       style={[styles.spaceAvatar, style]}
       testID={testID || 'space-avatar'}
       imageSrc={space.avatar}
+      imageBlurhash={space.avatarBlurhash}
       label={space.title}
       defaultColor={space.avatarDefaultColor}
       initials={initials}

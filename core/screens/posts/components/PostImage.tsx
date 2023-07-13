@@ -2,15 +2,16 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
-import HoliImage from '@holi//ui/components/atoms/HoliImage'
 import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type PostImageProps = {
   uri: string
+  imageBlurhash?: string
   height: number
   width: number
   postTitle: string
@@ -39,7 +40,7 @@ const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   },
 ]
 
-const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle }) => {
+const PostImage: React.VFC<PostImageProps> = ({ uri, imageBlurhash, width, height, postTitle }) => {
   const { t } = useTranslation()
   const [showFullscreenImage, setShowFullscreenImage] = useState(false)
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
@@ -72,6 +73,7 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle })
       >
         <HoliImage
           source={Platform.OS === 'web' ? imageSrcSet : { uri: mobileImageUri }}
+          blurhash={imageBlurhash}
           sizes={imageSizes}
           label={t('insights.posts.image', { title: postTitle })}
           style={styles.postImage}
@@ -85,7 +87,7 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle })
         onDismiss={hideFullscreenImage}
         testID="post-image-modal"
       >
-        <ImagePanZoom uri={uri} postTitle={postTitle} />
+        <ImagePanZoom uri={uri} postTitle={postTitle} blurhash={imageBlurhash} />
       </HoliModalFullscreen>
     </>
   )

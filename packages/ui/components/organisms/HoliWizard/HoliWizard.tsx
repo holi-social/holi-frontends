@@ -13,11 +13,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardProps {
-  testID?: string
-  onNextPress: (currentStep: number) => Promise<boolean>
   onSubmit: () => Promise<void>
-  isBackButtonAvailable?: boolean
+  onNextPress: (currentStep: number) => Promise<boolean>
   submitButtonLabel: string
+  isBackButtonAvailable?: boolean
+  testID?: string
 }
 
 const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWizardProps>>(

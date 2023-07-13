@@ -10,7 +10,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-import HeaderAnimatedGradienBackground from './HeaderAnimatedGradienBackground'
+import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
 
 export const useHeaderHideAnimation = () => {
   const scrollY = useScreenScrollY()
@@ -89,7 +89,7 @@ const HeaderAnimated = () => {
             {!!headerBackgroundImageURI && (
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
-            {headerBackgroundGradient && <HeaderAnimatedGradienBackground />}
+            {headerBackgroundGradient && <HeaderAnimatedGradientBackground />}
           </>
         )}
       </View>

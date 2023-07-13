@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -9,7 +9,7 @@ export type HoliNoResultsProps = {
   firstText?: string
   media?: JSX.Element
   secondText: string
-  style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  style?: StyleProp<ViewStyle>
 }
 
 const HoliNoResults = ({

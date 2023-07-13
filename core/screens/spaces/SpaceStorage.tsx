@@ -1,9 +1,10 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
@@ -18,7 +19,7 @@ export type SpaceStorageParams = {
 
 const { useParam } = createParam<SpaceStorageParams>()
 
-const SpaceStorage: React.FC<SpaceStorageParams> = () => {
+const SpaceStorage: React.FC = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -78,4 +79,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default SpaceStorage
+export default withProfiler(SpaceStorage, { name: 'SpaceStorage' })

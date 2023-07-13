@@ -42,7 +42,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               {
                 "marginBottom": 16,
                 "marginHorizontal": 24,
-                "textAlign": "center",
+                "textAlign": "left",
               },
               undefined,
             ],
@@ -197,7 +197,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "placeholder": [],
                             "source": [
                               {
-                                "uri": "avatar-1",
+                                "height": 128,
+                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1",
                                 "width": 128,
                               },
                             ],
@@ -532,7 +533,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "placeholder": [],
                             "source": [
                               {
-                                "uri": "avatar-2",
+                                "height": 128,
+                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2",
                                 "width": 128,
                               },
                             ],
@@ -867,7 +869,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "placeholder": [],
                             "source": [
                               {
-                                "uri": "avatar-3",
+                                "height": 128,
+                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3",
                                 "width": 128,
                               },
                             ],
@@ -1204,7 +1207,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "placeholder": [],
                             "source": [
                               {
-                                "uri": "avatar-4",
+                                "height": 128,
+                                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4",
                                 "width": 128,
                               },
                             ],

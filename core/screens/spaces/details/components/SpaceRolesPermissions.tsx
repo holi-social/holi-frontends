@@ -1,0 +1,265 @@
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+export type SpaceRolesPermissionsParams = {
+  spaceIdOrName: string
+}
+
+type Permission = {
+  name: string
+  admin: boolean
+}
+
+type RolePermissions = {
+  role: string
+  permissions: Permission[]
+}
+
+const ADMIN_PERMISSIONS: RolePermissions[] = [
+  {
+    role: 'spaces.rolesAndPermissions.general.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.general.edit', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.delete', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.share', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.giveRights', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.remove', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.newCollaborators.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', admin: true },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.update.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.update.postCollab', admin: true },
+      { name: 'spaces.rolesAndPermissions.update.postPublic', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.tasks.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.tasks.postCollab', admin: true },
+      { name: 'spaces.rolesAndPermissions.tasks.postPublic', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.linkhub.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.filesAndDocuments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
+    ],
+  },
+]
+
+const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
+  {
+    role: 'spaces.rolesAndPermissions.general.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.general.edit', admin: false },
+      { name: 'spaces.rolesAndPermissions.general.delete', admin: false },
+      { name: 'spaces.rolesAndPermissions.general.share', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.giveRights', admin: false },
+      { name: 'spaces.rolesAndPermissions.general.remove', admin: false },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.newCollaborators.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', admin: true },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', admin: false },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.update.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.update.postCollab', admin: true },
+      { name: 'spaces.rolesAndPermissions.update.postPublic', admin: false },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.tasks.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.tasks.postCollab', admin: true },
+      { name: 'spaces.rolesAndPermissions.tasks.postPublic', admin: false },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.linkhub.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.filesAndDocuments.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
+    ],
+  },
+]
+
+const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const setScreenOptions = useSetScreenOptions()
+
+  useLayoutEffect(() => {
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      title: t('spaces.rolesAndPermissions.title'),
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
+
+  const PermissionsList = ({ permissions }: { permissions: Permission[] }) => {
+    return (
+      <>
+        {permissions.map((permission, index) => (
+          <View key={index} style={styles.listing}>
+            <HoliIcon
+              icon={permission.admin ? 'check' : 'close'}
+              style={styles.icon}
+              color={permission.admin ? colors.brandColorB30 : colors.warning30}
+            />
+            <HoliText>{t(permission.name)}</HoliText>
+          </View>
+        ))}
+      </>
+    )
+  }
+
+  const AdminTab = () => {
+    return (
+      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+        {ADMIN_PERMISSIONS.map((rolePermission, index) => (
+          <View key={index} style={styles.section}>
+            <HoliHeading>{t(rolePermission.role)}</HoliHeading>
+            <PermissionsList permissions={rolePermission.permissions} />
+          </View>
+        ))}
+      </ScrollView>
+    )
+  }
+
+  const CollaboratorTab = () => {
+    return (
+      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+        {COLLABORATOR_PERMISSIONS.map((rolePermission, index) => (
+          <View key={index} style={styles.section}>
+            <HoliHeading>{t(rolePermission.role)}</HoliHeading>
+            <PermissionsList permissions={rolePermission.permissions} />
+          </View>
+        ))}
+      </ScrollView>
+    )
+  }
+
+  return (
+    <SafeAreaView>
+      <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+        <HoliTabs
+          id="collaborator-tabs"
+          style={styles.tabWrapper}
+          tabs={[
+            {
+              title: 'Admin',
+              style: styles.tabStyle,
+              children: <AdminTab />,
+            },
+            {
+              title: 'Collaborator',
+              style: styles.tabStyle,
+              children: <CollaboratorTab />,
+            },
+          ]}
+        />
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: colors.background20,
+    ...Platform.select({
+      native: {
+        height: '100%',
+      },
+    }),
+  },
+  tabWrapper: {
+    paddingTop: vars.topBarHeight + 40,
+    backgroundColor: colors.background10,
+    ...Platform.select({
+      native: {
+        height: '100%',
+      },
+    }),
+  },
+  tabStyle: {
+    backgroundColor: colors.background20,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+      native: {
+        height: '100%',
+      },
+    }),
+  },
+  all: {
+    paddingTop: 16,
+    paddingBottom: 40,
+    backgroundColor: colors.background20,
+  },
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 16,
+    marginBottom: 32,
+    marginRight: 24,
+  },
+  listing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: 8,
+  },
+})
+
+export default SpaceRolesPermissions

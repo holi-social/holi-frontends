@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
@@ -164,7 +165,8 @@ const GoodNewsCarousel = () => {
   )
 }
 
-export default GoodNewsCarousel
+export default withProfiler(GoodNewsCarousel, { name: 'GoodNewsCarousel' })
+
 const paginationDotAreaHeight = 50
 
 const getStyles = (width: number, height: number) =>

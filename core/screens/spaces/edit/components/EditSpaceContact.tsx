@@ -1,14 +1,15 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
+import { StyleSheet } from 'react-native'
 
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactForm'
-import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface EditSpaceContactProps {
   space: Space
@@ -67,13 +68,11 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
   }
 
   return (
-    <EditSpaceModal
-      onDismiss={onDismiss}
-      onSave={onSave}
-      saveButtonDisabled={loading || !inputValid}
+    <DefaultLayout
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
       scrollable={false}
-      keyboardShouldPersistTaps="never"
-      persistFooter={Platform.OS !== 'android'}
     >
       <SpaceContactForm
         title={t('space.input.contact.title')}
@@ -86,9 +85,23 @@ const EditSpaceContact: React.VFC<EditSpaceContactProps> = ({ space, onDismiss }
         contactDescriptionErrors={fieldErrors.contactDescription}
         contactEmailErrors={fieldErrors.contactEmail}
         contactPhoneErrors={fieldErrors.contactPhone}
+        onSave={onSave}
+        saveButtonDisabled={loading || !inputValid}
+        loading={loading}
       />
-    </EditSpaceModal>
+    </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  layoutStyle: {
+    flex: 1,
+  },
+  contentStyle: {
+    flex: 1,
+    paddingBottom: 0,
+    backgroundColor: colors.background20,
+  },
+})
 
 export default EditSpaceContact

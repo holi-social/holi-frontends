@@ -25,6 +25,7 @@ export interface DigitalToolInputFormProps {
   description?: string
   selectedCollection?: HoliModalSelectOption
   thumbnail?: HoliImageInfo | undefined
+  thumbnailBlurhash?: string
   fieldErrors?: TranslatedFieldErrors
   currentThumbnail?: string
 }
@@ -40,6 +41,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
+  thumbnailBlurhash,
   fieldErrors = {},
   currentThumbnail,
 }: DigitalToolInputFormProps) => {
@@ -79,11 +81,13 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   }, [selectedCollection, collectionTypes])
 
   const ThumbnailUploader = () => {
+    const thumbnailUri = thumbnail?.uri ?? currentThumbnail
     return (
       <View style={styles.thumbnailContainer}>
-        {currentThumbnail || thumbnail ? (
+        {thumbnailUri ? (
           <HoliImage
-            source={{ uri: thumbnail?.uri || currentThumbnail }}
+            source={{ uri: thumbnailUri }}
+            blurhash={thumbnailBlurhash}
             label={t('spaces.input.digitalTool.thumbnail.label')}
             style={styles.thumbnail}
           />

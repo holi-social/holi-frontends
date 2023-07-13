@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
-import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
@@ -80,10 +80,10 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
         </SpaceSection>
       )}
       {!!links.length && (
-        <SpaceSection title={t('spaces.links.heading')}>
+        <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
           <View style={styles.listContainer}>
             {links.map((link, index) => (
-              <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+              <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
             ))}
           </View>
         </SpaceSection>

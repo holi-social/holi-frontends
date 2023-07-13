@@ -1,12 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { PlacesAutocompleteProps } from '@holi/core/location/components/PlacesAutocomplete'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface SpaceLocationInputProps {
+export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps> {
   title: string
   description: string
   validationErrorText?: string
@@ -22,10 +23,9 @@ const SpaceLocationInput: React.VFC<SpaceLocationInputProps> = ({
   location,
 }: SpaceLocationInputProps) => {
   const { t } = useTranslation()
-  const { height: deviceHeight } = useWindowDimensions()
 
   return (
-    <View style={[styles.container, { minHeight: deviceHeight }]}>
+    <View style={styles.container}>
       <HoliText size="extralarge" style={styles.title}>
         {title}
       </HoliText>
@@ -53,7 +53,8 @@ export default SpaceLocationInput
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 132,
+    backgroundColor: colors.background20,
+    paddingBottom: 50,
     ...Platform.select({
       native: {
         maxWidth: '100%',

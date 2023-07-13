@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
 
-import { SpaceMemberFragment } from '@holi/core/screens/spaces/queries'
+import { FullSpaceMemberFragment } from '@holi/core/screens/spaces/queries'
 
 export const spaceMembersQuery = gql`
-  ${SpaceMemberFragment}
+  ${FullSpaceMemberFragment}
 
   query SpaceMembersBySpaceId($idOrName: String!, $offset: Int!, $limit: Int!) {
     spaceById(idOrName: $idOrName) {

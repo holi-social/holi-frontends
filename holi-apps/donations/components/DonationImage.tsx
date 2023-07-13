@@ -1,44 +1,39 @@
 import React from 'react'
-import { ImageStyle, StyleProp } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
-import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
+import { MobileImageProps, ResizeMode, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 import { Picture } from '@holi-apps/donations/typings'
 
 type DonationImageProps = {
   picture: Picture[]
   label: string
-  style?: StyleProp<ImageStyle>
+  style?: MobileImageProps['style'] & WebImageProps['style']
   resizeMode?: ResizeMode
-  sizes?: string
+  // required for scaling down the image, will be multiplied by pixel density
+  width: number
+  // use when you also already know the height (e.g. squares, aspect ratio), will be multiplied by pixel density
+  height?: number
 }
 
-const DonationImage: React.VFC<DonationImageProps> = ({
+const DonationImage: React.FC<DonationImageProps> = ({
   picture,
   label,
   style,
   resizeMode,
-  sizes,
+  width,
+  height,
 }: DonationImageProps) => {
-  const sources: ImageSource[] = picture
-    .filter((picture) => !!picture.width && !!picture.height)
-    .map((picture) => ({
-      uri: picture.url,
-      // We already ensure the size above
-      width: picture.width || 0,
-      height: picture.height || 0,
-    }))
+  // we can't crop + fill mismatching required width+height combinations to the source images with the betterplace api,
+  // so we use the original on our image service
   const original = picture.find(({ type }) => type === 'original')
 
   return (
     <HoliImage
-      source={sources.length ? sources : { uri: original?.url }}
+      source={original ? { uri: original?.url, width, height } : []}
       label={label}
       style={style}
       resizeMode={resizeMode}
-      sizes={sizes}
     />
   )
 }

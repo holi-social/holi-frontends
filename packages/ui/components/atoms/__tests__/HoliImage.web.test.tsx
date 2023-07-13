@@ -2,8 +2,8 @@ import React from 'react'
 import { Platform } from 'react-native'
 import renderer from 'react-test-renderer'
 
-import HoliImage from '@holi/ui/components/atoms/HoliImage.web'
-import { ImageSource } from '@holi/ui/components/utils/image'
+import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 const allSources = [
   { uri: 'http://placekitten.com/320/213', width: 320, height: 213 },

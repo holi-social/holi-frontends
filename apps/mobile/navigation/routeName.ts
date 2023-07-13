@@ -17,6 +17,7 @@ export enum RouteName {
   CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
   SpaceVideoCall = 'SpaceVideoCall',
+  SpaceVideoCallList = 'SpaceVideoCallList',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
   CreateTask = 'CreateTask',
@@ -26,6 +27,10 @@ export enum RouteName {
   EditUpdate = 'EditUpdate',
   SpaceUpdateDetailPage = 'SpaceUpdateDetailPage',
   SpaceUpdateCommentInputPage = 'SpaceUpdateCommentInputPage',
+  SpaceInviteView = 'SpaceInviteView',
+  Collaborators = 'Collaborators',
+  SpaceRolesPermissions = 'SpaceRolesPermissions',
+  EditCollaborators = 'EditCollaborators',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -35,6 +40,8 @@ export enum RouteName {
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
   ChangePassword = 'ChangePassword',
+  LegalDocuments = 'LegalDocuments',
+  Document = 'Document',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

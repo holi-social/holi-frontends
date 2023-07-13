@@ -77,6 +77,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         <HoliButtonLoading
           inline
           type="secondary"
+          variant="small"
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={style}
@@ -89,6 +90,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
       {isFollowing && (
         <HoliButtonLoading
           inline
+          variant="small"
           label={t('spaces.follow.btn.unfollow')}
           onPress={() => setUnfollowDialogIsOpen(true)}
           style={style}

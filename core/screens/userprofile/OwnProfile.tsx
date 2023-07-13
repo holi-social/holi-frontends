@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
@@ -177,4 +178,4 @@ const OwnProfile = () => {
   )
 }
 
-export default memo(OwnProfile)
+export default withProfiler(memo(OwnProfile), { name: 'OwnProfile' })

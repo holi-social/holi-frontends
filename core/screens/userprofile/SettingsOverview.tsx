@@ -1,10 +1,13 @@
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import { withProfiler } from '@sentry/react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,14 +17,25 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+const IS_CHAT_ENABLED = false
+const chatLoginClient = new ChatLogin()
+
 const SettingsOverview = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { logout, isLoggingOut } = useLogout()
+
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
+      if (IS_CHAT_ENABLED) {
+        const logoutFromChat = async () => {
+          await chatLoginClient.logout()
+        }
+        logoutFromChat().catch((err) => logError(err))
+      }
+
       logout()
     },
   })
@@ -29,13 +43,6 @@ const SettingsOverview = () => {
   useLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.overview.title') })
   }, [setScreenOptions, t])
-
-  const goTo = useCallback(
-    (url: string) => () => {
-      navigate(url)
-    },
-    [navigate]
-  )
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -48,7 +55,7 @@ const SettingsOverview = () => {
             label={t('profile.settings.account.title')}
             icon="account-circle"
             iconRight="arrow"
-            onPress={goTo('/profile/settings/account')}
+            onPress={() => navigate('/profile/settings/account')}
             style={styles.settingsItem}
             testID="btn-your-account"
           />
@@ -67,6 +74,14 @@ const SettingsOverview = () => {
             iconRight="outlink"
             onPress={() => Linking.openURL(t('global.support.mail.href'))}
             style={styles.settingsItem}
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.title')}
+            icon="lock"
+            iconRight="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments')}
+            style={styles.settingsItem}
+            testID="btn-your-account"
           />
         </View>
 
@@ -98,7 +113,7 @@ const SettingsOverview = () => {
   )
 }
 
-export default memo(SettingsOverview)
+export default withProfiler(SettingsOverview, { name: 'SettingsOverview' })
 
 const styles = StyleSheet.create({
   settingsOverview: {

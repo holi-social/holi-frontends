@@ -1,10 +1,11 @@
 import { DocumentNode, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -159,6 +160,7 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
+            backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             tabs={[
               {
@@ -202,6 +204,7 @@ const styles = StyleSheet.create({
   },
   holiTabs: {
     flex: 1,
+    backgroundColor: colors.background10,
   },
   tabStyle: {
     minHeight: '100%',
@@ -209,4 +212,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Spaces
+export default withProfiler(Spaces, { name: 'Spaces' })

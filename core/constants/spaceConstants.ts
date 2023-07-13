@@ -22,30 +22,36 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
+  {
+    id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
+    icon: 'vidicon',
+    translationKey: 'spaces.resources.category.videoCall',
+    path: '/video-call',
+  },
 ]
 
 export const RESOURCES_COMING_SOON: ResourceCategory[] = [
   {
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
-    icon: 'calendar-event-line',
+    icon: 'calendar-event',
     translationKey: 'spaces.resources.category.event',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.POLL,
-    icon: 'timer-2-line',
+    icon: 'timer-2',
     translationKey: 'spaces.resources.category.poll',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
-    icon: 'group-line',
+    icon: 'group',
     translationKey: 'spaces.resources.category.videoCall',
     path: '',
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.WALLET,
-    icon: 'wallet-3-line',
+    icon: 'wallet-3',
     translationKey: 'spaces.resources.category.wallet',
     path: '',
   },

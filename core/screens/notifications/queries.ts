@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
@@ -10,7 +10,7 @@ export type NumberOfItems = {
 
 // TODO: add "post", "postComment", "space" into options
 export const notificationsQuery = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
 
   query Notifications($offset: Int, $limit: Int) {
     notifications(offset: $offset, limit: $limit) {
@@ -18,7 +18,7 @@ export const notificationsQuery = gql`
         id
         notificationType
         owner {
-          ...UserAvatar
+          ...FullUserAvatar
         }
         created
         read
@@ -28,11 +28,11 @@ export const notificationsQuery = gql`
             title
             isPublic
             creator {
-              ...UserAvatar
+              ...FullUserAvatar
             }
           }
           user {
-            ...UserAvatar
+            ...FullUserAvatar
           }
           postComment {
             id
@@ -47,6 +47,7 @@ export const notificationsQuery = gql`
             avatarDefaultColor
           }
           teaser
+          message
         }
       }
       totalResults

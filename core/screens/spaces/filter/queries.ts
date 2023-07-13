@@ -11,7 +11,7 @@ export const spacesQuery = gql`
     spaces(topicSlug: $topicSlug, geolocation: $geolocation, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
       totalResults
       data {
-        ...OverviewSpace
+        ...SpaceOverview
       }
     }
   }

@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -48,7 +49,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
         appName={HOLI_APPS.GOOD_NEWS}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path}?${params.toString()}`)}
         title={item.headline}
-        imageSource={{ uri: item.pictureUrl }}
+        imageSourceUri={item.pictureUrl}
         footer={formattedDate}
       />
     )
@@ -59,8 +60,9 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
       appName={HOLI_APPS.GOOD_NEWS}
       renderItem={renderItem}
       data={articlesToRender}
+      appIcon="newspaper"
       heading={t('goodnews:app.name')}
-      headingIcon="newspaper"
+      subline={t('goodnews:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path)}
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading}
@@ -68,4 +70,5 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
     />
   )
 }
-export default GoodNewsUpdates
+
+export default withProfiler(GoodNewsUpdates, { name: 'GoodNewsUpdates' })
