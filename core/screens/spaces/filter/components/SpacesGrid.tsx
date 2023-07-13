@@ -10,10 +10,20 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { vars } from '@holi/ui/styles/globalVars'
 
-type SpacesGridProps = {
+interface BaseProps {
   spaces: Space[]
   style?: StyleProp<ViewStyle>
 }
+
+interface SkeletonProps extends Partial<BaseProps> {
+  loading: true
+}
+
+interface Props extends BaseProps {
+  loading?: false
+}
+
+type SpacesGridProps = SkeletonProps | Props
 
 const spaceBreakpointGridValues: [number, number][] = [
   [0, 2],
@@ -21,7 +31,7 @@ const spaceBreakpointGridValues: [number, number][] = [
   [+vars.breakpointL, 4],
 ]
 
-const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
+const SpacesGrid = ({ loading, spaces, style }: PropsWithChildren<SpacesGridProps>) => {
   const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
   const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })
@@ -29,26 +39,36 @@ const SpacesGrid = ({ spaces, style }: PropsWithChildren<SpacesGridProps>) => {
   return (
     <View style={[style]}>
       <HoliGridWrapper itemsInRow={itemsInRow} gap={8}>
+        {loading &&
+          new Array(20).fill(1).map((_, idx) => {
+            return (
+              <HoliGridCell key={idx}>
+                <HoliBlockItem size="large" loading={true} />
+              </HoliGridCell>
+            )
+          })}
+
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          spaces.map((space) => (
-            <HoliGridCell key={space.id}>
-              <HoliBlockItem
-                label={space.title}
-                title={space.title}
-                subtitle={space.location}
-                description={space.description}
-                imageSrc={space.cover}
-                imageBlurhash={space.coverBlurhash}
-                users={space.members.data.map((membership) => membership.user)}
-                href={`/spaces/${space.name}`}
-                size="large"
-                testID="space-link"
-                totalUserCount={space.members.totalResults}
-                cardWidthForImageScaling={imageWidth}
-              />
-            </HoliGridCell>
-          ))
+          !loading &&
+            spaces.map((space) => (
+              <HoliGridCell key={space.id}>
+                <HoliBlockItem
+                  label={space.title}
+                  title={space.title}
+                  subtitle={space.location}
+                  description={space.description}
+                  imageSrc={space.cover}
+                  imageBlurhash={space.coverBlurhash}
+                  users={space.members.data.map((membership) => membership.user)}
+                  href={`/spaces/${space.name}`}
+                  size="large"
+                  testID="space-link"
+                  totalUserCount={space.members.totalResults}
+                  cardWidthForImageScaling={imageWidth}
+                />
+              </HoliGridCell>
+            ))
         }
       </HoliGridWrapper>
     </View>

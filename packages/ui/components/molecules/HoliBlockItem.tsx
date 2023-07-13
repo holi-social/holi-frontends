@@ -41,7 +41,11 @@ type HoliBlockItemProps = SkeletonProps | Props
 const SMALL_IMAGE_DIMENSION = 64
 const SMALL_OUTER_BORDER_RADIUS = 8
 
-const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 315 : 252 // very hard to calculate, estimated for simplicity
+// very hard to calculate, estimated for simplicity
+// hint: we could make this respect aspect ratio of the image + bottom offset,
+// by having the skeleton take transparent elements that behave like the image + text,
+// pushing the skeleton to the exact same size
+const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 315 : 252
 const LARGE_OUTER_BORDER_RADIUS = 16
 const LARGE_IMAGE_ASPECT_RATIO = 240 / 160
 
