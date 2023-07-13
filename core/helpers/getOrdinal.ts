@@ -1,14 +1,14 @@
 /**
- * This helper function accepts an argument that is a number
- * and returns a string with the ordinal of that number attached to it.
+ * This helper function accepts a number as an argument
+ * and returns a string with the ordinal of that number.
  *
- * 0 => 0th
- * 1 => 1st
- * 2 => 2nd
- * 3 => 3rd
- * 4 => 4th
- * 101 => 101st
- * 111 => 111th
+ * 0 => '0th'
+ * 1 => '1st'
+ * 2 => '2nd'
+ * 3 => '3rd'
+ * 4 => '4th'
+ * 101 => '101st'
+ * 111 => '111th'
  */
 
 export const getOrdinal = (n: number) => {

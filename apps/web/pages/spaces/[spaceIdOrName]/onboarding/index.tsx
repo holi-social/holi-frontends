@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import SpaceOnboarding from '@holi/core/screens/spaces/onboarding/components/SpaceOnboarding'
+import SpaceOnboarding from '@holi/core/screens/spaces/onboarding/SpaceOnboarding'
 
 const SpaceOnboardingPage: NextPage = () => <SpaceOnboarding />
 

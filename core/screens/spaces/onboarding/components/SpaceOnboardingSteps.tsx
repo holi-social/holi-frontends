@@ -81,7 +81,7 @@ const SpaceOnboardingSteps = () => {
     // console.log(stepsList)
   }
 
-  if (!isAdmin) {
+  if (space && !isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
   example: {
     width: 'auto',
     marginBottom: 40,
+    alignSelf: 'flex-start',
   },
   addStepBtn: {
     marginTop: 24,

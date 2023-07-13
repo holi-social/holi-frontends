@@ -22,7 +22,7 @@ import EditSpaceCollaborators, {
 import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
 import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
-import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboarding'
+import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/SpaceOnboarding'
 import SpaceOnboardingSteps, {
   SpaceOnboardingStepsParams,
 } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'

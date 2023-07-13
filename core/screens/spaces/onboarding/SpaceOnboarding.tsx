@@ -50,7 +50,7 @@ const SpaceOnboarding = () => {
 
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
-  if (!isAdmin) {
+  if (space && !isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
