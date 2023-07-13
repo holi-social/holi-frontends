@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Discord } from '@holi/icons/src/generated'
+import { Discord, Search } from '@holi/icons/src/generated'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 
 export default {
@@ -62,7 +62,7 @@ Primary.args = {
   accessibilityLabel: 'accessibility label',
   placeholder: 'Start typing...',
   debounce: 500,
-  trailingIcon: 'search',
+  trailingIcon: { Search },
   id: 'autocomplete-primary',
 }
 const argTypes = {
@@ -93,7 +93,7 @@ WithError.args = {
   helperText: 'No suggestions found',
   id: 'autocomplete-error',
   debounce: 500,
-  trailingIcon: 'search',
+  trailingIcon: Search,
   validationErrorText: 'Error retrieving suggestions',
   suggestions: [],
   loading: false,
