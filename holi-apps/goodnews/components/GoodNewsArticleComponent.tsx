@@ -55,7 +55,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
+  const partnerModalState = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
   const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
@@ -84,13 +84,13 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
             partners={{ 'goodnews.eu': partner }}
-            onPress={showPartnerModal}
+            onPress={partnerModalState.show}
           />
         </HoliBox>
         <PartnerModal
           partners={{ 'goodnews.eu': partner }}
-          show={show}
-          onDismiss={closeModal}
+          show={partnerModalState.visible}
+          onDismiss={partnerModalState.hide}
           i18nNamespace={'goodnews'}
         />
         <HoliText size="small" style={styles.source}>

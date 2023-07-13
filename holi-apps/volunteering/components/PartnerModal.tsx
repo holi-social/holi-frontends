@@ -87,6 +87,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
       relativeHeight={isMultiplePartners ? 1 : undefined}
       show={show}
       onDismiss={onDismiss}
+      testID={'goodnews-partner-modal'}
     >
       <HoliModalContentWrapper
         actionButtonText={t('volunteering:shared.partner.modal.close')}
