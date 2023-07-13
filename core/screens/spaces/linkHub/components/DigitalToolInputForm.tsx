@@ -81,49 +81,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
     }
   }, [selectedCollection, collectionTypes])
 
-  const ThumbnailUploader = () => {
-    const thumbnailUri = thumbnail?.uri ?? currentThumbnail
-    return (
-      <View style={styles.thumbnailContainer}>
-        {thumbnailUri ? (
-          <HoliImage
-            source={{ uri: thumbnailUri }}
-            blurhash={thumbnailBlurhash}
-            label={t('spaces.input.digitalTool.thumbnail.label')}
-            style={styles.thumbnail}
-          />
-        ) : (
-          <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
-            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
-          </View>
-        )}
-        <View style={styles.uploadButtonContainer}>
-          <HoliImagePicker
-            maxFileSizeInMB={8}
-            buttonProps={{
-              label: t('spaces.input.digitalTool.upload.button.label'),
-              style: styles.imageUploadButton,
-              testID: 'space-upload-image-btn',
-            }}
-            onPickImage={onChangeThumbnail}
-          >
-            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
-          </HoliImagePicker>
-        </View>
-        <Instructions />
-      </View>
-    )
-  }
-
-  const Instructions = () => {
-    return (
-      <View style={styles.instructionsContainer}>
-        <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.input.coverImage.upload.hint')}
-        </HoliText>
-      </View>
-    )
-  }
+  const thumbnailUri = thumbnail?.uri ?? currentThumbnail
 
   return (
     <>
@@ -173,7 +131,40 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         maxNoOfCharacters={100}
       />
       <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
-      <ThumbnailUploader />
+
+      {/* ThumbnailUploader */}
+      <View style={styles.thumbnailContainer}>
+        {thumbnailUri ? (
+          <HoliImage
+            source={{ uri: thumbnailUri }}
+            blurhash={thumbnailBlurhash}
+            label={t('spaces.input.digitalTool.thumbnail.label')}
+            style={styles.thumbnail}
+          />
+        ) : (
+          <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
+            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+          </View>
+        )}
+        <View style={styles.uploadButtonContainer}>
+          <HoliImagePicker
+            maxFileSizeInMB={8}
+            buttonProps={{
+              label: t('spaces.input.digitalTool.upload.button.label'),
+              style: styles.imageUploadButton,
+              testID: 'space-upload-image-btn',
+            }}
+            onPickImage={onChangeThumbnail}
+          >
+            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
+          </HoliImagePicker>
+        </View>
+        <View style={styles.instructionsContainer}>
+          <HoliText size="extrasmall" style={styles.instructions}>
+            {t('spaces.input.coverImage.upload.hint')}
+          </HoliText>
+        </View>
+      </View>
     </>
   )
 }
