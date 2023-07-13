@@ -14,7 +14,7 @@ interface AppUpdatesItemProps {
   style?: StyleProp<ViewStyle>
 }
 
-const squareImageLength = 160 // px
+const IMAGE_DIMENSION = 160 // px
 
 const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
   imageSourceUri,
@@ -37,9 +37,9 @@ const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
       inline
     >
       <HoliImage
-        source={imageSourceUri ? { uri: imageSourceUri, width: squareImageLength, height: squareImageLength } : []}
+        source={imageSourceUri ? { uri: imageSourceUri, width: IMAGE_DIMENSION, height: IMAGE_DIMENSION } : []}
         label={title}
-        sizes={squareImageLength + 'px'}
+        sizes={IMAGE_DIMENSION + 'px'}
         style={styles.mainImage}
       />
 
