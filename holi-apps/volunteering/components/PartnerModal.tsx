@@ -8,9 +8,10 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -69,7 +70,7 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
             <HoliButton transparent onPress={() => (partner.url ? Linking.openURL(partner.url) : null)} label={''}>
               <View style={styles.outlink}>
                 <HoliText>{t(`${i18nPrefix}.${partnerKey}.buttonText`)}</HoliText>
-                <HoliIcon icon={'share-box'} />
+                <HoliIcon icon={ShareBox} />
               </View>
             </HoliButton>
           </HoliBox>

@@ -71,6 +71,7 @@ module.exports = withSentryConfig(
       '@holi-apps/goodnews',
       '@holi-apps/volunteering',
       '@holi/ui',
+      '@holi/icons',
       '@holi/core',
       '@holi/api',
       '@holi/chat',

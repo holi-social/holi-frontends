@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
+import { Discord } from '@holi/icons/src/generated'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 
 export default {
@@ -52,6 +52,7 @@ export const Primary = ({ ...args }) => {
       suggestions={suggestions}
       loading={loading}
       helperText={helperText}
+      trailingIcon={Discord}
     />
   )
 }
@@ -69,10 +70,6 @@ const argTypes = {
   accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
   debounce: { description: 'Delay after typing before search starts', control: { type: 'number' } },
-  trailingIcon: {
-    type: 'select',
-    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
-  },
   suggestions: { description: 'Suggestions', control: false },
   loading: { description: 'Flag if suggestions are being loaded', control: { type: 'boolean' } },
   id: { description: 'Unique id for accessibility control', control: false },

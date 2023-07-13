@@ -6,7 +6,8 @@ import LoginProfileButton from '@holi/core/navigation/components/LoginProfileBut
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -43,10 +44,8 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <HoliIcon
-            icon="home-smile-2"
-            size={24}
-            filled={isHome}
-            style={isHome ? styles.activeTintColor : styles.inactiveTintColor}
+            icon={isHome ? HomeSmile2Filled : HomeSmile2}
+            color={(isHome ? styles.activeTintColor : styles.inactiveTintColor).color}
           />
           <HoliText
             size="extrasmall"
@@ -65,10 +64,8 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <HoliIcon
-            icon="spaces"
-            size={24}
-            filled={isSpaces}
-            style={isSpaces ? styles.activeTintColor : styles.inactiveTintColor}
+            icon={isSpaces ? SpacesFilled : Spaces}
+            color={(isSpaces ? styles.activeTintColor : styles.inactiveTintColor).color}
           />
           <HoliText
             size="extrasmall"
@@ -86,10 +83,8 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <HoliIcon
-            icon="chat-3"
-            size={24}
-            filled={isChat}
-            style={isChat ? styles.activeTintColor : styles.inactiveTintColor}
+            icon={isChat ? Chat3Filled : Chat3}
+            color={(isChat ? styles.activeTintColor : styles.inactiveTintColor).color}
           />
           <HoliText
             size="extrasmall"
@@ -144,7 +139,6 @@ const getStyles = (screenWidth: number) =>
     },
     activeTintColor: {
       color: colors.foreground30,
-      fontWeight: '500',
     },
     inactiveTintColor: {
       color: colors.foreground20,

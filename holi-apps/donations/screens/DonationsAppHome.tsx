@@ -3,7 +3,6 @@ import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
 
-import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import client from '@holi/api/graphql/client'
@@ -13,6 +12,8 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -65,7 +66,7 @@ const DonationsAppHome = () => {
         onPress={() => setShowSearchModal(true)}
         testID="donations-search-button"
       >
-        <HoliIcon icon="filter-3" size={24} />
+        <HoliIcon icon={Filter3} />
       </HoliButton>
     )
 
@@ -80,7 +81,7 @@ const DonationsAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })

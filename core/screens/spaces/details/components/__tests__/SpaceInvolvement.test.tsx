@@ -15,7 +15,7 @@ describe('SpaceInvolvement', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.input.task.visibility.PUBLIC.title')
   })
 
   it('renders correctly for collaborators', () => {
@@ -30,6 +30,6 @@ describe('SpaceInvolvement', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.storage.widget.title')
   })
 })

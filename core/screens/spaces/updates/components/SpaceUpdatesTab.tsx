@@ -12,10 +12,11 @@ import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import { SpaceByIdQueryVariables, spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -103,9 +104,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 style={setButtonStyles(isFilterPublic)}
               >
                 <HoliIcon
-                  icon={'global'}
+                  icon={GlobalFilled}
                   size={14}
-                  filled={true}
                   color={isFilterPublic ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />
@@ -125,9 +125,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 style={setButtonStyles(isFilterMembers)}
               >
                 <HoliIcon
-                  icon="lock"
+                  icon={LockFilled}
                   size={14}
-                  filled={true}
                   color={isFilterMembers ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />

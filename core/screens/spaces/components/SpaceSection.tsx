@@ -2,8 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Edit2 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -42,7 +43,7 @@ const SpaceSection = ({
             testID={`btn-${testID}`}
           >
             <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-            <HoliIcon icon="edit-2" />
+            <HoliIcon icon={Edit2} />
           </HoliButton>
         )}
       </View>

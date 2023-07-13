@@ -1,10 +1,11 @@
-import React, { createContext, useContext } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { More } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -54,7 +55,7 @@ export const Drawer = ({
     <ActionDrawerContext.Provider value={contextValue}>
       <HoliButton transparent inline label={label} onPress={showModal} testID={testID}>
         {buttonElement || (
-          <HoliIcon icon="more" color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
+          <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
         )}
       </HoliButton>
 

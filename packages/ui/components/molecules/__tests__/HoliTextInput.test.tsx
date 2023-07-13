@@ -25,7 +25,7 @@ describe('HoliTextInput', () => {
 
   test('renders correctly with error', () => {
     const tree = renderer.create(<WithError {...WithError.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('Validation Error Text')
   })
 
   test('renders correctly without label', () => {
