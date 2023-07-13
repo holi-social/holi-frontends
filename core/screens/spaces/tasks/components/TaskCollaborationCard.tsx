@@ -6,6 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { Space } from '@holi/core/screens/spaces/types'
+import { Add, Checkbox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -20,7 +21,7 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
   const { navigate } = useRouting()
 
   const cardProps = {
-    headerRightIcon: isAdmin ? 'add' : undefined,
+    headerRightIcon: isAdmin ? Add : undefined,
     onPressHeaderRight: isAdmin ? () => navigateToCreateTask() : undefined,
     headerRightButtonLabel: isAdmin ? t('spaces.createTask.button') : undefined,
   }
@@ -29,7 +30,7 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon="checkbox"
+      headerLeftIcon={Checkbox}
       title={t('spaces.spaceDetails.tasks.header.title')}
       testID="space-tasks-card"
       {...cardProps}

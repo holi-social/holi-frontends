@@ -14,7 +14,8 @@ import {
 import { LocationType } from '@holi/core/screens/spaces/types'
 import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -183,7 +184,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
           />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
-            <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
+            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
           </View>
         )}
         <View style={styles.uploadButtonContainer}>
@@ -289,7 +290,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
             style={styles.skillsButton}
           >
             <HoliText style={styles.skillsButtonText}>{t(skills.length > 0 ? 'global.edit' : 'global.add')}</HoliText>
-            <HoliIcon icon={skills.length > 0 ? 'edit-2' : 'add'} />
+            <HoliIcon icon={skills.length > 0 ? Edit2 : Add} />
           </HoliButton>
         </View>
       </View>

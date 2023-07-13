@@ -13,11 +13,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { ArrowLeftS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -60,8 +60,7 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-left-s" />,
+      headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => <HoliText>{t('spaces.invite.btn.invite')}</HoliText>,

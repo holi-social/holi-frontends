@@ -8,6 +8,7 @@ import RecoverPasswordSent from '@holi/core/auth/components/RecoverPasswordSent'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 const ForgotPassword = () => {
@@ -23,8 +24,8 @@ const ForgotPassword = () => {
             {t('auth.forgotPassword')}
           </HoliHeading>
         ),
-        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-        headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
+        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
+        headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
       }),
     [setScreenOptions, t]
   )

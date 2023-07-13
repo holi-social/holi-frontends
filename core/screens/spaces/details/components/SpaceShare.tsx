@@ -14,6 +14,7 @@ import {
 } from 'react-native'
 
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Share as ShareIcon } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -91,7 +92,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
           label={t('spaces.share')}
           onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
           style={style}
-          icon="share"
+          icon={ShareIcon}
           testID="follow-btn"
         />
       ) : null}

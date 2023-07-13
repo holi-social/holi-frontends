@@ -5,6 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -79,7 +80,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
             </HoliButton>
             <HoliButtonLoading
               disabled={saveButtonDisabled || saveButtonLoading}
-              icon={saveButtonLoading ? 'loader-4' : undefined}
+              icon={saveButtonLoading ? Loader4 : undefined}
               iconSpinning={saveButtonLoading}
               label={t('global.save')}
               onPress={onSave}

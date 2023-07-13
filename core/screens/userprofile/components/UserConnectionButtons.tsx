@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Time } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -63,7 +64,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
         testID={`user-connection-button-${connectionStatusToMyself}`}
       >
         <HoliText>{t(`user.profileView.connection.button.${connectionStatusToMyself}`)}</HoliText>
-        {connectionRequested && <HoliIcon icon="time" size={19} style={styles.requestedStatusButtonIcon} />}
+        {connectionRequested && <HoliIcon icon={Time} size={19} style={styles.requestedStatusButtonIcon} />}
       </HoliButton>
 
       {connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (

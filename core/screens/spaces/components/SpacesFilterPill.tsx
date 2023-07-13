@@ -68,8 +68,8 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
       {filterType === 'location' && (
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/illustration_map_pin.svg')}
-          width={13}
-          height={18}
+          width={14}
+          height={19}
           label={''}
           isSvg
           style={styles.filterIcon}
@@ -116,7 +116,7 @@ const getStyles = (small: boolean) =>
       width: 220,
     },
     filterIcon: {
-      marginRight: 4,
+      marginRight: 6,
     },
   })
 

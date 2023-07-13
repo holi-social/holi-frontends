@@ -7,8 +7,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
-import { Space } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Add, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -60,8 +60,8 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
 
   return (
     <CollaboratorAreaCard
-      headerLeftIcon="link-m"
-      headerRightIcon="add"
+      headerLeftIcon={LinkM}
+      headerRightIcon={Add}
       headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
       title={t('spaces.digitalToolKit.title')}
       onPressHeaderLeft={navigateToLinkHubPage}

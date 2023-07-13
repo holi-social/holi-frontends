@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ICONSET_FILLED, ICONSET_REGULAR } from '@holi/ui/assets/img/icons/HoliIcons/Iconset'
+import { Discord } from '@holi/icons/src/generated'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export default {
@@ -103,18 +103,10 @@ export const WithTrailingIcon = ({ ...args }) => (
     accessibilityLabel={'accessibility label'}
     placeholder={'Placeholder'}
     helperText={'Helper Text'}
+    trailingIcon={Discord}
     {...args}
   />
 )
-WithTrailingIcon.args = {
-  trailingIcon: 'search',
-}
-WithTrailingIcon.argTypes = {
-  trailingIcon: {
-    type: 'select',
-    options: { ...ICONSET_REGULAR, ...ICONSET_FILLED },
-  },
-}
 
 export const Password = ({ ...args }) => (
   <HoliTextInput

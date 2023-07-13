@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, ArrowUpS, Check, Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -155,7 +156,7 @@ const HoliSelect = ({
             item.selected && styles.listItemIconContainerSelected,
           ]}
         >
-          {item.selected && <HoliIcon icon="check" size={20} color={colors.background10} />}
+          {item.selected && <HoliIcon icon={Check} size={20} color={colors.background10} />}
         </View>
       </HoliButton>
     ),
@@ -179,7 +180,7 @@ const HoliSelect = ({
         onBlur={() => clearFocus('toggle')}
         testID={testID && `${testID}-toggle-menu`}
       >
-        <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
+        <HoliIcon icon={isOpened ? ArrowUpS : ArrowDownS} size={22} />
       </HoliButton>
     ),
     [isOpened, t, toggleMenu, setFocusedItem, clearFocus, testID]
@@ -195,7 +196,7 @@ const HoliSelect = ({
         testID={testID && `${testID}-clear-input`}
         style={styles.clearInputButton}
       >
-        <HoliIcon icon="close" filled size={16} />
+        <HoliIcon icon={Close} filled size={16} />
       </HoliButton>
     )
   }, [t, testID, onChangeText, setFocusedItem, clearFocus, styles])

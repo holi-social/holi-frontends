@@ -5,7 +5,8 @@ import { StyleSheet, ViewStyle } from 'react-native'
 import { colors } from '@holi//ui/styles/globalVars'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { AccountCircle, AccountCircleFilled } from '@holi/icons/src/generated'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -48,10 +49,8 @@ const LoginProfileButton = ({
         />
       ) : (
         <HoliIcon
-          filled={focused}
+          icon={focused ? AccountCircleFilled : AccountCircle}
           color={focused ? colors.foreground30 : colors.foreground20}
-          icon="account-circle"
-          size={24}
         />
       )}
 

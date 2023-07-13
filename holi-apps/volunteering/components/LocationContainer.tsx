@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Globe } from '@holi/icons/src/generated'
 import HoliText, { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -22,7 +23,7 @@ const LocationContainer: React.VFC<LocationContainerProps> = ({
 }: LocationContainerProps) => {
   return (
     <View style={styles.container}>
-      <HoliIcon icon="globe" size={iconSize} color={iconColor} style={styles.locationIcon} />
+      <HoliIcon icon={Globe} size={iconSize} color={iconColor} style={styles.locationIcon} />
       <HoliText size={fontSize} style={{ color: fontColor }}>
         {locationName}
       </HoliText>

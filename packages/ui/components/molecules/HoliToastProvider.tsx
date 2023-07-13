@@ -2,7 +2,8 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { createUUID } from '@holi/core/helpers/strings'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { EmotionUnhappyNoeyes, UserSmile } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -100,7 +101,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         </HoliText>
         {/* TODO: Change error icon to sad smiley */}
         <HoliIcon
-          icon={type === HoliToastType.SUCCESS ? 'user-smile' : 'emotion-unhappy-noeyes'}
+          icon={type === HoliToastType.SUCCESS ? UserSmile : EmotionUnhappyNoeyes}
           size={20}
           color={colors.background10}
           style={styles.toastIcon}

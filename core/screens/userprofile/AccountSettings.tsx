@@ -8,6 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
+import { Key2 } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -28,7 +29,7 @@ const AccountSettings = () => {
         <View style={[mixins.container, styles.accountSettings]}>
           <MoreOptionItem
             label={t('profile.edit.changePassword')}
-            icon="key-2"
+            icon={Key2}
             onPress={() => navigate('/profile/settings/changePassword')}
             style={styles.settingsItem}
             testID="btn-change-password"

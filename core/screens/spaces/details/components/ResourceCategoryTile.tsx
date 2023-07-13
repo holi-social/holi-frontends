@@ -2,15 +2,15 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type ResourceCategory = {
   id: string
-  icon: string
-  iconFilled?: boolean
+  icon: HoliIconType
   translationKey: string
   path?: string
 }
@@ -57,7 +57,6 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
             icon={resourceCategoryData.icon}
             size={30}
             color={isActive ? colors.foreground30 : colors.foreground10}
-            filled={resourceCategoryData.iconFilled}
           />
         )}
       </View>

@@ -11,8 +11,9 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Globe, ShareBox } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -102,7 +103,7 @@ const DonationsAppProjectDetail = () => {
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
-              <HoliIcon icon="globe" size={20} />
+              <HoliIcon icon={Globe} size={20} />
               <HoliText size="small" style={{ marginLeft: 8 }}>
                 {project.initiative.city}, {project.initiative.country}
               </HoliText>
@@ -134,7 +135,7 @@ const DonationsAppProjectDetail = () => {
 
       <View style={[mixins.container, styles.donateButton]}>
         <HoliButtonLoading
-          icon="share-box"
+          icon={ShareBox}
           label={t('donations:projectDetail.donate')}
           onPress={() => Linking.openURL(project.donationUrl)}
           testID="donations-project-detail-donate-btn"

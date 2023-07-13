@@ -7,8 +7,9 @@ import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -66,7 +67,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
             <HoliLocalImage imageSource={imageSource} width={40} height={40} label={toolName} />
           </View>
         ) : (
-          <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
+          <HoliIcon icon={LinkM} size={40} color={colors.brandColorB30} />
         )}
       </View>
       <View style={styles.infoContainer}>
@@ -84,7 +85,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
             transparent
             onPress={() => onShareButtonPress(tool.url)}
           >
-            <HoliIcon icon={'share-box'} size={15} />
+            <HoliIcon icon={ShareBox} size={15} />
           </HoliButton>
         </View>
         <View>
@@ -140,7 +141,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
                 <HoliLocalImage imageSource={imageSource} width={52} height={52} label={tool.title} />
               </View>
             ) : (
-              <HoliIcon icon={'link-m'} size={40} style={{ color: colors.brandColorB30 }} />
+              <HoliIcon icon={LinkM} size={40} color={colors.brandColorB30} />
             )}
             <HoliButton
               onPress={() => {
@@ -153,7 +154,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
               testID="btn-to-edit-tool"
             >
               <HoliText>{t('global.edit')}</HoliText>
-              <HoliIcon icon="edit-2" size={24} />
+              <HoliIcon icon={Edit2} />
             </HoliButton>
           </View>
           <HoliHeading level="1" style={styles.modalToolName}>
@@ -174,7 +175,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
                   shouldUnescape={true}
                 />
               </HoliText>
-              <HoliIcon icon="share-box" size={20} style={{ color: colors.foreground20, flexShrink: 0 }} />
+              <HoliIcon icon={ShareBox} size={20} color={colors.foreground20} style={{ flexShrink: 0 }} />
             </View>
           </HoliLink>
         </View>

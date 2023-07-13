@@ -1,0 +1,88 @@
+import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Keyboard, StyleProp, View, ViewStyle } from 'react-native'
+import { z } from 'zod'
+
+import { FieldError } from '@holi/core/errors/helpers'
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { createUUID } from '@holi/core/helpers'
+import { generateSpaceVideoCallUrl } from '@holi/core/screens/spaces/helpers/urls'
+import { Space } from '@holi/core/screens/spaces/types'
+import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+
+interface AddVideoCallLinkProps {
+  space: Space
+  style?: StyleProp<ViewStyle>
+}
+
+const AddVideoCallLinkSchema = z.object({
+  roomName: z.string().trim().min(1).max(50).optional(),
+})
+
+const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: AddVideoCallLinkProps) => {
+  const { t } = useTranslation()
+  const [roomName, setRoomName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [inputValid, setInputValid] = useState(false)
+  const { addVideoCallLink } = useVideoCallLinkStorage(space.name)
+  const { translateFieldErrors } = useFieldErrors({
+    i18nPrefix: 'spaces.videocall.link',
+    handledFieldErrors: ['roomName'],
+  })
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  const createLink = useCallback(async () => {
+    setLoading(true)
+    const url = generateSpaceVideoCallUrl(space, roomName)
+    return addVideoCallLink({
+      id: createUUID(),
+      url,
+      roomName,
+      created: new Date().toISOString(),
+    }).finally(() => {
+      setLoading(false)
+      setRoomName('')
+      Keyboard.dismiss()
+    })
+  }, [addVideoCallLink, roomName, space])
+
+  useEffect(() => {
+    const resultSchema = AddVideoCallLinkSchema.safeParse({
+      roomName,
+    })
+    if (!resultSchema.success) {
+      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+      setFieldErrors(translateFieldErrors(fieldErrors))
+    }
+    setInputValid(resultSchema.success)
+  }, [roomName, translateFieldErrors])
+
+  return (
+    <View style={style}>
+      <HoliTextInput
+        placeholder={t('spaces.input.videoCallLink.roomName.placeholder')}
+        inputLabel={t('spaces.input.videoCallLink.roomName.label')}
+        validationErrorText={fieldErrors.roomName?.length ? fieldErrors.roomName[0] : undefined}
+        value={roomName}
+        onChange={setRoomName}
+        accessibilityLabel={t('spaces.input.videoCallLink.roomName.label')}
+        testID="video-call-link-room-name"
+        isRequired={true}
+        maxNoOfCharacters={50}
+      />
+      <HoliButtonLoading
+        disabled={loading || !inputValid}
+        label={loading ? t('spaces.input.videoCallLink.generating') : t('spaces.input.videoCallLink.generate')}
+        onPress={createLink}
+        testID="video-call-link-generate-btn"
+        icon={loading ? 'loader-4' : undefined}
+        iconSpinning={loading}
+        style={{ marginVertical: 16 }}
+      />
+    </View>
+  )
+}
+
+export default AddVideoCallLink

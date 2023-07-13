@@ -2,8 +2,9 @@ import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { Link } from '@holi/core/screens/posts/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -32,7 +33,7 @@ const LinkContent: React.VFC<LinkContentProps> = ({ image, title, description, o
           </HoliText>
         </View>
 
-        <HoliIcon icon="share-box" color={colors.foreground20} size={18} style={styles.shareIcon} />
+        <HoliIcon icon={ShareBox} color={colors.foreground20} size={18} style={styles.shareIcon} />
       </View>
     </View>
   )
