@@ -28,9 +28,10 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -136,7 +137,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
-      headerLeft: () => <HeaderBackButton icon="close" />,
+      headerLeft: () => <HeaderBackButton icon={Close} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -204,7 +205,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               testID="btn-space-edit-avatar"
             >
               <HoliText style={styles.editButtonText}>{t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}</HoliText>
-              <HoliIcon icon="edit-2" />
+              <HoliIcon icon={Edit2} />
             </HoliButton>
             <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
             <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
@@ -219,7 +220,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               testID="btn-space-edit-name"
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-              <HoliIcon icon="edit-2" />
+              <HoliIcon icon={Edit2} />
             </HoliButton>
           </View>
 
@@ -305,7 +306,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                     <HoliText>{space.contactDescription}</HoliText>
                     {space.contactEmail && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactEmail}
@@ -314,7 +315,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                     )}
                     {space.contactPhone && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactPhone}

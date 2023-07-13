@@ -8,8 +8,9 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { jitsiUrl } from '@holi/core/screens/spaces/helpers/config'
 import { Space, VideoCallLink } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { More } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -49,7 +50,7 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallL
           {videoCallLink.url}
         </HoliText>
       </View>
-      <HoliIcon icon="more" color={colors.foreground20} />
+      <HoliIcon icon={More} color={colors.foreground20} />
     </View>
   )
   return (

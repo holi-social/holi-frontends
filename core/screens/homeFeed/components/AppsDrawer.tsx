@@ -4,10 +4,11 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
+import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Apps } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -50,7 +51,7 @@ const AppsDrawer: React.FC = () => {
         <HoliText size="small" bold>
           {t('apps.drawer.open.btn.text')}
         </HoliText>
-        <HoliIcon icon="apps" size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
+        <HoliIcon icon={Apps} size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
       </HoliButton>
 
       {/* Apps modal (drawer) */}

@@ -14,7 +14,7 @@ describe('SpaceTaskList', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.input.task.visibility.PUBLIC.title')
   })
 
   it('renders correctly when there are no tasks within space', () => {
@@ -29,6 +29,7 @@ describe('SpaceTaskList', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.empty.title.forNonMembers')
+    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.empty.message.forNonMembers')
   })
 })

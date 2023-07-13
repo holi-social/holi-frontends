@@ -26,12 +26,13 @@ import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceSh
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceIdOrName: string
@@ -214,12 +215,12 @@ const SpaceDetails = () => {
       animation: 'slide_from_bottom',
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
+      headerTintColor: colors.foreground30,
       headerTitle: () => null,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
-
-      headerRight: () => (
+      headerLeft: () => <HeaderBackButton />,
+      headerRight: (props) => (
         <View style={!isMember || !isAdmin ? styles.headerRight : null}>
-          {!isMember || !isAdmin ? <SpaceShareIcon url={spaceUrl} title={space?.title} /> : null}
+          {!isMember || !isAdmin ? <SpaceShareIcon url={spaceUrl} title={space?.title} {...props} /> : null}
           {renderActionDrawer()}
         </View>
       ),
@@ -247,7 +248,7 @@ const SpaceDetails = () => {
         style={styles.overlayButton}
         onPress={onUpdateButtonPress}
       >
-        <HoliIcon icon="pencil" size={20} />
+        <HoliIcon icon={Pencil} size={20} />
       </HoliButton>
     )
   }

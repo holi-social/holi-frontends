@@ -7,6 +7,7 @@ import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInf
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { Space } from '@holi/core/screens/spaces/types'
 import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
+import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -25,7 +26,6 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTab = () => nu
 
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
-      {/* Header */}
       <View style={styles.header}>
         <SpaceHeader space={space} style={mixins.container} />
       </View>
@@ -40,13 +40,13 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTab = () => nu
         tabs={[
           {
             title: t('spaces.tab.info'),
-            titleIcon: 'pushpin',
+            titleIcons: [Pushpin, PushpinFilled],
             style: styles.tabStyle,
             children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
           },
           {
             title: t('spaces.tab.updates'),
-            titleIcon: 'flag-2',
+            titleIcons: [Flag2, Flag2Filled],
             style: styles.tabStyle,
             children: (
               <Suspense fallback={<HoliLoader />}>
@@ -56,7 +56,7 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTab = () => nu
           },
           {
             title: t('spaces.tab.action'),
-            titleIcon: 'sun',
+            titleIcons: [Sun, SunFilled],
             style: styles.tabStyle,
             children: (
               <SpaceInvolvement style={[mixins.container, styles.tabItem]} space={space} key="space-involvement" />

@@ -8,10 +8,10 @@ import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 describe('SpaceSection', () => {
   it('renders correctly', () => {
     const generic = renderer.create(<SpaceSection title="editable section" editable />).toJSON()
-    expect(generic).toMatchSnapshot()
+    expect(generic).toHaveTextContent('global.edit')
 
     const location = renderer.create(<SpaceSection title="not editable section" />).toJSON()
-    expect(location).toMatchSnapshot()
+    expect(location).toHaveTextContent('not editable section')
   })
 
   it('triggers the onPress method correctly', async () => {

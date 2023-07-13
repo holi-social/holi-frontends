@@ -2,9 +2,8 @@ import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
-import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
-import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HandHeartThin, HandHeartThinFilledColored } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -78,10 +77,10 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
         {count}
       </HoliText>
       <View style={!active && !hovered ? styles.visuallyHidden : null}>
-        <HoliLocalImage imageSource={ReactionIconFilled} width={24} height={24} label={labelText} isSvg />
+        <HoliIcon icon={HandHeartThinFilledColored} />
       </View>
       <View style={active || hovered ? styles.visuallyHidden : null}>
-        <HoliLocalImage imageSource={ReactionIconOutlined} width={24} height={24} label={labelText} isSvg />
+        <HoliIcon icon={HandHeartThin} />
       </View>
     </HoliButton>
   )

@@ -13,8 +13,9 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Check } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -85,6 +86,14 @@ const HoliCheckbox = ({
     }).start()
   }
 
+  let checkMarkColor = styles.icon.color
+  if (disabled) {
+    checkMarkColor = styles.iconDisabled.color
+  }
+  if (hasError) {
+    checkMarkColor = styles.iconError.color
+  }
+
   return (
     <View style={style}>
       <View style={styles.checkboxContainer}>
@@ -110,13 +119,7 @@ const HoliCheckbox = ({
               { transform: [{ scale: scaleFactor }] },
             ]}
           >
-            {checked && (
-              <HoliIcon
-                icon="check"
-                size={20}
-                style={[styles.icon, disabled && styles.iconDisabled, hasError && styles.iconError]}
-              />
-            )}
+            {checked && <HoliIcon icon={Check} size={20} color={checkMarkColor} />}
           </Animated.View>
 
           {!children && !!label && (

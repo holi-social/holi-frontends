@@ -9,6 +9,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
+import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -30,7 +31,7 @@ const SpaceVideoCallList = () => {
       title: t('spaces.videocall.header'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -42,14 +43,14 @@ const SpaceVideoCallList = () => {
       <View style={mixins.container}>
         <CollaboratorAreaCard
           title={t('spaces.videocall.schedule.heading')}
-          headerLeftIcon="calendar-check"
-          headerRightIcon="arrow-right-s"
+          headerLeftIcon={CalendarCheck}
+          headerRightIcon={ArrowRightS}
           onPressHeaderLeft={showFeatureNotImplementedToast}
           onPressHeaderRight={showFeatureNotImplementedToast}
           headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
           style={styles.card}
         />
-        <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon="video-chat">
+        <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
           <VideoCallLinks spaceIdOrName={spaceIdOrName} style={styles.container} />
         </CollaboratorAreaCard>
       </View>

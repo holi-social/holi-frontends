@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { LinkM } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -93,7 +94,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
           />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
-            <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
+            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
           </View>
         )}
         <View style={styles.uploadButtonContainer}>
