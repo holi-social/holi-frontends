@@ -38,11 +38,13 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   testID = 'spaces-group-slider',
 }: SpacesGroupSliderProps) => {
   const { navigate } = useRouting()
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: windowWidth } = useWindowDimensions()
   const { topics, skills } = useContext(SpaceTermContext)
-  // fine for image scaling, because web is constant and mobile can't get resized
-  const cardWidth = Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12
-  const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
+
+  // cardWidth is used for image scaling (see usage). this is fine,
+  // because value is constant in web and for mobile windowWidth doesn't change
+  const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
+  const imageHeight = Platform.OS === 'web' ? 160 : windowWidth / 2 - 40
 
   const topicId = group?.topicId
   const skillId = group?.skillId
