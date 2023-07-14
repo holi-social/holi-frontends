@@ -199,11 +199,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
           >
             <TextInput
               value={value}
-              style={[
-                styles.input,
-                inline ? styles.inline : styles.block,
-                { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
-              ]}
+              style={[styles.input, inline ? styles.inline : styles.block, { height: numberOfLines * LINE_HEIGHT + 2 }]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
@@ -311,6 +307,8 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.background30,
       borderRadius: 4,
       backgroundColor: colors.background10,
+      paddingHorizontal: 10,
+      paddingVertical: INPUT_VERTICAL_PADDING,
     },
     inputWrapperFocused: {
       borderColor: colors.brandColorB30,
@@ -328,8 +326,8 @@ const getStyles = (theme: HoliTheme) =>
     input: {
       flex: 1,
       fontSize: 16,
-      paddingHorizontal: 10,
-      paddingVertical: INPUT_VERTICAL_PADDING,
+      // paddingHorizontal: 10,
+      // paddingVertical: INPUT_VERTICAL_PADDING,
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),

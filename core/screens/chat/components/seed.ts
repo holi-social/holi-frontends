@@ -37,12 +37,12 @@ const getDate = (ago: Partial<Record<'days' | 'hours' | 'minutes', number>>) => 
   }, new Date())
 }
 
-export const chatRoomListSeed: Room[] = Array.from(new Array(Math.floor(Math.random() * 30) + 10), getRandomUser).map(
+export const chatRoomListSeed: Room[] = Array.from(new Array(Math.floor(Math.random() * 60) + 30), getRandomUser).map(
   (user, idx) => ({
     id: idx.toString(),
     user,
     messages: Array.from(
-      new Array(Math.floor(Math.random() * 30) + 10),
+      new Array(Math.floor(Math.random() * 60) + 30),
       (_, msgIdx): Message => ({
         id: msgIdx.toString(),
         user: Math.random() < 0.5 ? user : null,
