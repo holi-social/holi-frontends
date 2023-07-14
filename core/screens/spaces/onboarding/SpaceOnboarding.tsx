@@ -3,7 +3,6 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -55,46 +54,47 @@ const SpaceOnboarding = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
-      <SafeAreaView style={mixins.container}>
-        <LoginProtection>
-          <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
-          <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
-          <HoliLink label={t('spaces.onboarding.setup.link1.title')} href={`/spaces/${spaceIdOrName}/onboarding/steps`}>
-            <View style={styles.link}>
-              <View style={styles.row}>
-                <HoliIcon icon="team" style={styles.icon} />
-                <View style={styles.textWrapper}>
-                  <HoliText>{t('spaces.onboarding.setup.link1.title')}</HoliText>
-                  <HoliText size="extrasmall" style={styles.text}>
-                    {t('spaces.onboarding.setup.link1.text')}
-                  </HoliText>
-                </View>
+    <SafeAreaView style={mixins.container}>
+      <ScrollHeaderLayout.Default style={styles.layout}>
+        <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
+        <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
+        <HoliLink
+          label={t('spaces.onboarding.setup.nextSteps.title')}
+          href={`/spaces/${spaceIdOrName}/onboarding/steps`}
+        >
+          <View style={styles.link}>
+            <View style={styles.row}>
+              <HoliIcon icon="team" style={styles.icon} />
+              <View style={styles.textWrapper}>
+                <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
+                <HoliText size="extrasmall" style={styles.text}>
+                  {t('spaces.onboarding.setup.nextSteps.text')}
+                </HoliText>
               </View>
-              <HoliIcon icon="arrow-right-s" />
             </View>
-          </HoliLink>
-          <HoliButton
-            label={t('spaces.onboarding.setup.link2.title')}
-            transparent
-            onPress={showFeatureNotImplementedToast}
-          >
-            <View style={styles.link}>
-              <View style={styles.row}>
-                <HoliIcon icon="checkbox" style={styles.icon} />
-                <View style={styles.textWrapper}>
-                  <HoliText>{t('spaces.onboarding.setup.link2.title')}</HoliText>
-                  <HoliText size="extrasmall" style={styles.text}>
-                    {t('spaces.onboarding.setup.link2.text')}
-                  </HoliText>
-                </View>
+            <HoliIcon icon="arrow-right-s" />
+          </View>
+        </HoliLink>
+        <HoliButton
+          label={t('spaces.onboarding.setup.checklist.title')}
+          transparent
+          onPress={showFeatureNotImplementedToast}
+        >
+          <View style={styles.link}>
+            <View style={styles.row}>
+              <HoliIcon icon="checkbox" style={styles.icon} />
+              <View style={styles.textWrapper}>
+                <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
+                <HoliText size="extrasmall" style={styles.text}>
+                  {t('spaces.onboarding.setup.checklist.text')}
+                </HoliText>
               </View>
-              <HoliIcon icon="arrow-right-s" />
             </View>
-          </HoliButton>
-        </LoginProtection>
-      </SafeAreaView>
-    </ScrollHeaderLayout.Default>
+            <HoliIcon icon="arrow-right-s" />
+          </View>
+        </HoliButton>
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
   )
 }
 

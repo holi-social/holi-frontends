@@ -3,7 +3,6 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -44,7 +43,7 @@ const SpaceOnboardingSteps = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
-      title: t('spaces.onboarding.setup.link1.title'),
+      title: t('spaces.onboarding.setup.nextSteps.title'),
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -62,7 +61,7 @@ const SpaceOnboardingSteps = () => {
   }
 
   const addStep = () => {
-    const newStep = { stepNumber: Object.keys(stepsList).length + 1, text: '' }
+    const newStep = { stepNumber: stepsList.length + 1, text: '' }
     setStepsList((steps) => [...steps, newStep])
   }
 
@@ -86,65 +85,59 @@ const SpaceOnboardingSteps = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
-      <SafeAreaView style={mixins.container}>
-        <LoginProtection>
-          <View style={styles.intro}>
-            <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
-            <HoliButton
-              label={t('spaces.onboarding.steps.example.text')}
-              onPress={showExample}
-              transparent
-              style={styles.example}
-            >
-              {t('spaces.onboarding.steps.example.text')}
-            </HoliButton>
-          </View>
-          <FormWrapper
-            onSave={saveSteps}
-            // saveButtonDisabled={loading}
-            // loading={loading}
-            key={spaceIdOrName}
-            buttonLabel={t('global.save')}
-            keyboardShouldPersistTaps="never"
-            isModal={false}
-            renderProp={() => {
-              return (
-                <>
-                  <SpaceOnboardingStepsInput
-                    stepsList={stepsList}
-                    handleChange={handleChange}
-                    removeStep={removeStep}
-                  />
-                  <HoliButton
-                    label={t('spaces.onboarding.steps.add')}
-                    onPress={addStep}
-                    variant="medium"
-                    type="secondary"
-                    inline
-                    style={styles.addStepBtn}
-                  >
-                    <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                    <HoliIcon icon="add" size={16} />
-                  </HoliButton>
-                </>
-              )
-            }}
-          />
-          <HoliModal
-            show={exampleVisible}
-            label={t('spaces.onboarding.steps.example.label')}
-            onDismiss={hideExample}
-            style={styles.exampleWrapper}
+    <SafeAreaView style={mixins.container}>
+      <ScrollHeaderLayout.Default style={styles.layout}>
+        <View style={styles.intro}>
+          <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
+          <HoliButton
+            label={t('spaces.onboarding.steps.example.text')}
+            onPress={showExample}
+            transparent
+            style={styles.example}
           >
-            <HoliText style={styles.header} size="large">
-              {t('spaces.onboarding.steps.example.label')}
-            </HoliText>
-            <SpaceCollaboratorOnboardingInfo />
-          </HoliModal>
-        </LoginProtection>
-      </SafeAreaView>
-    </ScrollHeaderLayout.Default>
+            {t('spaces.onboarding.steps.example.text')}
+          </HoliButton>
+        </View>
+        <FormWrapper
+          onSave={saveSteps}
+          // saveButtonDisabled={loading}
+          // loading={loading}
+          key={spaceIdOrName}
+          buttonLabel={t('global.save')}
+          keyboardShouldPersistTaps="never"
+          isModal={false}
+          renderProp={() => {
+            return (
+              <>
+                <SpaceOnboardingStepsInput stepsList={stepsList} handleChange={handleChange} removeStep={removeStep} />
+                <HoliButton
+                  label={t('spaces.onboarding.steps.add')}
+                  onPress={addStep}
+                  variant="medium"
+                  type="secondary"
+                  inline
+                  style={styles.addStepBtn}
+                >
+                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
+                  <HoliIcon icon="add" size={16} />
+                </HoliButton>
+              </>
+            )
+          }}
+        />
+        <HoliModal
+          show={exampleVisible}
+          label={t('spaces.onboarding.steps.example.label')}
+          onDismiss={hideExample}
+          style={styles.exampleWrapper}
+        >
+          <HoliText style={styles.header} size="large">
+            {t('spaces.onboarding.steps.example.label')}
+          </HoliText>
+          <SpaceCollaboratorOnboardingInfo />
+        </HoliModal>
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
   )
 }
 

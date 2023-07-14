@@ -22,7 +22,7 @@ const SpaceOnboardingStepsInput: React.VFC<SpaceOnboardingStepsInputProps> = ({
   const { t } = useTranslation()
 
   const stepsArray = []
-  for (let step = 1; step <= Object.keys(stepsList).length; step++) {
+  for (let step = 1; step <= stepsList.length; step++) {
     const label = getOrdinal(step) + ' step'
     stepsArray.push(
       <View style={styles.input} key={step}>
