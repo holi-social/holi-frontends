@@ -129,7 +129,6 @@ const SpaceOnboardingSteps = () => {
                   onPress={addStep}
                   variant="medium"
                   type="secondary"
-                  inline
                   style={styles.addStepBtn}
                 >
                   <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
@@ -190,6 +189,8 @@ const styles = StyleSheet.create({
   addStepBtn: {
     marginTop: 24,
     marginBottom: 24,
+    width: 'auto',
+    alignSelf: 'center',
   },
 })
 
