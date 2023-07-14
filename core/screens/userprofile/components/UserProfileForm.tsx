@@ -17,15 +17,15 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Image } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { delayAnimation } from '@holi/ui/helper'
-import { Position, usePositions } from '@holi/ui/helper'
+import { Position, delayAnimation, usePositions } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -137,7 +137,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       >
         <View style={styles.addImage}>
           <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-          <HoliIcon icon="image" color={colors.foreground20} />
+          <HoliIcon icon={Image} color={colors.foreground20} />
         </View>
       </HoliImagePicker>
     </View>

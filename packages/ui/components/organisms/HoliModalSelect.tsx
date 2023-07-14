@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { ArrowDownS, ArrowUpS, Global } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -19,7 +21,7 @@ export type HoliModalSelectOption<IDType extends string = string> = {
   id: IDType
   title: string
   description?: string
-  icon?: string
+  icon?: HoliIconType
   selected?: boolean
   disabled?: boolean
 }
@@ -68,6 +70,14 @@ const HoliModalSelect = <IDType extends string>({
     },
   })
 
+  const handleOnChange = useCallback(
+    async (option: HoliModalSelectOption<IDType>) => {
+      await hide()
+      onChange(option)
+    },
+    [onChange, hide]
+  )
+
   const renderOption = useCallback(
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
@@ -78,14 +88,13 @@ const HoliModalSelect = <IDType extends string>({
         transparent
         disabled={option.disabled}
         onPress={() => {
-          onChange(option)
-          hide()
+          handleOnChange(option)
         }}
         testID={`item-${testID}`}
       >
         {!isDense && (
           <HoliIcon
-            icon={option.icon || 'global'}
+            icon={option.icon || Global}
             size={22}
             color={option?.disabled ? colors.foreground10 : colors.foreground30}
           />
@@ -110,7 +119,7 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [onChange, testID, hide, isDense, styles]
+    [styles.optionCardContent, styles.optionCard, styles.optionTextContainer, isDense, testID, handleOnChange]
   )
 
   return (
@@ -134,13 +143,13 @@ const HoliModalSelect = <IDType extends string>({
         >
           {selectedOption ? (
             <View style={styles.selectedOptionContainer}>
-              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={24} />}
+              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
               <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
             </View>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
-          <HoliIcon icon={visible ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
+          <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
         </HoliButton>
       </View>
 

@@ -7,7 +7,8 @@
 import React, { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -56,7 +57,7 @@ const PartnerInfoRow: React.VFC<PartnerInfoRowProps> = ({
             <HoliText>{rowText}</HoliText>
           </View>
         )}
-        {showOutlinkIcon && partners[0]?.url && <HoliIcon icon="share-box" size={20} color={colors.foreground30} />}
+        {showOutlinkIcon && partners[0]?.url && <HoliIcon icon={ShareBox} size={20} color={colors.foreground30} />}
       </View>
     </HoliButton>
   )

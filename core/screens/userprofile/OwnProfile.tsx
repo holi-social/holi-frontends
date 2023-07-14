@@ -17,7 +17,8 @@ import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLo
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -86,11 +87,11 @@ const OwnProfile = () => {
               inline
               testID="btn-open-profile-edit-view"
             >
-              <HoliIcon icon="edit-2" size={24} color={tintColor} />
+              <HoliIcon icon={Edit2} color={tintColor} />
             </HoliButton>
 
             <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
-              <HoliIcon icon="share" size={24} color={tintColor} />
+              <HoliIcon icon={Share} color={tintColor} />
             </HoliButton>
 
             <HoliButton
@@ -100,7 +101,7 @@ const OwnProfile = () => {
               onPress={() => navigate('/profile/settings')}
               testID="btn-to-settings"
             >
-              <HoliIcon icon="settings-3" size={24} color={tintColor} />
+              <HoliIcon icon={Settings3} color={tintColor} />
             </HoliButton>
           </HoliHorizontalRow>
         ),

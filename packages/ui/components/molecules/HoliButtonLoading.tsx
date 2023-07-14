@@ -1,13 +1,15 @@
 import React from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface HoliButtonLoadingProps extends HoliButtonProps {
-  icon?: string
+  icon?: HoliIconType
   iconSpinning?: boolean
   label: string
   bold?: boolean
@@ -36,7 +38,9 @@ const HoliButtonLoading = ({
 
       {!!icon && (
         <View style={styles.icon} testID={testID + (iconSpinning ? '-processing' : '-idle')}>
-          <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />
+          <SpinningIconContainer spinning={iconSpinning}>
+            <HoliIcon icon={icon} size={16} />
+          </SpinningIconContainer>
         </View>
       )}
     </HoliButton>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { UserAdd } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export type SpaceInviteProps = {
@@ -30,7 +31,7 @@ const SpaceInvite: React.VFC<SpaceInviteProps> = ({
           inline
           variant="small"
           label={t('spaces.invite.btn.invite')}
-          icon="user-add"
+          icon={UserAdd}
           onPress={() => {
             showToast()
             // TODO: remove toast above and add navigate below once feature is implemented

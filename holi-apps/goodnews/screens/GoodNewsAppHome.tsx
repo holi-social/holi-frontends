@@ -6,6 +6,7 @@ import { View } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { ArrowDownS } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
@@ -18,7 +19,7 @@ const GoodNewsAppHome = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
       headerTintColor: colors.background10,

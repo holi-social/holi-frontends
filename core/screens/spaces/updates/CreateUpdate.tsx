@@ -84,7 +84,7 @@ const CreateSpaceUpdate = () => {
         title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
         headerStyle: { backgroundColor: colors.background20 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },

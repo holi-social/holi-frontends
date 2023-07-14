@@ -9,9 +9,12 @@ import InsightsFAQ from '@holi/core/screens/homeFeed/insightsFAQ'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { Insight } from '@holi/core/screens/insights/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Information } from '@holi/icons/src/generated'
+import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -45,8 +48,11 @@ const InsightsOfTheWeekList: React.FC = () => {
     <>
       {/* Headline */}
       <HoliBox padding={[0, 0, 8, 0]}>
-        <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
+        <HoliHeading level="1" size="large" testID="home-feed-insights-heading" style={{ display: 'flex' }}>
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
+          <HoliBox padding={[0, 0, 0, 8]} layout={{ alignSelf: 'center' }}>
+            <HoliLocalImage imageSource={HandWaveFilled} width={28} height={28} label={''} isSvg />
+          </HoliBox>
         </HoliHeading>
       </HoliBox>
 
@@ -69,7 +75,7 @@ const InsightsOfTheWeekList: React.FC = () => {
             >
               {t('homeFeed.insights.subtitle')}
             </HoliHeading>
-            <HoliIcon icon="information" size={20} filled={false} color={colors.foreground20} />
+            <HoliIcon icon={Information} size={20} filled={false} color={colors.foreground20} />
           </View>
         </HoliBox>
       </HoliButton>

@@ -2,7 +2,9 @@ import React, { SyntheticEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -25,7 +27,9 @@ const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, sty
 
   return loading && Platform.OS !== 'web' ? (
     <View style={[style, styles.loadingContainer]}>
-      <HoliIcon icon="loader-4" size={50} color={colors.foreground20} spinning />
+      <SpinningIconContainer>
+        <HoliIcon icon={Loader4} size={50} color={colors.foreground20} />
+      </SpinningIconContainer>
     </View>
   ) : (
     <HoliButton

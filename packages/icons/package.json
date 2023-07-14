@@ -1,0 +1,17 @@
+{
+  "name": "@holi/icons",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "yarn svgr -d ./src/generated ./assets",
+    "clean": "rimraf src/generated"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.71.8",
+    "react-native-svg": "13.4.0"
+  },
+  "devDependencies": {
+    "@svgr/cli": "8.0.1",
+    "rimraf": "5.0.1"
+  }
+}
