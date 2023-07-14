@@ -25,7 +25,7 @@ const SpacesHorizontalSlider = ({
     <View style={style} testID={testID}>
       {children && (
         <ScrollView
-          // on web scrollbar would jump when changing this, so we don't disable there
+          // always enable on web to prevent vertical jumping
           scrollEnabled={Platform.OS === 'web' ? true : !loading}
           horizontal
           nestedScrollEnabled
