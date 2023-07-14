@@ -1,10 +1,11 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -34,10 +35,17 @@ const SpaceOnboardingSteps = () => {
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
   const [stepsList, setStepsList] = useState([{ stepNumber: 1, text: '' }])
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
-    skip: !spaceIdOrName,
-  })
+  const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+
+  useEffect(() => {
+    if (spaceIdOrName) {
+      fetchSpace({
+        variables: { idOrName: spaceIdOrName || '' },
+        onError: (error) => logError(error, `[SpaceOnboardingSteps.tsx] ${error.message}`),
+      })
+    }
+  }, [fetchSpace, spaceIdOrName])
+
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 

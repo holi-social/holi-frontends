@@ -1,9 +1,10 @@
-import { useQuery } from '@apollo/client'
-import React, { useLayoutEffect } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -31,10 +32,17 @@ const SpaceOnboarding = () => {
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
 
-  const { data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
-    skip: !spaceIdOrName,
-  })
+  const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+
+  useEffect(() => {
+    if (spaceIdOrName) {
+      fetchSpace({
+        variables: { idOrName: spaceIdOrName || '' },
+        onError: (error) => logError(error, `[SpaceOnboarding.tsx] ${error.message}`),
+      })
+    }
+  }, [fetchSpace, spaceIdOrName])
+
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
