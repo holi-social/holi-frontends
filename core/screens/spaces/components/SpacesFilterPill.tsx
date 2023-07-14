@@ -9,22 +9,20 @@ import { colors } from '@holi/ui/styles/globalVars'
 type FilterType = 'generic' | 'topic' | 'skill' | 'location'
 
 interface BaseProps {
+  label: string
+  filterType: FilterType
   small?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-interface SkeletonProps extends BaseProps {
+interface SkeletonProps extends Partial<BaseProps> {
   loading: true
-  label?: string
-  filterType?: FilterType
 }
 
 interface Props extends BaseProps {
   loading?: false
-  label: string
-  filterType: FilterType
 }
 
 type SpacesFilterPillProps = SkeletonProps | Props
