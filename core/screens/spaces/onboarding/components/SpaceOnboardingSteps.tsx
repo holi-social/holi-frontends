@@ -131,6 +131,7 @@ const SpaceOnboardingSteps = () => {
                       key={index}
                       index={index + 1}
                       step={step}
+                      totalSteps={stepsList.length}
                       handleChange={handleChange}
                       removeStep={removeStep}
                     />

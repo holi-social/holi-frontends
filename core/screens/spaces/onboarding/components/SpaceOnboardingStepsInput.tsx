@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { getOrdinal } from '@holi/core/helpers/getOrdinal'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -11,6 +10,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceOnboardingStepsInputProps = {
   step: { text: string }
   index: number
+  totalSteps: number
   handleChange: (stepNumber: number, value: string) => void
   removeStep: (stepNumber: number) => void
 }
@@ -18,18 +18,18 @@ export type SpaceOnboardingStepsInputProps = {
 const SpaceOnboardingStepsInput: React.VFC<SpaceOnboardingStepsInputProps> = ({
   step,
   index,
+  totalSteps,
   handleChange,
   removeStep,
 }) => {
   const { t } = useTranslation()
-  const label = getOrdinal(index) + ' step'
   return (
     <View style={styles.input}>
       <HoliTextInput
         maxNoOfCharacters={240}
-        accessibilityLabel={label}
+        accessibilityLabel={t('wizard.stepsCount', { current: index, total: totalSteps })}
         showCharacterCount
-        inputLabel={label}
+        inputLabel={t('wizard.stepsCount', { current: index, total: totalSteps })}
         noOfVisibleLines={3}
         maxNoOfVisibleLines={3}
         value={step.text}
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
+
   inputField: {
     width: 'auto',
     flexGrow: 1,
