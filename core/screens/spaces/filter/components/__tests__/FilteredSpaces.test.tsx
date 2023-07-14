@@ -161,7 +161,7 @@ describe('FilteredSpaces', () => {
   it('displays loading screen while loading geolocation', async () => {
     renderFilteredSpaces([locationDetailsMock, spacesByLocationMock], { locationId })
 
-    expect(await screen.findByText('spaces.spaceListing.loading'))
+    expect(await screen.findByTestId('spaces-grid-cell-skeleton'))
   })
 
   it('displays error toast if loading geolocation failed', async () => {
