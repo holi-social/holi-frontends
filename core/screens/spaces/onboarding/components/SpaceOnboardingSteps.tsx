@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -50,31 +50,37 @@ const SpaceOnboardingSteps = () => {
     })
   }, [setScreenOptions, t])
 
-  const handleChange = (stepNumber: number, text: string) => {
-    const newSteps = stepsList.map((step) => {
-      if (step.stepNumber === stepNumber) {
-        return { ...step, text: text }
-      }
-      return step
-    })
-    setStepsList(newSteps)
-  }
+  const handleChange = useCallback(
+    (stepNumber: number, text: string) => {
+      const newSteps = stepsList.map((step) => {
+        if (step.stepNumber === stepNumber) {
+          return { ...step, text: text }
+        }
+        return step
+      })
+      setStepsList(newSteps)
+    },
+    [stepsList]
+  )
 
-  const addStep = () => {
+  const addStep = useCallback(() => {
     const newStep = { stepNumber: stepsList.length + 1, text: '' }
     setStepsList((steps) => [...steps, newStep])
-  }
+  }, [stepsList])
 
-  const removeStep = (stepNumber: number) => {
-    const newSteps = stepsList.filter((step) => step.stepNumber !== stepNumber)
-    // Adjust for new position in stepsList
-    newSteps.forEach((step) => {
-      if (step.stepNumber > stepNumber) {
-        step.stepNumber -= 1
-      }
-    })
-    setStepsList(newSteps)
-  }
+  const removeStep = useCallback(
+    (stepNumber: number) => {
+      const newSteps = stepsList.filter((step) => step.stepNumber !== stepNumber)
+      // Adjust for new position in stepsList
+      newSteps.forEach((step) => {
+        if (step.stepNumber > stepNumber) {
+          step.stepNumber -= 1
+        }
+      })
+      setStepsList(newSteps)
+    },
+    [stepsList]
+  )
 
   const saveSteps = () => {
     // console.log(stepsList)
