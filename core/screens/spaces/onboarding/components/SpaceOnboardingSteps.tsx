@@ -127,16 +127,14 @@ const SpaceOnboardingSteps = () => {
             return (
               <>
                 {stepsList.map((step, index) => (
-                  <>
-                    <SpaceOnboardingStepsInput
-                      key={index}
-                      index={index + 1}
-                      step={step}
-                      totalSteps={stepsList.length}
-                      handleChange={handleChange}
-                      removeStep={removeStep}
-                    />
-                  </>
+                  <SpaceOnboardingStepsInput
+                    key={index}
+                    index={index + 1}
+                    step={step}
+                    totalSteps={stepsList.length}
+                    handleChange={handleChange}
+                    removeStep={removeStep}
+                  />
                 ))}
                 <HoliButton
                   label={t('spaces.onboarding.steps.add')}
