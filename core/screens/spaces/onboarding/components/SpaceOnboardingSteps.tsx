@@ -10,7 +10,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
-import SpaceOnboardingStepsInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepsInput'
+import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -116,7 +116,7 @@ const SpaceOnboardingSteps = () => {
         </View>
         <View style={styles.steps}>
           {stepsList.map((step, index) => (
-            <SpaceOnboardingStepsInput
+            <SpaceOnboardingStepInput
               key={index}
               index={index + 1}
               step={step}

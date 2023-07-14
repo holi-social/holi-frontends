@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type SpaceOnboardingStepsInputProps = {
+export type SpaceOnboardingStepInputProps = {
   step: { text: string }
   index: number
   totalSteps: number
@@ -16,7 +16,7 @@ export type SpaceOnboardingStepsInputProps = {
   removeStep: (stepNumber: number) => void
 }
 
-const SpaceOnboardingStepsInput: React.VFC<SpaceOnboardingStepsInputProps> = ({
+const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
   step,
   index,
   totalSteps,
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceOnboardingStepsInput
+export default SpaceOnboardingStepInput
