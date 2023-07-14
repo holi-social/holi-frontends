@@ -63,7 +63,7 @@ const SpaceOnboardingSteps = () => {
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
-      openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
+      openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
       navigate(`/spaces/${spaceIdOrName}`)
     },
     onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
