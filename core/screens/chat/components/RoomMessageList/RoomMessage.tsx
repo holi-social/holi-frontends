@@ -18,12 +18,13 @@ interface RoomMessageProps {
   testID?: string
 }
 
-// nummeric constants to use for ItemLayout in FlatList
-export const ROOM_ITEM_CONTENT_HEIGHT = 52
-export const ROOM_ITEM_VERTICAL_PADDING = 16
-export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
-
-const RoomMessage = ({ message, showAvatar = false, isPrevMessageFromSameUser = false, testID }: RoomMessageProps) => {
+const RoomMessage = ({
+  message,
+  showAvatar = false,
+  isPrevMessageFromSameUser = false,
+  isNextMessageFromSameUser = false,
+  testID,
+}: RoomMessageProps) => {
   const { i18n } = useTranslation()
 
   const { user: me } = useLoggedInUser()
@@ -32,8 +33,11 @@ const RoomMessage = ({ message, showAvatar = false, isPrevMessageFromSameUser = 
   const messageUser = user ?? me!
   const isMyMessage = me === messageUser
 
+  const paddingBottom = isNextMessageFromSameUser ? 2 : 8
+  const paddingTop = isPrevMessageFromSameUser ? 2 : 8
+
   return (
-    <HoliBox padding={[0, 16]}>
+    <HoliBox padding={[paddingTop, 16, paddingBottom, 16]}>
       <View
         style={[
           styles.rowWrapper,
@@ -46,11 +50,11 @@ const RoomMessage = ({ message, showAvatar = false, isPrevMessageFromSameUser = 
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
             <HoliAvatar
-              imageSrc={messageUser.avatar}
-              imageBlurhash={messageUser.avatarBlurhash}
-              label={messageUser.fullName}
-              initials={messageUser.avatarLabel || ''}
-              defaultColor={messageUser.avatarDefaultColor || ''}
+              imageSrc={messageUser?.avatar}
+              imageBlurhash={messageUser?.avatarBlurhash}
+              label={messageUser?.fullName ?? ''}
+              initials={messageUser?.avatarLabel ?? ''}
+              defaultColor={messageUser?.avatarDefaultColor ?? ''}
               size="micro"
             />
           </HoliBox>
