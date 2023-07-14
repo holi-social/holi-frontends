@@ -8,7 +8,7 @@ import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
+import SpaceCollaboratorOnboardingStepsExample from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingStepsExample'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -43,6 +43,8 @@ const SpaceOnboardingSteps = () => {
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [stepsList, setStepsList] = useState<OnboardingStep[]>(space?.onboarding?.steps || [{ text: '' }])
+  const [valid, setValid] = useState(false)
+  const [changed, setChanged] = useState(false)
 
   useEffect(() => {
     if (spaceIdOrName) {
@@ -78,6 +80,11 @@ const SpaceOnboardingSteps = () => {
 
   const handleChange = useCallback(
     (stepNumber: number, text: string) => {
+      if (text.length > 0) {
+        setValid(true)
+      } else {
+        setValid(false)
+      }
       const newSteps = [...stepsList]
       newSteps[stepNumber - 1] = { ...stepsList[stepNumber - 1], text }
       setStepsList(newSteps)
@@ -88,6 +95,7 @@ const SpaceOnboardingSteps = () => {
   const addStep = useCallback(() => {
     const newStep = { text: '' }
     setStepsList((steps) => [...steps, newStep])
+    setChanged(true)
   }, [])
 
   const removeStep = useCallback(
@@ -95,6 +103,7 @@ const SpaceOnboardingSteps = () => {
       const newList = [...stepsList]
       newList.splice(stepNumber - 1, 1)
       setStepsList(newList)
+      setChanged(true)
     },
     [stepsList]
   )
@@ -130,6 +139,7 @@ const SpaceOnboardingSteps = () => {
               totalSteps={stepsList.length}
               handleChange={handleChange}
               removeStep={removeStep}
+              setValid={setValid}
             />
           ))}
           <HoliButton
@@ -143,7 +153,7 @@ const SpaceOnboardingSteps = () => {
             <HoliIcon icon={Add} size={16} />
           </HoliButton>
           <HoliButtonLoading
-            disabled={loading || fetchingSpace}
+            disabled={loading || fetchingSpace || stepsList.length === 0 || !valid || !changed}
             icon={loading ? Loader4 : undefined}
             iconSpinning={loading}
             label={t('global.save')}
@@ -164,7 +174,7 @@ const SpaceOnboardingSteps = () => {
               {t('spaces.onboarding.steps.example.label')}
             </HoliText>
           </View>
-          <SpaceCollaboratorOnboardingInfo />
+          <SpaceCollaboratorOnboardingStepsExample />
         </HoliModal>
       </SafeAreaView>
     </ScrollHeaderLayout.Default>

@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const SpaceCollaboratorOnboardingInfo: React.FC = () => {
+const SpaceCollaboratorOnboardingStepsExample: React.FC = () => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceCollaboratorOnboardingInfo
+export default SpaceCollaboratorOnboardingStepsExample

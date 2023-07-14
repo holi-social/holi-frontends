@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -14,6 +14,7 @@ export type SpaceOnboardingStepInputProps = {
   totalSteps: number
   handleChange: (stepNumber: number, value: string) => void
   removeStep: (stepNumber: number) => void
+  setValid: (isValid: boolean) => void
 }
 
 const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
@@ -22,8 +23,16 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
   totalSteps,
   handleChange,
   removeStep,
+  setValid,
 }) => {
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (step.text.length === 0) {
+      setValid(false)
+    }
+  }, [step.text, setValid])
+
   return (
     <View style={styles.input}>
       <HoliTextInput
@@ -37,6 +46,7 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
         onChange={(value) => handleChange(index, value)}
         placeholder={t('spaces.onboarding.steps.describe')}
         style={[styles.inputField, index === 1 && styles.inputFieldWithoutDelete]}
+        // validationErrorText={step.text.length === 0 ? t('spaces.onboarding.steps.input.invalid') : undefined}
       />
 
       {index !== 1 && (
