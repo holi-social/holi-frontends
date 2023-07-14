@@ -83,6 +83,7 @@ export interface Space {
   posts?: Paged<Post>
   hasPublicPosts?: boolean
   hasPrivatePosts?: boolean
+  onboardingSteps?: object[]
 }
 
 export enum SpaceSectionType {

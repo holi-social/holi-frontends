@@ -35,7 +35,6 @@ const SpaceOnboardingSteps = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
-  const [stepsList, setStepsList] = useState([{ text: '' }])
   const { openToast } = useToast()
 
   const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
@@ -51,6 +50,7 @@ const SpaceOnboardingSteps = () => {
 
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const [stepsList, setStepsList] = useState<object[]>(space?.onboardingSteps || [{ text: '' }])
 
   useLayoutEffect(() => {
     setScreenOptions({
