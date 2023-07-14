@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 
 import { vars } from '@holi/ui/styles/globalVars'
@@ -20,16 +19,14 @@ const defaultBreakpointGridValues: [number, number][] = [
 export const useBreakpointMatcher = (
   breakpointValues: [number, number][] = defaultBreakpointGridValues
 ): number | undefined => {
-  const [value, setValue] = useState<number>()
-  const { width: screenWidth } = useWindowDimensions()
+  // useWindowDimensions causes more renders than just the breakpoint jumps,
+  // but that's ok! don't try to debounce this via useEffect, it doesn't work!
+  const { width: windowWidth } = useWindowDimensions()
 
-  useEffect(() => {
-    breakpointValues.sort(([a], [b]) => b - a)
-    const matchBreakpoint = breakpointValues.find(([br]) => screenWidth >= br)
-    if (!!matchBreakpoint && value !== matchBreakpoint[1]) {
-      setValue(matchBreakpoint[1])
-    }
-  }, [value, screenWidth, breakpointValues])
+  // this sorts in place (side effect), but that's ok,
+  // because it's the same array again and again
+  breakpointValues.sort(([a], [b]) => b - a)
 
-  return value
+  const matchBreakpoint = breakpointValues.find(([br]) => windowWidth >= br)
+  return matchBreakpoint ? matchBreakpoint[1] : undefined
 }

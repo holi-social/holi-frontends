@@ -31,8 +31,8 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { height: deviceHeight } = useWindowDimensions()
-  const styles = getStyles(deviceHeight)
+  const { height: windowHeight } = useWindowDimensions()
+  const styles = getStyles(windowHeight)
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
