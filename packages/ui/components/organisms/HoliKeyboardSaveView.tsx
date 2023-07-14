@@ -16,6 +16,7 @@ export type HoliKeyboardSaveViewProps = {
   contentStyle?: StyleProp<ViewStyle>
   onHeightChange?: (newHeight: number) => void
   nativeProps?: ViewProps
+  initialOffsetTop?: number
   testID?: string
 }
 
@@ -26,6 +27,7 @@ const HoliKeyboardSaveView = ({
   contentStyle,
   onHeightChange = () => null,
   nativeProps,
+  initialOffsetTop = 0,
   testID,
   children,
 }: React.PropsWithChildren<HoliKeyboardSaveViewProps>) => {
@@ -33,7 +35,7 @@ const HoliKeyboardSaveView = ({
   const { isKeyboardOpen, keyboardHeight } = useKeyboard()
   const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [offsetTop, setOffsetTop] = useState(70)
+  const [offsetTop, setOffsetTop] = useState(initialOffsetTop)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
 
   const storeOffsetTop = useCallback(
