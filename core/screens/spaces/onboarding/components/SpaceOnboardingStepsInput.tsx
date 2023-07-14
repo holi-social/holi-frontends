@@ -9,51 +9,47 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceOnboardingStepsInputProps = {
-  stepsList: { text: string }[]
+  step: { text: string }
+  index: number
   handleChange: (stepNumber: number, value: string) => void
   removeStep: (stepNumber: number) => void
 }
 
 const SpaceOnboardingStepsInput: React.VFC<SpaceOnboardingStepsInputProps> = ({
-  stepsList,
+  step,
+  index,
   handleChange,
   removeStep,
 }) => {
   const { t } = useTranslation()
+  const label = getOrdinal(index) + ' step'
+  return (
+    <View style={styles.input}>
+      <HoliTextInput
+        maxNoOfCharacters={240}
+        accessibilityLabel={label}
+        showCharacterCount
+        inputLabel={label}
+        noOfVisibleLines={3}
+        maxNoOfVisibleLines={3}
+        value={step.text}
+        onChange={(value) => handleChange(index, value)}
+        placeholder={t('spaces.onboarding.steps.describe')}
+        style={[styles.inputField, index === 1 && styles.inputFieldWithoutDelete]}
+      />
 
-  const stepsArray = []
-  for (let step = 1; step <= stepsList.length; step++) {
-    const label = getOrdinal(step) + ' step'
-    stepsArray.push(
-      <View style={styles.input} key={step}>
-        <HoliTextInput
-          key={step}
-          maxNoOfCharacters={240}
-          accessibilityLabel={label}
-          showCharacterCount
-          inputLabel={label}
-          noOfVisibleLines={3}
-          maxNoOfVisibleLines={3}
-          value={stepsList[step - 1].text}
-          onChange={(value) => handleChange(step, value)}
-          placeholder={t('spaces.onboarding.steps.describe')}
-          style={[styles.inputField, step === 1 && styles.inputFieldWithoutDelete]}
-        />
-
-        {step !== 1 && (
-          <HoliButton
-            label={t('spaces.onboarding.steps.remove')}
-            onPress={() => removeStep(step)}
-            transparent
-            style={styles.removeStepBtn}
-          >
-            <HoliIcon icon="delete" size={22} />
-          </HoliButton>
-        )}
-      </View>
-    )
-  }
-  return <>{stepsArray}</>
+      {index !== 1 && (
+        <HoliButton
+          label={t('spaces.onboarding.steps.remove')}
+          onPress={() => removeStep(index)}
+          transparent
+          style={styles.removeStepBtn}
+        >
+          <HoliIcon icon="delete" size={22} />
+        </HoliButton>
+      )}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
