@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import FormWrapper from '@holi/core/components/FormWrapper'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -115,41 +114,32 @@ const SpaceOnboardingSteps = () => {
             {t('spaces.onboarding.steps.example.text')}
           </HoliButton>
         </View>
-        <FormWrapper
-          onSave={saveSteps}
-          saveButtonDisabled={loading}
-          loading={loading}
-          key={spaceIdOrName}
-          buttonLabel={t('global.save')}
-          keyboardShouldPersistTaps="never"
-          isModal={false}
-          renderProp={() => {
-            return (
-              <>
-                {stepsList.map((step, index) => (
-                  <SpaceOnboardingStepsInput
-                    key={index}
-                    index={index + 1}
-                    step={step}
-                    totalSteps={stepsList.length}
-                    handleChange={handleChange}
-                    removeStep={removeStep}
-                  />
-                ))}
-                <HoliButton
-                  label={t('spaces.onboarding.steps.add')}
-                  onPress={addStep}
-                  variant="medium"
-                  type="secondary"
-                  style={styles.addStepBtn}
-                >
-                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                  <HoliIcon icon={Add} size={16} />
-                </HoliButton>
-              </>
-            )
-          }}
-        />
+        <View style={styles.steps}>
+          {stepsList.map((step, index) => (
+            <SpaceOnboardingStepsInput
+              key={index}
+              index={index + 1}
+              step={step}
+              totalSteps={stepsList.length}
+              handleChange={handleChange}
+              removeStep={removeStep}
+            />
+          ))}
+          <HoliButton
+            label={t('spaces.onboarding.steps.add')}
+            onPress={addStep}
+            variant="medium"
+            type="secondary"
+            style={styles.addStepBtn}
+          >
+            <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
+            <HoliIcon icon={Add} size={16} />
+          </HoliButton>
+          <HoliButton label={t('global.save')} onPress={saveSteps} disabled={loading} style={styles.saveBtn}>
+            {t('global.save')}
+          </HoliButton>
+        </View>
+
         <HoliModal
           show={exampleVisible}
           label={t('spaces.onboarding.steps.example.label')}
@@ -186,6 +176,9 @@ const styles = StyleSheet.create({
   intro: {
     paddingHorizontal: 20,
   },
+  steps: {
+    paddingHorizontal: 20,
+  },
   desc: {
     marginTop: 8,
     marginBottom: 24,
@@ -201,7 +194,13 @@ const styles = StyleSheet.create({
   addStepBtn: {
     marginTop: 24,
     marginBottom: 24,
-    width: 'auto',
+    maxWidth: 320,
+    alignSelf: 'center',
+  },
+  saveBtn: {
+    marginVertical: 24,
+    paddingHorizontal: 16,
+    maxWidth: 320,
     alignSelf: 'center',
   },
 })
