@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingInfo'
+import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepsInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepsInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -17,6 +18,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -34,6 +36,7 @@ const SpaceOnboardingSteps = () => {
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
   const [stepsList, setStepsList] = useState([{ text: '' }])
+  const { openToast } = useToast()
 
   const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
 
@@ -57,6 +60,14 @@ const SpaceOnboardingSteps = () => {
       },
     })
   }, [setScreenOptions, t])
+
+  const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
+    onCompleted: () => {
+      openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
+      navigate(`/spaces/${spaceIdOrName}`)
+    },
+    onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
+  })
 
   const handleChange = useCallback(
     (stepNumber: number, text: string) => {
@@ -82,7 +93,7 @@ const SpaceOnboardingSteps = () => {
   )
 
   const saveSteps = () => {
-    // console.log(stepsList)
+    updateSpace({ variables: { input: { id: space?.id, onboardingSteps: stepsList } } })
   }
 
   if (space && !isAdmin) {
@@ -105,8 +116,8 @@ const SpaceOnboardingSteps = () => {
         </View>
         <FormWrapper
           onSave={saveSteps}
-          // saveButtonDisabled={loading}
-          // loading={loading}
+          saveButtonDisabled={loading}
+          loading={loading}
           key={spaceIdOrName}
           buttonLabel={t('global.save')}
           keyboardShouldPersistTaps="never"
