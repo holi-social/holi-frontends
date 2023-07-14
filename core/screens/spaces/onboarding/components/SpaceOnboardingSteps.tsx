@@ -146,9 +146,11 @@ const SpaceOnboardingSteps = () => {
           onDismiss={hideExample}
           style={styles.exampleWrapper}
         >
-          <HoliText style={styles.header} size="large">
-            {t('spaces.onboarding.steps.example.label')}
-          </HoliText>
+          <View style={mixins.container}>
+            <HoliText style={styles.header} size="large">
+              {t('spaces.onboarding.steps.example.label')}
+            </HoliText>
+          </View>
           <SpaceCollaboratorOnboardingInfo />
         </HoliModal>
       </SafeAreaView>
@@ -171,7 +173,6 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 24,
-    marginLeft: 20,
   },
   intro: {
     paddingHorizontal: 20,
