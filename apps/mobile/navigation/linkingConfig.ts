@@ -24,6 +24,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           },
         },
         [RouteName.Chat]: {
+          initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
           },
@@ -61,7 +62,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/create',
         [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/:toolIdOrName/edit',
         [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
-        [RouteName.SpaceVideoCall]: 'spaces/:spaceIdOrName/videocall',
+        [RouteName.SpaceVideoCall]: 'spaces/:spaceIdOrName/video-call/:roomName',
+        [RouteName.SpaceVideoCallList]: 'spaces/:spaceIdOrName/video-call',
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/tasks/create',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
         [RouteName.EditTask]: 'spaces/:spaceIdOrName/tasks/:taskId/edit',
@@ -73,6 +75,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
         [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
+      },
+    },
+
+    [RouteName.ChatStack]: {
+      screens: {
+        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
       },
     },
 

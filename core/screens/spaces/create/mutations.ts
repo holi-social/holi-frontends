@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { SpaceFragment } from '@holi/core/screens/spaces/queries'
+import { FullSpaceFragment } from '@holi/core/screens/spaces/queries'
 import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 
 export const ValidateSpaceInputSchema = z.object({
@@ -37,7 +37,7 @@ export const CreateSpaceInputSchema = z.object({
 export type CreateSpaceInput = z.infer<typeof CreateSpaceInputSchema>
 
 export const createSpaceMutation = gql`
-  ${SpaceFragment}
+  ${FullSpaceFragment}
 
   mutation CreateSpace($input: CreateSpaceInput!) {
     createSpace(input: $input) {

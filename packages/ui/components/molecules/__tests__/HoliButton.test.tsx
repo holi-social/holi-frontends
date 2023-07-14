@@ -2,7 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HomeSmile2 } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, {
   HoliButtonProps,
@@ -74,7 +75,7 @@ describe('handles components as children', () => {
     const { getByTestId } = render(
       <HoliButton label="test" testID="Button">
         <HoliText testID="Text">foobarbaz</HoliText>
-        <HoliIcon icon="home-smile-2" testID="Icon" />
+        <HoliIcon icon={HomeSmile2} testID="Icon" />
       </HoliButton>
     )
     expect(getByTestId('Text')).toBeDefined

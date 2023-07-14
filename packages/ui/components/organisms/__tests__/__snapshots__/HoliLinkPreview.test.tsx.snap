@@ -160,7 +160,92 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             http://betterplace.org
           </Text>
         </View>
-        <View />
+        <View
+          style={
+            {
+              "marginLeft": 12,
+              "marginTop": 4,
+            }
+          }
+        >
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="18"
+            bbWidth="18"
+            color="#787777"
+            fill="none"
+            focusable={false}
+            height={18}
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "flex": 0,
+                  "height": 18,
+                  "width": 18,
+                },
+              ]
+            }
+            tintColor="#787777"
+            vbHeight={24}
+            vbWidth={24}
+            width={18}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <RNSVGGroup
+              fill={null}
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            >
+              <RNSVGGroup
+                clipPath="share-box_svg__a"
+              >
+                <RNSVGPath
+                  d="M10 3v2H5v14h14v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6Zm7.586 2H13V3h8v8h-2V6.414l-7 7L10.586 12l7-7Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+              <RNSVGDefs>
+                <RNSVGClipPath
+                  name="share-box_svg__a"
+                >
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGClipPath>
+              </RNSVGDefs>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
       </View>
     </View>
   </View>

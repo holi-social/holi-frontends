@@ -1,4 +1,4 @@
-const getLocale = (language: string): string => ['en', 'de'].find((lang) => lang === language) || 'en'
+export const getLocale = (language: string): string => ['en', 'de'].find((lang) => lang === language) || 'en'
 
 const calculateNumberOfDaysAgo = (date: Date): number => {
   const today = new Date()

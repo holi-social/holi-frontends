@@ -9,8 +9,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -74,7 +75,7 @@ const VolunteeringAppHome = () => {
         }}
         testID="btn-to-volunteering-filter-modal"
       >
-        <HoliIcon icon="filter-3" size={24} />
+        <HoliIcon icon={Filter3} />
         {isFiltering && <View style={styles.dot} />}
       </HoliButton>
     )
@@ -86,7 +87,7 @@ const VolunteeringAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])

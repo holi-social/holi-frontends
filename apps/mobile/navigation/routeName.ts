@@ -17,6 +17,7 @@ export enum RouteName {
   CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
   SpaceVideoCall = 'SpaceVideoCall',
+  SpaceVideoCallList = 'SpaceVideoCallList',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
   CreateTask = 'CreateTask',
@@ -33,6 +34,8 @@ export enum RouteName {
 
   // Chat Stack
   ChatHome = 'ChatHome',
+  ChatStack = 'ChatStack',
+  ChatRoom = 'ChatRoom',
 
   // Auth Stack
   Profile = 'Profile',

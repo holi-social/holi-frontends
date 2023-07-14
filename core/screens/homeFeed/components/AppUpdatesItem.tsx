@@ -1,30 +1,23 @@
 import React from 'react'
-import {
-  GestureResponderEvent,
-  ImageURISource,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface AppUpdatesItemProps {
   appName: string
-  imageSource: ImageSource[] | ImageURISource
+  imageSourceUri?: string
   title: string
   footer?: string | React.ReactNode
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }
 
+const squareImageLength = 160 // px
+
 const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
-  imageSource,
+  imageSourceUri,
   title,
   footer,
   onPress,
@@ -43,7 +36,12 @@ const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({
       testID={`${appName}-updates-item`}
       inline
     >
-      <HoliImage source={imageSource} label={title} sizes="180px" style={styles.mainImage} />
+      <HoliImage
+        source={imageSourceUri ? { uri: imageSourceUri, width: squareImageLength, height: squareImageLength } : []}
+        label={title}
+        sizes={squareImageLength + 'px'}
+        style={styles.mainImage}
+      />
 
       <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 16 }}>
         {title}

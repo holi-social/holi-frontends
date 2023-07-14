@@ -74,6 +74,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -123,15 +125,13 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 31,
               },
             ]
           }
@@ -147,7 +147,64 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             }
           }
         >
-          <View />
+          <View>
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="22"
+                bbWidth="22"
+                color="#262424"
+                focusable={false}
+                height={22}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
+                }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={22}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup>
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={null}
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                  <RNSVGPath
+                    d="M13.914 14.58a8.998 8.998 0 0 1-.484.104 7.06 7.06 0 0 1-2.664-.01c-.154-.03-.372-.083-.653-.158l-.921 1.197c-2.273-.073-3.137-1.596-3.137-1.596 0-3.381 1.481-6.122 1.481-6.122 1.481-1.133 2.89-1.102 2.89-1.102l.403.525a1.12 1.12 0 0 1 .112-.01 8.527 8.527 0 0 1 2.314.01l.442-.525s1.41-.031 2.89 1.103c0 0 1.482 2.74 1.482 6.121 0 0-.875 1.522-3.148 1.596l-1.007-1.134zM10.076 11C9.475 11 9 11.45 9 12s.485 1 1.076 1c.6 0 1.075-.45 1.075-1 .01-.55-.474-1-1.075-1zm3.848 0c-.6 0-1.075.45-1.075 1s.485 1 1.075 1c.601 0 1.076-.45 1.076-1s-.475-1-1.076-1zM21 23l-4.99-5H19V4H5v14h11.003l.57 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v19z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
         </View>
       </View>
       <View
@@ -241,6 +298,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -292,15 +351,13 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 31,
               },
             ]
           }
@@ -316,7 +373,61 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             }
           }
         >
-          <View />
+          <View>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="16"
+              bbWidth="16"
+              color="#cc1820"
+              fill="none"
+              focusable={false}
+              height={16}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 16,
+                    "width": 16,
+                  },
+                ]
+              }
+              tintColor="#cc1820"
+              vbHeight={24}
+              vbWidth={24}
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGPath
+                  d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-1-7v2h2v-2h-2Zm0-8v6h2V7h-2Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
         </View>
       </View>
       <View

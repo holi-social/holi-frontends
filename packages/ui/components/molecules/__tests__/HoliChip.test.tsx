@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 
 describe('renders correctly', () => {
@@ -45,7 +45,7 @@ describe('displays icons correctly', () => {
 
     const iconInstance = holiChipInstance.findByType(HoliIcon)
 
-    expect(iconInstance.props.icon).toBe('check')
+    expect(iconInstance.props.icon.name).toBe('SvgCheck')
   })
 
   it('shows add icon when unchecked', () => {
@@ -54,7 +54,7 @@ describe('displays icons correctly', () => {
 
     const iconInstance = holiChipInstance.findByType(HoliIcon)
 
-    expect(iconInstance.props.icon).toBe('add')
+    expect(iconInstance.props.icon.name).toBe('SvgAdd')
   })
 
   it('shows no icons when disabled', () => {

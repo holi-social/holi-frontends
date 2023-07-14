@@ -6,6 +6,7 @@ import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
+import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const Notifications = () => {
@@ -19,9 +20,9 @@ const Notifications = () => {
         title,
         headerStyle: { backgroundColor: colors.background30 },
         headerTransparent: true,
-        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
+        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
         headerRight: ({ tintColor }) =>
-          Platform.OS === 'web' ? <HeaderBackButton icon="close" tintColor={tintColor} /> : undefined,
+          Platform.OS === 'web' ? <HeaderBackButton icon={Close} tintColor={tintColor} /> : undefined,
         navigationCustomOptions: {
           footerShown: false,
         },

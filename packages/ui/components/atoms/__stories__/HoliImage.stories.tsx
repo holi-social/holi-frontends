@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { ResizeModes } from '@holi/ui/components/utils/image'
 
 export default {
   title: 'Atoms/HoliImage',
@@ -33,7 +32,7 @@ const argTypes = {
   },
   resizeMode: {
     description: 'the resizeMode for the image',
-    options: ResizeModes, // An array of serializable values
+    options: ['cover', 'contain', 'fill', 'none', 'scale-down', undefined], // An array of serializable values
     control: {
       type: 'select',
     },
@@ -47,7 +46,7 @@ const argTypes = {
 
 export const Single: ComponentStory<typeof HoliImage> = ({ ...args }) => (
   <HoliImage
-    source={{ uri: allSources[0].uri }}
+    source={{ ...allSources[0] }}
     label={args.label}
     resizeMode={args.resizeMode}
     style={{ width: 'auto', height: 'auto' }}

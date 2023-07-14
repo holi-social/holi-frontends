@@ -8,8 +8,9 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -35,7 +36,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
       title: t('spaces.collaborators.manage.modal.title'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />,
+      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDownS} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -49,10 +50,10 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
           <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
             <View style={styles.link}>
               <View style={styles.wrapper}>
-                <HoliIcon icon="team" style={styles.icon} />
+                <HoliIcon icon={Team} style={styles.icon} />
                 <HoliText>{t('spaces.collaborators')}</HoliText>
               </View>
-              <HoliIcon icon="arrow-right-s" />
+              <HoliIcon icon={ArrowRightS} />
             </View>
           </HoliLink>
           <HoliLink
@@ -61,10 +62,10 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
           >
             <View style={styles.link}>
               <View style={styles.wrapper}>
-                <HoliIcon icon="contacts" style={styles.icon} />
+                <HoliIcon icon={Contacts} style={styles.icon} />
                 <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
               </View>
-              <HoliIcon icon="arrow-right-s" />
+              <HoliIcon icon={ArrowRightS} />
             </View>
           </HoliLink>
         </View>

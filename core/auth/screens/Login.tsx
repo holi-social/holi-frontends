@@ -23,6 +23,7 @@ import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
@@ -32,8 +33,8 @@ export type LoginParams = {
   return_to?: string
 }
 
+const IS_CHAT_ENABLED = false
 const chatLoginClient = new ChatLogin()
-const IS_CHAT_ENABLED = true
 
 const { useParam } = createParam<LoginParams>()
 
@@ -59,8 +60,8 @@ const Login = () => {
           {t('auth.login')}
         </HoliHeading>
       ),
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
+      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
+      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
     })
   }, [setScreenOptions, t])
 

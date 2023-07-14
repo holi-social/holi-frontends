@@ -2,7 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic, { ModalBasicProps } from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -38,7 +39,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
                 style={styles.closeBtn}
                 testID="fullscreen-modal-close-btn"
               >
-                <HoliIcon icon="close" color={colors.background10} />
+                <HoliIcon icon={Close} color={colors.background10} />
               </HoliButton>
             </View>
           </SafeAreaView>

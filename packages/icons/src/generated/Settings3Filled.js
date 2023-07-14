@@ -1,0 +1,19 @@
+import * as React from 'react'
+import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
+
+const SvgSettings3Filled = (props) => (
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <G clipPath="url(#settings-3-filled_svg__a)">
+      <Path
+        fill="currentColor"
+        d="M9.952 2.21a9.99 9.99 0 0 1 4.091-.002 3.993 3.993 0 0 0 1.955 2.862 3.993 3.993 0 0 0 3.457.261 9.99 9.99 0 0 1 2.043 3.545 3.993 3.993 0 0 0-1.5 3.124 3.99 3.99 0 0 0 1.502 3.124 10.043 10.043 0 0 1-2.046 3.543 3.994 3.994 0 0 0-4.76 1.468 3.993 3.993 0 0 0-.65 1.653 9.99 9.99 0 0 1-4.09.004 3.993 3.993 0 0 0-1.956-2.865 3.992 3.992 0 0 0-3.457-.26 9.99 9.99 0 0 1-2.043-3.546A3.993 3.993 0 0 0 3.998 12a3.993 3.993 0 0 0-1.502-3.124 10.043 10.043 0 0 1 2.046-3.543 3.993 3.993 0 0 0 3.456-.26 3.993 3.993 0 0 0 1.954-2.86V2.21ZM11.998 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+      />
+    </G>
+    <Defs>
+      <ClipPath id="settings-3-filled_svg__a">
+        <Path fill="#fff" d="M0 0h24v24H0z" />
+      </ClipPath>
+    </Defs>
+  </Svg>
+)
+export default SvgSettings3Filled

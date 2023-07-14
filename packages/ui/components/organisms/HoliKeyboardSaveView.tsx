@@ -12,6 +12,7 @@ import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
  */
 
 export type HoliKeyboardSaveViewProps = {
+  initOffsetTop?: number
   style?: StyleProp<ViewStyle>
   contentStyle?: StyleProp<ViewStyle>
   onHeightChange?: (newHeight: number) => void
@@ -22,6 +23,7 @@ export type HoliKeyboardSaveViewProps = {
 const WITHOUT_MAX_HEIGHT = 10000
 
 const HoliKeyboardSaveView = ({
+  initOffsetTop = 0,
   style,
   contentStyle,
   onHeightChange = () => null,
@@ -33,7 +35,7 @@ const HoliKeyboardSaveView = ({
   const { isKeyboardOpen, keyboardHeight } = useKeyboard()
   const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [offsetTop, setOffsetTop] = useState(70)
+  const [offsetTop, setOffsetTop] = useState(initOffsetTop)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
 
   const storeOffsetTop = useCallback(

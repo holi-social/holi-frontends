@@ -9,7 +9,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -32,7 +33,7 @@ const LinkHub = () => {
       title: t('spaces.toolKit.title'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -50,7 +51,7 @@ const LinkHub = () => {
         style={styles.overlayButton}
         onPress={onAddButtonPress}
       >
-        <HoliIcon icon="add" size={20} />
+        <HoliIcon icon={Add} size={20} />
       </HoliButton>
     )
   }

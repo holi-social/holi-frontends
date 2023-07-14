@@ -2,10 +2,10 @@ import { gql } from '@apollo/client'
 
 import { LinkFragment, PostImageFragment } from '@holi/core/screens/posts/queries'
 import { VisibilityFilter } from '@holi/core/screens/spaces/types'
-import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const SpaceUpdatePostFragment = gql`
-  ${userAvatarFragment}
+  ${FullUserAvatarFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
@@ -15,13 +15,13 @@ export const SpaceUpdatePostFragment = gql`
     text
     created
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     numberOfComments
     commenters {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     image {

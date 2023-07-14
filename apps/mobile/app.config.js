@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.2.0', // user-facing value visible in stores
-  iosBuildNumber: '1.2.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 18, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.3.1', // user-facing value visible in stores
+  iosBuildNumber: '1.3.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 20, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -43,7 +43,7 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#F5F5F5',
       },
-      package: 'foundation.holistic.projectholi',
+      package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
     },
     plugins: [
@@ -82,6 +82,9 @@ export default {
       },
       ory: {
         url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
+      },
+      images: {
+        url: process.env.IMAGES_BASE_URL || 'https://dev-images.holi.social',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',

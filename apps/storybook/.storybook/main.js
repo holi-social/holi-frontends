@@ -1,24 +1,18 @@
-const webpack = require('webpack')
 const path = require('path')
-
-const storiesDirectory = '../../../packages/ui'
-
+const uiPackageDir = '../../../packages/ui'
+const iconsPackageDir = '../../../packages/icons'
 module.exports = {
   staticDirs: ['../../web/public'],
-  features: {
-    interactionsDebugger: true,
-  },
   stories: [
-    /*
-     * Inline path declarations
-     */
-    `${storiesDirectory}/**/__stories__/**/*.stories.mdx`,
-    `${storiesDirectory}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${uiPackageDir}/**/__stories__/**/*.stories.mdx`,
+    `${uiPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${iconsPackageDir}/**/__stories__/**/*.stories.mdx`,
+    `${iconsPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
     /*
      * Object path declarations
      */
     {
-      directory: storiesDirectory,
+      directory: uiPackageDir,
       files: '*.stories.*',
     },
     '../../../holi-apps/donations/**/__stories__/*.stories.mdx',

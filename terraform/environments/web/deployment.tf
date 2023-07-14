@@ -25,7 +25,7 @@ resource "google_project_service" "service" {
   disable_on_destroy = false
 }
 
-# in CI, this is set via scripts/create-or-update-env.sh 
+# in CI, this is set via scripts/create-or-update-env.sh
 variable "image_tag" {
   type     = string
   nullable = false
@@ -57,6 +57,10 @@ resource "google_cloud_run_service" "mvp_web" {
         env {
           name  = "ORY_BASE_URL"
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
+        }
+        env {
+          name  = "IMAGES_BASE_URL"
+          value = local.environment == "production" ? "https://images.holi.social" : "https://dev-images.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
