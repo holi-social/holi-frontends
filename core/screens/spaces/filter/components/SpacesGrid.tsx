@@ -31,20 +31,6 @@ const spaceBreakpointGridValues: [number, number][] = [
   [+vars.breakpointL, 4],
 ]
 
-const HoliGridCellSkeletons: React.FC = () => {
-  return (
-    <View testID={'holi-grid-cell-skeletons'}>
-      {new Array(20).fill(1).map((_, idx) => {
-        return (
-          <HoliGridCell key={idx}>
-            <HoliBlockItem size="large" loading={true} />
-          </HoliGridCell>
-        )
-      })}
-    </View>
-  )
-}
-
 const SpacesGrid = ({ loading, spaces, style }: PropsWithChildren<SpacesGridProps>) => {
   const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
@@ -53,7 +39,14 @@ const SpacesGrid = ({ loading, spaces, style }: PropsWithChildren<SpacesGridProp
   return (
     <View style={[style]}>
       <HoliGridWrapper itemsInRow={itemsInRow} gap={8}>
-        {loading && <HoliGridCellSkeletons />}
+        {loading &&
+          new Array(20).fill(1).map((_, idx) => {
+            return (
+              <HoliGridCell key={idx} testID={idx === 0 ? 'spaces-grid-cell-skeleton' : undefined}>
+                <HoliBlockItem size="large" loading={true} />
+              </HoliGridCell>
+            )
+          })}
 
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */

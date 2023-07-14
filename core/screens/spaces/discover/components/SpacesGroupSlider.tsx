@@ -31,16 +31,6 @@ interface Props extends BaseProps {
 
 type SpacesGroupSliderProps = SkeletonProps | Props
 
-const HoliBlockItemSkeletons: React.FC = () => {
-  return (
-    <>
-      {new Array(Platform.OS == 'web' ? 10 : 2).fill(1).map((_, idx) => {
-        return <HoliBlockItem key={idx} loading={true} size="large" />
-      })}
-    </>
-  )
-}
-
 const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   loading,
   group,
@@ -124,27 +114,27 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
           ) : undefined
         }
       >
-        {loading ? (
-          <HoliBlockItemSkeletons />
-        ) : (
-          spacesData.map((space: Space) => (
-            <HoliBlockItem
-              key={space.id}
-              label={space.title}
-              title={space.title}
-              subtitle={space.location}
-              description={space.description}
-              imageSrc={space.cover}
-              imageBlurhash={space.coverBlurhash}
-              users={space.members.data.map((membership: SpaceMember) => membership.user)}
-              href={`/spaces/${space.name}`}
-              size="large"
-              testID="space-link"
-              totalUserCount={space.members.totalResults}
-              cardWidthForImageScaling={cardWidth}
-            />
-          ))
-        )}
+        {loading
+          ? new Array(Platform.OS == 'web' ? 10 : 2).fill(1).map((_, idx) => {
+              return <HoliBlockItem key={idx} loading={true} size="large" />
+            })
+          : spacesData.map((space: Space) => (
+              <HoliBlockItem
+                key={space.id}
+                label={space.title}
+                title={space.title}
+                subtitle={space.location}
+                description={space.description}
+                imageSrc={space.cover}
+                imageBlurhash={space.coverBlurhash}
+                users={space.members.data.map((membership: SpaceMember) => membership.user)}
+                href={`/spaces/${space.name}`}
+                size="large"
+                testID="space-link"
+                totalUserCount={space.members.totalResults}
+                cardWidthForImageScaling={cardWidth}
+              />
+            ))}
       </SpacesHorizontalSlider>
     </View>
   )

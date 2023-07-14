@@ -112,7 +112,7 @@ describe('FilteredSpaces', () => {
   it('displays loading screen while loading', async () => {
     renderFilteredSpaces([spacesMock])
 
-    expect(await screen.findByTestId('holi-grid-cell-skeletons'))
+    expect(await screen.findByTestId('spaces-grid-cell-skeleton'))
   })
 
   it('displays error toast if loading spaces failed', async () => {
