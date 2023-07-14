@@ -33,7 +33,7 @@ const SpaceOnboardingSteps = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
-  const [stepsList, setStepsList] = useState([{ stepNumber: 1, text: '' }])
+  const [stepsList, setStepsList] = useState([{ text: '' }])
 
   const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
 
@@ -60,32 +60,23 @@ const SpaceOnboardingSteps = () => {
 
   const handleChange = useCallback(
     (stepNumber: number, text: string) => {
-      const newSteps = stepsList.map((step) => {
-        if (step.stepNumber === stepNumber) {
-          return { ...step, text: text }
-        }
-        return step
-      })
+      const newSteps = [...stepsList]
+      newSteps[stepNumber - 1] = { ...stepsList[stepNumber - 1], text }
       setStepsList(newSteps)
     },
     [stepsList]
   )
 
   const addStep = useCallback(() => {
-    const newStep = { stepNumber: stepsList.length + 1, text: '' }
+    const newStep = { text: '' }
     setStepsList((steps) => [...steps, newStep])
-  }, [stepsList])
+  }, [])
 
   const removeStep = useCallback(
     (stepNumber: number) => {
-      const newSteps = stepsList.filter((step) => step.stepNumber !== stepNumber)
-      // Adjust for new position in stepsList
-      newSteps.forEach((step) => {
-        if (step.stepNumber > stepNumber) {
-          step.stepNumber -= 1
-        }
-      })
-      setStepsList(newSteps)
+      const newList = [...stepsList]
+      newList.splice(stepNumber - 1, 1)
+      setStepsList(newList)
     },
     [stepsList]
   )

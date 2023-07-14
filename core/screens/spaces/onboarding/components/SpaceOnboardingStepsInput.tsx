@@ -9,7 +9,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceOnboardingStepsInputProps = {
-  stepsList: { stepNumber: number; text: string }[]
+  stepsList: { text: string }[]
   handleChange: (stepNumber: number, value: string) => void
   removeStep: (stepNumber: number) => void
 }
