@@ -12,11 +12,12 @@ import SpaceCollaboratorOnboardingInfo from '@holi/core/screens/spaces/details/c
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add } from '@holi/icons/src/generated'
+import { Add, Loader4 } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -37,7 +38,11 @@ const SpaceOnboardingSteps = () => {
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
   const { openToast } = useToast()
 
-  const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+  const [fetchSpace, { data, loading: fetchingSpace }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
+
+  const space = data?.spaceById
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const [stepsList, setStepsList] = useState<OnboardingStep[]>(space?.onboarding?.steps || [{ text: '' }])
 
   useEffect(() => {
     if (spaceIdOrName) {
@@ -48,9 +53,11 @@ const SpaceOnboardingSteps = () => {
     }
   }, [fetchSpace, spaceIdOrName])
 
-  const space = data?.spaceById
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const [stepsList, setStepsList] = useState<object[]>(space?.onboardingSteps || [{ text: '' }])
+  useEffect(() => {
+    if (space?.onboarding?.steps) {
+      setStepsList(space.onboarding.steps.map((step) => ({ text: step?.text })) || [])
+    }
+  }, [space])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -135,9 +142,15 @@ const SpaceOnboardingSteps = () => {
             <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
             <HoliIcon icon={Add} size={16} />
           </HoliButton>
-          <HoliButton label={t('global.save')} onPress={saveSteps} disabled={loading} style={styles.saveBtn}>
-            {t('global.save')}
-          </HoliButton>
+          <HoliButtonLoading
+            disabled={loading || fetchingSpace}
+            icon={loading ? Loader4 : undefined}
+            iconSpinning={loading}
+            label={t('global.save')}
+            onPress={saveSteps}
+            testID="btn-save-space-onboarding-steps"
+            style={styles.saveBtn}
+          />
         </View>
 
         <HoliModal
