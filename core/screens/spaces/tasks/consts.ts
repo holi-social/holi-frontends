@@ -1,4 +1,5 @@
 import { LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
+import { Global, Lock } from '@holi/icons/src/generated'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
 export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
@@ -6,13 +7,13 @@ export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
     id: VisibilityType.PUBLIC,
     title: 'Public',
     selected: false,
-    icon: 'global',
+    icon: Global,
   },
   {
     id: VisibilityType.MEMBERS,
     title: 'Members',
     selected: false,
-    icon: 'lock',
+    icon: Lock,
   },
 ]
 
@@ -22,14 +23,14 @@ export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption<Visibilit
     title: 'Members',
     selected: false,
     disabled: false,
-    icon: 'lock',
+    icon: Lock,
   },
   {
     id: VisibilityType.PUBLIC,
     title: 'Public',
     selected: false,
     disabled: false,
-    icon: 'global',
+    icon: Global,
   },
 ]
 

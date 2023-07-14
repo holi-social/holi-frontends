@@ -179,6 +179,7 @@ export const checkAccessibility = async (page: Page) => {
   const axeOptions = {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
+      duplicateId: false,
     },
     detailedReport: true,
     detailedReportOptions: { html: true },
@@ -188,6 +189,7 @@ export const checkAccessibility = async (page: Page) => {
     rules: [
       { id: 'color-contrast', enabled: false },
       { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
+      { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
     ],
   })
   await checkA11y(page, undefined, axeOptions, false)

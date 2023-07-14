@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -11,8 +11,10 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Globe, ShareBox } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -41,7 +43,7 @@ const DonationsAppProjectDetail = () => {
 
   const mixins = useStyleMixins()
 
-  const { height: deviceHeight } = useWindowDimensions()
+  const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
   const { loading, data, error, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
     variables: {
@@ -94,14 +96,14 @@ const DonationsAppProjectDetail = () => {
         style={{ backgroundColor: colors.background30 }}
         headerOverlap
       >
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-          <DonationImage picture={project.picture} label={project.title} style={styles.image} />
+        <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+          <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
           <View style={styles.header}>
             <HoliHeading level="1" size={'large'}>
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
-              <HoliIcon icon="globe" size={20} />
+              <HoliIcon icon={Globe} size={20} />
               <HoliText size="small" style={{ marginLeft: 8 }}>
                 {project.initiative.city}, {project.initiative.country}
               </HoliText>
@@ -133,7 +135,7 @@ const DonationsAppProjectDetail = () => {
 
       <View style={[mixins.container, styles.donateButton]}>
         <HoliButtonLoading
-          icon="share-box"
+          icon={ShareBox}
           label={t('donations:projectDetail.donate')}
           onPress={() => Linking.openURL(project.donationUrl)}
           testID="donations-project-detail-donate-btn"
@@ -179,7 +181,9 @@ const getStyles = (statusBarHeight: number) =>
       }),
     },
     image: {
-      aspectRatio: 375 / 240,
+      // image with is determined by the window with, source material is 2:1
+      // if we use lower pixel ratios than 2, we would zoom in into the image and cause blurriness
+      aspectRatio: 2,
       width: '100%',
     },
     header: {

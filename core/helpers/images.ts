@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
-import { ImageURISource, LayoutChangeEvent, Platform } from 'react-native'
+import { LayoutChangeEvent, Platform } from 'react-native'
+
+import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 interface GetTransformedImageUriOptions {
   imageUri: string
@@ -23,7 +25,7 @@ export const getTransformedImageUri = ({
   imageSize, // if "imageSize" not passed, always transform
   transformSize,
   aspectRatio,
-}: GetTransformedImageUriOptions): ImageURISource => {
+}: GetTransformedImageUriOptions): ImageSource => {
   const { width, height } = transformSize
 
   const shouldResize = !imageSize || imageSize.width > width || imageSize.height > (height ?? 0)

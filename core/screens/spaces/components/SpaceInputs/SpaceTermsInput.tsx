@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { SortedTerm, Term, termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
-import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import {
+  SortedTerm,
+  Term,
+  termsBySortNumberComparator,
+  termsByTitleComparator,
+} from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -84,12 +89,12 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
         value={filterString}
         placeholder={searchPlaceholder}
         onChange={(text: string) => setFilterString(text)}
-        trailingIcon="search"
+        trailingIcon={Search}
         style={styles.input}
       />
       {!!hint && (
         <View style={styles.hintContainer}>
-          <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
+          <HoliIcon icon={Information} size={14} color={colors.foreground30} style={styles.infoIcon} />
           <HoliText size="small" style={styles.hint}>
             {hint}
           </HoliText>

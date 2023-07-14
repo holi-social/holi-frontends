@@ -4,7 +4,8 @@ import { Linking, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -103,7 +104,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                       </HoliText>
                     )}
                   </View>
-                  {!!entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
+                  {!!entry.url && <HoliIcon icon={ShareBox} style={{ flexShrink: 0 }} />}
                 </View>
               </HoliButton>
             ))

@@ -18,6 +18,7 @@ interface XY {
 
 /**
  * The values in the below object are percentages of the screen
+ * horizontal swipes mimic a thumb moving slightly diagonally (y-values)
  */
 const SCROLL_DIRECTIONS = {
   up: {
@@ -25,12 +26,12 @@ const SCROLL_DIRECTIONS = {
     end: { x: 50, y: 75 },
   },
   right: {
-    start: { x: 85, y: 50 },
-    end: { x: 15, y: 50 },
+    start: { x: 85, y: 60 },
+    end: { x: 15, y: 40 },
   },
   left: {
-    start: { x: 15, y: 50 },
-    end: { x: 85, y: 50 },
+    start: { x: 15, y: 40 },
+    end: { x: 85, y: 60 },
   },
   down: {
     start: { x: 50, y: 75 },
@@ -62,7 +63,7 @@ const swipe = async (coord: { start: XY; end: XY }) => {
   await doSwipe(start, end)
 }
 
-export const doSwipe = async (start: XY, end: XY) =>
+export const doSwipe = async (start: XY, end: XY) => {
   await Appium.performActions([
     {
       // a. Create the event
@@ -89,6 +90,7 @@ export const doSwipe = async (start: XY, end: XY) =>
       ],
     },
   ])
+}
 
 /**
  * Convert percentages of screen coordinates to absolute coordinates according to the screen size

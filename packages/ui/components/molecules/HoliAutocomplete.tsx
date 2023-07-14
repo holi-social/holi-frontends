@@ -2,7 +2,10 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
+import { Loader4, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -55,7 +58,7 @@ export type HoliAutocompleteProps = {
   helperText?: string
   validationErrorText?: string
   onChange?: (value: string) => void
-  trailingIcon?: string
+  trailingIcon?: HoliIconType
   loading?: boolean
   style?: StyleProp<ViewStyle>
   suggestions: Suggestion[]
@@ -158,8 +161,12 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
     }, [onSubmit, searchText])
 
     const trailingComponent = useMemo(() => {
-      const icon = loading ? 'loader-4' : trailingIcon || 'search'
-      return <HoliIcon spinning={loading} icon={icon} size={22} />
+      const icon = loading ? Loader4 : trailingIcon || Search
+      return (
+        <SpinningIconContainer spinning={loading}>
+          <HoliIcon icon={icon} size={22} />
+        </SpinningIconContainer>
+      )
     }, [trailingIcon, loading])
 
     return (

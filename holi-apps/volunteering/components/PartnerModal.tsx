@@ -8,9 +8,10 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,33 +23,33 @@ import { PartnerProps } from '@holi-apps/volunteering/types'
 
 type PartnerModalProps = {
   headline?: string
-  text?: string
-  buttonText?: string
-  partner: PartnerProps
+  partners: { [name: string]: PartnerProps }
   show: boolean
   onDismiss: () => void
+  i18nNamespace: string
 }
 
 const PartnerModal: React.VFC<PartnerModalProps> = ({
   headline,
-  text,
-  buttonText,
-  partner,
+  partners,
   show = false,
   onDismiss,
+  i18nNamespace = '',
 }: PartnerModalProps) => {
   const { t } = useTranslation()
-  return (
-    <HoliModal label={headline ?? ''} show={show} onDismiss={onDismiss}>
-      <HoliModalContentWrapper
-        actionButtonText={t('volunteering:shared.partner.modal.close')}
-        onActionButtonPress={onDismiss}
-      >
-        <HoliBox padding={[24, 24, 32, 24]} layout={{ alignItems: 'flex-start' }}>
-          {!!partner.wordmark && !!partner.wordmark.src && (
+  const i18nPrefix = (i18nNamespace ? i18nNamespace + ':' : '') + 'listing.partnerModal'
+  const isMultiplePartners = Object.keys(partners).length > 1
+
+  const partnerCard = (partnerKey: string) => {
+    const partner = partners[partnerKey]
+    return (
+      <View style={isMultiplePartners ? styles.card : null} key={partnerKey}>
+        <HoliBox padding={isMultiplePartners ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
+          {!!partner.wordmark && !!partner.wordmark?.src && (
             <HoliBox padding={[18, 0]}>
               <HoliLocalImage
                 imageSource={partner.wordmark.src}
+                isSvg={partner.wordmark.isSvg}
                 label={''}
                 width={partner.wordmark.width || 100}
                 height={partner.wordmark.height || 100}
@@ -56,28 +57,49 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
               />
             </HoliBox>
           )}
-          {!!headline && (
-            <HoliBox padding={[32, 0, 0, 0]}>
-              <HoliHeading level="1" size={'large'}>
-                {headline}
-              </HoliHeading>
-            </HoliBox>
-          )}
-          {!!text && (
-            <HoliBox padding={[16, 0, 0, 0]}>
-              <HoliText>{text}</HoliText>
-            </HoliBox>
-          )}
-          {!!buttonText && (
-            <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
-              <HoliButton transparent onPress={() => (partner.url ? Linking.openURL(partner.url) : null)} label={''}>
-                <View style={styles.outlink}>
-                  <HoliText>{buttonText}</HoliText>
-                  <HoliIcon icon={'share-box'} />
-                </View>
-              </HoliButton>
-            </HoliBox>
-          )}
+          <HoliBox padding={[32, 0, 0, 0]}>
+            <HoliHeading level="1" size={'large'}>
+              {/*TODO: how to not render for optional props (headline, text, buttonText)? */}
+              {t(`${i18nPrefix}.${partnerKey}.headline`)}
+            </HoliHeading>
+          </HoliBox>
+          <HoliBox padding={[16, 0, 0, 0]}>
+            <HoliText>{t(`${i18nPrefix}.${partnerKey}.text`)}</HoliText>
+          </HoliBox>
+          <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
+            <HoliButton transparent onPress={() => (partner.url ? Linking.openURL(partner.url) : null)} label={''}>
+              <View style={styles.outlink}>
+                <HoliText>{t(`${i18nPrefix}.${partnerKey}.buttonText`)}</HoliText>
+                <HoliIcon icon={ShareBox} />
+              </View>
+            </HoliButton>
+          </HoliBox>
+        </HoliBox>
+      </View>
+    )
+  }
+
+  return (
+    <HoliModal
+      label={headline ?? ''}
+      style={[isMultiplePartners ? styles.flexWrapper : null, isMultiplePartners ? styles.modal : null]}
+      autoHeight={isMultiplePartners ? false : undefined}
+      relativeHeight={isMultiplePartners ? 1 : undefined}
+      show={show}
+      onDismiss={onDismiss}
+      testID={'goodnews-partner-modal'}
+    >
+      <HoliModalContentWrapper
+        actionButtonText={t('volunteering:shared.partner.modal.close')}
+        onActionButtonPress={onDismiss}
+        style={isMultiplePartners ? styles.flexWrapper : null}
+      >
+        <HoliBox padding={[24, 24, 32, 24]}>
+          <View style={isMultiplePartners ? styles.cardContainer : null}>
+            {Object.keys(partners).map((partnerKey) => {
+              return partnerCard(partnerKey)
+            })}
+          </View>
         </HoliBox>
       </HoliModalContentWrapper>
     </HoliModal>
@@ -87,6 +109,22 @@ const PartnerModal: React.VFC<PartnerModalProps> = ({
 export default memo(PartnerModal)
 
 const styles = StyleSheet.create({
+  flexWrapper: {
+    flex: 1,
+    flexGrow: 1,
+  },
+  modal: {
+    backgroundColor: colors.background20,
+  },
+  cardContainer: {
+    gap: 16,
+  },
+  card: {
+    backgroundColor: colors.white100,
+    borderRadius: 8,
+    borderColor: colors.background30,
+    borderWidth: 1,
+  },
   outlink: {
     padding: 16,
     borderRadius: 8,

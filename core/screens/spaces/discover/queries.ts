@@ -21,7 +21,7 @@ export const discoverSpacesQuery = gql`
       spaces {
         totalResults
         data {
-          ...OverviewSpace
+          ...SpaceOverview
         }
       }
     }
@@ -48,7 +48,7 @@ export const mySpaceQuery = gql`
       spaces {
         totalResults
         data {
-          ...OverviewSpace
+          ...SpaceOverview
         }
       }
     }

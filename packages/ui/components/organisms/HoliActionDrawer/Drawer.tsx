@@ -1,10 +1,11 @@
-import React, { createContext, useContext } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { More } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -30,9 +31,16 @@ export interface ActionDrawerProps {
   label: string
   testID?: string
   variant?: 'default' | 'dark'
+  buttonElement?: React.ReactNode
 }
 
-export const Drawer = ({ children, label, testID, variant }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
+export const Drawer = ({
+  children,
+  label,
+  testID,
+  variant,
+  buttonElement,
+}: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
   const { visible: visibleModal, show: showModal, hide: hideModal } = useModalState()
@@ -46,7 +54,9 @@ export const Drawer = ({ children, label, testID, variant }: PropsWithChildren<A
   return (
     <ActionDrawerContext.Provider value={contextValue}>
       <HoliButton transparent inline label={label} onPress={showModal} testID={testID}>
-        <HoliIcon icon="more" color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
+        {buttonElement || (
+          <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
+        )}
       </HoliButton>
 
       <HoliModal

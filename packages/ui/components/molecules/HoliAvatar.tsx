@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { AccessibilityProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -59,7 +59,6 @@ const HoliAvatar = ({
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
-  const imageUri: ImageSourcePropType = { uri: imageSrc, width }
   const sizeClass = size || 'medium'
 
   const accessibilityPropsInitials: AccessibilityProps = {
@@ -80,7 +79,13 @@ const HoliAvatar = ({
     >
       {loading && <HoliSkeleton height={'100%'} width={'100%'} borderRadius={0} />}
       {!loading && hasImage && (
-        <HoliImage label={label} source={imageUri} blurhash={imageBlurhash} style={styles.image} resizeMode="cover" />
+        <HoliImage
+          label={label ?? ''} // only null when loading
+          source={{ uri: imageSrc, width, height: width }}
+          blurhash={imageBlurhash}
+          style={styles.image}
+          resizeMode="cover"
+        />
       )}
       {!loading && !hasImage && (
         <HoliText style={styles.inititals} {...accessibilityPropsInitials}>

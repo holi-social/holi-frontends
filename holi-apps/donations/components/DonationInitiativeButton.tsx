@@ -2,7 +2,8 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -27,7 +28,13 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
-          <DonationImage picture={initiative.picture} label={name} style={styles.initiativeImage} />
+          <DonationImage
+            picture={initiative.picture}
+            label={name}
+            style={styles.initiativeImage}
+            width={56}
+            height={56}
+          />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
@@ -41,7 +48,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
             </HoliText>
           </View>
         </View>
-        <HoliIcon icon="share-box" size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
+        <HoliIcon icon={ShareBox} size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
       </View>
     </HoliButton>
   )

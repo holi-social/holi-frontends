@@ -28,6 +28,7 @@
         "HOLI_API_URL": "https://production.unified.apis.holi.social/graphql",
         "JITSI_URL": "https://meet.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
+        "IMAGES_BASE_URL": "https://images.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
         "HOLI_NEXTJS_API_URL": "https://app.holi.social"
       },

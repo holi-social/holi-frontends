@@ -2,15 +2,15 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliApp = {
   id: string
-  icon: string
-  iconFilled?: boolean
+  icon: HoliIconType
   translationKey: string
   path?: string
   hasUpdates: boolean
@@ -45,12 +45,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
     >
       <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background20 }]}>
         {!!appData.icon && (
-          <HoliIcon
-            icon={appData.icon}
-            size={30}
-            color={isActive ? colors.foreground30 : colors.foreground10}
-            filled={appData.iconFilled}
-          />
+          <HoliIcon icon={appData.icon} size={30} color={isActive ? colors.foreground30 : colors.foreground10} />
         )}
       </View>
 

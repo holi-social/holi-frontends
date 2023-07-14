@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -24,6 +25,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   saveButtonDisabled?: boolean
   loading?: boolean
   isModal?: boolean
+  buttonLabel?: string
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
@@ -37,6 +39,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       saveButtonDisabled,
       loading,
       isModal = false,
+      buttonLabel,
       testID = 'form-wrapper',
       ...scrollViewProps
     }: FormWrapperProps,
@@ -49,8 +52,8 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     const mixins = useStyleMixins()
     const { height: screenHeight } = useWindowDimensions()
     const { keyboardHeight } = useKeyboard()
-
     const { t } = useTranslation()
+    const label = buttonLabel || t('global.save')
 
     const onHeightChange = useCallback((newContainerHeight: number) => {
       const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
@@ -110,10 +113,10 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 inline
                 variant="medium"
                 disabled={loading || saveButtonDisabled}
-                label={loading ? t('global.loading') : t('global.save')}
+                label={loading ? t('global.loading') : label}
                 onPress={onSave}
                 testID={`${testID}-save-btn`}
-                icon={loading ? 'loader-4' : undefined}
+                icon={loading ? Loader4 : undefined}
                 iconSpinning={saveButtonDisabled}
                 style={styles.button}
               >

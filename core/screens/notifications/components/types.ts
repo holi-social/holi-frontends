@@ -83,6 +83,7 @@ export interface NotificationSpaceConnection extends NotificationBase {
   options: {
     user: User
     space: Space
+    message: string
   }
 }
 

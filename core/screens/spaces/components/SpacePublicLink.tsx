@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import { Linking, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
-import { SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { SpaceLink } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Discord, Facebook, Instagram, Linkedin, Links, Twitter, Whatsapp } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -10,6 +11,16 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpacePublicLinkProps = {
   link: SpaceLink
   style?: StyleProp<ViewStyle>
+}
+
+const IconBySpaceLinkType = {
+  DISCORD: Discord,
+  FACEBOOK: Facebook,
+  INSTAGRAM: Instagram,
+  LINKEDIN: Linkedin,
+  TWITTER: Twitter,
+  WHATSAPP: Whatsapp,
+  OTHER: Links,
 }
 
 const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: SpacePublicLinkProps) => {
@@ -29,11 +40,7 @@ const SpacePublicLink: React.VFC<SpacePublicLinkProps> = ({ link, style }: Space
       contentStyle={styles.button}
       testID="btn-to-social-link"
     >
-      <HoliIcon
-        size={24}
-        color={colors.foreground20}
-        icon={type === SpaceLinkType.OTHER ? 'links' : type.toLowerCase()}
-      />
+      <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
       <HoliText size="small" bold style={styles.text}>
         {name}
       </HoliText>

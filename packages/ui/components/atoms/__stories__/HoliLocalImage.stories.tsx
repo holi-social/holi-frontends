@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { ResizeModes } from '@holi/ui/components/utils/image'
 
 export default {
   title: 'Atoms/HoliLocalImage',
@@ -56,7 +55,7 @@ Primary.argTypes = {
   },
   resizeMode: {
     description: 'the resizeMode for the image',
-    options: ResizeModes, // An array of serializable values
+    options: ['cover', 'contain', 'stretch'], // An array of serializable values
     control: {
       type: 'select',
     },

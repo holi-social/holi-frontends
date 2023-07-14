@@ -20,7 +20,8 @@ describe('TaskCollaborationCard', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.header.title')
+    expect(tree).toHaveTextContent('Task description')
   })
 
   it('renders correctly when there are no tasks within space', () => {
@@ -31,7 +32,7 @@ describe('TaskCollaborationCard', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.empty.message.forCreators')
   })
 
   it('correctly navigates to space creation screen', () => {

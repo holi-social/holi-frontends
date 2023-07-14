@@ -2,16 +2,16 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
-import HoliImage from '@holi//ui/components/atoms/HoliImage'
 import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type PostImageProps = {
   uri: string
-  imageBlurhash: string
+  imageBlurhash?: string
   height: number
   width: number
   postTitle: string
