@@ -2,7 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Delete } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -45,7 +46,7 @@ const SpaceOnboardingStepsInput: React.VFC<SpaceOnboardingStepsInputProps> = ({
           transparent
           style={styles.removeStepBtn}
         >
-          <HoliIcon icon="delete" size={22} />
+          <HoliIcon icon={Delete} size={22} />
         </HoliButton>
       )}
     </View>

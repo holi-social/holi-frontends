@@ -14,7 +14,8 @@ import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepsInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepsInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -145,7 +146,7 @@ const SpaceOnboardingSteps = () => {
                   style={styles.addStepBtn}
                 >
                   <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                  <HoliIcon icon="add" size={16} />
+                  <HoliIcon icon={Add} size={16} />
                 </HoliButton>
               </>
             )

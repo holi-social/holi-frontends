@@ -11,8 +11,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowRightS, Checkbox, Team } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -72,7 +73,7 @@ const SpaceOnboarding = () => {
         >
           <View style={styles.link}>
             <View style={styles.row}>
-              <HoliIcon icon="team" style={styles.icon} />
+              <HoliIcon icon={Team} style={styles.icon} />
               <View style={styles.textWrapper}>
                 <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
                 <HoliText size="extrasmall" style={styles.text}>
@@ -80,7 +81,7 @@ const SpaceOnboarding = () => {
                 </HoliText>
               </View>
             </View>
-            <HoliIcon icon="arrow-right-s" />
+            <HoliIcon icon={ArrowRightS} />
           </View>
         </HoliLink>
         <HoliButton
@@ -90,7 +91,7 @@ const SpaceOnboarding = () => {
         >
           <View style={styles.link}>
             <View style={styles.row}>
-              <HoliIcon icon="checkbox" style={styles.icon} />
+              <HoliIcon icon={Checkbox} style={styles.icon} />
               <View style={styles.textWrapper}>
                 <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
                 <HoliText size="extrasmall" style={styles.text}>
@@ -98,7 +99,7 @@ const SpaceOnboarding = () => {
                 </HoliText>
               </View>
             </View>
-            <HoliIcon icon="arrow-right-s" />
+            <HoliIcon icon={ArrowRightS} />
           </View>
         </HoliButton>
       </SafeAreaView>
