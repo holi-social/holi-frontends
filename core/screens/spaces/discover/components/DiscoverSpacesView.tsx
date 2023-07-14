@@ -20,6 +20,16 @@ interface DiscoverSpacesViewProps {
   defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
+const SpacesGroupSliderSkeletons: React.FC = () => {
+  return (
+    <View testID={'spaces-group-slider-skeletons'}>
+      {new Array(3).fill(1).map((_, idx) => {
+        return <SpacesGroupSlider key={idx} loading={true} />
+      })}
+    </View>
+  )
+}
+
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   loading = false,
   style,
@@ -58,10 +68,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
       </View>
 
       <View style={styles.body}>
-        {loading &&
-          new Array(3).fill(1).map((_, idx) => {
-            return <SpacesGroupSlider key={idx} loading={true} />
-          })}
+        {loading && <SpacesGroupSliderSkeletons />}
 
         {/* User specific spaces suggestions */}
         {!loading &&
