@@ -90,7 +90,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
         keyboardVerticalOffset={isModal ? 98 : 0} // based on the height of the HoliModal's header
         ref={ref}
       >
-        <HoliKeyboardSaveView onHeightChange={onHeightChange} style={{ position: 'relative' }}>
+        <HoliKeyboardSaveView initOffsetTop={70} onHeightChange={onHeightChange} style={{ position: 'relative' }}>
           <ScrollView
             ref={scrollViewRef}
             onContentSizeChange={scrollIntoView}
