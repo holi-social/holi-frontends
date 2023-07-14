@@ -79,7 +79,14 @@ const InsightsOfTheWeekList: React.FC = () => {
           </View>
         </HoliBox>
       </HoliButton>
-      <HoliModal label={t('homeFeed.insights.subtitle')} {...insightFAQModalProps} testID="insights-faq-modal">
+
+      <HoliModal
+        label={t('homeFeed.insights.subtitle')}
+        {...insightFAQModalProps}
+        autoHeight={false}
+        relativeHeight={0.8}
+        testID="insights-faq-modal"
+      >
         <InsightsFAQ onDismiss={hideInsightsFAQ} />
       </HoliModal>
 
