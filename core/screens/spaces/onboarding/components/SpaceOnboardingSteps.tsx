@@ -101,8 +101,8 @@ const SpaceOnboardingSteps = () => {
   }
 
   return (
-    <SafeAreaView style={mixins.container}>
-      <ScrollHeaderLayout.Default style={styles.layout}>
+    <ScrollHeaderLayout.Default style={styles.layout}>
+      <SafeAreaView style={mixins.container}>
         <View style={styles.intro}>
           <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
           <HoliButton
@@ -162,8 +162,8 @@ const SpaceOnboardingSteps = () => {
           </HoliText>
           <SpaceCollaboratorOnboardingInfo />
         </HoliModal>
-      </ScrollHeaderLayout.Default>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollHeaderLayout.Default>
   )
 }
 

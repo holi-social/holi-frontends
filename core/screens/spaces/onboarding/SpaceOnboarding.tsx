@@ -62,8 +62,8 @@ const SpaceOnboarding = () => {
   }
 
   return (
-    <SafeAreaView style={mixins.container}>
-      <ScrollHeaderLayout.Default style={styles.layout}>
+    <ScrollHeaderLayout.Default style={styles.layout}>
+      <SafeAreaView style={mixins.container}>
         <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
         <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
         <HoliLink
@@ -101,8 +101,8 @@ const SpaceOnboarding = () => {
             <HoliIcon icon="arrow-right-s" />
           </View>
         </HoliButton>
-      </ScrollHeaderLayout.Default>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollHeaderLayout.Default>
   )
 }
 
