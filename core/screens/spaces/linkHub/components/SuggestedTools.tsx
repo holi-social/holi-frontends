@@ -22,7 +22,8 @@ type Tool = {
 const SuggestedTools: React.FC = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const imageWidth = 210
+  const imageWidth = 285
+  const imageHeight = 170
 
   const recommendedToolList: Tool[] = [
     {
@@ -89,7 +90,7 @@ const SuggestedTools: React.FC = () => {
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_suggested_tools.svg')}
         width={imageWidth}
-        height={imageWidth * 0.86}
+        height={imageHeight}
         label={''}
         isSvg={true}
         resizeMode="stretch"
