@@ -74,7 +74,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
     <View style={styles.container}>
       {hasVisibilityIcon ? (
         <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
-          <HoliIcon icon={visibilityIcon} size={12} />
+          <HoliIcon icon={visibilityIcon} style={{ transform: [{ scale: 0.8 }] }} />
           <HoliBox padding={[0, 0, 0, 6]}>
             <HoliText size="extrasmall">{visibilityIconText}</HoliText>
           </HoliBox>
