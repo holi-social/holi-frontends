@@ -96,6 +96,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
           loading={loading}
           buttonLabel={onboarding ? t('spaces.join.overlay.button') : t('spaces.collaborate.onboarding.request')}
           testID="space-join-request-modal"
+          showBottomBar
           keyboardShouldPersistTaps="never"
           isModal={false}
           renderProp={() => {

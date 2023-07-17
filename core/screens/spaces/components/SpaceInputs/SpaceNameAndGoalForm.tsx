@@ -41,6 +41,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       loading={loading}
       style={style}
       testID="space-edit-modal"
+      showBottomBar
       renderProp={(scrollToPropsFor) => (
         <>
           <View style={styles.title}>
