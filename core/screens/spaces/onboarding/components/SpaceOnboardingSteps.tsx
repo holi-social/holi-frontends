@@ -56,7 +56,7 @@ const SpaceOnboardingSteps = () => {
   }, [fetchSpace, spaceIdOrName])
 
   useEffect(() => {
-    if (space?.onboarding?.steps) {
+    if (space?.onboarding?.steps && space.onboarding.steps.length > 0) {
       setStepsList(space.onboarding.steps.map((step) => ({ text: step?.text })) || [])
     }
   }, [space])
