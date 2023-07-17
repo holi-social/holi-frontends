@@ -551,7 +551,7 @@
   "spaces.invite.search.title": "Invite via email or name",
   "spaces.invite.success": "Invitation sent",
   "spaces.join.btnPending": "Waiting to join",
-  "spaces.join.btnRequest": "Collaborate",
+  "spaces.join.btnRequest": "Collaborate…",
   "spaces.join.error": "There was an error updating the connection with this Space. Please retry later",
   "spaces.join.error.already-revoked": "Your request was already answered. Please reload the page",
   "spaces.join.loginRedirect.text": "To request joining {{spaceName}}, you have to sign in first",
