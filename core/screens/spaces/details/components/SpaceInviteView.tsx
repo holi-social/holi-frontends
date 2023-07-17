@@ -96,6 +96,7 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
       saveButtonDisabled={!searchValue || loadingInvite}
       style={styles.wrapper}
       testID="space-details-container"
+      showBottomBar
       renderProp={() => (
         <View style={mixins.container}>
           <View style={styles.whom}>
