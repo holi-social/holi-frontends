@@ -72,6 +72,7 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
         loading={loading}
         keyboardShouldPersistTaps="always"
         testID="space-edit-modal"
+        showBottomBar
         renderProp={() => (
           <SpaceLocationInput
             title={t('spaces.input.location.title')}
