@@ -56,6 +56,14 @@ export interface VideoCallLink {
   created: string
 }
 
+export interface OnboardingStep {
+  text: string
+}
+
+export interface Onboarding {
+  steps: OnboardingStep[]
+}
+
 export interface Space {
   id: string
   title: string
@@ -83,6 +91,7 @@ export interface Space {
   posts?: Paged<Post>
   hasPublicPosts?: boolean
   hasPrivatePosts?: boolean
+  onboarding?: Onboarding
 }
 
 export enum SpaceSectionType {
