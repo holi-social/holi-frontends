@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   headerTitleContainer: {
     flex: 4,
