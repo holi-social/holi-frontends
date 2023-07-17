@@ -590,6 +590,8 @@
   "spaces.onboarding.steps.example.text": "Zeig mir ein Beispiel",
   "spaces.onboarding.steps.hint": "Beschreibe die ersten Schritte, um in deinem Space aktiv zu werden. Dies wird öffentlich unter dem Tab “Mach mit” angezeigt.",
   "spaces.onboarding.steps.preview": "Wie wird's aussehen?",
+  "spaces.onboarding.steps.preview.label": "Vorschau der Schritte",
+  "spaces.onboarding.steps.preview.link": "Wie wird's aussehen?",
   "spaces.onboarding.steps.remove": "Remove step",
   "spaces.onboarding.steps.save.success": "Schritte gespeichert",
   "spaces.onboarding.title": "Onboarding",

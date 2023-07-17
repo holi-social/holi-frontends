@@ -589,6 +589,8 @@
   "spaces.onboarding.steps.example.text": "Show me an example",
   "spaces.onboarding.steps.hint": "Describe the first steps to becoming active in your group. This will be publicly displayed under the 'Get involved' tab.",
   "spaces.onboarding.steps.preview": "How it will look?",
+  "spaces.onboarding.steps.preview.label": "Steps preview",
+  "spaces.onboarding.steps.preview.link": "How will it look?",
   "spaces.onboarding.steps.remove": "Remove step",
   "spaces.onboarding.steps.save.success": "Steps saved",
   "spaces.onboarding.title": "Onboarding",

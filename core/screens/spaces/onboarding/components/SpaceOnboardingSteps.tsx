@@ -8,13 +8,14 @@ import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import SpaceCollaboratorOnboardingStepsExample from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingStepsExample'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add, Loader4 } from '@holi/icons/src/generated'
+import { Add, Information, Loader4 } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -36,6 +37,7 @@ const SpaceOnboardingSteps = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
+  const { visible: previewVisible, show: showPreview, hide: hidePreview } = useModalState()
   const { openToast } = useToast()
 
   const [fetchSpace, { data, loading: fetchingSpace }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
@@ -142,6 +144,14 @@ const SpaceOnboardingSteps = () => {
             <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
             <HoliIcon icon={Add} size={16} />
           </HoliButton>
+          {stepsList.length > 0 && (
+            <HoliButton label={t('spaces.onboarding.steps.preview.link')} onPress={showPreview} transparent>
+              <View style={styles.preview}>
+                <HoliIcon icon={Information} style={styles.previewIcon} />
+                <HoliText bold>{t('spaces.onboarding.steps.preview.link')}</HoliText>
+              </View>
+            </HoliButton>
+          )}
           <HoliButtonLoading
             disabled={loading || fetchingSpace || stepsList.length === 0}
             icon={loading ? Loader4 : undefined}
@@ -165,6 +175,15 @@ const SpaceOnboardingSteps = () => {
             </HoliText>
           </View>
           <SpaceCollaboratorOnboardingStepsExample />
+        </HoliModal>
+
+        <HoliModal
+          show={previewVisible}
+          label={t('spaces.onboarding.steps.preview.label')}
+          onDismiss={hidePreview}
+          style={styles.previewModal}
+        >
+          <SpaceCollaboratorOnboardingSteps steps={stepsList} />
         </HoliModal>
       </SafeAreaView>
     </ScrollHeaderLayout.Default>
@@ -204,6 +223,17 @@ const styles = StyleSheet.create({
     width: 'auto',
     marginBottom: 40,
     alignSelf: 'flex-start',
+  },
+  preview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  previewIcon: {
+    marginRight: 4,
+  },
+  previewModal: {
+    paddingBottom: 24,
   },
   addStepBtn: {
     marginTop: 24,
