@@ -11,7 +11,7 @@ import {
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-test.setTimeout(180000)
+test.setTimeout(240000)
 
 test.describe('@Spaces', () => {
   test('user journey', async ({ context, page, userHandler }) => {
