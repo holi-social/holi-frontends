@@ -16,40 +16,21 @@ export default {
   },
 } as ComponentMeta<typeof HoliButtonLoading>
 
+const icons = {
+  Loader: Loader,
+  Loader2: Loader2,
+  Loader3: Loader3,
+  Loader4: Loader4,
+  Loader5: Loader5,
+  Settings3: Settings3,
+  Refresh: Refresh,
+}
+
 const Template: ComponentStory<typeof HoliButtonLoading> = ({ ...args }) => {
-  let icon
-  switch (args.icon) {
-    // @ts-ignore
-    case 'Loader':
-      icon = Loader
-      break
-    // @ts-ignore
-    case 'Loader2':
-      icon = Loader2
-      break
-    // @ts-ignore
-    case 'Loader3':
-      icon = Loader3
-      break
-    // @ts-ignore
-    case 'Loader4':
-      icon = Loader4
-      break
-    // @ts-ignore
-    case 'Loader5':
-      icon = Loader5
-      break
-    // @ts-ignore
-    case 'Settings3':
-      icon = Settings3
-      break
-    // @ts-ignore
-    case 'Refresh':
-      icon = Refresh
-      break
-    default:
-      icon = Loader
+  if (typeof args.icon === 'function') {
+    return <HoliButtonLoading {...args} icon={Loader} />
   }
+  const icon = icons[args.icon || 'Loader']
   return <HoliButtonLoading {...args} icon={icon} />
 }
 
@@ -57,9 +38,9 @@ export const Primary: ComponentStory<typeof HoliButtonLoading> = Template.bind({
 Primary.argTypes = {
   iconSpinning: { control: { type: 'boolean' } },
   icon: {
-    options: ['Loader', 'Loader2', 'Loader3', 'Loader4', 'Loader5', 'Settings3', 'Refresh'],
+    options: Object.keys(icons),
     control: { type: 'select' },
-    description: 'Loader or Loader4',
+    description: 'The (spinning) icon to display inside the button.',
   },
   label: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   type: {
