@@ -59,7 +59,7 @@ Primary.argTypes = {
 Primary.args = {
   iconSpinning: true,
   icon: Loader,
-  label: 'Label',
+  label: 'Click me',
   type: 'primary',
   variant: 'default',
   disabled: false,
