@@ -44,7 +44,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         ) : (
           <>
             {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-              <View style={styles.onboarding}>
+              <View style={styles.onboardingSteps}>
                 <SpaceCollaboratorOnboardingSteps steps={space.onboarding?.steps} />
               </View>
             )}
@@ -67,6 +67,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: colors.background30,
+  },
+  onboardingSteps: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
+    paddingBottom: 12,
+    marginBottom: 32,
   },
   icon: {
     paddingLeft: 10,
