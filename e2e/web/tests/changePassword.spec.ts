@@ -6,6 +6,7 @@ import {
   gotoFillAndSubmitLogin,
   locateElementByTestId,
   newUserEmail,
+  randomPassword,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -15,8 +16,8 @@ require('dotenv').config({ path: '.envrc' })
 test.describe('@ChangePassword', () => {
   test('user journey', async ({ userHandler, context }) => {
     const email = newUserEmail()
-    const oldPassword = 'whgr88234298wohfffwo'
-    const newPassword = 'dlrnrf82840wnfw4o5'
+    const oldPassword = randomPassword()
+    const newPassword = randomPassword()
     await userHandler.asRandomUser(
       async (page) => {
         // after the login we are on the profile page.
