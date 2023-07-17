@@ -471,7 +471,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await clickElementByTestId(page, 'btn-show-tool-details')
   const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
   const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
-  const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
+  const toolUrl = await (await locateElementByTestId(page, 'tool-url-link')).textContent()
   await expect(toolDetailModal).toBeVisible()
   await expect(editButton).toBeVisible()
   await expect(toolUrl).toBe('Open https://www.holi.community')

@@ -165,7 +165,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
               {tool.description}
             </HoliText>
           )}
-          <HoliLink label={tool.url} href={tool.url} external>
+          <HoliLink testID="tool-url-link" label={tool.url} href={tool.url} external>
             <View style={styles.modalToolLink}>
               <HoliText size="small" numberOfLines={1} style={{ width: '90%' }}>
                 <Trans
