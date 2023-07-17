@@ -66,8 +66,8 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
             onPress={onSave}
             testID="space-edit-modal-save-btn"
             style={styles.footerButton}
-            icon={loading ? Loader4 : undefined}
-            iconSpinning={saveButtonDisabled}
+            icon={saveButtonDisabled ? Loader4 : undefined}
+            iconSpinning={loading || saveButtonDisabled}
           />
         </View>
       )}
