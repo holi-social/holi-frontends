@@ -44,9 +44,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         ) : (
           <>
             {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
-              <View style={styles.onboardingSteps}>
-                <SpaceCollaboratorOnboardingSteps steps={space.onboarding?.steps} />
-              </View>
+              <SpaceCollaboratorOnboardingSteps steps={space.onboarding?.steps} style={styles.onboardingSteps} />
             )}
             <SpaceTaskList isAdmin={isAdmin} space={space} />
           </>

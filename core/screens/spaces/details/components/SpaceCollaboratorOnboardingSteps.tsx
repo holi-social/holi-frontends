@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { OnboardingStep } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -9,14 +9,15 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorOnboardingStepsProps = {
   steps: OnboardingStep[]
+  style?: StyleProp<ViewStyle>
 }
 
-const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStepsProps> = ({ steps }) => {
+const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStepsProps> = ({ steps, style }) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
   return (
-    <View style={mixins.container}>
+    <View style={[mixins.container, style]}>
       <HoliText style={styles.header} size="large">
         {t('spaces.collaborate.onboarding.info.header')}
       </HoliText>
