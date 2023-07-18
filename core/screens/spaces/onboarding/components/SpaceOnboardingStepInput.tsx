@@ -40,16 +40,14 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
         style={[styles.inputField, index === 1 && styles.inputFieldWithoutDelete]}
       />
 
-      {index !== 1 && (
-        <HoliButton
-          label={t('spaces.onboarding.steps.remove')}
-          onPress={() => removeStep(index)}
-          transparent
-          style={styles.removeStepBtn}
-        >
-          <HoliIcon icon={Delete} size={22} />
-        </HoliButton>
-      )}
+      <HoliButton
+        label={t('spaces.onboarding.steps.remove')}
+        onPress={() => removeStep(index)}
+        transparent
+        style={styles.removeStepBtn}
+      >
+        <HoliIcon icon={Delete} size={22} />
+      </HoliButton>
     </View>
   )
 }
