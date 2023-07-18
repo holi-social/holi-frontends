@@ -10,6 +10,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import AddVideoCallLink from '@holi/core/screens/spaces/videoCall/components/AddVideoCallLink'
 import VideoCallLinkCard from '@holi/core/screens/spaces/videoCall/components/VideoCallLinkCard'
 import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 interface VideoCallLinksProps {
@@ -50,15 +51,17 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }:
 
   return (
     <View style={style}>
-      <AddVideoCallLink space={space} />
-      {videoCallLinks.length > 0 && (
-        <HoliHeading level="2" size="small" style={styles.heading}>
-          {t('spaces.videocall.generatedLinks.heading')}
-        </HoliHeading>
-      )}
-      {videoCallLinks.map((link) => (
-        <VideoCallLinkCard key={link.id} space={space} videoCallLink={link} />
-      ))}
+      <HoliBox padding={[0, 16, 16, 16]}>
+        <AddVideoCallLink space={space} />
+        {videoCallLinks.length > 0 && (
+          <HoliHeading level="2" size="small" style={styles.heading}>
+            {t('spaces.videocall.generatedLinks.heading')}
+          </HoliHeading>
+        )}
+        {videoCallLinks.map((link) => (
+          <VideoCallLinkCard key={link.id} space={space} videoCallLink={link} />
+        ))}
+      </HoliBox>
     </View>
   )
 }
@@ -67,6 +70,6 @@ export default VideoCallLinks
 
 const styles = StyleSheet.create({
   heading: {
-    marginVertical: 16,
+    marginTop: 16,
   },
 })
