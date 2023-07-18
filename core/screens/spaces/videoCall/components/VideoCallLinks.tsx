@@ -70,6 +70,6 @@ export default VideoCallLinks
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 16,
+    marginTop: 32,
   },
 })
