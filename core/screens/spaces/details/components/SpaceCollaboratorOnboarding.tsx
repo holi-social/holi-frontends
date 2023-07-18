@@ -169,9 +169,10 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         />
 
         <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
-          <View style={[mixins.container, styles.infoModal]}>
-            <SpaceCollaboratorOnboardingSteps steps={space?.onboarding?.steps || []} />
-          </View>
+          <SpaceCollaboratorOnboardingSteps
+            steps={space?.onboarding?.steps || []}
+            style={[mixins.container, styles.infoModal]}
+          />
         </HoliModal>
       </HoliModal>
     </>
