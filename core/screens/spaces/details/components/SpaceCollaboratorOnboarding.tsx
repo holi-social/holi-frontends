@@ -8,17 +8,22 @@ import client from '@holi/api/graphql/client'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Information } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface SpaceCollaboratorOnboardingProps {
   space: Space
@@ -34,7 +39,9 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   onboarding = false,
 }) => {
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
   const [message, setMessage] = useState<string>('')
+  const { visible: infoVisible, show: infoShow, hide: infoHide } = useModalState()
 
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
@@ -76,7 +83,6 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   }
 
   const insets = useSafeAreaInsets()
-
   const styles = createStyles(insets.bottom)
 
   return (
@@ -149,25 +155,26 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
                   {t('spaces.collaborate.onboarding.optional')}
                 </HoliText>
 
-                {/* <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
-              <View style={styles.info}>
-                <HoliIcon icon="information" />
-                <HoliText>{t('spaces.collaborate.onboarding.active')}</HoliText>
-              </View>
-            </HoliButton> */}
+                {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
+                  <HoliButton label={t('spaces.collaborate.onboarding.active')} onPress={infoShow} transparent>
+                    <View style={styles.info}>
+                      <HoliIcon icon={Information} />
+                      <HoliText>{t('spaces.collaborate.onboarding.active')}</HoliText>
+                    </View>
+                  </HoliButton>
+                )}
               </View>
             )
           }}
         />
 
-        {/* <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
-          <View style={[mixins.container, styles.infoModal]}>
-            <HoliText style={styles.header} size="large">
-              {t('spaces.collaborate.onboarding.info.header')}
-            </HoliText>
-            <SpaceCollaboratorOnboardingInfo />
-          </View>
-        </HoliModal> */}
+        <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
+          <SpaceCollaboratorOnboardingSteps
+            steps={space?.onboarding?.steps || []}
+            header={t('spaces.collaborate.onboarding.info.header')}
+            style={[mixins.container, styles.infoModal]}
+          />
+        </HoliModal>
       </HoliModal>
     </>
   )
@@ -208,19 +215,15 @@ const createStyles = (bottomInsets: number) =>
       marginTop: -32,
       color: colors.foreground20,
     },
-    // info: {
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   gap: 4,
-    //   marginTop: 32,
-    // },
-    // infoModal: {
-    //   marginBottom: 20,
-    // },
-    // header: {
-    //   marginBottom: 24,
-    //   marginLeft: 20,
-    // },
+    info: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      marginTop: 32,
+    },
+    infoModal: {
+      marginBottom: 20,
+    },
   })
 
 export default SpaceCollaboratorOnboarding

@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import SpaceCollaborationArea from '@holi/core/screens/spaces/linkHub/components/SpaceCollaborationArea'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
@@ -42,6 +43,13 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
           <TaskCollaborationCard isAdmin={isAdmin} space={space} />
         ) : (
           <>
+            {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
+              <SpaceCollaboratorOnboardingSteps
+                steps={space.onboarding?.steps}
+                header={t('spaces.collaborate.onboarding.info.header')}
+                style={styles.onboardingSteps}
+              />
+            )}
             <SpaceTaskList isAdmin={isAdmin} space={space} />
           </>
         )}
@@ -61,6 +69,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: colors.background30,
+  },
+  onboardingSteps: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.background30,
+    paddingBottom: 12,
+    marginBottom: 32,
   },
   icon: {
     paddingLeft: 10,
