@@ -153,7 +153,7 @@ const SpaceOnboardingSteps = () => {
             </HoliButton>
           )}
           <HoliButtonLoading
-            disabled={loading || fetchingSpace || stepsList.length === 0}
+            disabled={loading || fetchingSpace}
             icon={loading ? Loader4 : undefined}
             iconSpinning={loading}
             label={t('global.save')}
