@@ -79,7 +79,8 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             <HoliIcon
               icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
               color={colors.foreground30}
-              style={[styles.iconGroupIcon, { transform: [{ scale: 0.8 }] }]}
+              size={16}
+              style={styles.iconGroupIcon}
             />
             <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
           </View>
