@@ -148,7 +148,7 @@ const CreateSpace = () => {
         description={t('spaces.create.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.create.close.dialog.dismiss')}
-        confirmText={t('global.yes')}
+        confirmText={t('spaces.create.close.dialog.confirm')}
         testID="exit-space-creation-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)

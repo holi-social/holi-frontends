@@ -6,6 +6,7 @@ import {
   clickElementByTestId,
   gotoFillAndSubmitRegistration,
   proceedAsGuest,
+  randomPassword,
   waitForAnimationEnd,
 } from './helpers'
 import { UserHandler, test } from './testmaster'
@@ -51,7 +52,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
 }
 
 const validatesEmailAndPasswordFields = async (context: BrowserContext, page: Page) => {
-  const validPassword = 'JwoXk17wQSDCCEkl'
+  const validPassword = randomPassword()
   const validEmail = 'foobar@barbaz.de'
 
   // no password and email provided
