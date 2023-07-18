@@ -93,7 +93,7 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
           onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
           style={style}
           icon={ShareIcon}
-          testID="follow-btn"
+          testID="space-share-btn"
         />
       ) : null}
       <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
