@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { OnboardingStep } from '@holi/core/screens/spaces/types'
@@ -9,18 +8,24 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceCollaboratorOnboardingStepsProps = {
   steps: OnboardingStep[]
+  header?: string
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStepsProps> = ({ steps, style }) => {
+const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStepsProps> = ({
+  steps,
+  header,
+  style,
+}) => {
   const mixins = useStyleMixins()
-  const { t } = useTranslation()
 
   return (
     <View style={[mixins.container, style]}>
-      <HoliText style={styles.header} size="large">
-        {t('spaces.collaborate.onboarding.info.header')}
-      </HoliText>
+      {header && (
+        <HoliText style={styles.header} size="large">
+          {header}
+        </HoliText>
+      )}
       {steps.map((step, index) => (
         <View style={styles.row} key={index}>
           <View style={styles.count}>

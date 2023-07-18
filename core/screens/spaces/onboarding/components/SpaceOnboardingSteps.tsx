@@ -9,7 +9,6 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
-import SpaceCollaboratorOnboardingStepsExample from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingStepsExample'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -105,6 +104,12 @@ const SpaceOnboardingSteps = () => {
     updateSpace({ variables: { input: { id: space?.id, onboardingSteps: stepsList } } })
   }
 
+  const exampleSteps = [
+    { text: t('spaces.collaborate.onboarding.info.text1') },
+    { text: t('spaces.collaborate.onboarding.info.text2') },
+    { text: t('spaces.collaborate.onboarding.info.text3') },
+  ]
+
   if (space && !isAdmin) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
@@ -169,12 +174,7 @@ const SpaceOnboardingSteps = () => {
           onDismiss={hideExample}
           style={styles.exampleWrapper}
         >
-          <View style={mixins.container}>
-            <HoliText style={styles.header} size="large">
-              {t('spaces.onboarding.steps.example.label')}
-            </HoliText>
-          </View>
-          <SpaceCollaboratorOnboardingStepsExample />
+          <SpaceCollaboratorOnboardingSteps steps={exampleSteps} header={t('spaces.onboarding.steps.example.label')} />
         </HoliModal>
 
         <HoliModal
@@ -183,7 +183,7 @@ const SpaceOnboardingSteps = () => {
           onDismiss={hidePreview}
           style={styles.previewModal}
         >
-          <SpaceCollaboratorOnboardingSteps steps={stepsList} />
+          <SpaceCollaboratorOnboardingSteps steps={stepsList} header={t('spaces.collaborate.onboarding.info.header')} />
         </HoliModal>
       </SafeAreaView>
     </ScrollHeaderLayout.Default>
