@@ -71,7 +71,7 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallL
       />
       <HoliActionDrawer.Action
         action="share"
-        title={t('global.share')}
+        title={t('spaces.videocall.link.share')}
         testID="videocall-link-share-btn"
         handleAction={shareLink}
       />
