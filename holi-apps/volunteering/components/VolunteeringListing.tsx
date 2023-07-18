@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
@@ -134,7 +135,7 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
         type="primary"
         label={fetchMoreButtonText}
         disabled={isFetchingMore}
-        icon={isFetchingMore ? 'loader-4' : undefined}
+        icon={isFetchingMore ? Loader4 : undefined}
         iconSpinning={isFetchingMore}
         onPress={fetchNextPage}
         style={[styles.loadMoreButton]}

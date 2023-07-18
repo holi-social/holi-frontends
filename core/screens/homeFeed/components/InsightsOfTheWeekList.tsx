@@ -9,10 +9,11 @@ import InsightsFAQ from '@holi/core/screens/homeFeed/insightsFAQ'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { Insight } from '@holi/core/screens/insights/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Information } from '@holi/icons/src/generated'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -74,11 +75,18 @@ const InsightsOfTheWeekList: React.FC = () => {
             >
               {t('homeFeed.insights.subtitle')}
             </HoliHeading>
-            <HoliIcon icon="information" size={20} filled={false} color={colors.foreground20} />
+            <HoliIcon icon={Information} size={20} filled={false} color={colors.foreground20} />
           </View>
         </HoliBox>
       </HoliButton>
-      <HoliModal label={t('homeFeed.insights.subtitle')} {...insightFAQModalProps} testID="insights-faq-modal">
+
+      <HoliModal
+        label={t('homeFeed.insights.subtitle')}
+        {...insightFAQModalProps}
+        autoHeight={false}
+        relativeHeight={0.8}
+        testID="insights-faq-modal"
+      >
         <InsightsFAQ onDismiss={hideInsightsFAQ} />
       </HoliModal>
 

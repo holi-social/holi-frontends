@@ -103,7 +103,7 @@ describe('DiscoverSpaces', () => {
   it('displays loading screen while loading', async () => {
     renderDiscoverSpaces(MOCKS)
 
-    expect(await screen.findByText('spaces.spaceListing.loading'))
+    expect(await screen.findByTestId('spaces-group-slider-skeletons'))
   })
 
   it('displays error toast if loading user specific spaces failed', async () => {

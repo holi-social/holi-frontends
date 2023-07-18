@@ -2,9 +2,10 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -54,7 +55,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { show: showPartnerModal, hide: closeModal, visible: show } = useModalState()
+  const partnerModalState = useModalState()
   const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
 
   const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
@@ -83,13 +84,13 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
             rowText={t('goodnews:app.subline')}
             showOutlinkIcon={false}
             partners={{ 'goodnews.eu': partner }}
-            onPress={showPartnerModal}
+            onPress={partnerModalState.show}
           />
         </HoliBox>
         <PartnerModal
           partners={{ 'goodnews.eu': partner }}
-          show={show}
-          onDismiss={closeModal}
+          show={partnerModalState.visible}
+          onDismiss={partnerModalState.hide}
           i18nNamespace={'goodnews'}
         />
         <HoliText size="small" style={styles.source}>
@@ -110,7 +111,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
             {t('goodnews:button.readArticle')}
           </HoliText>
           {/* TODO external link (part of HoliLink) ? */}
-          <HoliIcon icon={'share-box'} />
+          <HoliIcon icon={ShareBox} />
         </HoliButton>
       </View>
     </View>

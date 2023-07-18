@@ -2,7 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Globe } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -40,7 +41,7 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
       </HoliText>
       {!!engagement.location && (
         <View style={styles.locationContainer}>
-          <HoliIcon icon="globe" size={14} color={colors.foreground20} style={styles.locationIcon} />
+          <HoliIcon icon={Globe} size={14} color={colors.foreground20} style={styles.locationIcon} />
           <HoliText size={'small'} style={styles.locationText}>
             {engagement.location}, {country}
           </HoliText>

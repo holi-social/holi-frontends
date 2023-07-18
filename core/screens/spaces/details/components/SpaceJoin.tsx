@@ -7,7 +7,8 @@ import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/compo
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Time } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -76,7 +77,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
           disabled={loading}
         >
           <HoliText>{t('spaces.join.btnPending')}</HoliText>
-          <HoliIcon icon="time" style={[{ marginLeft: 5 }]} />
+          <HoliIcon icon={Time} style={[{ marginLeft: 5 }]} />
         </HoliButton>
       )}
 

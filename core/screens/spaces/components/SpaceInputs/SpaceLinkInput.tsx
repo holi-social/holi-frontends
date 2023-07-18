@@ -2,8 +2,19 @@ import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { SpaceLink } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import {
+  Delete,
+  Discord,
+  Edit2,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Links,
+  Twitter,
+  Whatsapp,
+} from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -14,6 +25,16 @@ type SpaceLinkInputProps = {
   style?: StyleProp<ViewStyle>
   onEdit?: (link: SpaceLink) => void
   onDelete?: (linkId: string) => void
+}
+
+const IconBySpaceLinkType = {
+  DISCORD: Discord,
+  FACEBOOK: Facebook,
+  INSTAGRAM: Instagram,
+  LINKEDIN: Linkedin,
+  TWITTER: Twitter,
+  WHATSAPP: Whatsapp,
+  OTHER: Links,
 }
 
 const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete }: SpaceLinkInputProps) => {
@@ -28,11 +49,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
     <View style={styles.container}>
       <View style={styles.upper}>
         <View style={styles.header}>
-          <HoliIcon
-            size={24}
-            color={colors.foreground20}
-            icon={type === SpaceLinkType.OTHER ? 'links' : type.toLowerCase()}
-          />
+          <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
           <HoliText size="small" bold style={styles.text}>
             {name}
           </HoliText>
@@ -46,7 +63,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
             onPress={() => onEdit && onEdit(link)}
             testID="btn-to-social-link"
           >
-            <HoliIcon size={24} color={colors.foreground20} icon="edit-2" />
+            <HoliIcon icon={Edit2} color={colors.foreground20} />
           </HoliButton>
           <HoliButton
             inline
@@ -56,7 +73,7 @@ const SpaceLinkInput: React.VFC<SpaceLinkInputProps> = ({ link, onEdit, onDelete
             onPress={() => setDeleteModalVisible(true)}
             testID="btn-to-social-link"
           >
-            <HoliIcon size={24} color={colors.foreground20} icon="delete" />
+            <HoliIcon icon={Delete} color={colors.foreground20} />
 
             <HoliConfirmation
               show={deleteModalVisible}

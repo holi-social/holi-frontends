@@ -1,27 +1,36 @@
 import React, { memo } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 type SpacesHorizontalSliderProps = {
+  loading?: boolean
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactElement
   testID?: string
+  cardWidth: number
   slideGap: number
 }
 
 const SpacesHorizontalSlider = ({
+  loading = false,
   style,
   testID = 'holi-slider',
   seeMoreButton,
   children,
+  cardWidth,
   slideGap,
 }: React.PropsWithChildren<SpacesHorizontalSliderProps>) => {
-  const { width: screenWidth } = useWindowDimensions()
-  const styles = getStyles(screenWidth)
+  const styles = getStyles(cardWidth)
 
   return (
     <View style={style} testID={testID}>
       {children && (
-        <ScrollView horizontal nestedScrollEnabled contentContainerStyle={styles.scrollViewContainer}>
+        <ScrollView
+          // always enable on web to prevent vertical jumping
+          scrollEnabled={Platform.OS === 'web' ? true : !loading}
+          horizontal
+          nestedScrollEnabled
+          contentContainerStyle={styles.scrollViewContainer}
+        >
           {React.Children.map(children, (space, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {space}
@@ -35,10 +44,10 @@ const SpacesHorizontalSlider = ({
 }
 export default memo(SpacesHorizontalSlider)
 
-const getStyles = (screenWidth: number) =>
+const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
+      width: cardWidth,
     },
     scrollViewContainer: {
       paddingVertical: 13,

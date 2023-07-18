@@ -15,6 +15,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { ShareBox } from '@holi/icons/src/generated'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
@@ -223,7 +224,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
 
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading
-          icon="share-box"
+          icon={ShareBox}
           label={t('volunteering:engagementDetail.getInTouch')}
           onPress={() => Linking.openURL(engagement.url)}
           testID="volunteering-engagement-get-in-touch-btn"

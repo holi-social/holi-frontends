@@ -11,11 +11,12 @@ import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -49,7 +50,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
     successMsg: t('global.report.successMessage'),
   })
 
-  const visibilityIcon = post.isPublic ? 'global' : 'lock'
+  const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
   const isCurrentUserPostCreator = post.creator.id === user?.id
 
@@ -61,7 +62,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             <HoliColumn flex={2}>
               {hasVisibilityIcon ? (
                 <HoliColumns alignItems="center" padding={[0, 0, 8, 0]}>
-                  <HoliIcon icon={visibilityIcon} size={12} filled={true} />
+                  <HoliIcon icon={visibilityIcon} size={12} />
                   <HoliBox padding={[0, 0, 0, 6]}>
                     <HoliText size="extrasmall">{visibilityIconText}</HoliText>
                   </HoliBox>

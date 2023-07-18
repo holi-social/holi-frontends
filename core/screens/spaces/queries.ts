@@ -96,6 +96,11 @@ export const FullSpaceFragment = gql`
       title
       number
     }
+    onboarding {
+      steps {
+        text
+      }
+    }
   }
 `
 

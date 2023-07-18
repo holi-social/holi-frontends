@@ -6,11 +6,16 @@ import { useGrid } from '@holi/ui/components/atoms/HoliGridWrapper'
 
 export interface HoliGridCellProps {
   style: ViewStyle
+  testID?: string
 }
 
-const HoliGridCell = ({ children, style }: React.PropsWithChildren<Partial<HoliGridCellProps>>) => {
+const HoliGridCell = ({ testID, children, style }: React.PropsWithChildren<Partial<HoliGridCellProps>>) => {
   const { padding, width } = useGrid()
-  return <View style={[style, { padding, width }]}>{children}</View>
+  return (
+    <View testID={testID} style={[style, { padding, width }]}>
+      {children}
+    </View>
+  )
 }
 
 export default HoliGridCell

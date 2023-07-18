@@ -66,10 +66,10 @@ describe('HoliModalSelect', () => {
     await fireEvent.press(firstOption)
 
     // check the button has the correct value after modal is closed
+    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     expect(screen.getByTestId('btn-holi-modal-select')).toHaveTextContent('Public')
 
     // ensure no other option is selected
-    await fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     expect(screen.queryAllByTestId('checked-holi-modal-select').length).toBe(1)
 
     // check render correctly after selection

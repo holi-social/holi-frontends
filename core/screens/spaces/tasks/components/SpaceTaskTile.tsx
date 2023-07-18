@@ -6,7 +6,17 @@ import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import {
+  AtFilled,
+  GlobalFilled,
+  GlobeFilled,
+  LockFilled,
+  MapPin2Filled,
+  PhoneFilled,
+  RefreshFilled,
+  Time,
+} from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -67,11 +77,10 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           )}
           <View style={styles.visibility}>
             <HoliIcon
-              icon={task.visibility === VisibilityType.PUBLIC ? 'globe' : 'lock'}
-              size={12}
+              icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
               color={colors.foreground30}
+              size={16}
               style={styles.iconGroupIcon}
-              filled
             />
             <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
           </View>
@@ -122,18 +131,19 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
       <View style={styles.iconsContainer}>
         <View style={styles.iconGroupContainer}>
           <HoliIcon
-            icon={task.location ? 'map-pin-2' : task.locationType === LocationType.HYBRID ? 'refresh' : 'global'}
+            icon={
+              task.location ? MapPin2Filled : task.locationType === LocationType.HYBRID ? RefreshFilled : GlobalFilled
+            }
             size={12}
             color={colors.foreground20}
             style={styles.iconGroupIcon}
-            filled
           />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {!task.location ? t(`spaces.input.task.locationType.${task.locationType}.title`) : task.location}
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
+          <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {t(`spaces.input.task.regularity.${task.regularity}.title`)}
           </HoliText>
@@ -186,7 +196,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             {t('spaces.tasks.contact.title')}
           </HoliText>
           <View style={styles.contactContainer}>
-            <HoliIcon icon="at" size={24} color={colors.foreground20} filled />
+            <HoliIcon icon={AtFilled} color={colors.foreground20} />
             <HoliText style={styles.contactInformation} size="small">
               {task.contactEmail}
             </HoliText>
@@ -194,7 +204,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
 
           {!!task.contactPhone && (
             <View style={styles.contactContainer}>
-              <HoliIcon icon="phone" size={24} color={colors.foreground20} filled />
+              <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
               <HoliText style={styles.contactInformation} size="small">
                 {task.contactPhone}
               </HoliText>

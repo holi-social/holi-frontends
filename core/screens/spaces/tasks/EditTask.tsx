@@ -201,7 +201,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         ),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },

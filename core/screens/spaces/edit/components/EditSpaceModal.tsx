@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
@@ -65,8 +66,8 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
             onPress={onSave}
             testID="space-edit-modal-save-btn"
             style={styles.footerButton}
-            icon={loading ? 'loader-4' : undefined}
-            iconSpinning={saveButtonDisabled}
+            icon={saveButtonDisabled ? Loader4 : undefined}
+            iconSpinning={loading || saveButtonDisabled}
           />
         </View>
       )}

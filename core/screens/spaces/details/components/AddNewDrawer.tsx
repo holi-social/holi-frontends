@@ -7,12 +7,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ResourceCategoryTile, {
   ResourceCategory,
 } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Spaces } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -48,7 +48,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
         onPress={show}
       >
         <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
-        <HoliIcon icon="spaces" size={20} />
+        <HoliIcon icon={Spaces} size={20} />
       </HoliButton>
 
       {/* Add new modal (drawer) */}

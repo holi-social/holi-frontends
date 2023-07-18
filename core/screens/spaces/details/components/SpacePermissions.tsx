@@ -6,12 +6,14 @@ import { StyleSheet, View } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { ContentType } from '@holi/core/queries'
-import { UpdateSpaceUserConnectionResponse } from '@holi/core/screens/spaces/details/mutations'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
+import {
+  UpdateSpaceUserConnectionResponse,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/details/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionAction, SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
-import { Space } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { Space, SpaceConnectionAction, SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Flag, ShieldMinus, ShieldPlus, User, UserUnfollow } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -163,7 +165,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 onPress={() => setshowRevokeAdminConfirmationModal(true)}
                 testID={'spaces-collaborators-revoke-admin-btn'}
               >
-                <HoliIcon icon="shield-minus" style={styles.actionsItemIcon} />
+                <HoliIcon icon={ShieldMinus} color={styles.actionsItemIcon.color} />
                 <HoliText style={styles.actionsItemText}>
                   {t('spaces.collaborators.permissions.revokeAdmin.label')}{' '}
                 </HoliText>
@@ -178,7 +180,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
                 onPress={() => setShowGrantAdminConfirmationModal(true)}
                 testID={'spaces-collaborators-grant-admin-btn'}
               >
-                <HoliIcon icon="shield-plus" style={styles.actionsItemIcon} />
+                <HoliIcon icon={ShieldPlus} color={styles.actionsItemIcon.color} />
                 <HoliText style={styles.actionsItemText}>
                   {t('spaces.collaborators.permissions.grantAdmin.label')}
                 </HoliText>
@@ -194,7 +196,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               onPress={() => setShowRemoveMemberConfirmationModal(true)}
               testID={'spaces-collaborators-remove-user-btn'}
             >
-              <HoliIcon icon="user-unfollow" style={styles.actionsItemIcon} />
+              <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
               <HoliText style={styles.actionsItemText}>
                 {t('spaces.collaborators.permissions.remove.user.label')}
               </HoliText>
@@ -209,7 +211,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               onPress={() => setShowReportMemberConfirmationModal(true)}
               testID="report-user-button"
             >
-              <HoliIcon icon="flag" style={styles.actionsItemIcon} />
+              <HoliIcon icon={Flag} color={styles.actionsItemIcon.color} />
               <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
             </HoliButton>
 
@@ -222,7 +224,7 @@ const SpacePermissions: React.VFC<SpacePermissionsProps> = ({
               onPress={() => handleNavigation(user.id)}
               testID={'spaces-collaborators-view-profile-btn'}
             >
-              <HoliIcon icon="user" style={styles.actionsItemIcon} />
+              <HoliIcon icon={User} color={styles.actionsItemIcon.color} />
               <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
             </HoliButton>
           </View>

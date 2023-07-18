@@ -18,8 +18,9 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
@@ -206,7 +207,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     transparent
                     testID={`btn-to-close-${testID}`}
                   >
-                    <HoliIcon icon={isTouchDevice ? 'arrow-down-s' : 'close'} color={colors.foreground30} size={25} />
+                    <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
                   </HoliButton>
 
                   {!!heading && (

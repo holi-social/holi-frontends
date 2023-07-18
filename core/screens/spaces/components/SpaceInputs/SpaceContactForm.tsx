@@ -6,7 +6,8 @@ import FormWrapper, { FormWrapperProps } from '@holi/core/components/FormWrapper
 import SpaceContactDescriptionInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactDescriptionInput'
 import SpaceContactEmailInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactEmailInput'
 import SpaceContactPhoneInputWeb from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactPhoneInputWeb'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Global } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -55,7 +56,7 @@ const SpaceContactForm: React.VFC<SpaceContactFormProps> = ({
             <HoliText size="extralarge">{title}</HoliText>
           </View>
           <View style={styles.info}>
-            <HoliIcon icon="global" size={24} style={styles.infoIcon} />
+            <HoliIcon icon={Global} style={styles.infoIcon} />
             <HoliText style={styles.infoText}>{t('spaces.input.contact.info.text')}</HoliText>
           </View>
           <SpaceContactDescriptionInput

@@ -5,8 +5,9 @@ import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-nati
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -137,7 +138,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
       title: t('spaces.rolesAndPermissions.title'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />,
+      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDownS} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -150,7 +151,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
         {permissions.map((permission, index) => (
           <View key={index} style={styles.listing}>
             <HoliIcon
-              icon={permission.admin ? 'check' : 'close'}
+              icon={permission.admin ? Check : Close}
               style={styles.icon}
               color={permission.admin ? colors.brandColorB30 : colors.warning30}
             />

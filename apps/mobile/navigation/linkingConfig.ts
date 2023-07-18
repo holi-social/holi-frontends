@@ -74,6 +74,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
         [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
+        [RouteName.SpaceOnboarding]: 'spaces/:spaceIdOrName/onboarding',
+        [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
       },
     },
 

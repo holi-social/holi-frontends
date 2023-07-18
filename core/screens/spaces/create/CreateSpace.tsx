@@ -23,6 +23,7 @@ import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -83,7 +84,7 @@ const CreateSpace = () => {
       ),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon="close" onPress={() => setShowConfirmationModal(true)} />,
+      headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -147,7 +148,7 @@ const CreateSpace = () => {
         description={t('spaces.create.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.create.close.dialog.dismiss')}
-        confirmText={t('global.yes')}
+        confirmText={t('spaces.create.close.dialog.confirm')}
         testID="exit-space-creation-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)

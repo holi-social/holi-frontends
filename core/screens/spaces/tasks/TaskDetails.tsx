@@ -48,7 +48,7 @@ const TaskDetails = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
-      headerLeft: () => <HeaderBackButton icon="arrow-left" />,
+      headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
       },

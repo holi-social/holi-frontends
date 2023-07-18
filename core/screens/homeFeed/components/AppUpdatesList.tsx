@@ -4,8 +4,9 @@ import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet,
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SeeMore from '@holi/core/screens/homeFeed/components/SeeMore'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -16,7 +17,7 @@ type AppUpdatesListProps = {
   renderItem: ListRenderItem<any>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[]
-  appIcon: string
+  appIcon: HoliIconType
   heading: string
   subline: string
   onPressSeeMore: (event: React.SyntheticEvent | GestureResponderEvent) => void
