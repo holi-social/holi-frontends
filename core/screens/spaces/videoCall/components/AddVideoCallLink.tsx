@@ -63,30 +63,28 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
 
   return (
     <View style={style}>
-      <HoliBox padding={[0, 16, 16, 16]}>
-        <HoliBox padding={[0, 0, 16, 0]}>
-          <HoliTextInput
-            placeholder={t('spaces.input.videoCallLink.roomName.placeholder')}
-            inputLabel={t('spaces.input.videoCallLink.roomName.label')}
-            validationErrorText={fieldErrors.roomName?.length ? fieldErrors.roomName[0] : undefined}
-            value={roomName}
-            onChange={setRoomName}
-            accessibilityLabel={t('spaces.input.videoCallLink.roomName.label')}
-            testID="video-call-link-room-name"
-            isRequired={true}
-            maxNoOfCharacters={50}
-          />
-        </HoliBox>
-        <HoliButtonLoading
-          disabled={loading || !inputValid}
-          label={loading ? t('spaces.input.videoCallLink.loading') : t('spaces.input.videoCallLink.generate')}
-          variant={'small'}
-          onPress={createLink}
-          testID="video-call-link-generate-btn"
-          icon={loading ? Loader4 : undefined}
-          iconSpinning={loading}
+      <HoliBox padding={[0, 0, 16, 0]}>
+        <HoliTextInput
+          placeholder={t('spaces.input.videoCallLink.roomName.placeholder')}
+          inputLabel={t('spaces.input.videoCallLink.roomName.label')}
+          validationErrorText={fieldErrors.roomName?.length ? fieldErrors.roomName[0] : undefined}
+          value={roomName}
+          onChange={setRoomName}
+          accessibilityLabel={t('spaces.input.videoCallLink.roomName.label')}
+          testID="video-call-link-room-name"
+          isRequired={true}
+          maxNoOfCharacters={50}
         />
       </HoliBox>
+      <HoliButtonLoading
+        disabled={loading || !inputValid}
+        label={loading ? t('spaces.input.videoCallLink.loading') : t('spaces.input.videoCallLink.generate')}
+        variant={'small'}
+        onPress={createLink}
+        testID="video-call-link-generate-btn"
+        icon={loading ? Loader4 : undefined}
+        iconSpinning={loading}
+      />
     </View>
   )
 }
