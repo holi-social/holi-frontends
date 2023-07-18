@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "yarn svgr -d ./src/generated ./assets",
-    "clean": "rimraf src/generated"
+    "clean": "rimraf src/generated",
+    "clean:all": "yarn clean"
   },
   "dependencies": {
     "react": "18.2.0",
