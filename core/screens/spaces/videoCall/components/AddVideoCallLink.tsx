@@ -9,6 +9,7 @@ import { createUUID } from '@holi/core/helpers'
 import { generateSpaceVideoCallUrl } from '@holi/core/screens/spaces/helpers/urls'
 import { Space } from '@holi/core/screens/spaces/types'
 import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -82,7 +83,7 @@ const AddVideoCallLink: React.FC<AddVideoCallLinkProps> = ({ space, style }: Add
           variant={'small'}
           onPress={createLink}
           testID="video-call-link-generate-btn"
-          icon={loading ? 'loader-4' : undefined}
+          icon={loading ? Loader4 : undefined}
           iconSpinning={loading}
         />
       </HoliBox>
