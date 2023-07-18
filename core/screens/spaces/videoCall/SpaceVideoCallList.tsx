@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: Platform.OS === 'web' ? 0 : +vars.topBarHeight,
+    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
     backgroundColor: colors.background20,
     paddingTop: vars.topBarHeight,
   },
