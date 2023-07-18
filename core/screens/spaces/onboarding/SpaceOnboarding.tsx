@@ -128,7 +128,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    textAlign: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    flexShrink: 1,
   },
   link: {
     flexDirection: 'row',
@@ -143,9 +145,13 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: '100%',
   },
   text: {
     color: colors.foreground20,
+    marginTop: 4,
+    marginRight: 20,
   },
 })
 
