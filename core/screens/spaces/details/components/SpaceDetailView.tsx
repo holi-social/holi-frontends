@@ -1,11 +1,11 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdatesTabLazy from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -20,9 +20,25 @@ type SpaceDetailViewProps = {
   onChangeTab?: (index: number) => void
 }
 
-const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTab = () => null }: SpaceDetailViewProps) => {
+const SpaceDetailView = ({ space, style, onChangeTab = () => null }: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
+
+  const getInitialTabIndex = useCallback(() => {
+    const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+    const { collaborationTools = [] } = space
+    const hasInvolvementContent = space?.tasks?.length !== 0 || collaborationTools?.length !== 0
+
+    if (!isMember) {
+      return 0
+    }
+    if (hasInvolvementContent) {
+      return 2
+    }
+    return 1
+  }, [space])
+
+  const initialTabIndex = getInitialTabIndex()
 
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">

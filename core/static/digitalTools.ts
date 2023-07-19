@@ -106,7 +106,7 @@ const digitalTools = [
   {
     name: 'Telegram',
     type: 'Communication',
-    slug: 'telegram',
+    slug: 't.me',
     url: 'https://telegram.org/',
     desc: 'Telegram - a new era of messaging',
     img: require('@holi/ui/assets/img/icons/collaboration/telegram.png'),
@@ -174,6 +174,22 @@ const digitalTools = [
     url: 'https://drive.google.com/drive/my-drive',
     desc: 'Drive can provide encrypted and secure access to your files.',
     img: require('@holi/ui/assets/img/icons/collaboration/googledrive.png'),
+  },
+  {
+    name: 'Google Docs',
+    type: 'Storage & Docs',
+    slug: 'docs.google.com/document',
+    url: 'https://docs.google.com/document',
+    desc: 'A free web-based word processor in which documents can be created, edited and stored as part of the Google Docs Editors suite of free web applications.',
+    img: require('@holi/ui/assets/img/icons/collaboration/googledocs.png'),
+  },
+  {
+    name: 'Google Spreadsheets',
+    type: 'Storage & Docs',
+    slug: 'docs.google.com/spreadsheets',
+    url: 'https://docs.google.com/spreadsheets',
+    desc: 'Google Sheets is a spreadsheet application included as part of the free, web-based Google Docs Editors suite offered by Google.',
+    img: require('@holi/ui/assets/img/icons/collaboration/googlesheets.png'),
   },
   {
     name: 'Dropbox',
