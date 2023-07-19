@@ -47,7 +47,7 @@ export default {
       versionCode: versions.androidVersionCode,
     },
     plugins: [
-      'sentry-expo',
+      ['sentry-expo'],
       [
         'expo-image-picker',
         {
