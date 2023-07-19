@@ -14,9 +14,9 @@ import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 export type HoliKeyboardSaveViewProps = {
   style?: StyleProp<ViewStyle>
   contentStyle?: StyleProp<ViewStyle>
-  bottomContent?: React.ReactNode
   onHeightChange?: (newHeight: number) => void
   nativeProps?: ViewProps
+  initialOffsetTop?: number
   testID?: string
 }
 
@@ -25,9 +25,9 @@ const WITHOUT_MAX_HEIGHT = 10000
 const HoliKeyboardSaveView = ({
   style,
   contentStyle,
-  bottomContent,
   onHeightChange = () => null,
   nativeProps,
+  initialOffsetTop = 0,
   testID,
   children,
 }: React.PropsWithChildren<HoliKeyboardSaveViewProps>) => {
@@ -35,7 +35,7 @@ const HoliKeyboardSaveView = ({
   const { isKeyboardOpen, keyboardHeight } = useKeyboard()
   const { isSoftkeyboardOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [offsetTop, setOffsetTop] = useState(0)
+  const [offsetTop, setOffsetTop] = useState(initialOffsetTop)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
 
   const storeOffsetTop = useCallback(
@@ -70,7 +70,6 @@ const HoliKeyboardSaveView = ({
       <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
         {children}
       </View>
-      {bottomContent && <View style={styles.bottomBar}>{bottomContent}</View>}
     </View>
   )
 }
@@ -84,10 +83,5 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-  },
-  bottomBar: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 10,
   },
 })

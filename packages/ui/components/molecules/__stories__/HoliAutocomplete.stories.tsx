@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
+import { Discord, Search } from '@holi/icons/src/generated'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 
 export default {
@@ -52,6 +52,7 @@ export const Primary = ({ ...args }) => {
       suggestions={suggestions}
       loading={loading}
       helperText={helperText}
+      trailingIcon={Discord}
     />
   )
 }
@@ -61,7 +62,7 @@ Primary.args = {
   accessibilityLabel: 'accessibility label',
   placeholder: 'Start typing...',
   debounce: 500,
-  trailingIcon: 'search',
+  trailingIcon: { Search },
   id: 'autocomplete-primary',
 }
 const argTypes = {
@@ -69,10 +70,6 @@ const argTypes = {
   accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
   debounce: { description: 'Delay after typing before search starts', control: { type: 'number' } },
-  trailingIcon: {
-    type: 'select',
-    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
-  },
   suggestions: { description: 'Suggestions', control: false },
   loading: { description: 'Flag if suggestions are being loaded', control: { type: 'boolean' } },
   id: { description: 'Unique id for accessibility control', control: false },
@@ -96,7 +93,7 @@ WithError.args = {
   helperText: 'No suggestions found',
   id: 'autocomplete-error',
   debounce: 500,
-  trailingIcon: 'search',
+  trailingIcon: Search,
   validationErrorText: 'Error retrieving suggestions',
   suggestions: [],
   loading: false,

@@ -7,10 +7,10 @@ import { Animated } from 'react-native'
 import { setScreenScrollY, useScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-import HeaderAnimatedGradienBackground from './HeaderAnimatedGradienBackground'
+import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
 
 export const useHeaderHideAnimation = () => {
   const scrollY = useScreenScrollY()
@@ -49,8 +49,8 @@ export const useHeaderHideAnimation = () => {
   })
 }
 
-const HeaderAnimated: React.VoidFunctionComponent = () => {
-  const { options } = useUnifiedNavigation()
+const HeaderAnimated = () => {
+  const options = useScreenOptions()
   const { t } = useTranslation()
   const headerHideAnimation = useHeaderHideAnimation()
 
@@ -89,7 +89,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
             {!!headerBackgroundImageURI && (
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
-            {headerBackgroundGradient && <HeaderAnimatedGradienBackground />}
+            {headerBackgroundGradient && <HeaderAnimatedGradientBackground />}
           </>
         )}
       </View>

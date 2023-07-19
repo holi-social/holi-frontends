@@ -8,7 +8,8 @@ import { logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
@@ -18,6 +19,7 @@ import {
 } from '@holi/core/screens/spaces/linkHub/mutations'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { ArrowDownS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -33,7 +35,8 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
+  const { navigateBack, navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
@@ -83,17 +86,17 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     !loadingSpace &&
       isMember &&
-      setOptions({
+      setScreenOptions({
         animation: 'slide_from_bottom',
         title: '',
         headerStyle: { backgroundColor: colors.background20 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-down-s" onPress={() => setShowConfirmationModal(true)} />,
+        headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isMember])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {

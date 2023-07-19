@@ -1,7 +1,5 @@
 import { ImageStyle, StyleProp } from 'react-native'
 
-import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
-
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
 export type StaticImageData = {
@@ -14,7 +12,7 @@ export type StaticImageData = {
 
 export type HoliLocalImageProps = {
   imageSource: StaticImageData
-  // we need the hint if the image source is an svg because for images defined via require()-calls,
+  // we need the hint if the image source is a svg because for images defined via require()-calls,
   // we can't know, at least on mobile, where the resulting type of the require is number
   isSvg?: boolean
   /**
@@ -37,5 +35,5 @@ export type HoliLocalImageProps = {
   /**
    * The resizeMode to apply to the image. Default 'cover'. Using the React Native values and mapping them to corresponding object-fit values for web.
    */
-  resizeMode?: ResizeMode
+  resizeMode?: 'cover' | 'contain' | 'stretch' // add more, if you need more
 }

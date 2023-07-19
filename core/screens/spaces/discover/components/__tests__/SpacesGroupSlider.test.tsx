@@ -5,8 +5,8 @@ import React from 'react'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
@@ -73,10 +73,17 @@ describe('SpacesGroupSlider', () => {
     // expect 3 spaces with 2 images each
     expect(images.length).toBe(6)
     const [coverImage, avatarImage] = images
-    expect(coverImage.props.proxiedProperties.source).toEqual([{ uri: 'https://www.example.com/space1.jpg' }])
+    expect(coverImage.props.proxiedProperties.source).toEqual([
+      {
+        height: 315,
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:944:630/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace1.jpg',
+        width: 472,
+      },
+    ])
     expect(avatarImage.props.proxiedProperties.source).toEqual([
       {
-        uri: 'https://www.example.com/avatar.jpg?tr=w-48',
+        height: 24,
+        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
         width: 24,
       },
     ])

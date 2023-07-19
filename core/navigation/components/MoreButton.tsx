@@ -2,12 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { More } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type MoreButtonProps = {
-  icon?: string
+  icon?: HoliIconType
   label?: string
   tintColor?: string
   style?: StyleProp<ViewStyle>
@@ -16,7 +18,7 @@ type MoreButtonProps = {
 
 const MoreButton: React.VFC<MoreButtonProps> = ({
   label,
-  icon = 'more',
+  icon = More,
   tintColor = colors.foreground30,
   onPress,
   ...props
@@ -32,7 +34,7 @@ const MoreButton: React.VFC<MoreButtonProps> = ({
       testID="nav-button-more"
       {...props}
     >
-      <HoliIcon icon={icon} size={24} color={tintColor} />
+      <HoliIcon icon={icon} color={tintColor} />
     </HoliButton>
   )
 }

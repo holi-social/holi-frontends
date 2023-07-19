@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { ArrowDownS, ArrowUpS, Global } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -14,18 +17,18 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
 
-export type HoliModalSelectOption = {
-  id: string
+export type HoliModalSelectOption<IDType extends string = string> = {
+  id: IDType
   title: string
   description?: string
-  icon?: string
+  icon?: HoliIconType
   selected?: boolean
   disabled?: boolean
 }
 
-export type HoliModalSelectProps = {
-  options: HoliModalSelectOption[]
-  onChange: (option: HoliModalSelectOption) => void
+export type HoliModalSelectProps<IDType extends string = string> = {
+  options: HoliModalSelectOption<IDType>[]
+  onChange: (option: HoliModalSelectOption<IDType>) => void
   title: string
   label: string
   description?: string
@@ -37,7 +40,7 @@ export type HoliModalSelectProps = {
   showOptionIcon?: boolean
 }
 
-const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
+const HoliModalSelect = <IDType extends string>({
   options,
   onChange = () => null,
   title,
@@ -49,8 +52,8 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
   isRequired,
   variant = 'normal',
   showOptionIcon = false,
-}: HoliModalSelectProps) => {
-  const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption | undefined>()
+}: HoliModalSelectProps<IDType>) => {
+  const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
 
   const { show, hide, visible } = useModalState()
@@ -67,8 +70,16 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
     },
   })
 
+  const handleOnChange = useCallback(
+    async (option: HoliModalSelectOption<IDType>) => {
+      await hide()
+      onChange(option)
+    },
+    [onChange, hide]
+  )
+
   const renderOption = useCallback(
-    (option: HoliModalSelectOption) => (
+    (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
         contentStyle={styles.optionCardContent}
         style={[!isDense && styles.optionCard]}
@@ -77,14 +88,13 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         transparent
         disabled={option.disabled}
         onPress={() => {
-          onChange(option)
-          hide()
+          handleOnChange(option)
         }}
         testID={`item-${testID}`}
       >
         {!isDense && (
           <HoliIcon
-            icon={option.icon || 'global'}
+            icon={option.icon || Global}
             size={22}
             color={option?.disabled ? colors.foreground10 : colors.foreground30}
           />
@@ -109,7 +119,7 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         />
       </HoliButton>
     ),
-    [onChange, testID, hide, isDense, styles]
+    [styles.optionCardContent, styles.optionCard, styles.optionTextContainer, isDense, testID, handleOnChange]
   )
 
   return (
@@ -119,8 +129,8 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
           <View style={styles.labelWrapper}>
             <HoliText size="small" bold style={styles.label}>
               {label}
+              <HoliMandatoryFieldStar show={!!isRequired} />
             </HoliText>
-            {isRequired && <Text> *</Text>}
           </View>
         )}
         <HoliButton
@@ -133,13 +143,13 @@ const HoliModalSelect: React.FC<HoliModalSelectProps> = ({
         >
           {selectedOption ? (
             <View style={styles.selectedOptionContainer}>
-              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} size={24} />}
+              {showOptionIcon && selectedOption.icon && <HoliIcon icon={selectedOption.icon} />}
               <HoliText style={styles.selectedOptionTitle}>{selectedOption.title}</HoliText>
             </View>
           ) : (
             <HoliText style={styles.placeholder}>{placeholder}</HoliText>
           )}
-          <HoliIcon icon={visible ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
+          <HoliIcon icon={visible ? ArrowUpS : ArrowDownS} size={22} />
         </HoliButton>
       </View>
 

@@ -1,15 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
-export type SpaceGoalInputProps = {
-  onChange: (name: string) => void
-  value: string
+export interface SpaceGoalInputProps extends Partial<HoliTextInputProps> {
   errorMessage?: string
 }
 
-const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, errorMessage }: SpaceGoalInputProps) => {
+const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({
+  onChange,
+  value,
+  errorMessage,
+  ...props
+}: SpaceGoalInputProps) => {
   const { t } = useTranslation()
 
   return (
@@ -23,8 +26,10 @@ const SpaceGoalInput: React.VFC<SpaceGoalInputProps> = ({ onChange, value, error
       validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
+      {...props}
       accessibilityLabel={t('spaces.input.goal.label')}
       testID="space-goal"
+      inputProps={{ textAlignVertical: 'top' }}
     />
   )
 }

@@ -9,6 +9,7 @@ export interface Insight {
   datePublished: string
   creator: User
   headerImage: string
+  headerImageBlurhash?: string
   topic: Topic
   posts: Post[]
   numberOfPosts: number

@@ -29,6 +29,7 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
       style={styles.modalWrapper}
       testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
+      hideFooterWhenKeyboardIsOpen={true}
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>

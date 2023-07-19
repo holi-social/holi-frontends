@@ -61,6 +61,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "minHeight": 40,
           "paddingHorizontal": 14,
           "paddingVertical": 8,
         },
@@ -92,67 +93,61 @@ exports[`renders correctly renders correctly when checked 1`] = `
         }
       }
     >
-      <RNSVGSvgView
-        align="xMidYMid"
-        bbHeight="15"
-        bbWidth="15"
-        color="#fff"
-        focusable={false}
-        meetOrSlice={0}
-        minX={0}
-        minY={0}
-        style={
-          [
-            {
-              "backgroundColor": "transparent",
-              "borderWidth": 0,
-            },
-            {
-              "borderStyle": "solid",
-              "borderWidth": 0,
-              "color": "#fff",
-              "display": "flex",
-              "fill": "currentColor",
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "height": 15,
-              "stroke": "currentColor",
-              "width": 15,
-            },
-            {
-              "flex": 0,
-              "height": 15,
-              "width": 15,
-            },
-          ]
-        }
-        tintColor="#fff"
-        vbHeight={1024}
-        vbWidth={1024}
-      >
-        <RNSVGGroup
-          fill={
-            {
-              "type": 2,
-            }
-          }
-          propList={
+      <View>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight="15"
+          bbWidth="15"
+          color="#fff"
+          fill="none"
+          focusable={false}
+          height={15}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
             [
-              "fill",
-              "stroke",
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "flex": 0,
+                "height": 15,
+                "width": 15,
+              },
             ]
           }
-          stroke={
-            {
-              "type": 2,
-            }
-          }
+          tintColor="#fff"
+          vbHeight={24}
+          vbWidth={24}
+          width={15}
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <RNSVGPath
-            d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
-          />
-        </RNSVGGroup>
-      </RNSVGSvgView>
+          <RNSVGGroup
+            fill={null}
+            propList={
+              [
+                "fill",
+              ]
+            }
+          >
+            <RNSVGPath
+              d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+              fill={
+                {
+                  "type": 2,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
     </View>
   </View>
 </View>
@@ -215,6 +210,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "minHeight": 40,
           "paddingHorizontal": 14,
           "paddingVertical": 8,
         },
@@ -301,6 +297,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "minHeight": 40,
           "paddingHorizontal": 14,
           "paddingVertical": 8,
         },
@@ -332,67 +329,61 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         }
       }
     >
-      <RNSVGSvgView
-        align="xMidYMid"
-        bbHeight="15"
-        bbWidth="15"
-        color="#787777"
-        focusable={false}
-        meetOrSlice={0}
-        minX={0}
-        minY={0}
-        style={
-          [
-            {
-              "backgroundColor": "transparent",
-              "borderWidth": 0,
-            },
-            {
-              "borderStyle": "solid",
-              "borderWidth": 0,
-              "color": "#787777",
-              "display": "flex",
-              "fill": "currentColor",
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "height": 15,
-              "stroke": "currentColor",
-              "width": 15,
-            },
-            {
-              "flex": 0,
-              "height": 15,
-              "width": 15,
-            },
-          ]
-        }
-        tintColor="#787777"
-        vbHeight={1024}
-        vbWidth={1024}
-      >
-        <RNSVGGroup
-          fill={
-            {
-              "type": 2,
-            }
-          }
-          propList={
+      <View>
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight="15"
+          bbWidth="15"
+          color="#787777"
+          fill="none"
+          focusable={false}
+          height={15}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
+          style={
             [
-              "fill",
-              "stroke",
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "flex": 0,
+                "height": 15,
+                "width": 15,
+              },
             ]
           }
-          stroke={
-            {
-              "type": 2,
-            }
-          }
+          tintColor="#787777"
+          vbHeight={24}
+          vbWidth={24}
+          width={15}
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <RNSVGPath
-            d="M469.333 469.333v-256h85.333v256h256v85.333h-256v256h-85.333v-256h-256v-85.333h256z"
-          />
-        </RNSVGGroup>
-      </RNSVGSvgView>
+          <RNSVGGroup
+            fill={null}
+            propList={
+              [
+                "fill",
+              ]
+            }
+          >
+            <RNSVGPath
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              fill={
+                {
+                  "type": 2,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
     </View>
   </View>
 </View>

@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -50,6 +51,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
                         width: THUMBNAIL_SIZE,
                         height: THUMBNAIL_SIZE,
                       }}
+                      blurhash={insight.headerImageBlurhash}
                       resizeMode="cover"
                     />
                   </View>
@@ -65,7 +67,7 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
   )
 }
 
-export default InsightsTab
+export default withProfiler(InsightsTab, { name: 'InsightsTab' })
 
 const styles = StyleSheet.create({
   itemContainer: {

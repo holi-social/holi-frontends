@@ -1,19 +1,23 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export interface LayoutProps extends ScrollViewProps {
-  headerOverlap?: boolean
-  hasFooterTabBar?: boolean
-  scrollable?: boolean
-  style?: ViewStyle
-  contentStyle?: ViewStyle
-  testID?: string
-}
-
 const Default = React.forwardRef<ScrollView, LayoutProps>(
-  ({ hasFooterTabBar = true, scrollable = true, style, contentStyle, children, testID, ...scrollViewProps }, ref) => {
+  (
+    {
+      hasFooterTabBar = true,
+      scrollable = true,
+      style,
+      contentStyle,
+      children,
+      backgroundColor = colors.background10,
+      testID,
+      ...scrollViewProps
+    },
+    ref
+  ) => {
     const isWeb = Platform.OS === 'web'
 
     const contentView = (
@@ -30,13 +34,13 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
       <ScrollView
         testID={testID}
         {...scrollViewProps}
-        contentContainerStyle={[styles.scrollLayout, style]}
+        contentContainerStyle={[styles.scrollLayout, { backgroundColor }, style]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
       >
         {contentView}
       </ScrollView>
     ) : (
-      <View testID={testID} style={[styles.scrollLayout, style]}>
+      <View testID={testID} style={[styles.scrollLayout, { backgroundColor }, style]}>
         {contentView}
       </View>
     )
@@ -53,6 +57,5 @@ const styles = StyleSheet.create({
   },
   scrollLayout: {
     justifyContent: 'flex-start',
-    backgroundColor: colors.background10,
   },
 })

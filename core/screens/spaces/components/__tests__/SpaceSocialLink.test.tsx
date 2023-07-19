@@ -1,17 +1,17 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
+import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import { SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
 
-describe('SpaceSocialLink', () => {
+describe('SpacePublicLink', () => {
   it('renders correctly when type is different than OTHER', () => {
     const link: SpaceLink = {
       url: 'www.facebook.com',
       type: SpaceLinkType.FACEBOOK,
     }
 
-    const tree = renderer.create(<SpaceSocialLink link={link} />).toJSON()
+    const tree = renderer.create(<SpacePublicLink link={link} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
@@ -21,7 +21,7 @@ describe('SpaceSocialLink', () => {
       type: SpaceLinkType.OTHER,
     }
 
-    const tree = renderer.create(<SpaceSocialLink link={link} />).toJSON()
+    const tree = renderer.create(<SpacePublicLink link={link} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

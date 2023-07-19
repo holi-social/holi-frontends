@@ -160,69 +160,92 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             http://betterplace.org
           </Text>
         </View>
-        <RNSVGSvgView
-          align="xMidYMid"
-          bbHeight="18"
-          bbWidth="18"
-          color="#787777"
-          focusable={false}
-          meetOrSlice={0}
-          minX={0}
-          minY={0}
+        <View
           style={
-            [
-              {
-                "backgroundColor": "transparent",
-                "borderWidth": 0,
-              },
-              {
-                "borderStyle": "solid",
-                "borderWidth": 0,
-                "color": "#787777",
-                "display": "flex",
-                "fill": "currentColor",
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "height": 18,
-                "marginLeft": 12,
-                "marginTop": 4,
-                "stroke": "currentColor",
-                "width": 18,
-              },
-              {
-                "flex": 0,
-                "height": 18,
-                "width": 18,
-              },
-            ]
-          }
-          tintColor="#787777"
-          vbHeight={1024}
-          vbWidth={1024}
-        >
-          <RNSVGGroup
-            fill={
-              {
-                "type": 2,
-              }
+            {
+              "marginLeft": 12,
+              "marginTop": 4,
             }
-            propList={
+          }
+        >
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="18"
+            bbWidth="18"
+            color="#787777"
+            fill="none"
+            focusable={false}
+            height={18}
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
               [
-                "fill",
-                "stroke",
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "flex": 0,
+                  "height": 18,
+                  "width": 18,
+                },
               ]
             }
-            stroke={
-              {
-                "type": 2,
-              }
-            }
+            tintColor="#787777"
+            vbHeight={24}
+            vbWidth={24}
+            width={18}
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <RNSVGPath
-              d="M426.667 128v85.333h-213.333v597.333h597.333v-213.333h85.333v256c0 11.315-4.497 22.17-12.497 30.17s-18.854 12.497-30.17 12.497h-682.667c-11.316 0-22.168-4.497-30.17-12.497s-12.497-18.854-12.497-30.17v-682.667c0-11.316 4.495-22.168 12.497-30.17s18.854-12.497 30.17-12.497h256zM750.336 213.333h-195.669v-85.333h341.333v341.333h-85.333v-195.669l-298.667 298.667-60.331-60.331 298.667-298.667z"
-            />
-          </RNSVGGroup>
-        </RNSVGSvgView>
+            <RNSVGGroup
+              fill={null}
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            >
+              <RNSVGGroup
+                clipPath="share-box_svg__a"
+              >
+                <RNSVGPath
+                  d="M10 3v2H5v14h14v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6Zm7.586 2H13V3h8v8h-2V6.414l-7 7L10.586 12l7-7Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+              <RNSVGDefs>
+                <RNSVGClipPath
+                  name="share-box_svg__a"
+                >
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGClipPath>
+              </RNSVGDefs>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
       </View>
     </View>
   </View>

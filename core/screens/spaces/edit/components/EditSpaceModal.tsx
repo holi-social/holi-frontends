@@ -2,7 +2,8 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { Loader4 } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
@@ -17,6 +18,7 @@ type EditSpaceModalProps = {
   loading?: boolean
   scrollable?: boolean
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
+  persistFooter?: boolean
 }
 
 const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
@@ -27,10 +29,11 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   children,
   scrollable = true,
   keyboardShouldPersistTaps = 'always',
+  persistFooter = true,
 }: EditSpaceModalProps) => {
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
-  const showFooter = !isKeyboardOpen && !isSoftkeyboardOpen
+  const showFooter = persistFooter || (!isKeyboardOpen && !isSoftkeyboardOpen)
 
   const mixins = useStyleMixins()
 
@@ -63,8 +66,8 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
             onPress={onSave}
             testID="space-edit-modal-save-btn"
             style={styles.footerButton}
-            icon={loading ? 'loader-4' : undefined}
-            iconSpinning={saveButtonDisabled}
+            icon={saveButtonDisabled ? Loader4 : undefined}
+            iconSpinning={loading || saveButtonDisabled}
           />
         </View>
       )}
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
   contentStyle: {
     flex: 1,
     paddingBottom: 0,
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
   },
   scrollView: {
     paddingBottom: 120,

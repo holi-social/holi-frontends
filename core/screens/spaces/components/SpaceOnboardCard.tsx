@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -24,14 +25,18 @@ const SpaceOnboardCard = ({ content }: OnboardCardProps) => {
     <View style={styles.onboardCardContainer}>
       <HoliLocalImage
         imageSource={content.image}
-        width={279}
-        height={200}
+        width={240}
+        height={174}
         label={''}
         isSvg={true}
         resizeMode="contain"
         style={styles.illustration}
       />
-      <HoliText style={styles.onboardingDescription}>{t(content.description)}</HoliText>
+      <HoliText style={styles.onboardingDescription}>
+        <Trans t={t} i18nKey={content.description}>
+          <HoliText bold />
+        </Trans>
+      </HoliText>
       <HoliText bold style={styles.onboardingInstruction}>
         {t(content.instruction)}
       </HoliText>

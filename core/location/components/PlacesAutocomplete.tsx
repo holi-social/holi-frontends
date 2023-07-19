@@ -11,6 +11,7 @@ import {
   geoPlacesQuery,
 } from '@holi/core/location/queries'
 import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
+import { Search } from '@holi/icons/src/generated'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
@@ -167,7 +168,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         accessibilityLabel={label}
         placeholder={placeholder}
         value={value}
-        trailingIcon="search"
+        trailingIcon={Search}
         inputProps={inputProps}
         onSubmit={submit}
         onSelect={onChange}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { Term } from '@holi/core/screens/userprofile/types'
+import { Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -38,20 +39,13 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         value={filterString}
         placeholder={t(`profile.${keyInUserObject}.filter.placeholder`)}
         onChange={onFilterStringChange}
-        trailingIcon="search"
+        trailingIcon={Search}
         style={styles.input}
       />
 
       <HoliChipRow editable={false} editButtonLabel="">
         {terms.map(({ id, selected, title }) => (
-          <HoliChip
-            key={id}
-            checked={selected}
-            onPress={() => onTermSelect(id)}
-            text={title}
-            label={title}
-            style={styles.chip}
-          />
+          <HoliChip key={id} checked={selected} onPress={() => onTermSelect(id)} text={title} label={title} />
         ))}
       </HoliChipRow>
 
@@ -75,10 +69,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
   },
 })
 

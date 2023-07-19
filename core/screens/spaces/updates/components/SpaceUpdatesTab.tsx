@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
@@ -10,11 +11,12 @@ import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { SpaceByIdResponse } from '@holi/core/screens/spaces/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { SpaceByIdQueryVariables, spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -32,8 +34,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
   const postGridItemsInRow = useBreakpointMatcher()
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
-  const { error, data, loading } = useQuery<SpaceByIdResponse>(spacePostsQuery, {
-    variables: { idOrName: space.name, offset: 0, limit: 10, visibility: filter },
+  const spacePostQueryVars = { idOrName: space.name, offset: 0, limit: 10, visibility: filter }
+  const { error, data, loading } = useQuery<SpaceByIdResponse, SpaceByIdQueryVariables>(spacePostsQuery, {
+    variables: spacePostQueryVars,
   })
 
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -101,9 +104,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 style={setButtonStyles(isFilterPublic)}
               >
                 <HoliIcon
-                  icon={'global'}
+                  icon={GlobalFilled}
                   size={14}
-                  filled={true}
                   color={isFilterPublic ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />
@@ -123,9 +125,8 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
                 style={setButtonStyles(isFilterMembers)}
               >
                 <HoliIcon
-                  icon="lock"
+                  icon={LockFilled}
                   size={14}
-                  filled={true}
                   color={isFilterMembers ? colors.white100 : colors.foreground30}
                   style={styles.icon}
                 />
@@ -197,4 +198,4 @@ export const SpaceUpdatesTabLazy = dynamicImport<SpaceUpdatesTabProps>(
   () => import('@holi/core/screens/spaces/updates/components/SpaceUpdatesTab')
 )
 
-export default SpaceUpdatesTab
+export default withProfiler(SpaceUpdatesTab, { name: 'SpaceUpdatesTab' })

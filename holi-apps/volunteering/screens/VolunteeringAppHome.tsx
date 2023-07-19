@@ -1,20 +1,21 @@
-import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { onScreenScrollY } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
@@ -25,7 +26,7 @@ const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
-  const statusBarHeight = Constants.statusBarHeight
+  const setScreenOptions = useSetScreenOptions()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
@@ -55,7 +56,7 @@ const VolunteeringAppHome = () => {
     [updateParams]
   )
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const filters: VolunteeringFilters = { location, category }
   const isFiltering = !!(location || category)
 
@@ -74,11 +75,11 @@ const VolunteeringAppHome = () => {
         }}
         testID="btn-to-volunteering-filter-modal"
       >
-        <HoliIcon icon="filter-3" size={24} />
+        <HoliIcon icon={Filter3} />
         {isFiltering && <View style={styles.dot} />}
       </HoliButton>
     )
-    setOptions({
+    setScreenOptions({
       headerTitle: () => (
         <HoliHeading level="1" size="small">
           {title}
@@ -86,34 +87,34 @@ const VolunteeringAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [setOptions, navigate, t, title, isFiltering, showFilterModal])
+  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
 
   return (
-    <DefaultLayout
-      style={styles.defaultLayout}
-      scrollable={false}
-      testID={'volunteering-list-container'}
-      keyboardShouldPersistTaps="handled"
-      hasFooterTabBar={false}
-    >
-      <HoliModal
-        show={showFilterModal}
-        onDismiss={closeModal}
-        testID="volunteering-filter-modal"
-        label={t('volunteering:filter.heading')}
-        autoHeight={false}
-        relativeHeight={1}
+    <SafeAreaProvider>
+      <DefaultLayout
+        style={styles.defaultLayout}
+        scrollable={false}
+        testID={'volunteering-list-container'}
+        keyboardShouldPersistTaps="handled"
+        hasFooterTabBar={false}
       >
-        <VolunteeringFilterForm onSubmit={submit} filters={filters} />
-      </HoliModal>
+        <HoliModal
+          show={showFilterModal}
+          onDismiss={closeModal}
+          testID="volunteering-filter-modal"
+          label={t('volunteering:filter.heading')}
+          autoHeight={false}
+          relativeHeight={1}
+        >
+          <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+        </HoliModal>
 
-      <SafeArea style={{ backgroundColor: colors.background10, paddingTop: statusBarHeight + vars.topBarHeight }}>
         <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
-      </SafeArea>
-    </DefaultLayout>
+      </DefaultLayout>
+    </SafeAreaProvider>
   )
 }
 

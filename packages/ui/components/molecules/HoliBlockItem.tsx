@@ -1,61 +1,96 @@
 import type { PropsWithChildren } from 'react'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
-import { useFallbackImage, useToastForNotAvailableFeature } from '@holi/core/helpers'
-import { SpaceSectionType } from '@holi/core/screens/spaces/types'
+import { useFallbackImage } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliBlockItemProps {
+interface BaseProps {
   title: string
   subtitle?: string
   description?: string
   users: User[]
   imageSrc?: string
+  imageBlurhash?: string
   imageElement?: React.ReactNode
   href: string
   label: string
   size?: 'small' | 'large'
   testID?: string
-  type?: SpaceSectionType
   totalUserCount?: number
+  cardWidthForImageScaling?: number
 }
 
+interface SkeletonProps extends Partial<BaseProps> {
+  loading: true
+}
+
+interface Props extends BaseProps {
+  loading?: false
+}
+
+type HoliBlockItemProps = SkeletonProps | Props
+
 const SMALL_IMAGE_DIMENSION = 64
+const SMALL_OUTER_BORDER_RADIUS = 8
+
+// very hard to calculate, estimated for simplicity
+// hint: we could make the skeleton calculate this by giving it transparent
+// children that behave similar like the actual component children
+// (aspect ratio image + multiple lines of text)
+const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 315 : 252
+const LARGE_OUTER_BORDER_RADIUS = 16
+const LARGE_IMAGE_ASPECT_RATIO = 240 / 160
 
 const HoliBlockItem = ({
+  loading,
   title,
   subtitle,
   description,
   users,
   imageSrc,
+  imageBlurhash,
   imageElement,
   href,
   label,
   testID,
-  type,
   size = 'small',
   totalUserCount,
+  cardWidthForImageScaling,
 }: PropsWithChildren<HoliBlockItemProps>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
   const styles = isSmall ? stylesSmall : stylesLarge
   const fallbackImageUri = useFallbackImage().uri
+  const largeImageWidth = cardWidthForImageScaling ? cardWidthForImageScaling - 2 * styles.container.padding : undefined
   const imageSource = isSmall
-    ? { uri: imageSrc ? imageSrc : fallbackImageUri, width: SMALL_IMAGE_DIMENSION, height: SMALL_IMAGE_DIMENSION }
-    : { uri: imageSrc ? imageSrc : fallbackImageUri }
+    ? {
+        uri: imageSrc ? imageSrc : fallbackImageUri,
+        width: SMALL_IMAGE_DIMENSION,
+        height: SMALL_IMAGE_DIMENSION,
+      }
+    : {
+        uri: imageSrc ? imageSrc : fallbackImageUri,
+        width: largeImageWidth,
+        height: largeImageWidth ? Math.ceil(largeImageWidth / LARGE_IMAGE_ASPECT_RATIO) : undefined,
+      }
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
-  const isEditable = type === SpaceSectionType.MEMBER || type === SpaceSectionType.CREATOR
+  if (loading) {
+    return (
+      <HoliSkeleton
+        height={isSmall ? SMALL_IMAGE_DIMENSION : LARGE_SKELETON_HEIGHT}
+        width={'100%'}
+        borderRadius={isSmall ? SMALL_OUTER_BORDER_RADIUS : LARGE_OUTER_BORDER_RADIUS}
+      />
+    )
+  }
 
   return (
     <View style={styles.container} testID={testID}>
@@ -64,7 +99,13 @@ const HoliBlockItem = ({
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
               {!imageElement ? (
-                <HoliImage label="" source={imageSource} resizeMode="cover" style={styles.image} />
+                <HoliImage
+                  label=""
+                  source={imageSource}
+                  blurhash={imageBlurhash}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
               ) : (
                 imageElement
               )}
@@ -113,17 +154,6 @@ const HoliBlockItem = ({
           </View>
         </HoliLink>
       </View>
-      {isSmall && isEditable && (
-        <HoliButton
-          label={t('global.notAvailable')}
-          inline
-          transparent
-          onPress={showFeatureNotImplementedToast}
-          style={styles.optionsButton}
-        >
-          <HoliIcon icon="tools" size={20} color={colors.foreground20} />
-        </HoliButton>
-      )}
     </View>
   )
 }
@@ -132,6 +162,7 @@ export default HoliBlockItem
 
 const stylesSmall = StyleSheet.create({
   container: {
+    padding: 0,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -153,7 +184,7 @@ const stylesSmall = StyleSheet.create({
     height: SMALL_IMAGE_DIMENSION,
   },
   image: {
-    borderRadius: 8,
+    borderRadius: SMALL_OUTER_BORDER_RADIUS,
     height: '100%',
   },
   usersPile: {
@@ -190,7 +221,7 @@ const stylesLarge = StyleSheet.create({
   container: {
     padding: 8,
     paddingBottom: 16,
-    borderRadius: 18,
+    borderRadius: LARGE_OUTER_BORDER_RADIUS,
     backgroundColor: colors.background10,
   },
   mainSection: {
@@ -203,7 +234,7 @@ const stylesLarge = StyleSheet.create({
     marginBottom: 16,
   },
   image: {
-    aspectRatio: 240 / 160,
+    aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
     borderRadius: 8,
     maxWidth: '100%',
   },

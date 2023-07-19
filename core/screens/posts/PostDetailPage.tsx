@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +20,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
@@ -57,10 +58,10 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
+  const setScreenOptions = useSetScreenOptions()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { setOptions } = useUnifiedNavigation()
   const { width: screenWidth } = useWindowDimensions()
 
   const scrollViewRef = useRef<ScrollView>(null)
@@ -76,14 +77,14 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(
     () =>
-      setOptions({
+      setScreenOptions({
         title,
         headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
-    [setOptions, title]
+    [setScreenOptions, title]
   )
 
   const scrollIntoView = useCallback(
@@ -134,7 +135,11 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         ref={scrollViewRef}
       >
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
-          <PostContent hasVisibilityIcon={hasVisibilityIcon} post={post} style={styles.postContent} />
+          <PostContent
+            hasVisibilityIcon={hasVisibilityIcon}
+            style={styles.postContent}
+            {...{ post, spaceIdOrName, insightId }}
+          />
 
           {/* Post comments */}
           {comments.length > 0 && (
@@ -209,4 +214,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(PostDetailPage)
+export default withProfiler(memo(PostDetailPage), { name: 'PostDetailPage' })

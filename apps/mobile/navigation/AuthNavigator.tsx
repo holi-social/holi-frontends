@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import ChangePassword from '@holi/core/screens/userprofile/ChangePassword'
+import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
+import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
@@ -15,6 +17,8 @@ export type AuthStackScreensList = {
   SettingsOverview: undefined
   AccountSettings: undefined
   ChangePassword: undefined
+  LegalDocuments: undefined
+  Document: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
@@ -51,6 +55,22 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen
         name={RouteName.ChangePassword}
         component={ChangePassword}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.LegalDocuments}
+        component={LegalDocuments}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+        }}
+      />
+      <AuthStack.Screen
+        name={RouteName.Document}
+        component={LegalDocumentItem}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

@@ -11,7 +11,7 @@ import {
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-test.setTimeout(180000)
+test.setTimeout(240000)
 
 test.describe('@Spaces', () => {
   test('user journey', async ({ context, page, userHandler }) => {
@@ -114,16 +114,15 @@ const testDisplaysSpaceDetails = async (page: Page) => {
 const testShareSpace = async (page: Page) => {
   // open space share modal
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
-  await clickElementByTestId(page, 'space-options-btn')
-  await clickElementByTestId(page, 'space-share')
+  await clickElementByTestId(page, 'space-share-btn')
 
   //check if shared link is correct
-  const spaceShareLink = await locateElementByTestId(page, 'space-share-confirmation-description')
+  const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
   const spaceShareLinkText = await spaceShareLink.innerText()
   expect(spaceShareLinkText).toBe(page.url())
 
   // copy link and close modal / options
-  await clickElementByTestId(page, 'space-share-confirmation-confirm')
+  await clickElementByTestId(page, 'space-share-url-btn')
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await page.waitForSelector(byTestId('space-options-btn'))
 }
@@ -135,12 +134,12 @@ const saveAndWaitForModalClosed = async (page: Page) => {
   ])
 }
 
-const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
-  const numberOfInitialTerms = 3
-  const numberOfEditedTerms = 2
-  const initialName = 'e2e space name'
-  const initialGoal = 'e2e space goal'
+const numberOfInitialTerms = 3
+const numberOfEditedTerms = 2
+const initialName = 'e2e space name'
+const initialGoal = 'e2e space goal'
 
+const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
   // create the space as a random user, so it gets cleaned up together with the user after the test, even if it fails
   await userHandler.asRandomUser(async (page) => {
     await createSpace(page, numberOfInitialTerms, initialName, initialGoal)
@@ -213,15 +212,49 @@ const testCreatingEditingDeletingASpace = async (context: BrowserContext, page: 
 
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
 
+    // test Update Post creation and deletion
+    await testCreateDeleteSpaceUpdatePost(page)
+
     // delete space
     await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
     await clickElementByTestId(page, 'space-options-btn')
     await clickElementByTestId(page, 'space-delete')
     await clickElementByTestId(page, 'space-delete-confirmation-confirm')
 
+    await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
+
     // check if after deletion we are at the spaces dashboard (mine/discover)
     await page.waitForSelector(byTestId('btn-create-space'))
   })
+}
+
+const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
+  // open the space and create an update post
+  const postTitle = 'New post title'
+  const postDescription = 'This is an update for the new post'
+
+  await clickElementByTestId(page, 'space-tabs-button-1-inactive')
+  await clickElementByTestId(page, 'space-add-post-button')
+
+  const nameInput = await locateElementByTestId(page, 'update-title-input-input')
+  await nameInput.fill(postTitle)
+
+  const goalInput = await locateElementByTestId(page, 'update-content-input-input')
+  await goalInput.fill(postDescription)
+
+  await clickElementByTestId(page, 'form-modal-save-btn')
+
+  // check update post to be shown
+  const title = await locateElementByTestId(page, 'btn-to-post')
+  expect(title).toContainText(postTitle)
+
+  // delete the update post
+  await clickElementByTestId(page, 'post-three-dot-menu-button')
+  await clickElementByTestId(page, 'delete-post-button')
+  await clickElementByTestId(page, 'holi-confirmation-confirm')
+
+  // wait for the update post to disappear
+  await page.waitForSelector(byTestId('btn-to-post'), { state: 'detached' })
 }
 
 const checkConfirmButtonIsDisabled = async (page: Page) => {
@@ -438,7 +471,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   await clickElementByTestId(page, 'btn-show-tool-details')
   const toolDetailModal = await locateElementByTestId(page, 'tool-details-modal')
   const editButton = await locateElementByTestId(page, 'btn-to-edit-tool')
-  const toolUrl = await (await locateElementByTestId(page, 'text-link')).textContent()
+  const toolUrl = await (await locateElementByTestId(page, 'tool-url-link')).textContent()
   await expect(toolDetailModal).toBeVisible()
   await expect(editButton).toBeVisible()
   await expect(toolUrl).toBe('Open https://www.holi.community')

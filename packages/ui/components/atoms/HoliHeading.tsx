@@ -1,14 +1,22 @@
 import * as React from 'react'
-import { AccessibilityProps, Platform, StyleSheet, Text, TextProps } from 'react-native'
+import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, View } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
+import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliHeadingLevel = '1' | '2' | '3' | '4' // for working code completion in vscode
 type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' | 'xSmall' // for working code completion in vscode
 
-const HoliHeadings: Record<HoliHeadingLevel, { defaultSize: HoliHeadingSize }> = {
+const HoliHeadings: Record<
+  HoliHeadingLevel,
+  {
+    defaultSize: HoliHeadingSize
+  }
+> = {
   1: {
     defaultSize: 'large',
   },
@@ -32,6 +40,8 @@ export type HoliHeadingProps = {
   selectable?: boolean
   testID?: string
   numberOfLines?: number
+  loading?: boolean
+  skeletonOptions?: SkeletonTextOptions
 }
 
 const HoliHeading = ({
@@ -41,10 +51,21 @@ const HoliHeading = ({
   selectable = true,
   testID,
   numberOfLines,
+  loading = false,
+  skeletonOptions,
   ...props
 }: React.PropsWithChildren<HoliHeadingProps & TextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
+
+  if (loading) {
+    return (
+      <View style={props?.style}>
+        <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '40%')} />
+      </View>
+    )
+  }
+
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessibilityRole: 'header',

@@ -61,7 +61,8 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "placeholder": [],
           "source": [
             {
-              "uri": "avatar-1",
+              "height": 24,
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-1",
               "width": 24,
             },
           ],
@@ -174,7 +175,8 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "placeholder": [],
           "source": [
             {
-              "uri": "avatar-2",
+              "height": 24,
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-2",
               "width": 24,
             },
           ],
@@ -287,7 +289,8 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "placeholder": [],
           "source": [
             {
-              "uri": "avatar-3",
+              "height": 24,
+              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/avatar-3",
               "width": 24,
             },
           ],

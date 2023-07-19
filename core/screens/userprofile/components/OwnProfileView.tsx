@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { Suspense } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -72,14 +73,12 @@ const OwnProfileView = ({ toggleEditMode, user }: PropsWithChildren<Props>) => {
                     <HoliChip
                       text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                       label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                      style={styles.chip}
                       disabled
                     />
                   ) : (
                     <HoliChip
                       onPress={() => toggleEditMode('engagementLevel')}
                       label={t('profile.engagementLevel.add')}
-                      style={styles.chip}
                     />
                   )}
                 </HoliChipRow>
@@ -147,10 +146,6 @@ const styles = StyleSheet.create({
   chipRowContainer: {
     marginTop: 24,
   },
-  chip: {
-    marginRight: 8,
-    marginBottom: 8,
-  },
 })
 
-export default OwnProfileView
+export default withProfiler(OwnProfileView, { name: 'OwnProfileView' })

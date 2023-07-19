@@ -1,4 +1,5 @@
 import { DocumentNode } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -10,7 +11,8 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
@@ -46,12 +48,13 @@ const HomeFeed = () => {
 
   const mixins = useStyleMixins()
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   // TODO: when SSR is enabled we need to lazy load the header
   // because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
@@ -71,7 +74,7 @@ const HomeFeed = () => {
       ),
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
-  }, [setOptions, navigate, t, headerTitle])
+  }, [navigate, t, headerTitle, setScreenOptions])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -138,4 +141,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(HomeFeed)
+export default withProfiler(memo(HomeFeed), { name: 'HomeFeed' })

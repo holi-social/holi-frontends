@@ -2,15 +2,44 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ShareBox } from '@holi/icons/src/generated'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
+import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
+import { PartnerProps } from '@holi-apps/volunteering/types'
+
+export const GOODNEWS_IMG_SOURCES_MAPPING: {
+  [name: string]: PartnerProps
+} = {
+  'goodnews.eu': {
+    logo: {
+      src: require('@holi/ui/assets/img/goodnews/goodnews-logo.png'),
+      width: 40,
+      height: 40,
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/goodnews/goodnews-wordmark.png'),
+      width: 161,
+      height: 24,
+      isSvg: false,
+    },
+    url: 'https://goodnews.eu',
+  },
+}
 
 type GoodNewsArticleComponentProps = {
   article: GoodNewsArticle
@@ -18,13 +47,21 @@ type GoodNewsArticleComponentProps = {
   accessible?: boolean
 }
 
-const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
+const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
   style,
 }: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+
+  const partnerModalState = useModalState()
+  const partner = GOODNEWS_IMG_SOURCES_MAPPING['goodnews.eu']
+
+  const { imageWidth, imageHeight } = useWindowDimensionsWithImageScaling({
+    relativeHeight: relativeArticleImageHeightScaling,
+  })
+  const { uri: scaledImageUri } = setScalingParams({ uri: article.pictureUrl, width: imageWidth, height: imageHeight })
 
   return (
     <View
@@ -33,7 +70,8 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >
-      <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
+      {/** TODO replace ImageBackground with a holi component that has all image sizing features like HoliImage */}
+      <ImageBackground source={{ uri: scaledImageUri }} resizeMode="cover" style={styles.headerBackgroundImage}>
         {!!article.pictureCredit && (
           <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
             {article.pictureCredit}
@@ -41,11 +79,23 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
         )}
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
-        {!!article.source && (
-          <HoliText size="small" style={styles.source}>
-            {article.source}
-          </HoliText>
-        )}
+        <HoliBox padding={[0, 0, 16, 0]}>
+          <PartnerInfoRow
+            rowText={t('goodnews:app.subline')}
+            showOutlinkIcon={false}
+            partners={{ 'goodnews.eu': partner }}
+            onPress={partnerModalState.show}
+          />
+        </HoliBox>
+        <PartnerModal
+          partners={{ 'goodnews.eu': partner }}
+          show={partnerModalState.visible}
+          onDismiss={partnerModalState.hide}
+          i18nNamespace={'goodnews'}
+        />
+        <HoliText size="small" style={styles.source}>
+          {article.source}
+        </HoliText>
         <HoliHeading level="1" size="large" style={styles.headline}>
           {article.headline}
         </HoliHeading>
@@ -61,7 +111,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
             {t('goodnews:button.readArticle')}
           </HoliText>
           {/* TODO external link (part of HoliLink) ? */}
-          <HoliIcon icon={'share-box'} />
+          <HoliIcon icon={ShareBox} />
         </HoliButton>
       </View>
     </View>

@@ -24,6 +24,9 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
 
+const isNotificationConnectionRevoked = ({ notificationType }: Notification) =>
+  notificationType === NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
+
 const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationSpaceConnection>> = ({
   notification,
   style,
@@ -35,6 +38,9 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
+
+  const connectionRevoked = isNotificationConnectionRevoked(notification)
+
   const { displayError } = useErrorHandling()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
@@ -75,6 +81,9 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
   const { userId } = useAuth()
 
   const getI18Key = () => {
+    // this message is for 'CONNECTION_REVOKED' notification
+    if (connectionRevoked === true) return 'notifications.space.connection.revoked.message'
+
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
     if (connectionAccepted === null)
       return userId === notification.options.user.id
@@ -127,7 +136,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
       >
-        {connectionAccepted === null && (
+        {!connectionRevoked && connectionAccepted === null && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>

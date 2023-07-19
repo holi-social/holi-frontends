@@ -6,7 +6,9 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/details/components/SpaceCollaborators'
 import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
+import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvite'
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
+import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -63,7 +65,9 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <SpaceFollow space={space} style={{ marginRight: 8 }} />
+        <SpaceShare space={space} />
+        <SpaceInvite spaceIdOrName={space.name} space={space} />
+        <SpaceFollow space={space} />
         <SpaceJoin space={space} />
       </View>
     </View>
@@ -90,6 +94,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     maxWidth: 420,
     flexWrap: 'wrap',
+    gap: 8,
+    justifyContent: 'center',
   },
 })
 

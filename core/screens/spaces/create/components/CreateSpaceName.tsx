@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
+import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
+import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
 import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -37,16 +39,25 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
 
   return (
     <View style={styles.wrapper}>
-      <SpaceNameAndGoalForm
-        style={styles.container}
-        title={t('spaces.create.stepOne.title')}
-        spaceName={spaceName}
-        spaceGoal={spaceGoal}
-        spaceNameErrors={spaceNameErrors}
-        spaceGoalErrors={spaceGoalErrors}
-        onChangeSpaceName={onChangeSpaceName}
-        onChangeSpaceGoal={onChangeSpaceGoal}
-      />
+      <View style={styles.container}>
+        <View style={styles.title}>
+          <HoliText size="extralarge" testID="space-name-and-goal-title">
+            {t('spaces.create.stepOne.title')}
+          </HoliText>
+        </View>
+        <SpaceNameInput
+          value={spaceName}
+          onChange={onChangeSpaceName}
+          errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
+        />
+        <View style={styles.goalInputContainer}>
+          <SpaceGoalInput
+            value={spaceGoal}
+            onChange={onChangeSpaceGoal}
+            errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
+          />
+        </View>
+      </View>
     </View>
   )
 }
@@ -61,7 +72,13 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    paddingBottom: 200,
+    paddingBottom: 160,
     paddingHorizontal: 0,
+  },
+  title: {
+    marginVertical: 24,
+  },
+  goalInputContainer: {
+    marginTop: 24,
   },
 })

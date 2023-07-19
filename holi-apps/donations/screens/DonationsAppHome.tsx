@@ -3,9 +3,6 @@ import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import client from '@holi/api/graphql/client'
@@ -13,8 +10,10 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { DonationsAppScreensList } from '@holi/mobile/navigation/DonationsAppNavigator'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -24,15 +23,13 @@ import DonationListingContainer from '@holi-apps/donations/components/DonationLi
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 import { projectsQuery } from '@holi-apps/donations/queries'
 
-type ScreenProps = NativeStackScreenProps<DonationsAppScreensList>
-
 export type DonationsAppHomeParams = {
   location?: string
 }
 
 const { useParam } = createParam<DonationsAppHomeParams>()
 
-const DonationsAppHome: React.VFC<ScreenProps> = () => {
+const DonationsAppHome = () => {
   const { t } = useTranslation()
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
@@ -55,7 +52,8 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     closeModal()
   }, [setLocationQuery, closeModal])
 
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [projectsQuery] }))
 
@@ -68,11 +66,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         onPress={() => setShowSearchModal(true)}
         testID="donations-search-button"
       >
-        <HoliIcon icon="filter-3" size={24} />
+        <HoliIcon icon={Filter3} />
       </HoliButton>
     )
 
-    setOptions({
+    setScreenOptions({
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -83,11 +81,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
-  }, [setOptions, navigate, t, title])
+  }, [navigate, setScreenOptions, t, title])
 
   return (
     <ScrollHeaderLayout.Refreshable

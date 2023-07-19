@@ -2,7 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowLeft, Loader4 } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -50,7 +51,7 @@ const HoliWizardNaviagtionButtons = ({
           testID={testID ? `${testID}-back-btn` : 'holi-wizard-back-btn'}
           style={styles.backButton}
         >
-          <HoliIcon icon={'arrow-left'} size={24} color={colors.foreground30} />
+          <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
         </HoliButton>
       )}
 
@@ -61,7 +62,7 @@ const HoliWizardNaviagtionButtons = ({
           onPress={onNextPress}
           testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
           style={styles.nextButton}
-          icon={isLoading ? 'loader-4' : undefined}
+          icon={isLoading ? Loader4 : undefined}
           iconSpinning={isLoading}
         />
       </View>

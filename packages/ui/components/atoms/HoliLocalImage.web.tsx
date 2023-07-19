@@ -10,13 +10,12 @@ import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.sh
 // <HoliLocalImage imageSource={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} width={30} height={30} label="some alt text" />
 
 const HoliLocalImage = ({ imageSource, label, width, height, style, resizeMode = 'cover' }: HoliLocalImageProps) => {
-  const pathFromRequire = imageSource.src
-  const pathFromImport = imageSource.default?.src
-  const path = pathFromRequire || pathFromImport || `/${imageSource}`
+  if (!imageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
+  const webResizeMode = resizeMode === 'stretch' ? 'fill' : resizeMode
 
   return (
     <View style={style}>
-      <Image src={path as string} alt={label} width={width} height={height} objectFit={resizeMode} />
+      <Image src={imageSource as string} alt={label} width={width} height={height} objectFit={webResizeMode} />
     </View>
   )
 }

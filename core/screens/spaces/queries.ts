@@ -2,16 +2,16 @@ import { gql } from '@apollo/client/core'
 
 import { memberSpacesFragment } from '@holi/core/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
-import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment, FullUserFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces } from '@holi/core/types'
 
-export const SpaceMemberFragment = gql`
-  ${userAvatarFragment}
+export const FullSpaceMemberFragment = gql`
+  ${FullUserAvatarFragment}
   fragment FullSpaceMember on SpaceMemberPaged {
     totalResults
     data {
       user {
-        ...UserAvatar
+        ...FullUserAvatar
       }
       isAdministrator
     }
@@ -19,8 +19,9 @@ export const SpaceMemberFragment = gql`
 `
 
 // We only need 3 members for avatar pile
-export const SpaceFragment = gql`
-  ${SpaceMemberFragment}
+export const FullSpaceFragment = gql`
+  ${FullSpaceMemberFragment}
+  ${FullUserFragment}
   fragment FullSpace on Space {
     id
     title
@@ -29,8 +30,13 @@ export const SpaceFragment = gql`
     contactPhone
     contactDescription
     created
+    creator {
+      ...FullUser
+    }
     avatar
+    avatarBlurhash
     cover
+    coverBlurhash
     name
     avatarDefaultColor
     location
@@ -53,6 +59,7 @@ export const SpaceFragment = gql`
       title
       collectionType
       thumbnail
+      thumbnailBlurhash
     }
     members(limit: 3) {
       ...FullSpaceMember
@@ -70,8 +77,9 @@ export const SpaceFragment = gql`
       contactEmail
       contactPhone
       thumbnail
+      thumbnailBlurhash
       creator {
-        ...UserAvatar
+        ...FullUserAvatar
       }
       skills {
         id
@@ -88,24 +96,41 @@ export const SpaceFragment = gql`
       title
       number
     }
+    onboarding {
+      steps {
+        text
+      }
+    }
   }
 `
 
 // We only need 3 members for avatar pile
 export const SpaceOverviewFragment = gql`
-  ${SpaceMemberFragment}
-  fragment OverviewSpace on Space {
+  fragment SpaceOverview on Space {
     id
     title
     description
     cover
+    coverBlurhash
     location
     avatar
+    avatarBlurhash
     avatarDefaultColor
     name
-    connectionStatusToMyself
+    creator {
+      id
+    }
     members(limit: 3) {
-      ...FullSpaceMember
+      totalResults
+      data {
+        user {
+          id
+          avatar
+          avatarBlurhash
+          avatarLabel
+          avatarDefaultColor
+        }
+      }
     }
   }
 `
@@ -136,7 +161,7 @@ export const sdgsQuery = gql`
 `
 
 export const spaceByIdQuery = gql`
-  ${SpaceFragment}
+  ${FullSpaceFragment}
 
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {

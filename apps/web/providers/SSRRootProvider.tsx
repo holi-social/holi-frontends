@@ -6,7 +6,6 @@ import { StyleSheet } from 'react-native'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
 import { useApolloClient } from '@holi/core/helpers/useApolloSSRClient'
-import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,9 +33,7 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
           <ApolloProvider client={apolloWebClient}>
             <PortalProvider>
               <ToastProvider>
-                <NavigationContextProvider>
-                  <LoginModalProvider>{children}</LoginModalProvider>
-                </NavigationContextProvider>
+                <LoginModalProvider>{children}</LoginModalProvider>
               </ToastProvider>
             </PortalProvider>
           </ApolloProvider>

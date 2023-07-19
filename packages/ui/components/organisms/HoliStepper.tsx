@@ -13,6 +13,10 @@ interface StepperController {
   goBack: () => void
 }
 
+// TODO: refactor animation without using ScrollView, because it is not reliable on all platforms
+// till then disable animation for HoliStepper
+const isAnimated = false
+
 /**
  * @description The HoliStepper component is a controlled component, which means
  * the parent controls the element from the outside with the `useStepper` hook.
@@ -28,11 +32,13 @@ export const useStepper = (width: number, initialStep = 0): StepperController =>
   const scrollPoint = useRef(0)
 
   const handleNextStep = useCallback(
-    (nextStep: number, animated = true) => {
+    (nextStep: number, animated = isAnimated) => {
       scrollPoint.current = nextStep * width
       const scrollOptions = { x: scrollPoint.current, y: 0, animated }
       if (!ref.current?.scrollTo) return nextStep
-      delayAnimation(ref.current.scrollTo, scrollOptions, delay)
+      Platform.OS === 'android'
+        ? ref.current.scrollTo(scrollOptions)
+        : delayAnimation(ref.current.scrollTo, scrollOptions, delay)
 
       return nextStep
     },
@@ -48,7 +54,7 @@ export const useStepper = (width: number, initialStep = 0): StepperController =>
   }, [handleNextStep])
 
   const setStep = useCallback(
-    (nextStep: number, animated = true) => {
+    (nextStep: number, animated = isAnimated) => {
       setCurrentStep(handleNextStep(nextStep, animated))
     },
     [handleNextStep]
@@ -81,7 +87,7 @@ interface Props extends ScrollViewProps {
 
 export const HoliStepper = forwardRef<ScrollView, Props>(
   (
-    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = false, ...scrollViewProps },
+    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = isAnimated, ...scrollViewProps },
     carouselRef
   ) => {
     const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
@@ -108,7 +114,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         keyboardShouldPersistTaps="always"
         ref={carouselRef}
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContainer}
+        contentContainerStyle={[styles.scrollViewContainer, backgroundColorStyle]}
         showsHorizontalScrollIndicator={false}
         dataSet={{ stepperWrapper: true }}
         scrollEnabled={scrollEnabled}
@@ -122,7 +128,7 @@ export const HoliStepper = forwardRef<ScrollView, Props>(
         {steps.map((step, idx) => (
           <View
             key={idx}
-            style={StyleSheet.flatten([styles.tabWrapper, backgroundColorStyle, { width: width }])}
+            style={StyleSheet.flatten([styles.tabWrapper, { width: width }])}
             testID="stepper-step"
             dataSet={{ stepperStep: true }}
           >

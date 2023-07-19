@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
@@ -12,6 +13,7 @@ import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -83,25 +85,27 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
       relativeHeight={1}
       autoHeight={false}
     >
-      <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
-        <Pagination
-          query={spaceMembersQuery}
-          queryOptions={queryOptions}
-          fetchMoreButtonProps={{ style: styles.buttonContainer }}
-          fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-        >
-          <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
-        </Pagination>
-      </ScrollView>
-      {selectedMember && (
-        <SpacePermissions
-          space={space}
-          member={selectedMember}
-          handleNavigation={handleNavigation}
-          permissionsVisible={permissionsVisible}
-          hidePermissions={hidePermissions}
-        />
-      )}
+      <ToastProvider>
+        <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
+          <Pagination
+            query={spaceMembersQuery}
+            queryOptions={queryOptions}
+            fetchMoreButtonProps={{ style: styles.buttonContainer }}
+            fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+          >
+            <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />
+          </Pagination>
+        </ScrollView>
+        {selectedMember && (
+          <SpacePermissions
+            space={space}
+            member={selectedMember}
+            handleNavigation={handleNavigation}
+            permissionsVisible={permissionsVisible}
+            hidePermissions={hidePermissions}
+          />
+        )}
+      </ToastProvider>
     </HoliModal>
   )
 }
@@ -134,4 +138,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceCollaborators
+export default withProfiler(SpaceCollaborators, { name: 'SpaceCollaborators' })

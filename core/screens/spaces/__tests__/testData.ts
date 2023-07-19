@@ -31,6 +31,7 @@ export const user: User = {
   lastName: 'Body',
   fullName: 'Some Body',
   avatar: 'https://www.example.com/avatar.jpg',
+  avatarBlurhash: '',
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
   interests: topics,
@@ -39,6 +40,7 @@ export const user: User = {
 export const authenticatedUser = {
   id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
   avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+  avatarBlurhash: '',
   fullName: 'EE. Visited',
   firstName: 'EE.',
   lastName: 'Visited',
@@ -84,6 +86,7 @@ export const task: Task = {
   visibility: VisibilityType.PUBLIC,
   contactEmail: 'test@email.com',
   thumbnail: 'https://www.example.com/avatar.jpg?tr=w-48',
+  thumbnailBlurhash: '',
   skills: [
     { id: 'COMMUNICATION_SKILLS', title: 'Communication skills', slug: 'communication-skills' },
     { id: 'CREATIVITY', title: 'Creativity', slug: 'creativity' },
@@ -115,6 +118,7 @@ export const space: Space = {
   title: 'Space title',
   description: 'Space description',
   cover: 'https://www.example.com/space1.jpg',
+  coverBlurhash: '',
   members: pagedMembers,
   creator: user,
   created: '2022-11-21T12:34:56Z',
@@ -124,6 +128,7 @@ export const space: Space = {
   links,
   topics,
   avatar: '',
+  avatarBlurhash: '',
   avatarDefaultColor: '#000',
   name: 'space-title',
 }
@@ -177,19 +182,6 @@ export const skill: Skill = {
   title: 'Skill title',
   slug: 'skill-title',
 }
-
-export const spacesData = [
-  {
-    ...space,
-    id: '111',
-    title: 'Card 1',
-  },
-  {
-    ...space,
-    id: '222',
-    title: 'Card 2',
-  },
-]
 
 export const mySpaces: SpaceSection[] = [
   {

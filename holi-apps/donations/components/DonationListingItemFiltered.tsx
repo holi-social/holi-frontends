@@ -29,7 +29,13 @@ const DonationListingItemFiltered: React.VFC<DonationListingItemFilteredProps> =
       testID={'donations-list-item'}
     >
       <View style={styles.container}>
-        <DonationImage picture={picture} label={title} style={styles.mainImage} sizes="104px" />
+        <DonationImage
+          picture={picture}
+          label={title}
+          style={styles.mainImage}
+          width={styles.mainImage.width}
+          height={styles.mainImage.height}
+        />
 
         <View style={styles.textContainer}>
           <HoliHeading level="2" size="xSmall" selectable={true} style={styles.heading} numberOfLines={2}>

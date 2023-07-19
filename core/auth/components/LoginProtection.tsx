@@ -4,7 +4,7 @@ import { Platform, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -31,6 +31,7 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
     const unsubscribe = navigation.addListener('focus', () => {
       setOnboardingKey(Date.now().toString())
     })
+
     return unsubscribe
   }, [navigation, isLoggedIn])
 

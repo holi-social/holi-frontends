@@ -11,8 +11,9 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Add, Check } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -85,9 +86,9 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
             {!disabled && !hideIcon && (
               <View style={styles.iconView}>
                 <HoliIcon
+                  icon={checked ? Check : Add}
                   size={15}
                   color={checked ? colors.background10 : colors.foreground20}
-                  icon={checked ? 'check' : 'add'}
                 />
               </View>
             )}
@@ -123,6 +124,7 @@ const getStyles = (checked = false) =>
       alignSelf: 'center',
       alignItems: 'center',
       justifyContent: 'center',
+      minHeight: 40,
     },
     text: {
       fontWeight: '400',
@@ -141,6 +143,7 @@ const getStyles = (checked = false) =>
     },
     focused: {
       outlineColor: colors.brandColorB30,
+      borderRadius: 8,
       ...Platform.select({
         web: {
           boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.background20}`,

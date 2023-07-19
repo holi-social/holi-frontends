@@ -13,11 +13,12 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import type { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Share as ShareIcon } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceShareProps = {
@@ -31,8 +32,12 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const [show, setShow] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
 
+  const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
   // dynamic import is used to fix Web SSR building and do not put expo libs into Next.JS build
   // TODO: but better solution will be to create your Linking module, that re-export `expo-linking` for mobile and provide dependency free solution for Web
+  // TODO: refactor with HOLI-4898
   useEffect(() => {
     import(/* webpackPrefetch: true */ 'expo-linking').then(
       (Linking) => (prefix.current = Linking.createURL(`/spaces/${space.name}`))
@@ -79,20 +84,18 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
 
   return (
     <>
-      <HoliButton
-        label={t('spaces:spaces.share')}
-        style={style}
-        contentStyle={styles.buttonContent}
-        transparent
-        inline
-        onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
-        testID="space-share-btn"
-      >
-        <HoliIcon icon="share" size={24} color={colors.foreground30} />
-        <HoliText bold style={styles.shareText}>
-          {t('spaces:spaces.share')}
-        </HoliText>
-      </HoliButton>
+      {isCollaborator || isAdministrator ? (
+        <HoliButtonLoading
+          inline
+          type="secondary"
+          variant="small"
+          label={t('spaces.share')}
+          onPress={Platform.OS !== 'web' ? onShareMobile : onShareWeb}
+          style={style}
+          icon={ShareIcon}
+          testID="space-share-btn"
+        />
+      ) : null}
       <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
         <View style={styles.modalContainer}>
           <Pressable onPress={() => setShow(false)} style={styles.backdrop} testID="close-modal" />

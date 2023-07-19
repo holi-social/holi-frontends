@@ -10,6 +10,7 @@ const mockFn = jest.fn()
 const props: HoliCardProps = {
   imageUrl: 'https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg',
   imageLabel: 'volunteering',
+  imageWidth: 1200,
   testID: 'holiCard',
   style: { width: 300, height: 600 },
   onCardPress: mockFn,
@@ -29,7 +30,7 @@ describe('HoliCard', () => {
 
   it('renders the image', () => {
     const { getByTestId } = render(<HoliCard {...props} />)
-    expect(getByTestId(`${props.testID}-cardImage`)).toBeTruthy
+    expect(getByTestId(`${props.testID}-cardImage`)).toBeTruthy()
   })
 
   it('calls onCardPress prop when click on card', async () => {

@@ -11,14 +11,17 @@ import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringDetailHeaderProps = {
   engagement: VolunteeringEngagement
+  imageWidth: number
 }
 
-const VolunteeringDetailHeader: React.VFC<VolunteeringDetailHeaderProps> = ({
+const VolunteeringDetailHeader: React.FC<VolunteeringDetailHeaderProps> = ({
   engagement,
+  imageWidth,
 }: VolunteeringDetailHeaderProps) => {
+  const uri = engagement.imageUrl
   return (
     <View style={styles.container}>
-      <HoliImage source={{ uri: engagement.imageUrl }} label={engagement.title} style={styles.image} />
+      <HoliImage source={uri ? { uri, width: imageWidth } : []} label={engagement.title} style={styles.image} />
       <View style={styles.detailContainer}>
         <HoliText size={'small'} style={styles.categoryText}>
           {engagement.categories[0]}

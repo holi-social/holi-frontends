@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
@@ -12,6 +12,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
+  UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   interestsQuery,
@@ -74,6 +75,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const currentStepOptions = ACCOUNT_SETUP_STEP_OPTIONS[currentStep as AccountSetupStep]
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
 
   // User Names step logic
   const { names, namesScrollViewRef, scrollToNamesInputWithId, onNamesChange, namesFieldErrors } = useNamesStep({
@@ -108,9 +110,10 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.NAMES: {
         setIsLoading(true)
 
-        const trimmedNames = trimNames(names)
+        updateUserQueryVariables.current = { ...trimNames(names) }
+
         await updateUser({
-          variables: { input: trimmedNames },
+          variables: { input: updateUserQueryVariables.current },
           onCompleted: goNext,
           onError: (error) => displayError(error),
         })
@@ -129,12 +132,16 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           (acc: string[], { id, selected }) => (selected ? [...acc, id] : acc),
           []
         )
-        await updateUser({
-          variables: { input: { interests: selectedInterestIds } },
-          onCompleted: goNext,
-          onError: (error) => displayError(error),
-        })
+        updateUserQueryVariables.current = { ...updateUserQueryVariables.current, interests: selectedInterestIds }
+        if (selectedInterestIds.length) {
+          await updateUser({
+            variables: { input: updateUserQueryVariables.current },
+            onError: (error) => displayError(error),
+          })
+        }
         setIsLoading(false)
+        goNext()
+
         break
       }
 
@@ -144,17 +151,20 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         if (selectedLocation?.geolocation) {
           const geolocation = selectedLocation?.geolocation
           const locationLabel = selectedLocation?.label || locationQuery
+          updateUserQueryVariables.current = {
+            ...updateUserQueryVariables.current,
+            geolocation,
+            location: locationLabel,
+          }
 
           await updateUser({
-            variables: { input: { geolocation, location: locationLabel } },
-            onCompleted: goNext,
+            variables: { input: updateUserQueryVariables.current },
             onError: (error) => displayError(error),
           })
-        } else {
-          goNext()
         }
-
         setIsLoading(false)
+        goNext()
+
         break
       }
 

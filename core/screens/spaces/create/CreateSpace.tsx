@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -7,7 +8,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
@@ -22,6 +23,7 @@ import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -30,7 +32,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace = () => {
-  const { setOptions, navigateBack } = useUnifiedNavigation()
+  const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
@@ -43,6 +45,7 @@ const CreateSpace = () => {
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const { isLoggedIn } = useLoggedInUser()
   const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
+  const setScreenOptions = useSetScreenOptions()
 
   let hasOwnSpaces = false
   const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
@@ -71,24 +74,22 @@ const CreateSpace = () => {
     refetchQueries: [{ query: mySpaceQuery }],
   })
 
-  useLayoutEffect(
-    () =>
-      setOptions({
-        animation: 'slide_from_bottom',
-        headerTitle: () => (
-          <HoliHeading level="1" size="medium">
-            {t('spaces.create.title')}
-          </HoliHeading>
-        ),
-        headerStyle: { backgroundColor: colors.background10 },
-        headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="close" onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      }),
-    [setOptions, t]
-  )
+  useLayoutEffect(() => {
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      headerTitle: () => (
+        <HoliHeading level="1" size="medium">
+          {t('spaces.create.title')}
+        </HoliHeading>
+      ),
+      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
 
   const handleNextButtonPress = async (currentStep: number) => {
     const result = await validateSpace({
@@ -147,7 +148,7 @@ const CreateSpace = () => {
         description={t('spaces.create.close.dialog.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('spaces.create.close.dialog.dismiss')}
-        confirmText={t('global.yes')}
+        confirmText={t('spaces.create.close.dialog.confirm')}
         testID="exit-space-creation-confirmation"
         onConfirm={() => {
           setShowConfirmationModal(false)
@@ -158,7 +159,7 @@ const CreateSpace = () => {
   )
 }
 
-export default CreateSpace
+export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 
 const styles = StyleSheet.create({
   wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background10 },

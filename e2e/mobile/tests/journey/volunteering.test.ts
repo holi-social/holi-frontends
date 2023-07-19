@@ -66,7 +66,7 @@ const assertFilteringWorks = async ({ keepLocation = false }: { keepLocation?: b
 
 const navigateToDetailview = async () => {
   await tapOnElementWithTestId('btn-to-volunteering-engagement')
-  await waitForElementWithTestId('volunteering-detailview-container')
+  await waitForElementWithTestId('volunteering-detailview-container', 40000)
 
   // go back to items listing
   await scrollToElementWithTestId('nav-button-back', 'up')

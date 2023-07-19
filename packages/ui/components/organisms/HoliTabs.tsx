@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StyleSheet, Text, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -14,7 +15,7 @@ interface Props {
   tabs: {
     title: string
     children: React.ReactNode
-    titleIcon?: string
+    titleIcons?: [HoliIconType, HoliIconType]
     style?: StyleProp<ViewStyle>
   }[]
   centeredButtons?: boolean
@@ -25,6 +26,8 @@ interface Props {
   tabBarStyle?: StyleProp<ViewStyle>
   stepper?: boolean
   backgroundColor?: string
+  scrollEnabled?: boolean
+  lazy?: boolean
 }
 
 const HoliTabs = ({
@@ -37,7 +40,8 @@ const HoliTabs = ({
   onChangeTab,
   backgroundColor,
   testID = 'tabs-module',
-  stepper = true,
+  scrollEnabled = true,
+  lazy = false,
 }: Props) => {
   const [viewWidth, setViewWidth] = useState(750)
   const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
@@ -93,13 +97,12 @@ const HoliTabs = ({
                 accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
-                {!!tab.titleIcon && (
+                {!!tab.titleIcons && (
                   <HoliIcon
-                    icon={tab.titleIcon}
+                    icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
                     size={22}
                     color={isActive ? colors.foreground30 : colors.foreground20}
                     style={styles.tabButtonIcon}
-                    filled={isActive}
                   />
                 )}
                 <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
@@ -111,20 +114,17 @@ const HoliTabs = ({
         </View>
       </View>
 
-      {stepper ? (
-        <HoliStepper
-          ref={stepperRef}
-          currentStep={currentStep}
-          width={viewWidth}
-          steps={renderedTabs}
-          onLayout={handleLayout}
-          backgroundColor={backgroundColor}
-          onMomentumScrollEnd={onMomentumScrollEnd}
-          scrollEnabled
-        />
-      ) : (
-        renderedTabs
-      )}
+      <HoliStepper
+        ref={stepperRef}
+        currentStep={currentStep}
+        width={viewWidth}
+        steps={renderedTabs}
+        onLayout={handleLayout}
+        backgroundColor={backgroundColor}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        scrollEnabled={scrollEnabled}
+        lazy={lazy}
+      />
     </View>
   )
 }

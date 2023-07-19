@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
@@ -40,6 +41,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
             label={space.title}
             title={space.title}
             imageSrc={space.cover}
+            imageBlurhash={space.coverBlurhash}
             users={space.members.data.map((membership) => membership.user)}
             href={`/spaces/${space.name}`}
             testID="space-tab"
@@ -53,4 +55,4 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
   )
 }
 
-export default SpacesTab
+export default withProfiler(SpacesTab, { name: 'SpacesTab' })

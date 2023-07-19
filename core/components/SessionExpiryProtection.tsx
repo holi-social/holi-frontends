@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 import { setUnauthorizedErrorStatus, useUnauthorizedErrorStatusVar } from '@holi/api/graphql/client'
 import { useLogout } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const SessionExpiryProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()

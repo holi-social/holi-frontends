@@ -1,10 +1,9 @@
 import React, { SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
-import ReactionIconFilled from '@holi/ui/assets/img/icons/hand-heart_24x24_filled.svg'
-import ReactionIconOutlined from '@holi/ui/assets/img/icons/hand-heart_24x24_outlined.svg'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HandHeartThin, HandHeartThinFilledColored } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -77,11 +76,12 @@ const HoliReactionsCount: React.VFC<HoliReactionsCountProps> = ({
       >
         {count}
       </HoliText>
-      {active || hovered ? (
-        <HoliLocalImage imageSource={ReactionIconFilled} width={24} height={24} label={labelText} isSvg />
-      ) : (
-        <HoliLocalImage imageSource={ReactionIconOutlined} width={24} height={24} label={labelText} isSvg />
-      )}
+      <View style={!active && !hovered ? styles.visuallyHidden : null}>
+        <HoliIcon icon={HandHeartThinFilledColored} />
+      </View>
+      <View style={active || hovered ? styles.visuallyHidden : null}>
+        <HoliIcon icon={HandHeartThin} />
+      </View>
     </HoliButton>
   )
 }
@@ -95,11 +95,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
   text: {
     color: colors.foreground20,
     lineHeight: 24,
+    marginRight: 8,
     marginBottom: -2,
+  },
+  visuallyHidden: {
+    ...Platform.select({
+      native: {
+        display: 'none',
+      },
+      default: {
+        // only hiding the element on web to prefetch the icon within first network call
+        visibility: 'hidden',
+        position: 'fixed',
+      },
+    }),
   },
 })

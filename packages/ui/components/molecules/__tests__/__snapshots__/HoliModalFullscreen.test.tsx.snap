@@ -111,67 +111,85 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
               ]
             }
           >
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight="24"
-              bbWidth="24"
-              color="#fff"
-              focusable={false}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "borderStyle": "solid",
-                    "borderWidth": 0,
-                    "color": "#fff",
-                    "display": "flex",
-                    "fill": "currentColor",
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "height": 24,
-                    "stroke": "currentColor",
-                    "width": 24,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 24,
-                    "width": 24,
-                  },
-                ]
-              }
-              tintColor="#fff"
-              vbHeight={1024}
-              vbWidth={1024}
-            >
-              <RNSVGGroup
-                fill={
-                  {
-                    "type": 2,
-                  }
-                }
-                propList={
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="24"
+                bbWidth="24"
+                color="#fff"
+                fill="none"
+                focusable={false}
+                height={24}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
                   [
-                    "fill",
-                    "stroke",
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 24,
+                      "width": 24,
+                    },
                   ]
                 }
-                stroke={
-                  {
-                    "type": 2,
-                  }
-                }
+                tintColor="#fff"
+                vbHeight={24}
+                vbWidth={24}
+                width={24}
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <RNSVGPath
-                  d="M512.030 451.678l211.2-211.199 60.331 60.331-211.2 211.199 211.2 211.2-60.331 60.331-211.2-211.2-211.199 211.2-60.331-60.331 211.199-211.2-211.199-211.199 60.331-60.331 211.199 211.199z"
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGGroup
+                    clipPath="close_svg__a"
+                  >
+                    <RNSVGPath
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
+                      fill={
+                        {
+                          "type": 2,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                  <RNSVGDefs>
+                    <RNSVGClipPath
+                      name="close_svg__a"
+                    >
+                      <RNSVGPath
+                        d="M0 0h24v24H0z"
+                        fill={
+                          {
+                            "payload": 4294967295,
+                            "type": 0,
+                          }
+                        }
+                        propList={
+                          [
+                            "fill",
+                          ]
+                        }
+                      />
+                    </RNSVGClipPath>
+                  </RNSVGDefs>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
           </View>
         </View>
       </View>

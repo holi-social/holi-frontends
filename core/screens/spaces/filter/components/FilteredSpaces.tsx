@@ -1,3 +1,4 @@
+import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -13,9 +14,9 @@ import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQ
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
 import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/FilteredSpacesList'
+import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -30,8 +31,8 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { height: deviceHeight } = useWindowDimensions()
-  const styles = getStyles(deviceHeight)
+  const { height: windowHeight } = useWindowDimensions()
+  const styles = getStyles(windowHeight)
 
   const { geolocationDetails, loadingGeolocation, geolocationError } = useGeolocationDetails(locationId)
   const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
@@ -84,10 +85,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {isLoading ? (
-            // TODO: replace with proper loading indicator
-            <View style={styles.messageContainer}>
-              <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-            </View>
+            <SpacesGrid style={styles.loadingGrid} loading={true} />
           ) : (
             <Pagination
               query={spacesQuery}
@@ -119,10 +117,9 @@ const getStyles = (deviceHeight: number) =>
     buttonContainer: {
       marginTop: 20,
     },
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: 50,
+    loadingGrid: {
+      marginTop: 32,
     },
   })
 
-export default memo(FilteredSpaces)
+export default withProfiler(memo(FilteredSpaces), { name: 'FilteredSpaces' })

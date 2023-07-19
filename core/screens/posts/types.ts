@@ -1,5 +1,6 @@
-import { User } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import type { Space } from '@holi/core/screens/spaces/types'
+import type { User } from '@holi/core/screens/userprofile/types'
+import type { Paged } from '@holi/core/types'
 
 export enum ReactionType {
   HEART = 'HEART',
@@ -29,6 +30,7 @@ export interface PostImage {
   url: string
   height: number
   width: number
+  imageBlurhash?: string
 }
 
 export interface Link {
@@ -55,6 +57,7 @@ export interface Post {
   isClosed?: boolean
   isDeleted?: boolean
   comments?: Comment[]
+  space?: Space
   status?: string // 'P'
   mediaWidth?: number
   mediaHeight?: number

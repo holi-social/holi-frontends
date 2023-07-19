@@ -11,7 +11,7 @@ import { initI18n } from '@holi/core/i18n'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
-const App: React.VoidFunctionComponent = () => {
+const App = () => {
   const [isReady, setIsReady] = useState(false)
 
   SplashScreen.preventAutoHideAsync()

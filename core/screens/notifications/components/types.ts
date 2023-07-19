@@ -22,6 +22,7 @@ export enum NotificationType {
   USER_NEW_POST = 'UNP',
   COMMUNITY_MEMBERSHIP_REQUEST = 'CMR',
   COMMUNITY_MEMBERSHIP_APPROVED = 'CMRA',
+  COMMUNITY_MEMBERSHIP_REVOKED = 'CMRE',
   RELEASE_INFO = 'REL',
   COMMUNITY_ADMIN_PRIVILEGES_GRANTED = 'CAPG',
   COMMUNITY_ADMIN_PRIVILEGES_REVOKED = 'CAPR',
@@ -75,10 +76,14 @@ export interface NotificationPost extends NotificationBase {
 }
 
 export interface NotificationSpaceConnection extends NotificationBase {
-  notificationType: NotificationType.COMMUNITY_MEMBERSHIP_APPROVED | NotificationType.COMMUNITY_MEMBERSHIP_REQUEST
+  notificationType:
+    | NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
+    | NotificationType.COMMUNITY_MEMBERSHIP_REQUEST
+    | NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
   options: {
     user: User
     space: Space
+    message: string
   }
 }
 

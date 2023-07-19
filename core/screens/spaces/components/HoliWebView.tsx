@@ -1,22 +1,22 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 
+import { useNavigation } from '@react-navigation/native'
+
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { HoliWebViewProps } from '@holi/core/screens/spaces/components/HoliWebView.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-export interface HoliWebViewProps {
-  uri: string
-  style?: StyleProp<ViewStyle>
-}
-
 // TODO HOLI-3754: only works on mobile > move to ui package anyways?
-const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
+const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style, webViewProps }) => {
+  const webViewRef = useRef<WebView>(null)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const navigation = useNavigation()
 
   const errormessage = t('webview.error')
 
@@ -27,6 +27,15 @@ const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
     [displayError, errormessage]
   )
 
+  useEffect(() => {
+    const webView = webViewRef.current
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
+    })
+
+    return unsubscribe
+  }, [navigation])
+
   const renderError = () => (
     <View style={styles.messageContainer}>
       <HoliText>{errormessage} </HoliText>
@@ -35,6 +44,7 @@ const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
 
   return (
     <WebView
+      ref={webViewRef}
       style={style}
       source={{
         uri,
@@ -45,6 +55,7 @@ const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style }) => {
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}
+      {...webViewProps}
     />
   )
 }

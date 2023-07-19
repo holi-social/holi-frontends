@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,7 +17,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
@@ -59,6 +60,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const { openToast } = useToast()
   const { user } = useLoggedInUser()
   const { height: screenHeight } = useWindowDimensions()
+  const setScreenOptions = useSetScreenOptions()
   const styles = useMemo(() => getStyles(screenHeight), [screenHeight])
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
@@ -74,18 +76,16 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
     })
 
-  const { setOptions } = useUnifiedNavigation()
-
   useLayoutEffect(
     () =>
-      setOptions({
+      setScreenOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
-    [setOptions, t]
+    [setScreenOptions, t]
   )
 
   /**
@@ -163,7 +163,8 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 <View style={styles.inputContainer}>
                   <HoliAvatar
                     imageSrc={user.avatar}
-                    label={user.fullName}
+                    imageBlurhash={user.avatarBlurhash}
+                    label={user.fullName || t('user.profileView.anonymous')}
                     initials={user.avatarLabel || ''}
                     defaultColor={user.avatarDefaultColor || ''}
                     size="small"
@@ -217,11 +218,12 @@ const SMALL_DEVICE_HEIGHT = 600
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     pageView: {
-      paddingTop: vars.topBarHeight + 10,
+      paddingTop: vars.topBarHeight + 40,
       height: '100%', // prevents double scrollbars
       overflow: 'hidden',
       ...Platform.select({
         web: {
+          paddingTop: vars.topBarHeight + 10,
           height: '100vh',
           marginHorizontal: 'auto',
         },
@@ -335,4 +337,4 @@ const getStyles = (screenHeight: number) =>
     },
   })
 
-export default memo(CommentInputPage)
+export default withProfiler(memo(CommentInputPage), { name: 'CommentInputPage' })

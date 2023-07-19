@@ -1,9 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
-export type SpaceContactPhoneInputWebProps = {
+export interface SpaceContactPhoneInputWebProps extends Partial<HoliTextInputProps> {
   onChange: (contactPhone: string) => void
   value: string
   errorMessage?: string
@@ -14,6 +14,7 @@ const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
   onChange,
   value,
   errorMessage,
+  ...props
 }: SpaceContactPhoneInputWebProps) => {
   const { t } = useTranslation()
 
@@ -28,6 +29,7 @@ const SpaceContactPhoneInputWeb: React.VFC<SpaceContactPhoneInputWebProps> = ({
         onChange={(text: string) => onChange(text.replace(/[^0-9+ .]/g, ''))} // allow only numbers, + and space characters
         accessibilityLabel={t('spaces.input.contact.phone.label')}
         testID="space-contact-phone"
+        {...props}
       />
     </>
   )

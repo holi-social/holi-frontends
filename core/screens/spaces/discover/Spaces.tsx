@@ -1,17 +1,19 @@
 import { DocumentNode, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
@@ -29,12 +31,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const Spaces = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { setOptions, navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
   const { openLoginModal } = useLoginModal()
+  const setScreenOptions = useSetScreenOptions()
 
   // This is added to keep the reference of the current tab to handle the active tab in back navigation
   global.spaceDetailInitialTabIndex = 0
@@ -61,7 +64,7 @@ const Spaces = () => {
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
-    setOptions({
+    setScreenOptions({
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
@@ -80,7 +83,7 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [setOptions, navigate, t, handleCreateSpaceButtonPress])
+  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
 
   const onChangeTab = (tabIndex: number) => {
     setActiveTab(tabIndex)
@@ -157,6 +160,8 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
+            backgroundColor={colors.background20}
+            scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             tabs={[
               {
                 title: t('spaces.tabs.mine'),
@@ -199,6 +204,7 @@ const styles = StyleSheet.create({
   },
   holiTabs: {
     flex: 1,
+    backgroundColor: colors.background10,
   },
   tabStyle: {
     minHeight: '100%',
@@ -206,4 +212,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Spaces
+export default withProfiler(Spaces, { name: 'Spaces' })

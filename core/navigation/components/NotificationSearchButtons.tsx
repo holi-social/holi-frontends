@@ -6,10 +6,11 @@ import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Notification2, Search } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 
@@ -19,7 +20,7 @@ const NOTIFICATION_POLLING_INTERVAL = process.env.NOTIFICATION_POLLING_INTERVAL
 
 const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
-  const { navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
 
   const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
@@ -35,21 +36,19 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
 
   return (
     <HoliHorizontalRow>
-      {isLoggedIn && (
-        <NotificationBadge visible={hasNewNotifications}>
-          <HoliButton
-            label={t('notifications.title')}
-            inline
-            testID="btn-to-notifications"
-            transparent
-            onPress={() => {
-              navigate('/notifications')
-            }}
-          >
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-        </NotificationBadge>
-      )}
+      <NotificationBadge visible={hasNewNotifications}>
+        <HoliButton
+          label={t('notifications.title')}
+          inline
+          testID="btn-to-notifications"
+          transparent
+          onPress={() => {
+            navigate('/notifications')
+          }}
+        >
+          <HoliIcon icon={Notification2} color={tintColor} />
+        </HoliButton>
+      </NotificationBadge>
 
       <HoliButton
         label={t('navigation.search')}
@@ -61,7 +60,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
           // navigate('/search')
         }}
       >
-        <HoliIcon icon="search" size={24} color={tintColor} />
+        <HoliIcon icon={Search} color={tintColor} />
       </HoliButton>
     </HoliHorizontalRow>
   )

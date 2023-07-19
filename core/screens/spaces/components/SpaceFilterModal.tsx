@@ -4,7 +4,8 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Filter3 } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -107,7 +108,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
         <HoliText size="small" bold>
           {t('spaces.filter.button.text')}
         </HoliText>
-        <HoliIcon icon="filter-3" size={16} color={colors.foreground30} style={styles.icon} />
+        <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
       </HoliButton>
 
       {/* Filter modal */}
@@ -126,6 +127,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
           style={styles.modalWrapper}
           scrollable={false}
           loading={loadingTopics || loadingSkills}
+          hideFooterWhenKeyboardIsOpen={true}
         >
           <View style={[mixins.container, styles.container]}>
             <PlacesAutocomplete

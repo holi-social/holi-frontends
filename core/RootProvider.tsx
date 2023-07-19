@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import React, { Suspense } from 'react'
 import { Platform, StyleSheet } from 'react-native'
@@ -6,7 +7,6 @@ import { Platform, StyleSheet } from 'react-native'
 import client from '@holi/api/graphql/client'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
 import PortalProvider from '@holi/core/provider/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -43,12 +43,10 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
           <ApolloProvider client={client}>
             <ToastProvider>
               <PortalProvider>
-                <NavigationContextProvider>
-                  <SessionExpiryProtection>
-                    {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                    <LoginModalProvider>{children}</LoginModalProvider>
-                  </SessionExpiryProtection>
-                </NavigationContextProvider>
+                <SessionExpiryProtection>
+                  {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                  <LoginModalProvider>{children}</LoginModalProvider>
+                </SessionExpiryProtection>
               </PortalProvider>
             </ToastProvider>
           </ApolloProvider>
@@ -58,4 +56,4 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
   )
 }
 
-export default RootProvider
+export default withProfiler(RootProvider, { name: 'RootProvider' })

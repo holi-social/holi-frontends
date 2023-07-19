@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { LinkM } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -25,6 +26,7 @@ export interface DigitalToolInputFormProps {
   description?: string
   selectedCollection?: HoliModalSelectOption
   thumbnail?: HoliImageInfo | undefined
+  thumbnailBlurhash?: string
   fieldErrors?: TranslatedFieldErrors
   currentThumbnail?: string
 }
@@ -40,6 +42,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
+  thumbnailBlurhash,
   fieldErrors = {},
   currentThumbnail,
 }: DigitalToolInputFormProps) => {
@@ -78,47 +81,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
     }
   }, [selectedCollection, collectionTypes])
 
-  const ThumbnailUploader = () => {
-    return (
-      <View style={styles.thumbnailContainer}>
-        {currentThumbnail || thumbnail ? (
-          <HoliImage
-            source={{ uri: thumbnail?.uri || currentThumbnail }}
-            label={t('spaces.input.digitalTool.thumbnail.label')}
-            style={styles.thumbnail}
-          />
-        ) : (
-          <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
-            <HoliIcon icon={'link-m'} size={20} style={{ color: colors.brandColorB30 }} />
-          </View>
-        )}
-        <View style={styles.uploadButtonContainer}>
-          <HoliImagePicker
-            maxFileSizeInMB={8}
-            buttonProps={{
-              label: t('spaces.input.digitalTool.upload.button.label'),
-              style: styles.imageUploadButton,
-              testID: 'space-upload-image-btn',
-            }}
-            onPickImage={onChangeThumbnail}
-          >
-            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
-          </HoliImagePicker>
-        </View>
-        <Instructions />
-      </View>
-    )
-  }
-
-  const Instructions = () => {
-    return (
-      <View style={styles.instructionsContainer}>
-        <HoliText size="extrasmall" style={styles.instructions}>
-          {t('spaces.input.coverImage.upload.hint')}
-        </HoliText>
-      </View>
-    )
-  }
+  const thumbnailUri = thumbnail?.uri ?? currentThumbnail
 
   return (
     <>
@@ -168,7 +131,40 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         maxNoOfCharacters={100}
       />
       <HoliText style={styles.thumbnailTitle}>{t('spaces.input.digitalTool.thumbnail.label')}</HoliText>
-      <ThumbnailUploader />
+
+      {/* ThumbnailUploader */}
+      <View style={styles.thumbnailContainer}>
+        {thumbnailUri ? (
+          <HoliImage
+            source={{ uri: thumbnailUri }}
+            blurhash={thumbnailBlurhash}
+            label={t('spaces.input.digitalTool.thumbnail.label')}
+            style={styles.thumbnail}
+          />
+        ) : (
+          <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
+            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+          </View>
+        )}
+        <View style={styles.uploadButtonContainer}>
+          <HoliImagePicker
+            maxFileSizeInMB={8}
+            buttonProps={{
+              label: t('spaces.input.digitalTool.upload.button.label'),
+              style: styles.imageUploadButton,
+              testID: 'space-upload-image-btn',
+            }}
+            onPickImage={onChangeThumbnail}
+          >
+            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
+          </HoliImagePicker>
+        </View>
+        <View style={styles.instructionsContainer}>
+          <HoliText size="extrasmall" style={styles.instructions}>
+            {t('spaces.input.coverImage.upload.hint')}
+          </HoliText>
+        </View>
+      </View>
     </>
   )
 }

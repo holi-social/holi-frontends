@@ -2,12 +2,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
-import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -58,11 +59,11 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
       )}
       {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
         <SpaceSection title={t('spaces.spaceDetails.contact')}>
-          <View>
+          <View style={styles.contactWrapper}>
             {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
             {!!space.contactEmail && (
               <View style={styles.contactContainer}>
-                <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+                <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
                 <HoliText size="small" bold>
                   {space.contactEmail}
                 </HoliText>
@@ -70,7 +71,7 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
             )}
             {!!space.contactPhone && (
               <View style={styles.contactContainer}>
-                <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+                <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
                 <HoliText size="small" bold>
                   {space.contactPhone}
                 </HoliText>
@@ -80,10 +81,10 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
         </SpaceSection>
       )}
       {!!links.length && (
-        <SpaceSection title={t('spaces.links.heading')}>
+        <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
           <View style={styles.listContainer}>
             {links.map((link, index) => (
-              <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+              <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
             ))}
           </View>
         </SpaceSection>
@@ -112,8 +113,11 @@ const styles = StyleSheet.create({
   contactIcon: {
     marginRight: 10,
   },
+  contactWrapper: {
+    flex: 1,
+    gap: 16,
+  },
   contactContainer: {
-    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },

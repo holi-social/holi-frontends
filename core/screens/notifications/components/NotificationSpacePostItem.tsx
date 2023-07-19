@@ -16,7 +16,7 @@ const NotificationSpacePostItem = ({ notification, style, testID = '' }: Notific
   const { created, read } = notification
   const { space, teaser, post } = notification.options
 
-  const { avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.post.creator ?? {}
+  const { avatar, avatarBlurhash, avatarDefaultColor, avatarLabel, fullName } = notification.options.post.creator ?? {}
   const userFullName = fullName || t('user.profileView.anonymous')
 
   const getI18Key = () => {
@@ -34,6 +34,7 @@ const NotificationSpacePostItem = ({ notification, style, testID = '' }: Notific
           ) : (
             <HoliAvatar
               imageSrc={avatar}
+              imageBlurhash={avatarBlurhash}
               label={userFullName}
               initials={avatarLabel || ''}
               defaultColor={avatarDefaultColor || ''}

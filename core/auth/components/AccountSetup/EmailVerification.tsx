@@ -13,7 +13,7 @@ import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -171,7 +171,9 @@ const EmailVerification = ({ onDismiss, onSuccess }: EmailVerificationProps) => 
           maxNoOfCharacters={CODE_MAX_COUNT}
           showCharacterCount
           inputProps={{
-            keyboardType: 'numeric',
+            keyboardType: 'number-pad',
+            inputMode: 'decimal',
+            autoComplete: 'one-time-code',
           }}
           style={[styles.limitedBox, { alignSelf: 'center' }]}
           testID="email-verification-code"

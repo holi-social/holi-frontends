@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "*": ["node_modules/@types/*"],
       "@holi/mobile/*": ["apps/mobile/*"],
       "@holi/storybook/*": ["apps/storybook/*"],
       "@holi/web/*": ["apps/web/*"],
       "@holi/ui/*": ["packages/ui/*"],
+      "@holi/icons/*": ["packages/icons/*"],
       "@holi/api/*": ["packages/api/*"],
+      "@holi/chat/*": ["packates/chat/*"],
       "@holi/core/*": ["core/*"],
       "@holi-apps/donations/*": ["holi-apps/donations/*"],
       "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],

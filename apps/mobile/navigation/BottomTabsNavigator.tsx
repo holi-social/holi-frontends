@@ -5,13 +5,15 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type BottomTabsScreens = {
@@ -49,11 +51,12 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={iconColor(focused)} />
           },
           tabBarLabel: 'Home',
           tabBarTestID: 'btn-to-home-view',
         }}
+        listeners={{ tabPress: () => setPathname('/') }}
       />
       <BottomTabs.Screen
         name={RouteName.SpacesHomeStack}
@@ -61,11 +64,12 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={iconColor(focused)} />
           },
           tabBarLabel: t('spaces.title'),
           tabBarTestID: 'btn-to-spaces',
         }}
+        listeners={{ tabPress: () => setPathname('/spaces') }}
       />
       <BottomTabs.Screen
         name={RouteName.Chat}
@@ -73,10 +77,11 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon={focused ? Chat3Filled : Chat3} color={iconColor(focused)} />
           },
           tabBarLabel: 'Chat',
         }}
+        listeners={{ tabPress: () => setPathname('/chat') }}
       />
       <BottomTabs.Screen
         name={RouteName.Auth}
@@ -87,6 +92,7 @@ const BottomTabsNavigator = () => {
           tabBarIcon: LoginProfileButton,
           tabBarTestID: 'btn-to-profile-view',
         }}
+        listeners={{ tabPress: () => setPathname('/profile') }}
       />
     </BottomTabs.Navigator>
   )

@@ -1,37 +1,108 @@
 import { useMutation, useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { ShareBox } from '@holi/icons/src/generated'
 import type { VolunteeringAppScreensList } from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
+import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
 import {
   AppVolunteeringEngagementByIdResponse,
   TrackEngagementViewResponse,
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer } from '@holi-apps/volunteering/types'
+import { Organizer, PartnerProps } from '@holi-apps/volunteering/types'
+
+export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
+  [name: string]: PartnerProps
+} = {
+  Voltastics: {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-logo.png'),
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/voltastics-wordmark.png'),
+      width: 159,
+      height: 24,
+      isSvg: false,
+    },
+    url: 'https://voltastics.com/',
+  },
+  'Aktion Mensch': {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/aktion-mensch-wordmark.svg'),
+      width: 60,
+      height: 24,
+      isSvg: true,
+    },
+    url: 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch',
+  },
+  'vostel.de': {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-logo.png'),
+      isSvg: false,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/vostel-wordmark.png'),
+      width: 73,
+      height: 24,
+      isSvg: false,
+    },
+    url: 'https://vostel.de/de/ueber_vostel',
+  },
+  GoNature: {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/gonature-wordmark.svg'),
+      width: 132,
+      height: 42,
+      isSvg: true,
+    },
+    url: 'https://gonature.de/ueber-uns',
+  },
+  GoVolunteer: {
+    logo: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/volunteering/govolunteer-wordmark.svg'),
+      width: 178,
+      height: 36,
+      isSvg: true,
+    },
+    url: 'https://govolunteer.com/ueber-uns',
+  },
+}
 
 export type VolunteeringEngagementDetailParams = {
   engagementId: string
@@ -41,14 +112,13 @@ const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<VolunteeringAppScreensList>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
-const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
-const VOSTEL_URL = 'https://vostel.de/de/ueber_vostel'
-
-const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
+const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
-  useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
+  const setScreenOptions = useSetScreenOptions()
+  useLayoutEffect(() => {
+    setScreenOptions({ title: t('volunteering:app.name') })
+  }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
@@ -63,7 +133,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
-  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
+  const { windowHeight, windowWidth, imageWidth } = useWindowDimensionsWithImageScaling()
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
 
@@ -93,38 +163,14 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     return <HoliText>{t('volunteering:engagementDetail.notFound', { engagementId })}</HoliText>
   }
 
-  const ProviderContainer = ({ source }: { source: string; url: string }) => {
-    return (
-      <View style={styles.cardContainer}>
-        <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
-        <HoliButton
-          transparent
-          onPress={() => Linking.openURL(engagement.url)}
-          label={t('volunteering:engagementDetail.provider.link.btn', { source })}
-        >
-          <View style={styles.providerInfoRow}>
-            <HoliLocalImage
-              imageSource={
-                engagement.source === 'Aktion Mensch'
-                  ? require('@holi/ui/assets/img/volunteering/aktion-mensch-logo.svg')
-                  : require('@holi/ui/assets/img/volunteering/vostel-logo.png')
-              }
-              isSvg={engagement.source === 'Aktion Mensch' ? true : false}
-              width={40}
-              height={40}
-              style={styles.providerImage}
-              label={t('volunteering:engagementDetail.provider')}
-              resizeMode="contain"
-            />
-            <View style={{ flex: 3 }}>
-              <HoliText>{source}</HoliText>
-            </View>
-            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
-          </View>
-        </HoliButton>
-      </View>
-    )
-  }
+  const partner = VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]
+  const providerContainer = (
+    <VolunteeringPartnerCard
+      headline={t('volunteering:engagementDetail.provider')}
+      name={engagement.source}
+      partner={VOLUNTEERING_IMG_SOURCES_MAPPING[engagement.source]}
+    />
+  )
 
   const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
     return (
@@ -132,7 +178,12 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
         <View style={styles.organizerInfoRow}>
           {(!!organizer.imageUrl && (
-            <HoliImage source={{ uri: organizer.imageUrl }} style={styles.organizerLogo} label={organizer.name ?? ''} />
+            <HoliImage
+              source={{ uri: organizer.imageUrl, width: styles.partnerImage.width, height: styles.partnerImage.height }}
+              style={styles.partnerImage}
+              label={organizer.name ?? ''}
+              resizeMode={'contain'}
+            />
           )) || <></>}
           <HoliText>{organizer.name}</HoliText>
         </View>
@@ -142,9 +193,9 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const AboutVolunteering = ({ description, organizer }: AboutVolunteeringProps) => {
     return (
-      <View style={[styles.cardContainer, { maxWidth: deviceWidth }]}>
+      <View style={[styles.cardContainer, { maxWidth: windowWidth }]}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
-        <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
+        <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
         {organizer && <Organizer organizer={organizer} />}
       </View>
     )
@@ -158,22 +209,22 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         headerOverlap
       >
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight, maxWidth: deviceWidth }]}>
-            <VolunteeringDetailHeader engagement={engagement} />
+          <View style={[mixins.container, styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+            <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            {(engagement.source === 'Aktion Mensch' || engagement.source === 'vostel.de') && (
-              <ProviderContainer
-                source={engagement.source}
-                url={engagement.source === 'Aktion Mensch' ? AKTION_MENSCH_URL : VOSTEL_URL}
-              />
-            )}
+            {!!partner && providerContainer}
+            <VolunteeringPartnerCard
+              headline={t('volunteering:engagementDetail.technicalPartner')}
+              name={'Voltastics'}
+              partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
+            />
           </View>
         )}
       </ScrollHeaderLayout.Refreshable>
 
       <View style={[mixins.container, styles.volunteeringButton]}>
         <HoliButtonLoading
-          icon="share-box"
+          icon={ShareBox}
           label={t('volunteering:engagementDetail.getInTouch')}
           onPress={() => Linking.openURL(engagement.url)}
           testID="volunteering-engagement-get-in-touch-btn"
@@ -183,7 +234,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   )
 }
 
-export default memo(VolunteeringEngagementDetail)
+export default withProfiler(memo(VolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({
@@ -223,13 +274,10 @@ const getStyles = (statusBarHeight: number) =>
       alignItems: 'center',
       marginTop: 16,
     },
-    organizerLogo: {
+    partnerImage: {
       width: 40,
       height: 40,
       borderRadius: 20,
-      marginRight: 16,
-    },
-    providerImage: {
       marginRight: 16,
     },
     providerInfoRow: {

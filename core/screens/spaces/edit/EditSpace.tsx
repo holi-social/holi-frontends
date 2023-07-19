@@ -11,11 +11,11 @@ import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
+import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
-import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
 import EditSpaceContact from '@holi/core/screens/spaces/edit/components/EditSpaceContact'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/edit/components/EditSpaceCoverImage'
@@ -28,9 +28,10 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -92,9 +93,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
 
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
   const mixins = useStyleMixins()
   const { navigate, navigateBack, replaceRoute } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
 
   const statusBarHeight = Constants.statusBarHeight
   const styles = getStyles(statusBarHeight)
@@ -133,15 +134,15 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   )
 
   useLayoutEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
-      headerLeft: () => <HeaderBackButton icon="close" />,
+      headerLeft: () => <HeaderBackButton icon={Close} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, space?.id, t, visible])
+  }, [hide, setScreenOptions, show, t, visible])
 
   if (error) {
     logError(error, `[EditSpace.tsx] ${error.message}`)
@@ -162,21 +163,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       setIsEdit(false)
     }
     hide()
-  }
-
-  const EditFieldContent = () => {
-    return (
-      <>
-        {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
-        {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
-        {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
-        {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
-        {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
-        {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
-        {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
-        {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
-      </>
-    )
   }
 
   type OnboardCardProps = {
@@ -203,29 +189,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     )
   }
 
-  const OnboardContent = () => {
-    return (
-      <HoliModalContentWrapper
-        actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={handleModalClose}
-        headlineText={t('spaces.edit.onboarding.header')}
-        testID={'space-onboard-content'}
-        style={[styles.modalContentWrapper]}
-      >
-        <HoliCarousel
-          marginHorizontal={20}
-          slides={onboardingContentList.map((content: OnboardingCard) => ({
-            children: (
-              <View style={styles.carouselContainer}>
-                <OnboardCard content={content} />
-              </View>
-            ),
-          }))}
-        />
-      </HoliModalContentWrapper>
-    )
-  }
-
   return (
     <SpaceTermContextProvider>
       <ScrollHeaderLayout.Default style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
@@ -242,7 +205,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               testID="btn-space-edit-avatar"
             >
               <HoliText style={styles.editButtonText}>{t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}</HoliText>
-              <HoliIcon icon="edit-2" />
+              <HoliIcon icon={Edit2} />
             </HoliButton>
             <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
             <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
@@ -257,7 +220,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               testID="btn-space-edit-name"
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-              <HoliIcon icon="edit-2" />
+              <HoliIcon icon={Edit2} />
             </HoliButton>
           </View>
 
@@ -343,7 +306,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                     <HoliText>{space.contactDescription}</HoliText>
                     {space.contactEmail && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon="at" color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactEmail}
@@ -352,7 +315,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                     )}
                     {space.contactPhone && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon="phone" color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactPhone}
@@ -363,7 +326,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 ) : null}
               </SpaceSection>
               <SpaceSection
-                title={t('spaces.links.heading')}
+                title={t('spaces.spaceDetails.publicLinks')}
                 editable
                 onPressEdit={() => openEditModal(EditFields.LINKS)}
                 testID="space-edit-links"
@@ -371,7 +334,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
                     {space.links.map((link, index) => (
-                      <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+                      <SpacePublicLink key={`link_${index}`} link={link} style={styles.link} />
                     ))}
                   </View>
                 )}
@@ -400,8 +363,38 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         headerStyle={styles.modalHeader}
         testID="space-chips-modal"
       >
-        {isEdit && <EditFieldContent />}
-        {isOnboarding && !isEdit && <OnboardContent />}
+        {isEdit && (
+          <>
+            {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
+            {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
+            {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
+            {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
+            {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
+            {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}
+            {editField === EditFields.CONTACT && <EditSpaceContact space={space} onDismiss={hide} />}
+            {editField === EditFields.LINKS && <EditSpaceLinks space={space} onDismiss={hide} />}
+          </>
+        )}
+        {isOnboarding && !isEdit && (
+          <HoliModalContentWrapper
+            actionButtonText={t('spaces.edit.onboarding.modal.close')}
+            onActionButtonPress={handleModalClose}
+            headlineText={t('spaces.edit.onboarding.header')}
+            testID={'space-onboard-content'}
+            style={[styles.modalContentWrapper]}
+          >
+            <HoliCarousel
+              marginHorizontal={20}
+              slides={onboardingContentList.map((content: OnboardingCard) => ({
+                children: (
+                  <View style={styles.carouselContainer}>
+                    <OnboardCard content={content} />
+                  </View>
+                ),
+              }))}
+            />
+          </HoliModalContentWrapper>
+        )}
       </HoliModal>
     </SpaceTermContextProvider>
   )
@@ -428,7 +421,7 @@ const getStyles = (statusBarHeight: number) =>
       paddingTop: vars.topBarHeight + statusBarHeight,
     },
     modalHeader: {
-      backgroundColor: colors.background30,
+      backgroundColor: colors.background20,
     },
     header: {
       alignItems: 'center',

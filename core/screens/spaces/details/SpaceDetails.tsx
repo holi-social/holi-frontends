@@ -1,31 +1,38 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
-import NotificationModal from '@holi/core/components/NotificationModal'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
-import { useShareSpace } from '@holi/core/hooks/spaces/useShareSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import { useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType } from '@holi/core/queries'
+import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
+import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceDetailsParams = {
   spaceIdOrName: string
@@ -38,17 +45,17 @@ const SpaceDetails = () => {
 
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { setOptions } = useUnifiedNavigation()
-
-  const [showShareConfirmation, setShowShareConfirmation] = useState(false)
+  const setScreenOptions = useSetScreenOptions()
 
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
-  // On initial page load on web `spaceIdOrName` is be undefined
+  // On initial page load on web `spaceIdOrName` is undefined
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
   const { loading, error, data, refetch } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName || '' },
+    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    skip: !spaceIdOrName,
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -57,7 +64,7 @@ const SpaceDetails = () => {
   const id = space?.id || `${spaceIdOrName}`
 
   const [isLoading, deleteSpace] = useDeleteSpace(id)
-  const [spaceUrl, shareSpaceUrl] = useShareSpace(space?.title ?? '', `/spaces/${space?.name}`)
+  const [spaceUrl] = useShareLink(space?.title ?? '', `/spaces/${space?.name}`)
   const [isLoadingReport, reportContent] = useReportContent({
     id,
     contentType: ContentType.SPACE,
@@ -73,9 +80,24 @@ const SpaceDetails = () => {
     leaveSpaceAction,
   } = useLeaveSpace(space)
 
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
+  const { visible, show, hide } = useModalState()
+  const { userId } = useAuth()
+
+  const isCreator = space?.creator?.id === userId
+
+  useEffect(() => {
+    if (!isOnboarded && !isCreator && isMember) {
+      show()
+    }
+  }, [space, show, isOnboarded, userId, isCreator, isMember])
+
+  const handleModalClose = () => {
+    setIsOnboarded().finally(hide)
+  }
 
   const editAction = useCallback(() => {
     navigate(`/spaces/${spaceIdOrName}/edit`)
@@ -86,61 +108,49 @@ const SpaceDetails = () => {
     deleteSpace().catch((e) => logError(e))
   }, [deleteSpace, navigate])
 
-  const shareWebAction = useCallback(() => {
-    shareSpaceUrl()
-    setShowShareConfirmation(true)
-
-    setTimeout(() => setShowShareConfirmation(false), 1500)
-  }, [setShowShareConfirmation, shareSpaceUrl])
+  const manageCollaboratorsAction = useCallback(() => {
+    navigate(`/spaces/${spaceIdOrName}/collaborators`)
+  }, [navigate, spaceIdOrName])
 
   const renderActionDrawer = useCallback(
     () => (
       <>
-        <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="space-options-btn">
+        <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="space-options-btn" variant="dark">
           {isAdmin && (
-            <HoliActionDrawer.Action
-              isLoading={isLoading}
-              action="edit"
-              title={t('global.edit')}
-              handleAction={editAction}
-            />
+            <>
+              <HoliActionDrawer.Action
+                isLoading={isLoading}
+                action="edit"
+                title={t('global.edit')}
+                handleAction={editAction}
+              />
+              <HoliActionDrawer.Action
+                isLoading={isLoading}
+                action="collaborators"
+                title={t('spaces.collaborators.manage.modal.title')}
+                handleAction={manageCollaboratorsAction}
+              />
+            </>
           )}
-
-          {space && (
+          {isMember && (
             <HoliActionDrawer.Action
-              action="share"
-              title={t('global.share')}
-              handleAction={isWeb ? undefined : shareSpaceUrl}
-              showConfirmation={isWeb}
-              testID="space-share"
+              isLoading={isLoadingLeaveSpace}
+              action="leave"
+              title={t('spaces.spaceDetails.leave')}
+              showConfirmation
             >
               <HoliActionDrawer.Confirmation
-                title={t('global.share')}
-                description={spaceUrl}
-                testID="space-share"
-                handleConfirmation={shareWebAction}
-                confirmText={t('global.share.copy.link')}
+                title={confirmationTitle}
+                description={confirmationDescription}
+                testID="space-leave"
+                handleConfirmation={leaveSpaceAction}
+                hasDismissBtn={dismissLeaveSpaceButton.show}
+                dismissText={dismissLeaveSpaceButton.text}
+                confirmText={confirmLeaveSpaceText}
+                requireLogin
               />
             </HoliActionDrawer.Action>
           )}
-
-          <HoliActionDrawer.Action
-            isLoading={isLoadingLeaveSpace}
-            action="leave"
-            title={t('spaces.spaceDetails.leave')}
-            showConfirmation
-          >
-            <HoliActionDrawer.Confirmation
-              title={confirmationTitle}
-              description={confirmationDescription}
-              testID="space-leave"
-              handleConfirmation={leaveSpaceAction}
-              hasDismissBtn={dismissLeaveSpaceButton.show}
-              dismissText={dismissLeaveSpaceButton.text}
-              confirmText={confirmLeaveSpaceText}
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
 
           <HoliActionDrawer.Action
             isLoading={isLoadingReport}
@@ -178,18 +188,6 @@ const SpaceDetails = () => {
             </HoliActionDrawer.Action>
           )}
         </HoliActionDrawer.Drawer>
-        {/* Success Modal for copying a URL to the clipboard driven by the share action */}
-        {isWeb && (
-          <NotificationModal
-            label={t('global.share')}
-            isVisible={showShareConfirmation}
-            setVisibility={setShowShareConfirmation}
-          >
-            <HoliText bold color="error200">
-              {t('global.share.copied')}
-            </HoliText>
-          </NotificationModal>
-        )}
       </>
     ),
     [
@@ -197,16 +195,12 @@ const SpaceDetails = () => {
       deleteConfirmationAction,
       leaveSpaceAction,
       editAction,
+      isMember,
+      manageCollaboratorsAction,
       isAdmin,
-      isWeb,
-      space,
-      spaceUrl,
       t,
       isLoadingReport,
-      shareSpaceUrl,
-      shareWebAction,
       isLoading,
-      showShareConfirmation,
       confirmationDescription,
       confirmationTitle,
       isLoadingLeaveSpace,
@@ -217,19 +211,24 @@ const SpaceDetails = () => {
   )
 
   useEffect(() => {
-    setOptions({
+    setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
+      headerTintColor: colors.foreground30,
       headerTitle: () => null,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => renderActionDrawer(),
+      headerLeft: () => <HeaderBackButton />,
+      headerRight: (props) => (
+        <View style={!isMember || !isAdmin ? styles.headerRight : null}>
+          {!isMember || !isAdmin ? <SpaceShareIcon url={spaceUrl} title={space?.title} {...props} /> : null}
+          {renderActionDrawer()}
+        </View>
+      ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setOptions])
+  }, [isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceUrl, t])
 
   const handleTabChange = (index: number) => {
     global.spaceDetailInitialTabIndex = index
@@ -249,7 +248,7 @@ const SpaceDetails = () => {
         style={styles.overlayButton}
         onPress={onUpdateButtonPress}
       >
-        <HoliIcon icon="pencil" size={20} />
+        <HoliIcon icon={Pencil} size={20} />
       </HoliButton>
     )
   }
@@ -271,7 +270,7 @@ const SpaceDetails = () => {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{
           isLoading: refreshing,
@@ -280,6 +279,7 @@ const SpaceDetails = () => {
         style={styles.defaultLayout}
         contentStyle={styles.contentStyle}
         headerOverlap
+        keyboardShouldPersistTaps="handled"
       >
         <SpaceDetailView
           style={styles.spaceDetailView}
@@ -287,10 +287,11 @@ const SpaceDetails = () => {
           onChangeTab={handleTabChange}
           initialTabIndex={global.spaceDetailInitialTabIndex}
         />
+        <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
-      {(isCreator || isMember) && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      {(isCreator || isMember) && currentTabIndex === 1 && <UpdateButton />}
-    </>
+      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+      {isMember && currentTabIndex === 1 && <UpdateButton />}
+    </SafeAreaProvider>
   )
 }
 
@@ -349,6 +350,22 @@ const styles = StyleSheet.create({
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 14,
+  },
+  floatingContainer: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 42,
+    left: 0,
+    right: 0,
+    gap: 8,
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
 })
 
-export default memo(SpaceDetails)
+export default withProfiler(memo(SpaceDetails), { name: 'SpaceDetails' })

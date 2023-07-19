@@ -9,7 +9,8 @@ import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
@@ -35,7 +36,8 @@ const DEFAULT_SLOTS_AVAILABLE = 1
 
 const CreateTask: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { setOptions, navigateBack, navigate } = useUnifiedNavigation()
+  const { navigateBack, navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
 
   // input fields
@@ -152,7 +154,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     !loadingSpace &&
       isAdmin &&
-      setOptions({
+      setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
           <HoliHeading level="1" size="small">
@@ -161,12 +163,12 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         ),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="arrow-left" onPress={() => setShowConfirmationModal(true)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [setOptions, t, loadingSpace, isAdmin])
+  }, [t, loadingSpace, isAdmin, setScreenOptions])
 
   useEffect(() => {
     if (

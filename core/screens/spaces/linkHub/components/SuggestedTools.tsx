@@ -2,7 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { ChatPoll, Group, Plant, ShareBox, Wallet3 } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -14,13 +16,14 @@ type Tool = {
   name: string
   org: string
   url: string
-  icon: string
+  icon: HoliIconType
 }
 
 const SuggestedTools: React.FC = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const imageWidth = 210
+  const imageWidth = 285
+  const imageHeight = 170
 
   const recommendedToolList: Tool[] = [
     {
@@ -28,28 +31,28 @@ const SuggestedTools: React.FC = () => {
       name: t('spaces.toolKit.toolIdeas.tool.impactTools'),
       org: '[re]flecta network',
       url: 'https://www.reflecta.network/die-impact-tools',
-      icon: 'plant',
+      icon: Plant,
     },
     {
       id: '1',
       name: t('spaces.toolKit.toolIdeas.tool.debateModule'),
       org: 'Adhocracy +',
       url: 'https://adhocracy.plus/info/start/',
-      icon: 'group-line',
+      icon: Group,
     },
     {
       id: '2',
       name: t('spaces.toolKit.toolIdeas.tool.groupWallet'),
       org: 'Elinor',
       url: 'https://elinor.network/en',
-      icon: 'wallet-3-line',
+      icon: Wallet3,
     },
     {
       id: '3',
       name: t('spaces.toolKit.toolIdeas.tool.interactivePolls'),
       org: 'Nuudel',
       url: 'https://nuudel.digitalcourage.de/',
-      icon: 'chat-poll',
+      icon: ChatPoll,
     },
   ]
 
@@ -66,7 +69,7 @@ const SuggestedTools: React.FC = () => {
       >
         <View style={styles.toolContainer}>
           <View style={styles.iconContainer}>
-            <HoliIcon size={21} color={colors.brandColorB30} icon={tool.icon} />
+            <HoliIcon icon={tool.icon} size={21} color={colors.brandColorB30} />
           </View>
           <View style={styles.infoContainer}>
             <HoliText style={styles.toolName}>{tool.name}</HoliText>
@@ -75,7 +78,7 @@ const SuggestedTools: React.FC = () => {
             </HoliText>
           </View>
           <View style={styles.shareButtonContainer}>
-            <HoliIcon icon={'share-box'} size={15} color={colors.foreground20} />
+            <HoliIcon icon={ShareBox} size={15} color={colors.foreground20} />
           </View>
         </View>
       </HoliButton>
@@ -87,7 +90,7 @@ const SuggestedTools: React.FC = () => {
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_suggested_tools.svg')}
         width={imageWidth}
-        height={imageWidth * 0.86}
+        height={imageHeight}
         label={''}
         isSvg={true}
         resizeMode="stretch"

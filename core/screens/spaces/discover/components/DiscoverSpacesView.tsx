@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
@@ -12,21 +12,33 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-type DiscoverSpacesViewProps = {
+interface DiscoverSpacesViewProps {
+  loading?: boolean
   user?: User
   style?: StyleProp<ViewStyle>
   userSpecificSpacesGroups: DiscoverSpacesGroup[]
   defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
+const SpacesGroupSliderSkeletons: React.FC = () => {
+  return (
+    <View testID={'spaces-group-slider-skeletons'}>
+      {new Array(3).fill(1).map((_, idx) => {
+        return <SpacesGroupSlider key={idx} loading={true} />
+      })}
+    </View>
+  )
+}
+
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
+  loading = false,
   style,
   userSpecificSpacesGroups,
   defaultSpacesGroups,
 }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { navigate } = useUnifiedNavigation()
+  const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
 
   const hasUserSpecificTiers = userSpecificSpacesGroups.some((group) => group.spaces.totalResults > 0)
@@ -56,9 +68,10 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
       </View>
 
       <View style={styles.body}>
+        {loading && <SpacesGroupSliderSkeletons />}
+
         {/* User specific spaces suggestions */}
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+        {!loading &&
           userSpecificSpacesGroups.map((group, index) => (
             <SpacesGroupSlider
               key={index}
@@ -66,24 +79,24 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
               style={styles.spacesGroup}
               testID="discover-spaces-slider-user-specific"
             />
-          ))
-        }
+          ))}
 
-        {hasUserSpecificTiers && hasDefaultTiers && (
+        {!loading && hasUserSpecificTiers && hasDefaultTiers && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
         )}
 
         {/* Default spaces suggestions */}
-        {defaultSpacesGroups.map((group, index) => (
-          <SpacesGroupSlider
-            key={index}
-            group={group}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-others"
-          />
-        ))}
+        {!loading &&
+          defaultSpacesGroups.map((group, index) => (
+            <SpacesGroupSlider
+              key={index}
+              group={group}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-others"
+            />
+          ))}
       </View>
     </View>
   )

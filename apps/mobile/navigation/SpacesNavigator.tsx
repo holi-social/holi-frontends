@@ -7,14 +7,30 @@ import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/P
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import SpaceCollaboratorsManage, {
+  SpaceCollaboratorsManageParams,
+} from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
+import SpaceInviteView, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInviteView'
+import SpaceRolesPermissions, {
+  SpaceRolesPermissionsParams,
+} from '@holi/core/screens/spaces/details/components/SpaceRolesPermissions'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
+import EditSpaceCollaborators, {
+  EditSpaceCollaboratorsParams,
+} from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
 import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
 import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
+import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/SpaceOnboarding'
+import SpaceOnboardingSteps, {
+  SpaceOnboardingStepsParams,
+} from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
-import CreateUpdate from '@holi/core/screens/spaces/updates/CreateUpdate'
+import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
+import SpaceVideoCall, { SpaceVideoCallParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCall'
+import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -27,11 +43,21 @@ export type SpacesScreens = {
   [RouteName.CreateTask]: CreateTaskParams
   [RouteName.EditTask]: EditTaskParams
   [RouteName.TaskDetails]: TaskDetailsParams
+  [RouteName.CreateUpdate]: CreateUpdateParams
+  [RouteName.EditUpdate]: CreateUpdateParams
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
   [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
   [RouteName.SpaceStorage]: SpaceStorageParams
+  [RouteName.SpaceVideoCall]: SpaceVideoCallParams
+  [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
+  [RouteName.SpaceInviteView]: SpaceInviteViewParams
+  [RouteName.Collaborators]: SpaceCollaboratorsManageParams
+  [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
+  [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
+  [RouteName.SpaceOnboarding]: SpaceOnboardingParams
+  [RouteName.SpaceOnboardingSteps]: SpaceOnboardingStepsParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -55,14 +81,23 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
+      <SpacesStack.Screen name={RouteName.SpaceVideoCall} component={SpaceVideoCall} />
+      <SpacesStack.Screen name={RouteName.SpaceVideoCallList} component={SpaceVideoCallList} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
       <SpacesStack.Screen name={RouteName.EditTask} component={EditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
-      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateUpdate} />
+      <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateSpaceUpdate} />
+      <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
+      <SpacesStack.Screen name={RouteName.SpaceInviteView} component={SpaceInviteView} />
+      <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaboratorsManage} />
+      <SpacesStack.Screen name={RouteName.EditCollaborators} component={EditSpaceCollaborators} />
+      <SpacesStack.Screen name={RouteName.SpaceRolesPermissions} component={SpaceRolesPermissions} />
+      <SpacesStack.Screen name={RouteName.SpaceOnboarding} component={SpaceOnboarding} />
+      <SpacesStack.Screen name={RouteName.SpaceOnboardingSteps} component={SpaceOnboardingSteps} />
     </SpacesStack.Navigator>
   )
 }

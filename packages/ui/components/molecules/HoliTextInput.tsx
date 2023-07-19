@@ -8,7 +8,6 @@ import {
   StyleProp,
   StyleSheet,
   TargetedEvent,
-  Text,
   TextInput,
   TextInputContentSizeChangeEventData,
   TextInputIOSProps,
@@ -19,9 +18,12 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { ErrorWarningFilled } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -39,7 +41,7 @@ export interface HoliTextInputProps {
   onChange?: (value: string) => void
   type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
-  trailingIcon?: string
+  trailingIcon?: HoliIconType
   trailingComponent?: ReactChild
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
@@ -181,8 +183,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 {...(props?.testID ? { testID: `${props?.testID}-label` } : {})}
               >
                 {inputLabel}
+                <HoliMandatoryFieldStar show={!!isRequired} error={!!hasValidationErrors} />
               </HoliText>
-              {isRequired && <Text> *</Text>}
             </View>
           )}
           <View
@@ -234,10 +236,9 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               <View style={styles.trailingIconWrapper}>
                 {(props?.trailingIcon || props?.trailingComponent) &&
                   !hasValidationErrors &&
-                  (props?.trailingComponent || (
-                    <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />
-                  ))}
-                {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
+                  (props?.trailingComponent ||
+                    (props?.trailingIcon && <HoliIcon icon={props.trailingIcon} size={22} color={iconColor} />))}
+                {hasValidationErrors && <HoliIcon icon={ErrorWarningFilled} size={16} color={colors.error30} />}
               </View>
             )}
             {!showCharacterCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
@@ -390,6 +391,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     labelHasValidationErrors: {
       color: colors.error30,
+    },
+    labelMandatoryStar: {
+      color: colors.brandColorB30,
     },
     helperTextWrapper: {
       flex: 4,

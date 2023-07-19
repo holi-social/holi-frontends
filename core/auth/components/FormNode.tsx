@@ -4,12 +4,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ViewStyle } from 'react-native'
 
-import FormCheckbox from '@holi/core/auth/components/FormCheckbox'
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
   getNodeTitle,
-  oryNodeIsCheckbox,
   oryNodeIsHiddenField,
   oryNodeIsInput,
   oryNodeIsSubmit,
@@ -47,21 +45,6 @@ const FormNode = (props: Props) => {
     const metaText = props.node.meta.label?.text ? `${props.node.meta.label?.text} ` : ''
     const text = `${metaText} ${node.attributes.text.text}`
     return <HoliText style={[props.style || {}]}>{text}</HoliText>
-  }
-
-  // TODO: remove after removing this checkbox from Ory flow
-  if (oryNodeIsCheckbox(node.attributes)) {
-    return (
-      <FormCheckbox
-        node={node}
-        value={props.value}
-        onChange={props.onChange}
-        autofocus={props.autofocus}
-        translationPrefix={props.translationPrefix}
-        style={props.style}
-        testID={`ory-checkbox-${getNodeId(node).replace('.', '_')}`}
-      />
-    )
   }
 
   if (oryNodeIsInput(node.attributes)) {

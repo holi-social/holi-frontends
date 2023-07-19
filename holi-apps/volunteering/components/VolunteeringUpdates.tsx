@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -8,6 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
+import { Hearts } from '@holi/icons/src/generated'
 
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
@@ -54,7 +56,8 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
         appName={HOLI_APPS.VOLUNTEERING}
         onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/engagement/${item.id}`)}
         title={title}
-        imageSource={{ uri: item.imageUrl }}
+        imageSourceUri={item.imageUrl}
+        footer={item.source}
       />
     )
   }
@@ -64,8 +67,9 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
       appName={HOLI_APPS.VOLUNTEERING}
       renderItem={renderItem}
       data={engagementsToRender}
+      appIcon={Hearts}
       heading={t('volunteering:app.name')}
-      headingIcon="hearts"
+      subline={t('volunteering:app.subline')}
       onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
@@ -73,4 +77,5 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     />
   )
 }
-export default VolunteeringUpdates
+
+export default withProfiler(VolunteeringUpdates, { name: 'VolunteeringUpdates' })

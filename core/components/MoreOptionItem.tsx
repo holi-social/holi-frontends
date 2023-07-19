@@ -1,15 +1,17 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { ArrowRightS, ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface MoreOptionItemProps extends HoliButtonProps {
-  icon?: string
-  iconRight?: string
+  icon?: HoliIconType
+  iconRightStyle?: 'arrow' | 'outlink'
   tintColor?: string
   bold?: boolean
   loading?: boolean
@@ -17,7 +19,7 @@ export interface MoreOptionItemProps extends HoliButtonProps {
 
 const MoreOptionItem = ({
   icon,
-  iconRight,
+  iconRightStyle,
   tintColor = colors.foreground30,
   loading = false,
   label,
@@ -36,17 +38,21 @@ const MoreOptionItem = ({
         disabled={disabled}
         {...buttonProps}
       >
-        {!!icon && <HoliIcon icon={icon} size={24} filled={false} color={tintColor} style={styles.icon} />}
+        {!!icon && <HoliIcon icon={icon} color={tintColor} style={styles.icon} />}
 
         <HoliText bold={bold} style={{ color: tintColor }}>
           {label}
         </HoliText>
 
-        {iconRight === 'arrow' && (
-          <HoliIcon icon="arrow-right-s" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+        {iconRightStyle === 'arrow' && (
+          <View style={styles.iconRight}>
+            <HoliIcon icon={ArrowRightS} color={tintColor} />
+          </View>
         )}
-        {iconRight === 'outlink' && (
-          <HoliIcon icon="share-box" size={24} filled={false} color={tintColor} style={styles.iconRight} />
+        {iconRightStyle === 'outlink' && (
+          <View style={styles.iconRight}>
+            <HoliIcon icon={ShareBox} color={tintColor} />
+          </View>
         )}
       </HoliButton>
       {loading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}

@@ -30,3 +30,7 @@ export ORY_ADMIN_ACCESS_TOKEN=
 
 # Use http://localhost:4455/graphql when running frontend against the local environment
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
+
+# Holi Chat configuration
+export HOLI_CHAT_SERVER_URL=https://staging.chat.holi.social
+export HOLI_CHAT_IDENTITY_SERVER_URL=https://vector.im

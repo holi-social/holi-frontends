@@ -147,66 +147,64 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             }
           }
         >
-          <RNSVGSvgView
-            align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
-            focusable={false}
-            meetOrSlice={0}
-            minX={0}
-            minY={0}
-            style={
-              [
-                {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                },
-                {
-                  "borderStyle": "solid",
-                  "borderWidth": 0,
-                  "color": "#262424",
-                  "display": "flex",
-                  "fill": "currentColor",
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "height": 22,
-                  "stroke": "currentColor",
-                  "width": 22,
-                },
-                {
-                  "flex": 0,
-                  "height": 22,
-                  "width": 22,
-                },
-              ]
-            }
-            tintColor="#262424"
-            vbHeight={1024}
-            vbWidth={1024}
-          >
-            <RNSVGGroup
-              fill={
-                {
-                  "type": 2,
+          <View>
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="22"
+                bbWidth="22"
+                color="#262424"
+                focusable={false}
+                height={22}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
                 }
-              }
-              propList={
-                [
-                  "fill",
-                  "stroke",
-                ]
-              }
-              stroke={
-                {
-                  "type": 2,
-                }
-              }
-            >
-              <RNSVGPath
-                d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
-              />
-            </RNSVGGroup>
-          </RNSVGSvgView>
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={22}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup>
+                  <RNSVGPath
+                    d="M0 0h24v24H0z"
+                    fill={null}
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                  <RNSVGPath
+                    d="M13.914 14.58a8.998 8.998 0 0 1-.484.104 7.06 7.06 0 0 1-2.664-.01c-.154-.03-.372-.083-.653-.158l-.921 1.197c-2.273-.073-3.137-1.596-3.137-1.596 0-3.381 1.481-6.122 1.481-6.122 1.481-1.133 2.89-1.102 2.89-1.102l.403.525a1.12 1.12 0 0 1 .112-.01 8.527 8.527 0 0 1 2.314.01l.442-.525s1.41-.031 2.89 1.103c0 0 1.482 2.74 1.482 6.121 0 0-.875 1.522-3.148 1.596l-1.007-1.134zM10.076 11C9.475 11 9 11.45 9 12s.485 1 1.076 1c.6 0 1.075-.45 1.075-1 .01-.55-.474-1-1.075-1zm3.848 0c-.6 0-1.075.45-1.075 1s.485 1 1.075 1c.601 0 1.076-.45 1.076-1s-.475-1-1.076-1zM21 23l-4.99-5H19V4H5v14h11.003l.57 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v19z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
         </View>
       </View>
       <View
@@ -375,67 +373,61 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             }
           }
         >
-          <RNSVGSvgView
-            align="xMidYMid"
-            bbHeight="16"
-            bbWidth="16"
-            color="#cc1820"
-            focusable={false}
-            meetOrSlice={0}
-            minX={0}
-            minY={0}
-            style={
-              [
-                {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                },
-                {
-                  "borderStyle": "solid",
-                  "borderWidth": 0,
-                  "color": "#cc1820",
-                  "display": "flex",
-                  "fill": "currentColor",
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "height": 16,
-                  "stroke": "currentColor",
-                  "width": 16,
-                },
-                {
-                  "flex": 0,
-                  "height": 16,
-                  "width": 16,
-                },
-              ]
-            }
-            tintColor="#cc1820"
-            vbHeight={1024}
-            vbWidth={1024}
-          >
-            <RNSVGGroup
-              fill={
-                {
-                  "type": 2,
-                }
-              }
-              propList={
+          <View>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="16"
+              bbWidth="16"
+              color="#cc1820"
+              fill="none"
+              focusable={false}
+              height={16}
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
                 [
-                  "fill",
-                  "stroke",
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 16,
+                    "width": 16,
+                  },
                 ]
               }
-              stroke={
-                {
-                  "type": 2,
-                }
-              }
+              tintColor="#cc1820"
+              vbHeight={24}
+              vbWidth={24}
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <RNSVGPath
-                d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM469.333 640v85.333h85.333v-85.333h-85.333zM469.333 298.667v256h85.333v-256h-85.333z"
-              />
-            </RNSVGGroup>
-          </RNSVGSvgView>
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGPath
+                  d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm-1-7v2h2v-2h-2Zm0-8v6h2V7h-2Z"
+                  fill={
+                    {
+                      "type": 2,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
         </View>
       </View>
       <View
