@@ -106,7 +106,7 @@ const digitalTools = [
   {
     name: 'Telegram',
     type: 'Communication',
-    slug: 'telegram',
+    slug: 't.me',
     url: 'https://telegram.org/',
     desc: 'Telegram - a new era of messaging',
     img: require('@holi/ui/assets/img/icons/collaboration/telegram.png'),
