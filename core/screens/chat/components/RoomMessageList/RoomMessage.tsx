@@ -2,16 +2,17 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { ChatMessage } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
-import { Message } from '@holi/core/screens/chat/components/seed'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomMessageProps {
-  message: Message
+  message: ChatMessage
   showAvatar?: boolean
   isPrevMessageFromSameUser?: boolean
   isNextMessageFromSameUser?: boolean
@@ -29,8 +30,10 @@ const RoomMessage = ({
 
   const { user: me } = useLoggedInUser()
   // FIXME: currently Message has "user" prop type of "null" for me and "User" for all others
-  const { user, text, postedAt } = message
-  const messageUser = user ?? me!
+  const { content, timestamp } = message
+  // const messageUser = user ?? me!
+  // FIXME: use real user after connection of Okuna and Matrix users will be finished
+  const messageUser = Math.random() > 0.5 ? getRandomUser() : me!
   const isMyMessage = me === messageUser
 
   const paddingBottom = isNextMessageFromSameUser ? 2 : 8
@@ -70,11 +73,11 @@ const RoomMessage = ({
               </HoliBox>
             )}
 
-            <HoliText>{text}</HoliText>
+            <HoliText>{content.body}</HoliText>
 
             <View style={styles.date}>
               <HoliText size="extrasmall" color="gray300">
-                {getDisplayDate(i18n.language, postedAt)}
+                {getDisplayDate(i18n.language, timestamp)}
               </HoliText>
             </View>
           </HoliBox>

@@ -198,16 +198,17 @@ export default class ChatClient {
   }
 
   public subscribeToInvitations = async (
-    callback: (roomId: string, name: string, hasInvitation: boolean) => void
+    callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
   ): Promise<(() => void) | void> => {
     if (!this.verifyMxClient(this.mxClient)) return
     const memberInvitationHandler = async (event: MatrixEvent) => {
       const hasInvitation = await this.hasPendingInvitation(event)
       const roomId = event.getRoomId()
       const { displayname } = event.getContent()
+      const senderId = event.getSender()
 
       if (!hasInvitation || !roomId || !displayname) return
-      callback(roomId, displayname, hasInvitation)
+      callback(roomId, displayname, hasInvitation, senderId)
     }
 
     this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)

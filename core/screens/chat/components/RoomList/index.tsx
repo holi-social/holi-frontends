@@ -9,17 +9,17 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import type { RoomListProps } from './types'
 
-const RoomList = ({ rooms }: RoomListProps) => {
+const RoomList = ({ roomAtoms }: RoomListProps) => {
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
 
   return (
     <FlashList
-      data={rooms}
-      renderItem={({ item }) => <RoomItem room={item} />}
-      keyExtractor={(item) => item.id}
+      data={Object.values(roomAtoms)}
+      renderItem={({ item }) => <RoomItem roomAtom={item} />}
+      keyExtractor={(item) => item.toString()}
       estimatedItemSize={ROOM_ITEM_HEIGHT}
       ListHeaderComponent={() => (
-        <View style={{ height: safeAreaInsetTop + (Platform.OS === 'android' ? +vars.topBarHeight : 0) }} />
+        <View style={{ height: +vars.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0) }} />
       )}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
       onScroll={onScreenScrollY}

@@ -1,17 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useAtomValue, useSetAtom } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { ChatRoomAtom, joinRoomAtom, selectRoomAtom } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
-import { Room } from '@holi/core/screens/chat/components/seed'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomItemProps {
-  room: Room
+  roomAtom: ChatRoomAtom
   testID?: string
 }
 
@@ -20,16 +24,21 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ room, testID }: RoomItemProps) => {
-  const { t, i18n } = useTranslation()
-  const { user, messages, unseenMessageCount } = room
-  const lastMessage = messages[messages.length - 1]
-  const userFullName = user.fullName || t('user.profileView.anonymous')
-  const hasUnseenMessages = unseenMessageCount > 0
+const RoomItem = ({ roomAtom, testID }: RoomItemProps) => {
+  const { i18n } = useTranslation()
+  // const { user, messages, unseenMessageCount } = useAtomValue(roomAtom)
+  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
+  // TODO: use real user
+  const user = getRandomUser()
+  // const userFullName = user.fullName || t('user.profileView.anonymous')
+  const hasUnseenMessages = notificationCount > 0
+
+  // const joinRoom = useSetAtom(joinRoomAtom)
+  // const selectRoom = useSetAtom(selectRoomAtom)
 
   return (
     // TODO: add correct label
-    <HoliLink href={`/chat/rooms/${room.id}`} label="">
+    <HoliLink href={`/chat/rooms/${roomId}`} label={name}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
@@ -37,7 +46,7 @@ const RoomItem = ({ room, testID }: RoomItemProps) => {
             <HoliAvatar
               imageSrc={user.avatar}
               imageBlurhash={user.avatarBlurhash}
-              label={userFullName}
+              label={name}
               initials={user.avatarLabel || ''}
               defaultColor={user.avatarDefaultColor || ''}
               size="medium"
@@ -46,7 +55,7 @@ const RoomItem = ({ room, testID }: RoomItemProps) => {
             {hasUnseenMessages && (
               <View style={styles.unseenMessageIndicator}>
                 <HoliText size="extrasmall" bold color="white100">
-                  {unseenMessageCount > 99 ? '∞' : unseenMessageCount}
+                  {notificationCount > 99 ? '∞' : notificationCount}
                 </HoliText>
               </View>
             )}
@@ -55,18 +64,33 @@ const RoomItem = ({ room, testID }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold>{userFullName}</HoliText>
+                <HoliText bold>{name}</HoliText>
               </View>
 
               <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
-                {getDisplayDate(i18n.language, lastMessage.postedAt)}
-                {/* {lastMessage.postedAt} {i18n.language} */}
+                {getDisplayDate(i18n.language, timestamp)}
               </HoliText>
             </View>
 
-            <HoliText numberOfLines={1} color="gray300">
-              {lastMessage.text}
-            </HoliText>
+            {lastMessage && (
+              <HoliText numberOfLines={1} color="gray300">
+                {lastMessage.content.body}
+              </HoliText>
+            )}
+
+            {/* {hasInvitation && (
+              <HoliBox padding={[20, 20]}>
+                <HoliButton
+                  label={'accept Invitation'}
+                  onPress={async () => {
+                    await selectRoom(roomAtom)
+                    await joinRoom({ id: roomId, hasInvitation: false })
+                  }}
+                >
+                  Accept Invitation
+                </HoliButton>
+              </HoliBox>
+            )} */}
           </View>
         </View>
       </HoliBox>
@@ -80,6 +104,7 @@ const styles = StyleSheet.create({
   rowWrapper: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: 12,
   },
   content: {

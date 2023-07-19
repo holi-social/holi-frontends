@@ -1,36 +1,36 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAtomValue, useSetAtom } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { ChatRoom, ChatRoomAtom, joinRoomAtom, useRoomAtoms } from '@holi/chat/src/store'
+import { addToRoomAtoms, roomAtomsRecordAtom, useSubscribeToRoomAndMessageUpdates } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
-import { ROOM_ITEM_VERTICAL_PADDING } from '@holi/core/screens/chat/components/RoomList/RoomItem'
 import { chatRoomListSeed } from '@holi/core/screens/chat/components/seed'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChatHomeContent = () => {
+  useSubscribeToRoomAndMessageUpdates()
+
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
 
-  const [roomsAtoms, createRoomAtom] = useRoomAtoms()
-  // const joinRoom = useSetAtom(joinRoomAtom)
+  const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
+  const createRoomAtom = useSetAtom(addToRoomAtoms)
 
-  // TODO: remove after implementing the feature
-  const showToast = useToastForNotAvailableFeature()
+  const handleRoomCreation = async () => {
+    // TODO: Get Matrix user ids dynamically
+    const userIds: string[] = ['@rosd_ddd:local.chat.holi.social']
+    createRoomAtom(userIds)
+  }
 
   if (!isLoggedIn) {
     return (
@@ -77,19 +77,13 @@ const ChatHomeContent = () => {
             secondText={t('chat.empty.headline')}
             style={[styles.noResultsMessage]}
           >
-            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={showToast}>
+            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={handleRoomCreation}>
               {t('chat.empty.button.text')}
             </HoliButton>
           </HoliNoResults>
         </View>
       </ScrollHeaderLayout.Default>
     )
-  }
-
-  const handleRoomCreation = async () => {
-    // TODO: Get Matrix user ids dynamically
-    const userIds: string[] = ['@rosd_ddd:local.chat.holi.social']
-    createRoomAtom(userIds)
   }
 
   return (
@@ -105,19 +99,8 @@ const ChatHomeContent = () => {
         renderItem={({ item }) => <RoomListItem item={item} />}
         keyExtractor={(item) => item.toString()}
       /> */}
-      <RoomList rooms={chatRoomListSeed} />
+      <RoomList roomAtoms={roomAtomsRecord} />
     </SafeAreaView>
-  )
-}
-
-const RoomListItem = ({ item: roomAtom }: { item: ChatRoomAtom }) => {
-  const room = useAtomValue(roomAtom)
-
-  return (
-    <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
-      {/* <ConversationItem room={item} /> */}
-      <HoliText>{JSON.stringify(room)}</HoliText>
-    </HoliBox>
   )
 }
 

@@ -1,13 +1,23 @@
-import React, { useLayoutEffect } from 'react'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import {
+  joinRoomAtom,
+  roomAtomsRecordAtom,
+  roomMessagesSubscriberAtom,
+  selectRoomAtom,
+  threadsAtomsRecordAtom,
+  useSubscribeToRoomAndMessageUpdates,
+} from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
-import { chatRoomListSeed } from '@holi/core/screens/chat/components/seed'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -15,23 +25,44 @@ export type ChatRoomPageParams = {
   roomId: string
 }
 
+const nullAtom = atom(null)
+
 const { useParam } = createParam<ChatRoomPageParams>()
 
 const ChatRoom = () => {
-  // TODO: use real data
+  useSubscribeToRoomAndMessageUpdates()
+
   const [roomId = ''] = useParam('roomId')
-  const room = chatRoomListSeed.find(({ id }) => roomId === id)
+  const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[roomId] ?? nullAtom
+  const room = useAtomValue(roomAtom)
+
+  const joinRoom = useSetAtom(joinRoomAtom)
+  const selectRoom = useSetAtom(selectRoomAtom)
+
+  const threadsAtomsRecord = useAtomValue(threadsAtomsRecordAtom)
+  const messagesAtom = threadsAtomsRecord[roomId] ?? nullAtom
+  const messages = useAtomValue(messagesAtom) ?? []
+  const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
+
+  const [messageText, setMessageText] = useState('')
 
   const setScreenOptions = useSetScreenOptions()
 
   useLayoutEffect(() => {
     setScreenOptions({
-      title: room?.user.fullName,
+      title: room?.name,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [room?.user.fullName, setScreenOptions])
+  }, [room?.name, setScreenOptions])
+
+  useEffect(() => {
+    if (room) {
+      selectRoom(roomAtom)
+    }
+  }, [room, roomAtom, selectRoom])
 
   if (!room) return null
 
@@ -40,10 +71,26 @@ const ChatRoom = () => {
       renderProp={() => (
         <SafeAreaView style={styles.wrapper}>
           <View style={{ backgroundColor: colors.background20, flex: 1 }}>
-            <RoomMessageList room={room} />
+            {room.hasInvitation ? (
+              <View style={{ flex: 1 }}>
+                <HoliBox padding={[+vars.bottomBarHeight + 20, 20]}>
+                  <HoliButton
+                    label={'accept Invitation'}
+                    onPress={async () => await joinRoom({ id: roomId, hasInvitation: false })}
+                  >
+                    Accept Invitation
+                  </HoliButton>
+                </HoliBox>
+              </View>
+            ) : (
+              <RoomMessageList messages={messages} />
+            )}
 
             <HoliTextInput
+              // TODO: provide correct accessibilityLabel prop
               accessibilityLabel="Message"
+              value={messageText}
+              onChange={setMessageText}
               style={{ backgroundColor: colors.background20 }}
               inputStyle={{
                 paddingHorizontal: 16,
@@ -54,6 +101,16 @@ const ChatRoom = () => {
               }}
               maxNoOfVisibleLines={5}
             />
+
+            <HoliButton
+              label=""
+              onPress={async () => {
+                await sendMessage({ roomId, text: messageText })
+                setMessageText('')
+              }}
+            >
+              Send
+            </HoliButton>
           </View>
         </SafeAreaView>
       )}

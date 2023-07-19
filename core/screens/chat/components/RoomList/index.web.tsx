@@ -8,18 +8,18 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import type { RoomListProps } from './types'
 
-const RoomList = ({ rooms }: RoomListProps) => {
+const RoomList = ({ roomAtoms }: RoomListProps) => {
   const mixins = useStyleMixins()
 
   return (
     <FlatList
-      data={rooms}
-      renderItem={({ item }) => <RoomItem room={item} />}
+      data={Object.values(roomAtoms)}
+      renderItem={({ item }) => <RoomItem roomAtom={item} />}
       // use ListHeaderComponent to add padding bottom for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.toString()}
       getItemLayout={(_, index) => ({
         length: ROOM_ITEM_HEIGHT,
         offset: ROOM_ITEM_HEIGHT * index,
