@@ -22,6 +22,7 @@ import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useP
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -33,7 +34,6 @@ export type LoginParams = {
   return_to?: string
 }
 
-const IS_CHAT_ENABLED = false
 const chatLoginClient = new ChatLogin()
 
 const { useParam } = createParam<LoginParams>()
