@@ -281,12 +281,7 @@ const SpaceDetails = () => {
         headerOverlap
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView
-          style={styles.spaceDetailView}
-          space={space}
-          onChangeTab={handleTabChange}
-          initialTabIndex={global.spaceDetailInitialTabIndex}
-        />
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={handleTabChange} />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
       {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
