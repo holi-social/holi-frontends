@@ -51,6 +51,11 @@ export const updateSpaceMutation = gql`
         url
         name
       }
+      onboarding {
+        steps {
+          text
+        }
+      }
     }
   }
 `

@@ -215,13 +215,17 @@ export const sendConnectionRequest = async (page: Page) => {
 export const newUserEmail = () => {
   return `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
 }
+
+export const randomPassword = () => {
+  return faker.internet.password()
+}
 export const newUserPassword = 'TheSamePassword4A11E2eUsers'
 
 export const withRandomUserSession = async (
   browser: Browser,
   actions: (page: Page) => Promise<void>,
   email: string = newUserEmail(),
-  password: string = newUserPassword
+  password: string = randomPassword()
 ): Promise<() => Promise<void>> => {
   const context = await browser.newContext()
   const page = await context.newPage()

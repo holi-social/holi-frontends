@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.3.1', // user-facing value visible in stores
-  iosBuildNumber: '1.3.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 20, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.4.0', // user-facing value visible in stores
+  iosBuildNumber: '1.4.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 21, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -47,7 +47,7 @@ export default {
       versionCode: versions.androidVersionCode,
     },
     plugins: [
-      'sentry-expo',
+      ['sentry-expo'],
       [
         'expo-image-picker',
         {

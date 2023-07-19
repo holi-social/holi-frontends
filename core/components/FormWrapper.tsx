@@ -26,6 +26,7 @@ export interface FormWrapperProps extends ScrollViewProps {
   loading?: boolean
   isModal?: boolean
   buttonLabel?: string
+  showBottomBar?: boolean
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
@@ -40,6 +41,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       loading,
       isModal = false,
       buttonLabel,
+      showBottomBar = false,
       testID = 'form-wrapper',
       ...scrollViewProps
     }: FormWrapperProps,
@@ -93,7 +95,11 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
         keyboardVerticalOffset={isModal ? 98 : 0} // based on the height of the HoliModal's header
         ref={ref}
       >
-        <HoliKeyboardSaveView initOffsetTop={70} onHeightChange={onHeightChange} style={{ position: 'relative' }}>
+        <HoliKeyboardSaveView
+          onHeightChange={onHeightChange}
+          style={{ position: 'relative' }}
+          initialOffsetTop={showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0}
+        >
           <ScrollView
             ref={scrollViewRef}
             onContentSizeChange={scrollIntoView}

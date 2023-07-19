@@ -10,6 +10,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -40,20 +42,28 @@ const SpaceVideoCallList = () => {
 
   return (
     <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
-      <View style={mixins.container}>
-        <CollaboratorAreaCard
-          title={t('spaces.videocall.schedule.heading')}
-          headerLeftIcon={CalendarCheck}
-          headerRightIcon={ArrowRightS}
-          onPressHeaderLeft={showFeatureNotImplementedToast}
-          onPressHeaderRight={showFeatureNotImplementedToast}
-          headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
-          style={styles.card}
-        />
-        <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
-          <VideoCallLinks spaceIdOrName={spaceIdOrName} style={styles.container} />
-        </CollaboratorAreaCard>
-      </View>
+      <HoliBox padding={[24, 0]}>
+        <View style={mixins.container}>
+          <HoliBox padding={[0, 0, 24, 0]}>
+            <HoliText>{t('spaces.videocall.text')}</HoliText>
+          </HoliBox>
+          <HoliBox padding={[0, 0, 16, 0]}>
+            <CollaboratorAreaCard
+              title={t('spaces.videocall.schedule.heading')}
+              headerLeftIcon={CalendarCheck}
+              headerRightIcon={ArrowRightS}
+              onPressHeaderLeft={showFeatureNotImplementedToast}
+              onPressHeaderRight={showFeatureNotImplementedToast}
+              headerRightButtonLabel={t('spaces.videocall.schedule.heading')}
+            />
+          </HoliBox>
+          <HoliBox padding={[0, 0, 16, 0]}>
+            <CollaboratorAreaCard title={t('spaces.videocall.generateLink.heading')} headerLeftIcon={VideoChat}>
+              <VideoCallLinks spaceIdOrName={spaceIdOrName} />
+            </CollaboratorAreaCard>
+          </HoliBox>
+        </View>
+      </HoliBox>
     </ScrollHeaderLayout.Default>
   )
 }
@@ -67,11 +77,8 @@ const styles = StyleSheet.create({
   },
   defaultLayout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    marginTop: 10,
+    marginTop: Platform.OS === 'web' ? 10 : +vars.topBarHeight,
     backgroundColor: colors.background20,
-    paddingTop: vars.topBarHeight + 60,
-  },
-  card: {
-    marginBottom: 16,
+    paddingTop: vars.topBarHeight,
   },
 })

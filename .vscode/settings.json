@@ -1,34 +1,45 @@
 {
-    "javascript.preferences.importModuleSpecifier": "non-relative",
-    "javascript.preferences.importModuleSpecifierEnding": "minimal",
-    "typescript.preferences.importModuleSpecifier": "non-relative",
-    "typescript.preferences.importModuleSpecifierEnding": "minimal",
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true,
-        "**/node_modules": true
-    },
-    "i18n-ally.localesPaths": [".", "holi-apps"],
-    "i18n-ally.enabledFrameworks": ["react", "i18next"],
-    "i18n-ally.dirStructure": "file",
-    "i18n-ally.keystyle": "flat",
-    "i18n-ally.displayLanguage": "en",
-    "i18n-ally.namespace": true,
-    "i18n-ally.defaultNamespace": "core",
-    "i18n-ally.pathMatcher": "{namespace}/i18n/locales/{locale}.json",
-    "cSpell.words": [
-        "extralarge"
-    ],
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "**/node_modules": true
+  },
+  "i18n-ally.localesPaths": [
+    ".",
+    "holi-apps"
+  ],
+  "i18n-ally.enabledFrameworks": [
+    "react",
+    "i18next"
+  ],
+  "i18n-ally.dirStructure": "file",
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.displayLanguage": "en",
+  "i18n-ally.namespace": true,
+  "i18n-ally.defaultNamespace": "core",
+  "i18n-ally.pathMatcher": "{namespace}/i18n/locales/{locale}.json",
+  "cSpell.words": [
+    "extralarge"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "[json]": {
     "editor.codeActionsOnSave": {
-        "source.fixAll": true
+      "source.fixAll": false
     }
+  }
 }

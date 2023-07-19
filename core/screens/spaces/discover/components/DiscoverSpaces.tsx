@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
@@ -10,7 +10,6 @@ import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/
 import { DEFAULT_LOCATION_ID, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 /**
  * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
@@ -84,7 +83,7 @@ const DiscoverSpaces = ({ user, style }: DiscoverSpacesProps) => {
     }
   }, [displayError, errorDefault, errorUserSpecific, defaultGeolocationError, t])
 
-  if (
+  const loading =
     loadingSkills ||
     loadingTopics ||
     !defaultGeolocation ||
@@ -92,17 +91,10 @@ const DiscoverSpaces = ({ user, style }: DiscoverSpacesProps) => {
     (!dataUserSpecific && loadingUserSpecific) ||
     (!dataDefault && loadingDefaultData) ||
     (!dataDefault && !dataUserSpecific)
-  ) {
-    // TODO: replace with proper loading indicator
-    return (
-      <View style={styles.loadingContainer}>
-        <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-      </View>
-    )
-  }
 
   return (
     <DiscoverSpacesView
+      loading={loading}
       style={style}
       user={user}
       userSpecificSpacesGroups={dataUserSpecific?.discoverSpaces ?? []}
@@ -110,11 +102,5 @@ const DiscoverSpaces = ({ user, style }: DiscoverSpacesProps) => {
     />
   )
 }
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    marginTop: 24,
-  },
-})
 
 export default DiscoverSpaces

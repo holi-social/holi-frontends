@@ -41,7 +41,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
         >
           <View style={styles.headerTitle}>
             {headerLeftIcon && (
-              <HoliIcon icon={headerLeftIcon} size={18} color={colors.brandColorB30} style={{ marginRight: 6 }} />
+              <HoliIcon icon={headerLeftIcon} size={24} color={colors.brandColorB30} style={{ marginRight: 8 }} />
             )}
             <HoliText>{title}</HoliText>
           </View>
@@ -55,7 +55,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
               onPress={onPressHeaderRight}
               testID={`btn-right-${testID}`}
             >
-              {headerRightIcon && <HoliIcon icon={headerRightIcon} size={18} color={colors.foreground30} />}
+              {headerRightIcon && <HoliIcon icon={headerRightIcon} size={24} color={colors.foreground30} />}
             </HoliButton>
           </View>
         )}
@@ -82,10 +82,11 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
   },
   headerContainer: {
-    padding: 10,
+    padding: 16,
     width: '100%',
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   headerTitleContainer: {
     flex: 4,
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   headerRightButton: {
     alignSelf: 'flex-end',

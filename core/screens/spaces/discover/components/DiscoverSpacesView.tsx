@@ -12,14 +12,26 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-type DiscoverSpacesViewProps = {
+interface DiscoverSpacesViewProps {
+  loading?: boolean
   user?: User
   style?: StyleProp<ViewStyle>
   userSpecificSpacesGroups: DiscoverSpacesGroup[]
   defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
+const SpacesGroupSliderSkeletons: React.FC = () => {
+  return (
+    <View testID={'spaces-group-slider-skeletons'}>
+      {new Array(3).fill(1).map((_, idx) => {
+        return <SpacesGroupSlider key={idx} loading={true} />
+      })}
+    </View>
+  )
+}
+
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
+  loading = false,
   style,
   userSpecificSpacesGroups,
   defaultSpacesGroups,
@@ -56,31 +68,35 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
       </View>
 
       <View style={styles.body}>
-        {/* User specific spaces suggestions */}
-        {userSpecificSpacesGroups.map((group, index) => (
-          <SpacesGroupSlider
-            key={index}
-            group={group}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-user-specific"
-          />
-        ))}
+        {loading && <SpacesGroupSliderSkeletons />}
 
-        {hasUserSpecificTiers && hasDefaultTiers && (
+        {/* User specific spaces suggestions */}
+        {!loading &&
+          userSpecificSpacesGroups.map((group, index) => (
+            <SpacesGroupSlider
+              key={index}
+              group={group}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-user-specific"
+            />
+          ))}
+
+        {!loading && hasUserSpecificTiers && hasDefaultTiers && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
         )}
 
         {/* Default spaces suggestions */}
-        {defaultSpacesGroups.map((group, index) => (
-          <SpacesGroupSlider
-            key={index}
-            group={group}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-others"
-          />
-        ))}
+        {!loading &&
+          defaultSpacesGroups.map((group, index) => (
+            <SpacesGroupSlider
+              key={index}
+              group={group}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-others"
+            />
+          ))}
       </View>
     </View>
   )
