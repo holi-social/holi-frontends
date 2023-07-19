@@ -32,9 +32,9 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         {isAdmin && (
           <HoliLink label={t('spaces.collaborate.onboarding.link')} href={`/spaces/${space.name}/onboarding`}>
             <View style={styles.onboarding}>
-              <HoliIcon icon={OpenArm} size={18} color={colors.brandColorB30} style={styles.icon} />
+              <HoliIcon icon={OpenArm} size={24} color={colors.brandColorB30} style={styles.icon} />
               <HoliText>{t('spaces.collaborate.onboarding.link')}</HoliText>
-              <HoliIcon icon={ArrowRightS} style={styles.end} />
+              <HoliIcon icon={ArrowRightS} size={24} style={styles.end} />
             </View>
           </HoliLink>
         )}
@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   icon: {
-    paddingLeft: 10,
-    marginRight: 6,
+    marginRight: 8,
+    marginLeft: 16,
   },
   end: {
     marginLeft: 'auto',
     alignSelf: 'flex-end',
-    marginRight: 8,
+    marginRight: 16,
   },
 })
 
