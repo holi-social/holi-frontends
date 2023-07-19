@@ -18,7 +18,7 @@ export function createChatRoom(room: Room, userId: string | null, hasInvitation 
     hasInvitation,
     id: room.roomId,
     notificationCount: room.getUnreadNotificationCount(),
-    name: userId ? room.getDefaultRoomName(userId) : room.name,
+    name: room.name,
     lastMessage: lastThreadMessage,
     timestamp:
       lastThreadMessage?.timestamp ??
