@@ -9,6 +9,7 @@ import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFor
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
 import useCreateOrUpdateSpacePost from '@holi/core/screens/spaces/updates/useUpdateSpaceUpdates'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -91,9 +92,12 @@ const CreateSpaceUpdate = () => {
       })
   }, [setScreenOptions, t, loading, isUpdate, isMember])
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space || !isMember) {
+  if (error || !space || !isMember) {
     return <></>
+  }
+
+  if (loading) {
+    return <HoliLoader />
   }
 
   return (
