@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from 'react'
 import RoomView from '@holi/chat/src/components/RoomView'
 import {
   addToRoomAtoms,
-  roomAtomsAtomSubscriber,
   roomAtomsRecordAtom,
+  roomAtomsRecordAtomSubscriber,
   roomMessagesAtom,
   roomMessagesSubscriberAtom,
 } from '@holi/chat/src/store'
@@ -15,7 +15,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const ChatView = () => {
   useAtom(roomMessagesAtom)
-  useAtom(roomAtomsAtomSubscriber)
+  useAtom(roomAtomsRecordAtomSubscriber)
   useAtom(roomMessagesSubscriberAtom)
 
   const commitRef = useRef(0)

@@ -77,7 +77,7 @@ const ChatHomeContent = () => {
             secondText={t('chat.empty.headline')}
             style={[styles.noResultsMessage]}
           >
-            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={handleRoomCreation}>
+            <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
               {t('chat.empty.button.text')}
             </HoliButton>
           </HoliNoResults>
@@ -99,6 +99,7 @@ const ChatHomeContent = () => {
         renderItem={({ item }) => <RoomListItem item={item} />}
         keyExtractor={(item) => item.toString()}
       /> */}
+
       <RoomList roomAtoms={roomAtomsRecord} />
     </SafeAreaView>
   )

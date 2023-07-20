@@ -46,6 +46,7 @@ const ChatRoom = () => {
   const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
 
   const [messageText, setMessageText] = useState('')
+  const noMessageProvided = !messageText.trim()
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -104,8 +105,9 @@ const ChatRoom = () => {
 
             <HoliButton
               label=""
+              disabled={noMessageProvided}
               onPress={async () => {
-                await sendMessage({ roomId, text: messageText })
+                await sendMessage({ roomId, text: messageText.trim() })
                 setMessageText('')
               }}
             >
