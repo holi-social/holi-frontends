@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { HoliWebViewProps } from '@holi/core/screens/spaces/components/HoliWebView.shared'
+import { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 
 // Should not be used on web
 const HoliWebView: React.FC<HoliWebViewProps> = ({ uri }) => {
