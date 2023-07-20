@@ -3,7 +3,7 @@ import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
-export const HoliSwitchSizes = ['extralarge', 'large', 'default', 'small'] as const
+export const HoliSwitchSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const
 export type HoliSwitchSize = (typeof HoliSwitchSizes)[number]
 
 export interface HoliSwitchProps {
@@ -22,17 +22,26 @@ export interface HoliSwitchProps {
 }
 
 const HoliSwitch: React.VFC<HoliSwitchProps> = (props) => {
-  const {
+  let {
     backgroundColorOn = colors.brandColorA30,
     backgroundColorOff = colors.brandColorB30,
     circleColorOn = colors.brandColorB30,
     circleColorOff = colors.brandColorA30,
+  } = props
+  const {
     duration = 300,
     size = 'default',
-    border = false,
     borderColor = colors.brandColorB30,
+    border = false,
     disabled = false,
   } = props
+
+  if (disabled) {
+    backgroundColorOn = colors.foreground10
+    backgroundColorOff = colors.background10
+    circleColorOn = colors.background10
+    circleColorOff = colors.background10
+  }
 
   const circlePosXEnd = 40
   const circlePosXStart = 0
@@ -113,6 +122,8 @@ const getSizeStyles = (size: HoliSwitchSize) => {
       return { transform: [{ scaleX: 1.25 }, { scaleY: 1.25 }] }
     case 'small':
       return { transform: [{ scaleX: 0.75 }, { scaleY: 0.75 }] }
+    case 'extrasmall':
+      return { transform: [{ scaleX: 0.5 }, { scaleY: 0.5 }] }
     default:
       return { transform: [{ scaleX: 1 }, { scaleY: 1 }] }
   }
