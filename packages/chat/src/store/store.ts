@@ -3,12 +3,13 @@ import { produce } from 'immer'
 import { atom, createStore, useAtom } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
 
-import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src//utils'
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
-import { InvitationUpdate, createChatRoom, updateInvitation } from '@holi/chat/src/store/room'
-import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
+import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src/utils'
 import { logError } from '@holi/core/errors/helpers'
+
+import { createChatMessage, updateMessages } from './messages'
+import { InvitationUpdate, addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
+import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
 
 /** Store **/
 export const chatStore = createStore()
@@ -37,24 +38,14 @@ export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
  * room's state. It adds an atom to the atoms list container. It is a writable
  * atom in order to use `onMount` to fill the initial state.
  */
-export const roomAtomsAtomSubscriber = atom(
+export const roomAtomsRecordAtomSubscriber = atom(
   (get) => get(_roomAtomsRecordAtom),
   (get, set, chatRoom: ChatRoom) => {
-    const addChatRoom = produce((chatRoomAtoms: Record<string, ChatRoomAtom>, chatRoom: ChatRoom) => {
-      const roomId = chatRoom.id
-      const roomAtom = atom(chatRoom)
-
-      const hasRoom = roomId in chatRoomAtoms
-      if (hasRoom) return
-
-      chatRoomAtoms[roomId] = roomAtom
-    })
-
     set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
   }
 )
 
-roomAtomsAtomSubscriber.onMount = (setAtom) => {
+roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const userId = chat.getUserId()
   // We set all the joined rooms initially
   chat.getRooms().then((rooms) => {
@@ -78,21 +69,11 @@ roomAtomsAtomSubscriber.onMount = (setAtom) => {
 export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
   chat
     .createRoom(userIds)
-    .then((response) => {
-      const roomId = response?.room_id
-      const room = chat.getRoom(roomId)
+    .then(({ room_id }) => {
+      const room = chat.getRoom(room_id)
       if (!room) return
 
-      const roomAtom = atom(createChatRoom(room, null))
-      // TODO: Remove immer producer duplication
-      const addChatRoom = produce((chatRoomAtoms: Record<string, ChatRoomAtom>, room: ChatRoomAtom) => {
-        const newRoomId = get(room).id
-        const hasRoom = Object.keys(chatRoomAtoms).find((roomId) => roomId === newRoomId)
-        if (hasRoom) return
-        chatRoomAtoms[newRoomId] = room
-      })
-
-      set(_roomAtomsRecordAtom, (prevRooms) => addChatRoom(prevRooms, roomAtom))
+      set(_roomAtomsRecordAtom, (prevRooms) => addChatRoom(prevRooms, createChatRoom(room, null)))
     })
     .catch((err) => logError(err))
 })
@@ -102,7 +83,7 @@ export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
  * @description helper hook subscribes to rooms and messages updates. Should be used on root component.
  */
 export const useSubscribeToRoomAndMessageUpdates = () => {
-  useAtom(roomAtomsAtomSubscriber)
+  useAtom(roomAtomsRecordAtomSubscriber)
   useAtom(threadsAtomsRecordAtomSubscriber)
 }
 
@@ -207,7 +188,18 @@ export const threadsAtomsRecordAtomSubscriber = atom(
 
     const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
       threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-      set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, createChatMessage(roomId, event)))
+      const newMessage = createChatMessage(roomId, event)
+      set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
+      updateRoom(roomId, newMessage)
+    })
+
+    const updateRoom = produce((roomId: string, message: ChatMessage) => {
+      const roomAtomsRecord = get(roomAtomsRecordAtom)
+      const roomAtom = roomAtomsRecord[roomId]
+
+      if (!roomAtom) return
+
+      set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
     })
 
     set(_threadsAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
