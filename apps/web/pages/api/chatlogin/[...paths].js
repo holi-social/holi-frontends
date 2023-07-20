@@ -1,6 +1,6 @@
 import httpProxy from 'http-proxy'
 
-const API_URL = process.env.HOLI_API_URL.replace(/\/graphql$/, '')
+const API_URL = process.env.HOLI_API_GATEWAY
 const proxy = httpProxy.createProxyServer()
 
 // Make sure that we don't parse JSON bodies on this route:

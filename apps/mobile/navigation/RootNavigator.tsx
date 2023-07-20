@@ -6,6 +6,8 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
+import VideoCall from '@holi/core/screens/videoCall/VideoCall'
+import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
@@ -14,6 +16,7 @@ import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -29,6 +32,8 @@ export type RootStackScreens = {
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
+
+  [RouteName.VideoCall]: VideoCallParams
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -48,6 +53,18 @@ const RootNavigator = () => {
 
       {/* SpacesHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
+
+      <RootStack.Screen
+        name={RouteName.VideoCall}
+        component={VideoCall}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.background10,
+          },
+        }}
+      />
 
       {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
       <RootStack.Screen

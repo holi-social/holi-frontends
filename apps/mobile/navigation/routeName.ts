@@ -16,7 +16,6 @@ export enum RouteName {
   EditSpace = 'EditSpace',
   CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
-  SpaceVideoCall = 'SpaceVideoCall',
   SpaceVideoCallList = 'SpaceVideoCallList',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',
@@ -55,6 +54,9 @@ export enum RouteName {
   // Volunteering app
   VolunteeringAppHome = 'VolunteeringAppHome',
   VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
+
+  // Video call
+  VideoCall = 'VideoCall',
 
   // separate Stacks
   BottomTabs = 'BottomTabs',

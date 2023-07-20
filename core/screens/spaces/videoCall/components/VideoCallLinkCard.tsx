@@ -7,7 +7,7 @@ import i18n from '@holi/core/i18n'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { jitsiUrl } from '@holi/core/screens/spaces/helpers/config'
-import { Space, VideoCallLink } from '@holi/core/screens/spaces/types'
+import { VideoCallLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { More } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -16,21 +16,21 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface VideoCallLinkCardProps {
-  space: Space
   videoCallLink: VideoCallLink
 }
-const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ space, videoCallLink }: VideoCallLinkCardProps) => {
+const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: VideoCallLinkCardProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   const navigateToVideoCall = useCallback(() => {
     if (Platform.OS === 'web') {
-      Linking.openURL(videoCallLink.url)
+      // Directly call api that performs redirects
+      Linking.openURL(videoCallLink.url.replace(jitsiUrl, '/api/video-call'))
     } else {
-      const webViewUrl = videoCallLink.url.replace(jitsiUrl, `/spaces/${space.name}/video-call`)
-      navigate(webViewUrl)
+      // Open webview that will then navigate to the same page as web above
+      navigate(videoCallLink.url.replace(jitsiUrl, '/video-call'))
     }
-  }, [navigate, space.name, videoCallLink.url])
+  }, [navigate, videoCallLink.url])
 
   const [, shareLink] = useShareLink(videoCallLink.roomName, videoCallLink.url, true)
 

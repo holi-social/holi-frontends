@@ -8,5 +8,6 @@ locals {
   dns_name         = local.environment == "production" ? "app.${data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_domain}" : "${trimsuffix(substr(local.environment, 0, 39), ".-")}.${data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_dev_domain}"
   dns_managed_zone = local.environment == "production" ? data.terraform_remote_state.holi_infra_state.outputs.dns_sld_zone_name : data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_dev_domain_name
   # in production, we work against prod apis, in staging and feature envs, we use the staging apis
-  holi_api_url = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}/graphql"
+  holi_api_gateway = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}"
+  holi_api_url     = "${local.holi_api_gateway}/graphql"
 }

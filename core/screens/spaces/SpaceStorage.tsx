@@ -53,7 +53,7 @@ const SpaceStorage: React.FC = () => {
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout hasFooterTabBar={false}>
       <HoliWebView style={styles.webView} uri={storageUrl} webViewProps={{ setSupportMultipleWindows: false }} />
     </DefaultLayout>
   )
@@ -62,7 +62,7 @@ const SpaceStorage: React.FC = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight,
+      minHeight: deviceHeight - +vars.topBarHeight,
       marginTop: vars.topBarHeight,
     },
     messageContainer: {
