@@ -5,6 +5,7 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
+    HOLI_API_GATEWAY: https://staging.unified.apis.holi.social
     ORY_BASE_URL: https://dev-auth.holi.social
     IMAGES_BASE_URL: https://dev-images.holi.social
     OWNCLOUD_BASE_URL: https://development.cloud.holi.social
@@ -250,6 +251,7 @@ mobile_production_publish:
   variables:
     ENVIRONMENT_ID: production
     HOLI_API_URL: https://production.unified.apis.holi.social/graphql
+    HOLI_API_GATEWAY: https://production.unified.apis.holi.social
     ORY_BASE_URL: https://auth.holi.social
     IMAGES_BASE_URL: https://images.holi.social
     OWNCLOUD_BASE_URL: https://production.cloud.holi.social

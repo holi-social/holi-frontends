@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import HoliWebView from '@holi/core/components/HoliWebView'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import HoliWebView from '@holi/core/screens/spaces/components/HoliWebView'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -53,7 +53,7 @@ const SpaceStorage: React.FC = () => {
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout hasFooterTabBar={false}>
       <HoliWebView style={styles.webView} uri={storageUrl} webViewProps={{ setSupportMultipleWindows: false }} />
     </DefaultLayout>
   )
@@ -62,7 +62,7 @@ const SpaceStorage: React.FC = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight,
+      minHeight: deviceHeight - +vars.topBarHeight,
       marginTop: vars.topBarHeight,
     },
     messageContainer: {

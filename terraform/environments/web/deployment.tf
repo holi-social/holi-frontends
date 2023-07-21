@@ -19,10 +19,10 @@ resource "google_project_service" "service" {
 
   service = each.key
 
-  project            = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
+  project = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   # keep this property as false. Having it true caused https://holi.atlassian.net/wiki/spaces/HOLI/pages/348258312/2023-06-27+All+services+down
   disable_dependent_services = false
-  disable_on_destroy = false
+  disable_on_destroy         = false
 }
 
 # in CI, this is set via scripts/create-or-update-env.sh
@@ -49,6 +49,10 @@ resource "google_cloud_run_service" "mvp_web" {
         env {
           name  = "HOLI_API_URL"
           value = local.holi_api_url
+        }
+        env {
+          name  = "HOLI_API_GATEWAY"
+          value = local.holi_api_gateway
         }
         env {
           name  = "NEXT_PUBLIC_ENVIRONMENT_ID"
