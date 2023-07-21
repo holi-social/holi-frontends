@@ -41,9 +41,10 @@ const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, sty
       testID={testID}
     >
       <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
+        imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.svg')}
         width={cardImageSize}
         height={cardImageSize}
+        isSvg
         label=""
       />
       <View style={styles.textWrapper}>
