@@ -21,7 +21,7 @@ import {
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
-import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import HoliWizard, { HoliWizardCurrentStepOptions } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -39,23 +39,23 @@ export interface AccountSetupProps {
 
 const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStepOptions> = {
   [AccountSetupStep.NAMES]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: false,
   },
   [AccountSetupStep.PRE_SUCCESS]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.INTERESTS]: {
-    skipable: true,
+    skippable: true,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.LOCATION]: {
-    skipable: true,
+    skippable: true,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.SUCCESS]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: false,
   },
 }

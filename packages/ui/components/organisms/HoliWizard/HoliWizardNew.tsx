@@ -6,14 +6,14 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepper'
-import HoliWizardNaviagtionButtons, {
+import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
-} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliWizardCurrentStepOptions {
-  skipable?: boolean
+  skippable?: boolean
   isBackButtonAvailable?: boolean
 }
 
@@ -54,7 +54,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
     const mixins = useStyleMixins()
 
     const stepCount = steps.length
-    const { skipable = false, isBackButtonAvailable = true } = currentStepOptions
+    const { skippable = false, isBackButtonAvailable = true } = currentStepOptions
     const progress = ((currentStep + 1) / stepCount) * 100
 
     const keyboardDismissWrapper = (fn?: () => void) => {
@@ -74,7 +74,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
               {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
             </HoliText>
 
-            {skipable && (
+            {skippable && (
               <HoliButton
                 label={t('global.skip')}
                 inline
@@ -99,7 +99,7 @@ const HoliWizard = forwardRef<ScrollView, HoliWizardProps>(
           lazy
         />
 
-        <HoliWizardNaviagtionButtons
+        <HoliWizardNavigationButtons
           onNextPress={keyboardDismissWrapper(onNextPress)}
           onBackPress={keyboardDismissWrapper(onBackPress)}
           submitButtonLabel={submitButtonLabel}
