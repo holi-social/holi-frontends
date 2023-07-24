@@ -38,12 +38,9 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const stepCount = arrayChildren.length
     const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
-    const setNextButtonEnabled = (buttonStatus: boolean) => {
-      setIsNextButtonEnabled(buttonStatus)
-    }
     const wizardContext = {
       currentStep,
-      setNextButtonEnabled,
+      setNextButtonEnabled: setIsNextButtonEnabled,
     }
 
     const handleNextButtonPress = async () => {

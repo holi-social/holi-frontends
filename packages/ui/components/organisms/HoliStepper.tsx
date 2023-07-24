@@ -1,15 +1,14 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Animated, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import type { GestureResponderEvent, NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
+import type { NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
 
 import { useDebounce } from '@holi/ui/helper'
 import { delayAnimation } from '@holi/ui/helper'
 
 interface HoliStepperContextType {
-  steps: React.ReactNode[]
+  stepCount: number
   currentStep: number
-  maxAllowedStep: number
   setStep: (nextStep: number, animated?: boolean) => void
   goNext: () => void
   goBack: () => void
@@ -18,6 +17,7 @@ interface HoliStepperContextType {
 const HoliStepperContext = createContext<HoliStepperContextType | null>(null)
 
 interface HoliStepperProps extends ScrollViewProps {
+  steps: React.ReactNode[]
   width: number
   lazy?: boolean
   backgroundColor?: string
@@ -25,35 +25,33 @@ interface HoliStepperProps extends ScrollViewProps {
 }
 
 interface HoliStepperWrapperProps extends React.PropsWithChildren {
-  steps: React.ReactNode[]
+  stepCount: number
   initialStep?: number
   onChangeTab?: (index: number) => void
 }
 
+// TODO(SF) rename to HoliStepperContextProvider or something similiar
+// ooor HoliStepper and the other one HoliStepperContent or whatever
 export const HoliStepperWrapper: React.FC<HoliStepperWrapperProps> = ({
-  steps,
+  stepCount,
   initialStep = 0,
   onChangeTab,
   children,
 }) => {
   const [currentStep, setCurrentStep] = useState(initialStep)
-  const [maxAllowedStep, setMaxAllowedStep] = useState(steps.length - 1)
   const setStep = useCallback(
     (nextStep: number) => {
-      // TODO(SF) consider rendered steps as well?
-      const validNextStep = Math.min(Math.max(nextStep, 0), maxAllowedStep)
+      const validNextStep = Math.min(Math.max(nextStep, 0), stepCount)
       setCurrentStep(validNextStep)
       onChangeTab && onChangeTab(validNextStep)
     },
-    [maxAllowedStep, onChangeTab]
+    [stepCount, onChangeTab]
   )
   const goBack = useCallback(() => setStep(currentStep - 1), [currentStep, setStep])
   const goNext = useCallback(() => setStep(currentStep + 1), [currentStep, setStep])
   const stepperContext = {
-    steps,
+    stepCount,
     currentStep,
-    maxAllowedStep,
-    setMaxAllowedStep, // TODO(SF): set on first render
     setStep,
     goNext,
     goBack,
@@ -82,6 +80,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   width,
   lazy = false,
   scrollEnabled,
+  steps,
   ...scrollViewProps
 }) => {
   const ref = useRef<ScrollView>(null)
@@ -91,9 +90,10 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   const scrollX = useRef(new Animated.Value(0)).current
   // TODO(SF) do we really need this?
   const scrollPoint = useRef(0)
-  const { steps, currentStep, setStep } = useStepper()
+  const { currentStep, setStep } = useStepper()
 
-  // TODO(SF) only necessary for web
+  // TODO(SF) only necessary for web, but does not "feel" very good
+  // => possibly disable scrolling on web
   useEffect(() => {
     const listener = scrollX.addListener((state) => {
       scrollPoint.current = state.value
@@ -189,11 +189,18 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       // onResponderRelease={debouncedUpdate}
       {...scrollViewProps}
     >
-      {steps.map((step, idx) => (
-        <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: width }])} testID="stepper-step">
-          {renderStep(step, idx)}
-        </View>
-      ))}
+      {steps.map((step, idx) => {
+        const renderedStep = renderStep(step, idx)
+        // TODO(SF) still not optimal => does not consider max rendered step?
+        if (!renderedStep && idx > currentStep) {
+          return null
+        }
+        return (
+          <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: width }])} testID="stepper-step">
+            {renderedStep}
+          </View>
+        )
+      })}
     </Animated.ScrollView>
   )
 }
@@ -204,6 +211,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     minHeight: '100%',
+    // TODO(SF) ?
     // ...Platform.select({
     //   web: {
     //     // Setting scrollEnabled in the ScrollView makes touch-action: none on web mobile, and you can't scroll vertically.

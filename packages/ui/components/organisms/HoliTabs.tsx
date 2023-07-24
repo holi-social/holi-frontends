@@ -121,13 +121,14 @@ const HoliTabs = ({
   )
 
   return (
-    <HoliStepperWrapper steps={renderedTabContents} initialStep={initialStep} onChangeTab={onChangeTab}>
+    <HoliStepperWrapper stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
       <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
         <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
         </View>
 
         <HoliStepper
+          steps={renderedTabContents}
           width={windowWidth}
           // onLayout={handleLayout}
           backgroundColor={backgroundColor}
