@@ -109,8 +109,6 @@ const HoliTabs = ({
           style={tab.style}
           accessibilityLabelledBy={`${id}-tab-${i}`}
           nativeID={`${id}-panel-${i}`}
-          // TODO(SF) adjust tests
-          // testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
           key={i}
           accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >

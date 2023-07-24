@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Pressable, Text, View, useWindowDimensions } from 'react-native'
 
-import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepper, HoliStepperWrapper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
 beforeEach(() => {
   jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
@@ -29,8 +29,9 @@ const steps: TestSteps = [
   ['step-4', 4],
 ]
 
-const TestStep = ({ idx, goNext }: { idx: number; goNext: () => void }) => {
+const TestStep = ({ idx }: { idx: number }) => {
   const stepId = `step-${idx}`
+  const { goNext } = useStepper()
   return (
     <Pressable testID={stepId} onPress={goNext}>
       <View>
@@ -42,20 +43,17 @@ const TestStep = ({ idx, goNext }: { idx: number; goNext: () => void }) => {
 
 const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: boolean }) => {
   const { width: screenWidth } = useWindowDimensions()
-  const { currentStep, goNext, stepperRef } = useStepper(screenWidth, initialStep)
 
   return (
-    <View>
+    <HoliStepperWrapper initialStep={initialStep} stepCount={steps.length}>
       <HoliStepper
-        ref={stepperRef}
-        width={424}
-        currentStep={currentStep}
+        width={screenWidth}
         steps={steps.map(([id, idx]) => (
-          <TestStep key={id} idx={idx} goNext={goNext} />
+          <TestStep key={id} idx={idx} />
         ))}
         lazy={lazy}
       />
-    </View>
+    </HoliStepperWrapper>
   )
 }
 
