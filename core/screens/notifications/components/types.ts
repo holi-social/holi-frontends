@@ -80,6 +80,7 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
     | NotificationType.COMMUNITY_MEMBERSHIP_REQUEST
     | NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
+    | NotificationType.COMMUNITY_INVITE
   options: {
     user: User
     space: Space
