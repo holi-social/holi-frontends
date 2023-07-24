@@ -9,8 +9,9 @@ import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { OnboardingStateValue, useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepperWrapper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const { useParam } = createParam()
@@ -24,29 +25,20 @@ export enum RegistrationStep {
   'ACCOUNT_SETUP',
 }
 
-export interface OnboardingProps {
-  afterAccountCreated?: () => void
+interface OnboardingStepperProps {
   style?: StyleProp<ViewStyle>
+  screenWidth: number
+  onOnboardingStateChange: (value?: OnboardingStateValue) => Promise<void>
+  afterAccountCreated?: () => void
 }
 
-const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
-  // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
-  const { onboardingState, onOnboardingStateChange } = useOnboarding()
-  const [toRegistration] = useParam('registrationStep')
-  const { width: screenWidth } = useWindowDimensions()
-
-  let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
-
-  if (onboardingState === 'emailVerification') {
-    initialStep = RegistrationStep.EMAIL_VERIFICATION
-  } else if (onboardingState === 'accountSetup') {
-    initialStep = RegistrationStep.ACCOUNT_SETUP
-  } else if (toRegistration) {
-    initialStep = RegistrationStep.COMMUNITY_GUIDELINES
-  }
-
-  const { currentStep, goNext, goBack, stepperRef } = useStepper(screenWidth, initialStep)
-
+const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
+  style,
+  screenWidth,
+  onOnboardingStateChange,
+  afterAccountCreated,
+}) => {
+  const { currentStep, goNext, goBack } = useStepper()
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
     communityGuidelines: false,
     privacyPolicy: false,
@@ -61,7 +53,7 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
     []
   )
 
-  const onprivacyPolicyChange = useCallback(
+  const onPrivacyPolicyChange = useCallback(
     () =>
       setOnboardingState((prevValue) => ({
         ...prevValue,
@@ -98,8 +90,6 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
   return (
     <View style={[styles.container, style]}>
       <HoliStepper
-        currentStep={currentStep}
-        ref={stepperRef}
         width={screenWidth}
         steps={[
           // Login-Registration-Continue as a Guest step
@@ -121,7 +111,7 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
             onNextPress={goToNextStep}
             onBackPress={goBack}
             agreementValue={privacyPolicy}
-            onAgreementChange={onprivacyPolicyChange}
+            onAgreementChange={onPrivacyPolicyChange}
             key={RegistrationStep.PRIVACY_POLICY}
           />,
           // Create Account step
@@ -138,6 +128,39 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
         lazy
       />
     </View>
+  )
+}
+
+export interface OnboardingProps {
+  afterAccountCreated?: () => void
+  style?: StyleProp<ViewStyle>
+}
+
+const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
+  // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
+  const { onboardingState, onOnboardingStateChange } = useOnboarding()
+  const [toRegistration] = useParam('registrationStep')
+  const { width: screenWidth } = useWindowDimensions()
+
+  let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
+
+  if (onboardingState === 'emailVerification') {
+    initialStep = RegistrationStep.EMAIL_VERIFICATION
+  } else if (onboardingState === 'accountSetup') {
+    initialStep = RegistrationStep.ACCOUNT_SETUP
+  } else if (toRegistration) {
+    initialStep = RegistrationStep.COMMUNITY_GUIDELINES
+  }
+
+  return (
+    <HoliStepperWrapper initialStep={initialStep} stepCount={6}>
+      <OnboardingStepper
+        style={style}
+        screenWidth={screenWidth}
+        onOnboardingStateChange={onOnboardingStateChange}
+        afterAccountCreated={afterAccountCreated}
+      />
+    </HoliStepperWrapper>
   )
 }
 
