@@ -11,7 +11,7 @@ import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { OnboardingStateValue, useOnboarding } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
-import { HoliStepperWrapper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const { useParam } = createParam()
@@ -150,13 +150,13 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
   }
 
   return (
-    <HoliStepperWrapper initialStep={initialStep} stepCount={6}>
+    <HoliStepperController initialStep={initialStep} stepCount={6}>
       <OnboardingStepper
         style={style}
         onOnboardingStateChange={onOnboardingStateChange}
         afterAccountCreated={afterAccountCreated}
       />
-    </HoliStepperWrapper>
+    </HoliStepperController>
   )
 }
 

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-import { HoliStepper, HoliStepperWrapper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
 beforeEach(() => {
   jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
@@ -43,14 +43,14 @@ const TestStep = ({ idx }: { idx: number }) => {
 
 const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: boolean }) => {
   return (
-    <HoliStepperWrapper initialStep={initialStep} stepCount={steps.length}>
+    <HoliStepperController initialStep={initialStep} stepCount={steps.length}>
       <HoliStepper
         steps={steps.map(([id, idx]) => (
           <TestStep key={id} idx={idx} />
         ))}
         lazy={lazy}
       />
-    </HoliStepperWrapper>
+    </HoliStepperController>
   )
 }
 

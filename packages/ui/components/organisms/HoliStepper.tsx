@@ -29,15 +29,13 @@ interface HoliStepperProps extends ScrollViewProps {
   scrollEnabled?: boolean
 }
 
-interface HoliStepperWrapperProps extends React.PropsWithChildren {
+interface HoliStepperControllerProps extends React.PropsWithChildren {
   stepCount: number
   initialStep?: number
   onChangeTab?: (index: number) => void
 }
 
-// TODO(SF) rename to HoliStepperContextProvider or something similiar
-// ooor HoliStepper and the other one HoliStepperContent or whatever
-export const HoliStepperWrapper: React.FC<HoliStepperWrapperProps> = ({
+export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
   stepCount,
   initialStep = 0,
   onChangeTab,

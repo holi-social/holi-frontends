@@ -5,7 +5,7 @@ import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
-import { HoliStepper, HoliStepperWrapper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
@@ -166,7 +166,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }} testID={testID}>
-      <HoliStepperWrapper stepCount={steps.length}>
+      <HoliStepperController stepCount={steps.length}>
         <HoliWizardContextProvider stepOptions={stepOptions} handleNextPress={handleNextPress}>
           <HoliWizardHeader testID={testID} />
 
@@ -174,7 +174,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
 
           <HoliWizardFooter getSubmitButtonLabel={getSubmitButtonLabel} isNextButtonEnabled={isNextButtonEnabled} />
         </HoliWizardContextProvider>
-      </HoliStepperWrapper>
+      </HoliStepperController>
     </SafeAreaView>
   )
 }

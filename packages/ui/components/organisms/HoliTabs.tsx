@@ -5,7 +5,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
-import { HoliStepper, HoliStepperWrapper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -114,7 +114,7 @@ const HoliTabs = ({
   const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
 
   return (
-    <HoliStepperWrapper stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
+    <HoliStepperController stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
       <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
         <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
 
@@ -125,7 +125,7 @@ const HoliTabs = ({
           lazy={lazy}
         />
       </View>
-    </HoliStepperWrapper>
+    </HoliStepperController>
   )
 }
 
