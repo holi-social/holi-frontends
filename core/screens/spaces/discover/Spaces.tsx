@@ -39,11 +39,6 @@ const Spaces = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
 
-  // TODO(SF) try to find out if this could still be relevant
-  // TODO(SF) maybe on web, when navigating back?
-  // // This is added to keep the reference of the current tab to handle the active tab in back navigation
-  // global.spaceDetailInitialTabIndex = 0
-
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
   const {
