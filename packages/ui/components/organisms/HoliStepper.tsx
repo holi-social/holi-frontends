@@ -1,10 +1,16 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Animated, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
-import type { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
+import type {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollViewProps,
+  StyleProp,
+  ViewStyle,
+} from 'react-native'
 
-import { useDebounce } from '@holi/ui/helper'
-import { delayAnimation } from '@holi/ui/helper'
+import { delayAnimation, useSettle } from '@holi/ui/helper'
 
 interface HoliStepperContextType {
   stepCount: number
@@ -19,7 +25,7 @@ const HoliStepperContext = createContext<HoliStepperContextType | null>(null)
 interface HoliStepperProps extends ScrollViewProps {
   steps: React.ReactNode[]
   lazy?: boolean
-  backgroundColor?: string
+  style?: StyleProp<ViewStyle>
   scrollEnabled?: boolean
 }
 
@@ -59,7 +65,6 @@ export const HoliStepperWrapper: React.FC<HoliStepperWrapperProps> = ({
   return <HoliStepperContext.Provider value={stepperContext}>{children}</HoliStepperContext.Provider>
 }
 
-// TODO(SF) maybe improve naming?
 export const useStepper = () => {
   const context = React.useContext(HoliStepperContext)
   return context as HoliStepperContextType
@@ -73,7 +78,7 @@ const scrollDelay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second f
  * HoliStepperContext.
  */
 export const HoliStepper: React.FC<HoliStepperProps> = ({
-  backgroundColor,
+  style,
   lazy = false,
   scrollEnabled,
   steps,
@@ -81,11 +86,8 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
 }) => {
   const ref = useRef<ScrollView>(null)
   const [firstRender, setFirstRender] = useState(true)
-  // TODO(SF) still needed?
   const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
   const scrollX = useRef(new Animated.Value(0)).current
-  // TODO(SF) do we really need this?
-  const scrollPoint = useRef(0)
   const { currentStep, setStep } = useStepper()
 
   // Determine step width: start with window width and update on layout change
@@ -96,26 +98,21 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     setViewWidth(width)
   }
 
-  // TODO(SF) only necessary for web, but does not "feel" very good
-  // => possibly disable scrolling on web
-  useEffect(() => {
-    const listener = scrollX.addListener((state) => {
-      scrollPoint.current = state.value
-    })
+  const updateCurrentStep = useCallback(
+    (scrollPosition: number) => {
+      const stepIndex = Math.round(scrollPosition / viewWidth)
+      setStep(stepIndex)
+    },
+    [setStep, viewWidth]
+  )
+  // For web: wait until the  scrollposition has not changed for a moment before
+  // updating the current step
+  const settledUpdate = useSettle(updateCurrentStep, 400)
 
-    return () => scrollX.removeListener(listener)
-  }, [scrollX])
-  const updateCurrentStep = useCallback(() => {
-    const stepIndex = Math.round(scrollPoint.current / viewWidth)
-    setStep(stepIndex)
-  }, [setStep, viewWidth])
-  const debouncedUpdate = useDebounce(updateCurrentStep, 1000)
-
-  // // TODO(SF) only works on mobile
+  // TODO(SF) only works on mobile
   const onMomentumScrollEnd = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      scrollPoint.current = event.nativeEvent.contentOffset.x
-      updateCurrentStep()
+      updateCurrentStep(event.nativeEvent.contentOffset.x)
     },
     [updateCurrentStep]
   )
@@ -142,7 +139,13 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, scrollToStep])
 
-  const onScroll = Animated.event(
+  const onScrollWeb = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      settledUpdate(event.nativeEvent.contentOffset.x)
+    },
+    [settledUpdate]
+  )
+  const onScrollMobile = Animated.event(
     [
       {
         nativeEvent: {
@@ -172,14 +175,12 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     return stepIndex === currentStep || (scrollEnabled && renderedSteps.get(stepIndex)) ? step : null
   }
 
-  const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
-
   return (
     <Animated.ScrollView
       ref={ref}
       keyboardShouldPersistTaps="always"
       style={styles.scrollView}
-      contentContainerStyle={[styles.scrollViewContainer, backgroundColorStyle]}
+      contentContainerStyle={[styles.scrollViewContainer, style]}
       showsHorizontalScrollIndicator={false}
       scrollEnabled={scrollEnabled}
       testID="stepper-scrollview"
@@ -187,11 +188,9 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       scrollEventThrottle={16}
       horizontal
       pagingEnabled
-      onScroll={onScroll}
+      onScroll={Platform.OS === 'web' ? onScrollWeb : onScrollMobile}
       onLayout={handleLayout}
       onMomentumScrollEnd={onMomentumScrollEnd}
-      onResponderEnd={debouncedUpdate}
-      // onResponderRelease={debouncedUpdate}
       {...scrollViewProps}
     >
       {steps.map((step, idx) => {

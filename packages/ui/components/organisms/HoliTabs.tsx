@@ -111,6 +111,7 @@ const HoliTabs = ({
       )),
     [tabs, id]
   )
+  const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
 
   return (
     <HoliStepperWrapper stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
@@ -119,7 +120,7 @@ const HoliTabs = ({
 
         <HoliStepper
           steps={renderedTabContents}
-          backgroundColor={backgroundColor}
+          style={[styles.stepperStyle, backgroundColorStyle]}
           scrollEnabled={scrollEnabled}
           lazy={lazy}
         />
@@ -168,6 +169,9 @@ const getStyles = (centeredButtons = false) =>
     activeTabButtonText: {
       color: colors.foreground30,
       fontWeight: '500',
+    },
+    stepperStyle: {
+      alignItems: 'flex-start',
     },
   })
 

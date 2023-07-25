@@ -12,7 +12,6 @@ import HoliWizardNavigationButtons, {
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-// TODO(SF) useCallback/memo?
 const keyboardDismissWrapper = (fn?: () => void) => {
   return () => {
     Keyboard.dismiss()
@@ -27,7 +26,6 @@ export interface HoliWizardCurrentStepOptions {
   isBackButtonAvailable?: boolean
 }
 
-// TODO(SF) naming
 export interface NextPressHandlerOptions {
   currentStep: number
   setIsLoading: (value: boolean) => void
