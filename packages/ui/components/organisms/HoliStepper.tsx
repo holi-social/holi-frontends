@@ -119,7 +119,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
 
   const scrollToStep = useCallback(
     (nextStep: number, animated = true) => {
-      const scrollOptions = { x: nextStep * viewWidth, y: 0, animated }
+      const scrollOptions = { x: nextStep * viewWidth, y: 0, animated: animated && !lazy }
       if (!ref.current?.scrollTo) {
         return
       }
@@ -127,7 +127,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
         ? ref.current.scrollTo(scrollOptions)
         : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
     },
-    [viewWidth]
+    [lazy, viewWidth]
   )
 
   useEffect(() => {
