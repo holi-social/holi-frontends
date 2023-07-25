@@ -150,9 +150,9 @@ const styles = StyleSheet.create({
   },
   imageUploadButton: {
     backgroundColor: colors.background10,
-    width: '40%',
     justifyContent: 'center',
     alignItems: 'center',
+    minHeight: 48,
   },
   instructionsContainer: {
     marginTop: 8,
@@ -203,10 +203,15 @@ const styles = StyleSheet.create({
     }),
   },
   uploadButtonContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    ...Platform.select({
+      web: {
+        flexDirection: 'row',
+      },
+    }),
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 8,
+    minHeight: 48,
   },
   tabBar: {
     paddingLeft: 24,
