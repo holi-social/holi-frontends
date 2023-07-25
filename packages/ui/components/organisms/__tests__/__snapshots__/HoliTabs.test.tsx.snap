@@ -267,13 +267,18 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         {
           "flexGrow": 1,
         },
-        null,
+        [
+          {
+            "alignItems": "flex-start",
+          },
+          null,
+        ],
       ]
     }
     horizontal={true}
     keyboardShouldPersistTaps="always"
+    onLayout={[Function]}
     onMomentumScrollEnd={[Function]}
-    onResponderEnd={[Function]}
     onScroll={[Function]}
     pagingEnabled={true}
     scrollEnabled={true}
