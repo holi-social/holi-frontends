@@ -42,6 +42,8 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
       image: require('@holi/ui/assets/img/logo/owncloud-logo.png'),
       i18nKey: 'spaces.storage.widget.owncloud.text',
       link: 'https://owncloud.com/',
+      imageWidth: 120,
+      imageHeight: 60,
     },
     {
       label: t('spaces.storage.widget.onlyoffice.logo'),
@@ -50,6 +52,8 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
       image: require('@holi/ui/assets/img/logo/onlyoffice-logo.png'),
       i18nKey: 'spaces.storage.widget.onlyoffice.text',
       link: 'https://owncloud.com/onlyoffice',
+      imageWidth: 90,
+      imageHeight: 70,
     },
   ]
 
@@ -79,15 +83,15 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
       <HoliModal label={t('spaces.storage.widget.owncloud.modal')} show={visible} onDismiss={hide}>
         <HoliModalContentWrapper actionButtonText="Got it" onActionButtonPress={hide} style={styles.modalContainer}>
           <HoliCarousel
-            // marginHorizontal={20}
+            marginHorizontal={32}
             slides={storageWidgetList.map((widget) => ({
               children: (
                 <View style={styles.carouselContainer}>
                   <HoliLocalImage
                     imageSource={widget.image}
                     label={widget.label || ''}
-                    width={122}
-                    height={60}
+                    width={widget.imageWidth || 120}
+                    height={widget.imageHeight || 60}
                     resizeMode="contain"
                     style={styles.image}
                   />
@@ -134,12 +138,19 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     width: '100%',
-    height: '100%',
     flex: 1,
     flexGrow: 1,
+    ...Platform.select({
+      web: {
+        paddingHorizontal: 24,
+      },
+      native: {
+        paddingHorizontal: 20,
+      },
+    }),
+    justifyContent: 'space-between',
   },
   modalContainer: {
-    paddingHorizontal: 24,
     paddingBottom: 20,
   },
   image: {
