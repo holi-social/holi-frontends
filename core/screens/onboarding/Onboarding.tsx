@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useState } from 'react'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
@@ -27,14 +27,12 @@ export enum RegistrationStep {
 
 interface OnboardingStepperProps {
   style?: StyleProp<ViewStyle>
-  screenWidth: number
   onOnboardingStateChange: (value?: OnboardingStateValue) => Promise<void>
   afterAccountCreated?: () => void
 }
 
 const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   style,
-  screenWidth,
   onOnboardingStateChange,
   afterAccountCreated,
 }) => {
@@ -90,7 +88,6 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   return (
     <View style={[styles.container, style]}>
       <HoliStepper
-        width={screenWidth}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
@@ -140,7 +137,6 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
   // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
   const { onboardingState, onOnboardingStateChange } = useOnboarding()
   const [toRegistration] = useParam('registrationStep')
-  const { width: screenWidth } = useWindowDimensions()
 
   let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
 
@@ -156,7 +152,6 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
     <HoliStepperWrapper initialStep={initialStep} stepCount={6}>
       <OnboardingStepper
         style={style}
-        screenWidth={screenWidth}
         onOnboardingStateChange={onOnboardingStateChange}
         afterAccountCreated={afterAccountCreated}
       />

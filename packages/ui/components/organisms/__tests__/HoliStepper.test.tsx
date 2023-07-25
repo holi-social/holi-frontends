@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { Pressable, Text, View, useWindowDimensions } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 
 import { HoliStepper, HoliStepperWrapper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
@@ -42,12 +42,9 @@ const TestStep = ({ idx }: { idx: number }) => {
 }
 
 const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: boolean }) => {
-  const { width: screenWidth } = useWindowDimensions()
-
   return (
     <HoliStepperWrapper initialStep={initialStep} stepCount={steps.length}>
       <HoliStepper
-        width={screenWidth}
         steps={steps.map(([id, idx]) => (
           <TestStep key={id} idx={idx} />
         ))}

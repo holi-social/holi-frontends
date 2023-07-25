@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
@@ -65,7 +65,6 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
 const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { width: screenWidth } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { user, isLoading: userLoading } = useLoggedInUser()
   const mixins = useStyleMixins()
@@ -283,7 +282,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
           </ScrollView>,
         ]}
         stepOptions={ACCOUNT_SETUP_STEP_OPTIONS}
-        screenWidth={screenWidth}
         getSubmitButtonLabel={getSubmitButtonLabel}
         isNextButtonEnabled={isNextButtonEnabled}
         scrollEnabled={false}

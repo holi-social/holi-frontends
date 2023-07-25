@@ -39,7 +39,6 @@ export interface HoliWizardProps {
   steps: React.ReactNode[]
   stepOptions: HoliWizardStepOptions
   handleNextPress: NextPressHandler
-  screenWidth: number
   getSubmitButtonLabel: (stepNumber: number) => string
   scrollEnabled?: boolean
   testID?: string
@@ -162,7 +161,6 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
   steps,
   stepOptions,
   handleNextPress,
-  screenWidth,
   getSubmitButtonLabel,
   isNextButtonEnabled,
   scrollEnabled = false,
@@ -174,13 +172,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
         <HoliWizardContextProvider stepOptions={stepOptions} handleNextPress={handleNextPress}>
           <HoliWizardHeader testID={testID} />
 
-          <HoliStepper
-            steps={steps}
-            width={screenWidth}
-            style={{ flexGrow: 1, flexShrink: 1 }}
-            scrollEnabled={scrollEnabled}
-            lazy
-          />
+          <HoliStepper steps={steps} style={{ flexGrow: 1, flexShrink: 1 }} scrollEnabled={scrollEnabled} lazy />
 
           <HoliWizardFooter getSubmitButtonLabel={getSubmitButtonLabel} isNextButtonEnabled={isNextButtonEnabled} />
         </HoliWizardContextProvider>

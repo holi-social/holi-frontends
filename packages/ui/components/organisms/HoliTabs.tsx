@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
-import { Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -47,34 +47,36 @@ const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, ta
   const { setStep, currentStep } = useStepper()
 
   return (
-    <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
-      {tabs.map((tab, index) => {
-        const isActive = currentStep === index
-        return (
-          <HoliTabButton
-            label={tab.title}
-            id={`${id}-tab-${index}`}
-            style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
-            onPress={() => setStep(index)}
-            key={index}
-            accessibilitySelected={isActive}
-            accessibilityControls={`${id}-panel-${index}`}
-            testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
-          >
-            {!!tab.titleIcons && (
-              <HoliIcon
-                icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
-                size={22}
-                color={isActive ? colors.foreground30 : colors.foreground20}
-                style={styles.tabButtonIcon}
-              />
-            )}
-            <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
-              {tab.title}
-            </Text>
-          </HoliTabButton>
-        )
-      })}
+    <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+      <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
+        {tabs.map((tab, index) => {
+          const isActive = currentStep === index
+          return (
+            <HoliTabButton
+              label={tab.title}
+              id={`${id}-tab-${index}`}
+              style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
+              onPress={() => setStep(index)}
+              key={index}
+              accessibilitySelected={isActive}
+              accessibilityControls={`${id}-panel-${index}`}
+              testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
+            >
+              {!!tab.titleIcons && (
+                <HoliIcon
+                  icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
+                  size={22}
+                  color={isActive ? colors.foreground30 : colors.foreground20}
+                  style={styles.tabButtonIcon}
+                />
+              )}
+              <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
+                {tab.title}
+              </Text>
+            </HoliTabButton>
+          )
+        })}
+      </View>
     </View>
   )
 }
@@ -92,15 +94,7 @@ const HoliTabs = ({
   scrollEnabled = true,
   lazy = false,
 }: Props) => {
-  const { width: windowWidth } = useWindowDimensions()
   const styles = getStyles(centeredButtons)
-
-  // TODO(SF) find out which bug this was supposed to solve
-  // const [viewWidth, setViewWidth] = useState(750)
-  // const handleLayout = (e: LayoutChangeEvent) => {
-  //   const width = e.nativeEvent.layout.width
-  //   setViewWidth(width)
-  // }
 
   const renderedTabContents = useMemo(
     () =>
@@ -121,14 +115,10 @@ const HoliTabs = ({
   return (
     <HoliStepperWrapper stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
       <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
-        <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-          <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
-        </View>
+        <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
 
         <HoliStepper
           steps={renderedTabContents}
-          width={windowWidth}
-          // onLayout={handleLayout}
           backgroundColor={backgroundColor}
           scrollEnabled={scrollEnabled}
           lazy={lazy}

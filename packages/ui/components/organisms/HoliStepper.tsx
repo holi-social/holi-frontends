@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Animated, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import type { NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
+import { Animated, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import type { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps } from 'react-native'
 
 import { useDebounce } from '@holi/ui/helper'
 import { delayAnimation } from '@holi/ui/helper'
@@ -18,7 +18,6 @@ const HoliStepperContext = createContext<HoliStepperContextType | null>(null)
 
 interface HoliStepperProps extends ScrollViewProps {
   steps: React.ReactNode[]
-  width: number
   lazy?: boolean
   backgroundColor?: string
   scrollEnabled?: boolean
@@ -72,12 +71,9 @@ const scrollDelay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second f
  * @description The HoliStepper component is a controlled component, which means
  * the parent controls the element from the outside using the
  * HoliStepperContext.
- * It requires a `width` for the children of the Stepper. Depending on your
- * layout requirements, the `width` can be a Device, Screen, or View width.
  */
 export const HoliStepper: React.FC<HoliStepperProps> = ({
   backgroundColor,
-  width,
   lazy = false,
   scrollEnabled,
   steps,
@@ -92,6 +88,14 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   const scrollPoint = useRef(0)
   const { currentStep, setStep } = useStepper()
 
+  // Determine step width: start with window width and update on layout change
+  const { width: windowWidth } = useWindowDimensions()
+  const [viewWidth, setViewWidth] = useState(windowWidth)
+  const handleLayout = (e: LayoutChangeEvent) => {
+    const width = e.nativeEvent.layout.width
+    setViewWidth(width)
+  }
+
   // TODO(SF) only necessary for web, but does not "feel" very good
   // => possibly disable scrolling on web
   useEffect(() => {
@@ -102,9 +106,9 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     return () => scrollX.removeListener(listener)
   }, [scrollX])
   const updateCurrentStep = useCallback(() => {
-    const stepIndex = Math.round(scrollPoint.current / width)
+    const stepIndex = Math.round(scrollPoint.current / viewWidth)
     setStep(stepIndex)
-  }, [setStep, width])
+  }, [setStep, viewWidth])
   const debouncedUpdate = useDebounce(updateCurrentStep, 1000)
 
   // // TODO(SF) only works on mobile
@@ -118,7 +122,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
 
   const scrollToStep = useCallback(
     (nextStep: number, animated = true) => {
-      const scrollOptions = { x: nextStep * width, y: 0, animated }
+      const scrollOptions = { x: nextStep * viewWidth, y: 0, animated }
       if (!ref.current?.scrollTo) {
         return
       }
@@ -126,7 +130,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
         ? ref.current.scrollTo(scrollOptions)
         : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
     },
-    [width]
+    [viewWidth]
   )
 
   useEffect(() => {
@@ -184,6 +188,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       horizontal
       pagingEnabled
       onScroll={onScroll}
+      onLayout={handleLayout}
       onMomentumScrollEnd={onMomentumScrollEnd}
       onResponderEnd={debouncedUpdate}
       // onResponderRelease={debouncedUpdate}
@@ -196,7 +201,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
           return null
         }
         return (
-          <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: width }])} testID="stepper-step">
+          <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: viewWidth }])} testID="stepper-step">
             {renderedStep}
           </View>
         )
