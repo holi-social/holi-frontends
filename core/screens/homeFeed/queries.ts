@@ -49,3 +49,28 @@ export const checkAppVersionQuery = gql`
 export type CheckAppVersionResponse = {
   checkAppVersion: NeedUpdate
 }
+
+export enum FeatureToggleType {
+  OFF = 'OFF',
+  PREVIEW = 'PREVIEW',
+  PRODUCTION = 'PRODUCTION',
+  MAINTENANCE = 'MAINTENANCE',
+}
+
+export type FeatureToggle = {
+  name: string
+  status: FeatureToggleType
+}
+
+export const featureTogglesQuery = gql`
+  query FeatureToggles {
+    featureToggles {
+      name
+      status
+    }
+  }
+`
+
+export type FeatureTogglesResponse = {
+  featureToggles: FeatureToggle
+}
