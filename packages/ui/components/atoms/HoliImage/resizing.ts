@@ -1,6 +1,6 @@
 import { PixelRatio, Platform } from 'react-native'
 
-import { imagesUrl } from '@holi/core/auth/helpers/config'
+import { isProduction } from '@holi/core/helpers/environment'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 // meant for dev: you see the dimension that would be loaded as a black image
@@ -31,6 +31,7 @@ const holiImageScaling = (
   calculatedHeight: number | undefined,
   encodedOriginalUrl: string
 ) => {
+  const imagesUrl = isProduction ? 'https://images.holi.social' : 'https://dev-images.holi.social'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
   const height = calculatedHeight ? ':' + calculatedHeight : ''
   // https://docs.imgproxy.net/generating_the_url?id=crop

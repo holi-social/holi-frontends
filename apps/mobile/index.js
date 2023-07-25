@@ -10,22 +10,19 @@ import 'react-native-url-polyfill/auto'
 import * as Sentry from 'sentry-expo'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { environment } from '@holi/core/helpers/environment'
+import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 import App from './App'
 import { reactNativeTracing } from './tracing'
 
-const determineSentryEnvironment = () => {
-  const environment = Constants.manifest?.extra?.environment
-  return ['production', 'staging', 'local'].includes(environment) ? environment : 'development'
-}
-
-export const sentryEnvironment = determineSentryEnvironment()
-export const sentryDsn = Constants.manifest?.extra?.sentry.dsn
+const dsn =
+  Constants.manifest?.extra?.sentry.dsn ?? 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191'
 
 Sentry.init({
-  dsn: sentryDsn || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
+  dsn,
   enableInExpoDevelopment: false, // tracing causes errors in expo go app
-  environment: sentryEnvironment,
+  environment: environment,
   debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
   beforeSend: function (event, hint) {
     const exception = hint.originalException
@@ -51,7 +48,7 @@ Sentry.init({
   },
   integrations: [reactNativeTracing],
   // sentry tracing is only testable and enabled on custom dev builds, so having 'development' here is fine
-  tracesSampleRate: ['staging', 'development'].includes(sentryEnvironment) ? 1 : 0.1,
+  tracesSampleRate: [EnvironmentId.STAGING, EnvironmentId.DEVELOPMENT].includes(environment) ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.Native.wrap(App)
