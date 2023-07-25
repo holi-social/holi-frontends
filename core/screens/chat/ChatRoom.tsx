@@ -16,6 +16,8 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { SendPlane } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -46,7 +48,7 @@ const ChatRoom = () => {
   const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
 
   const [messageText, setMessageText] = useState('')
-  const noMessageProvided = !messageText.trim()
+  const noMessageAvailable = !messageText.trim()
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -87,32 +89,54 @@ const ChatRoom = () => {
               <RoomMessageList messages={messages} />
             )}
 
-            <HoliTextInput
-              // TODO: provide correct accessibilityLabel prop
-              accessibilityLabel="Message"
-              value={messageText}
-              onChange={setMessageText}
-              style={{ backgroundColor: colors.background20 }}
-              inputStyle={{
+            <View
+              style={{
                 paddingHorizontal: 16,
                 paddingVertical: 12,
                 borderTopLeftRadius: 24,
                 borderTopRightRadius: 24,
                 borderBottomColor: colors.white100,
-              }}
-              maxNoOfVisibleLines={5}
-            />
-
-            <HoliButton
-              label=""
-              disabled={noMessageProvided}
-              onPress={async () => {
-                await sendMessage({ roomId, text: messageText.trim() })
-                setMessageText('')
+                borderWidth: 2,
+                borderColor: colors.background30,
+                backgroundColor: colors.white100,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8,
               }}
             >
-              Send
-            </HoliButton>
+              <HoliTextInput
+                // TODO: provide correct accessibilityLabel prop
+                accessibilityLabel="Message"
+                value={messageText}
+                onChange={setMessageText}
+                style={{
+                  backgroundColor: colors.white100,
+                  flexShrink: 1,
+                }}
+                inputStyle={{
+                  borderWidth: 0,
+                  paddingVertical: 0,
+                  paddingHorizontal: 0,
+                }}
+                maxNoOfVisibleLines={5}
+              />
+
+              <HoliButton
+                label=""
+                disabled={noMessageAvailable}
+                onPress={async () => {
+                  const text = messageText.trim()
+                  if (!text) return
+
+                  await sendMessage({ roomId, text })
+                  setMessageText('')
+                }}
+                inline
+                style={{ paddingVertical: 8, paddingHorizontal: 8, alignSelf: 'flex-end' }}
+              >
+                <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
+              </HoliButton>
+            </View>
           </View>
         </SafeAreaView>
       )}
