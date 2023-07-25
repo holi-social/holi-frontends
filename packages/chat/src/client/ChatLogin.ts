@@ -17,6 +17,7 @@ import type {
 } from '@holi/chat/src/utils/constants'
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { logError } from '@holi/core/errors/helpers'
 
 export enum SSOAction {
@@ -78,6 +79,8 @@ export default class ChatLogin {
   }
 
   public setSessionCredentials = async (freshLogin: boolean): Promise<void> => {
+    const session = await getSessionFromStorage()
+
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -85,14 +88,18 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
+        authorization: `Bearer ${session?.session_token}`,
       },
       referrerPolicy: 'no-referrer',
-      body: '{"type":"org.matrix.login.jwt","initial_device_display_name":"' + this.deviceName + '"}',
+      body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
       method: 'POST',
       mode: 'cors',
     })
 
+    // const text = await response.text()
+    // console.log('!!!!!!!!!!!!!!!', text)
     const credentials: LoginCredentials = await response.json()
+    // console.log('/*/*/*/*/*/*/*//*/**/', credentials)
     await this.updateSessionCredentials({ ...credentials, fresh_login: freshLogin })
   }
 
@@ -102,6 +109,7 @@ export default class ChatLogin {
 
   public getSessionCredentials = async (): Promise<ChatCredentials> => {
     const sessionCredentials = await getStoredSessionCreds()
+    // console.log('-----------', sessionCredentials)
 
     // TODO abort/retry loging on missing access
     if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
