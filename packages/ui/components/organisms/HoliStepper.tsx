@@ -109,7 +109,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   // updating the current step
   const settledUpdate = useSettle(updateCurrentStep, 400)
 
-  // TODO(SF) only works on mobile
+  // Update current step after scrolling on mobile
   const onMomentumScrollEnd = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       updateCurrentStep(event.nativeEvent.contentOffset.x)
@@ -194,14 +194,9 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       {...scrollViewProps}
     >
       {steps.map((step, idx) => {
-        const renderedStep = renderStep(step, idx)
-        // TODO(SF) still not optimal => does not consider max rendered step?
-        if (!renderedStep && idx > currentStep) {
-          return null
-        }
         return (
           <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: viewWidth }])} testID="stepper-step">
-            {renderedStep}
+            {renderStep(step, idx)}
           </View>
         )
       })}
@@ -215,14 +210,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     minHeight: '100%',
-    // TODO(SF) ?
-    // ...Platform.select({
-    //   web: {
-    //     // Setting scrollEnabled in the ScrollView makes touch-action: none on web mobile, and you can't scroll vertically.
-    //     // Hence the overflowX below.
-    //     overflowX: 'hidden',
-    //   },
-    // }),
   },
   scrollViewContainer: {
     flexGrow: 1,

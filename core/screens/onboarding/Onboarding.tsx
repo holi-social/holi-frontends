@@ -88,6 +88,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   return (
     <View style={[styles.container, style]}>
       <HoliStepper
+        scrollEnabled={false}
         steps={[
           // Login-Registration-Continue as a Guest step
           <LoginRegistration
