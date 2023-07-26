@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
@@ -13,11 +14,12 @@ export type MySpacesProps = {
 }
 
 const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
+  const { t } = useTranslation()
   // FIXME: this will be very expensive when spaces start growing.
   // If we need a better API this should be changed on the backend.
   const mappedSpaces = mySpaces.map((section) => {
     return {
-      title: section.section,
+      title: t(`spaces.tabs.mine.${section.section.toLowerCase()}`),
       type: section.type,
       data: section.spaces.data,
     }
