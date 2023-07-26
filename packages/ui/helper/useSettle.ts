@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react'
 
 export const useSettle = (fn: (value: number) => void, ms: number) => {
   const lastValueRef = useRef<number | null>(null)
-  const timeout = useRef<NodeJS.Timeout | undefined>(undefined)
+  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   return useCallback(
     (value: number) => {
       clearTimeout(timeout.current)
