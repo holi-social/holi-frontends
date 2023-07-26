@@ -16,8 +16,7 @@ export const chatStore = createStore()
 
 /** Client **/
 // TODO: Check if the user is logged in
-export const chat = new ChatClient()
-chat.start().catch((err) => logError(err))
+export const chatClient = new ChatClient()
 
 /** Rooms **/
 
@@ -46,14 +45,14 @@ export const roomAtomsRecordAtomSubscriber = atom(
 )
 
 roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  const userId = chat.getUserId()
+  const userId = chatClient.getUserId()
   // We set all the joined rooms initially
-  chat.getRooms().then((rooms) => {
+  chatClient.getRooms().then((rooms) => {
     rooms.forEach((room) => setAtom(createChatRoom(room, userId)))
   })
 
   // In case of an invitation we would added by listening to this emitter.
-  chat.subscribeToInvitations((roomId, displayName, hasInvitation, senderId) => {
+  chatClient.subscribeToInvitations((roomId, displayName, hasInvitation, senderId) => {
     setAtom({
       hasInvitation,
       id: roomId,
@@ -67,10 +66,10 @@ roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 }
 
 export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
-  chat
+  chatClient
     .createRoom(userIds)
     .then(({ room_id }) => {
-      const room = chat.getRoom(room_id)
+      const room = chatClient.getRoom(room_id)
       if (!room) return
 
       set(_roomAtomsRecordAtom, (prevRooms) => addChatRoom(prevRooms, createChatRoom(room, null)))
@@ -127,7 +126,7 @@ export const joinRoomAtom = atom(null, async (get, set, roomUpdate: InvitationUp
   const selectedRoomAtom = get(selectedRoomAtomAtom)
   if (!selectedRoomAtom) return
 
-  const hasJoined = await chat.joinRoom(roomUpdate.id)
+  const hasJoined = await chatClient.joinRoom(roomUpdate.id)
   if (!hasJoined) return
   set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, roomUpdate))
 })
@@ -163,7 +162,7 @@ export const roomMessagesSubscriberAtom = atom(
     }
 
     // Add a message from an user action
-    await chat.sendTextMessage(message.roomId, message.text)
+    await chatClient.sendTextMessage(message.roomId, message.text)
   }
 )
 
@@ -207,5 +206,5 @@ export const threadsAtomsRecordAtomSubscriber = atom(
 )
 
 threadsAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  chat.subscribeToMessages(setAtom)
+  chatClient.subscribeToMessages(setAtom)
 }
