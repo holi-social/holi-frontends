@@ -5,9 +5,9 @@ import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-nati
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
-import HoliWizardNaviagtionButtons, {
+import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
-} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { useKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -38,12 +38,9 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const stepCount = arrayChildren.length
     const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
-    const setNextButtonEnabled = (buttonStatus: boolean) => {
-      setIsNextButtonEnabled(buttonStatus)
-    }
     const wizardContext = {
       currentStep,
-      setNextButtonEnabled,
+      setNextButtonEnabled: setIsNextButtonEnabled,
     }
 
     const handleNextButtonPress = async () => {
@@ -96,7 +93,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
           </ScrollView>
 
           {!hideFooterButtons && (
-            <HoliWizardNaviagtionButtons
+            <HoliWizardNavigationButtons
               onNextPress={handleNextButtonPress}
               onBackPress={handleBackButtonPress}
               submitButtonLabel={submitButtonLabel}

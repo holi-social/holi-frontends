@@ -125,7 +125,7 @@ describe('@Spaces', () => {
     const postTitle = 'New post title'
     const postDescription = 'This is an update for the new post'
 
-    await tapOnElementWithTestId('space-tabs-button-1-inactive')
+    await tapOnElementWithTestId('space-tabs-button-1-active')
     await tapOnElementWithTestId('space-add-post-button')
 
     await waitForElementWithTestId('update-title-input-input')

@@ -1,23 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StyleSheet, Text, View } from 'react-native'
+import React, { useMemo } from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
-import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
+import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+interface Tab {
+  title: string
+  children: React.ReactNode
+  titleIcons?: [HoliIconType, HoliIconType]
+  style?: StyleProp<ViewStyle>
+}
 
 interface Props {
   id: string
   initialStep?: number
-  tabs: {
-    title: string
-    children: React.ReactNode
-    titleIcons?: [HoliIconType, HoliIconType]
-    style?: StyleProp<ViewStyle>
-  }[]
+  tabs: Tab[]
   centeredButtons?: boolean
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
@@ -30,10 +32,59 @@ interface Props {
   lazy?: boolean
 }
 
+interface TabListProps {
+  id: string
+  testID?: string
+  tabs: Tab[]
+  centeredButtons?: boolean
+  tabBarStyle?: StyleProp<ViewStyle>
+}
+
+const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, tabBarStyle }) => {
+  const mixins = useStyleMixins()
+  const styles = getStyles(centeredButtons)
+
+  const { setStep, currentStep } = useStepper()
+
+  return (
+    <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+      <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
+        {tabs.map((tab, index) => {
+          const isActive = currentStep === index
+          return (
+            <HoliTabButton
+              label={tab.title}
+              id={`${id}-tab-${index}`}
+              style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
+              onPress={() => setStep(index)}
+              key={index}
+              accessibilitySelected={isActive}
+              accessibilityControls={`${id}-panel-${index}`}
+              testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
+            >
+              {!!tab.titleIcons && (
+                <HoliIcon
+                  icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
+                  size={22}
+                  color={isActive ? colors.foreground30 : colors.foreground20}
+                  style={styles.tabButtonIcon}
+                />
+              )}
+              <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
+                {tab.title}
+              </Text>
+            </HoliTabButton>
+          )
+        })}
+      </View>
+    </View>
+  )
+}
+
 const HoliTabs = ({
   id,
   tabs,
-  initialStep,
+  initialStep = 0,
   centeredButtons,
   style,
   tabBarStyle,
@@ -43,89 +94,38 @@ const HoliTabs = ({
   scrollEnabled = true,
   lazy = false,
 }: Props) => {
-  const [viewWidth, setViewWidth] = useState(750)
-  const { currentStep, setStep, stepperRef } = useStepper(viewWidth, initialStep)
-  const mixins = useStyleMixins()
   const styles = getStyles(centeredButtons)
 
-  const handleTabChange = useCallback((index: number) => setStep(index), [setStep])
-
-  useEffect(() => {
-    onChangeTab?.(currentStep)
-  }, [currentStep, onChangeTab])
-
-  const handleLayout = (e: LayoutChangeEvent) => {
-    const width = e.nativeEvent.layout.width
-    setViewWidth(width)
-  }
-
-  const renderedTabs = useMemo(
+  const renderedTabContents = useMemo(
     () =>
       tabs.map((tab, i) => (
         <View
           style={tab.style}
           accessibilityLabelledBy={`${id}-tab-${i}`}
           nativeID={`${id}-panel-${i}`}
-          testID={`${testID}-panel-${i}-${currentStep === i ? 'active' : 'inactive'}`}
           key={i}
           accessibilityRole={Platform.OS === 'web' ? 'tabpanel' : undefined}
         >
           {tab.children}
         </View>
       )),
-    [tabs, testID, currentStep, id]
+    [tabs, id]
   )
-
-  const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setStep(Math.round(event.nativeEvent.contentOffset.x / Dimensions.get('window').width))
-  }
+  const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
 
   return (
-    <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
-      <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={StyleSheet.flatten([mixins.container, styles.tabButtonsContainer, tabBarStyle])}>
-          {tabs.map((tab, index) => {
-            const isActive = currentStep === index
-            return (
-              <HoliTabButton
-                label={tab.title}
-                id={`${id}-tab-${index}`}
-                style={StyleSheet.flatten([styles.tabButton, isActive ? styles.activeTabButton : {}])}
-                onPress={() => handleTabChange(index)}
-                key={index}
-                accessibilitySelected={isActive}
-                accessibilityControls={`${id}-panel-${index}`}
-                testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
-              >
-                {!!tab.titleIcons && (
-                  <HoliIcon
-                    icon={isActive ? tab.titleIcons[1] : tab.titleIcons[0]}
-                    size={22}
-                    color={isActive ? colors.foreground30 : colors.foreground20}
-                    style={styles.tabButtonIcon}
-                  />
-                )}
-                <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
-                  {tab.title}
-                </Text>
-              </HoliTabButton>
-            )
-          })}
-        </View>
-      </View>
+    <HoliStepperController stepCount={renderedTabContents.length} initialStep={initialStep} onChangeTab={onChangeTab}>
+      <View style={StyleSheet.flatten([styles.holiTabs, style])} testID={testID}>
+        <TabList id={id} testID={testID} tabs={tabs} tabBarStyle={tabBarStyle} centeredButtons={centeredButtons} />
 
-      <HoliStepper
-        ref={stepperRef}
-        currentStep={currentStep}
-        width={viewWidth}
-        steps={renderedTabs}
-        onLayout={handleLayout}
-        backgroundColor={backgroundColor}
-        onMomentumScrollEnd={onMomentumScrollEnd}
-        scrollEnabled={scrollEnabled}
-        lazy={lazy}
-      />
-    </View>
+        <HoliStepper
+          steps={renderedTabContents}
+          style={[styles.stepperStyle, backgroundColorStyle]}
+          scrollEnabled={scrollEnabled}
+          lazy={lazy}
+        />
+      </View>
+    </HoliStepperController>
   )
 }
 
@@ -169,6 +169,9 @@ const getStyles = (centeredButtons = false) =>
     activeTabButtonText: {
       color: colors.foreground30,
       fontWeight: '500',
+    },
+    stepperStyle: {
+      alignItems: 'flex-start',
     },
   })
 

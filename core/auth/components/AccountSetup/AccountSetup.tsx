@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
@@ -20,9 +20,11 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import { useStepper } from '@holi/ui/components/organisms/HoliStepper'
-import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
-import HoliWizard, { HoliWizardCurrentStepOptions } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
+import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
+import HoliWizard, {
+  HoliWizardCurrentStepOptions,
+  NextPressHandlerOptions,
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum AccountSetupStep {
@@ -39,23 +41,23 @@ export interface AccountSetupProps {
 
 const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStepOptions> = {
   [AccountSetupStep.NAMES]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: false,
   },
   [AccountSetupStep.PRE_SUCCESS]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.INTERESTS]: {
-    skipable: true,
+    skippable: true,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.LOCATION]: {
-    skipable: true,
+    skippable: true,
     isBackButtonAvailable: true,
   },
   [AccountSetupStep.SUCCESS]: {
-    skipable: false,
+    skippable: false,
     isBackButtonAvailable: false,
   },
 }
@@ -63,16 +65,10 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
 const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { width: screenWidth } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { user, isLoading: userLoading } = useLoggedInUser()
   const mixins = useStyleMixins()
-
-  const [isLoading, setIsLoading] = useState(false)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
-
-  const { currentStep, goNext, goBack, stepperRef } = useStepper(screenWidth)
-  const currentStepOptions = ACCOUNT_SETUP_STEP_OPTIONS[currentStep as AccountSetupStep]
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
@@ -105,7 +101,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   } = useLocationStep(user)
 
   // HoliWizard event handlers
-  const onNextPress = async () => {
+  const handleNextPress = async ({ currentStep, setIsLoading, goNext }: NextPressHandlerOptions) => {
     switch (currentStep) {
       case AccountSetupStep.NAMES: {
         setIsLoading(true)
@@ -192,12 +188,15 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }
   }, [userLoading, user, onFinish, navigate])
 
-  if (!user) return null
+  const getSubmitButtonLabel = useCallback(
+    (stepNumber: number) =>
+      stepNumber === AccountSetupStep.SUCCESS
+        ? t('registration.accountSetup.success.submitButtonText')
+        : t('global.next'),
+    [t]
+  )
 
-  const wizardSubmitButtonLabel =
-    currentStep === AccountSetupStep.SUCCESS
-      ? t('registration.accountSetup.success.submitButtonText')
-      : t('global.next')
+  if (!user) return null
 
   return (
     <HoliKeyboardSaveView>
@@ -218,7 +217,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               fieldErrors={namesFieldErrors}
             />
           </ScrollView>,
-
           // Pre-Success step
           <ScrollView
             contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
@@ -233,7 +231,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               contentStyle={styles.stepContainer}
             />
           </ScrollView>,
-
           // Interests step
           <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -251,13 +248,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               keyInUserObject={keyInUserObject}
             />
           </ScrollView>,
-
           // Location step
           <ScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={[mixins.container, styles.stepContainer]}
             key="location"
             testID="account-setup-location-step"
+            ref={locationScrollViewRef}
           >
             <HoliBox padding={[40, 0, 0, 0]} />
             <LocationStep
@@ -269,11 +266,9 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               scrollToInputWithId={scrollToLocationInputWithId}
             />
           </ScrollView>,
-
           // Success step
           <ScrollView
             contentContainerStyle={[mixins.container, styles.stepContainerCentered]}
-            ref={locationScrollViewRef}
             key="success"
             testID="account-setup-success-step"
           >
@@ -286,17 +281,11 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             />
           </ScrollView>,
         ]}
-        currentStep={currentStep}
-        currentStepOptions={currentStepOptions}
-        screenWidth={screenWidth}
-        submitButtonLabel={wizardSubmitButtonLabel}
-        onNextPress={onNextPress}
-        onBackPress={goBack}
-        onSkipPress={goNext}
-        isLoading={isLoading}
+        stepOptions={ACCOUNT_SETUP_STEP_OPTIONS}
+        getSubmitButtonLabel={getSubmitButtonLabel}
         isNextButtonEnabled={isNextButtonEnabled}
         scrollEnabled={false}
-        ref={stepperRef}
+        handleNextPress={handleNextPress}
       />
     </HoliKeyboardSaveView>
   )
