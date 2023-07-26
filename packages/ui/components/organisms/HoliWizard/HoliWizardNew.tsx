@@ -170,7 +170,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
         <HoliWizardContextProvider stepOptions={stepOptions} handleNextPress={handleNextPress}>
           <HoliWizardHeader testID={testID} />
 
-          <HoliStepper steps={steps} style={{ flexGrow: 1, flexShrink: 1 }} scrollEnabled={scrollEnabled} lazy />
+          <HoliStepper steps={steps} scrollEnabled={scrollEnabled} lazy />
 
           <HoliWizardFooter getSubmitButtonLabel={getSubmitButtonLabel} isNextButtonEnabled={isNextButtonEnabled} />
         </HoliWizardContextProvider>
