@@ -58,7 +58,7 @@ export default class ChatLogin {
     await AsyncStore.multiRemove([this.serverTokenKey, this.deviceIdKey, this.userIdKey, this.freshLogin])
   }
 
-  private updateSessionCredentials = async ({
+  private saveCredentials = async ({
     access_token,
     user_id,
     device_id,
@@ -78,9 +78,7 @@ export default class ChatLogin {
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public setSessionCredentials = async (freshLogin: boolean): Promise<void> => {
-    const session = await getSessionFromStorage()
-
+  public fetchSessionCredentials = async (orySessionToken: string, freshLogin: boolean): Promise<LoginCredentials> => {
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -88,7 +86,7 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
-        authorization: `Bearer ${session?.session_token}`,
+        authorization: `Bearer ${orySessionToken}`,
       },
       referrerPolicy: 'no-referrer',
       body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
@@ -96,11 +94,10 @@ export default class ChatLogin {
       mode: 'cors',
     })
 
-    // const text = await response.text()
-    // console.log('!!!!!!!!!!!!!!!', text)
     const credentials: LoginCredentials = await response.json()
-    // console.log('/*/*/*/*/*/*/*//*/**/', credentials)
-    await this.updateSessionCredentials({ ...credentials, fresh_login: freshLogin })
+    await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
+
+    return credentials
   }
 
   public logout = async (): Promise<void> => {
@@ -109,7 +106,6 @@ export default class ChatLogin {
 
   public getSessionCredentials = async (): Promise<ChatCredentials> => {
     const sessionCredentials = await getStoredSessionCreds()
-    // console.log('-----------', sessionCredentials)
 
     // TODO abort/retry loging on missing access
     if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
@@ -126,8 +122,14 @@ export default class ChatLogin {
     return isLoggedin ? JSON.parse(isLoggedin) : false
   }
 
-  public retryLogin = async (): Promise<ChatCredentials> => {
-    await this.setSessionCredentials(false)
-    return await this.getSessionCredentials()
+  public retryLogin = async (): Promise<ChatCredentials | null> => {
+    const session = await getSessionFromStorage()
+
+    if (session?.session_token) {
+      await this.fetchSessionCredentials(session?.session_token, false)
+      return await this.getSessionCredentials()
+    }
+
+    return null
   }
 }
