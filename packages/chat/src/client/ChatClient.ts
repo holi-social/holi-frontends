@@ -36,6 +36,7 @@ export default class ChatClient {
   private rooms: Room[] = []
   private selectedRoom: string | null = null
   private readonly login = new ChatLogin()
+  public isOn = false
 
   private createClient(credentials: ChatCredentials): MatrixClient {
     this.clientCredentials = credentials
@@ -81,22 +82,32 @@ export default class ChatClient {
     this.mxClient = this.createClient(credentials)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<void> => {
-    if (!this.mxClient) {
-      const credentials = await this.login.getSessionCredentials()
-      this.mxClient = this.createClient(credentials)
+  public start = async (options?: IStartClientOpts): Promise<boolean> => {
+    if (this.isOn === false) {
+      try {
+        if (!this.mxClient) {
+          const credentials = await this.login.getSessionCredentials()
+          this.mxClient = this.createClient(credentials)
+        }
+        await this.mxClient.startClient(options)
+
+        // TODO: Implement soft logout and reconnect
+        this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
+          // eslint-disable-next-line no-console
+          console.log({ state, prevState })
+          if (state !== SyncState.Prepared) return
+          if (!hasMxClient(this.mxClient)) return
+
+          this.rooms = this.mxClient.store.getRooms()
+        })
+
+        this.isOn = true
+      } catch (err) {
+        logError(err)
+      }
     }
-    await this.mxClient.startClient(options)
 
-    // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
-      // eslint-disable-next-line no-console
-      console.log({ state, prevState })
-      if (state !== SyncState.Prepared) return
-      if (!hasMxClient(this.mxClient)) return
-
-      this.rooms = this.mxClient.store.getRooms()
-    })
+    return this.isOn
   }
 
   /** Rooms */
