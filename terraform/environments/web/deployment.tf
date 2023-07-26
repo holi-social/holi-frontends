@@ -63,10 +63,6 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
-          name  = "IMAGES_BASE_URL"
-          value = local.environment == "production" ? "https://images.holi.social" : "https://dev-images.holi.social"
-        }
-        env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
           value_from {
             secret_key_ref {
