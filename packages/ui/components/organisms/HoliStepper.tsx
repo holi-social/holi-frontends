@@ -44,7 +44,7 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
   const [currentStep, setCurrentStep] = useState(initialStep)
   const setStep = useCallback(
     (nextStep: number) => {
-      const validNextStep = Math.min(Math.max(nextStep, 0), stepCount)
+      const validNextStep = Math.min(Math.max(nextStep, 0), stepCount - 1)
       setCurrentStep(validNextStep)
       onChangeTab && onChangeTab(validNextStep)
     },
