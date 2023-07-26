@@ -26,7 +26,7 @@ export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionC
 
       switch (sessionState) {
         case 'active':
-          await setUserLoggedIn(sessionFromStorage)
+          await setUserLoggedIn(sessionFromStorage, false)
           break
         case 'expired':
         case 'invalid':
