@@ -1,10 +1,14 @@
-import { environmentId } from '@holi/web/environment'
+import { environment } from '@holi/core/helpers/environment'
+import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 export const owncloudUrl = (() => {
-  const environment = environmentId === 'production' ? environmentId : 'development'
-  return process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL || `https://${environment}.cloud.holi.social`
+  const envBasedUrl =
+    environment === EnvironmentId.PRODUCTION
+      ? 'https://production.cloud.holi.social'
+      : 'https://development.cloud.holi.social'
+  return process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL || envBasedUrl
 })()
 
 export const jitsiUrl = (() => {
-  return environmentId === 'production' ? 'https://meet.holi.social' : 'https://development.meet.holi.social'
+  return environment === EnvironmentId.PRODUCTION ? 'https://meet.holi.social' : 'https://development.meet.holi.social'
 })()

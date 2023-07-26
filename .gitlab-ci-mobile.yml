@@ -7,7 +7,6 @@
     HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
     HOLI_API_GATEWAY: https://staging.unified.apis.holi.social
     ORY_BASE_URL: https://dev-auth.holi.social
-    IMAGES_BASE_URL: https://dev-images.holi.social
     OWNCLOUD_BASE_URL: https://development.cloud.holi.social
     JITSI_URL: https://development.meet.holi.social
   dependencies: [] # explicitly disable artifact usage
@@ -253,7 +252,6 @@ mobile_production_publish:
     HOLI_API_URL: https://production.unified.apis.holi.social/graphql
     HOLI_API_GATEWAY: https://production.unified.apis.holi.social
     ORY_BASE_URL: https://auth.holi.social
-    IMAGES_BASE_URL: https://images.holi.social
     OWNCLOUD_BASE_URL: https://production.cloud.holi.social
     JITSI_URL: https://meet.holi.social
   only:
