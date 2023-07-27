@@ -1,146 +1,206 @@
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
-import type { ReactNode, RefObject } from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-import type { ScrollViewProps } from 'react-native'
+import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { Animated, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import type {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollViewProps,
+  StyleProp,
+  ViewStyle,
+} from 'react-native'
 
-import { delayAnimation } from '@holi/ui/helper'
+import { delayAnimation, useSettle } from '@holi/ui/helper'
 
-interface StepperController {
-  stepperRef: RefObject<ScrollView>
+interface HoliStepperContextType {
+  stepCount: number
   currentStep: number
   setStep: (nextStep: number, animated?: boolean) => void
   goNext: () => void
   goBack: () => void
 }
 
-// TODO: refactor animation without using ScrollView, because it is not reliable on all platforms
-// till then disable animation for HoliStepper
-const isAnimated = false
+const HoliStepperContext = createContext<HoliStepperContextType | null>(null)
 
-/**
- * @description The HoliStepper component is a controlled component, which means
- * the parent controls the element from the outside with the `useStepper` hook.
- * It requires a `width` for the children of the Stepper. Depending on your
- * layout requirements, the `width` can be a Device, Screen, or View width.
- */
-export const useStepper = (width: number, initialStep = 0): StepperController => {
-  const delay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
-
-  const ref = useRef<ScrollView>(null)
-  const [currentStep, setCurrentStep] = useState(initialStep)
-
-  const scrollPoint = useRef(0)
-
-  const handleNextStep = useCallback(
-    (nextStep: number, animated = isAnimated) => {
-      scrollPoint.current = nextStep * width
-      const scrollOptions = { x: scrollPoint.current, y: 0, animated }
-      if (!ref.current?.scrollTo) return nextStep
-      Platform.OS === 'android'
-        ? ref.current.scrollTo(scrollOptions)
-        : delayAnimation(ref.current.scrollTo, scrollOptions, delay)
-
-      return nextStep
-    },
-    [width]
-  )
-
-  const goNext = useCallback(() => {
-    setCurrentStep((current) => handleNextStep(current + 1))
-  }, [handleNextStep])
-
-  const goBack = useCallback(() => {
-    setCurrentStep((current) => handleNextStep(Math.max(current - 1, 0)))
-  }, [handleNextStep])
-
-  const setStep = useCallback(
-    (nextStep: number, animated = isAnimated) => {
-      setCurrentStep(handleNextStep(nextStep, animated))
-    },
-    [handleNextStep]
-  )
-
-  // scroll once to `initialStep` without animation
-  useEffect(() => {
-    handleNextStep(initialStep, false)
-    // disable eslint because we want it to be done only once on init
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  return {
-    stepperRef: ref,
-    setStep,
-    currentStep,
-    goNext,
-    goBack,
-  }
-}
-
-interface Props extends ScrollViewProps {
+interface HoliStepperProps extends ScrollViewProps {
   steps: React.ReactNode[]
-  currentStep: number
-  width: number
   lazy?: boolean
-  backgroundColor?: string
+  style?: StyleProp<ViewStyle>
   scrollEnabled?: boolean
 }
 
-export const HoliStepper = forwardRef<ScrollView, Props>(
-  (
-    { backgroundColor, steps, currentStep, width, lazy = false, scrollEnabled = isAnimated, ...scrollViewProps },
-    carouselRef
-  ) => {
-    const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
+interface HoliStepperControllerProps extends React.PropsWithChildren {
+  stepCount: number
+  initialStep?: number
+  onChangeTab?: (index: number) => void
+}
 
-    const renderStep = (step: ReactNode, stepIdx: number) => {
-      if (!lazy) return step
+export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
+  stepCount,
+  initialStep = 0,
+  onChangeTab,
+  children,
+}) => {
+  const [currentStep, setCurrentStep] = useState(initialStep)
+  const setStep = useCallback(
+    (nextStep: number) => {
+      const validNextStep = Math.min(Math.max(nextStep, 0), stepCount - 1)
+      setCurrentStep(validNextStep)
+      onChangeTab && onChangeTab(validNextStep)
+    },
+    [stepCount, onChangeTab]
+  )
+  const goBack = useCallback(() => setStep(currentStep - 1), [currentStep, setStep])
+  const goNext = useCallback(() => setStep(currentStep + 1), [currentStep, setStep])
+  const stepperContext = {
+    stepCount,
+    currentStep,
+    setStep,
+    goNext,
+    goBack,
+  }
 
-      const renderedSteps = renderedStepsRef.current
+  return <HoliStepperContext.Provider value={stepperContext}>{children}</HoliStepperContext.Provider>
+}
 
-      steps.forEach((_, idx) => {
-        const isRenderedStep = renderedSteps.get(idx)
-        if (isRenderedStep) return
+export const useStepper = () => {
+  const context = React.useContext(HoliStepperContext)
+  return context as HoliStepperContextType
+}
 
-        renderedSteps.set(idx, currentStep === idx)
-      })
+const scrollDelay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
 
-      return stepIdx === currentStep || (scrollEnabled && renderedSteps.get(stepIdx)) ? step : null
+/**
+ * @description The HoliStepper component is a controlled component, which means
+ * the parent controls the element from the outside using the
+ * HoliStepperContext.
+ */
+export const HoliStepper: React.FC<HoliStepperProps> = ({
+  style,
+  lazy = false,
+  scrollEnabled,
+  steps,
+  ...scrollViewProps
+}) => {
+  const ref = useRef<ScrollView>(null)
+  const [firstRender, setFirstRender] = useState(true)
+  const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
+  const scrollX = useRef(new Animated.Value(0)).current
+  const { currentStep, setStep } = useStepper()
+
+  // Determine step width: start with window width and update on layout change
+  const { width: windowWidth } = useWindowDimensions()
+  const [viewWidth, setViewWidth] = useState(windowWidth)
+  const handleLayout = (e: LayoutChangeEvent) => {
+    const width = e.nativeEvent.layout.width
+    setViewWidth(width)
+  }
+
+  const updateCurrentStep = useCallback(
+    (scrollPosition: number) => {
+      const stepIndex = Math.round(scrollPosition / viewWidth)
+      setStep(stepIndex)
+    },
+    [setStep, viewWidth]
+  )
+  // For web: wait until the  scrollposition has not changed for a moment before
+  // updating the current step
+  const settledUpdate = useSettle(updateCurrentStep, 400)
+
+  // Update current step after scrolling on mobile
+  const onMomentumScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      updateCurrentStep(event.nativeEvent.contentOffset.x)
+    },
+    [updateCurrentStep]
+  )
+
+  const scrollToStep = useCallback(
+    (nextStep: number, animated = true) => {
+      const scrollOptions = { x: nextStep * viewWidth, y: 0, animated: animated && !lazy }
+      if (!ref.current?.scrollTo) {
+        return
+      }
+      Platform.OS === 'android'
+        ? ref.current.scrollTo(scrollOptions)
+        : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+    },
+    [lazy, viewWidth]
+  )
+
+  useEffect(() => {
+    scrollToStep(currentStep, !firstRender)
+    if (firstRender) {
+      setFirstRender(false)
     }
+    // disable exhaustive deps because we don't want scroll again when `firstRender` is updated
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, scrollToStep])
 
-    const backgroundColorStyle = backgroundColor ? { backgroundColor: backgroundColor } : null
+  const onScrollWeb = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      settledUpdate(event.nativeEvent.contentOffset.x)
+    },
+    [settledUpdate]
+  )
+  const onScrollMobile = Animated.event(
+    [
+      {
+        nativeEvent: {
+          contentOffset: {
+            x: scrollX,
+          },
+        },
+      },
+    ],
+    {
+      useNativeDriver: true,
+    }
+  )
 
-    return (
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        ref={carouselRef}
-        style={styles.scrollView}
-        contentContainerStyle={[styles.scrollViewContainer, backgroundColorStyle]}
-        showsHorizontalScrollIndicator={false}
-        dataSet={{ stepperWrapper: true }}
-        scrollEnabled={scrollEnabled}
-        testID="stepper-scrollview"
-        bounces={false}
-        scrollEventThrottle={16}
-        horizontal
-        pagingEnabled
-        {...scrollViewProps}
-      >
-        {steps.map((step, idx) => (
-          <View
-            key={idx}
-            style={StyleSheet.flatten([styles.tabWrapper, { width: width }])}
-            testID="stepper-step"
-            dataSet={{ stepperStep: true }}
-          >
+  const renderStep = (step: ReactNode, stepIndex: number) => {
+    if (!lazy) return step
+
+    const renderedSteps = renderedStepsRef.current
+
+    steps.forEach((_, idx) => {
+      const isRenderedStep = renderedSteps.get(idx)
+      if (isRenderedStep) return
+
+      renderedSteps.set(idx, currentStep === idx)
+    })
+
+    return stepIndex === currentStep || (scrollEnabled && renderedSteps.get(stepIndex)) ? step : null
+  }
+
+  return (
+    <Animated.ScrollView
+      ref={ref}
+      keyboardShouldPersistTaps="always"
+      style={styles.scrollView}
+      contentContainerStyle={[styles.scrollViewContainer, style]}
+      showsHorizontalScrollIndicator={false}
+      scrollEnabled={scrollEnabled}
+      testID="stepper-scrollview"
+      bounces={false}
+      scrollEventThrottle={16}
+      horizontal
+      pagingEnabled
+      onScroll={Platform.OS === 'web' ? onScrollWeb : onScrollMobile}
+      onLayout={handleLayout}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      {...scrollViewProps}
+    >
+      {steps.map((step, idx) => {
+        return (
+          <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: viewWidth }])} testID="stepper-step">
             {renderStep(step, idx)}
           </View>
-        ))}
-      </ScrollView>
-    )
-  }
-)
-
-HoliStepper.displayName = 'HoliStepper'
+        )
+      })}
+    </Animated.ScrollView>
+  )
+}
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -148,13 +208,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     minHeight: '100%',
-    ...Platform.select({
-      web: {
-        // Setting scrollEnabled in the ScrollView makes touch-action: none on web mobile, and you can't scroll vertically.
-        // Hence the overflowX below.
-        overflowX: 'hidden',
-      },
-    }),
   },
   scrollViewContainer: {
     flexGrow: 1,

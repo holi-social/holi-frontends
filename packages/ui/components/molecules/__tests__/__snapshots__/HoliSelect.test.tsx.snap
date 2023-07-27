@@ -76,6 +76,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -125,15 +127,13 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -1456,6 +1456,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -1505,15 +1507,13 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -2776,6 +2776,8 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -2819,15 +2821,13 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -3053,6 +3053,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -3101,15 +3103,13 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -4283,6 +4283,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -4331,15 +4333,13 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -4975,6 +4975,8 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -5019,15 +5021,13 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -5223,6 +5223,8 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -5266,15 +5268,13 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }
@@ -5469,6 +5469,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
@@ -5517,15 +5519,13 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
               },
               {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 52.4,
+                "height": 23,
               },
             ]
           }

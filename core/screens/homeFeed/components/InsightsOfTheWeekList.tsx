@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -11,6 +11,7 @@ import { Insight } from '@holi/core/screens/insights/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
+import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -50,9 +51,24 @@ const InsightsOfTheWeekList: React.FC = () => {
       <HoliBox padding={[0, 0, 8, 0]}>
         <HoliHeading level="1" size="large" testID="home-feed-insights-heading" style={{ display: 'flex' }}>
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
-          <HoliBox padding={[0, 0, 0, 8]} layout={{ alignSelf: 'center' }}>
-            <HoliLocalImage imageSource={HandWaveFilled} width={28} height={28} label={''} isSvg />
-          </HoliBox>
+          {Platform.OS === 'android' ? (
+            <HoliLocalImage
+              imageSource={HandWaveFilledPng}
+              width={28}
+              height={28}
+              label={''}
+              style={styles.handwaveFilled}
+            />
+          ) : (
+            <HoliLocalImage
+              imageSource={HandWaveFilled}
+              width={28}
+              height={28}
+              label={''}
+              style={styles.handwaveFilled}
+              isSvg
+            />
+          )}
         </HoliHeading>
       </HoliBox>
 
@@ -145,5 +161,8 @@ const styles = StyleSheet.create({
   },
   insightList: {
     marginTop: 24,
+  },
+  handwaveFilled: {
+    paddingLeft: 8,
   },
 })

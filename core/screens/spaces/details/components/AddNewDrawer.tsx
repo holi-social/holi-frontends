@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     right: 16,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: colors.background30,
     borderWidth: 1,
     shadowColor: colors.foreground30,
     backgroundColor: colors.background10,

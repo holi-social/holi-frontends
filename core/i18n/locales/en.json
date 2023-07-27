@@ -664,6 +664,7 @@
   "spaces.spaceDetails.tasks.empty.message.forNonMembers": "If you have ideas to collaborate with our community, you are welcome to become a Collaborator.",
   "spaces.spaceDetails.tasks.empty.title.forNonMembers": "No tasks available right now",
   "spaces.spaceDetails.tasks.header.title": "Tasks",
+  "spaces.spaceDetails.tasks.seeAllButton.label": "See all",
   "spaces.spaceDetails.tasks.heading": "{{count}} way to get involved",
   "spaces.spaceDetails.tasks.heading_plural": "{{count}} ways to get involved",
   "spaces.spaceDetails.topics": "Topics",

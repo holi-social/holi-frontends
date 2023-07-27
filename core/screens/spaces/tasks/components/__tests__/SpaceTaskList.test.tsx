@@ -10,11 +10,11 @@ describe('SpaceTaskList', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <SpaceTaskList isAdmin={false} space={space} />
+          <SpaceTaskList isAdmin={false} space={space} isCollaborator={false} />
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toHaveTextContent('spaces.input.task.visibility.PUBLIC.title')
+    expect(tree).toMatchSnapshot()
   })
 
   it('renders correctly when there are no tasks within space', () => {
@@ -25,7 +25,7 @@ describe('SpaceTaskList', () => {
     const tree = renderer
       .create(
         <MockedProvider>
-          <SpaceTaskList isAdmin={false} space={spaceWithoutTasks} />
+          <SpaceTaskList isAdmin={false} space={spaceWithoutTasks} isCollaborator={false} />
         </MockedProvider>
       )
       .toJSON()

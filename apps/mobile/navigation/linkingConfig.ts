@@ -24,6 +24,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           },
         },
         [RouteName.Chat]: {
+          initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
           },
@@ -75,6 +76,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
         [RouteName.SpaceOnboarding]: 'spaces/:spaceIdOrName/onboarding',
         [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
+        [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
+      },
+    },
+
+    [RouteName.ChatStack]: {
+      screens: {
+        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
       },
     },
 

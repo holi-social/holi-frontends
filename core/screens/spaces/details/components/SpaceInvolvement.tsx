@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import SpaceCollaborationArea from '@holi/core/screens/spaces/linkHub/components/SpaceCollaborationArea'
@@ -13,6 +14,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface SpaceInvolvementProps {
@@ -21,10 +23,13 @@ interface SpaceInvolvementProps {
 }
 
 const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => {
+  const { navigate } = useRouting()
   const { t } = useTranslation()
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
+
+  const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
 
   return (
     <>
@@ -40,7 +45,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         )}
         {isCollaborator && <SpaceCollaborationArea space={space} />}
         {isCollaborator ? (
-          <TaskCollaborationCard isAdmin={isAdmin} space={space} />
+          <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
         ) : (
           <>
             {space.onboarding?.steps && space.onboarding.steps.length > 0 && (
@@ -50,7 +55,20 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
                 style={styles.onboardingSteps}
               />
             )}
-            <SpaceTaskList isAdmin={isAdmin} space={space} />
+            <SpaceTaskList isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} preview />
+            {space.tasks && space.tasks.length > 2 && (
+              <View style={styles.seeAllButtonContainer}>
+                <HoliButton
+                  label={t('core.spaces.spaceDetails.tasks.seeAll')}
+                  onPress={() => navigateToTasks()}
+                  style={styles.seeAllButton}
+                  inline
+                  type="secondary"
+                >
+                  <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
+                </HoliButton>
+              </View>
+            )}
           </>
         )}
         {isCollaborator && <NewToolsTeaser />}
@@ -60,6 +78,16 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
 }
 
 const styles = StyleSheet.create({
+  seeAllButtonContainer: {
+    alignItems: 'center',
+  },
+  seeAllButton: {
+    bottom: 0,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    marginTop: 16,
+    marginBottom: 8,
+  },
   onboarding: {
     backgroundColor: colors.white100,
     borderRadius: 16,

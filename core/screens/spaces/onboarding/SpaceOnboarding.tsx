@@ -18,7 +18,6 @@ import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceOnboardingParams = {
   spaceIdOrName: string
@@ -29,7 +28,6 @@ const { useParam } = createParam<SpaceOnboardingParams>()
 const SpaceOnboarding = () => {
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
 
@@ -63,8 +61,8 @@ const SpaceOnboarding = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
-      <SafeAreaView style={mixins.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollHeaderLayout.Default style={styles.layout}>
         <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
         <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
         <HoliLink
@@ -76,7 +74,7 @@ const SpaceOnboarding = () => {
               <HoliIcon icon={Team} style={styles.icon} />
               <View style={styles.textWrapper}>
                 <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
-                <HoliText size="extrasmall" style={styles.text}>
+                <HoliText size="small" style={styles.text}>
                   {t('spaces.onboarding.setup.nextSteps.text')}
                 </HoliText>
               </View>
@@ -94,7 +92,7 @@ const SpaceOnboarding = () => {
               <HoliIcon icon={Checkbox} style={styles.icon} />
               <View style={styles.textWrapper}>
                 <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
-                <HoliText size="extrasmall" style={styles.text}>
+                <HoliText size="small" style={styles.text}>
                   {t('spaces.onboarding.setup.checklist.text')}
                 </HoliText>
               </View>
@@ -102,8 +100,8 @@ const SpaceOnboarding = () => {
             <HoliIcon icon={ArrowRightS} />
           </View>
         </HoliButton>
-      </SafeAreaView>
-    </ScrollHeaderLayout.Default>
+      </ScrollHeaderLayout.Default>
+    </SafeAreaView>
   )
 }
 
@@ -118,27 +116,26 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
+    paddingHorizontal: 20,
+
     paddingTop: 24,
-    paddingHorizontal: 24,
   },
   desc: {
     marginTop: 8,
-    marginBottom: 24,
+    marginBottom: 14,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    flexShrink: 1,
   },
   link: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    marginTop: 20,
-    marginBottom: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
   icon: {
     marginRight: 12,
@@ -147,11 +144,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     width: '100%',
+    paddingRight: 12,
   },
   text: {
     color: colors.foreground20,
     marginTop: 4,
     marginRight: 20,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background20,
   },
 })
 

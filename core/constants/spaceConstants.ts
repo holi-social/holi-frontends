@@ -1,5 +1,5 @@
 import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
-import { CalendarEvent, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
+import { CalendarEvent, CheckboxFilled, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
@@ -24,15 +24,14 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
-  // NOTE: Will be added in HOLI-5074 soon
-  /*   
+
   {
     id: SPACE_COLLABORATOR_TOOLS.TASKS,
     icon: CheckboxFilled,
     translationKey: 'spaces.resources.category.tasks',
     path: '/tasks',
-  }, 
-  */
+  },
+
   {
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
     icon: VidiconFilled,

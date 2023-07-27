@@ -9,5 +9,4 @@ declare global {
   var mockSetOptions: (options: Partial<ScreenOptions>) => void
   var mockOpenURL: (url: string) => void
   var mockOpenToast: (text: string, type: HoliToastType, timeout: number, testID?: string) => void
-  var spaceDetailInitialTabIndex: number
 }

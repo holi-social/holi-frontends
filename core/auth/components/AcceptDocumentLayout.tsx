@@ -14,9 +14,9 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import HoliWizardNaviagtionButtons, {
+import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
-} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNaviagtionButtons'
+} from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -53,7 +53,7 @@ const AcceptDocumentLayout = ({
   const { displayError } = useErrorHandling()
 
   const navButtons = (
-    <HoliWizardNaviagtionButtons
+    <HoliWizardNavigationButtons
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       isNextButtonEnabled={agreementValue}

@@ -664,6 +664,8 @@
   "spaces.spaceDetails.tasks.empty.message.forNonMembers": "Wenn du Ideen hast, mit unserer Community zusammenzuarbeiten, bist du herzlich eingeladen, Mitwirkende:r zu werden.",
   "spaces.spaceDetails.tasks.empty.title.forNonMembers": "Zurzeit keine Aufgaben verfügbar",
   "spaces.spaceDetails.tasks.header.title": "Aufgaben",
+  "spaces.spaceDetails.tasks.seeAllButton.label": "Alle anzeigen",
+
   "spaces.spaceDetails.tasks.heading": "{{count}} Weg zu helfen",
   "spaces.spaceDetails.tasks.heading_plural": "{{count}} Wege zu helfen",
   "spaces.spaceDetails.topics": "Themen",

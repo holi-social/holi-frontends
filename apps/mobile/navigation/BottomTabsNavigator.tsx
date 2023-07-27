@@ -10,7 +10,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
-import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
+import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -73,7 +73,7 @@ const BottomTabsNavigator = () => {
       />
       <BottomTabs.Screen
         name={RouteName.Chat}
-        component={ChatStackNavigator}
+        component={ChatHomeStackNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
