@@ -1,9 +1,11 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
 import { atom, createStore, useAtom } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
+import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src/utils'
 import { logError } from '@holi/core/errors/helpers'
 
@@ -16,8 +18,16 @@ export const chatStore = createStore()
 
 /** Client **/
 // TODO: Check if the user is logged in
-export const chatClient = new ChatClient()
+const isChatReadyVar = makeVar(false)
+export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
 
+export const chatClient = new ChatClient()
+export const chatLogin = new ChatLogin()
+export const startChat = async (orySessionToken: string, freshLogin = true) => {
+  await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
+  await chatClient.start()
+  isChatReadyVar(true)
+}
 /** Rooms **/
 
 /**
