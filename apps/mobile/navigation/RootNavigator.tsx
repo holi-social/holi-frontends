@@ -9,6 +9,7 @@ import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
+import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
@@ -23,6 +24,7 @@ export type RootStackScreens = {
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
   [RouteName.Insights]: undefined
+  [RouteName.ChatStack]: undefined
 
   [RouteName.Onboarding]: undefined
   [RouteName.Login]: undefined
@@ -53,6 +55,9 @@ const RootNavigator = () => {
 
       {/* SpacesHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
+
+      {/* ChatHome is in BottomTabs */}
+      <RootStack.Screen name={RouteName.ChatStack} component={ChatStackNavigator} options={{ headerShown: false }} />
 
       <RootStack.Screen
         name={RouteName.VideoCall}
