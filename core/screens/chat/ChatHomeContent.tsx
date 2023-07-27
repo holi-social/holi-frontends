@@ -1,11 +1,12 @@
+import { useAtomValue, useSetAtom } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { chatClient } from '@holi/chat/src/store'
+import { addToRoomAtoms, roomAtomsRecordAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import RoomListContainer from '@holi/core/screens/chat/RoomListContainer'
+import RoomList from '@holi/core/screens/chat/components/RoomList'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -18,6 +19,15 @@ const ChatHomeContent = () => {
   const mixins = useStyleMixins()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
+
+  const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
+  const createRoomAtom = useSetAtom(addToRoomAtoms)
+
+  const handleRoomCreation = async () => {
+    // TODO: Get Matrix user ids dynamically
+    const userIds: string[] = ['@rosd_ddd:local.chat.holi.social']
+    createRoomAtom(userIds)
+  }
 
   if (!isLoggedIn) {
     return (
@@ -46,14 +56,52 @@ const ChatHomeContent = () => {
     )
   }
 
-  if (!chatClient.isOn) return null
+  if (!Object.keys(roomAtomsRecord).length) {
+    return (
+      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+        <View style={mixins.container}>
+          <HoliNoResults
+            firstText={t('chat.empty.tagline')}
+            media={
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/illustrations/illustration_chat_emtpy.svg')}
+                width={251}
+                height={188}
+                label=""
+                isSvg
+              />
+            }
+            secondText={t('chat.empty.headline')}
+            style={[styles.noResultsMessage]}
+          >
+            <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
+              {t('chat.empty.button.text')}
+            </HoliButton>
+          </HoliNoResults>
+        </View>
+      </ScrollHeaderLayout.Default>
+    )
+  }
 
-  return <RoomListContainer />
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <RoomList roomAtoms={roomAtomsRecord} />
+    </SafeAreaView>
+  )
 }
 
 export default memo(ChatHomeContent)
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: colors.background20,
+    ...Platform.select({
+      web: {
+        minHeight: '100%',
+      },
+    }),
+  },
   noResultsMessage: {
     marginTop: 24,
   },
