@@ -18,6 +18,7 @@ import type {
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 
 export enum SSOAction {
@@ -78,7 +79,11 @@ export default class ChatLogin {
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public fetchSessionCredentials = async (orySessionToken: string, freshLogin: boolean): Promise<LoginCredentials> => {
+  public fetchSessionCredentials = async (orySessionToken: string, freshLogin = true): Promise<void> => {
+    // fetch only if no Matrix session data found
+    const sessionCredentials = await getStoredSessionCreds()
+    if (sessionCredentials.accessToken) return
+
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -96,8 +101,6 @@ export default class ChatLogin {
 
     const credentials: LoginCredentials = await response.json()
     await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
-
-    return credentials
   }
 
   public logout = async (): Promise<void> => {
@@ -122,14 +125,12 @@ export default class ChatLogin {
     return isLoggedin ? JSON.parse(isLoggedin) : false
   }
 
-  public retryLogin = async (): Promise<ChatCredentials | null> => {
-    const session = await getSessionFromStorage()
+  public retryLogin = async (): Promise<ChatCredentials> => {
+    const orySession = await getSessionFromStorage()
 
-    if (session?.session_token) {
-      await this.fetchSessionCredentials(session?.session_token, false)
-      return await this.getSessionCredentials()
-    }
+    if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
 
-    return null
+    await this.fetchSessionCredentials(orySession?.session_token, false)
+    return await this.getSessionCredentials()
   }
 }
