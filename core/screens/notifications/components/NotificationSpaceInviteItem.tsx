@@ -11,6 +11,7 @@ import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
+import { discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -41,6 +42,7 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
           displayError(error, t('spaces.membership.update.error'))
         }
       },
+      refetchQueries: [{ query: discoverSpacesQuery }, { query: mySpaceQuery }],
     }
   )
 

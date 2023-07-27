@@ -472,7 +472,7 @@
   "spaces.input.name.description": "Keep the name short, clear and to the point",
   "spaces.input.name.label": "Space Name",
   "spaces.input.name.placeholder": "Our name is…",
-  "spaces.input.nameAndGoal.title": "Edit Space name and goal name and goal name and goal",
+  "spaces.input.nameAndGoal.title": "Edit Space name and goal",
   "spaces.input.publicLinks.add.label": "Add link",
   "spaces.input.publicLinks.add.success": "Your public link has been added.",
   "spaces.input.publicLinks.delete.confirmation.description": "Are you sure you want to delete this link?\nThis action is irreversible.",
