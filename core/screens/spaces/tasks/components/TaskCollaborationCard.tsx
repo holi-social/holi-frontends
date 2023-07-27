@@ -13,10 +13,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface TasksCardProps {
   isAdmin: boolean
+  isCollaborator: boolean
   space: Space
 }
 
-const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
+const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, isCollaborator, space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -27,6 +28,7 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
   }
 
   const navigateToCreateTask = () => navigate(`/spaces/${space.name}/tasks/create`)
+  const navigateToTasks = () => navigate(`/spaces/${space.name}/tasks`)
 
   return (
     <CollaboratorAreaCard
@@ -34,10 +36,25 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
       title={t('spaces.spaceDetails.tasks.header.title')}
       testID="space-tasks-card"
       {...cardProps}
+      onPressHeaderLeft={() => navigateToTasks()}
+      onPressHeaderRight={() => navigateToCreateTask()}
     >
       {space.tasks?.length ? (
         <View style={styles.tasksListContainer}>
-          <SpaceTaskList space={space} isAdmin={isAdmin} />
+          <SpaceTaskList space={space} isAdmin={isAdmin} isCollaborator={isCollaborator} preview />
+          {space.tasks && space.tasks.length > 2 && (
+            <View style={styles.seeAllButtonContainer}>
+              <HoliButton
+                label={t('spaces.spaceDetails.tasks.seeAll')}
+                onPress={() => navigateToTasks()}
+                style={styles.seeAllButton}
+                inline
+                type="secondary"
+              >
+                <HoliText>{t('spaces.spaceDetails.tasks.seeAllButton.label')}</HoliText>
+              </HoliButton>
+            </View>
+          )}
         </View>
       ) : (
         <View style={styles.empty}>
@@ -64,6 +81,16 @@ const TasksCard: React.FC<TasksCardProps> = ({ isAdmin, space }) => {
 export default TasksCard
 
 const styles = StyleSheet.create({
+  seeAllButtonContainer: {
+    alignItems: 'center',
+  },
+  seeAllButton: {
+    bottom: 0,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    marginTop: 16,
+    marginBottom: 8,
+  },
   tasksListContainer: {
     padding: 8,
   },

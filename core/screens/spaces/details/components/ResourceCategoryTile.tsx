@@ -83,7 +83,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
 
 export default ResourceCategoryTile
 
-const tileWidth = 92
+const tileWidth = 76
 
 const styles = StyleSheet.create({
   categoryTile: {

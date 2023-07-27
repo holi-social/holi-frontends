@@ -32,6 +32,7 @@ export enum RouteName {
   EditCollaborators = 'EditCollaborators',
   SpaceOnboarding = 'SpaceOnboarding',
   SpaceOnboardingSteps = 'SpaceOnboardingSteps',
+  SpaceTasks = 'SpaceTasks',
 
   // Chat Stack
   ChatHome = 'ChatHome',
