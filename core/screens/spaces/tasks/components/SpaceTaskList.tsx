@@ -12,10 +12,17 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 interface SpaceTaskListProps {
   isAdmin: boolean
+  isCollaborator: boolean
   space: Space
+  preview?: boolean
 }
 
-const SpaceTaskList: React.FC<SpaceTaskListProps> = ({ space, isAdmin }: SpaceTaskListProps) => {
+const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
+  space,
+  isAdmin,
+  isCollaborator,
+  preview,
+}: SpaceTaskListProps) => {
   const { t } = useTranslation()
 
   const itemsInRow = useBreakpointMatcher([
@@ -25,13 +32,21 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({ space, isAdmin }: SpaceTa
     [+vars.breakpointXxl, 4],
   ])
 
+  const tasks = preview ? space?.tasks?.slice(-2) : space?.tasks
+
   return (
     <>
-      {space.tasks?.length ? (
-        <HoliGridWrapper itemsInRow={itemsInRow}>
-          {(space.tasks || []).map((task) => (
+      {space?.tasks?.length ? (
+        <HoliGridWrapper itemsInRow={itemsInRow} gap={16}>
+          {(tasks || []).map((task) => (
             <HoliGridCell key={task.id}>
-              <SpaceTaskTile task={task} showFullView={false} isAdmin={isAdmin} space={space} />
+              <SpaceTaskTile
+                task={task}
+                showFullView={false}
+                isAdmin={isAdmin}
+                space={space}
+                isCollaborator={isCollaborator}
+              />
             </HoliGridCell>
           ))}
         </HoliGridWrapper>
