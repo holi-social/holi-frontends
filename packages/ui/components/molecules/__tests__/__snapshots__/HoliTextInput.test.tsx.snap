@@ -41,6 +41,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -88,15 +90,13 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }
@@ -188,6 +188,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -232,15 +234,13 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 74.8,
+              "height": 45,
             },
           ]
         }
@@ -332,6 +332,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -376,15 +378,13 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }
@@ -512,6 +512,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "maxWidth": "100%",
@@ -555,14 +557,12 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "maxWidth": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }
@@ -653,6 +653,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -697,15 +699,13 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }
@@ -863,6 +863,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -907,15 +909,13 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }
@@ -1008,6 +1008,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             "borderRadius": 4,
             "borderWidth": 2,
             "flexDirection": "row",
+            "paddingHorizontal": 10,
+            "paddingVertical": 15,
           },
           {
             "alignSelf": "stretch",
@@ -1052,15 +1054,13 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 52.4,
+              "height": 23,
             },
           ]
         }

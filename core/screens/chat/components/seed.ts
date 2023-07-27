@@ -4,15 +4,16 @@ import { User } from '@holi/core/screens/userprofile/types'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
 export interface Message {
-  user: User
+  id: string
+  user: User | null
   text: string
   postedAt: string
 }
 
-export interface Conversation {
+export interface Room {
   id: string
   user: User
-  lastMessage: Message
+  messages: Message[]
   unseenMessageCount: number
 }
 
@@ -36,16 +37,19 @@ const getDate = (ago: Partial<Record<'days' | 'hours' | 'minutes', number>>) => 
   }, new Date())
 }
 
-export const chatConversationSeed: Conversation[] = Array.from(
-  new Array(Math.floor(Math.random() * 300) + 100),
-  getRandomUser
-).map((user, idx) => ({
-  id: idx.toString(),
-  user,
-  lastMessage: {
+export const chatRoomListSeed: Room[] = Array.from(new Array(Math.floor(Math.random() * 60) + 30), getRandomUser).map(
+  (user, idx) => ({
+    id: idx.toString(),
     user,
-    text: faker.lorem.paragraph(),
-    postedAt: getDate({ minutes: (idx + 1) * 100 }).toISOString(),
-  },
-  unseenMessageCount: Math.floor(Math.random() * 150),
-}))
+    messages: Array.from(
+      new Array(Math.floor(Math.random() * 60) + 30),
+      (_, msgIdx): Message => ({
+        id: msgIdx.toString(),
+        user: Math.random() < 0.5 ? user : null,
+        text: faker.lorem.paragraph(),
+        postedAt: getDate({ minutes: (idx + msgIdx + 1) * 100 }).toISOString(),
+      })
+    ).reverse(),
+    unseenMessageCount: Math.floor(Math.random() * 150),
+  })
+)
