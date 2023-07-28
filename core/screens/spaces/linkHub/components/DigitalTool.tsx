@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
@@ -25,9 +25,17 @@ interface DigitalToolProps {
   spaceIdOrName: string
   onShareButtonPress: (url: string) => void
   onEditButtonPress: (toolId: string) => void
+  style?: StyleProp<ViewStyle>
 }
 
-const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditButtonPress }: DigitalToolProps) => {
+const DigitalTool = ({
+  tool,
+  isAdmin,
+  spaceIdOrName,
+  onShareButtonPress,
+  onEditButtonPress,
+  style,
+}: DigitalToolProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [showDetailModal, setShowDetailModal] = useState(false)
@@ -44,7 +52,7 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
   const toolName = defaultTool?.name
 
   return (
-    <View style={styles.toolContainer}>
+    <View style={[styles.toolContainer, style]}>
       <MoreOptionItem
         label={''}
         onPress={() => {
@@ -188,9 +196,7 @@ export default DigitalTool
 
 const styles = StyleSheet.create({
   toolContainer: {
-    flex: 1,
     flexDirection: 'row',
-    width: '100%',
     backgroundColor: colors.background10,
     padding: 16,
     marginBottom: 8,
