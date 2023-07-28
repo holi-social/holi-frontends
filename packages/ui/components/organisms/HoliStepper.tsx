@@ -87,14 +87,25 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
   const scrollX = useRef(new Animated.Value(0)).current
   const { currentStep, setStep } = useStepper()
+  const [stepHeight, setStepHeight] = useState<number | undefined>(undefined)
 
   // Determine step width: start with window width and update on layout change
   const { width: windowWidth } = useWindowDimensions()
   const [viewWidth, setViewWidth] = useState(windowWidth)
-  const handleLayout = (e: LayoutChangeEvent) => {
-    const width = e.nativeEvent.layout.width
+  const handleLayout = useCallback((e: LayoutChangeEvent) => {
+    const width = Math.round(e.nativeEvent.layout.width)
     setViewWidth(width)
-  }
+  }, [])
+
+  const onStepLayout = useCallback(
+    (index: number) => (e: LayoutChangeEvent) => {
+      if (index === currentStep) {
+        const height = Math.ceil(e.nativeEvent.layout.height)
+        setStepHeight(height)
+      }
+    },
+    [currentStep]
+  )
 
   const updateCurrentStep = useCallback(
     (scrollPosition: number) => {
@@ -192,8 +203,20 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       {...scrollViewProps}
     >
       {steps.map((step, idx) => {
+        const isActive = idx === currentStep
         return (
-          <View key={idx} style={StyleSheet.flatten([styles.tabWrapper, { width: viewWidth }])} testID="stepper-step">
+          <View
+            key={idx}
+            style={StyleSheet.flatten([
+              styles.stepWrapper,
+              {
+                width: viewWidth,
+                height: isActive ? 'auto' : stepHeight,
+              },
+            ])}
+            testID="stepper-step"
+            onLayout={onStepLayout(idx)}
+          >
             {renderStep(step, idx)}
           </View>
         )
@@ -207,13 +230,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    minHeight: '100%',
   },
   scrollViewContainer: {
     flexGrow: 1,
   },
-  tabWrapper: {
-    flex: 1,
+  stepWrapper: {
     width: '100%',
   },
 })
