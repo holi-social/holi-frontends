@@ -551,6 +551,7 @@
   "spaces.input.videoCallLink.roomName.label": "Video call name",
   "spaces.input.videoCallLink.roomName.placeholder": "Enter a descriptive name…",
   "spaces.invite.btn.invite": "Invite collaborator",
+  "spaces.invite.error.duplicate": "This email has already been invited to this space",
   "spaces.invite.header": "Invite collaborator",
   "spaces.invite.hint.discussion": "Invite only people who might be interested in participating in the activities of this Space.",
   "spaces.invite.hint.header": "Whom should you invite?",

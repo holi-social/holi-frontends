@@ -551,6 +551,7 @@
   "spaces.input.videoCallLink.roomName.label": "Name der Videokonferenz",
   "spaces.input.videoCallLink.roomName.placeholder": "Wähle einen beschreibenden Namen…",
   "spaces.invite.btn.invite": "Mitwirkende:n einladen",
+  "spaces.invite.error.duplicate": "Diese E-Mail wurde bereits zu diesem Space eingeladen",
   "spaces.invite.header": "Mitwirkende einladen",
   "spaces.invite.hint.discussion": "Lade nur Personen ein, die möglicherweise Interesse haben, an den Aktivitäten dieses Spaces teilzunehmen.",
   "spaces.invite.hint.header": "Wen solltest du einladen? ",
