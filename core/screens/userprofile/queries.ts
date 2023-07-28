@@ -98,7 +98,7 @@ export const userByIdWithSpacesQuery = gql`
 
 export const userByNameQuery = gql`
   ${FullUserAvatarFragment}
-  query UserByName($substring: String!, $limit: Int, $offset: Int) {
+  query UserByName($substring: String!, $limit: Int!, $offset: Int!) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
         ...FullUserAvatar

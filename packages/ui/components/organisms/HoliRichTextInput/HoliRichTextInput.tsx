@@ -67,19 +67,21 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     setKeywordDebounced(keyword)
   }, [keyword, setKeywordDebounced])
 
-  const findUserMapped = useCallback(
+  const findUserMapped: (substring: string) => Promise<User[]> = useCallback(
     (substring: string) => {
       return new Promise((resolve, reject) => {
         findUsersByName({
           variables: {
             substring,
+            offset: 0,
+            limit: maxSuggestionOptions,
           },
         })
-          .then((response) => resolve(response?.data?.userByName?.data?.slice(0, maxSuggestionOptions)))
+          .then((response) => resolve(response?.data?.userByName?.data?.slice(0, maxSuggestionOptions) ?? []))
           .catch(reject)
       })
     },
-    [findUsersByName, maxSuggestionOptions]
+    [maxSuggestionOptions, findUsersByName]
   )
 
   // on debounced value change
