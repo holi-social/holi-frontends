@@ -9,6 +9,8 @@ import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/sp
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   AtFilled,
+  Delete,
+  Edit2,
   GlobalFilled,
   GlobeFilled,
   LockFilled,
@@ -103,14 +105,14 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             <View style={styles.innerClick}>
               <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options">
                 <HoliActionDrawer.Action
-                  action="edit"
+                  icon={Edit2}
                   title={t('global.edit')}
                   testID="btn-to-edit-task"
                   handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
                 />
                 <HoliActionDrawer.Action
                   isLoading={isLoadingDeleteTask}
-                  action="delete"
+                  icon={Delete}
                   title={t('spaces.digitalTool.delete.label')}
                   variant="danger"
                   testID="btn-to-delete-task"

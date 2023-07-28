@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { More } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -32,6 +32,7 @@ export interface ActionDrawerProps {
   testID?: string
   variant?: 'default' | 'dark'
   buttonElement?: React.ReactNode
+  buttonProps?: Partial<HoliButtonProps>
 }
 
 export const Drawer = ({
@@ -40,6 +41,7 @@ export const Drawer = ({
   testID,
   variant,
   buttonElement,
+  buttonProps,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
@@ -53,7 +55,7 @@ export const Drawer = ({
 
   return (
     <ActionDrawerContext.Provider value={contextValue}>
-      <HoliButton transparent inline label={label} onPress={showModal} testID={testID}>
+      <HoliButton transparent inline label={label} onPress={showModal} testID={testID} {...buttonProps}>
         {buttonElement || (
           <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
         )}

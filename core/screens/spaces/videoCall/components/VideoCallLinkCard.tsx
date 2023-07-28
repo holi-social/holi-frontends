@@ -9,7 +9,7 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { VideoCallLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { More } from '@holi/icons/src/generated'
+import { ArrowRightUp, More, Share } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -64,13 +64,13 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
       </HoliHeading>
       <HoliText style={[styles.detailText, styles.optionsLink]}>{videoCallLink.url}</HoliText>
       <HoliActionDrawer.Action
-        action="external"
+        icon={ArrowRightUp}
         title={t('spaces.videocall.link.open')}
         testID="videocall-link-open-btn"
         handleAction={navigateToVideoCall}
       />
       <HoliActionDrawer.Action
-        action="share"
+        icon={Share}
         title={t('spaces.videocall.link.share')}
         testID="videocall-link-share-btn"
         handleAction={shareLink}

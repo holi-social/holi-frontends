@@ -9,6 +9,7 @@ import { ContentType } from '@holi/core/queries'
 import CommentReactions from '@holi/core/screens/posts/components/CommentReactions'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
+import { Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -49,7 +50,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
             <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="comment-three-dot-menu-button">
               <HoliActionDrawer.Action
                 isLoading={isLoadingReport}
-                action="report"
+                icon={Flag}
                 title={t('global.report')}
                 testID="report-comment-button"
                 showConfirmation
@@ -65,7 +66,7 @@ const CommentView = ({ comment, postId, style, ...props }: CommentProps) => {
               </HoliActionDrawer.Action>
               <HoliActionDrawer.Action
                 isLoading={isLoadingDeleteComment}
-                action="delete"
+                icon={Delete}
                 title={t('global.delete')}
                 variant="danger"
                 testID="delete-comment-button"

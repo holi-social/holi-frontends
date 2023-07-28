@@ -13,7 +13,7 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
+import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
@@ -96,7 +96,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
             {!isCurrentUserPostCreator && ( // is not creator
               <HoliActionDrawer.Action
                 isLoading={isLoadingReport}
-                action="report"
+                icon={Flag}
                 title={t('global.report')}
                 testID="report-comment-button"
                 showConfirmation
@@ -113,7 +113,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
 
             {spaceIdOrName && isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
-                action="edit"
+                icon={Edit2}
                 title={t('spaces.updates.edit')}
                 testID="edit-update"
                 handleAction={editAction}
@@ -122,7 +122,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
             {isCurrentUserPostCreator && ( // is creator
               <HoliActionDrawer.Action
                 isLoading={isLoadingPostDeletion}
-                action="delete"
+                icon={Delete}
                 title={t('insights.post.delete.confirmation.title')}
                 testID="delete-post-button"
                 showConfirmation
