@@ -24,7 +24,7 @@ interface FilteredSpacesProps extends SpaceFilter {
   applyFilters: (filters: SpaceFilter) => void
 }
 
-const SPACES_PAGE_SIZE = 20
+const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
 
 const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
   const { displayError } = useErrorHandling()
@@ -85,7 +85,7 @@ const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs,
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
           {isLoading ? (
-            <SpacesGrid style={styles.loadingGrid} loading={true} />
+            <SpacesGrid style={styles.loadingGrid} loading={true} pageSize={SPACES_PAGE_SIZE} />
           ) : (
             <Pagination
               query={spacesQuery}

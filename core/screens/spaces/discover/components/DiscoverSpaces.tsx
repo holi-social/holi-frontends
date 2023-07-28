@@ -15,7 +15,7 @@ import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/typ
  * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
  * This means that the offset variable is ommited in our query, but we may add a limit variable.
  */
-const SPACES_GROUP_LIMIT = 10
+const SPACES_GROUP_LIMIT = 5
 
 type DiscoverSpacesProps = {
   user?: User
