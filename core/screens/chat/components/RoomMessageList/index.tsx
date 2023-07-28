@@ -105,7 +105,6 @@ export default RoomMessageList
 const styles = StyleSheet.create({
   list: {
     backgroundColor: colors.background20,
-    // height: '100%',
   },
   listFooterSpacer: {
     height: vars.topBarHeight,

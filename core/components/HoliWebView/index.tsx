@@ -5,14 +5,13 @@ import { WebView } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
 
+import { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { HoliWebViewProps } from '@holi/core/screens/spaces/components/HoliWebView.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-// TODO HOLI-3754: only works on mobile > move to ui package anyways?
-const HoliWebView: React.VFC<HoliWebViewProps> = ({ uri, style, webViewProps }) => {
+const HoliWebView: React.FC<HoliWebViewProps> = ({ uri, style, webViewProps }) => {
   const webViewRef = useRef<WebView>(null)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()

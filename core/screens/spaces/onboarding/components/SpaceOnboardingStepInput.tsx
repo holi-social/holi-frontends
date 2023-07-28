@@ -37,7 +37,7 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
         value={step.text}
         onChange={(value) => handleChange(index, value)}
         placeholder={t('spaces.onboarding.steps.describe')}
-        style={[styles.inputField, index === 1 && styles.inputFieldWithoutDelete]}
+        style={styles.inputField}
       />
 
       <HoliButton
@@ -64,21 +64,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
-
   inputField: {
     width: 'auto',
     flexGrow: 1,
     ...Platform.select({
       native: {
         maxWidth: '80%',
-        width: '200%',
-      },
-    }),
-  },
-  inputFieldWithoutDelete: {
-    ...Platform.select({
-      native: {
-        maxWidth: '100%',
       },
     }),
   },

@@ -83,11 +83,9 @@ export default {
       ory: {
         url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
       },
-      images: {
-        url: process.env.IMAGES_BASE_URL || 'https://dev-images.holi.social',
-      },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
+        gateway: process.env.HOLI_API_GATEWAY || 'http://10.0.2.2:4001',
       },
       holi_nextjs_api: {
         url: process.env.HOLI_NEXTJS_API_URL || 'http://localhost:3000',

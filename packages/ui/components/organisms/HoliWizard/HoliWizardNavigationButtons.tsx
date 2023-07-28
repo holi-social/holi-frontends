@@ -9,7 +9,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-interface HoliWizardNaviagtionButtonsProps {
+interface HoliWizardNavigationButtonsProps {
   onNextPress?: () => void
   onBackPress?: () => void
   isBackButtonAvailable?: boolean
@@ -27,7 +27,7 @@ export const BUTTON_RECTS = {
   paddingBottom: 28,
 }
 
-const HoliWizardNaviagtionButtons = ({
+const HoliWizardNavigationButtons = ({
   onNextPress,
   onBackPress,
   submitButtonLabel = '',
@@ -37,7 +37,7 @@ const HoliWizardNaviagtionButtons = ({
   isLoading = false,
   style,
   testID,
-}: React.PropsWithChildren<HoliWizardNaviagtionButtonsProps>) => {
+}: React.PropsWithChildren<HoliWizardNavigationButtonsProps>) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
@@ -70,7 +70,7 @@ const HoliWizardNaviagtionButtons = ({
   )
 }
 
-export default HoliWizardNaviagtionButtons
+export default HoliWizardNavigationButtons
 
 const styles = StyleSheet.create({
   backButton: {

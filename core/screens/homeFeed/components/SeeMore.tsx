@@ -41,7 +41,11 @@ const SeeMore: React.VFC<SeeMoreProps> = ({ label, loading = false, onPress, sty
       testID={testID}
     >
       <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
+        imageSource={
+          Platform.OS === 'web'
+            ? require('@holi/ui/assets/img/illustrations/illustration_see_more.png')
+            : require('@holi/ui/assets/img/illustrations/illustration_see_more.png')
+        }
         width={cardImageSize}
         height={cardImageSize}
         label=""

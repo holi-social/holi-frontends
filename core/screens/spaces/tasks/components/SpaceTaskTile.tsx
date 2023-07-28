@@ -29,6 +29,7 @@ export type SpaceTaskTileProps = {
   task: Task
   space: Space
   isAdmin?: boolean
+  isCollaborator?: boolean
   showFullView?: boolean
 }
 
@@ -38,6 +39,7 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
   isAdmin,
+  isCollaborator,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
@@ -81,15 +83,17 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               />
             </View>
           )}
-          <View style={styles.visibility}>
-            <HoliIcon
-              icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
-              color={colors.foreground30}
-              size={16}
-              style={styles.iconGroupIcon}
-            />
-            <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
-          </View>
+          {isCollaborator && (
+            <View style={styles.visibility}>
+              <HoliIcon
+                icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
+                color={colors.foreground30}
+                size={16}
+                style={styles.iconGroupIcon}
+              />
+              <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
+            </View>
+          )}
         </View>
         <View style={styles.detailContainer}>
           <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>

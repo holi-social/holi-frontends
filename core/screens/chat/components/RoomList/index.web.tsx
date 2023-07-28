@@ -15,7 +15,7 @@ const RoomList = ({ roomAtoms }: RoomListProps) => {
     <FlatList
       data={Object.values(roomAtoms)}
       renderItem={({ item }) => <RoomItem roomAtom={item} />}
-      // use ListHeaderComponent to add padding bottom for HeaderAnimated
+      // use ListHeaderComponent to add the List space above for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}

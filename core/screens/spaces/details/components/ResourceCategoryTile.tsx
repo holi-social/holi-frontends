@@ -19,12 +19,14 @@ interface ResourceCategoryTileProps {
   resourceCategoryData: ResourceCategory
   onPress?: (resourceCategoryData: ResourceCategory) => void
   style?: StyleProp<ViewStyle>
+  active?: boolean
 }
 
 const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
   resourceCategoryData,
   onPress,
   style,
+  active = false,
 }: ResourceCategoryTileProps) => {
   const { t } = useTranslation()
   const name = t(resourceCategoryData.translationKey)
@@ -59,11 +61,18 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
             color={isActive ? colors.foreground30 : colors.foreground10}
           />
         )}
+        {active && (
+          <View style={styles.inactiveContainer}>
+            <HoliText size="extrasmall" color="white100">
+              {t('allTools.drawer.comingSoon.label')}
+            </HoliText>
+          </View>
+        )}
       </View>
 
       <HoliText
         selectable={false}
-        style={[styles.categoryName, isActive && { color: colors.foreground30 }]}
+        style={[styles.categoryName, isActive ? { color: colors.foreground30 } : { marginTop: 4 }]}
         size={'extrasmall'}
       >
         {name}
@@ -74,7 +83,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
 
 export default ResourceCategoryTile
 
-const tileWidth = 72
+const tileWidth = 76
 
 const styles = StyleSheet.create({
   categoryTile: {
@@ -98,5 +107,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     color: colors.foreground20,
+  },
+  inactiveContainer: {
+    position: 'absolute',
+    bottom: -6,
+    width: 37,
+    height: 16,
+    borderRadius: 500,
+    backgroundColor: colors.foreground10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

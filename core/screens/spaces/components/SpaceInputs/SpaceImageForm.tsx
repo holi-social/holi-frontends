@@ -65,6 +65,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
                   label: t('spaces.input.coverImage.change.button.label'),
                   testID: 'space-upload-image-btn',
                   style: styles.imageUploadButton,
+                  inline: true,
                 }}
                 onPickImage={onUploadImage}
               >
@@ -76,6 +77,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
                 onPress={removeImage}
                 testID="create-space-remove-image-btn"
                 style={styles.imageUploadButton}
+                inline
               >
                 <HoliText numberOfLines={1}>{t('spaces.input.coverImage.remove.button.label')}</HoliText>
               </HoliButton>
@@ -150,9 +152,7 @@ const styles = StyleSheet.create({
   },
   imageUploadButton: {
     backgroundColor: colors.background10,
-    width: '40%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    minHeight: 48,
   },
   instructionsContainer: {
     marginTop: 8,
@@ -203,10 +203,16 @@ const styles = StyleSheet.create({
     }),
   },
   uploadButtonContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    ...Platform.select({
+      web: {
+        flexDirection: 'row',
+      },
+    }),
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 8,
+    minHeight: 48,
+    flexWrap: 'wrap',
   },
   tabBar: {
     paddingLeft: 24,

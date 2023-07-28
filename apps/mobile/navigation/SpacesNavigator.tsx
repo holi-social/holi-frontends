@@ -27,9 +27,9 @@ import SpaceOnboardingSteps, {
 } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
+import SpaceTasks, { SpaceTasksParams } from '@holi/core/screens/spaces/tasks/SpaceTasks'
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
 import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
-import SpaceVideoCall, { SpaceVideoCallParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCall'
 import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -48,7 +48,6 @@ export type SpacesScreens = {
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
   [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
   [RouteName.SpaceStorage]: SpaceStorageParams
-  [RouteName.SpaceVideoCall]: SpaceVideoCallParams
   [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
@@ -58,6 +57,7 @@ export type SpacesScreens = {
   [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
   [RouteName.SpaceOnboarding]: SpaceOnboardingParams
   [RouteName.SpaceOnboardingSteps]: SpaceOnboardingStepsParams
+  [RouteName.SpaceTasks]: SpaceTasksParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
@@ -81,7 +81,6 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
-      <SpacesStack.Screen name={RouteName.SpaceVideoCall} component={SpaceVideoCall} />
       <SpacesStack.Screen name={RouteName.SpaceVideoCallList} component={SpaceVideoCallList} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
@@ -98,6 +97,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceRolesPermissions} component={SpaceRolesPermissions} />
       <SpacesStack.Screen name={RouteName.SpaceOnboarding} component={SpaceOnboarding} />
       <SpacesStack.Screen name={RouteName.SpaceOnboardingSteps} component={SpaceOnboardingSteps} />
+      <SpacesStack.Screen name={RouteName.SpaceTasks} component={SpaceTasks} />
     </SpacesStack.Navigator>
   )
 }

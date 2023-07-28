@@ -230,12 +230,6 @@ const SpaceDetails = () => {
     })
   }, [isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceUrl, t])
 
-  const handleTabChange = (index: number) => {
-    global.spaceDetailInitialTabIndex = index
-
-    setCurrentTabIndex(index)
-  }
-
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
   }
@@ -281,12 +275,7 @@ const SpaceDetails = () => {
         headerOverlap
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView
-          style={styles.spaceDetailView}
-          space={space}
-          onChangeTab={handleTabChange}
-          initialTabIndex={global.spaceDetailInitialTabIndex}
-        />
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout.Refreshable>
       {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}

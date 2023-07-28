@@ -79,6 +79,8 @@ export { default as EmotionUnhappyNoeyesFilled } from './EmotionUnhappyNoeyesFil
 export { default as EmotionUnhappyNoeyes } from './EmotionUnhappyNoeyes'
 export { default as ErrorWarningFilled } from './ErrorWarningFilled'
 export { default as ErrorWarning } from './ErrorWarning'
+export { default as ExternalLinkFilled } from './ExternalLinkFilled'
+export { default as ExternalLink } from './ExternalLink'
 export { default as FacebookBoxFilled } from './FacebookBoxFilled'
 export { default as FacebookFilled } from './FacebookFilled'
 export { default as Facebook } from './Facebook'

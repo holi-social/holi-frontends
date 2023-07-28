@@ -96,6 +96,7 @@ export interface Space {
 
 export enum SpaceSectionType {
   FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_INVITEE = 'MEMBERSHIP_INVITEE',
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
   CREATOR = 'CREATOR', // deprecated, please use space.creator instead
@@ -145,6 +146,7 @@ export enum LocationType {
 
 export enum SpaceConnectionType {
   FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_INVITEE = 'MEMBERSHIP_INVITEE',
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
   ADMINISTRATOR = 'ADMINISTRATOR',

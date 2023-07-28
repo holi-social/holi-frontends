@@ -15,6 +15,7 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
+import FeatureTogglesFetcher from './components/FeatureTogglesFetcher'
 import UpdateAppModal from './components/UpdateAppModal'
 
 const styles = StyleSheet.create({
@@ -45,6 +46,7 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
             <ToastProvider>
               <PortalProvider>
                 <SessionExpiryProtection>
+                  <FeatureTogglesFetcher />
                   {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
                   <ChatStoreInitializer />
                   <LoginModalProvider>{children}</LoginModalProvider>
