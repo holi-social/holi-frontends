@@ -41,6 +41,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
   }, [updateSpaceUserConnection, space.id])
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
+  const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
 
   const handleRequest = () => {
@@ -50,6 +51,10 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, message, ...props }) => {
       })
     }
     showOnboarding()
+  }
+
+  if (isInvited) {
+    return null
   }
 
   return (

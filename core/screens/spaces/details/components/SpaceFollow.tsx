@@ -38,6 +38,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   })
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
+  const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
 
@@ -67,7 +68,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
     })
   }, [followSpace, space.id])
 
-  if (isMember || hasRequestedMembership) {
+  if (isMember || hasRequestedMembership || isInvited) {
     return null
   }
 
