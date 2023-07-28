@@ -47,7 +47,10 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
         openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
         navigate(`/spaces/${spaceIdOrName}`)
       },
-      onError() {
+      onError(error) {
+        if (error.message.includes('already invited')) {
+          return openToast(t('spaces.invite.error.duplicate'), HoliToastType.ERROR)
+        }
         openToast(t('global.technicalError'), HoliToastType.ERROR)
       },
     }
