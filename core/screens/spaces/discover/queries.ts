@@ -4,6 +4,7 @@ import { SpaceOverviewFragment } from '@holi/core/screens/spaces/queries'
 import type { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import type { Paged } from '@holi/core/types'
 
+// reminder: when adding parameters, also add them to `keyArgs` in cache config
 export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}
 
