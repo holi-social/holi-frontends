@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
@@ -33,6 +34,8 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
     </View>
   )
 }
+
+const SPACES_SLIDER_HEIGHT_ESTIMATE = Platform.OS == 'web' ? 355 : 400
 
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   loading = false,
@@ -68,41 +71,47 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
       <View style={styles.body}>
         {loading && <SpacesGroupSliderSkeletons />}
 
-        {userTopics.map((userTopic, index) => (
-          <SpacesGroupSlider
-            key={index}
-            topic={userTopic}
-            pageSize={spacesGroupLimit}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-user-specific"
-          />
-        ))}
+        {!loading &&
+          userTopics.map((userTopic, index) => (
+            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+              <SpacesGroupSlider
+                topic={userTopic}
+                pageSize={spacesGroupLimit}
+                style={styles.spacesGroup}
+                testID="discover-spaces-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          ))}
 
-        {userSkills.map((userSkill, index) => (
-          <SpacesGroupSlider
-            key={index}
-            skill={userSkill}
-            pageSize={spacesGroupLimit}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-user-specific"
-          />
-        ))}
+        {!loading &&
+          userSkills.map((userSkill, index) => (
+            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+              <SpacesGroupSlider
+                skill={userSkill}
+                pageSize={spacesGroupLimit}
+                style={styles.spacesGroup}
+                testID="discover-spaces-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          ))}
 
-        {userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
+        {!loading && userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
         )}
 
-        {defaultTopics.map((defaultTopic, index) => (
-          <SpacesGroupSlider
-            key={index}
-            topic={defaultTopic}
-            pageSize={spacesGroupLimit}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-others"
-          />
-        ))}
+        {!loading &&
+          defaultTopics.map((defaultTopic, index) => (
+            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+              <SpacesGroupSlider
+                topic={defaultTopic}
+                pageSize={spacesGroupLimit}
+                style={styles.spacesGroup}
+                testID="discover-spaces-slider-others"
+              />
+            </ScrollBasedRender>
+          ))}
 
         {/* TODO Cleanup */}
         {/*/!* User specific spaces suggestions *!/*/}
