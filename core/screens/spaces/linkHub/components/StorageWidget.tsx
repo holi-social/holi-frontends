@@ -81,9 +81,13 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
       </HoliButton>
 
       <HoliModal label={t('spaces.storage.widget.owncloud.modal')} show={visible} onDismiss={hide}>
-        <HoliModalContentWrapper actionButtonText="Got it" onActionButtonPress={hide} style={styles.modalContainer}>
+        <HoliModalContentWrapper
+          actionButtonText={t('global.gotIt')}
+          onActionButtonPress={hide}
+          style={styles.modalContainer}
+        >
           <HoliCarousel
-            marginHorizontal={32}
+            marginHorizontal={20}
             slides={storageWidgetList.map((widget) => ({
               children: (
                 <View style={styles.carouselContainer}>
