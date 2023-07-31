@@ -6,7 +6,11 @@ import { StyleSheet, View } from 'react-native'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationWithSpaceAvatar from '@holi/core/screens/notifications/components/NotificationWithSpaceAvatar'
-import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
+import {
+  NotificationProps,
+  NotificationSpaceConnection,
+  NotificationType,
+} from '@holi/core/screens/notifications/components/types'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -16,13 +20,17 @@ import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/s
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 
+const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
+  notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
+
 const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpaceConnection>> = ({
   notification,
   style,
   testID,
 }) => {
+  const isInvitationDeclinedNotification = isNotificationInvitationDeclined(notification)
   const [inviteAccepted, setInviteAccepted] = useState<boolean>(false)
-  const [inviteRejected, setInviteRejected] = useState<boolean>(false)
+  const [inviteDeclined, setInviteDeclined] = useState<boolean>(isInvitationDeclinedNotification)
   const { t } = useTranslation()
 
   const { displayError } = useErrorHandling()
@@ -61,12 +69,16 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
-    }).then(() => setInviteRejected(true))
+    }).then(() => setInviteDeclined(true))
   }
 
   const getI18Key = () => {
     if (inviteAccepted) return 'notifications.space.invite.accepted.message'
-    if (inviteRejected) return 'notifications.space.invite.rejected.message'
+    if (inviteDeclined) {
+      return !isInvitationDeclinedNotification || userId === notification.options.user.id
+        ? 'notifications.space.invite.ignored.message'
+        : 'notifications.space.invite.declined.message'
+    }
     return 'notifications.space.invite.message'
   }
 
@@ -105,7 +117,7 @@ const NotificationSpaceInviteItem: React.VFC<NotificationProps<NotificationSpace
         style={style}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
       >
-        {!inviteRejected && !inviteAccepted && (
+        {!inviteDeclined && !inviteAccepted && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
