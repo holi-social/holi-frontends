@@ -16,6 +16,7 @@ export enum NotificationType {
   FOLLOW_REQUEST = 'FR',
   FOLLOW_REQUEST_APPROVED = 'FRA',
   COMMUNITY_INVITE = 'CI',
+  COMMUNITY_INVITE_DECLINED = 'CID',
   POST_USER_MENTION = 'PUM',
   POST_COMMENT_USER_MENTION = 'PCUM',
   COMMUNITY_NEW_POST = 'CNP',
@@ -81,6 +82,7 @@ export interface NotificationSpaceConnection extends NotificationBase {
     | NotificationType.COMMUNITY_MEMBERSHIP_REQUEST
     | NotificationType.COMMUNITY_MEMBERSHIP_REVOKED
     | NotificationType.COMMUNITY_INVITE
+    | NotificationType.COMMUNITY_INVITE_DECLINED
   options: {
     user: User
     space: Space
