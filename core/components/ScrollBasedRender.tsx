@@ -1,28 +1,32 @@
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { useAtomValue } from 'jotai'
+import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { View, useWindowDimensions } from 'react-native'
+
+import { scrollYAtom } from '@holi/core/helpers'
 
 interface Props {
-  placeholderHeight: number
   // below fold = top edge of component is below lower window edge
   // negative means below fold, positive means partially visible
   // default = -200 (a bit negative to already load content next-up)
   belowFoldThreshold?: number
+  // default = <View style={{ height: 200 }} />
+  placeholder?: React.ReactNode
 }
 
-// TODO also check visibility when other components re-render and change height, causing children to maybe be visible
-const ScrollBasedRender = ({ placeholderHeight, belowFoldThreshold = -200, children }: PropsWithChildren<Props>) => {
-  const styles = getStyles(placeholderHeight)
+// disclaimer: we don't detect when other components re-render and change height, causing children to maybe be visible
+const ScrollBasedRender = ({ belowFoldThreshold = -200, placeholder, children }: PropsWithChildren<Props>) => {
   const [showChildren, setShowChildren] = useState(false)
   const placeholderRef = useRef<View>(null)
   const { height: windowHeight } = useWindowDimensions()
+
+  // scroll based check for visibility
+  const scrollY = useAtomValue(scrollYAtom)
 
   // initial & re-render based check for visibility
   useEffect(() => {
     // react native only returns zeros when we ask too early -_-
     setTimeout(() => {
       placeholderRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        // TODO remove comment:
-        // console.log(showChildren, x, y, width, height, pageX, pageY, windowHeight, windowHeight - pageY)
         if (showChildren) {
           // short circuit when previous call already triggered
           return
@@ -31,36 +35,25 @@ const ScrollBasedRender = ({ placeholderHeight, belowFoldThreshold = -200, child
         const distanceBelowFold = windowHeight - pageY
         if (distanceBelowFold > belowFoldThreshold) {
           setShowChildren(true)
-          // TODO remove comment:
-          // console.log('rendering with', distanceBelowFold)
-        } else {
-          // TODO remove comment:
-          // console.log(distanceBelowFold)
         }
       })
     }, 0)
-  }, [showChildren, windowHeight, belowFoldThreshold])
+  }, [showChildren, windowHeight, belowFoldThreshold, scrollY])
 
-  // TODO scroll based check for visibility
-
-  // TODO remove comment:
-  // const doRender = useCallback(() => setRender(true), [])
+  const wrappedPlaceholder = useMemo(
+    () => (
+      <View ref={placeholderRef} collapsable={false}>
+        {placeholder ?? <View style={{ height: 200 }} />}
+      </View>
+    ),
+    [placeholderRef, placeholder]
+  )
 
   if (showChildren) {
     return <>{children}</>
   } else {
-    // TODO use actual loading skeleton (without resetting the animation and without render overhead of the animation offscreen)
-    // TODO maybe use onLayout to reduce flicker by having early above the fold detection
-    return <View ref={placeholderRef} style={styles.placeholder} collapsable={false} />
+    return wrappedPlaceholder
   }
 }
 
 export default ScrollBasedRender
-
-const getStyles = (placeholderHeight: number) =>
-  StyleSheet.create({
-    placeholder: {
-      height: placeholderHeight,
-      backgroundColor: 'red',
-    },
-  })

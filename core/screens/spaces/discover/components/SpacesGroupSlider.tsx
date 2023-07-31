@@ -97,7 +97,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
     skip: group !== undefined || forcedLoading,
     fetchPolicy: 'network-only',
   })
-  const fetchedSpaces = data?.discoverSpaces?.at(0)?.spaces
+  const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
   useEffect(() => {
     if (error) {
       displayError(error, t('spaces.spaceListing.error'))
@@ -119,14 +119,6 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   const loading = forcedLoading || dataLoading
 
   const elementRef = useRef<View>(null)
-
-  // TODO create component which mounts this component once on scroll measured to be (nearly) visible
-  //      (using ref + measure + (maybe throttled) onScroll listener)
-  // useEffect(() => {
-  //   elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-  //     console.log(topic?.id ?? skill?.id, x, y, width, height, pageX, pageY)
-  //   })
-  // }, [elementRef])
 
   if (!loading && totalResults === 0) {
     // some topics or skills don't have associated spaces, then we just choose to not display them for now
