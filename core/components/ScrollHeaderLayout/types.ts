@@ -1,9 +1,10 @@
+import { ComponentProps } from 'react'
 import type RefreshableWrapper from 'react-native-fresh-refresh'
 
-import { DefaultLayoutProps } from '@holi/core/components/DefaultLayout'
+import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 
-type DefaultProps = Omit<DefaultLayoutProps, 'refreshControl'>
-type RefreshableWrapperProps = Omit<React.ComponentProps<typeof RefreshableWrapper>, 'children'> & {
+type DefaultProps = Omit<LayoutProps, 'refreshControl'>
+type RefreshableWrapperProps = Omit<ComponentProps<typeof RefreshableWrapper>, 'children'> & {
   loaderTopOffset?: number
 }
 

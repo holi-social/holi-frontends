@@ -6,7 +6,7 @@ import { useScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useSc
 import { useGlobalScrollListener } from '@holi/core/helpers'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const SCROLL_EVENT_THROTTLE = 500 // ms
+const SCROLL_EVENT_THROTTLE = 250 // ms
 
 type VoidCallback<T> = (arg: T) => void
 
@@ -88,7 +88,9 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
         // if you need scroll events in web, use our `useScrollY` hook or
         // add a callback to the window listener above
         onScroll={isWeb ? undefined : onScrollThrottled}
-        scrollEventThrottle={200}
+        // our throttling does better when we don't compete with ios throttling
+        // halving the rate gives us a healthy amount of updates to decide upon
+        scrollEventThrottle={SCROLL_EVENT_THROTTLE / 2}
         {...scrollViewProps}
         contentContainerStyle={[styles.scrollLayout, { backgroundColor }, style]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
