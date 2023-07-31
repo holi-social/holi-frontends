@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -7,13 +7,18 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { More } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -28,6 +33,7 @@ const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
+  const { navigate } = useRouting()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -42,6 +48,52 @@ const TaskDetails = () => {
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
+  const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
+    id: task?.id || '',
+    spaceIdOrName: space?.name || '',
+    successMsg: t('spaces.tasks.delete.success'),
+  })
+
+  const renderActionDrawer = useCallback(
+    () => (
+      <>
+        {isAdmin && (
+          <HoliActionDrawer.Drawer
+            label={t('global.moreOptions')}
+            testID="btn-task-more-options"
+            buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
+          >
+            <HoliActionDrawer.Action
+              action="edit"
+              title={t('global.edit')}
+              testID="btn-to-edit-task"
+              handleAction={() => navigate(`/spaces/${space?.name}/tasks/${task?.id}/edit`)}
+            />
+            <HoliActionDrawer.Action
+              isLoading={isLoadingDeleteTask}
+              action="delete"
+              title={t('spaces.digitalTool.delete.label')}
+              variant="danger"
+              testID="btn-to-delete-task"
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('spaces.tasks.delete.confirmation.title')}
+                description={t('spaces.tasks.delete.confirmation.description')}
+                testID="task-delete"
+                handleConfirmation={deleteTask}
+                buttonType="warning"
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
+          </HoliActionDrawer.Drawer>
+        )}
+      </>
+    ),
+    [isAdmin, t, isLoadingDeleteTask, deleteTask, navigate, space?.name, task?.id]
+  )
+
   useLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
@@ -49,11 +101,12 @@ const TaskDetails = () => {
       headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
+      headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t])
+  }, [renderActionDrawer, setScreenOptions, t])
 
   if ((error && isNotFoundError(error)) || (!loading && !task)) {
     return (
@@ -101,17 +154,26 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
-    paddingTop: vars.topBarHeight,
-
+    // paddingTop: vars.topBarHeight,
     ...Platform.select({
       web: {
         minHeight: '100vh',
+        paddingTop: 12,
+      },
+      native: {
+        paddingTop: vars.topBarHeight,
       },
     }),
   },
   messageContainer: {
     alignItems: 'center',
     marginTop: vars.topBarHeight + 50,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 14,
   },
 })
 

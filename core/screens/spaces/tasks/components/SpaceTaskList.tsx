@@ -44,6 +44,7 @@ const SpaceTaskList: React.FC<SpaceTaskListProps> = ({
                 task={task}
                 showFullView={false}
                 isAdmin={isAdmin}
+                showOptions
                 space={space}
                 isCollaborator={isCollaborator}
               />

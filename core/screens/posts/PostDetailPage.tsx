@@ -28,6 +28,8 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -59,6 +61,14 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
+
+  const queryResult = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { idOrName: spaceIdOrName || '' },
+    fetchPolicy: 'cache-and-network', // ensures that all required fields are eventually present
+    skip: !spaceIdOrName,
+  })
+  const space = queryResult.data?.spaceById
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -117,7 +127,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const comments = post.comments || []
 
-  const hasVisibilityIcon = spaceIdOrName !== ''
+  const hasVisibilityIcon = spaceIdOrName !== '' && isMember
 
   const getPostCommentUrl = () => {
     return `${getPostUrl(post.id, insightId, spaceIdOrName)}/comment`

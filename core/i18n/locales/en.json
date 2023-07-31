@@ -240,6 +240,8 @@
   "profile.location.validation.helper": "Select a valid location in the dropdown",
   "profile.loggedOut.heading": "Join holi and start to actively co-create the future",
   "profile.loggedOut.image": "Signed out illustration",
+  "profile.loggedOut.footer.imprint": "Imprint",
+  "profile.loggedOut.footer.privacyPolicy": "Privacy Policy",
   "profile.logout": "Sign out",
   "profile.missingInfo": "This person has not shared much about themselves yet",
   "profile.profile.edit": "Edit profile",

@@ -15,6 +15,7 @@ import {
   GlobeFilled,
   LockFilled,
   MapPin2Filled,
+  More,
   PhoneFilled,
   RefreshFilled,
   Time,
@@ -30,6 +31,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceTaskTileProps = {
   task: Task
   space: Space
+  showOptions?: boolean
   isAdmin?: boolean
   isCollaborator?: boolean
   showFullView?: boolean
@@ -40,6 +42,7 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
+  showOptions = false,
   isAdmin,
   isCollaborator,
   showFullView = true,
@@ -56,14 +59,14 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
 
   return (
-    <HoliButton
-      transparent
-      label={task.name}
-      onPress={goToDetailView}
-      disabled={showFullView}
-      style={styles.clickOverlay}
-    >
-      <View key={task.id} style={styles.taskItem} testID="space-task-tile">
+    <View key={task.id} style={styles.taskItem} testID="space-task-tile">
+      <HoliButton
+        transparent
+        label={task.name}
+        onPress={goToDetailView}
+        disabled={showFullView}
+        style={styles.clickOverlay}
+      >
         <View style={styles.imageContainer}>
           {!!task.thumbnail && (
             <HoliImage
@@ -97,41 +100,54 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             </View>
           )}
         </View>
-        <View style={styles.detailContainer}>
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
-            {task.name}
-          </HoliText>
-          {isAdmin && (
-            <View style={styles.innerClick}>
-              <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options">
-                <HoliActionDrawer.Action
-                  icon={Edit2}
-                  title={t('global.edit')}
-                  testID="btn-to-edit-task"
-                  handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
+      </HoliButton>
+
+      <View style={styles.detailContainer}>
+        <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          {task.name}
+        </HoliText>
+        {showOptions && isAdmin && (
+          <View style={styles.innerClick}>
+            <HoliActionDrawer.Drawer
+              label={t('global.moreOptions')}
+              testID="btn-task-more-options"
+              buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
+            >
+              <HoliActionDrawer.Action
+                icon={Edit2}
+                title={t('global.edit')}
+                testID="btn-to-edit-task"
+                handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
+              />
+              <HoliActionDrawer.Action
+                isLoading={isLoadingDeleteTask}
+                icon={Delete}
+                title={t('spaces.digitalTool.delete.label')}
+                variant="danger"
+                testID="btn-to-delete-task"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('spaces.tasks.delete.confirmation.title')}
+                  description={t('spaces.tasks.delete.confirmation.description')}
+                  testID="task-delete"
+                  handleConfirmation={deleteTask}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
                 />
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingDeleteTask}
-                  icon={Delete}
-                  title={t('spaces.digitalTool.delete.label')}
-                  variant="danger"
-                  testID="btn-to-delete-task"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('spaces.tasks.delete.confirmation.title')}
-                    description={t('spaces.tasks.delete.confirmation.description')}
-                    testID="task-delete"
-                    handleConfirmation={deleteTask}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              </HoliActionDrawer.Drawer>
-            </View>
-          )}
-        </View>
+              </HoliActionDrawer.Action>
+            </HoliActionDrawer.Drawer>
+          </View>
+        )}
+      </View>
+      <HoliButton
+        transparent
+        label={task.name}
+        onPress={goToDetailView}
+        disabled={showFullView}
+        style={styles.clickOverlay}
+      >
         <View style={styles.iconsContainer}>
           <View style={styles.iconGroupContainer}>
             <HoliIcon
@@ -233,8 +249,8 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
         {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
       </HoliText> */}
-      </View>
-    </HoliButton>
+      </HoliButton>
+    </View>
   )
 }
 
