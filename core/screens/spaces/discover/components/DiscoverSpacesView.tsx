@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -34,8 +34,6 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
     </View>
   )
 }
-
-const SPACES_SLIDER_HEIGHT_ESTIMATE = Platform.OS == 'web' ? 355 : 400
 
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
   loading = false,
@@ -73,7 +71,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
 
         {!loading &&
           userTopics.map((userTopic, index) => (
-            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+            <ScrollBasedRender key={index}>
               <SpacesGroupSlider
                 topic={userTopic}
                 pageSize={spacesGroupLimit}
@@ -85,7 +83,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
 
         {!loading &&
           userSkills.map((userSkill, index) => (
-            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+            <ScrollBasedRender key={index}>
               <SpacesGroupSlider
                 skill={userSkill}
                 pageSize={spacesGroupLimit}
@@ -103,7 +101,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
 
         {!loading &&
           defaultTopics.map((defaultTopic, index) => (
-            <ScrollBasedRender key={index} placeholderHeight={SPACES_SLIDER_HEIGHT_ESTIMATE}>
+            <ScrollBasedRender key={index}>
               <SpacesGroupSlider
                 topic={defaultTopic}
                 pageSize={spacesGroupLimit}

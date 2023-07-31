@@ -63,7 +63,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   group,
   topic,
   skill,
-  pageSize,
+  pageSize = 5,
 }: SpacesGroupSliderProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()

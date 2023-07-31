@@ -9,7 +9,7 @@ interface Props {
   // negative means below fold, positive means partially visible
   // default = -200 (a bit negative to already load content next-up)
   belowFoldThreshold?: number
-  // default = <View style={{ height: 200 }} />
+  // default = <View style={{ height: 350 }} />
   placeholder?: React.ReactNode
 }
 
@@ -43,7 +43,7 @@ const ScrollBasedRender = ({ belowFoldThreshold = -200, placeholder, children }:
   const wrappedPlaceholder = useMemo(
     () => (
       <View ref={placeholderRef} collapsable={false}>
-        {placeholder ?? <View style={{ height: 200 }} />}
+        {placeholder ?? <View style={{ height: 350 }} />}
       </View>
     ),
     [placeholderRef, placeholder]
