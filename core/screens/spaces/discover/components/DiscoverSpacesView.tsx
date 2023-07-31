@@ -6,7 +6,7 @@ import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { DEFAULT_LOCATION_ID, getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -114,14 +114,15 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
             </ScrollBasedRender>
           ))}
 
-        <ScrollBasedRender>
-          <SpacesGroupSlider
-            locationId={DEFAULT_LOCATION_ID}
-            pageSize={SPACES_GROUP_LIMIT}
-            style={styles.spacesGroup}
-            testID="discover-spaces-slider-default-location"
-          />
-        </ScrollBasedRender>
+        {/* Example how to do location based discovery: */}
+        {/*<ScrollBasedRender>*/}
+        {/*  <SpacesGroupSlider*/}
+        {/*    locationId={DEFAULT_LOCATION_ID}*/}
+        {/*    pageSize={SPACES_GROUP_LIMIT}*/}
+        {/*    style={styles.spacesGroup}*/}
+        {/*    testID="discover-spaces-slider-default-location"*/}
+        {/*  />*/}
+        {/*</ScrollBasedRender>*/}
       </View>
     </View>
   )
