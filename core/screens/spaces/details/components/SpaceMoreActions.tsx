@@ -9,6 +9,7 @@ import {
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, Check, Close } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -19,6 +20,7 @@ export type SpaceMoreActionsProps = {
 const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
 
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
@@ -29,13 +31,13 @@ const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
       variables: {
         spaceId: space.id,
       },
-      // TODO(SF) what? why? does this apply to other cases as well?
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
       update: (cache) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+        cache.evict({ id: cache.identify(space) })
       },
       onError: (error) => {
-        displayError(error, t('spaces.follow.error'))
+        displayError(error, t('global.technicalError'))
       },
     }
   )
@@ -64,8 +66,11 @@ const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
+      onCompleted() {
+        openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
+      },
     })
-  }, [updateSpaceUserConnection])
+  }, [openToast, t, updateSpaceUserConnection])
 
   const rejectConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
@@ -73,8 +78,11 @@ const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
+      onCompleted() {
+        openToast(t('spaces.invite.decline.success'), HoliToastType.SUCCESS)
+      },
     })
-  }, [updateSpaceUserConnection])
+  }, [openToast, t, updateSpaceUserConnection])
 
   if (!isInvited) {
     return null
@@ -112,7 +120,6 @@ const SpaceMoreActions: React.VFC<SpaceMoreActionsProps> = ({ space }) => {
       {isFollowing && (
         <HoliActionDrawer.Action
           isLoading={loading}
-          // TODO(SF) icon when already following?
           icon={Close}
           title={t('spaces.follow.btn.unfollow')}
           showConfirmation

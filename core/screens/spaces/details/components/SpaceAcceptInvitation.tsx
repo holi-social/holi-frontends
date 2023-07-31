@@ -10,6 +10,7 @@ import {
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Loader4 } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type SpaceAcceptInvitationProps = {
   space: Space
@@ -18,6 +19,7 @@ export type SpaceAcceptInvitationProps = {
 const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space }) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
+  const { openToast } = useToast()
 
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
@@ -27,14 +29,13 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       variables: {
         spaceId: space.id,
       },
-      // TODO(SF) what? why? does this apply to other cases as well?
-      // TODO(SF) create hook for space connection update?
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
       update: (cache) => {
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+        cache.evict({ id: cache.identify(space) })
       },
       onError: (error) => {
-        displayError(error, t('spaces.follow.error'))
+        displayError(error, t('global.technicalError'))
       },
     }
   )
@@ -43,6 +44,9 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      },
+      onCompleted() {
+        openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
       },
     })
   }
