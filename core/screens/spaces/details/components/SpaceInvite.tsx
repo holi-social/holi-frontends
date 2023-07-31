@@ -7,11 +7,10 @@ import { UserAdd } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export type SpaceInviteProps = {
-  spaceIdOrName: string
   space: Space
 }
 
-const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space, spaceIdOrName }) => {
+const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -26,7 +25,7 @@ const SpaceInvite: React.VFC<SpaceInviteProps> = ({ space, spaceIdOrName }) => {
           variant="small"
           label={t('spaces.invite.btn.invite')}
           icon={UserAdd}
-          onPress={() => navigate(`/spaces/${spaceIdOrName}/invite`)}
+          onPress={() => navigate(`/spaces/${space.name}/invite`)}
         />
       ) : null}
     </>

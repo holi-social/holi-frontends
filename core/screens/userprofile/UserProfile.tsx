@@ -28,6 +28,7 @@ import UserProfileView from '@holi/core/screens/userprofile/components/UserProfi
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -103,12 +104,7 @@ const UserProfile = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
-          <HoliActionDrawer.Action
-            action="report"
-            isLoading={isLoadingReport}
-            title={t('global.report')}
-            showConfirmation
-          >
+          <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
             <HoliActionDrawer.Confirmation
               title={t('user.profileView.report.confirmation.title', { name: userFullName })}
               description={t('user.profileView.report.confirmation.description', { name: userFullName })}
@@ -118,7 +114,7 @@ const UserProfile = () => {
             />
           </HoliActionDrawer.Action>
           <HoliActionDrawer.Action
-            action="block"
+            icon={CloseCircle}
             isLoading={isLoadingBlockUser}
             title={t('profile.block', { name: userFullName })}
             showConfirmation

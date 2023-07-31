@@ -4,16 +4,8 @@ import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import {
-  ArrowRightUp,
-  CloseCircle,
-  Delete,
-  DoorClosed,
-  Edit2,
-  Flag,
-  Share,
-  UserSettings,
-} from '@holi/icons/src/generated'
+import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { Edit2 } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,17 +14,6 @@ import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirma
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import { colors } from '@holi/ui/styles/globalVars'
-
-const IconByActionName = {
-  delete: Delete,
-  edit: Edit2,
-  report: Flag,
-  share: Share,
-  block: CloseCircle,
-  leave: DoorClosed,
-  collaborators: UserSettings,
-  external: ArrowRightUp,
-}
 
 interface ActionContextProps {
   isVisibleConfirmation: boolean
@@ -54,29 +35,30 @@ export const useActionContext = () => {
 }
 
 export interface ActionProps {
-  action: 'block' | 'delete' | 'edit' | 'report' | 'share' | 'leave' | 'collaborators' | 'external'
+  icon?: HoliIconType
   title: string
   isLoading?: boolean
   variant?: 'default' | 'danger'
   showConfirmation?: boolean
   handleAction?: (event: SyntheticEvent | GestureResponderEvent) => Promise<void> | void
   testID?: string
+  iconColor?: string
 }
 
 export const Action = ({
-  action,
+  icon = Edit2,
   children,
   handleAction,
   isLoading,
   title,
   showConfirmation,
   testID,
+  iconColor,
   variant = 'default',
 }: PropsWithChildren<ActionProps>) => {
   const { show: isVisibleConfirmation, setShow: setShowConfirmation, props: confirmationProps } = useConfirmationState()
   const { hideDrawer } = useActionDrawerContext()
 
-  const iconName = IconByActionName[action] ?? Edit2
   const isDanger = variant === 'danger'
   const variantColor = isDanger ? colors.error20 : colors.foreground30
   const colorName = isDanger ? 'error200' : 'black300'
@@ -105,7 +87,7 @@ export const Action = ({
           testID={testID}
         >
           <HoliBox padding={[0, 13, 0, 0]}>
-            <HoliIcon icon={iconName} size={18} color={variantColor} />
+            <HoliIcon icon={icon} size={18} color={iconColor || variantColor} />
           </HoliBox>
 
           <HoliText color={colorName}>{title}</HoliText>
