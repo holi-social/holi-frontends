@@ -240,6 +240,8 @@
   "profile.location.validation.helper": "Wähle im Dropdown einen gültigen Standort aus",
   "profile.loggedOut.heading": "holi beitreten und die Zukunft aktiv mitgestalten",
   "profile.loggedOut.image": "Abgemeldet Grafik",
+  "profile.loggedOut.footer.imprint": "Impressum",
+  "profile.loggedOut.footer.privacyPolicy": "Datenschutz",
   "profile.logout": "Abmelden",
   "profile.missingInfo": "Diese Person hat noch nicht viel über sich preisgegeben",
   "profile.profile.edit": "Profil bearbeiten",

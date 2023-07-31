@@ -63,6 +63,10 @@ jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
   jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
 )
 
+jest.mock('@holi/api/config', () => ({
+  holiNextJSApiUrl: 'https://localhost:3000',
+}))
+
 i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',
