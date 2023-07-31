@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useContext, useEffect, useMemo, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -9,12 +9,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import {
-  DiscoverSpacesGroup,
-  DiscoverSpacesResponse,
-  discoverSpacesQuery,
-} from '@holi/core/screens/spaces/discover/queries'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
@@ -26,25 +21,25 @@ interface BaseProps {
   pageSize: number
 }
 
-interface LoadedGroupProps extends BaseProps {
-  group: DiscoverSpacesGroup
-  topic?: never
-  skill?: never
-}
-
 interface SelfLoadingTopicProps extends BaseProps {
-  group?: never
   topic: Topic
   skill?: never
+  locationId?: never
 }
 
 interface SelfLoadingSkillProps extends BaseProps {
-  group?: never
   topic?: never
   skill: Skill
+  locationId?: never
 }
 
-type ContentProps = LoadedGroupProps | SelfLoadingTopicProps | SelfLoadingSkillProps
+interface SelfLoadingLocationProps extends BaseProps {
+  topic?: never
+  skill?: never
+  locationId: string
+}
+
+type ContentProps = SelfLoadingTopicProps | SelfLoadingSkillProps | SelfLoadingLocationProps
 
 type SkeletonProps = Partial<ContentProps> & {
   loading: true
@@ -57,30 +52,25 @@ type Props = ContentProps & {
 type SpacesGroupSliderProps = SkeletonProps | Props
 
 const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
-  loading: forcedLoading = false,
+  loading: manualLoading = false,
   style,
   testID = 'spaces-group-slider',
-  group,
   topic,
   skill,
+  locationId,
   pageSize = 5,
 }: SpacesGroupSliderProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { width: windowWidth } = useWindowDimensions()
-  const { topics, skills } = useContext(SpaceTermContext)
+
+  const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
   // cardWidth is used for image scaling (see usage). this is fine,
   // because value is constant in web and for mobile windowWidth doesn't change
   const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
   const imageHeight = Platform.OS === 'web' ? 160 : windowWidth / 2 - 40
-
-  const topicId = group?.topicId
-  const skillId = group?.skillId
-
-  const memoTopic = useMemo(() => topic ?? topics.find((topic) => topic.id === topicId), [topic, topics, topicId])
-  const memoSkill = useMemo(() => skill ?? skills.find((skill) => skill.id === skillId), [skill, skills, skillId])
 
   const {
     loading: dataLoading,
@@ -91,10 +81,11 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
       // component is either parameterized with topic or skill, so this doesn't fetch both
       topicIds: topic ? [topic.id] : [],
       skillIds: skill ? [skill.id] : [],
+      geolocation: geolocationDetails?.geolocation,
       limit: pageSize,
       offset: 0,
     },
-    skip: group !== undefined || forcedLoading,
+    skip: manualLoading || loadingGeolocation,
     fetchPolicy: 'network-only',
   })
   const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
@@ -104,19 +95,16 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
     }
   }, [error, displayError, t])
 
-  const { totalResults = 0, data: spacesData = [] } = group?.spaces ?? fetchedSpaces ?? {}
+  const { totalResults = 0, data: spacesData = [] } = fetchedSpaces ?? {}
   const hasMore = totalResults > (pageSize ?? 0) // false in loading state
 
-  const locationId = group?.locationId
-  const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
-
-  const topicQuery = memoTopic ? 'topic=' + memoTopic.slug : ''
-  const skillQuery = memoSkill ? 'skill=' + memoSkill.slug : ''
+  const topicQuery = topic ? 'topic=' + topic.slug : ''
+  const skillQuery = skill ? 'skill=' + skill.slug : ''
   const locationQuery = locationId ? 'location=' + locationId : ''
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
 
-  const loading = forcedLoading || dataLoading
+  const loading = manualLoading || dataLoading || loadingGeolocation
 
   const elementRef = useRef<View>(null)
 
@@ -128,20 +116,19 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   return (
     <View ref={elementRef} style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
-        {loading && !memoTopic && !memoSkill && <SpacesFilterPill loading={true} style={styles.pill} />}
-        {memoTopic && (
+        {loading && !locationId && !topic && !skill && <SpacesFilterPill loading={true} style={styles.pill} />}
+        {topic && (
           <SpacesFilterPill
             testID="spaces-topic-title"
-            label={memoTopic.title}
+            label={topic.title}
             filterType="topic"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?topic=${memoTopic.slug}`)}
+            onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
         {!!locationId && (
           <SpacesFilterPill
             testID="spaces-location-title"
-            // never shows an empty string because we would be in a loading state
             label={geolocationDetails?.name ?? ''}
             loading={loadingGeolocation}
             filterType="location"
@@ -149,13 +136,13 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
             onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
           />
         )}
-        {memoSkill && (
+        {skill && (
           <SpacesFilterPill
             testID="spaces-skill-title"
-            label={memoSkill.title}
+            label={skill.title}
             filterType="skill"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?skill=${memoSkill.slug}`)}
+            onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
           />
         )}
       </View>
