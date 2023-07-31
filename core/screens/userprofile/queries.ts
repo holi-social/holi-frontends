@@ -36,14 +36,17 @@ export const FullUserFragment = gql`
     interests {
       id
       title
+      slug
     }
     sdgs {
       id
       title
+      slug
     }
     skills {
       id
       title
+      slug
     }
     connectionStatusToMyself
   }
