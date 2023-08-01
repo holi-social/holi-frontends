@@ -21,6 +21,7 @@ export const FullUserAvatarFragment = gql`
 export const FullUserFragment = gql`
   fragment FullUser on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarDefaultColor
@@ -109,6 +110,27 @@ export const userByNameQuery = gql`
 
 export type UserByNameResponse = {
   userByName: Paged<User>
+}
+
+export const usersByChatIdentitiesQuery = gql`
+  ${FullUserAvatarFragment}
+  query UsersByChatIdentities($identities: [String!]!, $limit: Int!, $offset: Int!) {
+    usersByChatIdentities(identities: $identities, limit: $limit, offset: $offset) {
+      data {
+        ...FullUserAvatar
+      }
+    }
+  }
+`
+
+export type UsersByChatIdentitiesQueryVariables = {
+  identities: string[]
+  offset: number
+  limit: number
+}
+
+export type UsersByChatIdentitiesResponse = {
+  usersByChatIdentities: Paged<User>
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
