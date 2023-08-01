@@ -86,7 +86,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
       offset: 0,
     },
     skip: manualLoading || loadingGeolocation,
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   })
   const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
   useEffect(() => {

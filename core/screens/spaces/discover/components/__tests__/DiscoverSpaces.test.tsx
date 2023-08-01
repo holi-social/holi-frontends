@@ -1,9 +1,7 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import {
   authenticatedUserMock,
   defaultLocationDetailsMock,
@@ -15,9 +13,8 @@ import {
 import { authenticatedUser, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
-import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const discoverSpacesUserSpecificMock = {
   request: {
@@ -33,18 +30,6 @@ const discoverSpacesUserSpecificMock = {
       discoverSpaces: [],
     },
   },
-}
-
-const discoverSpacesUserSpecificErrorMock = {
-  request: {
-    query: discoverSpacesQuery,
-    variables: {
-      topicIds: [],
-      skillIds: [],
-      limit: 10,
-    },
-  },
-  error: new HoliError('Test error'),
 }
 
 const discoverSpacesDefaultMock = {
@@ -63,31 +48,11 @@ const discoverSpacesDefaultMock = {
   },
 }
 
-const discoverSpacesDefaultErrorMock = {
-  request: {
-    query: discoverSpacesQuery,
-    variables: {
-      topicIds: ['ANIMAL_WELFARE'],
-      geolocation: {},
-      limit: 10,
-    },
-  },
-  error: new HoliError('Test error'),
-}
-
-export const defaultLocationDetailsErrorMock = {
-  request: {
-    query: geoPlaceDetailsQuery,
-    variables: {
-      id: DEFAULT_LOCATION_ID,
-    },
-  },
-  error: new HoliError('Test error'),
-}
-
 const BASE_MOCKS = [authenticatedUserMock, mySpacesWithEmptyResultMock, topicsMock, skillsMock, sdgsMock]
 const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, discoverSpacesUserSpecificMock, discoverSpacesDefaultMock]
 
+// note: this test has been slimmed down since the component was refactored
+//       feel free to add more tests again (see history)
 describe('DiscoverSpaces', () => {
   const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
     render(
@@ -104,60 +69,6 @@ describe('DiscoverSpaces', () => {
     renderDiscoverSpaces(MOCKS)
 
     expect(await screen.findByTestId('spaces-group-slider-skeletons'))
-  })
-
-  it('displays error toast if loading user specific spaces failed', async () => {
-    renderDiscoverSpaces([
-      ...BASE_MOCKS,
-      discoverSpacesUserSpecificErrorMock,
-      discoverSpacesDefaultMock,
-      defaultLocationDetailsMock,
-    ])
-
-    await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        undefined
-      )
-    )
-  })
-
-  it('displays error toast if loading default spaces failed', async () => {
-    renderDiscoverSpaces([
-      ...BASE_MOCKS,
-      discoverSpacesUserSpecificMock,
-      discoverSpacesDefaultErrorMock,
-      defaultLocationDetailsMock,
-    ])
-
-    await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        undefined
-      )
-    )
-  })
-
-  it('displays error toast if loading default geolocation failed', async () => {
-    renderDiscoverSpaces([
-      ...BASE_MOCKS,
-      discoverSpacesUserSpecificMock,
-      discoverSpacesDefaultMock,
-      defaultLocationDetailsErrorMock,
-    ])
-
-    await waitFor(() =>
-      expect(global.mockOpenToast).toHaveBeenCalledWith(
-        'spaces.spaceListing.error',
-        HoliToastType.ERROR,
-        undefined,
-        undefined
-      )
-    )
   })
 
   it('displays discover-spaces-view', async () => {

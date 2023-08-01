@@ -1,139 +1,81 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render } from '@testing-library/react-native'
+import { MockedResponse } from '@apollo/client/testing/core'
+import { render, waitFor } from '@testing-library/react-native'
+import expect from 'expect'
 import React from 'react'
 
-import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
-import { locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
-import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Space } from '@holi/core/screens/spaces/types'
+import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const pagedSpaces: Paged<Space> = {
-  totalResults: 10,
-  data: spaces,
-}
+const topic: Topic = { id: 'topic1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false }
 
-const topics: Topic[] = [
-  { id: '1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false },
-  { id: '2', title: 'Topic 2', slug: 'topic-2', isDiscoverSpacesDefault: false },
-]
+const skill: Skill = { id: 'skill1', title: 'Skill 1', slug: 'skill-1' }
 
-const skills: Skill[] = [
-  { id: '1', title: 'Skill 1', slug: 'skill-1' },
-  { id: '2', title: 'Skill 2', slug: 'skill-2' },
-]
+const discoverSpacesErrorMock = (topicIds: string[], skillIds: string[], geolocation?: object | undefined) => ({
+  request: {
+    query: discoverSpacesQuery,
+    variables: {
+      topicIds,
+      skillIds,
+      geolocation,
+      limit: 5,
+      offset: 0,
+    },
+  },
+  error: new HoliError('Test error'),
+})
 
-const spaceTermContext: SpaceTermContextResult = {
-  loadingTopics: false,
-  loadingSkills: false,
-  loadingSdgs: false,
-  failedTopics: false,
-  failedSkills: false,
-  failedSdgs: false,
-  topics,
-  skills,
-  sdgs: [],
-}
-
-const groupWithTopicId: DiscoverSpacesGroup = {
-  topicId: '1',
-  spaces: pagedSpaces,
-}
-
-const groupWithSkillId: DiscoverSpacesGroup = {
-  skillId: '1',
-  spaces: pagedSpaces,
-}
-
-const groupWithLocation: DiscoverSpacesGroup = {
-  locationId,
-  spaces: pagedSpaces,
-}
-
+// note: this test has been slimmed down since the component was refactored
+//       feel free to add more tests again (see history)
 describe('SpacesGroupSlider', () => {
-  const renderGroup = (group: DiscoverSpacesGroup) =>
-    render(
-      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
-        <SpaceTermContext.Provider value={spaceTermContext}>
-          <SpacesGroupSlider group={group} />
-        </SpaceTermContext.Provider>
-      </MockedProvider>
-    )
+  describe('with topic', () => {
+    const renderTopic = (mocks: MockedResponse[]) =>
+      render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <SpacesGroupSlider topic={topic} pageSize={5} />
+        </MockedProvider>
+      )
 
-  it('renders correctly', () => {
-    const { getByText, getAllByText, getAllByRole } = renderGroup(groupWithTopicId)
+    it('displays errors', async () => {
+      const { getByText } = renderTopic([discoverSpacesErrorMock(['topic1'], [])])
 
-    expect(getByText('Topic 1')).toBeDefined()
-    expect(getAllByText('Space title').length).toBe(3)
+      expect(getByText('Topic 1')).toBeDefined()
 
-    const images = getAllByRole('image')
-    // expect 3 spaces with 2 images each
-    expect(images.length).toBe(6)
-    const [coverImage, avatarImage] = images
-    expect(coverImage.props.proxiedProperties.source).toEqual([
-      {
-        height: 315,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:944:630/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace1.jpg',
-        width: 472,
-      },
-    ])
-    expect(avatarImage.props.proxiedProperties.source).toEqual([
-      {
-        height: 24,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
-        width: 24,
-      },
-    ])
+      await waitFor(() =>
+        expect(global.mockOpenToast).toHaveBeenCalledWith(
+          'spaces.spaceListing.error',
+          HoliToastType.ERROR,
+          undefined,
+          undefined
+        )
+      )
+    })
   })
 
-  it('does not display "see more" element if there is nothing more to see', () => {
-    const { queryByTestId } = renderGroup(groupWithTopicId)
+  describe('with skill', () => {
+    const renderSkill = (mocks: ReadonlyArray<MockedResponse>) =>
+      render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <SpacesGroupSlider skill={skill} pageSize={5} />
+        </MockedProvider>
+      )
 
-    expect(queryByTestId('spaces-group-slider-see-more')).toBeFalsy()
-  })
+    it('displays errors', async () => {
+      const { getByText } = renderSkill([discoverSpacesErrorMock([], ['skill1'])])
 
-  it('navigates to topic filter screen if there is more to see', async () => {
-    const pagedSpacesSeeMore: Paged<Space> = {
-      totalResults: 20, // more than spaces page size
-      data: spaces,
-    }
+      expect(getByText('Skill 1')).toBeDefined()
 
-    const group: DiscoverSpacesGroup = {
-      topicId: '1',
-      spaces: pagedSpacesSeeMore,
-    }
-
-    const { getByTestId } = renderGroup(group)
-
-    await fireEvent.press(getByTestId('spaces-group-slider-see-more'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
-  })
-
-  it('navigates to topic filter screen if the user clicks the topic pill', async () => {
-    const { getByTestId } = renderGroup(groupWithTopicId)
-
-    await fireEvent.press(getByTestId('spaces-topic-title'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
-  })
-
-  it('navigates to skill filter screen if the user clicks the skill pill', async () => {
-    const { getByTestId } = renderGroup(groupWithSkillId)
-
-    await fireEvent.press(getByTestId('spaces-skill-title'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?skill=skill-1')
-  })
-
-  it('navigates to location filter screen if the user clicks the location pill', async () => {
-    const { findByTestId } = renderGroup(groupWithLocation)
-
-    fireEvent.press(await findByTestId('spaces-location-title'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?location=123')
+      await waitFor(() =>
+        expect(global.mockOpenToast).toHaveBeenCalledWith(
+          'spaces.spaceListing.error',
+          HoliToastType.ERROR,
+          undefined,
+          undefined
+        )
+      )
+    })
   })
 })
