@@ -185,7 +185,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       bounces={false}
       scrollEventThrottle={16}
       horizontal
-      pagingEnabled
+      pagingEnabled={scrollEnabled}
       onScroll={Platform.OS === 'web' ? onScrollWeb : onScrollMobile}
       onLayout={handleLayout}
       onMomentumScrollEnd={onMomentumScrollEnd}
