@@ -14,6 +14,7 @@ import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type BottomTabsScreens = {
@@ -53,7 +54,11 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={iconColor(focused)} />
           },
-          tabBarLabel: 'Home',
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              Home
+            </HoliText>
+          ),
           tabBarTestID: 'btn-to-home-view',
         }}
         listeners={{ tabPress: () => setPathname('/') }}
@@ -66,7 +71,11 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={iconColor(focused)} />
           },
-          tabBarLabel: t('spaces.title'),
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              {t('spaces.title')}
+            </HoliText>
+          ),
           tabBarTestID: 'btn-to-spaces',
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
@@ -79,7 +88,11 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? Chat3Filled : Chat3} color={iconColor(focused)} />
           },
-          tabBarLabel: 'Chat',
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              Chat
+            </HoliText>
+          ),
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
@@ -87,9 +100,13 @@ const BottomTabsNavigator = () => {
         name={RouteName.Auth}
         component={AuthStackNavigator}
         options={{
-          tabBarLabel: isLoggedIn ? t('profile.title') : t('auth.login'),
           headerShown: false,
           tabBarIcon: LoginProfileButton,
+          tabBarLabel: ({ focused }) => (
+            <HoliText size="extrasmall" style={{ color: iconColor(focused) }}>
+              {isLoggedIn ? t('profile.title') : t('auth.login')}
+            </HoliText>
+          ),
           tabBarTestID: 'btn-to-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}
