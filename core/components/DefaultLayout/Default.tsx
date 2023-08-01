@@ -6,7 +6,7 @@ import { useScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useSc
 import { useGlobalScrollListener } from '@holi/core/helpers'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const SCROLL_EVENT_THROTTLE = 250 // ms
+const SCROLL_EVENT_THROTTLE_MS = 250
 
 type VoidCallback<T> = (arg: T) => void
 
@@ -20,12 +20,12 @@ const throttleDebounce = <T,>(callback: VoidCallback<T>, persist?: VoidCallback<
       // gets checked, after scroll was completed
       clearTimeout(debounceTimeoutId)
       persist?.(event) // needed in RN because events are reused otherwise
-      debounceTimeoutId = setTimeout(() => callback(event), SCROLL_EVENT_THROTTLE)
+      debounceTimeoutId = setTimeout(() => callback(event), SCROLL_EVENT_THROTTLE_MS)
     } else {
       throttled = true
       clearTimeout(debounceTimeoutId) // still scrolling
       callback(event)
-      setTimeout(() => (throttled = false), SCROLL_EVENT_THROTTLE)
+      setTimeout(() => (throttled = false), SCROLL_EVENT_THROTTLE_MS)
     }
   }
 }
@@ -90,7 +90,7 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
         onScroll={isWeb ? undefined : onScrollThrottled}
         // our throttling does better when we don't compete with ios throttling
         // halving the rate gives us a healthy amount of updates to decide upon
-        scrollEventThrottle={SCROLL_EVENT_THROTTLE / 2}
+        scrollEventThrottle={SCROLL_EVENT_THROTTLE_MS / 2}
         {...scrollViewProps}
         contentContainerStyle={[styles.scrollLayout, { backgroundColor }, style]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
