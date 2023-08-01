@@ -45,7 +45,7 @@ const SMALL_OUTER_BORDER_RADIUS = 8
 // hint: we could make the skeleton calculate this by giving it transparent
 // children that behave similar like the actual component children
 // (aspect ratio image + multiple lines of text)
-const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 315 : 252
+const LARGE_SKELETON_HEIGHT = Platform.OS == 'web' ? 300 : 220
 const LARGE_OUTER_BORDER_RADIUS = 16
 const LARGE_IMAGE_ASPECT_RATIO = 240 / 160
 

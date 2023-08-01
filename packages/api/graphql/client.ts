@@ -29,18 +29,6 @@ const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const spacesKeyArgsFunction = (args: Record<string, any> | null) => {
-  const { geolocation, topicId, topicSlug, skillIds, skillSlugs } = args || {}
-  return JSON.stringify({
-    topicId,
-    topicSlug,
-    skillIds,
-    skillSlugs,
-    geolocation: geolocation?.properties?.place_id,
-  })
-}
-
 export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
@@ -118,10 +106,28 @@ export const createCache = () =>
             keyArgs: ['location', 'category'],
           },
           spaces: {
-            keyArgs: spacesKeyArgsFunction,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            keyArgs: (args: Record<string, any> | null) => {
+              // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
+              const { topicSlug, geolocation, skillSlugs } = args || {}
+              return JSON.stringify({
+                topicSlug,
+                geolocation: geolocation?.properties?.place_id,
+                skillSlugs,
+              })
+            },
           },
           discoverSpaces: {
-            keyArgs: spacesKeyArgsFunction,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            keyArgs: (args: Record<string, any> | null) => {
+              // reminder: keep in sync with parameters of `discoverSpaces` in `Query`, always exclude offset and limit
+              const { topicIds, geolocation, skillIds } = args || {}
+              return JSON.stringify({
+                topicIds,
+                geolocation: geolocation?.properties?.place_id,
+                skillIds,
+              })
+            },
           },
         },
       },
