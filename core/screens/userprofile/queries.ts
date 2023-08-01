@@ -25,6 +25,7 @@ export const FullUserFragment = gql`
     avatarBlurhash
     avatarDefaultColor
     avatarLabel
+    identity
     fullName
     firstName
     lastName

@@ -5,7 +5,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { onlyCharacters } from '@holi/core/helpers'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
@@ -194,9 +194,10 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setFirstName(onlyCharacters(text))
+            setFirstName(replaceSpecialChars(text))
             resetErrorsForField('firstName')
           }}
+          isRequired
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
           inputProps={{ autoFocus: Platform.OS === 'web' }}
@@ -210,7 +211,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setLastName(onlyCharacters(text))
+            setLastName(replaceSpecialChars(text))
             resetErrorsForField('lastName')
           }}
           style={styles.input}
