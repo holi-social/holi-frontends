@@ -4,31 +4,10 @@ import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, StyleShe
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useScrollHandler'
 import { useGlobalScrollListener } from '@holi/core/helpers'
+import { throttleDebounce } from '@holi/ui/helper/throttleDebounce'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const SCROLL_EVENT_THROTTLE_MS = 250
-
-type VoidCallback<T> = (arg: T) => void
-
-const throttleDebounce = <T,>(callback: VoidCallback<T>, persist?: VoidCallback<T>): VoidCallback<T> => {
-  let throttled = false
-  let debounceTimeoutId: ReturnType<typeof setTimeout>
-
-  return (event: T) => {
-    if (throttled) {
-      // debouncing last throttled event, so the newest scroll state
-      // gets checked, after scroll was completed
-      clearTimeout(debounceTimeoutId)
-      persist?.(event) // needed in RN because events are reused otherwise
-      debounceTimeoutId = setTimeout(() => callback(event), SCROLL_EVENT_THROTTLE_MS)
-    } else {
-      throttled = true
-      clearTimeout(debounceTimeoutId) // still scrolling
-      callback(event)
-      setTimeout(() => (throttled = false), SCROLL_EVENT_THROTTLE_MS)
-    }
-  }
-}
 
 const nativeEventPersist = (event: NativeSyntheticEvent<NativeScrollEvent>) => event.persist()
 
@@ -63,7 +42,10 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
     const onScrollHandler = useScrollHandler(onScroll)
     // throttle mobile scroll events, because android doesn't have `scrollEventThrottle`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const onScrollThrottled = useCallback(throttleDebounce(onScrollHandler, nativeEventPersist), [onScrollHandler])
+    const onScrollThrottled = useCallback(
+      throttleDebounce(onScrollHandler, SCROLL_EVENT_THROTTLE_MS, nativeEventPersist),
+      [onScrollHandler]
+    )
 
     // capture web scroll events with a separate mechanism
     const globalScrollListener = useGlobalScrollListener()
@@ -71,7 +53,7 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
       if (isWeb) {
         const webScrollListener = throttleDebounce(() => {
           globalScrollListener({ contentOffset: { y: window.scrollY } })
-        })
+        }, SCROLL_EVENT_THROTTLE_MS)
         window.addEventListener('scroll', webScrollListener)
         return () => {
           window.removeEventListener('scroll', webScrollListener)
