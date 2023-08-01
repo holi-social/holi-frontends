@@ -8,6 +8,7 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek, onScreenScrollY } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import { Notification } from '@holi/core/screens/notifications/components/types'
@@ -122,7 +123,13 @@ const NotificationsOverview = () => {
             secondText={t('loginRedirect.text')}
             style={styles.noResultsMessage}
           >
-            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
+            <HoliButton
+              label={t('loginRedirect.btnConfirm')}
+              onPress={() => {
+                setPathToRedirect('/notifications')
+                navigate('/login')
+              }}
+            >
               {t('loginRedirect.btnConfirm')}
             </HoliButton>
           </HoliNoResults>
