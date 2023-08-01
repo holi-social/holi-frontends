@@ -4,17 +4,26 @@ import { View, useWindowDimensions } from 'react-native'
 
 import { scrollYAtom } from '@holi/core/helpers'
 
+// a bit negative to already load content next-up
+const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -200
+
+const DEFAULT_PLACEHOLDER_HEIGHT = 350
+
 interface Props {
   // below fold = top edge of component is below lower window edge
   // negative means below fold, positive means partially visible
-  // default = -200 (a bit negative to already load content next-up)
+  // default = -200
   belowFoldThreshold?: number
   // default = <View style={{ height: 350 }} />
   placeholder?: React.ReactNode
 }
 
 // disclaimer: we don't detect when other components re-render and change height, causing children to maybe be visible
-const ScrollBasedRender = ({ belowFoldThreshold = -200, placeholder, children }: PropsWithChildren<Props>) => {
+const ScrollBasedRender = ({
+  belowFoldThreshold = DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD,
+  placeholder,
+  children,
+}: PropsWithChildren<Props>) => {
   const [showChildren, setShowChildren] = useState(false)
   const placeholderRef = useRef<View>(null)
   const { height: windowHeight } = useWindowDimensions()
@@ -43,7 +52,7 @@ const ScrollBasedRender = ({ belowFoldThreshold = -200, placeholder, children }:
   const wrappedPlaceholder = useMemo(
     () => (
       <View ref={placeholderRef} collapsable={false}>
-        {placeholder ?? <View style={{ height: 350 }} />}
+        {placeholder ?? <View style={{ height: DEFAULT_PLACEHOLDER_HEIGHT }} />}
       </View>
     ),
     [placeholderRef, placeholder]
