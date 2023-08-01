@@ -5,14 +5,14 @@ import { useNavigation } from '@react-navigation/native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HomeFeed, { HomeFeedProps } from '@holi/core/screens/homeFeed/HomeFeed'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 
 const HomeFeedOnboarding: React.VFC<HomeFeedProps> = (props) => {
   const { navigate } = useRouting()
-  const { onboardingState } = useOnboarding()
+  const { storedOnboardingState } = useStoredOnboardingState()
   const { isFocused } = useNavigation()
 
-  const finished = onboardingState === 'finished'
+  const finished = storedOnboardingState === 'finished'
 
   useLayoutEffect(() => {
     // on mobile home page is not destroyed when we go to `/profile`

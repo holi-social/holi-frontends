@@ -22,7 +22,7 @@ import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useP
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -47,7 +47,7 @@ const Login = () => {
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { onOnboardingStateChange } = useOnboarding()
+  const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
 
@@ -93,7 +93,7 @@ const Login = () => {
       const { data } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
       await setUserLoggedIn(data as OrySessionContext)
-      await onOnboardingStateChange('finished')
+      await storeOnboardingState('finished')
       confirmOAuth2Login()
 
       // Get Matrix Server Token
@@ -111,7 +111,7 @@ const Login = () => {
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
-        await onOnboardingStateChange('emailVerification')
+        await storeOnboardingState('emailVerification')
 
         navigate('/')
         if (Platform.OS !== 'web') {
