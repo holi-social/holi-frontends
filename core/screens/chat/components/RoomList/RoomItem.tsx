@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom, joinRoomAtom, selectRoomAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomItemProps {
   roomAtom: ChatRoomAtom
+  user?: User
   testID?: string
 }
 
@@ -24,32 +23,25 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, testID }: RoomItemProps) => {
+const RoomItem = ({ roomAtom, user, testID }: RoomItemProps) => {
   const { i18n } = useTranslation()
-  // const { user, messages, unseenMessageCount } = useAtomValue(roomAtom)
   const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
-  // TODO: use real user
-  const user = getRandomUser()
-  // const userFullName = user.fullName || t('user.profileView.anonymous')
   const hasUnseenMessages = notificationCount > 0
 
-  // const joinRoom = useSetAtom(joinRoomAtom)
-  // const selectRoom = useSetAtom(selectRoomAtom)
-
   return (
-    // TODO: add correct label
-    <HoliLink href={`/chat/rooms/${roomId}`} label={name}>
+    <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
           <View>
             <HoliAvatar
-              imageSrc={user.avatar}
-              imageBlurhash={user.avatarBlurhash}
+              imageSrc={user?.avatar}
+              imageBlurhash={user?.avatarBlurhash}
               label={name}
-              initials={user.avatarLabel || ''}
-              defaultColor={user.avatarDefaultColor || ''}
+              initials={user?.avatarLabel || ''}
+              defaultColor={user?.avatarDefaultColor || ''}
               size="medium"
+              loading={!user}
             />
 
             {hasUnseenMessages && (
@@ -64,7 +56,9 @@ const RoomItem = ({ roomAtom, testID }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold>{name}</HoliText>
+                <HoliText bold loading={!user}>
+                  {user?.fullName}
+                </HoliText>
               </View>
 
               <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
@@ -77,20 +71,6 @@ const RoomItem = ({ roomAtom, testID }: RoomItemProps) => {
                 {lastMessage.content.body}
               </HoliText>
             )}
-
-            {/* {hasInvitation && (
-              <HoliBox padding={[20, 20]}>
-                <HoliButton
-                  label={'accept Invitation'}
-                  onPress={async () => {
-                    await selectRoom(roomAtom)
-                    await joinRoom({ id: roomId, hasInvitation: false })
-                  }}
-                >
-                  Accept Invitation
-                </HoliButton>
-              </HoliBox>
-            )} */}
           </View>
         </View>
       </HoliBox>
