@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -70,9 +71,12 @@ const TabList: React.FC<TabListProps> = ({ id, testID, tabs, centeredButtons, ta
                   style={styles.tabButtonIcon}
                 />
               )}
-              <Text style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}>
+              <HoliText
+                bold={isActive}
+                style={StyleSheet.flatten([styles.tabButtonText, isActive ? styles.activeTabButtonText : null])}
+              >
                 {tab.title}
-              </Text>
+              </HoliText>
             </HoliTabButton>
           )
         })}

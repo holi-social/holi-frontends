@@ -98,7 +98,7 @@ const TaskDetails = () => {
     setScreenOptions({
       animation: 'slide_from_left',
       headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,

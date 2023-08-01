@@ -2,9 +2,9 @@ import React from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import RenderHtml, { MixedStyleDeclaration, defaultSystemFonts } from 'react-native-render-html'
 
-import { vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
-import tagsStyles from './styles'
+import getStyles from './styles'
 
 export type HoliHtmlViewProps = {
   html: string
@@ -13,7 +13,11 @@ export type HoliHtmlViewProps = {
 }
 
 const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
+  const { theme } = useTheme()
+
   if (!html) return null
+
+  const tagsStyles = getStyles(theme)
 
   // https://meliorence.github.io/react-native-render-html/docs/intro
   return (
@@ -24,7 +28,7 @@ const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
       baseStyle={StyleSheet.flatten(style) as MixedStyleDeclaration}
       tagsStyles={tagsStyles}
       enableCSSInlineProcessing={false}
-      systemFonts={[...defaultSystemFonts, vars.fontFamilyMobile]}
+      systemFonts={[...defaultSystemFonts, theme.fontFamily.default('Medium'), theme.fontFamily.default('Book')]}
       defaultViewProps={{
         testID,
       }}

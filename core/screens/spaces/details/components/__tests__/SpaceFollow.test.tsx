@@ -168,7 +168,7 @@ xdescribe('Space follow button', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByText('spaces.follow.btn.unfollow'))
+    expect(await screen.findByText('spaces.follow.btn.following'))
   })
 
   it('changes the button text after clicking follow-button', async () => {
@@ -193,7 +193,7 @@ xdescribe('Space follow button', () => {
       </MockedProvider>
     )
 
-    expect(await screen.findByText('spaces.follow.btn.unfollow'))
+    expect(await screen.findByText('spaces.follow.btn.following'))
     await waitFor(() => expect(screen.getByTestId('unfollow-btn')).not.toBeDisabled(), {
       timeout: 5000,
     })

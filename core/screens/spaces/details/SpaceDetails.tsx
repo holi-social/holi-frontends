@@ -27,7 +27,7 @@ import { useSpaceOnboarding } from '@holi/core/screens/spaces/helpers/hooks'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Pencil } from '@holi/icons/src/generated'
+import { Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -120,13 +120,13 @@ const SpaceDetails = () => {
             <>
               <HoliActionDrawer.Action
                 isLoading={isLoading}
-                action="edit"
+                icon={Edit2}
                 title={t('global.edit')}
                 handleAction={editAction}
               />
               <HoliActionDrawer.Action
                 isLoading={isLoading}
-                action="collaborators"
+                icon={UserSettings}
                 title={t('spaces.collaborators.manage.modal.title')}
                 handleAction={manageCollaboratorsAction}
               />
@@ -135,7 +135,7 @@ const SpaceDetails = () => {
           {isMember && (
             <HoliActionDrawer.Action
               isLoading={isLoadingLeaveSpace}
-              action="leave"
+              icon={DoorClosed}
               title={t('spaces.spaceDetails.leave')}
               showConfirmation
             >
@@ -152,12 +152,7 @@ const SpaceDetails = () => {
             </HoliActionDrawer.Action>
           )}
 
-          <HoliActionDrawer.Action
-            isLoading={isLoadingReport}
-            action="report"
-            title={t('global.report')}
-            showConfirmation
-          >
+          <HoliActionDrawer.Action isLoading={isLoadingReport} icon={Flag} title={t('global.report')} showConfirmation>
             <HoliActionDrawer.Confirmation
               title={t('spaces.spaceDetails.report.confirmation.title')}
               description={t('spaces.spaceDetails.report.confirmation.description')}
@@ -171,7 +166,7 @@ const SpaceDetails = () => {
           {isAdmin && (
             <HoliActionDrawer.Action
               isLoading={isLoading}
-              action="delete"
+              icon={Delete}
               title={t('global.delete')}
               variant="danger"
               showConfirmation

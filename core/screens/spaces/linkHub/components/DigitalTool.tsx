@@ -8,7 +8,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
+import { Delete, Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -93,14 +93,14 @@ const DigitalTool = ({ tool, isAdmin, spaceIdOrName, onShareButtonPress, onEditB
             <View style={{ paddingTop: 10 }}>
               <HoliActionDrawer.Drawer label={t('spaces.digitalTool.preview.more')} testID="digital-toolkit-btn">
                 <HoliActionDrawer.Action
-                  action="edit"
+                  icon={Edit2}
                   title={t('global.edit')}
                   testID="tool-edit-btn"
                   handleAction={() => onEditButtonPress(tool.id)}
                 />
                 <HoliActionDrawer.Action
                   isLoading={isLoadingDeleteTool}
-                  action="delete"
+                  icon={Delete}
                   title={t('spaces.digitalTool.delete.label')}
                   variant="danger"
                   testID="tool-delete-btn"
