@@ -25,7 +25,7 @@ const ChatHomeContent = () => {
 
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
-    const userIds: string[] = ['@rosd_ddd:local.chat.holi.social']
+    const userIds: string[] = ['@dima_chat_iii:staging.chat.holi.social']
     createRoomAtom(userIds)
   }
 
@@ -86,6 +86,10 @@ const ChatHomeContent = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <RoomList roomAtoms={roomAtomsRecord} />
+      {/* TODO: remove start chat button after implementing the feature */}
+      <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
+        {t('chat.empty.button.text')}
+      </HoliButton>
     </SafeAreaView>
   )
 }
