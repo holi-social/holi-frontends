@@ -17,7 +17,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
   ({ headerOverlap, children, backgroundColor, ...defaultLayoutProps }, ref) => {
     const content = (
       <Default
-        contentStyle={StyleSheet.flatten(!headerOverlap && defaultLayoutProps.onScroll && styles.headerPadding)}
+        contentStyle={StyleSheet.flatten(!headerOverlap && styles.headerPadding)}
         backgroundColor={backgroundColor}
         {...defaultLayoutProps}
         ref={ref}

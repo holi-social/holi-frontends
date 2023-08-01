@@ -1,0 +1,9 @@
+# IntelliJ IDEA config file for type checking graphql fragments
+schema: schema.graphql
+documents: '**/*.graphql'
+extensions:
+  endpoints:
+    # update local (git ignored) schema by clicking arrow left of next line
+    local:
+      url: http://localhost:3000/api/graphql
+      introspect: true

@@ -3,13 +3,10 @@ import { ScrollView } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import { useScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useScrollHandler'
 
-const Default = React.forwardRef<ScrollView, LayoutProps>(({ onScroll, children, ...scrollViewProps }, ref) => {
-  const onScrollHandler = useScrollHandler(onScroll)
-
+const Default = React.forwardRef<ScrollView, LayoutProps>(({ children, ...scrollViewProps }, ref) => {
   return (
-    <DefaultLayout {...scrollViewProps} onScroll={onScrollHandler} scrollEventThrottle={200} ref={ref}>
+    <DefaultLayout {...scrollViewProps} ref={ref}>
       {children}
     </DefaultLayout>
   )
