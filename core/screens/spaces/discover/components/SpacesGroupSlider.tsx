@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useEffect, useRef } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -106,15 +106,13 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
 
   const loading = manualLoading || dataLoading || loadingGeolocation
 
-  const elementRef = useRef<View>(null)
-
   if (!loading && totalResults === 0) {
     // some topics or skills don't have associated spaces, then we just choose to not display them for now
     return <></>
   }
 
   return (
-    <View ref={elementRef} style={[styles.sliderContainer, style]} testID={testID}>
+    <View style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
         {loading && !locationId && !topic && !skill && <SpacesFilterPill loading={true} style={styles.pill} />}
         {topic && (
