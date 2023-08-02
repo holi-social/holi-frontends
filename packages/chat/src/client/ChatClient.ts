@@ -83,7 +83,7 @@ export default class ChatClient {
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
-    if (this.isOn === false) {
+    if (!this.isOn) {
       try {
         if (!this.mxClient) {
           const credentials = await this.login.getSessionCredentials()
@@ -94,11 +94,13 @@ export default class ChatClient {
 
         // TODO: Implement soft logout and reconnect
         this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
+          // TODO: remove console.log  for deployed chats as it affects RN performance
           // eslint-disable-next-line no-console
           console.log({ state, prevState })
           if (state !== SyncState.Prepared) return
           if (!hasMxClient(this.mxClient)) return
 
+          this.isOn = true
           this.rooms = this.mxClient.store.getRooms()
         })
       } catch (err) {
