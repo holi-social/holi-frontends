@@ -209,6 +209,10 @@ export default class ChatClient {
     this.selectedRoom = id
   }
 
+  public stop = async () => {
+    await this.mxClient?.logout(true)
+  }
+
   public subscribeToInvitations = async (
     callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
   ): Promise<(() => void) | void> => {
