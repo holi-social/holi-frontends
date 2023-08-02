@@ -5,6 +5,7 @@ import pino from 'pino'
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
 
+import { useChatSessionHandler } from '@holi/chat/src/store'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import type { ApolloStateProps } from '@holi/core/helpers/useApolloSSRClient'
@@ -28,10 +29,11 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
+  const chatSessionHandler = useChatSessionHandler()
 
   useEffect(() => {
     // Init authencation
-    initAuth().catch((error) => logError(error, '[_app.tsx] Error initializing authentication'))
+    initAuth(chatSessionHandler).catch((error) => logError(error, '[_app.tsx] Error initializing authentication'))
   }, [])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
