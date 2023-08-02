@@ -56,6 +56,7 @@ export const useChatSessionHandler = (): ChatSessionHandler => {
         await chatClient.start()
       } else {
         await chatLogin.logout()
+        await chatClient.stop()
       }
     },
     [setIsChatClientReady]
