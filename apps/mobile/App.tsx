@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { useChatSessionHandler } from '@holi/chat/src/store'
 import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
@@ -13,6 +14,7 @@ import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
+  const chatSessionHandler = useChatSessionHandler()
 
   SplashScreen.preventAutoHideAsync()
 
@@ -38,7 +40,7 @@ const App = () => {
           ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
         }),
         initI18n(),
-        initAuth(),
+        initAuth(chatSessionHandler),
       ])
     } catch (error) {
       logError(error, '[App.tsx]: Error initializing the app')
@@ -50,6 +52,7 @@ const App = () => {
 
   useEffect(() => {
     init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!isReady) return null

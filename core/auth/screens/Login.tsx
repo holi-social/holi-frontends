@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
+import { useChatSessionHandler } from '@holi/chat/src/store'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -46,6 +47,7 @@ const Login = () => {
   const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
+  const chatSessionHandler = useChatSessionHandler()
 
   const isLoggedIn = !!userId
 
@@ -88,9 +90,10 @@ const Login = () => {
     try {
       const { data } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
-      await setUserLoggedIn(data as OrySessionContext)
+
+      // TODO: Fix data type casting
+      await setUserLoggedIn(data as OrySessionContext, chatSessionHandler, true)
       await storeOnboardingState('finished')
-      confirmOAuth2Login()
 
       if (Platform.OS === 'web' && return_to) {
         // server side redirect, see: See apps/web/pages/oauth2/login.tsx

@@ -1,6 +1,7 @@
+import { useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 
-import { useIsChatClientReady } from '@holi/chat/src/store'
+import { isChatClientReadyAtom } from '@holi/chat/src/store'
 
 import ChatStore from './ChatStore'
 
@@ -11,8 +12,9 @@ import ChatStore from './ChatStore'
  * `<ChatStore />` mounts Jotai atoms for chat rooms and messages, which have `onMount` functions for listen to chat events.
  */
 const ChatStoreInitializer = () => {
-  const isChatReady = useIsChatClientReady()
-  return isChatReady ? <ChatStore /> : null
+  const isChatSessionReady = useAtomValue(isChatClientReadyAtom)
+
+  return isChatSessionReady ? <ChatStore /> : null
 }
 
 export default memo(ChatStoreInitializer)
