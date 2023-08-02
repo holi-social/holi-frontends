@@ -10,6 +10,7 @@ module.exports = {
   modulePathIgnorePatterns: ['e2e', 'testData', 'mocks.ts'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/jest.styleMock.cjs',
+    '^matrix-js-sdk$': require.resolve('matrix-js-sdk'),
   },
   setupFiles: ['<rootDir>/jest.setup.ts', '<rootDir>/node_modules/jest-offline'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
