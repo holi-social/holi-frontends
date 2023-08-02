@@ -12,18 +12,29 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface RoomItemProps {
+interface BaseProps {
   roomAtom: ChatRoomAtom
-  user?: User
   testID?: string
 }
+
+interface Props extends BaseProps {
+  user: User | null
+  loading: false
+}
+
+interface SkeletonProps extends BaseProps {
+  user?: User | null
+  loading: true
+}
+
+type RoomItemProps = Props | SkeletonProps
 
 // nummeric constants to use for ItemLayout in FlatList
 export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, user, testID }: RoomItemProps) => {
+const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
   const { i18n } = useTranslation()
   const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const hasUnseenMessages = notificationCount > 0
@@ -34,15 +45,17 @@ const RoomItem = ({ roomAtom, user, testID }: RoomItemProps) => {
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
           <View>
-            <HoliAvatar
-              imageSrc={user?.avatar}
-              imageBlurhash={user?.avatarBlurhash}
-              label={name}
-              initials={user?.avatarLabel || ''}
-              defaultColor={user?.avatarDefaultColor || ''}
-              size="medium"
-              loading={!user}
-            />
+            {user !== null ? (
+              <HoliAvatar
+                imageSrc={user?.avatar}
+                imageBlurhash={user?.avatarBlurhash}
+                label={name}
+                initials={user?.avatarLabel || ''}
+                defaultColor={user?.avatarDefaultColor || ''}
+                size="medium"
+                loading={loading}
+              />
+            ) : null}
 
             {hasUnseenMessages && (
               <View style={styles.unseenMessageIndicator}>
@@ -56,7 +69,7 @@ const RoomItem = ({ roomAtom, user, testID }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold loading={!user}>
+                <HoliText bold loading={loading}>
                   {user?.fullName}
                 </HoliText>
               </View>

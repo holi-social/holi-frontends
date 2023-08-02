@@ -8,6 +8,7 @@ import type { MemberSpaces, Paged } from '@holi/core/types'
 export const FullUserAvatarFragment = gql`
   fragment FullUserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel

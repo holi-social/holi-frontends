@@ -45,9 +45,15 @@ export const startChat = async (orySessionToken: string, freshLogin = true) => {
  */
 const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
-export const roomAtomsNamesAtom = atom((get) =>
-  Object.values(get(_roomAtomsRecordAtom)).map((roomAtom) => get(roomAtom).name)
-)
+export const roomIdNameRecortAtom = atom<Record<string, string>>((get) => {
+  const roomAtomsRecordAtom = get(_roomAtomsRecordAtom)
+  const roomIdNameRecord: Record<string, string> = {}
+
+  for (const [id, roomAtom] of Object.entries(roomAtomsRecordAtom)) {
+    roomIdNameRecord[id] = get(roomAtom).name
+  }
+  return roomIdNameRecord
+})
 
 /**
  * @name roomAtomsAtomSubscriber (Write-Only)
