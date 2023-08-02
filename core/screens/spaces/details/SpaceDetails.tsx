@@ -286,19 +286,18 @@ const styles = StyleSheet.create({
 
     ...Platform.select({
       web: {
-        minHeight: '100vh',
+        height: '100vh',
+        maxHeight: '100%',
+      },
+      default: {
+        minHeight: '100%',
       },
     }),
   },
   contentStyle: {
     paddingBottom: 0,
     paddingTop: vars.topBarHeight,
-
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-    }),
+    minHeight: '100%',
   },
   spaceDetailView: {
     flex: 1,
