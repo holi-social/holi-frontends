@@ -10,7 +10,11 @@ import { Space } from '@holi/core/screens/spaces/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 
-const FilteredSpacesList: React.FC = () => {
+interface Props {
+  pageSize: number
+}
+
+const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
 
@@ -29,7 +33,7 @@ const FilteredSpacesList: React.FC = () => {
   }
 
   if (loading) {
-    return <SpacesGrid style={styles.grid} loading={true} />
+    return <SpacesGrid style={styles.grid} loading={true} pageSize={pageSize} />
   }
 
   if (spaces.length > 0) {

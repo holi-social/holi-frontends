@@ -1,24 +1,30 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
-import { User } from '@holi/core/screens/userprofile/types'
+import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface DiscoverSpacesViewProps {
-  loading?: boolean
-  user?: User
   style?: StyleProp<ViewStyle>
-  userSpecificSpacesGroups: DiscoverSpacesGroup[]
-  defaultSpacesGroups: DiscoverSpacesGroup[]
+  userTopics: Topic[]
+  userSkills: Skill[]
 }
+
+/**
+ * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
+ * This means that the offset variable is omitted in our query, but we may add a limit variable.
+ */
+const SPACES_GROUP_LIMIT = 5
 
 const SpacesGroupSliderSkeletons: React.FC = () => {
   return (
@@ -30,19 +36,22 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
   )
 }
 
-const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
-  loading = false,
-  style,
-  userSpecificSpacesGroups,
-  defaultSpacesGroups,
-}) => {
+const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopics, userSkills }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openLoginModal } = useLoginModal()
 
-  const hasUserSpecificTiers = userSpecificSpacesGroups.some((group) => group.spaces.totalResults > 0)
-  const hasDefaultTiers = defaultSpacesGroups.some((group) => group.spaces.totalResults > 0)
+  const { loadingTopics: loading, topics = [] } = useContext(SpaceTermContext)
+
+  const defaultTopics = useMemo(
+    () =>
+      getDefaultTopics(
+        topics,
+        userTopics.map((t) => t.id)
+      ),
+    [topics, userTopics]
+  )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal()
@@ -57,46 +66,63 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({
         {t('spaces.discover.description')}
       </HoliText>
       <View style={styles.createSpaceButtonContainer}>
-        <HoliButton
-          label={t('spaces.discover.create.button')}
-          onPress={() => {
-            handleCreateSpaceButtonPress()
-          }}
-        >
+        <HoliButton label={t('spaces.discover.create.button')} onPress={handleCreateSpaceButtonPress}>
           {t('spaces.discover.create.button')}
         </HoliButton>
       </View>
 
       <View style={styles.body}>
-        {loading && <SpacesGroupSliderSkeletons />}
-
-        {/* User specific spaces suggestions */}
-        {!loading &&
-          userSpecificSpacesGroups.map((group, index) => (
+        {userTopics.map((userTopic, index) => (
+          <ScrollBasedRender key={index}>
             <SpacesGroupSlider
-              key={index}
-              group={group}
+              topic={userTopic}
+              pageSize={SPACES_GROUP_LIMIT}
               style={styles.spacesGroup}
               testID="discover-spaces-slider-user-specific"
             />
-          ))}
+          </ScrollBasedRender>
+        ))}
 
-        {!loading && hasUserSpecificTiers && hasDefaultTiers && (
+        {userSkills.map((userSkill, index) => (
+          <ScrollBasedRender key={index}>
+            <SpacesGroupSlider
+              skill={userSkill}
+              pageSize={SPACES_GROUP_LIMIT}
+              style={styles.spacesGroup}
+              testID="discover-spaces-slider-user-specific"
+            />
+          </ScrollBasedRender>
+        ))}
+
+        {loading && <SpacesGroupSliderSkeletons />}
+
+        {!loading && userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
         )}
 
-        {/* Default spaces suggestions */}
         {!loading &&
-          defaultSpacesGroups.map((group, index) => (
-            <SpacesGroupSlider
-              key={index}
-              group={group}
-              style={styles.spacesGroup}
-              testID="discover-spaces-slider-others"
-            />
+          defaultTopics.map((defaultTopic, index) => (
+            <ScrollBasedRender key={index}>
+              <SpacesGroupSlider
+                topic={defaultTopic}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-spaces-slider-others"
+              />
+            </ScrollBasedRender>
           ))}
+
+        {/* Example how to do location based discovery: */}
+        {/*<ScrollBasedRender>*/}
+        {/*  <SpacesGroupSlider*/}
+        {/*    locationId={DEFAULT_LOCATION_ID}*/}
+        {/*    pageSize={SPACES_GROUP_LIMIT}*/}
+        {/*    style={styles.spacesGroup}*/}
+        {/*    testID="discover-spaces-slider-default-location"*/}
+        {/*  />*/}
+        {/*</ScrollBasedRender>*/}
       </View>
     </View>
   )

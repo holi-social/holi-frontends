@@ -15,10 +15,10 @@ const isOnboardingStateValue = (value: string | null): value is OnboardingStateV
 
 const onboardingStateVar = makeVar<OnboardingStateValue>('finished')
 
-export const useOnboarding = () => {
+export const useStoredOnboardingState = () => {
   const { userId } = useAuth()
 
-  const onOnboardingStateChange = useCallback(async (value: OnboardingStateValue = 'finished') => {
+  const storeOnboardingState = useCallback(async (value: OnboardingStateValue = 'finished') => {
     onboardingStateVar(value)
     await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
   }, [])
@@ -40,21 +40,21 @@ export const useOnboarding = () => {
           break
 
         case 'accountSetup':
-          await onOnboardingStateChange(isLoggedIn ? 'accountSetup' : 'finished')
+          await storeOnboardingState(isLoggedIn ? 'accountSetup' : 'finished')
           break
 
         case null:
-          await onOnboardingStateChange(isLoggedIn ? 'finished' : 'onboarding')
+          await storeOnboardingState(isLoggedIn ? 'finished' : 'onboarding')
           break
 
         default:
           throw new HoliOnboardingError(`Does not support "${value}" value`)
       }
     })
-  }, [userId, onOnboardingStateChange])
+  }, [userId, storeOnboardingState])
 
   return {
-    onboardingState: useReactiveVar(onboardingStateVar),
-    onOnboardingStateChange,
+    storedOnboardingState: useReactiveVar(onboardingStateVar),
+    storeOnboardingState,
   }
 }

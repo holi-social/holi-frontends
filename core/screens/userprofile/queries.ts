@@ -26,6 +26,7 @@ export const FullUserFragment = gql`
     avatarBlurhash
     avatarDefaultColor
     avatarLabel
+    identity
     fullName
     firstName
     lastName
@@ -37,14 +38,17 @@ export const FullUserFragment = gql`
     interests {
       id
       title
+      slug
     }
     sdgs {
       id
       title
+      slug
     }
     skills {
       id
       title
+      slug
     }
     connectionStatusToMyself
   }
@@ -99,7 +103,7 @@ export const userByIdWithSpacesQuery = gql`
 
 export const userByNameQuery = gql`
   ${FullUserAvatarFragment}
-  query UserByName($substring: String!, $limit: Int, $offset: Int) {
+  query UserByName($substring: String!, $limit: Int!, $offset: Int!) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
         ...FullUserAvatar

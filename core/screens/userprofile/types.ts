@@ -23,6 +23,7 @@ export interface User {
   avatarBlurhash?: string
   avatarDefaultColor: string
   avatarLabel: string
+  identity?: string
   firstName?: string
   lastName?: string
   fullName: string

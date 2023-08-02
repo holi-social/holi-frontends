@@ -17,10 +17,12 @@ interface BaseProps {
 
 interface SkeletonProps extends Partial<BaseProps> {
   loading: true
+  pageSize: number
 }
 
 interface Props extends BaseProps {
   loading?: false
+  pageSize?: number
 }
 
 type SpacesGridProps = SkeletonProps | Props
@@ -31,7 +33,7 @@ const spaceBreakpointGridValues: [number, number][] = [
   [+vars.breakpointL, 4],
 ]
 
-const SpacesGrid = ({ loading, spaces, style }: PropsWithChildren<SpacesGridProps>) => {
+const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<SpacesGridProps>) => {
   const itemsInRow = useBreakpointMatcher(spaceBreakpointGridValues) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
   const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })
@@ -40,7 +42,7 @@ const SpacesGrid = ({ loading, spaces, style }: PropsWithChildren<SpacesGridProp
     <View style={[style]}>
       <HoliGridWrapper itemsInRow={itemsInRow} gap={8}>
         {loading &&
-          new Array(20).fill(1).map((_, idx) => {
+          new Array(pageSize).fill(1).map((_, idx) => {
             return (
               <HoliGridCell key={idx} testID={idx === 0 ? 'spaces-grid-cell-skeleton' : undefined}>
                 <HoliBlockItem size="large" loading={true} />

@@ -12,7 +12,7 @@ export type NumberOfItems = {
 export const notificationsQuery = gql`
   ${FullUserAvatarFragment}
 
-  query Notifications($offset: Int, $limit: Int) {
+  query Notifications($offset: Int!, $limit: Int!) {
     notifications(offset: $offset, limit: $limit) {
       data {
         id
