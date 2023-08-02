@@ -361,7 +361,6 @@ const getStyles = (theme: HoliTheme) =>
       maxWidth: '100%',
     },
     block: {
-      // alignSelf: 'stretch',
       width: '100%',
     },
     inputCharsTextWrapper: {

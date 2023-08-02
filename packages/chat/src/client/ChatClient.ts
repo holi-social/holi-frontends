@@ -90,6 +90,7 @@ export default class ChatClient {
           this.mxClient = this.createClient(credentials)
         }
         await this.mxClient.startClient(options)
+        this.isOn = true
 
         // TODO: Implement soft logout and reconnect
         this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
@@ -100,8 +101,6 @@ export default class ChatClient {
 
           this.rooms = this.mxClient.store.getRooms()
         })
-
-        this.isOn = true
       } catch (err) {
         logError(err)
       }
