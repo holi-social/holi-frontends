@@ -563,7 +563,7 @@
   "spaces.invite.decline.success": "Invitation declined",
   "spaces.invite.header": "Invite collaborator",
   "spaces.invite.hint.discussion": "Invite only people who might be interested in participating in the activities of this Space.",
-  "spaces.invite.hint.header": "Whom should you invite?",
+  "spaces.invite.hint.header": "Who would you like to invite as a collaborator?",
   "spaces.invite.search.hint": "People you directly invite will become collaborators of the Space.",
   "spaces.invite.search.input": "Enter email",
   "spaces.invite.search.title": "Invite via email",

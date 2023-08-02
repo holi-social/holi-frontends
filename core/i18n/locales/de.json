@@ -563,7 +563,7 @@
   "spaces.invite.decline.success": "Einladung abgelehnt",
   "spaces.invite.header": "Mitwirkende einladen",
   "spaces.invite.hint.discussion": "Lade nur Personen ein, die möglicherweise Interesse haben, an den Aktivitäten dieses Spaces teilzunehmen.",
-  "spaces.invite.hint.header": "Wen solltest du einladen? ",
+  "spaces.invite.hint.header": "Wen möchtest Du als Mitwirkende einladen?",
   "spaces.invite.search.hint": "Personen, die du direkt einlädst, werden zu Mitwirkenden des Spaces.",
   "spaces.invite.search.input": "E-Mail eingeben",
   "spaces.invite.search.title": "Einladen über E-Mail",
