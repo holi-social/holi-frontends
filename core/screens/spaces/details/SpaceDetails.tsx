@@ -215,7 +215,9 @@ const SpaceDetails = () => {
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={!isMember || !isAdmin ? styles.headerRight : null}>
-          {!isMember || !isAdmin ? <SpaceShareIcon url={spaceUrl} title={space?.title} {...props} /> : null}
+          {!isMember || !isAdmin ? (
+            <SpaceShareIcon spaceIdOrName={space?.name} title={space?.title} {...props} />
+          ) : null}
           {renderActionDrawer()}
         </View>
       ),
