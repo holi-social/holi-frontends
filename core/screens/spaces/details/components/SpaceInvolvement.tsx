@@ -4,8 +4,9 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
+import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
-import SpaceCollaborationArea from '@holi/core/screens/spaces/linkHub/components/SpaceCollaborationArea'
+import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -36,14 +37,15 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
       <View style={style}>
         {isAdmin && (
           <HoliLink label={t('spaces.collaborate.onboarding.link')} href={`/spaces/${space.name}/onboarding`}>
-            <View style={styles.onboarding}>
+            <View style={[styles.card, styles.onboarding]}>
               <HoliIcon icon={OpenArm} size={24} color={colors.brandColorB30} style={styles.icon} />
               <HoliText>{t('spaces.collaborate.onboarding.link')}</HoliText>
               <HoliIcon icon={ArrowRightS} size={24} style={styles.end} />
             </View>
           </HoliLink>
         )}
-        {isCollaborator && <SpaceCollaborationArea space={space} />}
+        {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
+        {isCollaborator && <StorageWidget space={space} style={styles.card} />}
         {isCollaborator ? (
           <TaskCollaborationCard isAdmin={isAdmin} space={space} isCollaborator={isCollaborator} />
         ) : (
@@ -59,7 +61,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             {space.tasks && space.tasks.length > 2 && (
               <View style={styles.seeAllButtonContainer}>
                 <HoliButton
-                  label={t('core.spaces.spaceDetails.tasks.seeAll')}
+                  label={t('spaces.spaceDetails.tasks.seeAllButton.label')}
                   onPress={() => navigateToTasks()}
                   style={styles.seeAllButton}
                   inline
@@ -78,6 +80,9 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
 }
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: 16,
+  },
   seeAllButtonContainer: {
     alignItems: 'center',
   },
@@ -94,7 +99,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
     borderWidth: 1,
     borderColor: colors.background30,
   },

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,11 +15,35 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface LinkHubWidgetProps {
   space: Space
+  style?: StyleProp<ViewStyle>
 }
 
 const INITIAL_NUMBER_OF_ITEMS = 3
 
-const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
+interface NoToolsAvailableProps {
+  onPress: () => void
+}
+
+const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
+  const { t } = useTranslation()
+  return (
+    <HoliButton
+      label={t('spaces.digitalToolKit.noData.instruction')}
+      transparent
+      onPress={onPress}
+      style={styles.noToolsDescriptionContainer}
+    >
+      <HoliText size="small" style={styles.descriptionText}>
+        {t('spaces.digitalToolKit.noData.discription')}
+      </HoliText>
+      <HoliText size="small" style={styles.instruction}>
+        {t('spaces.digitalToolKit.noData.instruction')}
+      </HoliText>
+    </HoliButton>
+  )
+}
+
+const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
   const { useParam } = createParam<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -27,36 +51,24 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
 
-  const handleShareButtonPress = (url: string) => {
+  const handleShareButtonPress = useCallback((url: string) => {
     Linking.openURL(url)
-  }
+  }, [])
 
-  const navigateToLinkHubPage = () => {
+  const navigateToLinkHubPage = useCallback(() => {
     navigate(`/spaces/${space.name}/linkhub`)
-  }
+  }, [navigate, space.name])
 
-  const navigateToEditToolPage = (toolIdOrName: string) => {
-    navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${toolIdOrName}/edit`)
-  }
+  const navigateToEditToolPage = useCallback(
+    (toolIdOrName: string) => {
+      navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${toolIdOrName}/edit`)
+    },
+    [navigate, spaceIdOrName]
+  )
 
-  const navigateToAddToolPage = () => {
+  const navigateToAddToolPage = useCallback(() => {
     navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
-  }
-
-  const NoToolsAvailable = () => {
-    return (
-      <View style={styles.noToolsDescriptionContainer}>
-        <HoliText size="small" style={styles.descriptionText}>
-          {t('spaces.digitalToolKit.noData.discription')}
-        </HoliText>
-        <HoliButton label={t('spaces.digitalToolKit.noData.instruction')} transparent onPress={navigateToAddToolPage}>
-          <HoliText size="small" style={styles.instruction}>
-            {t('spaces.digitalToolKit.noData.instruction')}
-          </HoliText>
-        </HoliButton>
-      </View>
-    )
-  }
+  }, [navigate, spaceIdOrName])
 
   return (
     <CollaboratorAreaCard
@@ -67,33 +79,33 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space }) => {
       onPressHeaderLeft={navigateToLinkHubPage}
       onPressHeaderRight={navigateToAddToolPage}
       testID="space-tools-card"
+      style={[style, styles.toolKitContainer]}
     >
-      <View style={styles.toolKitContainer}>
-        {(collaborationTools.length > 0 &&
-          collaborationTools
-            .slice(0, INITIAL_NUMBER_OF_ITEMS)
-            .map((item) => (
-              <DigitalTool
-                key={item.id}
-                tool={item}
-                isAdmin={isAdmin}
-                spaceIdOrName={space?.name || ''}
-                onShareButtonPress={(url) => handleShareButtonPress(url)}
-                onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
-              />
-            ))) || <NoToolsAvailable />}
-        {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
-          <View style={styles.seeAllButtonContainer}>
-            <HoliButton
-              label={t('spaces.digitalToolKit.seeAll.button.label')}
-              style={styles.seeAllButton}
-              onPress={navigateToLinkHubPage}
-            >
-              <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
-            </HoliButton>
-          </View>
-        )}
-      </View>
+      {(collaborationTools.length > 0 &&
+        collaborationTools
+          .slice(0, INITIAL_NUMBER_OF_ITEMS)
+          .map((item) => (
+            <DigitalTool
+              key={item.id}
+              tool={item}
+              isAdmin={isAdmin}
+              spaceIdOrName={space?.name || ''}
+              onShareButtonPress={(url) => handleShareButtonPress(url)}
+              onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
+              style={styles.toolKitItem}
+            />
+          ))) || <NoToolsAvailable onPress={navigateToAddToolPage} />}
+      {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
+        <View style={styles.seeAllButtonContainer}>
+          <HoliButton
+            label={t('spaces.digitalToolKit.seeAll.button.label')}
+            style={styles.seeAllButton}
+            onPress={navigateToLinkHubPage}
+          >
+            <HoliText>{t('spaces.digitalToolKit.seeAll.button.label')}</HoliText>
+          </HoliButton>
+        </View>
+      )}
     </CollaboratorAreaCard>
   )
 }
@@ -102,10 +114,10 @@ export default LinkHubWidget
 
 const styles = StyleSheet.create({
   toolKitContainer: {
-    flex: 1,
-    width: '100%',
-    padding: 8,
     paddingBottom: 16,
+  },
+  toolKitItem: {
+    marginHorizontal: 8,
   },
   seeAllButtonContainer: {
     alignSelf: 'center',
@@ -114,8 +126,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background10,
   },
   noToolsDescriptionContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 8,
     marginTop: 24,
   },
   instruction: {

@@ -75,7 +75,6 @@ export default CollaboratorAreaCard
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     backgroundColor: colors.background10,
     borderRadius: 16,
     borderWidth: 1,
@@ -84,7 +83,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     padding: 16,
     width: '100%',
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },

@@ -190,40 +190,42 @@ const UserProfile = () => {
         tabs={[
           {
             title: t('profile.tabs.profile'),
-            children: [
-              user.engagementLevel && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
-                  <HoliChipRow title={t('profile.engagementLevel')}>
-                    <HoliChip
-                      text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                      label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                      style={styles.chip}
-                      disabled
-                    />
-                  </HoliChipRow>
-                </View>
-              ),
-              hasInterests && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
-                </View>
-              ),
-              hasSdgs && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
-                </View>
-              ),
-              hasSkills && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
-                </View>
-              ),
-              !hasInfo && (
-                <View style={styles.infoContainer} key="missingInfo">
-                  <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
-                </View>
-              ),
-            ],
+            children: (
+              <View style={styles.profileContainer}>
+                {user.engagementLevel && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                    <HoliChipRow title={t('profile.engagementLevel')}>
+                      <HoliChip
+                        text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                        label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                        style={styles.chip}
+                        disabled
+                      />
+                    </HoliChipRow>
+                  </View>
+                )}
+                {hasInterests && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
+                  </View>
+                )}
+                {hasSdgs && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
+                  </View>
+                )}
+                {hasSkills && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
+                  </View>
+                )}
+                {!hasInfo && (
+                  <View style={styles.infoContainer} key="missingInfo">
+                    <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
+                  </View>
+                )}
+              </View>
+            ),
           },
           ...(hasInsights
             ? [
@@ -282,6 +284,9 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     color: colors.foreground20,
+  },
+  profileContainer: {
+    paddingBottom: 24,
   },
 })
 

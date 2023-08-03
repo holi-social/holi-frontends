@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
@@ -19,9 +19,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface StorageWidgetProps {
   space: Space
+  style?: StyleProp<ViewStyle>
 }
 
-const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
+const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { visible, show, hide } = useModalState()
@@ -65,6 +66,7 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space }) => {
       onPressHeaderLeft={navigateToStorageScreen}
       onPressHeaderRight={show}
       headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
+      style={style}
     >
       <HoliButton
         style={styles.container}
