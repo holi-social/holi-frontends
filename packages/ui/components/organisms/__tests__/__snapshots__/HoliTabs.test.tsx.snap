@@ -302,7 +302,6 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
       {
         "flex": 1,
         "height": "100%",
-        "minHeight": "100%",
         "width": "100%",
       }
     }
@@ -310,9 +309,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
   >
     <View>
       <View
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": "auto",
             "width": 750,
           }
         }
@@ -345,9 +345,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": undefined,
             "width": 750,
           }
         }
@@ -380,9 +381,10 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": undefined,
             "width": 750,
           }
         }
