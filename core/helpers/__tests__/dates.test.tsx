@@ -1,13 +1,8 @@
 import { isLastWeek, isThisWeek } from '@holi/core/helpers/dates'
 
-const currentDate = new Date()
+jest.useFakeTimers().setSystemTime(new Date('2023-01-01'))
 
-// Calculate the start of the current week (Sunday)
-const currentWeekStart = new Date(
-  currentDate.getFullYear(),
-  currentDate.getMonth(),
-  currentDate.getDate() - currentDate.getDay()
-)
+const currentWeekStart = new Date()
 
 describe('isThisWeek', () => {
   it('should correctly identify dates within the current week', () => {
