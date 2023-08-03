@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Clipboard, Modal, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Alert, Clipboard, Modal, Platform, Pressable, Share, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Share } from '@holi/icons/src/generated'
+import { Share as ShareIcon } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -67,7 +67,7 @@ const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ url, title, color }: S
   return (
     <>
       <Pressable onPress={isWeb ? onShareWeb : onShareMobile} testID="space-share-btn">
-        <HoliIcon icon={Share} style={styles.shareIcon} color={color} />
+        <HoliIcon icon={ShareIcon} style={styles.shareIcon} color={color} />
       </Pressable>
       <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
         <View style={styles.modalContainer}>
