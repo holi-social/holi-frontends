@@ -207,10 +207,18 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   intro: {
-    paddingHorizontal: 20,
+    ...Platform.select({
+      web: {
+        paddingHorizontal: 20,
+      },
+    }),
   },
   steps: {
-    paddingHorizontal: 20,
+    ...Platform.select({
+      web: {
+        paddingHorizontal: 20,
+      },
+    }),
   },
   desc: {
     marginTop: 8,

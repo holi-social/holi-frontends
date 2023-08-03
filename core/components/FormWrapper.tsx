@@ -22,6 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => void
+  initialOffsetTop?: number
   saveButtonDisabled?: boolean
   loading?: boolean
   isModal?: boolean
@@ -37,6 +38,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     {
       renderProp,
       onSave,
+      initialOffsetTop,
       saveButtonDisabled,
       loading,
       isModal = false,
@@ -98,7 +100,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
         <HoliKeyboardSaveView
           onHeightChange={onHeightChange}
           style={{ position: 'relative' }}
-          initialOffsetTop={showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0}
+          initialOffsetTop={initialOffsetTop ?? (showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0)}
         >
           <ScrollView
             ref={scrollViewRef}

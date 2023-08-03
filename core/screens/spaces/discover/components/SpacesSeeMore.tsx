@@ -28,7 +28,7 @@ const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({
   return (
     <HoliButton label={label || defaultLabel} style={style} onPress={onPress} transparent inline testID={testID}>
       <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more_rebrand.svg')}
+        imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.svg')}
         width={size}
         height={size}
         isSvg

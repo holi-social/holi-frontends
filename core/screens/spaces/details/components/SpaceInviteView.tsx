@@ -96,9 +96,11 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
       saveButtonDisabled={!searchValue || loadingInvite}
       style={styles.wrapper}
       testID="space-details-container"
+      buttonLabel={t('spaces.invite.btn.send')}
+      initialOffsetTop={0}
       showBottomBar
       renderProp={() => (
-        <View style={mixins.container}>
+        <>
           <View style={styles.whom}>
             <HoliText size="large">{t('spaces.invite.hint.header')}</HoliText>
             <HoliText>{t('spaces.invite.hint.discussion')}</HoliText>
@@ -118,7 +120,7 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
               {t('spaces.invite.search.hint')}
             </HoliText>
           </View>
-        </View>
+        </>
       )}
     />
   )

@@ -123,8 +123,12 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
 
     const adjustInputHeight = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
       const inputHeight = event.nativeEvent.contentSize.height
-      const newNumberOfLines = Math.round((inputHeight - 2 * INPUT_VERTICAL_PADDING) / LINE_HEIGHT)
-      setNumberOfLines(clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
+      // to force input change its height dynamicaly in WEB we need to start from 0 instead of 1 value for `newNumberOfLines`
+      // it couses a small bug, that with two lines of text the input will have height only for one line with scrolling
+      // but otherwise I could not find a way to change input hight dynamicaly
+      const newNumberOfLines = Math.round(inputHeight / LINE_HEIGHT) - (Platform.OS === 'web' ? 1 : 0)
+      const value = clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines)
+      setNumberOfLines(value)
     }
 
     const keyboardType: KeyboardTypeOptions = (() => {
@@ -204,7 +208,10 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               style={[
                 styles.input,
                 inline ? styles.inline : styles.block,
-                { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
+                // seems that caret in the input for Mobile is bigger than our LINE_HEIGHT
+                // that causes input with multi lines to redundant scrolling
+                // So, add 8px to fix it
+                { height: Math.ceil(numberOfLines * LINE_HEIGHT + (Platform.OS === 'web' ? 0 : 8)) },
               ]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
@@ -294,7 +301,8 @@ HoliTextInput.displayName = 'HoliTextInput'
 
 export default HoliTextInput
 
-const LINE_HEIGHT = 16 * 1.4
+const FONT_SIZE = 16
+const LINE_HEIGHT = FONT_SIZE * 1.4
 const INPUT_VERTICAL_PADDING = 15
 
 const getStyles = (theme: HoliTheme) =>
@@ -312,6 +320,8 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.background30,
       borderRadius: 4,
       backgroundColor: colors.background10,
+      paddingHorizontal: 10,
+      paddingVertical: INPUT_VERTICAL_PADDING,
     },
     inputWrapperFocused: {
       borderColor: colors.brandColorB30,
@@ -328,9 +338,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     input: {
       flex: 1,
-      fontSize: 16,
-      paddingHorizontal: 10,
-      paddingVertical: INPUT_VERTICAL_PADDING,
+      fontSize: FONT_SIZE,
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),

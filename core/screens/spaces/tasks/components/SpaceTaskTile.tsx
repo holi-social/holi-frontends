@@ -9,10 +9,13 @@ import { LocationType, Space, Task, VisibilityType } from '@holi/core/screens/sp
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   AtFilled,
+  Delete,
+  Edit2,
   GlobalFilled,
   GlobeFilled,
   LockFilled,
   MapPin2Filled,
+  More,
   PhoneFilled,
   RefreshFilled,
   Time,
@@ -28,7 +31,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceTaskTileProps = {
   task: Task
   space: Space
+  showOptions?: boolean
   isAdmin?: boolean
+  isCollaborator?: boolean
   showFullView?: boolean
 }
 
@@ -37,7 +42,9 @@ const IMAGE_ASPECT_RATIO = 327 / 210
 const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   task,
   space,
+  showOptions = false,
   isAdmin,
+  isCollaborator,
   showFullView = true,
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
@@ -53,7 +60,13 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
-      <HoliButton transparent label={task.name} onPress={goToDetailView} disabled={showFullView}>
+      <HoliButton
+        transparent
+        label={task.name}
+        onPress={goToDetailView}
+        disabled={showFullView}
+        style={styles.clickOverlay}
+      >
         <View style={styles.imageContainer}>
           {!!task.thumbnail && (
             <HoliImage
@@ -75,145 +88,153 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
               />
             </View>
           )}
-          <View style={styles.visibility}>
-            <HoliIcon
-              icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
-              color={colors.foreground30}
-              size={16}
-              style={styles.iconGroupIcon}
-            />
-            <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
-          </View>
-        </View>
-      </HoliButton>
-      <View style={styles.detailContainer}>
-        <HoliButton
-          disabled={showFullView}
-          transparent
-          inline
-          label={task.name}
-          onPress={goToDetailView}
-          style={{ flex: 1 }}
-        >
-          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
-            {task.name}
-          </HoliText>
-        </HoliButton>
-        {isAdmin && (
-          <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-task-more-options">
-            <HoliActionDrawer.Action
-              action="edit"
-              title={t('global.edit')}
-              testID="btn-to-edit-task"
-              handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
-            />
-            <HoliActionDrawer.Action
-              isLoading={isLoadingDeleteTask}
-              action="delete"
-              title={t('spaces.digitalTool.delete.label')}
-              variant="danger"
-              testID="btn-to-delete-task"
-              showConfirmation
-            >
-              <HoliActionDrawer.Confirmation
-                title={t('spaces.tasks.delete.confirmation.title')}
-                description={t('spaces.tasks.delete.confirmation.description')}
-                testID="task-delete"
-                handleConfirmation={deleteTask}
-                buttonType="warning"
-                hasDismissBtn
-                requireLogin
+          {isCollaborator && (
+            <View style={styles.visibility}>
+              <HoliIcon
+                icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
+                color={colors.foreground30}
+                size={16}
+                style={styles.iconGroupIcon}
               />
-            </HoliActionDrawer.Action>
-          </HoliActionDrawer.Drawer>
-        )}
-      </View>
-      <View style={styles.iconsContainer}>
-        <View style={styles.iconGroupContainer}>
-          <HoliIcon
-            icon={
-              task.location ? MapPin2Filled : task.locationType === LocationType.HYBRID ? RefreshFilled : GlobalFilled
-            }
-            size={12}
-            color={colors.foreground20}
-            style={styles.iconGroupIcon}
-          />
-          <HoliText style={styles.iconGroupText} size="extrasmall">
-            {!task.location ? t(`spaces.input.task.locationType.${task.locationType}.title`) : task.location}
-          </HoliText>
-        </View>
-        <View style={styles.iconGroupContainer}>
-          <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
-          <HoliText style={styles.iconGroupText} size="extrasmall">
-            {t(`spaces.input.task.regularity.${task.regularity}.title`)}
-          </HoliText>
-        </View>
-      </View>
-      {task.skills.length > 0 && (
-        <View style={styles.skillsContainer}>
-          {task.skills.map((skill) => {
-            return (
-              <SpacesFilterPill
-                small
-                key={skill.id}
-                testID="spaces-topic-title"
-                label={skill.title}
-                filterType="skill"
-                style={styles.pill}
-              />
-            )
-          })}
-        </View>
-      )}
-      {!showFullView ? (
-        <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small" {...(showFullView ? {} : { numberOfLines: 3 })}>
-            {task.description}
-          </HoliText>
-        </View>
-      ) : (
-        <View style={styles.descriptionContainer}>
-          <HoliText color="gray300" size="small">
-            {task.description}
-          </HoliText>
-          <HoliText bold style={styles.publishedByTitle}>
-            {t('spaces.tasks.published.by.title')}
-          </HoliText>
-          <View style={styles.avatar}>
-            <HoliAvatar
-              imageSrc={task.creator.avatar}
-              imageBlurhash={task.creator.avatarBlurhash}
-              label={task.creator.fullName || t('user.profileView.anonymous')}
-              initials={task.creator.avatarLabel || ''}
-              defaultColor={task.creator.avatarDefaultColor || ''}
-              size="large"
-              testID="task-contact-avatar"
-            />
-            <HoliText style={styles.avatarName}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
-          </View>
-
-          <HoliText bold style={styles.contactInformationTitle}>
-            {t('spaces.tasks.contact.title')}
-          </HoliText>
-          <View style={styles.contactContainer}>
-            <HoliIcon icon={AtFilled} color={colors.foreground20} />
-            <HoliText style={styles.contactInformation} size="small">
-              {task.contactEmail}
-            </HoliText>
-          </View>
-
-          {!!task.contactPhone && (
-            <View style={styles.contactContainer}>
-              <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
-              <HoliText style={styles.contactInformation} size="small">
-                {task.contactPhone}
-              </HoliText>
+              <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
             </View>
           )}
         </View>
-      )}
-      {/* TODO: reinsert when claiming is implemented */}
-      {/* <View style={styles.buttonContainer}>
+      </HoliButton>
+
+      <View style={styles.detailContainer}>
+        <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+          {task.name}
+        </HoliText>
+        {showOptions && isAdmin && (
+          <View style={styles.innerClick}>
+            <HoliActionDrawer.Drawer
+              label={t('global.moreOptions')}
+              testID="btn-task-more-options"
+              buttonElement={<HoliIcon icon={More} color={colors.foreground30} />}
+            >
+              <HoliActionDrawer.Action
+                icon={Edit2}
+                title={t('global.edit')}
+                testID="btn-to-edit-task"
+                handleAction={() => navigate(`/spaces/${space.name}/tasks/${task.id}/edit`)}
+              />
+              <HoliActionDrawer.Action
+                isLoading={isLoadingDeleteTask}
+                icon={Delete}
+                title={t('spaces.digitalTool.delete.label')}
+                variant="danger"
+                testID="btn-to-delete-task"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('spaces.tasks.delete.confirmation.title')}
+                  description={t('spaces.tasks.delete.confirmation.description')}
+                  testID="task-delete"
+                  handleConfirmation={deleteTask}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            </HoliActionDrawer.Drawer>
+          </View>
+        )}
+      </View>
+      <HoliButton
+        transparent
+        label={task.name}
+        onPress={goToDetailView}
+        disabled={showFullView}
+        style={styles.clickOverlay}
+      >
+        <View style={styles.iconsContainer}>
+          <View style={styles.iconGroupContainer}>
+            <HoliIcon
+              icon={
+                task.location ? MapPin2Filled : task.locationType === LocationType.HYBRID ? RefreshFilled : GlobalFilled
+              }
+              size={12}
+              color={colors.foreground20}
+              style={styles.iconGroupIcon}
+            />
+            <HoliText style={styles.iconGroupText} size="extrasmall">
+              {!task.location ? t(`spaces.input.task.locationType.${task.locationType}.title`) : task.location}
+            </HoliText>
+          </View>
+          <View style={styles.iconGroupContainer}>
+            <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+            <HoliText style={styles.iconGroupText} size="extrasmall">
+              {t(`spaces.input.task.regularity.${task.regularity}.title`)}
+            </HoliText>
+          </View>
+        </View>
+        {task.skills.length > 0 && (
+          <View style={styles.skillsContainer}>
+            {task.skills.map((skill) => {
+              return (
+                <SpacesFilterPill
+                  small
+                  key={skill.id}
+                  testID="spaces-topic-title"
+                  label={skill.title}
+                  filterType="skill"
+                  style={styles.pill}
+                />
+              )
+            })}
+          </View>
+        )}
+
+        {!showFullView ? (
+          <View style={styles.descriptionContainer}>
+            <HoliText color="gray300" size="small" {...(showFullView ? {} : { numberOfLines: 3 })}>
+              {task.description}
+            </HoliText>
+          </View>
+        ) : (
+          <View style={styles.descriptionContainer}>
+            <HoliText color="gray300" size="small">
+              {task.description}
+            </HoliText>
+            <HoliText bold style={styles.publishedByTitle}>
+              {t('spaces.tasks.published.by.title')}
+            </HoliText>
+            <View style={styles.avatar}>
+              <HoliAvatar
+                imageSrc={task.creator.avatar}
+                imageBlurhash={task.creator.avatarBlurhash}
+                label={task.creator.fullName || t('user.profileView.anonymous')}
+                initials={task.creator.avatarLabel || ''}
+                defaultColor={task.creator.avatarDefaultColor || ''}
+                size="large"
+                testID="task-contact-avatar"
+              />
+              <HoliText style={styles.avatarName}>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+            </View>
+
+            <HoliText bold style={styles.contactInformationTitle}>
+              {t('spaces.tasks.contact.title')}
+            </HoliText>
+            <View style={styles.contactContainer}>
+              <HoliIcon icon={AtFilled} color={colors.foreground20} />
+              <HoliText style={styles.contactInformation} size="small">
+                {task.contactEmail}
+              </HoliText>
+            </View>
+
+            {!!task.contactPhone && (
+              <View style={styles.contactContainer}>
+                <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
+                <HoliText style={styles.contactInformation} size="small">
+                  {task.contactPhone}
+                </HoliText>
+              </View>
+            )}
+          </View>
+        )}
+        {/* TODO: reinsert when claiming is implemented */}
+        {/* <View style={styles.buttonContainer}>
         <HoliButton
           label={t('spaces.tasks.cta_claim')}
           onPress={() => ({})} // TODO add action
@@ -225,14 +246,25 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
           </HoliText>
         </HoliButton>
       </View> */}
-      {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
+        {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
         {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
       </HoliText> */}
+      </HoliButton>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  clickOverlay: {
+    position: 'relative',
+    pointerEvents: 'auto',
+  },
+  innerClick: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    pointerEvents: 'auto',
+  },
   detailContainer: {
     marginTop: 16,
     flexDirection: 'row',

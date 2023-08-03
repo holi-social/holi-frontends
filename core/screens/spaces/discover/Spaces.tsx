@@ -39,9 +39,6 @@ const Spaces = () => {
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
 
-  // This is added to keep the reference of the current tab to handle the active tab in back navigation
-  global.spaceDetailInitialTabIndex = 0
-
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
   const {
@@ -167,7 +164,7 @@ const Spaces = () => {
                 title: t('spaces.tabs.mine'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={mixins.container}>
+                  <View style={[mixins.container, styles.mySpacesContainer]}>
                     <MySpaces mySpaces={mySpaces} />
                   </View>
                 ),
@@ -209,6 +206,9 @@ const styles = StyleSheet.create({
   tabStyle: {
     minHeight: '100%',
     backgroundColor: colors.background20,
+  },
+  mySpacesContainer: {
+    paddingBottom: 24,
   },
 })
 

@@ -71,8 +71,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
               }}
             />
           </View>
-          <HoliHeading level="3">{t('addNew.drawer.comingSoon.headline')}</HoliHeading>
-          <View style={styles.categoriesContainer}>
+          <View style={styles.comingSoonContainer}>
             <FlatList
               data={RESOURCES_COMING_SOON}
               horizontal={true}
@@ -83,6 +82,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
                     key={item.id}
                     onPress={onCategoryButtonClick}
                     style={index > 0 && { marginLeft: 15 }}
+                    active
                   />
                 )
               }}
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     right: 16,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: colors.background30,
     borderWidth: 1,
     shadowColor: colors.foreground30,
     backgroundColor: colors.background10,
@@ -125,7 +124,11 @@ const styles = StyleSheet.create({
   },
   categoriesContainer: {
     justifyContent: 'center',
-    marginBottom: 24,
+    marginBottom: 8,
     marginTop: 20,
+  },
+  comingSoonContainer: {
+    justifyContent: 'center',
+    marginBottom: 48,
   },
 })

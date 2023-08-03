@@ -32,7 +32,7 @@ const InsightWithPostsFragment = gql`
 export const lastInsightsQuery = gql`
   ${FullUserAvatarFragment}
 
-  query LastInsights($offset: Int, $limit: Int) {
+  query LastInsights($offset: Int!, $limit: Int!) {
     lastInsights(offset: $offset, limit: $limit) {
       data {
         id

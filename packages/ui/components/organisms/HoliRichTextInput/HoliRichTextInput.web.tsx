@@ -33,19 +33,21 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 }) => {
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
 
-  const findUserMapped: Promise<User[]> = useCallback(
-    (substring: string) => {
+  const findUserMapped = useCallback(
+    (substring: string): Promise<User[]> => {
       return new Promise((resolve, reject) => {
         findUsersByName({
           variables: {
             substring,
+            offset: 0,
+            limit: maxSuggestionOptions,
           },
         })
-          .then((response) => resolve(response?.data?.userByName.data))
+          .then((response) => resolve(response?.data?.userByName.data ?? []))
           .catch(reject)
       })
     },
-    [findUsersByName]
+    [maxSuggestionOptions, findUsersByName]
   )
 
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {

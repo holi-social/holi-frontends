@@ -1,25 +1,21 @@
-export enum EnvionmentId {
-  PRODUCTION = 'production',
-  STAGING = 'staging',
-  DEVELOPMENT = 'development',
-}
+import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
-export const environmentId: EnvionmentId = (() => {
+export const environmentId: EnvironmentId = (() => {
   // client
   if (!(typeof window === 'undefined')) {
     if (window.location.host.indexOf('production.') === 0 || window.location.host === 'app.holi.social') {
-      return EnvionmentId.PRODUCTION
+      return EnvironmentId.PRODUCTION
     } else if (window.location.host.indexOf('staging.') === 0) {
-      return EnvionmentId.STAGING
+      return EnvironmentId.STAGING
     }
   }
   // server + default case
   const serverEnvironment = process.env.ENVIRONMENT_ID || process.env.NEXT_PUBLIC_ENVIRONMENT_ID || process.env.NODE_ENV
-  if (serverEnvironment in Object.values(EnvionmentId)) {
-    return serverEnvironment as EnvionmentId
+  if (serverEnvironment in Object.values(EnvironmentId)) {
+    return serverEnvironment as EnvironmentId
   }
 
-  return EnvionmentId.DEVELOPMENT
+  return EnvironmentId.DEVELOPMENT
 })()
 
 /** TODO: This is a tiny mock of a feature flag. If you want to enable SSR,

@@ -12,7 +12,7 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
+import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
@@ -79,7 +79,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                 <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
                   {spaceIdOrName && isCurrentUserPostCreator && (
                     <HoliActionDrawer.Action
-                      action="edit"
+                      icon={Edit2}
                       title={t('spaces.updates.edit')}
                       testID="edit-update"
                       handleAction={editAction}
@@ -88,7 +88,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                   {!isCurrentUserPostCreator && (
                     <HoliActionDrawer.Action
                       isLoading={isLoadingReport}
-                      action="report"
+                      icon={Flag}
                       title={t('global.report')}
                       testID="report-comment-button"
                       showConfirmation

@@ -28,6 +28,7 @@ import UserProfileView from '@holi/core/screens/userprofile/components/UserProfi
 import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -103,12 +104,7 @@ const UserProfile = () => {
       headerStyle: { backgroundColor: colors.background10 },
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
-          <HoliActionDrawer.Action
-            action="report"
-            isLoading={isLoadingReport}
-            title={t('global.report')}
-            showConfirmation
-          >
+          <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
             <HoliActionDrawer.Confirmation
               title={t('user.profileView.report.confirmation.title', { name: userFullName })}
               description={t('user.profileView.report.confirmation.description', { name: userFullName })}
@@ -118,7 +114,7 @@ const UserProfile = () => {
             />
           </HoliActionDrawer.Action>
           <HoliActionDrawer.Action
-            action="block"
+            icon={CloseCircle}
             isLoading={isLoadingBlockUser}
             title={t('profile.block', { name: userFullName })}
             showConfirmation
@@ -194,40 +190,42 @@ const UserProfile = () => {
         tabs={[
           {
             title: t('profile.tabs.profile'),
-            children: [
-              user.engagementLevel && (
-                <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
-                  <HoliChipRow title={t('profile.engagementLevel')}>
-                    <HoliChip
-                      text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                      label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                      style={styles.chip}
-                      disabled
-                    />
-                  </HoliChipRow>
-                </View>
-              ),
-              hasInterests && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
-                </View>
-              ),
-              hasSdgs && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
-                </View>
-              ),
-              hasSkills && (
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
-                  <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
-                </View>
-              ),
-              !hasInfo && (
-                <View style={styles.infoContainer} key="missingInfo">
-                  <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
-                </View>
-              ),
-            ],
+            children: (
+              <View style={styles.profileContainer}>
+                {user.engagementLevel && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                    <HoliChipRow title={t('profile.engagementLevel')}>
+                      <HoliChip
+                        text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                        label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                        style={styles.chip}
+                        disabled
+                      />
+                    </HoliChipRow>
+                  </View>
+                )}
+                {hasInterests && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
+                  </View>
+                )}
+                {hasSdgs && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
+                  </View>
+                )}
+                {hasSkills && (
+                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
+                  </View>
+                )}
+                {!hasInfo && (
+                  <View style={styles.infoContainer} key="missingInfo">
+                    <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
+                  </View>
+                )}
+              </View>
+            ),
           },
           ...(hasInsights
             ? [
@@ -286,6 +284,9 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     color: colors.foreground20,
+  },
+  profileContainer: {
+    paddingBottom: 24,
   },
 })
 

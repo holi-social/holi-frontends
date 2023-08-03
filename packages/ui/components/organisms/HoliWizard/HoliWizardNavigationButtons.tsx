@@ -1,0 +1,93 @@
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowLeft, Loader4 } from '@holi/icons/src/generated'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+interface HoliWizardNavigationButtonsProps {
+  onNextPress?: () => void
+  onBackPress?: () => void
+  isBackButtonAvailable?: boolean
+  isNextButtonEnabled?: boolean
+  submitButtonLabel?: string
+  isLastStep?: boolean
+  isLoading?: boolean
+  style?: StyleProp<ViewStyle>
+  testID?: string
+}
+
+export const BUTTON_RECTS = {
+  width: 56,
+  height: 56,
+  paddingBottom: 28,
+}
+
+const HoliWizardNavigationButtons = ({
+  onNextPress,
+  onBackPress,
+  submitButtonLabel = '',
+  isBackButtonAvailable = true,
+  isNextButtonEnabled = true,
+  isLastStep = false,
+  isLoading = false,
+  style,
+  testID,
+}: React.PropsWithChildren<HoliWizardNavigationButtonsProps>) => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+
+  return (
+    <View style={[mixins.container, styles.buttonContainer, style]} testID={testID}>
+      {isBackButtonAvailable && (
+        <HoliButton
+          label={t('global.back')}
+          disabled={false}
+          onPress={onBackPress}
+          testID={testID ? `${testID}-back-btn` : 'holi-wizard-back-btn'}
+          style={styles.backButton}
+        >
+          <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
+        </HoliButton>
+      )}
+
+      <View style={{ flex: 1 }}>
+        <HoliButtonLoading
+          disabled={!isNextButtonEnabled || isLoading}
+          label={isLoading ? t('global.loading') : isLastStep ? submitButtonLabel : t('global.next')}
+          onPress={onNextPress}
+          testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
+          style={styles.nextButton}
+          icon={isLoading ? Loader4 : undefined}
+          iconSpinning={isLoading}
+        />
+      </View>
+    </View>
+  )
+}
+
+export default HoliWizardNavigationButtons
+
+const styles = StyleSheet.create({
+  backButton: {
+    width: BUTTON_RECTS.width,
+    height: BUTTON_RECTS.height,
+    borderRadius: BUTTON_RECTS.height / 2,
+    marginRight: 10,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    backgroundColor: colors.background10,
+  },
+  nextButton: {
+    height: BUTTON_RECTS.height,
+    width: '100%',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+})

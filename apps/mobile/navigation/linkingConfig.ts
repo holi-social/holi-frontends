@@ -24,6 +24,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           },
         },
         [RouteName.Chat]: {
+          initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
           },
@@ -61,7 +62,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/create',
         [RouteName.EditDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/:toolIdOrName/edit',
         [RouteName.SpaceStorage]: 'spaces/:spaceIdOrName/storage',
-        [RouteName.SpaceVideoCall]: 'spaces/:spaceIdOrName/video-call/:roomName',
         [RouteName.SpaceVideoCallList]: 'spaces/:spaceIdOrName/video-call',
         [RouteName.CreateTask]: 'spaces/:spaceIdOrName/tasks/create',
         [RouteName.TaskDetails]: 'spaces/:spaceIdOrName/tasks/:taskId',
@@ -76,6 +76,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
         [RouteName.SpaceOnboarding]: 'spaces/:spaceIdOrName/onboarding',
         [RouteName.SpaceOnboardingSteps]: 'spaces/:spaceIdOrName/onboarding/steps',
+        [RouteName.SpaceTasks]: 'spaces/:spaceIdOrName/tasks',
+      },
+    },
+
+    [RouteName.ChatStack]: {
+      screens: {
+        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
       },
     },
 
@@ -85,6 +92,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',
+    [RouteName.VideoCall]: 'video-call/:roomName',
 
     // Apps from the HOLI store
     [RouteName.DonationsApp]: {

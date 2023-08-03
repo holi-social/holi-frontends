@@ -1,5 +1,5 @@
 import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
-import { CalendarEvent, FolderOpen, Group, LinkM, Timer2, Vidicon, Wallet3 } from '@holi/icons/src/generated'
+import { CalendarEvent, CheckboxFilled, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
 
 export const SPACE_COLLABORATOR_TOOLS = {
   DIGITAL_TOOL: 'digital-tool',
@@ -8,6 +8,7 @@ export const SPACE_COLLABORATOR_TOOLS = {
   POLL: 'poll',
   VIDEO_CALL: 'video-call',
   WALLET: 'wallet',
+  TASKS: 'tasks',
 }
 
 export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
@@ -19,13 +20,21 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
   },
   {
     id: SPACE_COLLABORATOR_TOOLS.STORAGE,
-    icon: FolderOpen,
+    icon: FolderOpenFilled,
     translationKey: 'spaces.resources.category.file',
     path: '/storage',
   },
+
+  {
+    id: SPACE_COLLABORATOR_TOOLS.TASKS,
+    icon: CheckboxFilled,
+    translationKey: 'spaces.resources.category.tasks',
+    path: '/tasks',
+  },
+
   {
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
-    icon: Vidicon,
+    icon: VidiconFilled,
     translationKey: 'spaces.resources.category.videoCall',
     path: '/video-call',
   },
@@ -36,24 +45,6 @@ export const RESOURCES_COMING_SOON: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.EVENT,
     icon: CalendarEvent,
     translationKey: 'spaces.resources.category.event',
-    path: '',
-  },
-  {
-    id: SPACE_COLLABORATOR_TOOLS.POLL,
-    icon: Timer2,
-    translationKey: 'spaces.resources.category.poll',
-    path: '',
-  },
-  {
-    id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
-    icon: Group,
-    translationKey: 'spaces.resources.category.videoCall',
-    path: '',
-  },
-  {
-    id: SPACE_COLLABORATOR_TOOLS.WALLET,
-    icon: Wallet3,
-    translationKey: 'spaces.resources.category.wallet',
     path: '',
   },
 ]

@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import SpaceAcceptInvitation from '@holi/core/screens/spaces/details/components/SpaceAcceptInvitation'
 import SpaceCollaborators from '@holi/core/screens/spaces/details/components/SpaceCollaborators'
 import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
 import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvite'
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
+import SpaceMoreActions from '@holi/core/screens/spaces/details/components/SpaceMoreActions'
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -65,10 +67,12 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
+        <SpaceMoreActions space={space} />
         <SpaceShare space={space} />
-        <SpaceInvite spaceIdOrName={space.name} space={space} />
+        <SpaceInvite space={space} />
         <SpaceFollow space={space} />
         <SpaceJoin space={space} />
+        <SpaceAcceptInvitation space={space} />
       </View>
     </View>
   )

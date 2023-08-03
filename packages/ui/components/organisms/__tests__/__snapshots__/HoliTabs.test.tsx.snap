@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly renders correctly when open 1`] = `
+exports[`HoliTabs renders correctly renders correctly when open 1`] = `
 <View
   style={
     {
@@ -98,11 +98,15 @@ exports[`renders correctly renders correctly when open 1`] = `
           }
         >
           <Text
+            accessible={false}
+            selectable={true}
             style={
               {
                 "color": "#262424",
+                "fontFamily": "Circular Std Medium",
                 "fontSize": 16,
                 "fontWeight": "500",
+                "lineHeight": 19.2,
               }
             }
           >
@@ -173,10 +177,15 @@ exports[`renders correctly renders correctly when open 1`] = `
           }
         >
           <Text
+            accessible={false}
+            selectable={true}
             style={
               {
                 "color": "#787777",
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 19.2,
               }
             }
           >
@@ -247,10 +256,15 @@ exports[`renders correctly renders correctly when open 1`] = `
           }
         >
           <Text
+            accessible={false}
+            selectable={true}
             style={
               {
                 "color": "#787777",
+                "fontFamily": "Circular Std Book",
                 "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 19.2,
               }
             }
           >
@@ -267,18 +281,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         {
           "flexGrow": 1,
         },
-        null,
+        [
+          {
+            "alignItems": "flex-start",
+          },
+          null,
+        ],
       ]
-    }
-    dataSet={
-      {
-        "stepperWrapper": true,
-      }
     }
     horizontal={true}
     keyboardShouldPersistTaps="always"
     onLayout={[Function]}
     onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
     pagingEnabled={true}
     scrollEnabled={true}
     scrollEventThrottle={16}
@@ -287,7 +302,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       {
         "flex": 1,
         "height": "100%",
-        "minHeight": "100%",
         "width": "100%",
       }
     }
@@ -295,14 +309,10 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View>
       <View
-        dataSet={
-          {
-            "stepperStep": true,
-          }
-        }
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": "auto",
             "width": 750,
           }
         }
@@ -311,9 +321,10 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
-          testID="tabs-module-panel-0-active"
         >
-          <View>
+          <View
+            testID="test-tabs-panel-0-active"
+          >
             <Text
               accessible={false}
               selectable={true}
@@ -334,14 +345,10 @@ exports[`renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
-        dataSet={
-          {
-            "stepperStep": true,
-          }
-        }
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": undefined,
             "width": 750,
           }
         }
@@ -350,9 +357,10 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
-          testID="tabs-module-panel-1-inactive"
         >
-          <View>
+          <View
+            testID="test-tabs-panel-1-inactive"
+          >
             <Text
               accessible={false}
               selectable={true}
@@ -373,14 +381,10 @@ exports[`renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
-        dataSet={
-          {
-            "stepperStep": true,
-          }
-        }
+        onLayout={[Function]}
         style={
           {
-            "flex": 1,
+            "height": undefined,
             "width": 750,
           }
         }
@@ -389,9 +393,10 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           accessibilityLabelledBy="test-tabs-tab-2"
           nativeID="test-tabs-panel-2"
-          testID="tabs-module-panel-2-inactive"
         >
-          <View>
+          <View
+            testID="test-tabs-panel-2-inactive"
+          >
             <Text
               accessible={false}
               selectable={true}
