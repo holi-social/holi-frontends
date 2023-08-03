@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Clipboard, Modal, Platform, Pressable, Share, StyleSheet, View } from 'react-native'
+import { Clipboard, Modal, Platform, Pressable, StyleSheet, View } from 'react-native'
 
+import { useShareLink } from '@holi/core/hooks/useShareLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -10,47 +11,19 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceShareIconProps = {
-  url: string
+  spaceIdOrName?: string
   color?: string
   title?: string | null
 }
 
-//TODO: refactoring: implement useShareLink hook
-
-const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ url, title, color }: SpaceShareIconProps) => {
+const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
-  const prefix = useRef('')
   const [show, setShow] = React.useState(false)
   const [isCopied, setIsCopied] = React.useState(false)
-
-  useEffect(() => {
-    import(/* webpackPrefetch: true */ 'expo-linking').then(
-      (Linking) => (prefix.current = Linking.createURL(`/spaces/${title}`))
-    )
-  }, [title])
-
-  const onShareMobile = async () => {
-    try {
-      const result = await Share.share({
-        message: title + (Platform.OS === 'android' ? `: ${prefix.current}` : ''),
-        url: prefix.current,
-      })
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      Alert.alert(error.message)
-    }
-  }
+  const [url, onShareMobile] = useShareLink(title ?? '', `/spaces/${spaceIdOrName}`)
 
   const copyToClipboard = () => {
-    Clipboard.setString(prefix.current)
+    Clipboard.setString(url)
     setIsCopied(true)
     setTimeout(() => {
       setShow(false)

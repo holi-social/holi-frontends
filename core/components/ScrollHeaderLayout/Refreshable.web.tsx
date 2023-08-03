@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
 
 import Default from '@holi/core/components/ScrollHeaderLayout/Default'
@@ -8,6 +8,7 @@ import { vars } from '@holi/ui/styles/globalVars'
 
 const PULL_DEVIDER = 2
 
+// DISCLAIMER: When changing anything here, also test horizontal scrolling on iOS Safari!
 const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutProps>(
   (
     {
@@ -25,12 +26,13 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
     const defaultLoader = () => <HoliLoader style={{ top: loaderTopOffset }} />
     Loader = defaultLoader || Loader
 
-    const [startPoint, setStartPoint] = useState(0)
+    const startPointRef = useRef(0)
     const [pullChange, setPullChange] = useState(0)
+    const isPullInProgress = pullChange > 0
 
     const pullStart = (event: TouchEvent) => {
       const { screenY } = event.targetTouches[0]
-      setStartPoint(screenY)
+      startPointRef.current = screenY
     }
 
     const pull = (event: TouchEvent) => {
@@ -41,7 +43,7 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
       // The length of the pull
       // if the start touch position is lesser than the current touch position, calculate the difference, which gives the `pullLength`
       // This tells us how much the user has pulled
-      const pullLength = startPoint < screenY ? Math.abs(screenY - startPoint) : 0
+      const pullLength = startPointRef.current < screenY ? Math.abs(screenY - startPointRef.current) : 0
       setPullChange(pullLength / PULL_DEVIDER)
     }
 
@@ -50,10 +52,11 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
         onRefresh()
       }
 
-      setStartPoint(0)
+      startPointRef.current = 0
       setPullChange(0)
     }
 
+    // DISCLAIMER: highly performance intensive! If you notice touch-scrolling bugs, look here!
     useEffect(() => {
       window.addEventListener('touchstart', pullStart)
       window.addEventListener('touchmove', pull)
@@ -78,10 +81,10 @@ const Refreshable = React.forwardRef<ScrollView, RefreshableScrollHeaderLayoutPr
           marginTop: isLoading ? refreshHeight : pullChange,
           overscrollBehaviorY: 'contain',
           // animate only on endPull
-          transition: !startPoint ? 'all .3s ease-out' : '',
+          transition: !isPullInProgress ? 'all .3s ease-out' : '',
         }}
       >
-        {(!!startPoint || isLoading) && (
+        {(isPullInProgress || isLoading) && (
           <div
             style={{
               position: 'absolute',

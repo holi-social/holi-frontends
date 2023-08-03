@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import { useScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useScrollHandler'
-import { useGlobalScrollListener } from '@holi/core/helpers'
+import { useMobileScrollHandler } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { throttleDebounce } from '@holi/ui/helper/throttleDebounce'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -38,28 +37,14 @@ const Default = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    // capture mobile events via onScroll
-    const onScrollHandler = useScrollHandler(onScroll)
+    // capture mobile events via onScroll, web is done differently (to not use scroll listeners -> bad!)
+    const onScrollHandler = useMobileScrollHandler(onScroll)
     // throttle mobile scroll events, because android doesn't have `scrollEventThrottle`
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const onScrollThrottled = useCallback(
       throttleDebounce(onScrollHandler, SCROLL_EVENT_THROTTLE_MS, nativeEventPersist),
       [onScrollHandler]
     )
-
-    // capture web scroll events with a separate mechanism
-    const globalScrollListener = useGlobalScrollListener()
-    useEffect(() => {
-      if (isWeb) {
-        const webScrollListener = throttleDebounce(() => {
-          globalScrollListener({ contentOffset: { y: window.scrollY } })
-        }, SCROLL_EVENT_THROTTLE_MS)
-        window.addEventListener('scroll', webScrollListener)
-        return () => {
-          window.removeEventListener('scroll', webScrollListener)
-        }
-      }
-    }, [isWeb, globalScrollListener])
 
     return scrollable ? (
       <ScrollView
