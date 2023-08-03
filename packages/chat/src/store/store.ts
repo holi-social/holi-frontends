@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
 import { atom, createStore, useAtom, useSetAtom } from 'jotai'
@@ -20,44 +19,51 @@ export const chatClient = new ChatClient()
 export const chatLogin = new ChatLogin()
 export const chatStore = createStore()
 
-/** Client **/
-const isChatReadyVar = makeVar(false)
-export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
+/** Client / Client Lifecycle **/
 
 /**
  * @name isChatClientReadyAtom
- * @description A toggle flag used to mount the client subscriptions once the ChatClient is ready
+ * @description Three atoms handle the Chat lifecycle state and let React know
+   when to mount the store. Only export the isChatClientReadyAtom and use it
+   together with `useChatSessionHandler`
  */
 const _isChatClientReadyAtom = atom(false)
 const setIsChatClientReadyAtom = atom(null, (get, set, isReady: boolean) => {
   set(_isChatClientReadyAtom, isReady)
 })
-
 export const isChatClientReadyAtom = atom((get) => get(_isChatClientReadyAtom))
 
 type ChatSessionState = 'start' | 'end'
+
 export type ChatSessionHandler = (
   state: ChatSessionState,
   orySessionToken?: string,
   freshLogin?: boolean
 ) => Promise<void>
 
+/**
+ * @name useChatSessionHandler
+ * @description Log in and log out a user from the Chat Server. It informs the
+ * store when it is to start the Chat lifecycle. Use it with the
+ * ChatInititializer component
+ */
 export const useChatSessionHandler = (): ChatSessionHandler => {
   const setIsChatClientReady = useSetAtom(setIsChatClientReadyAtom)
 
   return useCallback(
     async (state, orySessionToken, freshLogin = false) => {
       const isStartingChat = state === 'start'
-      setIsChatClientReady(isStartingChat)
 
       if (isStartingChat) {
-        // FIXME: Why are we not getting the ory sesseion token?
-        await chatLogin.fetchSessionCredentials(orySessionToken ?? '', freshLogin)
+        await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
         await chatClient.start()
       } else {
-        await chatLogin.logout()
         await chatClient.stop()
+        await chatLogin.logout()
       }
+
+      // Change the state once we have fetched the session credentials
+      setIsChatClientReady(isStartingChat)
     },
     [setIsChatClientReady]
   )
