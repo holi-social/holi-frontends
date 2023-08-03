@@ -7,8 +7,9 @@ const kratosSdk = newKratosSdk()
 
 type SessionState = 'active' | 'expired' | 'invalid'
 
-export const validateSessionWithOry = async (orySessionToken: OrySessionToken): Promise<SessionState> => {
+export const validateSessionWithOry = async (orySessionToken?: OrySessionToken): Promise<SessionState> => {
   // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
+  if (!orySessionToken) return 'invalid'
   try {
     const { data: session } = await kratosSdk.toSession({ xSessionToken: orySessionToken })
     return session.active ? 'active' : 'expired'
@@ -26,7 +27,7 @@ export const onSessionLoadedFromStorage = async (
     await setUserLoggedOut(chatSessionHandler)
   } else {
     try {
-      const sessionState = await validateSessionWithOry(sessionFromStorage.session_token)
+      const sessionState = await validateSessionWithOry(sessionFromStorage?.session_token)
 
       switch (sessionState) {
         case 'active':

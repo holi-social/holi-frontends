@@ -26,7 +26,7 @@ export type NextPageWithLayout = NextPage<ApolloStateProps> & {
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
-const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
+const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
   const chatSessionHandler = useChatSessionHandler()
@@ -34,7 +34,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   useEffect(() => {
     // Init authencation
     initAuth(chatSessionHandler).catch((error) => logError(error, '[_app.tsx] Error initializing authentication'))
-  }, [])
+  }, [chatSessionHandler])
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
