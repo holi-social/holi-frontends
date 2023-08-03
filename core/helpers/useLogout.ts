@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import client from '@holi/api/graphql/client'
-import { useChatSessionHandler } from '@holi/chat/src/store'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -25,7 +24,6 @@ export const useLogout = () => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
-  const chatSessionHandler = useChatSessionHandler()
 
   return {
     logout: useCallback(
@@ -40,7 +38,7 @@ export const useLogout = () => {
           })
           .then(() => client.clearStore())
           .then(() => ensureOAuth2Logout())
-          .then(() => setUserLoggedOut(chatSessionHandler))
+          .then(() => setUserLoggedOut())
           .then(() => {
             console.debug('[Logout] logout successful')
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
@@ -48,14 +46,14 @@ export const useLogout = () => {
           })
           .catch((e) => {
             console.debug('[Logout] logout failed, removing session from storage')
-            setUserLoggedOut(chatSessionHandler) // will remove session info from storage
+            setUserLoggedOut() // will remove session info from storage
             throw e // will be sent to Sentry so we're aware of it
             // not displaying an user-facing error messages as with the removal from the storage logout should be done
           })
           .catch((error) => displayError(error, t('auth.logout.error')))
           .finally(() => isLoggingOutVar(false))
       },
-      [navigate, openToast, t, displayError, chatSessionHandler]
+      [navigate, openToast, t, displayError]
     ),
     isLoggingOut,
   }

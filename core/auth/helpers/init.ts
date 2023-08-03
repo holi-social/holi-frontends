@@ -1,4 +1,3 @@
-import type { ChatSessionHandler } from '@holi/chat/src/store'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { OrySessionContext, OrySessionToken, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setUserLoggedIn, setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
@@ -17,35 +16,32 @@ export const validateSessionWithOry = async (orySessionToken: OrySessionToken): 
   }
 }
 
-export const onSessionLoadedFromStorage = async (
-  sessionFromStorage: OrySessionContext | null,
-  chatSessionHandler: ChatSessionHandler
-) => {
+export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionContext | null) => {
   if (sessionFromStorage === null) {
     console.debug('[Auth] no session found in storage')
-    await setUserLoggedOut(chatSessionHandler)
+    await setUserLoggedOut()
   } else {
     try {
       const sessionState = await validateSessionWithOry(sessionFromStorage.session_token)
 
       switch (sessionState) {
         case 'active':
-          await setUserLoggedIn(sessionFromStorage, chatSessionHandler)
+          await setUserLoggedIn(sessionFromStorage, false)
           break
         case 'expired':
         case 'invalid':
         default:
-          await setUserLoggedOut(chatSessionHandler)
+          await setUserLoggedOut()
       }
     } catch (err) {
-      await setUserLoggedOut(chatSessionHandler)
+      await setUserLoggedOut()
       throw err
     }
   }
 }
 
 // Fetches the authentication session.
-export const initAuth = async (chatSessionHandler: ChatSessionHandler) => {
+export const initAuth = async () => {
   const session = await getSessionFromStorage()
-  await onSessionLoadedFromStorage(session, chatSessionHandler)
+  await onSessionLoadedFromStorage(session)
 }

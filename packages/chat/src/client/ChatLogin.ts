@@ -79,14 +79,10 @@ export default class ChatLogin {
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public fetchSessionCredentials = async (orySessionToken: string | undefined, freshLogin = true): Promise<void> => {
+  public fetchSessionCredentials = async (orySessionToken: string, freshLogin = true): Promise<void> => {
     // fetch only if no Matrix session data found
     const sessionCredentials = await getStoredSessionCreds()
     if (sessionCredentials.accessToken) return
-
-    // The autherization token is only necessary for mobile as on web it uses
-    // the cookie mechanism. On Web is the `orySessionToken` undefined.
-    const autherizationHeader = { authorization: 'Bearer ' + orySessionToken }
 
     const response = await fetch(this.serverLoginUrl, {
       headers: {
@@ -95,7 +91,7 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
-        ...(orySessionToken && autherizationHeader),
+        authorization: `Bearer ${orySessionToken}`,
       },
       referrerPolicy: 'no-referrer',
       body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
