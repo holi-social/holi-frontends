@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -20,13 +20,36 @@ interface LinkHubWidgetProps {
 
 const INITIAL_NUMBER_OF_ITEMS = 3
 
+interface NoToolsAvailableProps {
+  onPress: () => void
+}
+
+const NoToolsAvailable: React.FC<NoToolsAvailableProps> = ({ onPress }) => {
+  const { t } = useTranslation()
+  return (
+    <HoliButton
+      label={t('spaces.digitalToolKit.noData.instruction')}
+      transparent
+      onPress={onPress}
+      style={styles.noToolsDescriptionContainer}
+    >
+      <HoliText size="small" style={styles.descriptionText}>
+        {t('spaces.digitalToolKit.noData.discription')}
+      </HoliText>
+      <HoliText size="small" style={styles.instruction}>
+        {t('spaces.digitalToolKit.noData.instruction')}
+      </HoliText>
+    </HoliButton>
+  )
+}
+
 const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
   const { useParam } = createParam<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const collaborationTools = space.collaborationTools || []
+  const { collaborationTools = [] } = space
 
   const handleShareButtonPress = useCallback((url: string) => {
     Linking.openURL(url)
@@ -46,25 +69,6 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
   const navigateToAddToolPage = useCallback(() => {
     navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }, [navigate, spaceIdOrName])
-
-  const NoToolsAvailable = useMemo(
-    () => (
-      <HoliButton
-        label={t('spaces.digitalToolKit.noData.instruction')}
-        transparent
-        onPress={navigateToAddToolPage}
-        style={styles.noToolsDescriptionContainer}
-      >
-        <HoliText size="small" style={styles.descriptionText}>
-          {t('spaces.digitalToolKit.noData.discription')}
-        </HoliText>
-        <HoliText size="small" style={styles.instruction}>
-          {t('spaces.digitalToolKit.noData.instruction')}
-        </HoliText>
-      </HoliButton>
-    ),
-    [navigateToAddToolPage, t]
-  )
 
   return (
     <CollaboratorAreaCard
@@ -90,8 +94,7 @@ const LinkHubWidget: React.VFC<LinkHubWidgetProps> = ({ space, style }) => {
               onEditButtonPress={(toolId) => navigateToEditToolPage(toolId)}
               style={styles.toolKitItem}
             />
-          ))) ||
-        NoToolsAvailable}
+          ))) || <NoToolsAvailable onPress={navigateToAddToolPage} />}
       {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
           <HoliButton
@@ -126,7 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 8,
-    // paddingBottom: 16,
     marginTop: 24,
   },
   instruction: {
