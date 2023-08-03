@@ -24,7 +24,7 @@ export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
 /**
  * @description getDisplayDate() function
  *
- * @param dateStr - stringified date
+ * @param timestampOrDateStr - timestapm or stringified date
  * @param locale - user locale (e.g. "en", "de", etc)
  *
  * @returns A formated date string for:
@@ -32,12 +32,12 @@ export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
  * - yesterday: localized "yesterday" (e.g. "gestern")
  * - for other dates: formated nummeric date (e.g. 24/12/2022)
  */
-export const getDisplayDate = (locale: string, dateStr?: string): string => {
-  if (!dateStr) return ''
+export const getDisplayDate = (locale: string, timestampOrDateStr?: number | string): string => {
+  if (timestampOrDateStr == undefined) return ''
 
   locale = getLocale(locale)
 
-  const date = new Date(dateStr)
+  const date = new Date(timestampOrDateStr)
 
   if (isToday(date)) {
     return new Intl.DateTimeFormat(locale, {

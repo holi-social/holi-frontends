@@ -17,6 +17,8 @@ import type {
 } from '@holi/chat/src/utils/constants'
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 
 export enum SSOAction {
@@ -57,7 +59,7 @@ export default class ChatLogin {
     await AsyncStore.multiRemove([this.serverTokenKey, this.deviceIdKey, this.userIdKey, this.freshLogin])
   }
 
-  private updateSessionCredentials = async ({
+  private saveCredentials = async ({
     access_token,
     user_id,
     device_id,
@@ -77,7 +79,11 @@ export default class ChatLogin {
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public setSessionCredentials = async (freshLogin: boolean): Promise<void> => {
+  public fetchSessionCredentials = async (orySessionToken: string, freshLogin = true): Promise<void> => {
+    // fetch only if no Matrix session data found
+    const sessionCredentials = await getStoredSessionCreds()
+    if (sessionCredentials.accessToken) return
+
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -85,15 +91,16 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
+        authorization: `Bearer ${orySessionToken}`,
       },
       referrerPolicy: 'no-referrer',
-      body: '{"type":"org.matrix.login.jwt","initial_device_display_name":"' + this.deviceName + '"}',
+      body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
       method: 'POST',
       mode: 'cors',
     })
 
     const credentials: LoginCredentials = await response.json()
-    await this.updateSessionCredentials({ ...credentials, fresh_login: freshLogin })
+    await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
   }
 
   public logout = async (): Promise<void> => {
@@ -119,7 +126,11 @@ export default class ChatLogin {
   }
 
   public retryLogin = async (): Promise<ChatCredentials> => {
-    await this.setSessionCredentials(false)
+    const orySession = await getSessionFromStorage()
+
+    if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
+
+    await this.fetchSessionCredentials(orySession?.session_token, false)
     return await this.getSessionCredentials()
   }
 }

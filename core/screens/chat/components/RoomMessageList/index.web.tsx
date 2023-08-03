@@ -3,33 +3,40 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
+import { ChatMessage } from '@holi/chat/src/store'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
-import RoomMessage from '@holi/core/screens/chat/components/RoomMessageList/RoomMessage'
-import { getSectionDisplayDate } from '@holi/core/screens/chat/components/RoomMessageList/helpers'
-import { Message, Room } from '@holi/core/screens/chat/components/seed'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
+import RoomMessage from './RoomMessage'
+import { getSectionDisplayDate } from './helpers'
+import { RoomMessageListProps } from './types'
+
 interface MessageDateGroup {
   title: string
-  data: Message[]
+  data: ChatMessage[]
 }
 
-const groupByDate = (messages: Message[], locale: string): MessageDateGroup[] => {
+const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[] => {
   const groupedMessages: Record<string, MessageDateGroup> = {}
   locale = getLocale(locale)
 
   for (const message of messages) {
-    const date = new Date(message.postedAt)
-    const formatedDate = Intl.DateTimeFormat(locale, {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    }).format(date)
+    const { timestamp } = message
+    let formatedDate = ''
+
+    if (timestamp) {
+      const date = new Date(timestamp)
+      formatedDate = Intl.DateTimeFormat(locale, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      }).format(date)
+    }
 
     groupedMessages[formatedDate] = groupedMessages[formatedDate] ?? {
-      title: getSectionDisplayDate(locale, message.postedAt),
+      title: getSectionDisplayDate(locale, timestamp),
       data: [],
     }
     groupedMessages[formatedDate].data.unshift(message)
@@ -38,25 +45,22 @@ const groupByDate = (messages: Message[], locale: string): MessageDateGroup[] =>
   return Object.values(groupedMessages).reverse()
 }
 
-interface RoomMessageListProps {
-  room: Room
-}
-
-const RoomMessageList = ({ room }: RoomMessageListProps) => {
+const RoomMessageList = ({ messages = [] }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
-  const groupedMessages = groupByDate(room?.messages ?? [], i18n.language)
+  const groupedMessages = groupByDate(messages, i18n.language)
 
   return (
     <SectionList
       sections={groupedMessages}
-      keyExtractor={(item) => item.id}
+      // FIXME: figure out why `id` is optional prop in `ChatMessage` type
+      keyExtractor={(item) => item.id!}
       renderItem={({ item: message, index, section: { data: list } }) => {
         const isFirstMessageInSection = index === 0
         const prevMessage = list[index + 1]
-        const isPrevMessageFromSameUser = prevMessage && prevMessage?.user?.id === message.user?.id
+        const isPrevMessageFromSameUser = prevMessage && prevMessage?.sender === message.sender
         const nextMessage = list[index - 1]
-        const isNextMessageFromSameUser = nextMessage && nextMessage?.user?.id === message.user?.id
+        const isNextMessageFromSameUser = nextMessage && nextMessage?.sender === message.sender
 
         return (
           <RoomMessage

@@ -19,6 +19,7 @@ export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.
 
 export interface User {
   id: string
+  identity: string
   avatar?: string
   avatarBlurhash?: string
   avatarDefaultColor: string

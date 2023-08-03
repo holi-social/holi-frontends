@@ -3,9 +3,9 @@ import React, { useEffect, useRef } from 'react'
 
 import RoomView from '@holi/chat/src/components/RoomView'
 import {
-  createRoomAtom,
-  roomAtomsAtom,
-  roomAtomsAtomSubscriber,
+  addToRoomAtoms,
+  roomAtomsRecordAtom,
+  roomAtomsRecordAtomSubscriber,
   roomMessagesAtom,
   roomMessagesSubscriberAtom,
 } from '@holi/chat/src/store'
@@ -15,13 +15,13 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const ChatView = () => {
   useAtom(roomMessagesAtom)
-  useAtom(roomAtomsAtomSubscriber)
+  useAtom(roomAtomsRecordAtomSubscriber)
   useAtom(roomMessagesSubscriberAtom)
 
   const commitRef = useRef(0)
-  const roomsAtoms = useAtomValue(roomAtomsAtom)
+  const roomsAtoms = useAtomValue(roomAtomsRecordAtom)
 
-  const [, createRoom] = useAtom(createRoomAtom)
+  const [, createRoomAtom] = useAtom(addToRoomAtoms)
 
   useEffect(() => {
     commitRef.current += 1
@@ -32,7 +32,7 @@ const ChatView = () => {
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
     const userIds: string[] = ['@sonja_palma:local.chat.holi.social']
-    createRoom(userIds)
+    createRoomAtom(userIds)
   }
 
   return (
