@@ -18,12 +18,12 @@ export const setScreenScrollY = scrollYVar
 
 export const useScreenScrollY = () => useReactiveVar(scrollYVar)
 
-const scrollYBaseAtom = atom(0) // not exported, to prevent bad usage (e.g. tracking reads, when wanting to write)
+const mobileScrollYBaseAtom = atom(0) // not exported, to prevent bad usage (e.g. tracking reads, when wanting to write)
 
-export const scrollYAtom = atom((get) => get(scrollYBaseAtom))
+export const mobileScrollYAtom = atom((get) => get(mobileScrollYBaseAtom))
 
-export const useGlobalScrollListener = () => {
-  const setScrollY = useSetAtom(scrollYBaseAtom)
+export const useMobileScrollListener = () => {
+  const setScrollY = useSetAtom(mobileScrollYBaseAtom)
 
   return useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent> | NativeScrollEvent | { contentOffset: { y: number } }) => {
