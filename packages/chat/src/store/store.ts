@@ -1,8 +1,8 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
-import { atom, createStore, useAtom } from 'jotai'
+import { atom, createStore, useAtom, useSetAtom } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
+import { useCallback } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
@@ -15,20 +15,60 @@ import { InvitationUpdate, addChatRoom, createChatRoom, updateInvitation, update
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
 
 /** Store **/
-export const chatStore = createStore()
-
-/** Client **/
-// TODO: Check if the user is logged in
-const isChatReadyVar = makeVar(false)
-export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
-
 export const chatClient = new ChatClient()
 export const chatLogin = new ChatLogin()
-export const startChat = async (orySessionToken: string, freshLogin = true) => {
-  await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
-  await chatClient.start()
-  isChatReadyVar(true)
+export const chatStore = createStore()
+
+/** Client / Client Lifecycle **/
+
+/**
+ * @name isChatClientReadyAtom
+ * @description Three atoms handle the Chat lifecycle state and let React know
+   when to mount the store. Only export the isChatClientReadyAtom and use it
+   together with `useChatSessionHandler`
+ */
+const _isChatClientReadyAtom = atom(false)
+const setIsChatClientReadyAtom = atom(null, (get, set, isReady: boolean) => {
+  set(_isChatClientReadyAtom, isReady)
+})
+export const isChatClientReadyAtom = atom((get) => get(_isChatClientReadyAtom))
+
+type ChatSessionState = 'start' | 'end'
+
+export type ChatSessionHandler = (
+  state: ChatSessionState,
+  orySessionToken?: string,
+  freshLogin?: boolean
+) => Promise<void>
+
+/**
+ * @name useChatSessionHandler
+ * @description Log in and log out a user from the Chat Server. It informs the
+ * store when it is to start the Chat lifecycle. Use it with the
+ * ChatInititializer component
+ */
+export const useChatSessionHandler = (): ChatSessionHandler => {
+  const setIsChatClientReady = useSetAtom(setIsChatClientReadyAtom)
+
+  return useCallback(
+    async (state, orySessionToken, freshLogin = false) => {
+      const isStartingChat = state === 'start'
+
+      if (isStartingChat) {
+        await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
+        await chatClient.start()
+      } else {
+        await chatClient.stop()
+        await chatLogin.logout()
+      }
+
+      // Change the state once we have fetched the session credentials
+      setIsChatClientReady(isStartingChat)
+    },
+    [setIsChatClientReady]
+  )
 }
+
 /** Rooms **/
 
 /**
@@ -56,7 +96,7 @@ export const roomIdNameRecortAtom = atom<Record<string, string>>((get) => {
 })
 
 /**
- * @name roomAtomsAtomSubscriber (Write-Only)
+ * @name roomAtomsRecordAtomSubscriber (Write-Only)
  * @description A write-only atom that programmatically creates a room based on
  * the Matrix Client store and listens to the room invitation event emitter for
  * creating rooms (`onMount`). Implementing a write-only atom has null as the
