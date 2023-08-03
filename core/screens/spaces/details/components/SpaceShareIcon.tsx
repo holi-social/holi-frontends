@@ -15,6 +15,8 @@ type SpaceShareIconProps = {
   title?: string | null
 }
 
+//TODO: refactoring: implement useShareLink hook
+
 const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ url, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
   const prefix = useRef('')
