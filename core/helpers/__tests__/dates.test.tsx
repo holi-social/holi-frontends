@@ -1,14 +1,20 @@
 import { isLastWeek, isThisWeek } from '@holi/core/helpers/dates'
 
-jest.useFakeTimers().setSystemTime(new Date('2022-01-01'))
+const currentDate = new Date()
+
+// Calculate the start of the current week (Sunday)
+const currentWeekStart = new Date(
+  currentDate.getFullYear(),
+  currentDate.getMonth(),
+  currentDate.getDate() - currentDate.getDay()
+)
 
 describe('isThisWeek', () => {
   it('should correctly identify dates within the current week', () => {
-    const currentWeekDate = new Date() // Today's date
-    expect(isThisWeek(currentWeekDate)).toBe(true)
+    expect(isThisWeek(currentWeekStart)).toBe(true)
 
-    const withinWeekDate = new Date()
-    withinWeekDate.setDate(withinWeekDate.getDate() - 3) // Within 3 days from the current week start
+    const withinWeekDate = new Date(currentWeekStart)
+    withinWeekDate.setDate(withinWeekDate.getDate() + 3) // Within 3 days from the current week start
     expect(isThisWeek(withinWeekDate)).toBe(true)
   })
 
@@ -24,14 +30,6 @@ describe('isThisWeek', () => {
 })
 
 describe('isLastWeek', () => {
-  const currentDate = new Date()
-  // Calculate the start of the current week (Sunday)
-  const currentWeekStart = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate() - currentDate.getDay()
-  )
-
   it('should correctly identify dates from last week', () => {
     const firstDayOfLastWeek = new Date(currentWeekStart)
     firstDayOfLastWeek.setDate(currentWeekStart.getDate() - 7)
