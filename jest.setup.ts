@@ -12,6 +12,7 @@ global.console = {
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
+global.TextEncoder = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')

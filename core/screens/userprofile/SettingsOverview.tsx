@@ -12,13 +12,13 @@ import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import { AccountCircle, Help, Lock, Notification2 } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const IS_CHAT_ENABLED = false
 const chatLoginClient = new ChatLogin()
 
 const SettingsOverview = () => {

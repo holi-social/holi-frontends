@@ -5,6 +5,7 @@ import React, { Suspense } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
+import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/provider/LoginModalProvider'
@@ -47,6 +48,7 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
                 <SessionExpiryProtection>
                   <FeatureTogglesFetcher />
                   {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                  <ChatStoreInitializer />
                   <LoginModalProvider>{children}</LoginModalProvider>
                 </SessionExpiryProtection>
               </PortalProvider>

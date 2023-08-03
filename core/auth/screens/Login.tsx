@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -32,9 +31,6 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 export type LoginParams = {
   return_to?: string
 }
-
-const IS_CHAT_ENABLED = false
-const chatLoginClient = new ChatLogin()
 
 const { useParam } = createParam<LoginParams>()
 
@@ -95,12 +91,6 @@ const Login = () => {
       await setUserLoggedIn(data as OrySessionContext)
       await storeOnboardingState('finished')
       confirmOAuth2Login()
-
-      // Get Matrix Server Token
-      // Currently its disabled
-      if (IS_CHAT_ENABLED) {
-        await chatLoginClient.setSessionCredentials(true)
-      }
 
       if (Platform.OS === 'web' && return_to) {
         // server side redirect, see: See apps/web/pages/oauth2/login.tsx
