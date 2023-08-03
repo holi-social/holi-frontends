@@ -19,7 +19,8 @@
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "HOLI_API_GATEWAY": "https://staging.unified.apis.holi.social",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
-        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social"
+        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
+        "ENVIRONMENT_ID": "staging"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -32,7 +33,8 @@
         "HOLI_NEXTJS_API_URL": "https://app.holi.social",
         "JITSI_URL": "https://meet.holi.social",
         "ORY_BASE_URL": "https://auth.holi.social",
-        "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social"
+        "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
+        "ENVIRONMENT_ID": "production"
       },
       "ios": {
         "resourceClass": "m1-medium"
