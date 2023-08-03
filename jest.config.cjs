@@ -1,5 +1,8 @@
 module.exports = {
   preset: 'jest-expo',
+  globals: {
+    __DEV__: true
+  },
   transform: {
     '^.+\\.jsx$': 'babel-jest',
     '^.+\\.tsx?$': 'babel-jest',
