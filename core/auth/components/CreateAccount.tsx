@@ -10,7 +10,6 @@ import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'rea
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { useChatSessionHandler } from '@holi/chat/src/store'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
@@ -52,7 +51,6 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const chatSessionHandler = useChatSessionHandler()
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
@@ -108,7 +106,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
             session: data.session,
             session_token: data.session_token,
           } as OrySessionContext,
-          chatSessionHandler,
+          undefined,
           true
         )
 

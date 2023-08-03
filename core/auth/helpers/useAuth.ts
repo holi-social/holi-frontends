@@ -12,7 +12,7 @@ const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
 // intended to be called from outside the context provider (e.g. login form)
 export const setUserLoggedIn = async (
   session: OrySessionContext,
-  chatSessionHandler: ChatSessionHandler,
+  chatSessionHandler: ChatSessionHandler | undefined,
   freshLogin = true
 ): Promise<void> => {
   console.debug('[Auth] setUserLoggedIn')
@@ -21,7 +21,7 @@ export const setUserLoggedIn = async (
   // fetch and save Okuna user
   loggedInUserIdVar(session.session.identity.id)
   // fetch and save Matrix session in AsyncStorage
-  if (IS_CHAT_ENABLED) {
+  if (IS_CHAT_ENABLED && chatSessionHandler) {
     // TODO: handle loading animation
     await chatSessionHandler('start', session?.session_token, freshLogin)
   }
