@@ -39,10 +39,12 @@ export interface MobileImageProps extends HoliImageProps {
   // careful, make sure any parameter here works in web as well
   style?: ExpoImageProps['style']
   testID?: ExpoImageProps['testID']
+  onError?: ExpoImageProps['onError']
   onLayout?: ViewProps['onLayout']
 }
 
 interface WebImageProps extends HoliImageProps {
   // careful, make sure any parameter here works in mobile as well
   style?: CSSProperties
+  onError?: () => void
 }
