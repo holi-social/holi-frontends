@@ -7,7 +7,7 @@ import { MatrixEvent } from 'matrix-js-sdk'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import { isCreateMessage } from '@holi/chat/src/store/utils'
-import { CHAT_SELECTED_ROOM_ID_KEY } from '@holi/chat/src/utils'
+import { CHAT_LOCAL_STORAGE_KEY_SELECTED_ROOM_ID } from '@holi/chat/src/utils'
 import { logError } from '@holi/core/errors/helpers'
 
 import { createChatMessage, updateMessages } from './messages'
@@ -139,7 +139,7 @@ const selectedRoomAtomAtom = atom<ChatRoomAtom | null>(null)
 export const selectRoomAtom = atom(null, async (get, set, chatRoomAtom: ChatRoomAtom) => {
   const room = get(chatRoomAtom)
   set(selectedRoomAtomAtom, chatRoomAtom)
-  await AsyncStorage.setItem(CHAT_SELECTED_ROOM_ID_KEY, room.id).catch((err) => logError(err))
+  await AsyncStorage.setItem(CHAT_LOCAL_STORAGE_KEY_SELECTED_ROOM_ID, room.id).catch((err) => logError(err))
 })
 
 /**
