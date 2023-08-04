@@ -1,14 +1,25 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { chatUrl } from '@holi/core/helpers/config'
 
-import { CHAT_DEVICE_ID_KEY, CHAT_FRESH_LOGIN_KEY, CHAT_TOKEN_KEY, CHAT_URL, CHAT_USER_ID_KEY } from './constants'
+import {
+  CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+  CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  CHAT_LOCAL_STORAGE_KEY_TOKEN,
+  CHAT_LOCAL_STORAGE_KEY_USER_ID,
+} from './constants'
 
 export const getStoredSessionCreds = async (): Promise<ChatCredentials> => {
-  const values = await AsyncStore.multiGet([CHAT_TOKEN_KEY, CHAT_DEVICE_ID_KEY, CHAT_USER_ID_KEY, CHAT_FRESH_LOGIN_KEY])
+  const values = await AsyncStore.multiGet([
+    CHAT_LOCAL_STORAGE_KEY_TOKEN,
+    CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+    CHAT_LOCAL_STORAGE_KEY_USER_ID,
+    CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  ])
 
   const credentials: ChatCredentials = {
-    baseUrl: CHAT_URL,
+    baseUrl: chatUrl,
     guest: false,
     userId: '',
     accessToken: '',
@@ -18,10 +29,10 @@ export const getStoredSessionCreds = async (): Promise<ChatCredentials> => {
   return values.reduce(
     (acc, [key, value]) => ({
       ...acc,
-      ...(key === CHAT_USER_ID_KEY ? { userId: value ?? '' } : {}),
-      ...(key === CHAT_TOKEN_KEY ? { accessToken: value ?? '' } : {}),
-      ...(key === CHAT_DEVICE_ID_KEY ? { deviceId: value ?? '' } : {}),
-      ...(key === CHAT_FRESH_LOGIN_KEY ? { freshLogin: value === 'true' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_USER_ID ? { userId: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_TOKEN ? { accessToken: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_DEVICE_ID ? { deviceId: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN ? { freshLogin: value === 'true' } : {}),
     }),
     credentials
   )
