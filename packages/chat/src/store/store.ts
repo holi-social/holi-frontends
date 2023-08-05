@@ -23,9 +23,11 @@ const isChatReadyVar = makeVar(false)
 export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
 
 export const chatClient = new ChatClient()
-export const chatLogin = new ChatLogin()
+
 export const startChat = async (orySessionToken: string, freshLogin = true) => {
-  await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
+  console.debug('startChat')
+
+  await new ChatLogin().fetchSessionCredentials(orySessionToken, freshLogin)
   await chatClient.start()
   isChatReadyVar(true)
 }

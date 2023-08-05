@@ -18,6 +18,7 @@ import { Membership } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { chatUrl } from '@holi/core/helpers/config'
 
 import { RoomId } from './types'
 import { hasMxClient } from './utils'
@@ -32,15 +33,17 @@ import { hasMxClient } from './utils'
  */
 export default class ChatClient {
   private mxClient: MatrixClient | null = null
-  private clientCredentials: ChatCredentials | null = null
   private rooms: Room[] = []
   private selectedRoom: string | null = null
   private readonly login = new ChatLogin()
   public isOn = false
 
-  private createClient(credentials: ChatCredentials): MatrixClient {
-    this.clientCredentials = credentials
+  public constructor(private readonly credentials?: ChatCredentials) {
+    if (!credentials) return
+    this.mxClient = this.createClient(credentials)
+  }
 
+  private createClient(credentials: ChatCredentials): MatrixClient {
     const options: ICreateClientOpts = {
       baseUrl: credentials.baseUrl,
       accessToken: credentials.accessToken,
@@ -77,17 +80,18 @@ export default class ChatClient {
     return true
   }
 
-  public constructor(private readonly credentials?: ChatCredentials) {
-    if (!credentials) return
-    this.mxClient = this.createClient(credentials)
-  }
-
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
     if (this.isOn === false) {
       try {
         if (!this.mxClient) {
           const credentials = await this.login.getSessionCredentials()
-          this.mxClient = this.createClient(credentials)
+          this.mxClient = this.createClient({
+            baseUrl: chatUrl,
+            accessToken: credentials.access_token,
+            deviceId: credentials.device_id,
+            userId: credentials.user_id,
+            freshLogin: credentials.fresh_login,
+          })
         }
         await this.mxClient.startClient(options)
         this.isOn = true
