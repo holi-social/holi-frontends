@@ -7,7 +7,7 @@ import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import NotificationBadge from '@holi/core/navigation/components/NotificationBadge'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { HasNewNotifcationsQuery, HasNewNotifcationsResponse } from '@holi/core/screens/notifications/queries'
+import { HasNewNotificationsQuery, HasNewNotificationsResponse } from '@holi/core/screens/notifications/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Notification2, Search } from '@holi/icons/src/generated'
@@ -23,7 +23,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
 
-  const { data } = useQuery<HasNewNotifcationsResponse>(HasNewNotifcationsQuery, {
+  const { data } = useQuery<HasNewNotificationsResponse>(HasNewNotificationsQuery, {
     skip: !isLoggedIn,
     fetchPolicy: 'network-only',
     pollInterval: NOTIFICATION_POLLING_INTERVAL,
