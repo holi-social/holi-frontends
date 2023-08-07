@@ -26,6 +26,18 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
+  // Shuffle algorithm Fisher-Yates (aka Knuth)
+  const shuffle = (array: Array<Project>) => {
+    let currentIndex = array.length,
+      randomIndex
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex--
+      ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+    }
+    return array
+  }
+
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       limit: PROJECT_PAGE_SIZE,
@@ -42,6 +54,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { data: projects = [] } = data?.appDonations_projects || {}
 
   const projectsToRender = projects.slice(0, PROJECT_PAGE_SIZE)
+  const shuffledProjectsToRender = shuffle(projectsToRender)
 
   const renderItem = ({ item }: { item: Project }) => {
     const { categories, donationsCount, progressPercentage, openAmountInCents, picture } = item
@@ -72,7 +85,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
     <AppUpdatesList
       appName={HOLI_APPS.DONATIONS}
       renderItem={renderItem}
-      data={projectsToRender}
+      data={shuffledProjectsToRender}
       appIcon={HandHeart}
       heading={t('donations:app.name')}
       subline={t('donations:app.subline')}
