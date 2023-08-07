@@ -5,9 +5,15 @@
       "distribution": "internal",
       "env": {
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "ENVIRONMENT_ID": "staging",
         "HOLI_API_GATEWAY": "https://staging.unified.apis.holi.social",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
-        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social"
+        "HOLI_CHAT_IDENTITY_SERVER_URL": "https://vector.im",
+        "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
+        "JITSI_URL": "https://development.meet.holi.social",
+        "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
+        "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -17,10 +23,15 @@
       "distribution": "internal",
       "env": {
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "ENVIRONMENT_ID": "staging",
         "HOLI_API_GATEWAY": "https://staging.unified.apis.holi.social",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
+        "HOLI_CHAT_IDENTITY_SERVER_URL": "https://vector.im",
+        "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
-        "ENVIRONMENT_ID": "staging"
+        "JITSI_URL": "https://development.meet.holi.social",
+        "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
+        "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -28,13 +39,15 @@
     },
     "production": {
       "env": {
+        "ENVIRONMENT_ID": "production",
         "HOLI_API_GATEWAY": "https://production.unified.apis.holi.social",
         "HOLI_API_URL": "https://production.unified.apis.holi.social/graphql",
+        "HOLI_CHAT_IDENTITY_SERVER_URL": "https://vector.im",
+        "HOLI_CHAT_SERVER_URL": "https://production.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://app.holi.social",
         "JITSI_URL": "https://meet.holi.social",
-        "ORY_BASE_URL": "https://auth.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
-        "ENVIRONMENT_ID": "production"
+        "ORY_BASE_URL": "https://auth.holi.social"
       },
       "ios": {
         "resourceClass": "m1-medium"
@@ -43,9 +56,15 @@
     "simulator": {
       "env": {
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
+        "ENVIRONMENT_ID": "staging",
         "HOLI_API_GATEWAY": "https://staging.unified.apis.holi.social",
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
-        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social"
+        "HOLI_CHAT_IDENTITY_SERVER_URL": "https://vector.im",
+        "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
+        "JITSI_URL": "https://development.meet.holi.social",
+        "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
+        "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
         "simulator": true

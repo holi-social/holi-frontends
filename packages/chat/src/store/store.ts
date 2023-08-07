@@ -22,13 +22,17 @@ export const chatStore = createStore()
 const isChatReadyVar = makeVar(false)
 export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
 
-export const chatClient = new ChatClient()
+export const chatClientP = ChatClient.createClient()
 
-export const startChat = async (orySessionToken: string, freshLogin = true) => {
+export const startChat = async (orySessionToken: string, freshLogin = true): Promise<void> => {
   console.debug('startChat')
 
-  await new ChatLogin().fetchSessionCredentials(orySessionToken, freshLogin)
+  const chatClient = await chatClientP
+  const chatLogin = new ChatLogin()
+
+  await chatLogin.ensureLoggedIn(orySessionToken, freshLogin)
   await chatClient.start()
+  await chatClient.configurePusher()
   isChatReadyVar(true)
 }
 /** Rooms **/
@@ -75,27 +79,30 @@ export const roomAtomsRecordAtomSubscriber = atom(
 )
 
 roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  const userId = chatClient.getUserId()
-  // We set all the joined rooms initially
-  chatClient.getRooms().then((rooms) => {
-    rooms.forEach((room) => setAtom(createChatRoom(room, userId)))
-  })
+  chatClientP.then((chatClient) => {
+    const userId = chatClient.getUserId()
+    // We set all the joined rooms initially
+    chatClient.getRooms().then((rooms) => {
+      rooms.forEach((room) => setAtom(createChatRoom(room, userId)))
+    })
 
-  // In case of an invitation we would added by listening to this emitter.
-  chatClient.subscribeToInvitations((roomId, displayName, hasInvitation, senderId) => {
-    setAtom({
-      hasInvitation,
-      id: roomId,
-      name: displayName,
-      notificationCount: 1,
-      lastMessage: undefined,
-      senderId,
-      timestamp: undefined,
+    // In case of an invitation we would added by listening to this emitter.
+    chatClient.subscribeToInvitations((roomId, displayName, hasInvitation, senderId) => {
+      setAtom({
+        hasInvitation,
+        id: roomId,
+        name: displayName,
+        notificationCount: 1,
+        lastMessage: undefined,
+        senderId,
+        timestamp: undefined,
+      })
     })
   })
 }
 
-export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
+export const addToRoomAtoms = atom(null, async (get, set, userIds: string[]) => {
+  const chatClient = await chatClientP
   chatClient
     .createRoom(userIds)
     .then(({ room_id }) => {
@@ -168,7 +175,7 @@ export const joinRoomAtom = atom(null, async (get, set, roomUpdate: InvitationUp
   const selectedRoomAtom = get(selectedRoomAtomAtom)
   if (!selectedRoomAtom) return
 
-  const hasJoined = await chatClient.joinRoom(roomUpdate.id)
+  const hasJoined = await (await chatClientP).joinRoom(roomUpdate.id)
   if (!hasJoined) return
   set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, roomUpdate))
 })
@@ -207,7 +214,7 @@ export const roomMessagesSubscriberAtom = atom(
     }
 
     // Add a message from an user action
-    await chatClient.sendTextMessage(message.roomId, message.text)
+    await (await chatClientP).sendTextMessage(message.roomId, message.text)
   }
 )
 
@@ -251,5 +258,7 @@ export const threadsAtomsRecordAtomSubscriber = atom(
 )
 
 threadsAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  chatClient.subscribeToMessages(setAtom)
+  chatClientP.then((chatClient) => {
+    chatClient.subscribeToMessages(setAtom)
+  })
 }

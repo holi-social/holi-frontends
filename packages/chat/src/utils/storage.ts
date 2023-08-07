@@ -16,7 +16,7 @@ export interface StoredCredentials {
   fresh_login: boolean
 }
 
-export const getStoredSessionCreds = async (): Promise<StoredCredentials> => {
+export const loadSessionCredentials = async (): Promise<StoredCredentials> => {
   const values = await AsyncStore.multiGet([
     CHAT_LOCAL_STORAGE_KEY_TOKEN,
     CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
@@ -37,7 +37,7 @@ export const getStoredSessionCreds = async (): Promise<StoredCredentials> => {
   ) as StoredCredentials
 }
 
-export const saveCredentials = async (credentials: StoredCredentials): Promise<StoredCredentials> => {
+export const storeSessionCredentials = async (credentials: StoredCredentials): Promise<StoredCredentials> => {
   await clearSessionCredentials()
 
   // Reset newly received credentials

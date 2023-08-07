@@ -9,14 +9,16 @@ import { Platform } from 'react-native'
 import { CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN } from '@holi/chat/src/utils/constants'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import {
-  StoredCredentials,
+  StoredCredentials as SessionCredentials,
   clearSessionCredentials,
-  getStoredSessionCreds,
-  saveCredentials,
+  loadSessionCredentials,
+  storeSessionCredentials,
 } from '@holi/chat/src/utils/storage'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatLoginUrl } from '@holi/core/helpers/config'
+
+import { logDebug } from './logging'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -44,11 +46,20 @@ export default class ChatLogin {
 
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 
-  public fetchSessionCredentials = async (orySessionToken: string, freshLogin = true): Promise<StoredCredentials> => {
+  public ensureLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
     // fetch only if no Matrix session data found
-    const sessionCredentials = await getStoredSessionCreds()
-    if (sessionCredentials.access_token) return sessionCredentials
+    const storedSessionCredentials = await loadSessionCredentials()
+    if (storedSessionCredentials.access_token) {
+      logDebug('ChatLogin.ensureLoggedIn', 'using stored session credentials')
+      return Promise.resolve(storedSessionCredentials)
+    } else {
+      logDebug('ChatLogin.ensureLoggedIn', 'no stored session credentials found, logging in first')
+      return await storeSessionCredentials(await this.login(orySessionToken, freshLogin))
+    }
+  }
 
+  public login = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+    logDebug('ChatLogin.login', `logging in to Matrix on ${this.serverLoginUrl}`)
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -63,41 +74,45 @@ export default class ChatLogin {
       method: 'POST',
       mode: 'cors',
     })
-
-    if (!response.ok) throw new Error('Unable to fetch session credentials')
-
-    const credentials: MatrixLoginResponse = await response.json()
-    return await saveCredentials({ ...credentials, fresh_login: freshLogin })
+    if (!response.ok) throw new Error('Unable to log in to Matrix server')
+    logDebug('ChatLogin.login', 'login successful')
+    return {
+      ...((await response.json()) as MatrixLoginResponse),
+      fresh_login: freshLogin,
+    }
   }
 
   public logout = async (): Promise<void> => {
     await clearSessionCredentials()
   }
 
-  public getSessionCredentials = async (): Promise<StoredCredentials> => {
-    const sessionCredentials = await getStoredSessionCreds()
-    console.debug('sessionCredentials', sessionCredentials)
+  public getSessionCredentials = async (): Promise<SessionCredentials> => {
+    const sessionCredentials = await loadSessionCredentials()
+    logDebug('ChatLogin.getSessionCredentials', 'loaded session credentials', sessionCredentials)
     // TODO abort/retry loging on missing access
     if (!sessionCredentials.access_token) throw new Error('unable to restore local session credentials')
 
     if (sessionCredentials.fresh_login === true) {
+      logDebug('ChatLogin.getSessionCredentials', 'storing fresh login = false')
       await AsyncStore.setItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, 'false')
     }
 
     return sessionCredentials
   }
 
+  // TODO dead code
   public getLoginStatus = async (): Promise<boolean> => {
     const isLoggedin = await AsyncStore.getItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN)
     return isLoggedin ? JSON.parse(isLoggedin) : false
   }
 
+  // TODO dead code
   public retryLogin = async (): Promise<void> => {
     const orySession = await getSessionFromStorage()
 
     if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
 
-    await this.fetchSessionCredentials(orySession?.session_token, false)
+    await this.ensureLoggedIn(orySession?.session_token, false)
     await this.getSessionCredentials()
   }
 }

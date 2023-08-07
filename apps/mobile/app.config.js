@@ -37,6 +37,7 @@ export default {
         CFBundleAllowMixedLocalizations: true,
         LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       },
+      // TODO add googleServicesFile for iOS
     },
     android: {
       adaptiveIcon: {
@@ -45,6 +46,8 @@ export default {
       },
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
+      // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
+      googleServicesFile: './google-services.json',
     },
     plugins: [
       ['sentry-expo'],

@@ -11,6 +11,7 @@ export const config = {
 }
 
 const handler = (req, res) => {
+  console.debug('API_URL', API_URL)
   proxy.web(req, res, { target: API_URL, autoRewrite: false, changeOrigin: true })
 }
 
