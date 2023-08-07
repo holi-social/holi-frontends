@@ -7,7 +7,7 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { Hearts, Newspaper, Pages } from '@holi/icons/src/generated'
+import { Hearts, Newspaper, Pages, Tools } from '@holi/icons/src/generated'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const LegalDocuments = () => {
@@ -48,6 +48,14 @@ const LegalDocuments = () => {
             onPress={() => navigate('/profile/settings/legalDocuments/document?type=communityGuidelines')}
             style={styles.item}
             testID="btn-community-guidelines"
+          />
+          <MoreOptionItem
+            label={t('profile.settings.legalDocuments.openSource')}
+            icon={Tools}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/legalDocuments/document?type=openSource')}
+            style={styles.item}
+            testID="btn-open-source"
           />
         </View>
       </LoginProtection>
