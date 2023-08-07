@@ -70,7 +70,6 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   // cardWidth is used for image scaling (see usage). this is fine,
   // because value is constant in web and for mobile windowWidth doesn't change
   const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
-  const imageHeight = Platform.OS === 'web' ? 160 : windowWidth / 2 - 40
 
   const {
     loading: dataLoading,
@@ -153,7 +152,6 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
           hasMore ? (
             <SpacesSeeMore
               style={styles.seeMoreCard}
-              imageHeight={imageHeight}
               onPress={() => navigate(`/spaces/filter?${seeMoreQueryParams}`)}
               testID={`${testID}-see-more`}
             />
