@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -8,7 +8,6 @@ import {
   joinRoomAtom,
   roomAtomsRecordAtom,
   roomMessagesSubscriberAtom,
-  selectRoomAtom,
   threadsAtomsRecordAtom,
   useSubscribeToRoomAndMessageUpdates,
 } from '@holi/chat/src/store'
@@ -40,7 +39,6 @@ const ChatRoom = () => {
   const room = useAtomValue(roomAtom)
 
   const joinRoom = useSetAtom(joinRoomAtom)
-  const selectRoom = useSetAtom(selectRoomAtom)
 
   const threadsAtomsRecord = useAtomValue(threadsAtomsRecordAtom)
   const messagesAtom = threadsAtomsRecord[roomId] ?? nullAtom
@@ -61,12 +59,6 @@ const ChatRoom = () => {
     })
   }, [room?.name, setScreenOptions])
 
-  useEffect(() => {
-    if (room) {
-      selectRoom(roomAtom)
-    }
-  }, [room, roomAtom, selectRoom])
-
   if (!room) return null
 
   return (
@@ -77,10 +69,7 @@ const ChatRoom = () => {
             {room.hasInvitation ? (
               <View style={{ flex: 1 }}>
                 <HoliBox padding={[+vars.bottomBarHeight + 20, 20]}>
-                  <HoliButton
-                    label={'accept Invitation'}
-                    onPress={async () => await joinRoom({ id: roomId, hasInvitation: false })}
-                  >
+                  <HoliButton label={'accept Invitation'} onPress={async () => await joinRoom(roomId)}>
                     Accept Invitation
                   </HoliButton>
                 </HoliBox>
