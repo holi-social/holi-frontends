@@ -86,7 +86,7 @@ const tileWidth = 76
 
 const styles = StyleSheet.create({
   contentContainer: {
-    width: tileWidth + 2, // container with should be wider than the tileWidth to avoid the title text not fitting in it
+    width: tileWidth + 2, // container width should be wider than the tileWidth to avoid the title text breaking
     overflow: 'hidden',
     wordBreak: 'break-word',
     padding: 0,
