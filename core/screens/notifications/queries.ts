@@ -64,7 +64,7 @@ export type NewNotificationStatus = {
   status: boolean
 }
 
-export const HasNewNotifcationsQuery = gql`
+export const HasNewNotificationsQuery = gql`
   query hasNewNotifications {
     hasNewNotifications {
       id
@@ -73,7 +73,7 @@ export const HasNewNotifcationsQuery = gql`
   }
 `
 
-export type HasNewNotifcationsResponse = {
+export type HasNewNotificationsResponse = {
   hasNewNotifications: NewNotificationStatus
 }
 
