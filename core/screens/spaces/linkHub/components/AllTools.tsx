@@ -41,6 +41,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   useEffect(() => {
     if (space) {
@@ -59,6 +60,10 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   if (errorSpace) {
     logError(errorSpace, `[Alltools.tsx] ${errorSpace.message}`)
+  }
+
+  if (!isMember) {
+    navigate(`/spaces/${spaceIdOrName}`)
   }
 
   const handleShareButtonPress = (url: string) => {
