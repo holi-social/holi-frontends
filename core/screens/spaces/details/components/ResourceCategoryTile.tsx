@@ -26,7 +26,6 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
   resourceCategoryData,
   onPress,
   style,
-  active = false,
 }: ResourceCategoryTileProps) => {
   const { t } = useTranslation()
   const name = t(resourceCategoryData.translationKey)
@@ -45,12 +44,12 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
       transparent
       onPress={onTilePress}
       disabled={!isActive}
-      style={[styles.categoryTile, style]}
+      style={[styles.contentContainer, style]}
       testID={`resource-category-tile-${resourceCategoryData.id}`}
     >
       <View
         style={[
-          styles.contentContainer,
+          styles.categoryTile,
           isActive && { backgroundColor: colors.background10, borderColor: colors.foreground10 },
         ]}
       >
@@ -61,7 +60,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
             color={isActive ? colors.foreground30 : colors.foreground10}
           />
         )}
-        {active && (
+        {!isActive && (
           <View style={styles.inactiveContainer}>
             <HoliText size="extrasmall" color="white100">
               {t('allTools.drawer.comingSoon.label')}
@@ -86,18 +85,18 @@ export default ResourceCategoryTile
 const tileWidth = 76
 
 const styles = StyleSheet.create({
-  categoryTile: {
-    width: tileWidth,
+  contentContainer: {
+    width: tileWidth + 2, // container with should be wider than the tileWidth to avoid the title text not fitting in it
     overflow: 'hidden',
     wordBreak: 'break-word',
     padding: 0,
   },
-  contentContainer: {
+  categoryTile: {
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 13,
     borderColor: colors.background30,
+    borderRadius: 13,
     borderWidth: 1,
     width: tileWidth,
     height: tileWidth,
