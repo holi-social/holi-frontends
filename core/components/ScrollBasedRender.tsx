@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai'
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { View, useWindowDimensions } from 'react-native'
 
-import { scrollYAtom } from '@holi/core/helpers'
+import { mobileScrollYAtom } from '@holi/core/helpers'
 
 // a bit negative to already load content next-up
 const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -200
@@ -29,7 +29,7 @@ const ScrollBasedRender = ({
   const { height: windowHeight } = useWindowDimensions()
 
   // scroll based check for visibility
-  const scrollY = useAtomValue(scrollYAtom)
+  const scrollY = useAtomValue(mobileScrollYAtom)
 
   // initial & re-render based check for visibility
   useEffect(() => {

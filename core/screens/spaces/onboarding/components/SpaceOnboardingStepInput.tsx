@@ -14,6 +14,7 @@ export type SpaceOnboardingStepInputProps = {
   totalSteps: number
   handleChange: (stepNumber: number, value: string) => void
   removeStep: (stepNumber: number) => void
+  isNewStep: boolean
 }
 
 const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
@@ -22,6 +23,7 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
   totalSteps,
   handleChange,
   removeStep,
+  isNewStep,
 }) => {
   const { t } = useTranslation()
 
@@ -38,6 +40,8 @@ const SpaceOnboardingStepInput: React.VFC<SpaceOnboardingStepInputProps> = ({
         onChange={(value) => handleChange(index, value)}
         placeholder={t('spaces.onboarding.steps.describe')}
         style={styles.inputField}
+        isRequired
+        validationErrorText={isNewStep || step.text.length ? undefined : t('spaces.onboarding.steps.add.empty')}
       />
 
       <HoliButton

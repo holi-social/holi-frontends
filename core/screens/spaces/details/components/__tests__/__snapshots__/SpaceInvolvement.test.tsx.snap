@@ -1337,7 +1337,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
     }
   >
     <View
-      accessibilityLabel="core.spaces.spaceDetails.tasks.seeAll"
+      accessibilityLabel="spaces.spaceDetails.tasks.seeAllButton.label"
       accessibilityRole="button"
       accessibilityState={
         {

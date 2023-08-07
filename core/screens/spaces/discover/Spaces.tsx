@@ -164,7 +164,7 @@ const Spaces = () => {
                 title: t('spaces.tabs.mine'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={mixins.container}>
+                  <View style={[mixins.container, styles.mySpacesContainer]}>
                     <MySpaces mySpaces={mySpaces} />
                   </View>
                 ),
@@ -206,6 +206,9 @@ const styles = StyleSheet.create({
   tabStyle: {
     minHeight: '100%',
     backgroundColor: colors.background20,
+  },
+  mySpacesContainer: {
+    paddingBottom: 24,
   },
 })
 

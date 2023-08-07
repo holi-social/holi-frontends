@@ -36,6 +36,7 @@ export default class ChatClient {
   private rooms: Room[] = []
   private selectedRoom: string | null = null
   private readonly login = new ChatLogin()
+  public isOn = false
 
   private createClient(credentials: ChatCredentials): MatrixClient {
     this.clientCredentials = credentials
@@ -81,22 +82,31 @@ export default class ChatClient {
     this.mxClient = this.createClient(credentials)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<void> => {
-    if (!this.mxClient) {
-      const credentials = await this.login.getSessionCredentials()
-      this.mxClient = this.createClient(credentials)
+  public start = async (options?: IStartClientOpts): Promise<boolean> => {
+    if (this.isOn === false) {
+      try {
+        if (!this.mxClient) {
+          const credentials = await this.login.getSessionCredentials()
+          this.mxClient = this.createClient(credentials)
+        }
+        await this.mxClient.startClient(options)
+        this.isOn = true
+
+        // TODO: Implement soft logout and reconnect
+        this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
+          // eslint-disable-next-line no-console
+          console.log({ state, prevState })
+          if (state !== SyncState.Prepared) return
+          if (!hasMxClient(this.mxClient)) return
+
+          this.rooms = this.mxClient.store.getRooms()
+        })
+      } catch (err) {
+        logError(err)
+      }
     }
-    await this.mxClient.startClient(options)
 
-    // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
-      // eslint-disable-next-line no-console
-      console.log({ state, prevState })
-      if (state !== SyncState.Prepared) return
-      if (!hasMxClient(this.mxClient)) return
-
-      this.rooms = this.mxClient.store.getRooms()
-    })
+    return this.isOn
   }
 
   /** Rooms */
@@ -198,16 +208,17 @@ export default class ChatClient {
   }
 
   public subscribeToInvitations = async (
-    callback: (roomId: string, name: string, hasInvitation: boolean) => void
+    callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
   ): Promise<(() => void) | void> => {
     if (!this.verifyMxClient(this.mxClient)) return
     const memberInvitationHandler = async (event: MatrixEvent) => {
       const hasInvitation = await this.hasPendingInvitation(event)
       const roomId = event.getRoomId()
       const { displayname } = event.getContent()
+      const senderId = event.getSender()
 
       if (!hasInvitation || !roomId || !displayname) return
-      callback(roomId, displayname, hasInvitation)
+      callback(roomId, displayname, hasInvitation, senderId)
     }
 
     this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)

@@ -1,14 +1,16 @@
 import type { PrimitiveAtom } from 'jotai'
 
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
-export type ChatThreadAtom = PrimitiveAtom<ChatRoom>
+export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 
 export interface ChatRoom {
   id: string
   name: string
   hasInvitation: boolean
   notificationCount: number
-  lastThread: ChatMessage | undefined
+  lastMessage: ChatMessage | undefined
+  senderId?: string
+  timestamp: number | undefined
 }
 
 export type ChatContentType = 'm.text'

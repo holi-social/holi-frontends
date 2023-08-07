@@ -1,19 +1,19 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi//ui/components/atoms/HoliBox'
 import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep'
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
-import NamesStep, { trimNames, useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
+import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
+import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   interestsQuery,
   updateUserMutation,
@@ -66,18 +66,18 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { user, isLoading: userLoading } = useLoggedInUser()
+  const { user } = useLoggedInUser()
   const mixins = useStyleMixins()
-  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
 
   // User Names step logic
-  const { names, namesScrollViewRef, scrollToNamesInputWithId, onNamesChange, namesFieldErrors } = useNamesStep({
-    user,
-    onValidate: setIsNextButtonEnabled,
-  })
+  const { names, namesScrollViewRef, scrollToNamesInputWithId, onNamesChange, namesFieldErrors, nameStepIsValid } =
+    useNamesStep({
+      user,
+    })
+  const { registerUserNames, parseRegisterUserNamesInput } = useRegisterUserNames()
 
   // Interests step logic
   const keyInUserObject = UserChipTypes.INTERESTS
@@ -105,13 +105,9 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     switch (currentStep) {
       case AccountSetupStep.NAMES: {
         setIsLoading(true)
-
-        updateUserQueryVariables.current = { ...trimNames(names) }
-
-        await updateUser({
-          variables: { input: updateUserQueryVariables.current },
+        await registerUserNames({
+          variables: { input: parseRegisterUserNamesInput(names) },
           onCompleted: goNext,
-          onError: (error) => displayError(error),
         })
         setIsLoading(false)
         break
@@ -175,18 +171,12 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }
   }
 
-  // initial validation for names and if valid enable Next-button
-  useEffect(() => {
-    const { success } = UpdateAuthenticatedUserInputSchema.safeParse(trimNames(names))
-    setIsNextButtonEnabled(success)
-  }, [names])
-
   useEffect(() => {
     if (user === null) {
       onFinish()
       navigate('/')
     }
-  }, [userLoading, user, onFinish, navigate])
+  }, [user, onFinish, navigate])
 
   const getSubmitButtonLabel = useCallback(
     (stepNumber: number) =>
@@ -283,7 +273,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         ]}
         stepOptions={ACCOUNT_SETUP_STEP_OPTIONS}
         getSubmitButtonLabel={getSubmitButtonLabel}
-        isNextButtonEnabled={isNextButtonEnabled}
+        isNextButtonEnabled={nameStepIsValid}
         scrollEnabled={false}
         handleNextPress={handleNextPress}
       />

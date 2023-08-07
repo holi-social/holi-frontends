@@ -31,7 +31,7 @@ const createSrc = (source: ImageSource | ImageSource[]): string | undefined => {
   }
 }
 
-const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: WebImageProps) => {
+const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover', onError }: WebImageProps) => {
   const srcSet = createSrcSet(source)
   const aspectRatio = style?.aspectRatio ? { aspectRatio: style?.aspectRatio.toString() } : {}
 
@@ -44,6 +44,7 @@ const HoliImage = ({ source, label, style, sizes, resizeMode = 'cover' }: WebIma
       src={createSrc(source)}
       sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
       alt={label}
+      onError={onError}
       style={{ ...style, ...aspectRatio, objectFit: resizeMode }}
     />
   )
