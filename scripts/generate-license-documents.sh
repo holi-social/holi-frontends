@@ -1,15 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-set -euxo pipefail
+set -eux
 
 # generates a big file with all licenses of all dependencies at license-disclaimer.txt
 yarn licenses generate-disclaimer
-
-AGPL_TEXT=$(<LICENSE.md)
-LICENSES_TEXT=$(<license-disclaimer.txt)
-
-
-
 
 for lang in de en; do
   TARGETFILE=apps/web/.next/standalone/apps/web/public/documents/openSource_${lang}.html
@@ -20,5 +14,5 @@ for lang in de en; do
     echo ""
     cat license-disclaimer.txt
     echo "</pre>"
-   } >> $TARGETFILE
+  } >> $TARGETFILE
 done
