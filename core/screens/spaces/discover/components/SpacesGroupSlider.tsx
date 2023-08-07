@@ -162,7 +162,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
       >
         {loading
           ? new Array(pageSize).fill(1).map((_, idx) => {
-              return <HoliBlockItem key={idx} loading={true} size="large" />
+              return <HoliBlockItem key={idx} loading={true} size="large" testID="space-link" />
             })
           : spacesData.map((space: Space) => (
               <HoliBlockItem

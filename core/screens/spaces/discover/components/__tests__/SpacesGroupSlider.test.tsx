@@ -25,7 +25,7 @@ const discoverSpacesErrorMock = (topicIds: string[], skillIds: string[], geoloca
       offset: 0,
     },
   },
-  error: new HoliError('Test error'),
+  error: new HoliError('Test error', 'test-error'),
 })
 
 // note: this test has been slimmed down since the component was refactored
@@ -40,16 +40,18 @@ describe('SpacesGroupSlider', () => {
       )
 
     it('displays errors', async () => {
-      const { getByText } = renderTopic([discoverSpacesErrorMock(['topic1'], [])])
+      const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock(['topic1'], [])])
 
       expect(getByText('Topic 1')).toBeDefined()
+
+      expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
       await waitFor(() =>
         expect(global.mockOpenToast).toHaveBeenCalledWith(
           'spaces.spaceListing.error',
           HoliToastType.ERROR,
           undefined,
-          undefined
+          'test-error'
         )
       )
     })
@@ -64,16 +66,18 @@ describe('SpacesGroupSlider', () => {
       )
 
     it('displays errors', async () => {
-      const { getByText } = renderSkill([discoverSpacesErrorMock([], ['skill1'])])
+      const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock([], ['skill1'])])
 
       expect(getByText('Skill 1')).toBeDefined()
+
+      expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
       await waitFor(() =>
         expect(global.mockOpenToast).toHaveBeenCalledWith(
           'spaces.spaceListing.error',
           HoliToastType.ERROR,
           undefined,
-          undefined
+          'test-error'
         )
       )
     })
