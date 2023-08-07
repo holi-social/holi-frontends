@@ -1,12 +1,19 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { MockedResponse } from '@apollo/client/testing/core'
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import expect from 'expect'
 import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
+import {
+  DiscoverSpacesData,
+  DiscoverSpacesGroup,
+  DiscoverSpacesVariables,
+  discoverSpacesQuery,
+} from '@holi/core/screens/spaces/discover/queries'
+import { Space } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -14,13 +21,15 @@ const topic: Topic = { id: 'topic1', title: 'Topic 1', slug: 'topic-1', isDiscov
 
 const skill: Skill = { id: 'skill1', title: 'Skill 1', slug: 'skill-1' }
 
-const discoverSpacesErrorMock = (topicIds: string[], skillIds: string[], geolocation?: object | undefined) => ({
+const discoverSpacesErrorMock = (
+  topicIds: string[],
+  skillIds: string[]
+): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => ({
   request: {
     query: discoverSpacesQuery,
     variables: {
       topicIds,
       skillIds,
-      geolocation,
       limit: 5,
       offset: 0,
     },
@@ -28,8 +37,45 @@ const discoverSpacesErrorMock = (topicIds: string[], skillIds: string[], geoloca
   error: new HoliError('Test error', 'test-error'),
 })
 
-// note: this test has been slimmed down since the component was refactored
-//       feel free to add more tests again (see history)
+const discoverSpacesDataMock = (
+  topicIds: string[],
+  skillIds: string[]
+): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => {
+  const spaces: Space[] = createSpaceList(5)
+  const discoverSpaces: DiscoverSpacesGroup[] = [
+    ...topicIds.map((topicId) => ({
+      topicId,
+      spaces: {
+        data: spaces,
+        totalResults: 100,
+      },
+    })),
+    ...skillIds.map((skillId) => ({
+      skillId,
+      spaces: {
+        data: spaces,
+        totalResults: 5,
+      },
+    })),
+  ]
+  return {
+    request: {
+      query: discoverSpacesQuery,
+      variables: {
+        topicIds,
+        skillIds,
+        limit: 5,
+        offset: 0,
+      },
+    },
+    result: {
+      data: {
+        discoverSpaces,
+      },
+    },
+  }
+}
+
 describe('SpacesGroupSlider', () => {
   describe('with topic', () => {
     const renderTopic = (mocks: MockedResponse[]) =>
@@ -54,6 +100,50 @@ describe('SpacesGroupSlider', () => {
           'test-error'
         )
       )
+    })
+
+    it('renders correctly with see more', async () => {
+      const { getByText, queryAllByTestId, getAllByText, getAllByRole, getByTestId } = renderTopic([
+        discoverSpacesDataMock(['topic1'], []),
+      ])
+
+      expect(getByText('Topic 1')).toBeDefined()
+
+      expect(queryAllByTestId('space-link-loading')).toHaveLength(5)
+      expect(queryAllByTestId('spaces-group-slider-see-more')).toHaveLength(0)
+
+      await waitFor(async () => {
+        expect(queryAllByTestId('space-link-loading')).toHaveLength(0)
+
+        expect(getByText('Topic 1')).toBeDefined()
+        expect(queryAllByTestId('space-link')).toHaveLength(5)
+        expect(getAllByText('Space title')).toHaveLength(5)
+
+        const images = getAllByRole('image')
+        // expect 5 spaces with 2 images each
+        expect(images).toHaveLength(10)
+        const [coverImage, avatarImage] = images
+        expect(coverImage.props.proxiedProperties.source).toEqual([
+          {
+            height: 315,
+            uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:944:630/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace1.jpg',
+            width: 472,
+          },
+        ])
+        expect(avatarImage.props.proxiedProperties.source).toEqual([
+          {
+            height: 24,
+            uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg',
+            width: 24,
+          },
+        ])
+
+        expect(getByTestId('spaces-group-slider-see-more')).toBeDefined()
+
+        fireEvent.press(getByTestId('spaces-group-slider-see-more'))
+
+        expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
+      })
     })
   })
 
@@ -80,6 +170,24 @@ describe('SpacesGroupSlider', () => {
           'test-error'
         )
       )
+    })
+
+    it('renders correctly without see more', async () => {
+      const { getByText, queryAllByTestId, getAllByText } = renderSkill([discoverSpacesDataMock([], ['skill1'])])
+
+      expect(getByText('Skill 1')).toBeDefined()
+
+      expect(queryAllByTestId('space-link-loading')).toHaveLength(5)
+
+      await waitFor(async () => {
+        expect(queryAllByTestId('space-link-loading')).toHaveLength(0)
+
+        expect(getByText('Skill 1')).toBeDefined()
+        expect(queryAllByTestId('space-link')).toHaveLength(5)
+        expect(getAllByText('Space title')).toHaveLength(5)
+
+        expect(queryAllByTestId('spaces-group-slider-see-more')).toHaveLength(0)
+      })
     })
   })
 })
