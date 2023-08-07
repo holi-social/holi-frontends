@@ -35,11 +35,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   const mixins = useStyleMixins()
   const imageWidth = 251
 
-  const {
-    data,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, error: errorSpace } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
@@ -63,10 +59,6 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
 
   if (errorSpace) {
     logError(errorSpace, `[Alltools.tsx] ${errorSpace.message}`)
-  }
-
-  if (!loadingSpace && !isAdmin) {
-    navigate(`/spaces/${spaceIdOrName}`)
   }
 
   const handleShareButtonPress = (url: string) => {
