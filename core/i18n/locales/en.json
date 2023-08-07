@@ -601,6 +601,7 @@
   "spaces.onboarding.setup.text": "Here you'll set up onboarding instructions for your collaborators, and collaborators to be.",
   "spaces.onboarding.setup.title": "Onboarding set up",
   "spaces.onboarding.steps.add": "Add step",
+  "spaces.onboarding.steps.add.empty": "A text for the step is mandatory.",
   "spaces.onboarding.steps.describe": "Describe this step",
   "spaces.onboarding.steps.example.label": "Steps example",
   "spaces.onboarding.steps.example.text": "Show me an example",
