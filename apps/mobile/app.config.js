@@ -39,10 +39,6 @@ export default {
       },
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#F5F5F5',
-      },
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
     },
