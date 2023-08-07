@@ -1,5 +1,4 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { produce } from 'immer'
 import { atom, createStore, useAtom } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
@@ -7,11 +6,9 @@ import { MatrixEvent } from 'matrix-js-sdk'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import { isCreateMessage } from '@holi/chat/src/store/utils'
-import { CHAT_LOCAL_STORAGE_KEY_SELECTED_ROOM_ID } from '@holi/chat/src/utils'
-import { logError } from '@holi/core/errors/helpers'
 
 import { createChatMessage, updateMessages } from './messages'
-import { InvitationUpdate, addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
+import { addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
 
 /** Store **/
@@ -73,37 +70,27 @@ export const roomAtomsRecordAtomSubscriber = atom(
 )
 
 roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  const userId = chatClient.getUserId()
-  // We set all the joined rooms initially
-  chatClient.getRooms().then((rooms) => {
-    rooms.forEach((room) => setAtom(createChatRoom(room, userId)))
-  })
+  chatClient.subscribeToRooms((room, hasPendingInvitation) => {
+    /**
+     * @name waitForCorrectRoomName
+     * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
+     * We use this function to watch for the room `name` change and only create an atom when correct name was passed
+     * or timeout exceeded.
+     * @param tillTimestapm `number` represents timestamp limit till function postponds setting the atom
+     */
+    const waitForCorrectRoomName = (tillTimestapm: number) => {
+      if (room.name !== 'Empty room' || Date.now() > tillTimestapm) {
+        setAtom(createChatRoom(room, hasPendingInvitation))
+      } else {
+        setTimeout(() => {
+          waitForCorrectRoomName(tillTimestapm)
+        }, 50)
+      }
+    }
 
-  // In case of an invitation we would added by listening to this emitter.
-  chatClient.subscribeToInvitations((roomId, displayName, hasInvitation, senderId) => {
-    setAtom({
-      hasInvitation,
-      id: roomId,
-      name: displayName,
-      notificationCount: 1,
-      lastMessage: undefined,
-      senderId,
-      timestamp: undefined,
-    })
+    waitForCorrectRoomName(Date.now() + 2000)
   })
 }
-
-export const addToRoomAtoms = atom(null, (get, set, userIds: string[]) => {
-  chatClient
-    .createRoom(userIds)
-    .then(({ room_id }) => {
-      const room = chatClient.getRoom(room_id)
-      if (!room) return
-
-      set(_roomAtomsRecordAtom, (prevRooms) => addChatRoom(prevRooms, createChatRoom(room, null)))
-    })
-    .catch((err) => logError(err))
-})
 
 /**
  * @name useSubscribeToRoomAndMessageUpdates hook
@@ -117,44 +104,6 @@ export const useSubscribeToRoomAndMessageUpdates = () => {
 /** Room */
 
 /**
- * @name selectedRoomAtomAtom (Read-Only)
- * @description In our data structure, we only have a list of room atoms. To
- * select a room, for example, when you press on one of the rooms from a
- * conversation list, we need a way to zoom in on the currently active room. It
- * is a container atom and should not be exported. It exists to derive read-only
- * and write-only atoms out of it.
- *
- * IMPORTANT! Please do not use this atom to set a selected room because it's
- * read-only; you can look at selectRoomAtom.
- */
-
-const selectedRoomAtomAtom = atom<ChatRoomAtom | null>(null)
-
-/**
- * @name selectRoomAtom (Write-Only)
- * @description A write-only atom that receives a chatRoomAtom and sets it as
- * the currently selected room atom. It also stores the id of the currently
- * selected Atom in the AsyncStorage for possible future references.
- */
-export const selectRoomAtom = atom(null, async (get, set, chatRoomAtom: ChatRoomAtom) => {
-  const room = get(chatRoomAtom)
-  set(selectedRoomAtomAtom, chatRoomAtom)
-  await AsyncStorage.setItem(CHAT_LOCAL_STORAGE_KEY_SELECTED_ROOM_ID, room.id).catch((err) => logError(err))
-})
-
-/**
- * @name selectedRoomAtomCreator (Read-Only)
- * @description A function that returns a derived read-only atom from
- * `selectedRoomAtomAtom` that can be created dynamically during rendering. Wrap
- * dynamically created atoms in React's `useMemo` or `useRef` hook for
- * memoization. If you forget to do so can cause an infinite loop.
- */
-
-export const selectedRoomAtomCreator = (roomAtom: ChatRoomAtom) => {
-  return atom((get) => roomAtom === get(selectedRoomAtomAtom))
-}
-
-/**
  * @name joinRoomAtom (Write-Only)
  * @description Joins a user to the invited room. It's important to consider
  * that the room needs to be selected to join the room. Selections is a
@@ -162,14 +111,17 @@ export const selectedRoomAtomCreator = (roomAtom: ChatRoomAtom) => {
  * later update the state of that atom without the need to trigger a re-render
  * for the entire array.
  */
-export const joinRoomAtom = atom(null, async (get, set, roomUpdate: InvitationUpdate) => {
-  const selectedRoomAtom = get(selectedRoomAtomAtom)
+export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const selectedRoomAtom = roomAtomsRecord[roomId]
   if (!selectedRoomAtom) return
 
-  const hasJoined = await chatClient.joinRoom(roomUpdate.id)
+  const hasJoined = await chatClient.joinRoom(roomId)
   if (!hasJoined) return
-  set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, roomUpdate))
+  set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, hasJoined))
 })
+
+export const createNewRoom = (targetIds: string[]) => chatClient.createRoom(targetIds)
 
 /** Room Messages */
 

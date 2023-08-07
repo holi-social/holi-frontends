@@ -25,6 +25,8 @@ import { hasMxClient } from './utils'
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
 
+const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in value
+
 /**
  * The `ChatClient` facade is an object that serves as a front-facing interface
  * masking the Matrix protocol. All usage of the `Matrix` JS SDK should interact
@@ -33,8 +35,6 @@ import { hasMxClient } from './utils'
 export default class ChatClient {
   private mxClient: MatrixClient | null = null
   private clientCredentials: ChatCredentials | null = null
-  private rooms: Room[] = []
-  private selectedRoom: string | null = null
   private readonly login = new ChatLogin()
   public isOn = false
 
@@ -98,8 +98,6 @@ export default class ChatClient {
           console.log({ state, prevState })
           if (state !== SyncState.Prepared) return
           if (!hasMxClient(this.mxClient)) return
-
-          this.rooms = this.mxClient.store.getRooms()
         })
       } catch (err) {
         logError(err)
@@ -140,44 +138,29 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
-  public getRooms = async (): Promise<Room[]> => {
-    return new Promise<Room[]>((resolve) => {
-      if (!this.verifyMxClient(this.mxClient) || this.rooms.length > 0) {
-        resolve(this.rooms)
-        return
-      }
-
-      this.mxClient.on(ClientEvent.Sync, (state: SyncState) => {
-        if (state === SyncState.Prepared) {
-          if (!this.verifyMxClient(this.mxClient)) return
-          const mxRooms = this.mxClient.store.getRooms()
-          const rooms = mxRooms.map((room) => room)
-          resolve(rooms)
-        }
-      })
-    })
-  }
-
-  public getSelectedRoom(): string | null {
-    return this.selectedRoom
-  }
-
   public getUserId = (): string | null => {
     if (!this.verifyMxClient(this.mxClient)) return null
     return this.mxClient.getUserId()
   }
 
-  public hasPendingInvitation = async (event: MatrixEvent): Promise<boolean> => {
-    this.verifyMxClient(this.mxClient)
-    const pushAction = event.getPushActions()
-    if (!pushAction?.notify) return false
+  public hasPendingInvitation = (roomOrEvent: Room | MatrixEvent): boolean => {
+    if (!this.verifyMxClient(this.mxClient)) return false
 
-    const isSending = event.isSending()
-    if (isSending) return false
+    if (isChatRoom(roomOrEvent)) {
+      const userId = this.getUserId()
+      if (!userId) return false
+      return roomOrEvent.hasMembershipState(userId, Membership.Invite.toLowerCase())
+    } else {
+      const pushAction = roomOrEvent.getPushActions()
+      if (!pushAction?.notify) return false
 
-    const content = event.getContent()
+      const isSending = roomOrEvent.isSending()
+      if (isSending) return false
 
-    return content.membership === Membership.Invite.toLowerCase()
+      const content = roomOrEvent.getContent()
+
+      return content.membership === Membership.Invite.toLowerCase()
+    }
   }
 
   public joinRoom = async (roomId: string): Promise<boolean> => {
@@ -203,8 +186,23 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
-  public setSelectedRoom(id: string): void {
-    this.selectedRoom = id
+  public stop = async () => {
+    await this.mxClient?.logout(true)
+  }
+
+  public subscribeToRooms = (callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void => {
+    if (!this.verifyMxClient(this.mxClient)) return
+
+    const roomEventHandler = (room: Room) => {
+      callback(room, this.hasPendingInvitation(room))
+    }
+
+    this.mxClient.on(ClientEvent.Room, roomEventHandler)
+
+    return () => {
+      if (!this.verifyMxClient(this.mxClient)) return
+      this.mxClient.off(ClientEvent.Room, roomEventHandler)
+    }
   }
 
   public subscribeToInvitations = async (
