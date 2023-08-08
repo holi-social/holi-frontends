@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client'
 import { CodedError, registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
+import 'fast-text-encoding'
 // Polyfill for Intl including required locale data
 import 'intl'
 import 'intl/locale-data/jsonp/de'

@@ -46,7 +46,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
   return (
     <SafeAreaView>
       <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
-        <View style={mixins.container}>
+        <View style={[mixins.container, styles.container]}>
           <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
             <View style={styles.link}>
               <View style={styles.wrapper}>
@@ -77,6 +77,13 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingTop: vars.topBarHeight,
+  },
+  container: {
+    ...Platform.select({
+      android: {
+        paddingTop: vars.topBarHeight,
+      },
+    }),
   },
   link: {
     flexDirection: 'row',
