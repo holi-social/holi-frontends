@@ -47,7 +47,10 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         data: {
           //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
           url: 'https://staging-push.chat.holi.social/_matrix/push/v1/notify',
-          format: 'event_id_only', // default and only available value currently
+
+          // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
+          // "type", and "sender_display_name" from notification data
+          // for now we don't want that because it helps to know this for easier notification display
         },
         device_display_name: Device.manufacturer + ' ' + Device.modelName, // TODO validate this makes sense and see where it is used
         kind: 'http',

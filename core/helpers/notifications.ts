@@ -95,7 +95,7 @@ const registerHandleNotificationsWhenAppIsInBackground = () => {
     body: TaskManager.TaskManagerTaskBody<ChatBackgroundNotificationData>
   ) => {
     // TODO use const roomId = body.data.notification.data.room_id to open the room
-    logDebug('backgroundNotificationHandler', 'received a notification in the background!', body)
+    logDebug('backgroundNotificationHandler', 'received a notification in the background!', JSON.stringify(body))
     const unread = body.data.notification.data.unread
     // TODO doesn't work yet
     Notifications.scheduleNotificationAsync({
