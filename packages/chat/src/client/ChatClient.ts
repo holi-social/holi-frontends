@@ -16,10 +16,8 @@ import { SyncState } from 'matrix-js-sdk/lib/sync'
 import { configurePusher } from '@holi/chat/src/client/ChatPusher'
 import { Membership } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
-import { loadSessionCredentials } from '@holi/chat/src/utils'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
-import { chatUrl } from '@holi/core/helpers/config'
 
 import { logDebug } from './logging'
 import { RoomId } from './types'
@@ -38,7 +36,7 @@ export default class ChatClient {
   private mxClient: MatrixClient
   public isOn = false
 
-  private constructor(private readonly credentials: ChatCredentials) {
+  private constructor(credentials: ChatCredentials) {
     const options: ICreateClientOpts = {
       baseUrl: credentials.baseUrl,
       accessToken: credentials.accessToken,
@@ -64,25 +62,8 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifyTimelineSet)
   }
 
-  public static createClient = async (credentials?: ChatCredentials): Promise<ChatClient> => {
-    logDebug('ChatClient.createClient', `creating chat client with credentials=${credentials}`)
-    if (credentials) {
-      return new ChatClient(credentials)
-    } else {
-      console.debug('[ChatClient.constructor] trying to load credentials from storage')
-      const storedCredentials = await loadSessionCredentials()
-      if (!storedCredentials) {
-        throw new Error('Unable to load credentials from storage and no credentials given')
-      } else {
-        return new ChatClient({
-          baseUrl: chatUrl,
-          accessToken: storedCredentials.access_token,
-          deviceId: storedCredentials.device_id,
-          userId: storedCredentials.user_id,
-          freshLogin: storedCredentials.fresh_login,
-        })
-      }
-    }
+  public static createClient = async (credentials: ChatCredentials): Promise<ChatClient> => {
+    return new ChatClient(credentials)
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {

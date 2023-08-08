@@ -45,7 +45,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         app_display_name: 'holi', // TODO add environment?
         app_id: 'social.holi', // must match app_id in sygnal config
         data: {
-          //url: 'https://local.chat.holi.social:5000/_matrix/push/v1/notify',
+          //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
           url: 'https://staging-push.chat.holi.social/_matrix/push/v1/notify',
           format: 'event_id_only', // default and only available value currently
         },

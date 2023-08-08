@@ -16,7 +16,7 @@ export interface StoredCredentials {
   fresh_login: boolean
 }
 
-export const loadSessionCredentials = async (): Promise<StoredCredentials> => {
+export const loadSessionCredentials = async (): Promise<StoredCredentials | undefined> => {
   const values = await AsyncStore.multiGet([
     CHAT_LOCAL_STORAGE_KEY_TOKEN,
     CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
@@ -25,7 +25,7 @@ export const loadSessionCredentials = async (): Promise<StoredCredentials> => {
   ])
 
   // TODO: implement strategy for missing values
-  return values.reduce(
+  const storedSessionCredentials = values.reduce(
     (acc, [key, value]) => ({
       ...acc,
       ...(key === CHAT_LOCAL_STORAGE_KEY_USER_ID ? { user_id: value ?? '' } : {}),
@@ -35,6 +35,14 @@ export const loadSessionCredentials = async (): Promise<StoredCredentials> => {
     }),
     {}
   ) as StoredCredentials
+  if (
+    !storedSessionCredentials.access_token ||
+    !storedSessionCredentials.device_id ||
+    !storedSessionCredentials.user_id
+  ) {
+    return undefined
+  }
+  return storedSessionCredentials
 }
 
 export const storeSessionCredentials = async (credentials: StoredCredentials): Promise<StoredCredentials> => {

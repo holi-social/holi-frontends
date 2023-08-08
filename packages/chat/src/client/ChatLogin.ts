@@ -50,7 +50,7 @@ export default class ChatLogin {
   public ensureLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
     // fetch only if no Matrix session data found
     const storedSessionCredentials = await loadSessionCredentials()
-    if (storedSessionCredentials.access_token) {
+    if (storedSessionCredentials?.access_token) {
       logDebug('ChatLogin.ensureLoggedIn', 'using stored session credentials')
       return Promise.resolve(storedSessionCredentials)
     } else {
@@ -95,7 +95,7 @@ export default class ChatLogin {
     const sessionCredentials = await loadSessionCredentials()
     logDebug('ChatLogin.getSessionCredentials', 'loaded session credentials', sessionCredentials)
     // TODO abort/retry loging on missing access
-    if (!sessionCredentials.access_token) throw new Error('unable to restore local session credentials')
+    if (!sessionCredentials?.access_token) throw new Error('unable to restore local session credentials')
 
     if (sessionCredentials.fresh_login === true) {
       logDebug('ChatLogin.getSessionCredentials', 'storing fresh login = false')
