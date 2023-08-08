@@ -62,7 +62,7 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
     <CollaboratorAreaCard
       headerLeftIcon={FolderOpen}
       headerRightIcon={Information}
-      title={t('spaces.storage.widget.title')}
+      title={t('spaces.storage.title')}
       onPressHeaderLeft={navigateToStorageScreen}
       onPressHeaderRight={show}
       headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
