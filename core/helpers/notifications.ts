@@ -47,18 +47,49 @@ export const initNotifications = async () => {
   }
 }
 
+type SygnalData = {
+  room_id: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
+  unread: string // e.g. "1"
+  content: string // e.g. {\"body\":\"example text\",\"msgtype\":\"m.text\"}
+  type: string // e.g. "m.room.message"
+  prio: string // e.g. "high"
+  sender: string // e.g. "@malte1:staging.chat.holi.social"
+  event_id: string // e.g. "$RZc5AqDDH1Nx3Ru5OeWCennKG5wJcdMQfPOHrv8_1VA"
+  sender_display_name: string // e.g. "malte1"
+}
+
+type SygnalContent = {
+  body?: string // e.g. "example text"
+  msgtype?: string // e.g. "m.text"
+}
+
 const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
-    handleNotification: async (notification: Notifications.Notification) => {
-      // TODO handle properly
+    handleNotification: async (
+      notification: Notifications.Notification
+    ): Promise<Notifications.NotificationBehavior> => {
       logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
-      notification.request.content.title = 'new message'
-      if (notification.request.trigger.type === 'push') {
-        // TODO doesn't work yet
-        const trigger = notification.request.trigger as Notifications.PushNotificationTrigger
-        const unread = trigger.remoteMessage?.data.unread
-        notification.request.content.body = unread + ' unread messages'
+      // defensive programming, since types don't show all null-possibilities
+      const request: Partial<Notifications.NotificationRequest> = notification.request
+      if (request.trigger?.type === 'push') {
+        const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
+        const data = trigger.remoteMessage?.data as SygnalData | undefined
+        const content: SygnalContent | undefined = data?.content ? JSON.parse(data.content) : undefined
+        const title = 'New message'
+        const subtitle = data?.sender_display_name
+        const body = content?.body
+
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title,
+            subtitle,
+            body,
+          },
+          trigger: null,
+        })
+
+        return { shouldShowAlert: false, shouldPlaySound: false, shouldSetBadge: false }
       }
       return {
         shouldShowAlert: true,
@@ -103,10 +134,7 @@ const registerHandleNotificationsWhenAppIsInBackground = () => {
         title: `You have ${unread} unread messages 📬`,
         body: 'Open the app to read them',
       },
-      trigger: {
-        seconds: 0,
-        channelId: 'default', // TODO use constant
-      },
+      trigger: null,
     }).then()
   }
   TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, executor)
