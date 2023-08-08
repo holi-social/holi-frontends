@@ -55,6 +55,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
       notification.request.content.title = 'new message'
       if (notification.request.trigger.type === 'push') {
+        // TODO doesn't work yet
         const trigger = notification.request.trigger as Notifications.PushNotificationTrigger
         const unread = trigger.remoteMessage?.data.unread
         notification.request.content.body = unread + ' unread messages'
@@ -96,6 +97,7 @@ const registerHandleNotificationsWhenAppIsInBackground = () => {
     // TODO use const roomId = body.data.notification.data.room_id to open the room
     logDebug('backgroundNotificationHandler', 'received a notification in the background!', body)
     const unread = body.data.notification.data.unread
+    // TODO doesn't work yet
     Notifications.scheduleNotificationAsync({
       content: {
         title: `You have ${unread} unread messages 📬`,
