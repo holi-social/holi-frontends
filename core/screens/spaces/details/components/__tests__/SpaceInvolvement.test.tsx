@@ -30,6 +30,6 @@ describe('SpaceInvolvement', () => {
         </MockedProvider>
       )
       .toJSON()
-    expect(tree).toHaveTextContent('spaces.storage.widget.title')
+    expect(tree).toHaveTextContent('spaces.storage.title')
   })
 })

@@ -1,4 +1,3 @@
-// import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
