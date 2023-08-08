@@ -1,10 +1,8 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
-import { startChat } from '@holi/chat/src/store'
 import { removeSessionFromStorage, setSessionInStorage } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 
 export const chatLogin = new ChatLogin()
 
@@ -13,15 +11,10 @@ export const chatLogin = new ChatLogin()
 const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
 
 // intended to be called from outside the context provider (e.g. login form)
-export const setUserLoggedIn = async (session: OrySessionContext, freshLogin = true): Promise<void> => {
+export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
   console.debug('[Auth] setUserLoggedIn')
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
-  // fetch and save Matrix session in AsyncStorage
-  if (IS_CHAT_ENABLED) {
-    // do not await startChat to speed up user logging in
-    startChat(session.session_token, freshLogin)
-  }
   // fetch and save Okuna user
   loggedInUserIdVar(session.session.identity.id)
 }

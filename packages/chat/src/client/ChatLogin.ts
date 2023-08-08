@@ -80,7 +80,7 @@ export default class ChatLogin {
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public fetchSessionCredentials = async (orySessionToken: string, freshLogin = true): Promise<void> => {
+  public fetchSessionCredentials = async (orySessionToken?: string, freshLogin = true): Promise<void> => {
     // fetch only if no Matrix session data found
     const sessionCredentials = await getStoredSessionCreds()
     if (sessionCredentials.accessToken) return
@@ -92,7 +92,7 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
-        authorization: `Bearer ${orySessionToken}`,
+        ...(orySessionToken ? { authorization: `Bearer ${orySessionToken}` } : {}),
       },
       referrerPolicy: 'no-referrer',
       body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
@@ -100,8 +100,12 @@ export default class ChatLogin {
       mode: 'cors',
     })
 
-    const credentials: LoginCredentials = await response.json()
-    await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
+    if (response.ok) {
+      const credentials: LoginCredentials = await response.json()
+      await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
+    } else {
+      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.statusText} status code`)
+    }
   }
 
   public logout = async (): Promise<void> => {

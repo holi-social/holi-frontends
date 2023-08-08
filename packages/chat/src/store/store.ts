@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { produce } from 'immer'
 import { atom, createStore, useAtom } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
@@ -6,6 +5,8 @@ import { MatrixEvent } from 'matrix-js-sdk'
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import { isCreateMessage } from '@holi/chat/src/store/utils'
+import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 import { createChatMessage, updateMessages } from './messages'
 import { addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
@@ -15,17 +16,49 @@ import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessa
 export const chatStore = createStore()
 
 /** Client **/
-// TODO: Check if the user is logged in
-const isChatReadyVar = makeVar(false)
-export const useIsChatClientReady = () => useReactiveVar(isChatReadyVar)
-
 export const chatClient = new ChatClient()
 export const chatLogin = new ChatLogin()
-export const startChat = async (orySessionToken: string, freshLogin = true) => {
-  await chatLogin.fetchSessionCredentials(orySessionToken, freshLogin)
-  await chatClient.start()
-  isChatReadyVar(true)
+
+export class ChatToggle {
+  private static isStarting = false
+  private static isStopping = false
+  public static get isOn() {
+    return chatClient.isOn
+  }
+
+  public static start = async (freshLogin = false) => {
+    if (this.isOn || this.isStarting) return
+
+    this.isStarting = true
+
+    try {
+      const orySession = await getSessionFromStorage()
+
+      if (!orySession) {
+        throw new HoliError('[ChatToggle]: Can not start chat without Ory session token')
+      }
+
+      await chatLogin.fetchSessionCredentials(orySession.session_token, freshLogin)
+      await chatClient.start()
+    } finally {
+      this.isStarting = false
+    }
+  }
+
+  public static stop = async () => {
+    if (!this.isOn || this.isStopping) return
+
+    this.isStopping = true
+
+    try {
+      await chatClient.stop()
+      await chatLogin.logout()
+    } finally {
+      this.isStopping = false
+    }
+  }
 }
+
 /** Rooms **/
 
 /**
