@@ -107,6 +107,10 @@ export default class ChatClient {
     return this.isOn
   }
 
+  public stop = async () => {
+    await this.mxClient?.logout(true)
+  }
+
   /** Rooms */
   public createRoom = async (targetIds: string[]): Promise<RoomId> => {
     if (!this.verifyMxClient(this.mxClient)) throw new Error('Unable to create a room without a client')

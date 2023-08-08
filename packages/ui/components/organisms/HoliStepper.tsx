@@ -165,7 +165,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       },
     ],
     {
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }
   )
 
