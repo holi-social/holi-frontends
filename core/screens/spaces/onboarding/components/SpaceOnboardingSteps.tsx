@@ -44,6 +44,8 @@ const SpaceOnboardingSteps = () => {
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const [stepsList, setStepsList] = useState<OnboardingStep[]>(space?.onboarding?.steps || [{ text: '' }])
+  const [hasEmptySteps, setHasEmptySteps] = useState(false)
+  const [isNewStep, setIsNewStep] = useState(true)
 
   useEffect(() => {
     if (spaceIdOrName) {
@@ -59,6 +61,11 @@ const SpaceOnboardingSteps = () => {
       setStepsList(space.onboarding.steps.map((step) => ({ text: step?.text })) || [])
     }
   }, [space])
+
+  useEffect(() => {
+    const hasEmptySteps = stepsList.some((step) => !step.text)
+    setHasEmptySteps(hasEmptySteps)
+  }, [stepsList])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -82,11 +89,13 @@ const SpaceOnboardingSteps = () => {
       const newSteps = [...stepsList]
       newSteps[stepNumber - 1] = { ...stepsList[stepNumber - 1], text }
       setStepsList(newSteps)
+      setIsNewStep(false)
     },
     [stepsList]
   )
 
   const addStep = useCallback(() => {
+    setIsNewStep(true)
     const newStep = { text: '' }
     setStepsList((steps) => [...steps, newStep])
   }, [])
@@ -137,6 +146,7 @@ const SpaceOnboardingSteps = () => {
               totalSteps={stepsList.length}
               handleChange={handleChange}
               removeStep={removeStep}
+              isNewStep={isNewStep}
             />
           ))}
           <HoliButton
@@ -158,7 +168,7 @@ const SpaceOnboardingSteps = () => {
             </HoliButton>
           )}
           <HoliButtonLoading
-            disabled={loading || fetchingSpace}
+            disabled={loading || fetchingSpace || hasEmptySteps}
             icon={loading ? Loader4 : undefined}
             iconSpinning={loading}
             label={t('global.save')}

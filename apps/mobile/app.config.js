@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.4.0', // user-facing value visible in stores
-  iosBuildNumber: '1.4.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 21, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.5.0', // user-facing value visible in stores
+  iosBuildNumber: '1.5.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 22, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -40,10 +40,6 @@ export default {
       // TODO add googleServicesFile for iOS
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#F5F5F5',
-      },
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
       // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android

@@ -7,8 +7,9 @@ import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
 
 export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
 
-export const updateInvitation = produce((chatRoom: ChatRoom, update: InvitationUpdate) => {
-  chatRoom.hasInvitation = update.hasInvitation
+export const updateInvitation = produce((chatRoom: ChatRoom, hasJoined: boolean) => {
+  chatRoom.hasInvitation = !hasJoined
+  chatRoom.notificationCount = Math.max(chatRoom.notificationCount - 1, 0)
 })
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
@@ -26,7 +27,7 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
   roomAtoms[roomId] = roomAtom
 })
 
-export function createChatRoom(room: Room, userId: string | null, hasInvitation = false): ChatRoom {
+export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()
   const lastMessage =
     lastLiveEvent?.getType() === 'm.room.message' ? createChatMessage(room.roomId, lastLiveEvent) : undefined
@@ -34,7 +35,7 @@ export function createChatRoom(room: Room, userId: string | null, hasInvitation 
   return {
     hasInvitation,
     id: room.roomId,
-    notificationCount: room.getUnreadNotificationCount(),
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     name: room.name,
     lastMessage: lastMessage,
     timestamp:

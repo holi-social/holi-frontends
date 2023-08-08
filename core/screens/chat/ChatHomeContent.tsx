@@ -1,9 +1,9 @@
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { addToRoomAtoms, roomAtomsRecordAtom } from '@holi/chat/src/store'
+import { createNewRoom, roomAtomsRecordAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
@@ -21,12 +21,11 @@ const ChatHomeContent = () => {
   const { navigate } = useRouting()
 
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
-  const createRoomAtom = useSetAtom(addToRoomAtoms)
 
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
     const userIds: string[] = ['@danielbimschas:staging.chat.holi.social']
-    createRoomAtom(userIds)
+    await createNewRoom(userIds)
   }
 
   if (!isLoggedIn) {

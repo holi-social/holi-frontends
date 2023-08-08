@@ -14,7 +14,6 @@ import {
   loadSessionCredentials,
   storeSessionCredentials,
 } from '@holi/chat/src/utils/storage'
-import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatLoginUrl } from '@holi/core/helpers/config'
 
@@ -31,6 +30,8 @@ interface MatrixLoginResponse {
   device_id: string
   fresh_login: boolean
 }
+
+// TODO the class has no state in itself, consider refactoring this as functions / static methods.
 
 /**
  * @name ChatLogin
@@ -67,18 +68,22 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
-        authorization: `Bearer ${orySessionToken}`,
+        ...(orySessionToken ? { authorization: `Bearer ${orySessionToken}` } : {}),
       },
       referrerPolicy: 'no-referrer',
       body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
       method: 'POST',
       mode: 'cors',
     })
-    if (!response.ok) throw new Error('Unable to log in to Matrix server')
-    logDebug('ChatLogin.login', 'login successful')
-    return {
-      ...((await response.json()) as MatrixLoginResponse),
-      fresh_login: freshLogin,
+
+    if (response.ok) {
+      logDebug('ChatLogin.login', 'login successful')
+      return {
+        ...((await response.json()) as MatrixLoginResponse),
+        fresh_login: freshLogin,
+      }
+    } else {
+      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
     }
   }
 
@@ -98,21 +103,5 @@ export default class ChatLogin {
     }
 
     return sessionCredentials
-  }
-
-  // TODO dead code
-  public getLoginStatus = async (): Promise<boolean> => {
-    const isLoggedin = await AsyncStore.getItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN)
-    return isLoggedin ? JSON.parse(isLoggedin) : false
-  }
-
-  // TODO dead code
-  public retryLogin = async (): Promise<void> => {
-    const orySession = await getSessionFromStorage()
-
-    if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
-
-    await this.ensureLoggedIn(orySession?.session_token, false)
-    await this.getSessionCredentials()
   }
 }
