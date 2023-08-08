@@ -36,8 +36,6 @@ export class ChatToggle {
         throw new HoliError('[ChatToggle]: Can not start chat without Ory session token')
       }
 
-      const chatClient = await chatClientP
-
       await chatLogin.ensureLoggedIn(orySession.session_token, freshLogin)
       await chatClient.start()
       await chatClient.configurePusher()
