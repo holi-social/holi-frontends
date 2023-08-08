@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -63,14 +63,11 @@ const AppsDrawer: React.FC = () => {
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
-          <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              APP_SWIPER_APPS.map((app, idx) => (
-                <AppTile appData={app} key={app.id} onPress={onAppButtonClick} style={idx > 0 && { marginLeft: 15 }} />
-              ))
-            }
-          </ScrollView>
+          <View style={styles.listContents}>
+            {APP_SWIPER_APPS.map((app) => (
+              <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
+            ))}
+          </View>
         </View>
       </HoliModal>
     </>
@@ -101,17 +98,11 @@ const styles = StyleSheet.create({
   modalContent: {
     paddingHorizontal: 10,
   },
-  appsCarousel: {
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  iconContainer: {
-    alignSelf: 'center',
-    width: 64,
-    height: 64,
-    padding: 2,
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: colors.background30,
+  listContents: {
+    gap: 12,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 48,
   },
 })
