@@ -104,7 +104,7 @@ export default class ChatLogin {
       const credentials: LoginCredentials = await response.json()
       await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
     } else {
-      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.statusText} status code`)
+      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
     }
   }
 
