@@ -7,18 +7,18 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/core/screens/chat/components/RoomList/RoomItem'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-import { useRoomIdUserRecord } from './helpers'
+import { useRoomAtomUserMap } from './helpers'
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms }: RoomListProps) => {
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const { roomIdUserRecord, loading } = useRoomIdUserRecord()
+  const { roomAtomUserMap, loading } = useRoomAtomUserMap()
 
   return (
     <FlashList
-      data={Object.entries(roomAtoms)}
-      renderItem={({ item: [roomId, roomAtom] }) => (
-        <RoomItem roomAtom={roomAtom} user={roomIdUserRecord[roomId]} loading={loading} />
+      data={roomAtoms}
+      renderItem={({ item: roomAtom }) => (
+        <RoomItem roomAtom={roomAtom} user={roomAtomUserMap.get(roomAtom) ?? null} loading={loading} />
       )}
       keyExtractor={(item) => item.toString()}
       estimatedItemSize={ROOM_ITEM_HEIGHT}

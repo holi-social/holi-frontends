@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { atom } from 'jotai'
-import { EventTimeline, type Room } from 'matrix-js-sdk'
+import { EventTimeline, EventType, type Room } from 'matrix-js-sdk'
 
 import { createChatMessage } from './messages'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
@@ -39,7 +39,8 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
     name: room.name,
     lastMessage: lastMessage,
     timestamp:
-      room.getLastActiveTimestamp() ??
-      room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents('m.room.create', '')?.getTs(),
+      room.getLastActiveTimestamp() > 0
+        ? room.getLastActiveTimestamp()
+        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
   }
 }

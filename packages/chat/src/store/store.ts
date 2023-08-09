@@ -85,18 +85,32 @@ export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
  */
 export const createNewRoom = (targetIds: string[]): Promise<RoomId> => chatClient.createRoom(targetIds)
 
-export const roomIdNameRecordAtom = atom<Record<string, string>>((get) => {
+/**
+ * @name roomAtomNameMapAtom
+ * @description derived atom that holds all room atoms sorted by date of last message in descending order
+ * @returns `Map<ChatRoomAtom, string`
+ */
+export const roomAtomNameMapAtom = atom<Map<ChatRoomAtom, string>>((get) => {
   const roomAtomsRecordAtom = get(_roomAtomsRecordAtom)
-  const roomIdNameRecord: Record<string, string> = {}
+  const roomAtomNameMap: Map<ChatRoomAtom, string> = new Map()
 
-  for (const [id, roomAtom] of Object.entries(roomAtomsRecordAtom)) {
-    roomIdNameRecord[id] = get(roomAtom).name
+  for (const roomAtom of Object.values(roomAtomsRecordAtom)) {
+    roomAtomNameMap.set(roomAtom, get(roomAtom).name)
   }
-  return roomIdNameRecord
+  return roomAtomNameMap
+})
+
+export const roomAtomsSortedByDateAtom = atom((get) => {
+  const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
+  return roomAtoms.sort((rA, rB) => {
+    const tsA = get(rA).timestamp ?? Infinity
+    const tsB = get(rB).timestamp ?? Infinity
+    return tsA < tsB ? 1 : -1
+  })
 })
 
 /**
- * @name roomAtomsAtomSubscriber (Write-Only)
+ * @name _roomAtomsAtomSubscriber (Write-Only)
  * @description A write-only atom that programmatically creates a room based on
  * the Matrix Client store and listens to the room invitation event emitter for
  * creating rooms (`onMount`). Implementing a write-only atom has null as the
@@ -105,14 +119,11 @@ export const roomIdNameRecordAtom = atom<Record<string, string>>((get) => {
  *
  * IMPORTANT! Do not use this atom to read/access rooms.
  */
-export const roomAtomsRecordAtomSubscriber = atom(
-  (get) => get(_roomAtomsRecordAtom),
-  (get, set, chatRoom: ChatRoom) => {
-    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
-  }
-)
+const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, chatRoom: ChatRoom) => {
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
+})
 
-roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
+_roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   chatClient.subscribeToRooms((room, hasPendingInvitation) => {
     /**
      * @name waitForCorrectRoomName
@@ -140,8 +151,8 @@ roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
  * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
  */
 export const useSubscribeToChat = () => {
-  useAtom(roomAtomsRecordAtomSubscriber)
-  useAtom(threadsAtomsRecordAtomSubscriber)
+  useAtom(_roomAtomsRecordAtomSubscriber)
+  useAtom(_threadsAtomsRecordAtomSubscriber)
 }
 
 /** Room */
@@ -211,36 +222,33 @@ const _threadsAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
 export const threadsAtomsRecordAtom = atom((get) => get(_threadsAtomsRecordAtom))
 
 /**
- * @name threadsAtomsRecordAtomSubscriber (Read-Write)
+ * @name _threadsAtomsRecordAtomSubscriber (Read-Write)
  * @description Read (getter) function returns `Record<string, ChatMessagesAtom>`
  * Write (setter) function expects two argunments: `roomId` and `event` of type `MatrixEvent` and adds new message into the room's `Atom<ChatMessage[]>`
  * This atom should has `onMount` function that subsribes to `ChatClient` and listens for new messages.
  */
-export const threadsAtomsRecordAtomSubscriber = atom(
-  (get) => get(_threadsAtomsRecordAtom),
-  (get, set, roomId: string, event: MatrixEvent) => {
-    if (!roomId) return
+const _threadsAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string, event: MatrixEvent) => {
+  if (!roomId) return
 
-    const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
-      threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-      const newMessage = createChatMessage(roomId, event)
-      set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
-      updateRoom(roomId, newMessage)
-    })
+  const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
+    threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
+    const newMessage = createChatMessage(roomId, event)
+    set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
+    updateRoom(roomId, newMessage)
+  })
 
-    const updateRoom = produce((roomId: string, message: ChatMessage) => {
-      const roomAtomsRecord = get(roomAtomsRecordAtom)
-      const roomAtom = roomAtomsRecord[roomId]
+  const updateRoom = produce((roomId: string, message: ChatMessage) => {
+    const roomAtomsRecord = get(roomAtomsRecordAtom)
+    const roomAtom = roomAtomsRecord[roomId]
 
-      if (!roomAtom) return
+    if (!roomAtom) return
 
-      set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
-    })
+    set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
+  })
 
-    set(_threadsAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
-  }
-)
+  set(_threadsAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
+})
 
-threadsAtomsRecordAtomSubscriber.onMount = (setAtom) => {
+_threadsAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   chatClient.subscribeToMessages(setAtom)
 }
