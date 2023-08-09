@@ -74,7 +74,7 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
                 </HoliText>
               </View>
 
-              {!!timestamp && timestamp > 0 && (
+              {!!timestamp && (
                 <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
                   {getDisplayDate(i18n.language, timestamp)}
                 </HoliText>
