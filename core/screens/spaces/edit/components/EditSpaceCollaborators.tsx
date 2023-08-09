@@ -113,7 +113,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+    <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
       <HoliTabs
         id="collaborator-tabs"
         style={styles.tabWrapper}
@@ -144,6 +144,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      android: {
+        paddingTop: vars.topBarHeight,
+      },
+    }),
+  },
   wrapper: {
     backgroundColor: colors.background20,
     ...Platform.select({
