@@ -36,7 +36,17 @@ export default class ChatClient {
   private mxClient: MatrixClient
   public isOn = false
 
-  private constructor(credentials: ChatCredentials) {
+  public constructor(credentials: ChatCredentials) {
+    if (
+      !credentials ||
+      !credentials.baseUrl ||
+      !credentials.accessToken ||
+      !credentials.userId ||
+      !credentials.deviceId
+    ) {
+      throw new Error('ChatClient.createClient: missing credentials')
+    }
+
     const options: ICreateClientOpts = {
       ...credentials,
       timelineSupport: true,
@@ -57,19 +67,6 @@ export default class ChatClient {
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
-  }
-
-  public static createClient = async (credentials: ChatCredentials): Promise<ChatClient> => {
-    if (
-      !credentials ||
-      !credentials.baseUrl ||
-      !credentials.accessToken ||
-      !credentials.userId ||
-      !credentials.deviceId
-    ) {
-      throw new Error('ChatClient.createClient: missing credentials')
-    }
-    return new ChatClient(credentials)
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
@@ -106,8 +103,22 @@ export default class ChatClient {
   }
 
   /** Rooms */
-  public createRoom = async (targetIds: string[]): Promise<RoomId> => {
-    if (targetIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
+  public getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
+    const room = this.mxClient.getRooms().find((room) => {
+      return (
+        !room.isSpaceRoom() &&
+        room.getMembers().length == userIds.length + 1 &&
+        room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
+      )
+    })
+
+    if (room) return { room_id: room.roomId }
+
+    return this.createRoom(userIds)
+  }
+
+  public createRoom = async (userIds: string[]): Promise<RoomId> => {
+    if (userIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -127,7 +138,7 @@ export default class ChatClient {
       ],
     }
 
-    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: targetIds })
+    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: userIds })
   }
 
   public getRoom = (id: string) => {

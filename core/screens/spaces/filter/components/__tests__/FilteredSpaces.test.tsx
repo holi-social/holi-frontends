@@ -8,7 +8,7 @@ import { geoPlaceDetailsQuery } from '@holi/core/location/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import FilteredSpaces from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
+import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filter/components/FilteredSpaces'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -21,7 +21,7 @@ const createSpacesMock = (variables = {}) => ({
     query: spacesQuery,
     variables: {
       ...variables,
-      limit: 20,
+      limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
   },
@@ -45,7 +45,7 @@ const createSpacesPaginationMock = (offset = 0) => ({
   request: {
     query: spacesQuery,
     variables: {
-      limit: 20,
+      limit: SPACES_PAGE_SIZE,
       offset,
     },
   },
@@ -53,7 +53,7 @@ const createSpacesPaginationMock = (offset = 0) => ({
     data: {
       spaces: {
         totalResults: 100,
-        data: createSpaceList(offset + 20).slice(offset),
+        data: createSpaceList(offset + SPACES_PAGE_SIZE).slice(offset),
         __typename: 'SpacePaged',
       },
     },
@@ -64,7 +64,7 @@ const spacesNoResultsMock = {
   request: {
     query: spacesQuery,
     variables: {
-      limit: 20,
+      limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
   },
@@ -82,11 +82,11 @@ const spacesErrorMock = {
   request: {
     query: spacesQuery,
     variables: {
-      limit: 20,
+      limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
   },
-  error: new HoliError('Test error'),
+  error: new HoliError('Test error', 'test-error'),
 }
 
 export const locationDetailsErrorMock = {
@@ -96,7 +96,7 @@ export const locationDetailsErrorMock = {
       id: locationId,
     },
   },
-  error: new HoliError('Test error'),
+  error: new HoliError('Test error', 'test-error'),
 }
 
 describe('FilteredSpaces', () => {
@@ -123,26 +123,24 @@ describe('FilteredSpaces', () => {
         'spaces.spaceListing.error',
         HoliToastType.ERROR,
         undefined,
-        undefined
+        'test-error'
       )
     )
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('displays list of spaces', async () => {
+  it('displays list of spaces', async () => {
     renderFilteredSpaces([spacesMock])
 
     expect((await screen.findAllByTestId('filtered-spaces-container')).length).toBeGreaterThan(0)
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('paginates long lists of spaces', async () => {
-    renderFilteredSpaces([createSpacesPaginationMock(), createSpacesPaginationMock(20)])
+  it('paginates long lists of spaces', async () => {
+    renderFilteredSpaces([createSpacesPaginationMock(), createSpacesPaginationMock(SPACES_PAGE_SIZE)])
 
     // expect 12 spaces
     expect((await screen.findAllByTestId('filtered-spaces-container')).length).toBeGreaterThan(0)
-    expect((await screen.findAllByTestId('space-link')).length).toBe(12)
+    expect((await screen.findAllByTestId('space-link')).length).toBe(SPACES_PAGE_SIZE)
 
     // load more
     fireEvent.press(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
@@ -150,11 +148,10 @@ describe('FilteredSpaces', () => {
 
     // expect 24 spaces
     expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text'))
-    expect((await screen.findAllByTestId('space-link')).length).toBe(24)
+    expect((await screen.findAllByTestId('space-link')).length).toBe(2 * SPACES_PAGE_SIZE)
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('displays no results screen if no spaces were found', async () => {
+  it('displays no results screen if no spaces were found', async () => {
     renderFilteredSpaces([spacesNoResultsMock])
 
     expect(await screen.findByText('spaces.filter.notFound.title'))
@@ -175,34 +172,30 @@ describe('FilteredSpaces', () => {
         'spaces.spaceListing.error',
         HoliToastType.ERROR,
         undefined,
-        undefined
+        'test-error'
       )
     )
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('filters spaces by location', async () => {
+  it('filters spaces by location', async () => {
     renderFilteredSpaces([locationDetailsMock, spacesByLocationMock], { locationId })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('filters spaces by topic', async () => {
+  it('filters spaces by topic', async () => {
     renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlug })], { topicSlug })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('filters spaces by skills', async () => {
+  it('filters spaces by skills', async () => {
     renderFilteredSpaces([locationDetailsMock, createSpacesMock({ skillSlugs })], { skillSlugs })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
-  // TODO fix test setup so we can see passed the loading state (currently it's just loading)
-  it.skip('filters spaces by multiple filters', async () => {
+  it('filters spaces by multiple filters', async () => {
     renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicSlug, skillSlugs })], {
       locationId,
       topicSlug,

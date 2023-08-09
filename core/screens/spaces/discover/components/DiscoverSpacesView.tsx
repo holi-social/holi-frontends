@@ -24,13 +24,15 @@ interface DiscoverSpacesViewProps {
  * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
  * This means that the offset variable is omitted in our query, but we may add a limit variable.
  */
-const SPACES_GROUP_LIMIT = 5
+export const SPACES_GROUP_LIMIT = 5
+
+export const SPACES_SLIDER_SKELETONS = 3
 
 const SpacesGroupSliderSkeletons: React.FC = () => {
   return (
     <View testID={'spaces-group-slider-skeletons'}>
-      {new Array(3).fill(1).map((_, idx) => {
-        return <SpacesGroupSlider key={idx} loading={true} />
+      {new Array(SPACES_SLIDER_SKELETONS).fill(1).map((_, idx) => {
+        return <SpacesGroupSlider key={idx} loading={true} pageSize={SPACES_GROUP_LIMIT} />
       })}
     </View>
   )
@@ -66,7 +68,11 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         {t('spaces.discover.description')}
       </HoliText>
       <View style={styles.createSpaceButtonContainer}>
-        <HoliButton label={t('spaces.discover.create.button')} onPress={handleCreateSpaceButtonPress}>
+        <HoliButton
+          label={t('spaces.discover.create.button')}
+          onPress={handleCreateSpaceButtonPress}
+          testID="discover-spaces-create-button"
+        >
           {t('spaces.discover.create.button')}
         </HoliButton>
       </View>
@@ -78,7 +84,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
               topic={userTopic}
               pageSize={SPACES_GROUP_LIMIT}
               style={styles.spacesGroup}
-              testID="discover-spaces-slider-user-specific"
+              testID="discover-topics-slider-user-specific"
             />
           </ScrollBasedRender>
         ))}
@@ -89,7 +95,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
               skill={userSkill}
               pageSize={SPACES_GROUP_LIMIT}
               style={styles.spacesGroup}
-              testID="discover-spaces-slider-user-specific"
+              testID="discover-skills-slider-user-specific"
             />
           </ScrollBasedRender>
         ))}
@@ -109,7 +115,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
                 topic={defaultTopic}
                 pageSize={SPACES_GROUP_LIMIT}
                 style={styles.spacesGroup}
-                testID="discover-spaces-slider-others"
+                testID="discover-topic-slider-others"
               />
             </ScrollBasedRender>
           ))}

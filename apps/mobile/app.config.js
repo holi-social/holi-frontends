@@ -74,6 +74,7 @@ export default {
     },
     extra: {
       chat: {
+        serverName: process.env.HOLI_CHAT_SERVER_NAME || 'staging.chat.holi.social',
         serverLoginUrl: process.env.HOLI_API_GATEWAY + '/api/chatlogin',
         serverUrl: process.env.HOLI_CHAT_SERVER_URL || 'https://staging.chat.holi.social/',
         identityServerUrl: process.env.HOLI_CHAT_IDENTITY_SERVER_URL || 'https://vector.im',

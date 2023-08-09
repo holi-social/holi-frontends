@@ -56,6 +56,8 @@ const LoginRegistration = ({
     hideModal()
   }
 
+  const footerDocs: DocType[] = ['imprint', 'privacyPolicy', 'openSource']
+
   return (
     <View style={styles.fillHeight}>
       <View style={styles.fillHeight}>
@@ -103,27 +105,18 @@ const LoginRegistration = ({
       </View>
 
       <View style={styles.bottomLinkContainer}>
-        <HoliText size={'small'} color="gray300">
-          <HoliTextLink
-            label={t('profile.loggedOut.footer.imprint')}
-            onPress={() => showModalFor('imprint')}
-            href={'/profile'}
-            variant="inline"
-          >
-            {t('profile.loggedOut.footer.imprint')}
-          </HoliTextLink>
-        </HoliText>
-
-        <HoliText size={'small'} color="gray300">
-          <HoliTextLink
-            label={t('profile.loggedOut.footer.privacyPolicy')}
-            onPress={() => showModalFor('privacyPolicy')}
-            href={'/profile'}
-            variant="inline"
-          >
-            {t('profile.loggedOut.footer.privacyPolicy')}
-          </HoliTextLink>
-        </HoliText>
+        {footerDocs.map((docType) => (
+          <HoliText size={'small'} color="gray300" key={docType}>
+            <HoliTextLink
+              label={t(`profile.loggedOut.footer.${docType}`)}
+              onPress={() => showModalFor(docType)}
+              href={'/profile'}
+              variant="inline"
+            >
+              {t(`profile.loggedOut.footer.${docType}`)}
+            </HoliTextLink>
+          </HoliText>
+        ))}
 
         <HoliModal
           label={t(`profile.loggedOut.footer.${shownDocument}`)}

@@ -16,3 +16,6 @@ coverage
 
 .idea
 /schema.graphql
+
+# generated license disclaimer
+license-disclaimer.txt
