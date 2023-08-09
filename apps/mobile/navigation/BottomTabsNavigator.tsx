@@ -59,6 +59,7 @@ const BottomTabsNavigator = () => {
               Home
             </HoliText>
           ),
+          tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-home-view',
         }}
         listeners={{ tabPress: () => setPathname('/') }}
