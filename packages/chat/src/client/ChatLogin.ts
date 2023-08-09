@@ -4,21 +4,17 @@ import fetch from 'cross-fetch'
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
 // We need this lightweight polyfill to support mobile.
 import 'fast-text-encoding'
-import type { MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import {
-  CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
-  CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
-  CHAT_LOCAL_STORAGE_KEY_TOKEN,
-  CHAT_LOCAL_STORAGE_KEY_USER_ID,
-} from '@holi/chat/src/utils/constants'
+import { CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN } from '@holi/chat/src/utils/constants'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
-import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
-import type { ChatCredentials } from '@holi/chat/src/utils/types'
-import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
+import {
+  StoredCredentials as SessionCredentials,
+  clearSessionCredentials,
+  loadSessionCredentials,
+  storeSessionCredentials,
+} from '@holi/chat/src/utils/storage'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { logError } from '@holi/core/errors/helpers'
 import { chatLoginUrl } from '@holi/core/helpers/config'
 
 export enum SSOAction {
@@ -26,12 +22,14 @@ export enum SSOAction {
   REGISTER = 'register',
 }
 
-interface LoginCredentials {
+interface MatrixLoginResponse {
   access_token: string
   user_id: string
   device_id: string
   fresh_login: boolean
 }
+
+// TODO the class has no state in itself, consider refactoring this as functions / static methods.
 
 /**
  * @name ChatLogin
@@ -43,48 +41,21 @@ export default class ChatLogin {
   // RN has an issue with the @babel/plugin-proposal-private-methods in
   // combination with Flatlist's.
   // https://github.com/facebook/react-native/issues/36828
-  private mxClient: MatrixClient | null = null
   private readonly serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
 
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 
-  /**
-   * Removes all the stored chat client credentials.
-   */
-  private clearSessionCredentials = async (): Promise<void> => {
-    await AsyncStore.multiRemove([
-      CHAT_LOCAL_STORAGE_KEY_TOKEN,
-      CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
-      CHAT_LOCAL_STORAGE_KEY_USER_ID,
-      CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
-    ])
-  }
-
-  private saveCredentials = async ({
-    access_token,
-    user_id,
-    device_id,
-    fresh_login,
-  }: LoginCredentials): Promise<void> => {
-    await this.clearSessionCredentials()
-
-    // Reset newly received credentials
-    const multiSetCreds: [string, string][] = [
-      // TODO: the `access_token` should be stored with some kind of encryption
-      [CHAT_LOCAL_STORAGE_KEY_TOKEN, access_token],
-      [CHAT_LOCAL_STORAGE_KEY_DEVICE_ID, device_id],
-      [CHAT_LOCAL_STORAGE_KEY_USER_ID, user_id],
-      [CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, `${fresh_login}`],
-    ]
-
-    await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
-  }
-
-  public fetchSessionCredentials = async (orySessionToken?: string, freshLogin = true): Promise<void> => {
+  public ensureLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
     // fetch only if no Matrix session data found
-    const sessionCredentials = await getStoredSessionCreds()
-    if (sessionCredentials.accessToken) return
+    const storedSessionCredentials = await loadSessionCredentials()
+    if (storedSessionCredentials?.access_token) {
+      return Promise.resolve(storedSessionCredentials)
+    } else {
+      return await storeSessionCredentials(await this.login(orySessionToken, freshLogin))
+    }
+  }
 
+  public login = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -101,41 +72,28 @@ export default class ChatLogin {
     })
 
     if (response.ok) {
-      const credentials: LoginCredentials = await response.json()
-      await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
+      return {
+        ...((await response.json()) as MatrixLoginResponse),
+        fresh_login: freshLogin,
+      }
     } else {
       throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
     }
   }
 
   public logout = async (): Promise<void> => {
-    await this.clearSessionCredentials()
+    await clearSessionCredentials()
   }
 
-  public getSessionCredentials = async (): Promise<ChatCredentials> => {
-    const sessionCredentials = await getStoredSessionCreds()
-
+  public getSessionCredentials = async (): Promise<SessionCredentials> => {
+    const sessionCredentials = await loadSessionCredentials()
     // TODO abort/retry loging on missing access
-    if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
+    if (!sessionCredentials?.access_token) throw new Error('unable to restore local session credentials')
 
-    if (sessionCredentials.freshLogin === true) {
+    if (sessionCredentials.fresh_login === true) {
       await AsyncStore.setItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, 'false')
     }
 
     return sessionCredentials
-  }
-
-  public getLoginStatus = async (): Promise<boolean> => {
-    const isLoggedin = await AsyncStore.getItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN)
-    return isLoggedin ? JSON.parse(isLoggedin) : false
-  }
-
-  public retryLogin = async (): Promise<ChatCredentials> => {
-    const orySession = await getSessionFromStorage()
-
-    if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
-
-    await this.fetchSessionCredentials(orySession?.session_token, false)
-    return await this.getSessionCredentials()
   }
 }
