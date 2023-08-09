@@ -38,10 +38,7 @@ export default class ChatClient {
 
   private constructor(credentials: ChatCredentials) {
     const options: ICreateClientOpts = {
-      baseUrl: credentials.baseUrl,
-      accessToken: credentials.accessToken,
-      userId: credentials.userId,
-      deviceId: credentials.deviceId,
+      ...credentials,
       timelineSupport: true,
       // TODO: implement roomNameGenerator
       // roomNameGenerator: (_: string, state: RoomNameState) => {}
@@ -53,16 +50,25 @@ export default class ChatClient {
     this.mxClient.setMaxListeners(500)
     this.mxClient.setGuest(false)
 
-    const notifyTimelineSet = new EventTimelineSet(undefined, {
+    const notifTimelineSet = new EventTimelineSet(undefined, {
       timelineSupport: true,
       pendingEvents: true,
     })
 
-    notifyTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
-    this.mxClient.setNotifTimelineSet(notifyTimelineSet)
+    notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
+    this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
   public static createClient = async (credentials: ChatCredentials): Promise<ChatClient> => {
+    if (
+      !credentials ||
+      !credentials.baseUrl ||
+      !credentials.accessToken ||
+      !credentials.userId ||
+      !credentials.deviceId
+    ) {
+      throw new Error('ChatClient.createClient: missing credentials')
+    }
     return new ChatClient(credentials)
   }
 

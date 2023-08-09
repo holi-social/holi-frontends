@@ -34,6 +34,7 @@ export class ChatToggle {
     this.isStarting = true
 
     try {
+      // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
       chatClient = await getSessionFromStorage()
         .then((orySession) => {
           if (!orySession) {
@@ -51,9 +52,8 @@ export class ChatToggle {
           })
         })
 
-      if (chatClient === undefined) {
-        throw new HoliError('[ChatToggle]: this should not happen')
-      }
+      // make compiler believe that chatClient is in fact defined
+      if (chatClient === undefined) throw new HoliError('[ChatToggle]: this should not happen')
 
       await chatClient.start()
       await chatClient.configurePusher()
