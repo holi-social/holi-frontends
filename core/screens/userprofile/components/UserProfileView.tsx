@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { createNewRoom } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
+import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
@@ -30,16 +31,12 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
   const handleChat = async () => {
     // TODO:  the correct Matrix identity should come from Okuna
     const identity = user.identity
-
     if (!identity) {
       logError('Can not create a chat with out an user identity')
       return
     }
 
-    // TODO: use the correct server postfix
-    const userId = '@' + identity + ':local.chat.holi.social'
-    const { room_id } = await createNewRoom([userId])
-
+    const { room_id } = await createNewRoom(['@' + identity + ':' + chatServerName])
     if (!room_id) {
       logError('Can not open a room without a room id')
       return
