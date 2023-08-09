@@ -35,7 +35,7 @@ const EditSpaceCoverImage: React.VFC<EditSpaceCoverImageProps> = ({ space, onDis
   const onSave = () => updateSpace({ variables: { input: { id: space.id, cover: coverImage?.blob ?? null } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} loading={loading}>
       <SpaceImageForm
         title={t('spaces.edit.mainImage')}
         description={t('spaces.input.coverImage.remove.description')}

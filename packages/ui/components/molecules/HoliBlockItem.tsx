@@ -60,7 +60,7 @@ const HoliBlockItem = ({
   imageElement,
   href,
   label,
-  testID,
+  testID = 'holi-block-item',
   size = 'small',
   totalUserCount,
   cardWidthForImageScaling,
@@ -88,6 +88,7 @@ const HoliBlockItem = ({
         height={isSmall ? SMALL_IMAGE_DIMENSION : LARGE_SKELETON_HEIGHT}
         width={'100%'}
         borderRadius={isSmall ? SMALL_OUTER_BORDER_RADIUS : LARGE_OUTER_BORDER_RADIUS}
+        testID={testID + '-loading'}
       />
     )
   }

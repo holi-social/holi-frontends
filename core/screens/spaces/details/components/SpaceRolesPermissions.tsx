@@ -190,7 +190,7 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
 
   return (
     <SafeAreaView>
-      <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+      <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
         <HoliTabs
           id="collaborator-tabs"
           style={styles.tabWrapper}
@@ -213,6 +213,13 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      android: {
+        paddingTop: vars.topBarHeight,
+      },
+    }),
+  },
   wrapper: {
     backgroundColor: colors.background20,
     ...Platform.select({

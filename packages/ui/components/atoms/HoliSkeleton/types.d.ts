@@ -4,6 +4,7 @@ export interface HoliSkeletonProps {
   height: number | '100%' | 'auto'
   width: '40%' | '60%' | '100%'
   borderRadius: 0 | 4 | 8 | 16 | 48
+  testID?: string
 }
 
 // default design choices

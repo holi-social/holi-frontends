@@ -7,8 +7,8 @@ import { HoliSkeletonProps } from './types'
 // (which is heavily cluttered and inflexible, that's why we don't use it directly)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const HoliSkeleton = ({ aspectRatio, height, width, borderRadius }: PropsWithChildren<HoliSkeletonProps>) => {
-  return <div style={{ aspectRatio, height, width, borderRadius }} className={styles.skeleton} />
+const HoliSkeleton = ({ aspectRatio, height, width, borderRadius, testID }: PropsWithChildren<HoliSkeletonProps>) => {
+  return <div style={{ aspectRatio, height, width, borderRadius }} className={styles.skeleton} data-testid={testID} />
 }
 
 export default React.memo(HoliSkeleton)

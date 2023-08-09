@@ -4,6 +4,7 @@ import { MatrixEvent } from 'matrix-js-sdk'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
+import type { RoomId } from '@holi/chat/src/client/types'
 import { isCreateMessage } from '@holi/chat/src/store/utils'
 import { StoredCredentials } from '@holi/chat/src/utils'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
@@ -79,14 +80,14 @@ export class ChatToggle {
 /** Rooms **/
 
 /**
- * @name roomAtomsAtom (Read-Only)
- * @description An array of room atoms, each atom contains the room
+ * @name roomAtomsRecordAtom (Read-Only)
+ * @description An object with id and room atoms, each atom contains the room
  * (conversation) of the logged-in user. To get the room information, you must
  * pass the single room to a const `room = useAtomValue(roomAtom)` to access
  * this read-only value.
  *
  * IMPORTANT! Do not set values to the room using this atom. It would be best to
- * use a `createRoomAtom` derived atom to set values (updating the state).To
+ * use a `createRoomAtomRecord` derived atom to set values (updating the state).To
  * edit a particular room, you need to use a selector, which can be found below
  * under the Room section (e.g `createRoomAtom`).
  */
@@ -94,8 +95,34 @@ const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
 
 /**
+ * @name createNewRoom (Client Helper)
+ * @description Initiates the creation of a room in Matrix through the
+ * ChatClient. The store updates once the room creation event is received from
+ * the Matrix server.
+ */
+export const createNewRoom = (userIds: string[]): Promise<RoomId> => {
+  if (chatClient === undefined) {
+    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
+  }
+  return chatClient.createRoom(userIds)
+}
+
+/**
+ * @name getOrCreateRoom (Client Helper)
+ * @description returns the room id of an existing one-on-one room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateRoom = (userIds: string[]): Promise<RoomId> => {
+  if (chatClient === undefined) {
+    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
+  }
+  return chatClient.getOrCreateRoom(userIds)
+}
+
+/**
  * @name roomAtomNameMapAtom
- * @description derived atom that holds all room atoms sorted by date of last message in descending order
+ * @description derived atom that holds all room atoms sorted by date of last
+ * message in descending order
  * @returns `Map<ChatRoomAtom, string`
  */
 export const roomAtomNameMapAtom = atom<Map<ChatRoomAtom, string>>((get) => {
@@ -141,14 +168,14 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
      * We use this function to watch for the room `name` change and only create an atom when correct name was passed
      * or timeout exceeded.
-     * @param tillTimestapm `number` represents timestamp limit till function postponds setting the atom
+     * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
-    const waitForCorrectRoomName = (tillTimestapm: number) => {
-      if (room.name !== 'Empty room' || Date.now() > tillTimestapm) {
+    const waitForCorrectRoomName = (timestamp: number) => {
+      if (room.name !== 'Empty room' || Date.now() > timestamp) {
         setAtom(createChatRoom(room, hasPendingInvitation))
       } else {
         setTimeout(() => {
-          waitForCorrectRoomName(tillTimestapm)
+          waitForCorrectRoomName(timestamp)
         }, 50)
       }
     }
@@ -158,10 +185,10 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 }
 
 /**
- * @name useSubscribeToRoomAndMessageUpdates hook
- * @description helper hook subscribes to rooms and messages updates. Should be used on root component.
+ * @name useSubscribeToChat hook
+ * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
  */
-export const useSubscribeToRoomAndMessageUpdates = () => {
+export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_threadsAtomsRecordAtomSubscriber)
 }
@@ -188,13 +215,6 @@ export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
   if (!hasJoined) return
   set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, hasJoined))
 })
-
-export const createNewRoom = async (targetIds: string[]) => {
-  if (chatClient === undefined) {
-    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  }
-  return chatClient.createRoom(targetIds)
-}
 
 /** Room Messages */
 
