@@ -76,7 +76,6 @@ const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
       minHeight: deviceHeight - +vars.topBarHeight,
-      marginTop: vars.topBarHeight,
     },
     messageContainer: {
       alignItems: 'center',
