@@ -43,7 +43,7 @@ export class ChatToggle {
           return chatLogin.ensureLoggedIn(orySession.session_token)
         })
         .then((credentials: StoredCredentials) => {
-          return ChatClient.createClient({
+          return new ChatClient({
             baseUrl: chatUrl,
             accessToken: credentials.access_token,
             deviceId: credentials.device_id,

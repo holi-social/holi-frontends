@@ -34,7 +34,17 @@ export default class ChatClient {
   private mxClient: MatrixClient
   public isOn = false
 
-  private constructor(credentials: ChatCredentials) {
+  public constructor(credentials: ChatCredentials) {
+    if (
+      !credentials ||
+      !credentials.baseUrl ||
+      !credentials.accessToken ||
+      !credentials.userId ||
+      !credentials.deviceId
+    ) {
+      throw new Error('ChatClient.createClient: missing credentials')
+    }
+
     const options: ICreateClientOpts = {
       ...credentials,
       timelineSupport: true,
@@ -55,19 +65,6 @@ export default class ChatClient {
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
-  }
-
-  public static createClient = async (credentials: ChatCredentials): Promise<ChatClient> => {
-    if (
-      !credentials ||
-      !credentials.baseUrl ||
-      !credentials.accessToken ||
-      !credentials.userId ||
-      !credentials.deviceId
-    ) {
-      throw new Error('ChatClient.createClient: missing credentials')
-    }
-    return new ChatClient(credentials)
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
