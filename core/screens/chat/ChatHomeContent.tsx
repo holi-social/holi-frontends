@@ -24,7 +24,7 @@ const ChatHomeContent = () => {
 
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
-    const userIds: string[] = ['@danielbimschas:staging.chat.holi.social']
+    const userIds: string[] = ['@daniel_inoio:staging.chat.holi.social']
     await createNewRoom(userIds)
   }
 

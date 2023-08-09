@@ -2,6 +2,8 @@ import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import { MatrixClient } from 'matrix-js-sdk'
 
+import { pushGatewayUrl } from '@holi/core/helpers/config'
+
 /**
  * Configures push notifications to use holi push notification gateway (Sygnal)
  *
@@ -36,7 +38,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         app_id: 'social.holi', // must match app_id in sygnal config
         data: {
           //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
-          url: 'https://staging-push.chat.holi.social/_matrix/push/v1/notify',
+          url: pushGatewayUrl,
 
           // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
           // "type", and "sender_display_name" from notification data

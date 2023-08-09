@@ -4,6 +4,7 @@ export interface HoliChatConfig {
   serverLoginUrl: string
   serverUrl: string
   identityServerUrl: string
+  pushGatewayUrl: string
 }
 
 export interface HoliOryConfig {
