@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: vars.topBarHeight + 40,
+    paddingTop: vars.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {
