@@ -33,7 +33,7 @@ const EditSpaceSDGs: React.VFC<EditSpaceSDGsProps> = ({ space, onDismiss }: Edit
   const onSave = () => updateSpace({ variables: { input: { id: space.id, sdgs: sdgs.map((sdg) => sdg.id) } } })
 
   return (
-    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading}>
+    <EditSpaceModal onDismiss={onDismiss} onSave={onSave} saveButtonDisabled={loading} loading={loading}>
       <SpaceTermsInput
         title={t('spaces.input.sdgs.title')}
         description={t('spaces.input.sdgs.description')}
