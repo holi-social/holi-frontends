@@ -9,7 +9,6 @@ import {
   roomAtomsRecordAtom,
   roomMessagesSubscriberAtom,
   threadsAtomsRecordAtom,
-  useSubscribeToChat,
 } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -31,8 +30,6 @@ const nullAtom = atom(null)
 const { useParam } = createParam<ChatRoomPageParams>()
 
 const ChatRoom = () => {
-  useSubscribeToChat()
-
   const [roomId = ''] = useParam('roomId')
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[roomId] ?? nullAtom

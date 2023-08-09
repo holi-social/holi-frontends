@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { useAtomValue } from 'jotai'
 
-import { roomIdNameRecortAtom } from '@holi/chat/src/store'
+import { roomIdNameRecordAtom } from '@holi/chat/src/store'
 import {
   UsersByChatIdentitiesQueryVariables,
   UsersByChatIdentitiesResponse,
@@ -10,7 +10,7 @@ import {
 import { User } from '@holi/core/screens/userprofile/types'
 
 export const useRoomIdUserRecord = () => {
-  const roomIdNameRecord = useAtomValue(roomIdNameRecortAtom)
+  const roomIdNameRecord = useAtomValue(roomIdNameRecordAtom)
   const roomNames = [...new Set(Object.values(roomIdNameRecord))]
 
   const { data, loading } = useQuery<UsersByChatIdentitiesResponse, UsersByChatIdentitiesQueryVariables>(

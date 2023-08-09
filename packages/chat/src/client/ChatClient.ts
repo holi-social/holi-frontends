@@ -190,10 +190,6 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
-  public stop = async () => {
-    await this.mxClient?.logout(true)
-  }
-
   public subscribeToRooms = (callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void => {
     if (!this.verifyMxClient(this.mxClient)) return
 
