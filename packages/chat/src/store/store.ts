@@ -80,14 +80,22 @@ export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
 
 /**
  * @name createNewRoom (Client Helper)
- * @description Initiates the creation of a room in Matrix through the ChatClient.
- * The store updates once the room creation event is received from the Matrix server.
+ * @description Initiates the creation of a room in Matrix through the
+ * ChatClient. The store updates once the room creation event is received from
+ * the Matrix server.
  */
-export const createNewRoom = (targetIds: string[]): Promise<RoomId> => chatClient.createRoom(targetIds)
+export const createNewRoom = (userIds: string[]): Promise<RoomId> => chatClient.createRoom(userIds)
+/**
+ * @name getOrCreateRoom (Client Helper)
+ * @description returns the room id of an existing one-on-one room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateRoom = (userId: string): Promise<RoomId> => chatClient.getOrCreateRoom(userId)
 
 /**
  * @name roomAtomNameMapAtom
- * @description derived atom that holds all room atoms sorted by date of last message in descending order
+ * @description derived atom that holds all room atoms sorted by date of last
+ * message in descending order
  * @returns `Map<ChatRoomAtom, string`
  */
 export const roomAtomNameMapAtom = atom<Map<ChatRoomAtom, string>>((get) => {

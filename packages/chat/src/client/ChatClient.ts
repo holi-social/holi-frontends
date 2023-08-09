@@ -112,9 +112,24 @@ export default class ChatClient {
   }
 
   /** Rooms */
-  public createRoom = async (targetIds: string[]): Promise<RoomId> => {
+  public getOrCreateRoom = async (userId: string): Promise<RoomId> => {
     if (!this.verifyMxClient(this.mxClient)) throw new Error('Unable to create a room without a client')
-    if (targetIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
+    const room = this.mxClient.getRooms().find((room) => {
+      return (
+        !room.isSpaceRoom() &&
+        room.getMembers().length == 2 &&
+        room.getMembers().find((roomMember) => roomMember.userId == userId)
+      )
+    })
+
+    if (room) return { room_id: room.roomId }
+
+    return this.createRoom([userId])
+  }
+
+  public createRoom = async (userIds: string[]): Promise<RoomId> => {
+    if (!this.verifyMxClient(this.mxClient)) throw new Error('Unable to create a room without a client')
+    if (userIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -134,7 +149,7 @@ export default class ChatClient {
       ],
     }
 
-    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: targetIds })
+    return await this.mxClient.createRoom({ ...dmRoomOptions, invite: userIds })
   }
 
   public getRoom = (id: string) => {
