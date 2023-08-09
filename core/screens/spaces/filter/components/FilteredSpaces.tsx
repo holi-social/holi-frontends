@@ -24,7 +24,7 @@ interface FilteredSpacesProps extends SpaceFilter {
   applyFilters: (filters: SpaceFilter) => void
 }
 
-const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
+export const SPACES_PAGE_SIZE = 12 // needs to be divisible by 2, 3 and 4 (grid widths)
 
 const FilteredSpaces: React.VFC<FilteredSpacesProps> = ({ topicSlug, skillSlugs, locationId, applyFilters }) => {
   const { displayError } = useErrorHandling()

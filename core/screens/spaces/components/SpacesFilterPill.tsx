@@ -49,6 +49,7 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
         numberOfLines={1}
         style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
+        testID={testID + '-loading'}
       />
     )
   }
