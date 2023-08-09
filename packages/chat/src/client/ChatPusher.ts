@@ -23,15 +23,6 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
     console.debug(`[${Device.osName}] [ChatClient.configurePusher]: existing push rules`, JSON.stringify(rules))
   })
 
-  // TODO configure public settings in https://console.firebase.google.com/u/0/project/holi-shared/settings/general/android:social.holi.app
-  // TODO set default resource location in https://console.firebase.google.com/u/0/project/holi-shared/settings/general/android:social.holi.app
-  // TODO document details on which parts need to be present to make push notifications work
-  // TODO - use development with expo-dev-client instead of Expo Go to test notifications, see e.g. https://docs.expo.dev/develop/development-builds/create-a-build/#create-a-development-build-for-the-device
-  // TODO maybe upload google-services.json to EAS and use
-  // TODO silence console.warn statements from matrix client popping up in UI
-  // TODO move push gateway behind reverse proxy?
-  // TODO maybe move push token retrieval to app initialization?
-  // TODO subscribe to updated push tokens, see https://docs.expo.dev/versions/latest/sdk/notifications/#addpushtokenlistenerlistener
   const token = await Notifications.getDevicePushTokenAsync()
   if (token.type === 'android' || token.type === 'ios') {
     console.debug(
@@ -39,7 +30,6 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
       token.data
     )
     // see https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset
-    // TODO make setPusher work in local environment
     await mxClient
       ?.setPusher({
         app_display_name: 'holi', // TODO add environment?
@@ -54,8 +44,8 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         },
         device_display_name: Device.manufacturer + ' ' + Device.modelName, // TODO validate this makes sense and see where it is used
         kind: 'http',
-        lang: 'en', // TODO use correct language
-        profile_tag: 'override', // TODO double check what should go here
+        lang: 'en', // TODO use correct language https://holi.atlassian.net/browse/HOLI-5421
+        profile_tag: 'override', // TODO double check what should go here https://holi.atlassian.net/browse/HOLI-5422
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         pushkey: token.data,
         enabled: true,
