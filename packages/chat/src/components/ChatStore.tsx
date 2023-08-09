@@ -1,9 +1,9 @@
 import { memo } from 'react'
 
-import { useSubscribeToRoomAndMessageUpdates } from '@holi/chat/src/store'
+import { useSubscribeToChat } from '@holi/chat/src/store'
 
 const ChatStore = () => {
-  useSubscribeToRoomAndMessageUpdates()
+  useSubscribeToChat()
   return null
 }
 

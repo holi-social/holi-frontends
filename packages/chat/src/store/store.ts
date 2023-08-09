@@ -22,6 +22,7 @@ export const chatLogin = new ChatLogin()
 export class ChatToggle {
   private static isStarting = false
   private static isStopping = false
+
   public static get isOn() {
     return chatClient.isOn
   }
@@ -75,6 +76,7 @@ export class ChatToggle {
  */
 const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
+
 export const roomIdNameRecortAtom = atom<Record<string, string>>((get) => {
   const roomAtomsRecordAtom = get(_roomAtomsRecordAtom)
   const roomIdNameRecord: Record<string, string> = {}
@@ -126,10 +128,10 @@ roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 }
 
 /**
- * @name useSubscribeToRoomAndMessageUpdates hook
- * @description helper hook subscribes to rooms and messages updates. Should be used on root component.
+ * @name useSubscribeToChat hook
+ * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
  */
-export const useSubscribeToRoomAndMessageUpdates = () => {
+export const useSubscribeToChat = () => {
   useAtom(roomAtomsRecordAtomSubscriber)
   useAtom(threadsAtomsRecordAtomSubscriber)
 }
