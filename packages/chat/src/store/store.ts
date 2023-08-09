@@ -90,7 +90,7 @@ export const createNewRoom = (userIds: string[]): Promise<RoomId> => chatClient.
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = (userId: string): Promise<RoomId> => chatClient.getOrCreateRoom(userId)
+export const getOrCreateRoom = (userIds: string[]): Promise<RoomId> => chatClient.getOrCreateRoom(userIds)
 
 /**
  * @name roomAtomNameMapAtom

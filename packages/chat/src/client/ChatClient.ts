@@ -112,19 +112,19 @@ export default class ChatClient {
   }
 
   /** Rooms */
-  public getOrCreateRoom = async (userId: string): Promise<RoomId> => {
+  public getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
     if (!this.verifyMxClient(this.mxClient)) throw new Error('Unable to create a room without a client')
     const room = this.mxClient.getRooms().find((room) => {
       return (
         !room.isSpaceRoom() &&
-        room.getMembers().length == 2 &&
-        room.getMembers().find((roomMember) => roomMember.userId == userId)
+        room.getMembers().length == userIds.length + 1 &&
+        room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
       )
     })
 
     if (room) return { room_id: room.roomId }
 
-    return this.createRoom([userId])
+    return this.createRoom(userIds)
   }
 
   public createRoom = async (userIds: string[]): Promise<RoomId> => {

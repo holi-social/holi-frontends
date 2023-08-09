@@ -36,7 +36,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       return
     }
 
-    const { room_id } = await getOrCreateRoom('@' + identity + ':' + chatServerName)
+    const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
     if (!room_id) {
       logError('Can not open a room without a room id')
       return
