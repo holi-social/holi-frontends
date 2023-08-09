@@ -2,6 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { createNewRoom } from '@holi/chat/src/store'
+import { logError } from '@holi/core/errors/helpers'
+import { chatServerName } from '@holi/core/helpers/config'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -17,10 +22,28 @@ type UserProfileViewProps = {
   contactPossible?: boolean
 }
 
-const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
+const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   const fullName = user.fullName || t('user.profileView.anonymous')
+
+  const handleChat = async () => {
+    // TODO:  the correct Matrix identity should come from Okuna
+    const identity = user.identity
+    if (!identity) {
+      logError('Can not create a chat with out an user identity')
+      return
+    }
+
+    const { room_id } = await createNewRoom(['@' + identity + ':' + chatServerName])
+    if (!room_id) {
+      logError('Can not open a room without a room id')
+      return
+    }
+
+    navigate('/chat/rooms/' + room_id)
+  }
 
   return (
     <View style={styles.header}>
@@ -55,13 +78,13 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
           <UserConnectionButtons style={styles.profileButton} user={user} />
-
           <HoliButton
             type="secondary"
             inline
-            disabled
+            disabled={!IS_CHAT_ENABLED}
             label={t('user.profileView.message')}
             style={styles.profileButton}
+            onPress={handleChat}
           >
             {t('user.profileView.message')}
           </HoliButton>
