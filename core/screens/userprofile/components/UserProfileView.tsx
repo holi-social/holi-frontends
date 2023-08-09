@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { createNewRoom } from '@holi/chat/src/store'
+import { getOrCreateRoom } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -36,7 +36,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       return
     }
 
-    const { room_id } = await createNewRoom(['@' + identity + ':' + chatServerName])
+    const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
     if (!room_id) {
       logError('Can not open a room without a room id')
       return
