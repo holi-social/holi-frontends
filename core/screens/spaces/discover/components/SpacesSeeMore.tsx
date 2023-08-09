@@ -24,7 +24,7 @@ const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, label, testID, on
         width={160}
         height={160}
         isSvg
-        label={t('global.seeMore')}
+        label=""
       />
       <View style={styles.seeMoreContainer}>
         <HoliText style={styles.seeMoreText} size="small" bold>
