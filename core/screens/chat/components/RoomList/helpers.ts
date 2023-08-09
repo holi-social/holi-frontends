@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { useAtomValue } from 'jotai'
 
-import { roomIdNameRecortAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, roomAtomNameMapAtom } from '@holi/chat/src/store'
 import {
   UsersByChatIdentitiesQueryVariables,
   UsersByChatIdentitiesResponse,
@@ -9,9 +9,9 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 
-export const useRoomIdUserRecord = () => {
-  const roomIdNameRecord = useAtomValue(roomIdNameRecortAtom)
-  const roomNames = [...new Set(Object.values(roomIdNameRecord))]
+export const useRoomAtomUserMap = () => {
+  const roomAtomNameMap = useAtomValue(roomAtomNameMapAtom)
+  const roomNames = [...new Set(roomAtomNameMap.values())]
 
   const { data, loading } = useQuery<UsersByChatIdentitiesResponse, UsersByChatIdentitiesQueryVariables>(
     usersByChatIdentitiesQuery,
@@ -25,14 +25,17 @@ export const useRoomIdUserRecord = () => {
     }
   )
   const users = data?.usersByChatIdentities.data ?? []
-  const roomIdUserRecord = Object.entries(roomIdNameRecord).reduce((acc, [roomId, roomName]) => {
+
+  const roomAtomUserMap = new Map<ChatRoomAtom, User>()
+  for (const [roomAtom, roomName] of roomAtomNameMap.entries()) {
     const user = users.find(({ identity }) => identity === roomName) ?? null
-    acc[roomId] = user
-    return acc
-  }, {} as Record<string, User | null>)
+    if (user) {
+      roomAtomUserMap.set(roomAtom, user)
+    }
+  }
 
   return {
-    roomIdUserRecord,
+    roomAtomUserMap,
     loading,
   }
 }
