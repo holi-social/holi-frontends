@@ -38,7 +38,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         app_id: 'social.holi', // must match app_id in sygnal config
         data: {
           //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
-          url: pushGatewayUrl,
+          url: pushGatewayUrl + '/_matrix/push/v1/notify',
 
           // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
           // "type", and "sender_display_name" from notification data
