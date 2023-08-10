@@ -209,7 +209,7 @@ const SpaceDetails = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTintColor: colors.foreground30,
       headerTitle: () => null,
       headerLeft: () => <HeaderBackButton />,
