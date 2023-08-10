@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { atom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -8,9 +8,9 @@ import {
   ChatRoom,
   joinRoomAtom,
   messagesAtomsRecordAtom,
-  roomMessagesSubscriberAtom,
   selectRoomByIdAtom,
   selectedRoomAtom,
+  sendMessage,
 } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -87,7 +87,6 @@ const ChatRoomView = () => {
   // TODO: This should be an room atom selection handled by the store
   const messagesAtom = threadsAtomsRecord[roomId] ?? nullAtom
   const messages = useAtomValue(messagesAtom) ?? []
-  const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
 
   const [messageText, setMessageText] = useState('')
   const noMessageAvailable = !messageText.trim()

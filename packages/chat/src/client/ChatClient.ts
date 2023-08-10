@@ -2,15 +2,13 @@ import {
   ClientEvent,
   EventTimeline,
   EventTimelineSet,
-  ICreateRoomOpts,
   MatrixClient,
   Preset,
   RoomEvent,
-  RoomStateEvent,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
-import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
+import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus } from '@holi/chat/src/client/types'
@@ -188,48 +186,12 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code? no, mostly likely used "soon" @mauricio
-  public subscribeToInvitations = async (
-    callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
-  ): Promise<(() => void) | void> => {
-    const memberInvitationHandler = async (event: MatrixEvent) => {
-      const hasInvitation = await this.hasPendingInvitation(event)
-      const roomId = event.getRoomId()
-      const { displayname } = event.getContent()
-      const senderId = event.getSender()
-
-      if (!hasInvitation || !roomId || !displayname) return
-      callback(roomId, displayname, hasInvitation, senderId)
-    }
-
-    this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)
-
-    return () => {
-      this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHandler)
-    }
-  }
-
   public subscribeToMessages(callback: (roomId: string, event: MatrixEvent) => void): (() => void) | void {
     const incomingMessagesHandler = (event: MatrixEvent) => {
       if (event.getType() !== 'm.room.message') return
       const roomId = event.getRoomId()
       if (!roomId) return
       callback(roomId, event)
-    }
-
-    this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
-
-    return () => {
-      this.mxClient.off(RoomEvent.Timeline, incomingMessagesHandler)
-    }
-  }
-
-  // TODO dead code? no, mostly likely used "soon" @mauricio
-  public subscribeToRoomMessages(roomId: string, callback: (event: MatrixEvent) => void): (() => void) | void {
-    const incomingMessagesHandler = (event: MatrixEvent) => {
-      if (event.getType() !== 'm.room.message') return
-      if (roomId !== event.getRoomId()) return
-      callback(event)
     }
 
     this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
