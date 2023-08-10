@@ -47,7 +47,7 @@ export const initNotifications = async () => {
   }
 }
 
-// TODO handle invite notification:
+// TODO handle invite notification: (with tests)
 // {
 //   request: {
 //     trigger: {
@@ -90,6 +90,50 @@ export const initNotifications = async () => {
 //     identifier: '0:1691669916540901%b0aa3b58f9fd7ecd',
 //   },
 //   date: 1691669916530,
+// }
+
+// TODO handle message event: (with tests)
+// {
+//   request: {
+//     trigger: {
+//       remoteMessage: {
+//         originalPriority: 1,
+//         sentTime: 1691672207949,
+//         notification: null,
+//         data: {
+//           room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+//           unread: '3',
+//           content: '{"body":"hello","msgtype":"m.text"}',
+//           type: 'm.room.message',
+//           prio: 'high',
+//           sender: '@malte1:staging.chat.holi.social',
+//           event_id: '$ZWZ90Fddmi5R0z8eYnSfzJFlKnbMK3BefeReULkuDCc',
+//           sender_display_name: 'malte1',
+//         },
+//         to: null,
+//         ttl: 2419200,
+//         collapseKey: null,
+//         messageType: null,
+//         priority: 1,
+//         from: '984061681268',
+//         messageId: '0:1691672207967939%b0aa3b58f9fd7ecd',
+//       },
+//       channelId: null,
+//       type: 'push',
+//     },
+//     content: {
+//       title: null,
+//       badge: null,
+//       autoDismiss: true,
+//       data: null,
+//       body: null,
+//       sound: 'default',
+//       sticky: false,
+//       subtitle: null,
+//     },
+//     identifier: '0:1691672207967939%b0aa3b58f9fd7ecd',
+//   },
+//   date: 1691672207949,
 // }
 
 type SygnalData = {
