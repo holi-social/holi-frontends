@@ -113,9 +113,17 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
       </HoliButton>
 
       <View style={styles.detailContainer}>
-        <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
-          {task.name}
-        </HoliText>
+        <HoliButton
+          transparent
+          label={task.name}
+          onPress={goToDetailView}
+          disabled={showFullView}
+          style={styles.clickOverlay}
+        >
+          <HoliText ellipsizeMode="tail" bold {...(showFullView ? {} : { numberOfLines: 2 })}>
+            {task.name}
+          </HoliText>
+        </HoliButton>
         {showOptions && isAdmin && (
           <View style={styles.innerClick}>
             <HoliActionDrawer.Drawer
@@ -179,23 +187,31 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
             </HoliText>
           </View>
         </View>
-        {task.skills.length > 0 && (
-          <View style={styles.skillsContainer}>
-            {task.skills.map((skill) => {
-              return (
-                <SpacesFilterPill
-                  small
-                  key={skill.id}
-                  testID="spaces-topic-title"
-                  label={skill.title}
-                  filterType="skill"
-                  style={styles.pill}
-                />
-              )
-            })}
-          </View>
-        )}
+      </HoliButton>
+      {task.skills.length > 0 && (
+        <View style={styles.skillsContainer}>
+          {task.skills.map((skill) => {
+            return (
+              <SpacesFilterPill
+                small
+                key={skill.id}
+                testID="spaces-topic-title"
+                label={skill.title}
+                filterType="skill"
+                style={styles.pill}
+              />
+            )
+          })}
+        </View>
+      )}
 
+      <HoliButton
+        transparent
+        label={task.name}
+        onPress={goToDetailView}
+        disabled={showFullView}
+        style={styles.clickOverlay}
+      >
         {!showFullView ? (
           <View style={styles.descriptionContainer}>
             <HoliText color="gray300" size="small" {...(showFullView ? {} : { numberOfLines: 3 })}>

@@ -62,7 +62,6 @@ const SpacesFilterPill: React.FC<SpacesFilterPillProps> = ({
       inline
       onPress={onPress}
       testID={testID}
-      disabled={onPress == null}
     >
       {filterType === 'location' && (
         <HoliLocalImage
