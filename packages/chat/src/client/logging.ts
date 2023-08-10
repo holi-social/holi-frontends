@@ -7,9 +7,9 @@ const IS_DEBUG_LOGGING_ENABLED = __DEV__
 export const logDebug = (method: string, msg: string, ...args: any[]) => {
   if (IS_DEBUG_LOGGING_ENABLED) {
     if (Platform.OS === 'ios' || Platform.OS === 'android') {
-      console.debug(`${Device.osName} | ${Device.brand} ${Device.modelName} | ${method} | ${msg}`, ...args)
+      console.debug(`${Platform.OS} ${Device.brand} ${Device.modelName} | ${method} | ${msg}`, ...args)
     } else {
-      console.debug(`${Device.osName} | web | ${method} | ${msg}`, ...args)
+      console.debug(`${Platform.OS} | ${method} | ${msg}`, ...args)
     }
   }
 }
