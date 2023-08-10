@@ -16,9 +16,10 @@ const RoomList = ({ roomAtoms }: RoomListProps) => {
   return (
     <FlatList
       data={roomAtoms}
-      renderItem={({ item: roomAtom }) => (
-        <RoomItem roomAtom={roomAtom} user={roomAtomUserMap.get(roomAtom) ?? null} loading={loading} />
-      )}
+      renderItem={({ item: roomAtom }) => {
+        const user = roomAtomUserMap.get(roomAtom)
+        return <RoomItem roomAtom={roomAtom} user={user} loading={!user && loading} />
+      }}
       // use ListHeaderComponent to add the List space above for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}

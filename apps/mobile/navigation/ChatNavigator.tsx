@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import ChatRoom from '@holi/core/screens/chat/ChatRoom'
+import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -25,7 +25,7 @@ const ChatStackNavigator = () => {
         },
       }}
     >
-      <ChatStack.Screen name={RouteName.ChatRoom} component={ChatRoom} />
+      <ChatStack.Screen name={RouteName.ChatRoom} component={ChatRoomView} />
     </ChatStack.Navigator>
   )
 }
