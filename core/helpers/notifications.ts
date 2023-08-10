@@ -47,6 +47,51 @@ export const initNotifications = async () => {
   }
 }
 
+// TODO handle invite notification:
+// {
+//   request: {
+//     trigger: {
+//       remoteMessage: {
+//         originalPriority: 1,
+//         sentTime: 1691669916530,
+//         notification: null,
+//         data: {
+//           room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+//           content: '{"is_direct":true,"displayname":"malte2","membership":"invite"}',
+//           type: 'm.room.member',
+//           unread: '1',
+//           prio: 'high',
+//           sender: '@malte1:staging.chat.holi.social',
+//           event_id: '$QTHC68hNtAA0HJwgolBjnzyHmzcmS1u9aE-tukn1SSs',
+//           membership: 'invite',
+//           sender_display_name: 'malte1',
+//         },
+//         to: null,
+//         ttl: 2419200,
+//         collapseKey: null,
+//         messageType: null,
+//         priority: 1,
+//         from: '984061681268',
+//         messageId: '0:1691669916540901%b0aa3b58f9fd7ecd',
+//       },
+//       channelId: null,
+//       type: 'push',
+//     },
+//     content: {
+//       title: null,
+//       badge: null,
+//       autoDismiss: true,
+//       data: null,
+//       body: null,
+//       sound: 'default',
+//       sticky: false,
+//       subtitle: null,
+//     },
+//     identifier: '0:1691669916540901%b0aa3b58f9fd7ecd',
+//   },
+//   date: 1691669916530,
+// }
+
 type SygnalData = {
   room_id: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
   unread: string // e.g. "1"
@@ -89,7 +134,11 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
           trigger: null,
         })
 
-        return { shouldShowAlert: false, shouldPlaySound: false, shouldSetBadge: false }
+        return {
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        }
       }
       return {
         shouldShowAlert: true,
