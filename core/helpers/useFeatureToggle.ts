@@ -22,6 +22,6 @@ export const useFeatureToggle = (name: FeatureToggleName) => {
     loading,
     error,
     status: status,
-    enabled: status === FeatureToggleStatus.PRODUCTION,
+    enabled: loading ? undefined : status === FeatureToggleStatus.PRODUCTION,
   }
 }
