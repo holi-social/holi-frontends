@@ -50,7 +50,7 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageListItem[]
   return Object.values(groupedMessages).reverse().flat()
 }
 
-const RoomMessageList = ({ messages, mxIdUserRecord }: RoomMessageListProps) => {
+const RoomMessageList = ({ messages = [], mxIdUserRecord, starter }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -93,7 +93,7 @@ const RoomMessageList = ({ messages, mxIdUserRecord }: RoomMessageListProps) => 
       // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
       // use ListFooterComponent to add padding bottom for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
+      ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
       inverted={true}
       estimatedItemSize={80}
       contentContainerStyle={styles.list}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background20,
   },
   listFooterSpacer: {
-    height: vars.topBarHeight,
+    paddingTop: vars.topBarHeight,
   },
   listHeaderSpacer: {
     height: 20,
