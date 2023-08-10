@@ -9,6 +9,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -22,6 +24,7 @@ const ChatHomeContent = () => {
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleRoomCreation = async () => {
     // TODO: Get Matrix user ids dynamically
     const userIds: string[] = ['@malte1:staging.chat.holi.social']
@@ -73,9 +76,14 @@ const ChatHomeContent = () => {
             secondText={t('chat.empty.headline')}
             style={[styles.noResultsMessage]}
           >
-            <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
+            <HoliText style={{ paddingTop: 60, textAlign: 'center' }}>
+              Go to the profile of a user you want to chat with and click on the chat icon.&nbsp;
+              <HoliTextLink href="https://holi.atlassian.net/browse/HOLI-1688">HOLI-1688</HoliTextLink> will implement
+              starting chats from this view.
+            </HoliText>
+            {/*<HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
               {t('chat.empty.button.text')}
-            </HoliButton>
+            </HoliButton>*/}
           </HoliNoResults>
         </View>
       </ScrollHeaderLayout.Default>
@@ -84,11 +92,16 @@ const ChatHomeContent = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
+      <HoliText style={{ paddingTop: 60, textAlign: 'center' }}>
+        Go to the profile of a user you want to chat with and click on the chat icon.&nbsp;
+        <HoliTextLink href="https://holi.atlassian.net/browse/HOLI-1688">HOLI-1688</HoliTextLink> will implement
+        starting chats from this view.
+      </HoliText>
       <RoomList roomAtoms={sortedRoomAtoms} />
       {/* TODO: remove start chat button after implementing the feature */}
-      <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
+      {/*<HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
         {t('chat.empty.button.text')}
-      </HoliButton>
+      </HoliButton>*/}
     </SafeAreaView>
   )
 }

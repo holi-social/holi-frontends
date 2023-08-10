@@ -10,9 +10,9 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import { AccountCircle, Help, Lock, Notification2 } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -27,10 +27,11 @@ const SettingsOverview = () => {
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { logout, isLoggingOut } = useLogout()
+  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
-      if (IS_CHAT_ENABLED) {
+      if (!ftLoading && ftEnabled) {
         const logoutFromChat = async () => {
           await chatLoginClient.logout()
         }

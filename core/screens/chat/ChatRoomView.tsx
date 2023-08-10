@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import {
@@ -14,15 +15,20 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
+import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessageList/RoomMessageListStart'
 import {
   UsersByChatIdentitiesQueryVariables,
   UsersByChatIdentitiesResponse,
   usersByChatIdentitiesQuery,
 } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliLink from '@holi/ui/components/atoms/HoliLink'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -66,6 +72,8 @@ const useIdOrIdentityToUserRecord = (room: ChatRoom | null) => {
 }
 
 const ChatRoomView = () => {
+  const { t } = useTranslation()
+
   const [roomId = ''] = useParam('roomId')
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[roomId] ?? nullAtom
@@ -82,18 +90,35 @@ const ChatRoomView = () => {
   const [messageText, setMessageText] = useState('')
   const noMessageAvailable = !messageText.trim()
 
-  const setScreenOptions = useSetScreenOptions()
+  const { user: me } = useLoggedInUser()
+  const amIRoomCreator = room?.creator?.name && me?.identity && room.creator?.name == me?.identity
+  const roomUser = mxIdOrIdentityToUserRecord[room?.name]
 
-  const headerTitle = mxIdOrIdentityToUserRecord[room?.name]?.fullName ?? ''
+  const setScreenOptions = useSetScreenOptions()
 
   useLayoutEffect(() => {
     setScreenOptions({
-      title: headerTitle,
+      headerTitle: () =>
+        roomUser ? (
+          <HoliLink label={t('user.visitProfile', { name: roomUser.fullName })} href={`/profile/${roomUser.id}`}>
+            <View style={styles.headerTitle}>
+              <HoliAvatar
+                imageSrc={roomUser.avatar}
+                imageBlurhash={roomUser.avatarBlurhash}
+                label={roomUser.fullName}
+                initials={roomUser.avatarLabel}
+                defaultColor={roomUser.avatarDefaultColor}
+                size="micro"
+              />
+              <HoliText bold>{roomUser.fullName}</HoliText>
+            </View>
+          </HoliLink>
+        ) : null,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [headerTitle, room?.name, setScreenOptions])
+  }, [roomUser, room?.name, setScreenOptions, t])
 
   // TODO: provide skeleton instead of HoliLoader
   if (!room || loadingUsers) return <HoliLoader />
@@ -112,7 +137,18 @@ const ChatRoomView = () => {
                 </HoliBox>
               </View>
             ) : (
-              <RoomMessageList messages={messages} mxIdUserRecord={mxIdOrIdentityToUserRecord} />
+              <RoomMessageList
+                messages={messages}
+                mxIdUserRecord={mxIdOrIdentityToUserRecord}
+                starter={
+                  amIRoomCreator &&
+                  roomUser && (
+                    <HoliBox padding={[0, 16]}>
+                      <RoomMessageListStart user={roomUser} />
+                    </HoliBox>
+                  )
+                }
+              />
             )}
 
             <View
@@ -173,6 +209,11 @@ const ChatRoomView = () => {
 export default ChatRoomView
 
 const styles = StyleSheet.create({
+  headerTitle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
   wrapper: {
     backgroundColor: colors.white100,
     flex: 1,

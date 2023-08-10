@@ -5,8 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -25,6 +25,7 @@ type UserProfileViewProps = {
 const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   const fullName = user.fullName || t('user.profileView.anonymous')
 
@@ -81,7 +82,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
           <HoliButton
             type="secondary"
             inline
-            disabled={!IS_CHAT_ENABLED}
+            disabled={ftLoading || !ftEnabled}
             label={t('user.profileView.message')}
             style={styles.profileButton}
             onPress={handleChat}

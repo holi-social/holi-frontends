@@ -11,6 +11,7 @@ export interface ChatRoom {
   hasInvitation: boolean
   notificationCount: number
   lastMessage: ChatMessage | undefined
+  creator: ChatMember | null
   members: ChatMember[]
   senderId?: string
   timestamp: number | undefined
