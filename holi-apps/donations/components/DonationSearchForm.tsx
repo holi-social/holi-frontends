@@ -2,7 +2,10 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import PlacesAutocomplete, {
+  GeolocationLevel,
+  GeolocationSuggestion,
+} from '@holi/core/location/components/PlacesAutocomplete'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -56,6 +59,7 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
           onChangeText={(value) => setLocationInput(value)}
           onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.label)}
           onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.label)}
+          level={GeolocationLevel.CITY}
         />
       </View>
     </HoliModalContentWrapper>
