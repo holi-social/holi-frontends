@@ -10,7 +10,9 @@ const loggedInUserIdVar = makeVar<string | null | undefined>(undefined)
 // intended to be called from outside the context provider (e.g. login form)
 export const setUserLoggedIn = async (session: OrySessionContext): Promise<void> => {
   console.debug('[Auth] setUserLoggedIn')
+  // save Ory session in AsyncStorage
   await setSessionInStorage(session)
+  // fetch and save Okuna user
   loggedInUserIdVar(session.session.identity.id)
 }
 

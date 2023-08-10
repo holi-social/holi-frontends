@@ -86,6 +86,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
+    [RouteName.ChatStack]: {
+      screens: {
+        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
+      },
+    },
+
     // Modals
     [RouteName.Notifications]: 'notifications',
     [RouteName.Onboarding]: 'onboarding',

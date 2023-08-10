@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -55,38 +55,16 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
       <HoliModal label={t('allTools.drawer.headline')} show={visible} onDismiss={hide} testID="add-new-drawer-modal">
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('allTools.drawer.headline')}</HoliHeading>
-          <View style={styles.categoriesContainer}>
-            <FlatList
-              data={RESOURCE_CATEGORIES_LIST}
-              horizontal={true}
-              renderItem={({ item, index }: { item: ResourceCategory; index: number }) => {
-                return (
-                  <ResourceCategoryTile
-                    resourceCategoryData={item}
-                    key={item.id}
-                    onPress={onCategoryButtonClick}
-                    style={index > 0 && { marginLeft: 15 }}
-                  />
-                )
-              }}
-            />
-          </View>
-          <View style={styles.comingSoonContainer}>
-            <FlatList
-              data={RESOURCES_COMING_SOON}
-              horizontal={true}
-              renderItem={({ item, index }: { item: ResourceCategory; index: number }) => {
-                return (
-                  <ResourceCategoryTile
-                    resourceCategoryData={item}
-                    key={item.id}
-                    onPress={onCategoryButtonClick}
-                    style={index > 0 && { marginLeft: 15 }}
-                    active
-                  />
-                )
-              }}
-            />
+          <View style={styles.listContents}>
+            {[...RESOURCE_CATEGORIES_LIST, ...RESOURCES_COMING_SOON].map((resource) => {
+              return (
+                <ResourceCategoryTile
+                  resourceCategoryData={resource}
+                  key={resource.id}
+                  onPress={onCategoryButtonClick}
+                />
+              )
+            })}
           </View>
         </View>
       </HoliModal>
@@ -122,13 +100,11 @@ const styles = StyleSheet.create({
   modalContent: {
     paddingHorizontal: 10,
   },
-  categoriesContainer: {
-    justifyContent: 'center',
-    marginBottom: 8,
+  listContents: {
+    gap: 7,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginTop: 20,
-  },
-  comingSoonContainer: {
-    justifyContent: 'center',
     marginBottom: 48,
   },
 })

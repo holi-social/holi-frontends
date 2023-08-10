@@ -9,7 +9,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
+import {
+  DiscoverSpacesData,
+  DiscoverSpacesVariables,
+  discoverSpacesQuery,
+} from '@holi/core/screens/spaces/discover/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
@@ -70,13 +74,12 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
   // cardWidth is used for image scaling (see usage). this is fine,
   // because value is constant in web and for mobile windowWidth doesn't change
   const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
-  const imageHeight = Platform.OS === 'web' ? 160 : windowWidth / 2 - 40
 
   const {
     loading: dataLoading,
     data,
     error,
-  } = useQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
+  } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
       topicIds: topic ? [topic.id] : [],
@@ -153,7 +156,6 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
           hasMore ? (
             <SpacesSeeMore
               style={styles.seeMoreCard}
-              imageHeight={imageHeight}
               onPress={() => navigate(`/spaces/filter?${seeMoreQueryParams}`)}
               testID={`${testID}-see-more`}
             />
@@ -162,7 +164,7 @@ const SpacesGroupSlider: React.FC<SpacesGroupSliderProps> = ({
       >
         {loading
           ? new Array(pageSize).fill(1).map((_, idx) => {
-              return <HoliBlockItem key={idx} loading={true} size="large" />
+              return <HoliBlockItem key={idx} loading={true} size="large" testID="space-link" />
             })
           : spacesData.map((space: Space) => (
               <HoliBlockItem

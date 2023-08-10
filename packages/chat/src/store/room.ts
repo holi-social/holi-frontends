@@ -1,24 +1,46 @@
 import { produce } from 'immer'
-import type { Room } from 'matrix-js-sdk'
+import { atom } from 'jotai'
+import { EventTimeline, EventType, type Room } from 'matrix-js-sdk'
 
-import { createChatMessage } from '@holi/chat/src/store/messages'
-import type { ChatRoom } from '@holi/chat/src/store/types'
+import { createChatMessage } from './messages'
+import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
 
 export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
 
-export const updateInvitation = produce((chatRoom: ChatRoom, update: InvitationUpdate) => {
-  chatRoom.hasInvitation = update.hasInvitation
+export const updateInvitation = produce((chatRoom: ChatRoom, hasJoined: boolean) => {
+  chatRoom.hasInvitation = !hasJoined
+  chatRoom.notificationCount = Math.max(chatRoom.notificationCount - 1, 0)
+})
+
+export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
+  room.lastMessage = message
+  room.timestamp = message.timestamp
+})
+
+export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom) => {
+  const roomId = room.id
+  const roomAtom = atom(room)
+
+  const hasRoom = roomId in roomAtoms
+  if (hasRoom) return
+
+  roomAtoms[roomId] = roomAtom
 })
 
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
-  const lastMessageEvent = room.getLastThread()?.events.find((e) => e.getType() === 'm.room.message')
-  const lastThreadMessage = lastMessageEvent ? createChatMessage(room.roomId, lastMessageEvent) : undefined
+  const lastLiveEvent = room.getLastLiveEvent()
+  const lastMessage =
+    lastLiveEvent?.getType() === 'm.room.message' ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
   return {
     hasInvitation,
     id: room.roomId,
-    notificationCount: room.getUnreadNotificationCount(),
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     name: room.name,
-    lastThread: lastThreadMessage,
+    lastMessage: lastMessage,
+    timestamp:
+      room.getLastActiveTimestamp() > 0
+        ? room.getLastActiveTimestamp()
+        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
   }
 }

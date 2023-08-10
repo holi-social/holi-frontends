@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -49,7 +49,8 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
 }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-
+  const [imageError, setImageError] = useState(false)
+  const [showPlaceholder, setShowPlaceholder] = useState(true)
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,
     spaceIdOrName: space.name,
@@ -57,6 +58,14 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
   })
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/tasks/${task.id}`)
+
+  const handlePlaceholder = useCallback(() => {
+    setShowPlaceholder(imageError || !task.thumbnail)
+  }, [imageError, task.thumbnail])
+
+  useEffect(() => {
+    handlePlaceholder()
+  }, [handlePlaceholder])
 
   return (
     <View key={task.id} style={styles.taskItem} testID="space-task-tile">
@@ -68,15 +77,16 @@ const SpaceTaskTile: React.FC<SpaceTaskTileProps> = ({
         style={styles.clickOverlay}
       >
         <View style={styles.imageContainer}>
-          {!!task.thumbnail && (
+          {!showPlaceholder && !!task.thumbnail && (
             <HoliImage
               label={t('spaces.tasks.thumbnail.label')}
               source={{ uri: task.thumbnail }}
               blurhash={task.thumbnailBlurhash}
               style={showFullView ? styles.imageShowFullView : styles.image}
+              onError={() => setImageError(true)}
             />
           )}
-          {!task.thumbnail && (
+          {showPlaceholder && (
             <View style={[styles.image, styles.emptyImage]}>
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}

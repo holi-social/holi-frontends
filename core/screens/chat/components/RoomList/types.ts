@@ -1,5 +1,5 @@
-import { Room } from '@holi/core/screens/chat/components/seed'
+import { ChatRoomAtom } from '@holi/chat/src/store'
 
 export interface RoomListProps {
-  rooms: Room[]
+  roomAtoms: ChatRoomAtom[]
 }

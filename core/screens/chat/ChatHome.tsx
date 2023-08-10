@@ -10,13 +10,11 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
+import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-// TODO: remove after implementing Chat
-const IS_CHAT_ENABLED = false
 
 const ChatHome = () => {
   const { t } = useTranslation()

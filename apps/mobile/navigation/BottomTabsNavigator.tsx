@@ -59,6 +59,7 @@ const BottomTabsNavigator = () => {
               Home
             </HoliText>
           ),
+          tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-home-view',
         }}
         listeners={{ tabPress: () => setPathname('/') }}
@@ -76,6 +77,7 @@ const BottomTabsNavigator = () => {
               {t('spaces.title')}
             </HoliText>
           ),
+          tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-spaces',
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
@@ -93,6 +95,7 @@ const BottomTabsNavigator = () => {
               Chat
             </HoliText>
           ),
+          tabBarLabelPosition: 'below-icon',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
@@ -107,6 +110,7 @@ const BottomTabsNavigator = () => {
               {isLoggedIn ? t('profile.title') : t('auth.login')}
             </HoliText>
           ),
+          tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}

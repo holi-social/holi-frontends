@@ -7,17 +7,19 @@ import 'fast-text-encoding'
 import type { MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import { CHAT_FRESH_LOGIN_KEY, CHAT_LOGIN_URL, CHAT_TOKEN_KEY, CHAT_USER_ID_KEY } from '@holi/chat/src/utils/constants'
-import type {
-  MatrixDeviceIdKey,
-  MatrixDeviceName,
-  MatrixLoginKey,
-  MatrixUserKey,
-  ServerTokenKey,
+import {
+  CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+  CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  CHAT_LOCAL_STORAGE_KEY_TOKEN,
+  CHAT_LOCAL_STORAGE_KEY_USER_ID,
 } from '@holi/chat/src/utils/constants'
+import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import { getStoredSessionCreds } from '@holi/chat/src/utils/storage'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
+import { chatLoginUrl } from '@holi/core/helpers/config'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -42,22 +44,23 @@ export default class ChatLogin {
   // combination with Flatlist's.
   // https://github.com/facebook/react-native/issues/36828
   private mxClient: MatrixClient | null = null
-  private readonly freshLogin: MatrixLoginKey = CHAT_FRESH_LOGIN_KEY
-  private readonly userIdKey: MatrixUserKey = CHAT_USER_ID_KEY
-  private readonly serverLoginUrl = CHAT_LOGIN_URL + '/_matrix/client/r0/login'
+  private readonly serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
 
-  readonly serverTokenKey: ServerTokenKey = CHAT_TOKEN_KEY
-  readonly deviceIdKey: MatrixDeviceIdKey = 'mx_device'
   readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 
   /**
    * Removes all the stored chat client credentials.
    */
   private clearSessionCredentials = async (): Promise<void> => {
-    await AsyncStore.multiRemove([this.serverTokenKey, this.deviceIdKey, this.userIdKey, this.freshLogin])
+    await AsyncStore.multiRemove([
+      CHAT_LOCAL_STORAGE_KEY_TOKEN,
+      CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+      CHAT_LOCAL_STORAGE_KEY_USER_ID,
+      CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+    ])
   }
 
-  private updateSessionCredentials = async ({
+  private saveCredentials = async ({
     access_token,
     user_id,
     device_id,
@@ -68,16 +71,20 @@ export default class ChatLogin {
     // Reset newly received credentials
     const multiSetCreds: [string, string][] = [
       // TODO: the `access_token` should be stored with some kind of encryption
-      [this.serverTokenKey, access_token],
-      [this.deviceIdKey, device_id],
-      [this.userIdKey, user_id],
-      [this.freshLogin, `${fresh_login}`],
+      [CHAT_LOCAL_STORAGE_KEY_TOKEN, access_token],
+      [CHAT_LOCAL_STORAGE_KEY_DEVICE_ID, device_id],
+      [CHAT_LOCAL_STORAGE_KEY_USER_ID, user_id],
+      [CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, `${fresh_login}`],
     ]
 
     await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
   }
 
-  public setSessionCredentials = async (freshLogin: boolean): Promise<void> => {
+  public fetchSessionCredentials = async (orySessionToken?: string, freshLogin = true): Promise<void> => {
+    // fetch only if no Matrix session data found
+    const sessionCredentials = await getStoredSessionCreds()
+    if (sessionCredentials.accessToken) return
+
     const response = await fetch(this.serverLoginUrl, {
       headers: {
         accept: 'application/json',
@@ -85,15 +92,20 @@ export default class ChatLogin {
         'cache-control': 'no-cache',
         'content-type': 'application/json',
         pragma: 'no-cache',
+        ...(orySessionToken ? { authorization: `Bearer ${orySessionToken}` } : {}),
       },
       referrerPolicy: 'no-referrer',
-      body: '{"type":"org.matrix.login.jwt","initial_device_display_name":"' + this.deviceName + '"}',
+      body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
       method: 'POST',
       mode: 'cors',
     })
 
-    const credentials: LoginCredentials = await response.json()
-    await this.updateSessionCredentials({ ...credentials, fresh_login: freshLogin })
+    if (response.ok) {
+      const credentials: LoginCredentials = await response.json()
+      await this.saveCredentials({ ...credentials, fresh_login: freshLogin })
+    } else {
+      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
+    }
   }
 
   public logout = async (): Promise<void> => {
@@ -107,19 +119,23 @@ export default class ChatLogin {
     if (sessionCredentials.accessToken.length === 0) throw new Error('unable to restore local session credentials')
 
     if (sessionCredentials.freshLogin === true) {
-      await AsyncStore.setItem(this.freshLogin, 'false')
+      await AsyncStore.setItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, 'false')
     }
 
     return sessionCredentials
   }
 
   public getLoginStatus = async (): Promise<boolean> => {
-    const isLoggedin = await AsyncStore.getItem(this.freshLogin)
+    const isLoggedin = await AsyncStore.getItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN)
     return isLoggedin ? JSON.parse(isLoggedin) : false
   }
 
   public retryLogin = async (): Promise<ChatCredentials> => {
-    await this.setSessionCredentials(false)
+    const orySession = await getSessionFromStorage()
+
+    if (!orySession) throw new HoliError('Unable to restore local Ory session credentials')
+
+    await this.fetchSessionCredentials(orySession?.session_token, false)
     return await this.getSessionCredentials()
   }
 }

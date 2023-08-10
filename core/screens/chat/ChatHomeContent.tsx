@@ -1,28 +1,32 @@
+import { useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { createNewRoom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
-import { chatRoomListSeed } from '@holi/core/screens/chat/components/seed'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ChatHomeContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { isLoggedIn } = useLoggedInUser()
-
   const { navigate } = useRouting()
 
-  // TODO: remove after implementing the feature
-  const showToast = useToastForNotAvailableFeature()
+  const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
+
+  const handleRoomCreation = async () => {
+    // TODO: Get Matrix user ids dynamically
+    const userIds: string[] = ['@dima_chat_iii:staging.chat.holi.social']
+    createNewRoom(userIds)
+  }
 
   if (!isLoggedIn) {
     return (
@@ -51,7 +55,7 @@ const ChatHomeContent = () => {
     )
   }
 
-  if (!chatRoomListSeed.length) {
+  if (!sortedRoomAtoms.length) {
     return (
       <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
         <View style={mixins.container}>
@@ -69,7 +73,7 @@ const ChatHomeContent = () => {
             secondText={t('chat.empty.headline')}
             style={[styles.noResultsMessage]}
           >
-            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={showToast}>
+            <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
               {t('chat.empty.button.text')}
             </HoliButton>
           </HoliNoResults>
@@ -80,7 +84,11 @@ const ChatHomeContent = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <RoomList rooms={chatRoomListSeed} />
+      <RoomList roomAtoms={sortedRoomAtoms} />
+      {/* TODO: remove start chat button after implementing the feature */}
+      <HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
+        {t('chat.empty.button.text')}
+      </HoliButton>
     </SafeAreaView>
   )
 }
@@ -96,13 +104,6 @@ const styles = StyleSheet.create({
         minHeight: '100%',
       },
     }),
-  },
-  listHeaderSpacer: {
-    height: vars.topBarHeight,
-  },
-  listItemSeparator: {
-    borderColor: colors.background30,
-    borderTopWidth: 1,
   },
   noResultsMessage: {
     marginTop: 24,

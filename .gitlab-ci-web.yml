@@ -65,6 +65,7 @@ web_build:
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   script:
     - yarn web:build
+    - ./scripts/generate-license-documents.sh
   artifacts:
     paths:
       - apps/web/.next

@@ -3,16 +3,14 @@ import { MatrixEvent } from 'matrix-js-sdk'
 
 import type { ChatMessage } from '@holi/chat/src/store/types'
 
-export const updateMessages = produce((threads: ChatMessage[], msg: ChatMessage) => {
-  const dupIndex = threads.findIndex((m) => m.id === msg.id)
-  if (dupIndex === -1) {
-    threads.push(msg)
+export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMessage) => {
+  const dupMessage = thread.find((m) => m.id === newMessage.id)
+  if (!dupMessage) {
+    thread.push(newMessage)
     return
   }
 
-  const m = { ...msg, ...threads[dupIndex] }
-  threads.splice(dupIndex, 1)
-  threads.push(m)
+  Object.assign(dupMessage, newMessage)
 })
 
 export function createChatMessage(roomId: string, event: MatrixEvent): ChatMessage {

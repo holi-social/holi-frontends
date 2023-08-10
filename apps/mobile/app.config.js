@@ -1,9 +1,9 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.5.0', // user-facing value visible in stores
-  iosBuildNumber: '1.5.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 22, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.5.1', // user-facing value visible in stores
+  iosBuildNumber: '1.5.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 23, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 export default {
@@ -39,10 +39,6 @@ export default {
       },
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#F5F5F5',
-      },
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
     },
@@ -75,6 +71,7 @@ export default {
     },
     extra: {
       chat: {
+        serverName: process.env.HOLI_CHAT_SERVER_NAME || 'staging.chat.holi.social',
         serverLoginUrl: process.env.HOLI_API_GATEWAY + '/api/chatlogin',
         serverUrl: process.env.HOLI_CHAT_SERVER_URL || 'https://staging.chat.holi.social/',
         identityServerUrl: process.env.HOLI_CHAT_IDENTITY_SERVER_URL || 'https://vector.im',

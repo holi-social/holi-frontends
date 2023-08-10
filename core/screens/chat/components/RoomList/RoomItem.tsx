@@ -1,52 +1,66 @@
+import { useAtomValue } from 'jotai'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { ChatRoomAtom } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
-import { Room } from '@holi/core/screens/chat/components/seed'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface RoomItemProps {
-  room: Room
+interface BaseProps {
+  roomAtom: ChatRoomAtom
   testID?: string
 }
 
-// nummeric constants to use for ItemLayout in virtualized lists
+interface Props extends BaseProps {
+  user: User | null
+  loading: false
+}
+
+interface SkeletonProps extends BaseProps {
+  user?: User | null
+  loading: true
+}
+
+type RoomItemProps = Props | SkeletonProps
+
+// nummeric constants to use for ItemLayout in FlatList
 export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ room, testID }: RoomItemProps) => {
-  const { t, i18n } = useTranslation()
-  const { user, messages, unseenMessageCount } = room
-  const lastMessage = messages[messages.length - 1]
-  const userFullName = user.fullName || t('user.profileView.anonymous')
-  const hasUnseenMessages = unseenMessageCount > 0
+const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
+  const { i18n } = useTranslation()
+  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
+  const hasUnseenMessages = notificationCount > 0
 
   return (
-    // TODO: add correct label
-    <HoliLink href={`/chat/rooms/${room.id}`} label="">
+    <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
           <View>
-            <HoliAvatar
-              imageSrc={user.avatar}
-              imageBlurhash={user.avatarBlurhash}
-              label={userFullName}
-              initials={user.avatarLabel || ''}
-              defaultColor={user.avatarDefaultColor || ''}
-              size="medium"
-            />
+            {user !== null ? (
+              <HoliAvatar
+                imageSrc={user?.avatar}
+                imageBlurhash={user?.avatarBlurhash}
+                label={name}
+                initials={user?.avatarLabel || ''}
+                defaultColor={user?.avatarDefaultColor || ''}
+                size="medium"
+                loading={loading}
+              />
+            ) : null}
 
             {hasUnseenMessages && (
               <View style={styles.unseenMessageIndicator}>
                 <HoliText size="extrasmall" bold color="white100">
-                  {unseenMessageCount > 99 ? '∞' : unseenMessageCount}
+                  {notificationCount > 99 ? '∞' : notificationCount}
                 </HoliText>
               </View>
             )}
@@ -55,17 +69,23 @@ const RoomItem = ({ room, testID }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold>{userFullName}</HoliText>
+                <HoliText bold loading={loading}>
+                  {user?.fullName}
+                </HoliText>
               </View>
 
-              <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
-                {getDisplayDate(i18n.language, lastMessage.postedAt)}
-              </HoliText>
+              {!!timestamp && (
+                <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
+                  {getDisplayDate(i18n.language, timestamp)}
+                </HoliText>
+              )}
             </View>
 
-            <HoliText numberOfLines={1} color="gray300">
-              {lastMessage.text}
-            </HoliText>
+            {lastMessage && (
+              <HoliText numberOfLines={1} color="gray300">
+                {lastMessage.content.body}
+              </HoliText>
+            )}
           </View>
         </View>
       </HoliBox>
@@ -79,6 +99,7 @@ const styles = StyleSheet.create({
   rowWrapper: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: 12,
   },
   content: {

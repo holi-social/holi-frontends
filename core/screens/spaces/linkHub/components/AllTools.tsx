@@ -35,16 +35,13 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
   const mixins = useStyleMixins()
   const imageWidth = 251
 
-  const {
-    data,
-    error: errorSpace,
-    loading: loadingSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+  const { data, error: errorSpace } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
   })
 
   const space = data?.spaceById
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   useEffect(() => {
     if (space) {
@@ -65,7 +62,7 @@ const AllTools: React.FC<AllToolsProps> = ({ spaceIdOrName }: AllToolsProps) => 
     logError(errorSpace, `[Alltools.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
