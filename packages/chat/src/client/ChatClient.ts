@@ -13,7 +13,7 @@ import {
 import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
-import { Membership } from '@holi/chat/src/client/types'
+import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -141,7 +141,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, Membership.Invite.toLowerCase())
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited.toLowerCase())
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -151,7 +151,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === Membership.Invite.toLowerCase()
+      return content.membership === MembershipStatus.Invited.toLowerCase()
     }
   }
 

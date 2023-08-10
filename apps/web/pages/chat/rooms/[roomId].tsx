@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import ChatRoom from '@holi/core/screens/chat/ChatRoom'
+import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 
-const ChatRoomPage: NextPage = () => <ChatRoom />
+const ChatRoomPage: NextPage = () => <ChatRoomView />
 
 export default ChatRoomPage

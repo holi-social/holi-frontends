@@ -1,5 +1,7 @@
 import type { PrimitiveAtom } from 'jotai'
 
+import { ChatMember } from '@holi/chat/src/client/types'
+
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 
@@ -9,6 +11,7 @@ export interface ChatRoom {
   hasInvitation: boolean
   notificationCount: number
   lastMessage: ChatMessage | undefined
+  members: ChatMember[]
   senderId?: string
   timestamp: number | undefined
 }
