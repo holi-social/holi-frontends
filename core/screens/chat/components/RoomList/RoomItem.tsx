@@ -26,9 +26,8 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 
 const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
   const { i18n } = useTranslation()
-  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const selectRoomById = useSetAtom(selectRoomByIdAtom)
-
+  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const hasUnseenMessages = notificationCount > 0
 
   if (loading) {

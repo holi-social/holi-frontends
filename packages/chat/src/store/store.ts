@@ -1,6 +1,7 @@
 import { produce } from 'immer'
-import { atom, createStore, useAtom } from 'jotai'
+import { atom, createStore, useAtom, useAtomValue } from 'jotai'
 import { MatrixEvent } from 'matrix-js-sdk'
+import { useMemo } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import ChatLogin from '@holi/chat/src/client/ChatLogin'
@@ -282,6 +283,29 @@ const _messagesAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string,
 
 _messagesAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
   chatClient.subscribeToMessages(setAtom)
+}
+
+/**
+ * @name messagesByRoomIdAtomCreator (Write-Only)
+ * @description A function that creates message list atom based on the passed room id.
+ */
+const messagesByRoomIdAtomCreator = (roomId: string) =>
+  atom((get) => {
+    const roomMessagesAtomsRecord = get(_messagesAtomsRecordAtom)
+    const messagesAtom = roomMessagesAtomsRecord[roomId]
+    if (!messagesAtom) return []
+
+    return get(messagesAtom)
+  })
+
+/**
+ * @name useSelectedRoom (Hook Helper)
+ * @description It returns the room selection with the data required for a specific room.
+ */
+export const useSelectedRoom = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
+  const room = useAtomValue(selectedRoomAtom)
+  const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
+
+  return [room, messages]
 }
