@@ -12,22 +12,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface BaseProps {
+interface RoomItemProps {
   roomAtom: ChatRoomAtom
+  user?: User
+  loading?: boolean
   testID?: string
 }
-
-interface Props extends BaseProps {
-  user: User | null
-  loading: false
-}
-
-interface SkeletonProps extends BaseProps {
-  user?: User | null
-  loading: true
-}
-
-type RoomItemProps = Props | SkeletonProps
 
 // nummeric constants to use for ItemLayout in FlatList
 export const ROOM_ITEM_CONTENT_HEIGHT = 52
@@ -38,6 +28,28 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
   const { i18n } = useTranslation()
   const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const hasUnseenMessages = notificationCount > 0
+
+  if (loading) {
+    return (
+      <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
+        <View testID={testID} style={styles.rowWrapper}>
+          <View>
+            <HoliAvatar size="medium" loading />
+          </View>
+
+          <View style={styles.content}>
+            <View style={[styles.rowWrapper, styles.nameDateRaw]}>
+              <View style={{ flex: 1 }}>
+                <HoliText bold loading />
+              </View>
+            </View>
+
+            <HoliText skeletonOptions={{ width: '100%' }} loading />
+          </View>
+        </View>
+      </HoliBox>
+    )
+  }
 
   return (
     <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''}>
@@ -53,7 +65,6 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
                 initials={user?.avatarLabel || ''}
                 defaultColor={user?.avatarDefaultColor || ''}
                 size="medium"
-                loading={loading}
               />
             ) : null}
 
@@ -69,9 +80,7 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold loading={loading}>
-                  {user?.fullName}
-                </HoliText>
+                <HoliText bold>{user?.fullName}</HoliText>
               </View>
 
               {!!timestamp && (

@@ -45,7 +45,7 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[
   return Object.values(groupedMessages).reverse()
 }
 
-const RoomMessageList = ({ messages = [] }: RoomMessageListProps) => {
+const RoomMessageList = ({ messages = [], mxIdUserRecord }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -65,6 +65,7 @@ const RoomMessageList = ({ messages = [] }: RoomMessageListProps) => {
         return (
           <RoomMessage
             message={message}
+            user={mxIdUserRecord[message.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
             isPrevMessageFromSameUser={isPrevMessageFromSameUser}
             isNextMessageFromSameUser={isNextMessageFromSameUser}

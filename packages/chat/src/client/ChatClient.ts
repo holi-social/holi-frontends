@@ -14,7 +14,7 @@ import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'mat
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/ChatPusher'
-import { Membership } from '@holi/chat/src/client/types'
+import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -33,7 +33,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  * through this facade.
  */
 export default class ChatClient {
-  private mxClient: MatrixClient
+  private readonly mxClient: MatrixClient
   public isOn = false
 
   public constructor(credentials: ChatCredentials) {
@@ -71,10 +71,9 @@ export default class ChatClient {
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
     logDebug('ChatClient.start', `starting chat client with options=${options}`)
-    if (this.isOn === false) {
+    if (!this.isOn) {
       try {
         await this.mxClient.startClient(options)
-        this.isOn = true // TODO Mauricio said this seems have the wrong semantics
       } catch (err) {
         logError(err)
         throw err
@@ -83,7 +82,9 @@ export default class ChatClient {
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       console.debug({ state, prevState })
-      if (state !== SyncState.Prepared) return
+      if (state === SyncState.Prepared) {
+        this.isOn = true
+      }
     })
     return this.isOn
   }
@@ -153,7 +154,7 @@ export default class ChatClient {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
       if (!userId) return false
-      return roomOrEvent.hasMembershipState(userId, Membership.Invite.toLowerCase())
+      return roomOrEvent.hasMembershipState(userId, MembershipStatus.Invited.toLowerCase())
     } else {
       const pushAction = roomOrEvent.getPushActions()
       if (!pushAction?.notify) return false
@@ -163,7 +164,7 @@ export default class ChatClient {
 
       const content = roomOrEvent.getContent()
 
-      return content.membership === Membership.Invite.toLowerCase()
+      return content.membership === MembershipStatus.Invited.toLowerCase()
     }
   }
 
@@ -200,7 +201,7 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code?
+  // TODO dead code? no, mostly likely used "soon" @mauricio
   public subscribeToInvitations = async (
     callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
   ): Promise<(() => void) | void> => {
@@ -236,7 +237,7 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code?
+  // TODO dead code? no, mostly likely used "soon" @mauricio
   public subscribeToRoomMessages(roomId: string, callback: (event: MatrixEvent) => void): (() => void) | void {
     const incomingMessagesHandler = (event: MatrixEvent) => {
       if (event.getType() !== 'm.room.message') return

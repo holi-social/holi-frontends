@@ -22,6 +22,21 @@ export const isToday = (date: Date): boolean => isTargetDate(date)
 export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
 
 /**
+ * @name getTimeFormat
+ * @param timestampOrDateStr - timestapm or stringified date
+ * @param locale - user locale (e.g. "en", "de", etc)
+ * @returns - time formated `HH:mm`
+ */
+export const getTimeFormat = (locale: string, timestampOrDateStr?: number | string): string => {
+  if (timestampOrDateStr == undefined) return ''
+
+  return new Intl.DateTimeFormat(getLocale(locale), {
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(timestampOrDateStr))
+}
+
+/**
  * @description getDisplayDate() function
  *
  * @param timestampOrDateStr - timestapm or stringified date
@@ -36,14 +51,10 @@ export const getDisplayDate = (locale: string, timestampOrDateStr?: number | str
   if (timestampOrDateStr == undefined) return ''
 
   locale = getLocale(locale)
-
   const date = new Date(timestampOrDateStr)
 
   if (isToday(date)) {
-    return new Intl.DateTimeFormat(locale, {
-      hour: 'numeric',
-      minute: 'numeric',
-    }).format(date)
+    return getTimeFormat(locale, timestampOrDateStr)
   } else if (isYesterday(date)) {
     return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(-1, 'day')
   } else {

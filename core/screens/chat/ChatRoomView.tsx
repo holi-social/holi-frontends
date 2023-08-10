@@ -1,10 +1,10 @@
+import { useQuery } from '@apollo/client'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import React, { useLayoutEffect, useState } from 'react'
-import { Platform, View } from 'react-native'
-import { SafeAreaView } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import {
+  ChatRoom,
   joinRoomAtom,
   roomAtomsRecordAtom,
   roomMessagesSubscriberAtom,
@@ -14,10 +14,17 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
+import {
+  UsersByChatIdentitiesQueryVariables,
+  UsersByChatIdentitiesResponse,
+  usersByChatIdentitiesQuery,
+} from '@holi/core/screens/userprofile/queries'
+import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -29,13 +36,43 @@ const nullAtom = atom(null)
 
 const { useParam } = createParam<ChatRoomPageParams>()
 
-const ChatRoom = () => {
+const useIdOrIdentityToUserRecord = (room: ChatRoom | null) => {
+  const userNames = room?.members.map(({ name }) => name) ?? []
+
+  const { data, loading } = useQuery<UsersByChatIdentitiesResponse, UsersByChatIdentitiesQueryVariables>(
+    usersByChatIdentitiesQuery,
+    {
+      variables: {
+        identities: userNames,
+        offset: 0,
+        limit: userNames.length,
+      },
+      skip: !userNames.length,
+    }
+  )
+  const users = data?.usersByChatIdentities.data ?? []
+  const mxIdOrIdentityToUserRecord: Record<string, User> = users.reduce((acc, user) => {
+    const mxUserId = room?.members.find((member) => member.name === user.identity)?.id
+    if (mxUserId) {
+      return { ...acc, [mxUserId]: user, [user.identity]: user }
+    }
+    return acc
+  }, {})
+
+  return {
+    mxIdOrIdentityToUserRecord,
+    loading,
+  }
+}
+
+const ChatRoomView = () => {
   const [roomId = ''] = useParam('roomId')
   const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[roomId] ?? nullAtom
   const room = useAtomValue(roomAtom)
 
   const joinRoom = useSetAtom(joinRoomAtom)
+  const { mxIdOrIdentityToUserRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
 
   const threadsAtomsRecord = useAtomValue(threadsAtomsRecordAtom)
   const messagesAtom = threadsAtomsRecord[roomId] ?? nullAtom
@@ -47,16 +84,19 @@ const ChatRoom = () => {
 
   const setScreenOptions = useSetScreenOptions()
 
+  const headerTitle = mxIdOrIdentityToUserRecord[room?.name]?.fullName ?? ''
+
   useLayoutEffect(() => {
     setScreenOptions({
-      title: room?.name,
+      title: headerTitle,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [room?.name, setScreenOptions])
+  }, [headerTitle, room?.name, setScreenOptions])
 
-  if (!room) return null
+  // TODO: provide skeleton instead of HoliLoader
+  if (!room || loadingUsers) return <HoliLoader />
 
   return (
     <KeyboardAvoidingViewWrapper
@@ -72,7 +112,7 @@ const ChatRoom = () => {
                 </HoliBox>
               </View>
             ) : (
-              <RoomMessageList messages={messages} />
+              <RoomMessageList messages={messages} mxIdUserRecord={mxIdOrIdentityToUserRecord} />
             )}
 
             <View
@@ -130,7 +170,7 @@ const ChatRoom = () => {
   )
 }
 
-export default ChatRoom
+export default ChatRoomView
 
 const styles = StyleSheet.create({
   wrapper: {
