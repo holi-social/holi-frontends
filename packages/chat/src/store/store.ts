@@ -95,31 +95,6 @@ const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
 
 /**
- * @name createNewRoom (Client Helper)
- * @description Initiates the creation of a room in Matrix through the
- * ChatClient. The store updates once the room creation event is received from
- * the Matrix server.
- */
-export const createNewRoom = (userIds: string[]): Promise<RoomId> => {
-  if (chatClient === undefined) {
-    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  }
-  return chatClient.createRoom(userIds)
-}
-
-/**
- * @name getOrCreateRoom (Client Helper)
- * @description returns the room id of an existing one-on-one room, if it
- * exists, or creates a new one.
- */
-export const getOrCreateRoom = (userIds: string[]): Promise<RoomId> => {
-  if (chatClient === undefined) {
-    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  }
-  return chatClient.getOrCreateRoom(userIds)
-}
-
-/**
  * @name roomAtomNameMapAtom
  * @description derived atom that holds all room atoms sorted by date of last
  * message in descending order
@@ -194,6 +169,49 @@ export const useSubscribeToChat = () => {
 }
 
 /** Room */
+
+/**
+ * @name createNewRoom (Client Helper)
+ * @description Initiates the creation of a room in Matrix through the
+ * ChatClient. The store updates once the room creation event is received from
+ * the Matrix server.
+ */
+export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
+  if (chatClient === undefined) {
+    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
+  }
+
+  return chatClient.createRoom(userIds)
+}
+/**
+ * @name getOrCreateRoom (Client Helper)
+ * @description returns the room id of an existing one-on-one room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
+  if (chatClient === undefined) {
+    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
+  }
+
+  return chatClient.getOrCreateRoom(userIds)
+}
+
+/**
+ * @name selectedRoomAtom (Read-Only)
+ * @description An atom containing a possible selected room.
+ */
+export const selectedRoomAtom = atom<ChatRoom | null>(null)
+
+/**
+ * @name selectRoomByIdAtom (Write-Only)
+ * @description Selects the room for the `selectedRoomAtom`
+ */
+export const selectRoomByIdAtom = atom(null, (get, set, roomId: string) => {
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[roomId]
+  if (!roomAtom) return
+  set(selectedRoomAtom, get(roomAtom))
+})
 
 /**
  * @name joinRoomAtom (Write-Only)
