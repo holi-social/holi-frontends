@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { atom } from 'jotai'
-import { EventTimeline, EventType, type Room } from 'matrix-js-sdk'
+import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
 import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
 
@@ -45,15 +45,26 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
     }
   }
 
+  const createChatMember = (mxRoomMember: RoomMember): ChatMember => {
+    const { userId: id, name, membership } = mxRoomMember
+    return {
+      id,
+      name,
+      membership: getMembership(membership),
+    }
+  }
+
+  const roomMxCreatorId = room.getCreator()
+  const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
+
   return {
     hasInvitation,
     id: room.roomId,
     notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
     name: room.name,
     lastMessage: lastMessage,
-    members: room
-      .getMembers()
-      .map<ChatMember>(({ name, userId: id, membership }) => ({ id, name, membership: getMembership(membership) })),
+    creator: roomMxCreator && createChatMember(roomMxCreator),
+    members: room.getMembers().map(createChatMember),
     timestamp:
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()

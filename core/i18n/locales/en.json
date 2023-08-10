@@ -76,6 +76,7 @@
   "chat.empty.headline": "Start chatting with like-minded people now",
   "chat.empty.tagline": "No chats yet",
   "chat.title": "Chat",
+  "chat.room.start.description": "This is the beginning of your direct message history with <0>{{fullName}}</0>. When sending your first message, <0>{{fullName}}</0> will receive a request to accept you to open this conversation.",
   "comment.suggestionItem.label": "Select {{item}}",
   "component.readMore.readLess": "Read less",
   "component.readMore.readMore": "Read more",
