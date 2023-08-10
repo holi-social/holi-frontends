@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     pointerEvents: 'auto',
   },
   detailContainer: {
-    marginTop: 16,
+    //marginTop: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -320,6 +320,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
+    marginBottom: 16,
   },
   taskItem: {
     borderRadius: 16,
