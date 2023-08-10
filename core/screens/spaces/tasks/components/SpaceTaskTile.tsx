@@ -292,7 +292,6 @@ const styles = StyleSheet.create({
     pointerEvents: 'auto',
   },
   detailContainer: {
-    //marginTop: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
