@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 
 import { ChatToggle } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { IS_CHAT_ENABLED } from '@holi/core/screens/chat/tempConsts'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import ChatStore from './ChatStore'
@@ -17,14 +17,17 @@ const ChatStoreInitializer = () => {
   const [isChatReady, setIsChatReady] = useState(false)
   const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
+  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   useEffect(() => {
-    if (IS_CHAT_ENABLED && identity) {
+    const startChat = !ftLoading && ftEnabled && identity
+
+    if (startChat) {
       ChatToggle.start()
         .then(() => setIsChatReady(true))
         .catch(displayError)
     }
-  }, [displayError, identity])
+  }, [displayError, identity, ftLoading, ftEnabled])
 
   return isChatReady ? <ChatStore /> : null
 }
