@@ -1,15 +1,16 @@
 import { useQuery } from '@apollo/client'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import {
   ChatRoom,
   joinRoomAtom,
-  roomAtomsRecordAtom,
+  messagesAtomsRecordAtom,
   roomMessagesSubscriberAtom,
-  threadsAtomsRecordAtom,
+  selectRoomByIdAtom,
+  selectedRoomAtom,
 } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -32,6 +33,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type ChatRoomPageParams = {
@@ -75,14 +77,14 @@ const ChatRoomView = () => {
   const { t } = useTranslation()
 
   const [roomId = ''] = useParam('roomId')
-  const roomAtomsRecord = useAtomValue(roomAtomsRecordAtom)
-  const roomAtom = roomAtomsRecord[roomId] ?? nullAtom
-  const room = useAtomValue(roomAtom)
-
+  const room = useAtomValue(selectedRoomAtom)
+  const selectRoomById = useSetAtom(selectRoomByIdAtom)
   const joinRoom = useSetAtom(joinRoomAtom)
   const { mxIdOrIdentityToUserRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
 
-  const threadsAtomsRecord = useAtomValue(threadsAtomsRecordAtom)
+  // Messages
+  const threadsAtomsRecord = useAtomValue(messagesAtomsRecordAtom)
+  // TODO: This should be an room atom selection handled by the store
   const messagesAtom = threadsAtomsRecord[roomId] ?? nullAtom
   const messages = useAtomValue(messagesAtom) ?? []
   const [, sendMessage] = useAtom(roomMessagesSubscriberAtom)
@@ -92,11 +94,11 @@ const ChatRoomView = () => {
 
   const { user: me } = useLoggedInUser()
   const amIRoomCreator = room?.creator?.name && me?.identity && room.creator?.name == me?.identity
-  const roomUser = mxIdOrIdentityToUserRecord[room?.name]
+  const roomUser = mxIdOrIdentityToUserRecord[room?.name ?? '']
 
   const setScreenOptions = useSetScreenOptions()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setScreenOptions({
       headerTitle: () =>
         roomUser ? (
@@ -120,6 +122,12 @@ const ChatRoomView = () => {
     })
   }, [roomUser, room?.name, setScreenOptions, t])
 
+  // Select the room in the case the room was open through a direct link or a reload.
+  useEffect(() => {
+    if (roomId.length < 1 || room) return
+    selectRoomById(roomId)
+  }, [room, roomId, selectRoomById])
+
   // TODO: provide skeleton instead of HoliLoader
   if (!room || loadingUsers) return <HoliLoader />
 
@@ -129,12 +137,12 @@ const ChatRoomView = () => {
         <SafeAreaView style={styles.wrapper}>
           <View style={{ backgroundColor: colors.background20, flex: 1 }}>
             {room.hasInvitation ? (
-              <View style={{ flex: 1 }}>
-                <HoliBox padding={[+vars.bottomBarHeight + 20, 20]}>
+              <View style={styles.userCardContainer}>
+                <HoliCardBoard>
                   <HoliButton label={'accept Invitation'} onPress={async () => await joinRoom(roomId)}>
                     Accept Invitation
                   </HoliButton>
-                </HoliBox>
+                </HoliCardBoard>
               </View>
             ) : (
               <RoomMessageList
@@ -223,6 +231,11 @@ const styles = StyleSheet.create({
         minHeight: '100%',
       },
     }),
+  },
+  userCardContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: vars.bottomBarHeight,
   },
   listFooterSpacer: {
     height: vars.topBarHeight,

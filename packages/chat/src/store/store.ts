@@ -165,7 +165,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
-  useAtom(_threadsAtomsRecordAtomSubscriber)
+  useAtom(_messagesAtomsRecordAtomSubscriber)
 }
 
 /** Room */
@@ -276,20 +276,20 @@ export const roomMessagesSubscriberAtom = atom(
 )
 
 /**
- * @name threadsAtomsRecordAtom (Read-Only)
+ * @name messagesAtomsRecordAtom (Read-Only)
  * @description An atom of type `Record<string, ChatMessagesAtom>` collects `Atom<ChatMessage[]>` for all rooms ids.
  * Only reading from this atom is allowed.
  */
-const _threadsAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
-export const threadsAtomsRecordAtom = atom((get) => get(_threadsAtomsRecordAtom))
+const _messagesAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
+export const messagesAtomsRecordAtom = atom((get) => get(_messagesAtomsRecordAtom))
 
 /**
- * @name _threadsAtomsRecordAtomSubscriber (Read-Write)
+ * @name _messagesAtomsRecordAtomSubscriber (Read-Write)
  * @description Read (getter) function returns `Record<string, ChatMessagesAtom>`
  * Write (setter) function expects two argunments: `roomId` and `event` of type `MatrixEvent` and adds new message into the room's `Atom<ChatMessage[]>`
  * This atom should has `onMount` function that subsribes to `ChatClient` and listens for new messages.
  */
-const _threadsAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string, event: MatrixEvent) => {
+const _messagesAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string, event: MatrixEvent) => {
   if (!roomId) return
 
   const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
@@ -308,10 +308,10 @@ const _threadsAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string, 
     set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
   })
 
-  set(_threadsAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
+  set(_messagesAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
 })
 
-_threadsAtomsRecordAtomSubscriber.onMount = (setAtom) => {
+_messagesAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   if (chatClient === undefined) {
     throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
   }
