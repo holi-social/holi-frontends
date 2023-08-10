@@ -1,6 +1,7 @@
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import { MatrixClient } from 'matrix-js-sdk'
+import { Platform } from 'react-native'
 
 import { pushGatewayUrl } from '@holi/core/helpers/config'
 
@@ -44,7 +45,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
           // "type", and "sender_display_name" from notification data
           // for now we don't want that because it helps to know this for easier notification display
         },
-        device_display_name: Device.manufacturer + ' ' + Device.modelName, // TODO validate this makes sense and see where it is used
+        device_display_name: Platform.OS == 'web' ? 'Web Browser' : Device.brand + ' ' + Device.modelName,
         kind: 'http',
         lang: 'en', // TODO use correct language https://holi.atlassian.net/browse/HOLI-5421
         profile_tag: 'override', // TODO double check what should go here https://holi.atlassian.net/browse/HOLI-5422
