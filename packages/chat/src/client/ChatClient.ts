@@ -31,7 +31,7 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  * through this facade.
  */
 export default class ChatClient {
-  private mxClient: MatrixClient
+  private readonly mxClient: MatrixClient
   public isOn = false
 
   public constructor(credentials: ChatCredentials) {
@@ -68,10 +68,9 @@ export default class ChatClient {
   }
 
   public start = async (options?: IStartClientOpts): Promise<boolean> => {
-    if (this.isOn === false) {
+    if (!this.isOn) {
       try {
         await this.mxClient.startClient(options)
-        this.isOn = true // TODO Mauricio said this seems have the wrong semantics
       } catch (err) {
         logError(err)
         throw err
@@ -80,7 +79,9 @@ export default class ChatClient {
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       console.debug({ state, prevState })
-      if (state !== SyncState.Prepared) return
+      if (state === SyncState.Prepared) {
+        this.isOn = true
+      }
     })
     return this.isOn
   }
@@ -187,7 +188,7 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code?
+  // TODO dead code? no, mostly likely used "soon" @mauricio
   public subscribeToInvitations = async (
     callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
   ): Promise<(() => void) | void> => {
@@ -223,7 +224,7 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code?
+  // TODO dead code? no, mostly likely used "soon" @mauricio
   public subscribeToRoomMessages(roomId: string, callback: (event: MatrixEvent) => void): (() => void) | void {
     const incomingMessagesHandler = (event: MatrixEvent) => {
       if (event.getType() !== 'm.room.message') return
