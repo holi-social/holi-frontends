@@ -146,6 +146,10 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
+  public getRooms = (): Room[] => {
+    return this.mxClient.getRooms()
+  }
+
   public getUserId = (): string | null => {
     return this.mxClient.getUserId()
   }
