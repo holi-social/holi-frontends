@@ -15,11 +15,14 @@ export const initNotifications = async () => {
   } else {
     logDebug('initNotifications', 'initializing notifications')
 
-    // TODO understand and validate if this is needed
+    // TODO check whether this is actually used as default
     if (Platform.OS === 'android') {
+      // only needed for doing things other than the default
       await Notifications.setNotificationChannelAsync('default', {
         name: 'default',
-        importance: Notifications.AndroidImportance.DEFAULT,
+        // corresponds to https://developer.android.com/develop/ui/views/notifications#importance
+        // MAX allow us not only to play sounds, but also to pop on screen (default is no sound, no pop on screen)
+        importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#FF231F7C',
       })
