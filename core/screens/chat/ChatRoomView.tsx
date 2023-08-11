@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { ChatRoom, joinRoomAtom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
+import ChatProfileInvitationCard from '@holi/chat/src/components/ChatProfileInvitationCard'
+import { ChatRoom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -20,16 +21,12 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type ChatRoomPageParams = {
@@ -73,7 +70,6 @@ const ChatRoomView = () => {
   const [roomId = ''] = useParam('roomId')
   const selectRoomById = useSetAtom(selectRoomByIdAtom)
   const [room, messages] = useSelectedRoom(roomId)
-  const joinRoom = useSetAtom(joinRoomAtom)
   const { roomUsersRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
 
   // Messages
@@ -124,38 +120,7 @@ const ChatRoomView = () => {
         <SafeAreaView style={styles.wrapper}>
           <View style={{ backgroundColor: colors.background20, flex: 1 }}>
             {room.hasInvitation ? (
-              <View style={styles.userCardContainer}>
-                <HoliCardBoard>
-                  {roomCreator ? (
-                    <>
-                      <HoliBox padding={[0, 0, 16, 0]}>
-                        <HoliAvatar
-                          imageSrc={roomCreator?.avatar}
-                          imageBlurhash={roomCreator?.avatarBlurhash}
-                          label={roomCreator.fullName || ''}
-                          initials={roomCreator?.avatarLabel || ''}
-                          defaultColor={roomCreator?.avatarDefaultColor || ''}
-                          size="large"
-                          loading={loadingUsers}
-                        />
-                      </HoliBox>
-                      <HoliBox padding={[0, 0, 16, 0]}>
-                        <HoliHeading size="medium">{roomCreator.fullName}</HoliHeading>
-                        {!!roomCreator?.pronouns ?? (
-                          <HoliText style={{ color: colors.foreground20 }}>{roomCreator?.pronouns}</HoliText>
-                        )}
-                      </HoliBox>
-                      <HoliColumns>
-                        <HoliColumn width="auto">
-                          <HoliButton label={t('chat.accept.invitation')} onPress={async () => await joinRoom(roomId)}>
-                            {t('chat.accept.invitation')}
-                          </HoliButton>
-                        </HoliColumn>
-                      </HoliColumns>
-                    </>
-                  ) : null}
-                </HoliCardBoard>
-              </View>
+              <ChatProfileInvitationCard roomId={roomId} user={roomCreator} userIsLoading={loadingUsers} />
             ) : (
               <RoomMessageList
                 messages={messages}
