@@ -4,10 +4,7 @@ import * as Notifications from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { Platform } from 'react-native'
 
-// TODO remove or user proper logging solution
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const logDebug = (method: string, msg: string, ...args: any[]) =>
-  console.debug(`${Device.osName} | ${method} | ${msg}`, ...args)
+import { logDebug } from '@holi/core/helpers/logging'
 
 // TODO deregister notifications, see https://docs.expo.dev/versions/latest/sdk/notifications/#usage
 // TODO set configurable properties (e.g. notification icon, color and sound), see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties

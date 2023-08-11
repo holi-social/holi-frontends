@@ -18,8 +18,8 @@ import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
-import { logDebug } from './logging'
 import { RoomId } from './types'
 
 // TODO: Move all the direct calls of the matrix client behind the Client Chat facade.

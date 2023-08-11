@@ -16,8 +16,7 @@ import {
 } from '@holi/chat/src/utils/storage'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatLoginUrl } from '@holi/core/helpers/config'
-
-import { logDebug } from './logging'
+import { logDebug } from '@holi/core/helpers/logging'
 
 export enum SSOAction {
   LOGIN = 'login',

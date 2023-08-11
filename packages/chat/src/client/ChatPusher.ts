@@ -4,8 +4,7 @@ import { IPusherRequest, MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
 import { pushGatewayUrl } from '@holi/core/helpers/config'
-
-import { logDebug } from './logging'
+import { logDebug } from '@holi/core/helpers/logging'
 
 /**
  * Configures push notifications to use holi push notification gateway (Sygnal)
