@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileInvitationCard from '@holi/chat/src/components/ChatProfileInvitationCard'
+import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import { ChatRoom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -18,15 +19,11 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { SendPlane } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type ChatRoomPageParams = {
@@ -74,7 +71,6 @@ const ChatRoomView = () => {
 
   // Messages
   const [messageText, setMessageText] = useState('')
-  const noMessageAvailable = !messageText.trim()
 
   const { user: me } = useLoggedInUser()
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
@@ -111,6 +107,14 @@ const ChatRoomView = () => {
     selectRoomById(roomId)
   }, [room, roomId, selectRoomById])
 
+  const handleSendMessage = async () => {
+    const text = messageText.trim()
+    if (!text) return
+
+    await sendMessage({ roomId, text })
+    setMessageText('')
+  }
+
   // TODO: provide skeleton instead of HoliLoader
   if (!room || loadingUsers) return <HoliLoader />
 
@@ -136,55 +140,12 @@ const ChatRoomView = () => {
               />
             )}
 
-            <View
-              style={{
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderTopLeftRadius: 24,
-                borderTopRightRadius: 24,
-                borderBottomColor: colors.white100,
-                borderWidth: 2,
-                borderColor: colors.background30,
-                backgroundColor: colors.white100,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <HoliTextInput
-                // TODO: provide correct accessibilityLabel prop
-                accessibilityLabel="Message"
-                testID={'chat-message-input'}
-                value={messageText}
-                onChange={setMessageText}
-                style={{
-                  backgroundColor: colors.white100,
-                  flexShrink: 1,
-                }}
-                inputStyle={{
-                  borderWidth: 0,
-                  paddingVertical: 0,
-                  paddingHorizontal: 0,
-                }}
-                maxNoOfVisibleLines={5}
-              />
-
-              <HoliButton
-                label=""
-                disabled={noMessageAvailable}
-                onPress={async () => {
-                  const text = messageText.trim()
-                  if (!text) return
-
-                  await sendMessage({ roomId, text })
-                  setMessageText('')
-                }}
-                inline
-                style={{ paddingVertical: 8, paddingHorizontal: 8, alignSelf: 'flex-end' }}
-              >
-                <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
-              </HoliButton>
-            </View>
+            <ChatTextInput
+              isVisible={!room.hasInvitation}
+              text={messageText}
+              setText={setMessageText}
+              onPress={handleSendMessage}
+            />
           </View>
         </SafeAreaView>
       )}
