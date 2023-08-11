@@ -16,7 +16,7 @@ const generateStyles = (type: ColorType) => {
   return StyleSheet.flatten([styles.card, type && colorStyles.color])
 }
 
-const HoliCardBoard = ({ children, color = 'primary' }: PropsWithChildren<Props>) => {
+export const Card = ({ children, color = 'primary' }: PropsWithChildren<Props>) => {
   return <View style={generateStyles(color)}>{children}</View>
 }
 
@@ -32,5 +32,3 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 })
-
-export default HoliCardBoard
