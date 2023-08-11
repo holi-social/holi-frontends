@@ -3,11 +3,9 @@ import { PermissionStatus } from 'expo-modules-core'
 import * as Notifications from 'expo-notifications'
 import { NotificationContentInput } from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
-import { Platform } from 'react-native'
+import { TaskManagerTaskBody } from 'expo-task-manager'
 
 import { logDebug } from '@holi/core/helpers/logging'
-
-const defaultChannelId = 'holiDefault'
 
 // TODO deregister notifications, see https://docs.expo.dev/versions/latest/sdk/notifications/#usage
 // TODO set configurable properties (e.g. notification icon, color and sound), see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
@@ -17,20 +15,6 @@ export const initNotifications = async () => {
     return Promise.resolve()
   } else {
     logDebug('initNotifications', 'initializing notifications')
-
-    // TODO is correct, but using it's id causes an error "Failed to schedule notification"
-    if (Platform.OS === 'android') {
-      // only needed for doing things other than the default
-      await Notifications.setNotificationChannelAsync(defaultChannelId, {
-        name: 'Default',
-        // corresponds to https://developer.android.com/develop/ui/views/notifications#importance
-        // MAX allow us not only to play sounds, but also to pop on screen (default is no sound, no pop on screen)
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      })
-    }
-
     return Notifications.getPermissionsAsync()
       .then((response) => {
         if (response.status === PermissionStatus.UNDETERMINED) {
@@ -145,7 +129,7 @@ interface UnknownSygnalMessageContent {
 }
 
 interface UnimplementedSygnalMessageContent extends UnknownSygnalMessageContent {
-  msgtype: undefined // anything, just using undefined to have no overlap with real values/
+  msgtype: undefined // anything, just using undefined to have no overlap with real values
   body: string | undefined
 }
 
@@ -241,7 +225,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     const content = event.content
     if (content.msgtype === 'm.text') {
       return {
-        title: `From ${sender}:`,
+        title: sender,
         subtitle: 'Chat',
         body: content.body,
       }
@@ -264,6 +248,25 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
+const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
+  const event = parseToSygnalEvent(data)
+  logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
+  if (event) {
+    const content = generateNotificationContent(event)
+    logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
+    if (content) {
+      await Notifications.scheduleNotificationAsync({
+        content,
+        // Android:
+        // - automatically uses a notification channel that supports pop over screen and sound
+        // - Disclaimer: last time we checked, providing a (valid) notification channel id
+        //   caused an error "Failed to schedule notification" and we don't know why
+        trigger: null, // `null` means to schedule directly
+      })
+    }
+  }
+}
+
 const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
@@ -275,32 +278,23 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       const request: Partial<Notifications.NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
         const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
-        const event = parseToSygnalEvent(trigger.remoteMessage?.data)
-        logDebug('foregroundNotificationHandler', 'using sygnal event', JSON.stringify(event))
-        if (event) {
-          const content = generateNotificationContent(event)
-          logDebug('foregroundNotificationHandler', 'scheduling notification', JSON.stringify(content))
-          if (content) {
-            await Notifications.scheduleNotificationAsync({
-              content,
-              trigger: null,
-            })
-          }
-        }
-
+        // TODO don't schedule when chat screen is visible
+        await handleNewDataPush(trigger.remoteMessage?.data)
         return {
           shouldShowAlert: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         }
       }
+      // only with `shouldPlaySound: true`, the notification pops over the screen
       return {
         shouldShowAlert: true,
-        shouldPlaySound: false,
+        shouldPlaySound: true,
         shouldSetBadge: false,
       }
     },
     handleSuccess: async (notificationId) => {
+      // TODO use Notifications.addNotificationResponseReceivedListener() to navigate to the correct chat after interaction
       // could be used for tracking
       logDebug('foregroundNotificationHandler', 'notification success', notificationId)
     },
@@ -311,33 +305,19 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
   })
 }
 
-interface ChatBackgroundNotificationData {
-  notification: {
-    data: {
-      room_id: string
-      unread: number
-    }
-  }
-}
-
 const registerHandleNotificationsWhenAppIsInBackground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
   const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
-  const executor: TaskManager.TaskManagerTaskExecutor = (
-    body: TaskManager.TaskManagerTaskBody<ChatBackgroundNotificationData>
-  ) => {
-    // TODO use const roomId = body.data.notification.data.room_id to open the room
-    logDebug('backgroundNotificationHandler', 'received a notification in the background!', JSON.stringify(body))
-    const unread = body.data.notification.data.unread
-    // TODO doesn't work yet
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: `You have ${unread} unread messages 📬`,
-        body: 'Open the app to read them',
-      },
-      trigger: null,
-    }).then()
-  }
-  TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, executor)
+  TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
+    logDebug('backgroundNotificationHandler', 'received task', JSON.stringify(body))
+    try {
+      // we know it's a chat notification update
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data = (body as any).data.notification.data
+      await handleNewDataPush(data)
+    } catch (e) {
+      logDebug('backgroundNotificationHandler', 'error while processing', e)
+    }
+  })
   Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
 }
