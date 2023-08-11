@@ -15,22 +15,18 @@ export const initNotifications = async () => {
     return Promise.resolve()
   } else {
     logDebug('initNotifications', 'initializing notifications')
-    return Notifications.getPermissionsAsync()
-      .then((response) => {
-        if (response.status === PermissionStatus.UNDETERMINED) {
-          return Notifications.requestPermissionsAsync()
-        } else {
-          return response
-        }
-      })
-      .then((response) => {
-        // TODO ensure that also provisional and ephemeral is covered by this GRANTED interpretation, see https://docs.expo.dev/versions/latest/sdk/notifications/#interpret-the-ios-permissions-response
-        if (response.status === PermissionStatus.GRANTED) {
-          logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
-          registerHandleNotificationsWhenAppIsInForeground()
-          registerHandleNotificationsWhenAppIsInBackground()
-        }
-      })
+    let response = await Notifications.getPermissionsAsync()
+
+    if (response.status === PermissionStatus.UNDETERMINED) {
+      response = await Notifications.requestPermissionsAsync()
+    }
+
+    // TODO ensure that also provisional and ephemeral is covered by this GRANTED interpretation, see https://docs.expo.dev/versions/latest/sdk/notifications/#interpret-the-ios-permissions-response
+    if (response.status === PermissionStatus.GRANTED) {
+      logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
+      registerHandleNotificationsWhenAppIsInForeground()
+      await registerHandleNotificationsWhenAppIsInBackground()
+    }
   }
 }
 
@@ -305,7 +301,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
   })
 }
 
-const registerHandleNotificationsWhenAppIsInBackground = () => {
+const registerHandleNotificationsWhenAppIsInBackground = async () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
   const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
   TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
@@ -319,5 +315,5 @@ const registerHandleNotificationsWhenAppIsInBackground = () => {
       logDebug('backgroundNotificationHandler', 'error while processing', e)
     }
   })
-  Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+  await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
 }
