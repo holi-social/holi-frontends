@@ -9,6 +9,7 @@ import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
+import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -28,34 +29,42 @@ const ChatProfileInvitationCard = ({ roomId, user, userIsLoading }: PropsWithChi
 
   return (
     <View style={styles.container}>
-      <HoliCardBoard>
-        {user ? (
-          <>
-            <HoliBox padding={[0, 0, 16, 0]}>
-              <HoliAvatar
-                imageSrc={user?.avatar}
-                imageBlurhash={user?.avatarBlurhash}
-                label={user.fullName || ''}
-                initials={user?.avatarLabel || ''}
-                defaultColor={user?.avatarDefaultColor || ''}
-                size="large"
-                loading={userIsLoading}
-              />
-            </HoliBox>
-            <HoliBox padding={[0, 0, 16, 0]}>
-              <HoliHeading size="medium">{user.fullName}</HoliHeading>
-              {!!user?.pronouns ?? <HoliText color="gray300">{user?.pronouns}</HoliText>}
-            </HoliBox>
-            <HoliColumns>
-              <HoliColumn width="auto">
-                <HoliButton label={t('chat.accept.invitation')} onPress={async () => await joinRoom(roomId)}>
-                  {t('chat.accept.invitation')}
-                </HoliButton>
-              </HoliColumn>
-            </HoliColumns>
-          </>
-        ) : null}
-      </HoliCardBoard>
+      <HoliCardBoard.Card>
+        <HoliCardBoard.Slot>
+          {user ? (
+            <>
+              <HoliBox padding={[0, 0, 16, 0]}>
+                <HoliAvatar
+                  imageSrc={user?.avatar}
+                  imageBlurhash={user?.avatarBlurhash}
+                  label={user.fullName || ''}
+                  initials={user?.avatarLabel || ''}
+                  defaultColor={user?.avatarDefaultColor || ''}
+                  size="large"
+                  loading={userIsLoading}
+                />
+              </HoliBox>
+              <HoliBox padding={[0, 0, 16, 0]}>
+                <HoliHeading size="medium">{user.fullName}</HoliHeading>
+                {!!user?.pronouns ?? <HoliText color="gray300">{user?.pronouns}</HoliText>}
+              </HoliBox>
+            </>
+          ) : null}
+          <HoliColumns>
+            <HoliColumn width="auto">
+              <HoliButton label={t('chat.invitation.accept')} onPress={async () => await joinRoom(roomId)}>
+                {t('chat.invitation.accept')}
+              </HoliButton>
+            </HoliColumn>
+          </HoliColumns>
+        </HoliCardBoard.Slot>
+        <HoliDivider />
+        <HoliCardBoard.Slot>
+          <HoliText color="gray300">
+            {t('chat.invitation.copy', { firstName: user?.firstName ?? 'Anonymous User' })}
+          </HoliText>
+        </HoliCardBoard.Slot>
+      </HoliCardBoard.Card>
     </View>
   )
 }
