@@ -9,9 +9,9 @@ import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
 
 export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
 
-export const updateInvitation = produce((chatRoom: ChatRoom, hasJoined: boolean) => {
-  chatRoom.hasInvitation = !hasJoined
-  chatRoom.notificationCount = Math.max(chatRoom.notificationCount - 1, 0)
+export const updateInvitation = produce((chatRoom: ChatRoom, room: Room) => {
+  chatRoom.hasInvitation = false
+  chatRoom.notificationCount = room.getUnreadNotificationCount()
 })
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {

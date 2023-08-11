@@ -209,19 +209,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  userCardContainer: {
-    flex: 1,
-    alignSelf: 'center',
-    width: '100%',
-    maxWidth: vars.maxScreenWidth,
-    paddingHorizontal: 16,
-    paddingVertical: vars.bottomBarHeight,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   listFooterSpacer: {
     height: vars.topBarHeight,
   },

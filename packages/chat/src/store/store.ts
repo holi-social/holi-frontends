@@ -134,9 +134,8 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, chatRoom: ChatRoom)
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  if (chatClient === undefined) {
-    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  }
+  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
+
   chatClient.subscribeToRooms((room, hasPendingInvitation) => {
     /**
      * @name waitForCorrectRoomName
@@ -218,16 +217,15 @@ export const selectRoomByIdAtom = atom(null, (get, set, roomId: string) => {
  * for the entire array.
  */
 export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
-  if (chatClient === undefined) {
-    throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  }
-  const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const selectedRoomAtom = roomAtomsRecord[roomId]
-  if (!selectedRoomAtom) return
+  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
 
-  const hasJoined = await chatClient.joinRoom(roomId)
-  if (!hasJoined) return
-  set(selectedRoomAtom, (selectedRoom) => updateInvitation(selectedRoom, hasJoined))
+  const selectedRoom = get(selectedRoomAtom)
+  if (selectedRoom === null) return
+
+  const room = await chatClient.joinRoom(roomId)
+  if (room === null) return
+
+  set(selectedRoomAtom, (prevRoom) => updateInvitation(prevRoom || selectedRoom, room))
 })
 
 /** Room Messages */

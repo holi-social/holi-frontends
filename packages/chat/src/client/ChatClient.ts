@@ -77,6 +77,8 @@ export default class ChatClient {
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       console.debug({ state, prevState })
+      // TODO: initialization of the store should be done on Prepared
+      // further store updates after Syncing
       if (state === SyncState.Prepared) {
         this.isOn = true
       }
@@ -153,14 +155,14 @@ export default class ChatClient {
     }
   }
 
-  public joinRoom = async (roomId: string): Promise<boolean> => {
+  public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
       logError(new Error('There was a problem joining the room after accepting invitation'))
-      return false
+      return null
     }
 
-    return true
+    return room
   }
 
   public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
