@@ -23,7 +23,7 @@ interface Props {
   userIsLoading: boolean
 }
 
-const ChatProfileInvitationCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
+const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const joinRoom = useSetAtom(joinRoomAtom)
 
@@ -69,7 +69,7 @@ const ChatProfileInvitationCard = ({ roomId, user, userIsLoading }: PropsWithChi
   )
 }
 
-export default ChatProfileInvitationCard
+export default ChatProfileCard
 
 const styles = StyleSheet.create({
   container: {

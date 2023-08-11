@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import ChatProfileInvitationCard from '@holi/chat/src/components/ChatProfileInvitationCard'
+import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import { ChatRoom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
@@ -68,8 +68,6 @@ const ChatRoomView = () => {
   const selectRoomById = useSetAtom(selectRoomByIdAtom)
   const [room, messages] = useSelectedRoom(roomId)
   const { roomUsersRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
-
-  // Messages
   const [messageText, setMessageText] = useState('')
 
   const { user: me } = useLoggedInUser()
@@ -124,7 +122,7 @@ const ChatRoomView = () => {
         <SafeAreaView style={styles.wrapper}>
           <View style={{ backgroundColor: colors.background20, flex: 1 }}>
             {room.hasInvitation ? (
-              <ChatProfileInvitationCard roomId={roomId} user={roomCreator} userIsLoading={loadingUsers} />
+              <ChatProfileCard roomId={roomId} user={roomCreator} userIsLoading={loadingUsers} />
             ) : (
               <RoomMessageList
                 messages={messages}
