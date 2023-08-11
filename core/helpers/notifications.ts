@@ -7,7 +7,6 @@ import { TaskManagerTaskBody } from 'expo-task-manager'
 
 import { logDebug } from '@holi/core/helpers/logging'
 
-// TODO deregister notifications, see https://docs.expo.dev/versions/latest/sdk/notifications/#usage
 // TODO set configurable properties (e.g. notification icon, color and sound), see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
@@ -24,7 +23,9 @@ export const initNotifications = async () => {
     // TODO ensure that also provisional and ephemeral is covered by this GRANTED interpretation, see https://docs.expo.dev/versions/latest/sdk/notifications/#interpret-the-ios-permissions-response
     if (response.status === PermissionStatus.GRANTED) {
       logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
+      // permanent, no de-registration needed
       registerHandleNotificationsWhenAppIsInForeground()
+      // permanent, no de-registration needed
       await registerHandleNotificationsWhenAppIsInBackground()
     }
   }
