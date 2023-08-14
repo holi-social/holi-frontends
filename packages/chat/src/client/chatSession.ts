@@ -5,6 +5,9 @@ import fetch from 'cross-fetch'
 import 'fast-text-encoding'
 import { Platform } from 'react-native'
 
+import ChatClient from '@holi/chat/src/client/ChatClient'
+import { initChatClient } from '@holi/chat/src/store'
+import { StoredCredentials } from '@holi/chat/src/utils'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import {
   StoredCredentials as SessionCredentials,
@@ -12,8 +15,10 @@ import {
   loadSessionCredentials,
   storeSessionCredentials,
 } from '@holi/chat/src/utils/storage'
+import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatLoginUrl } from '@holi/core/helpers/config'
+import { chatUrl } from '@holi/core/helpers/config'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -27,6 +32,58 @@ interface MatrixLoginResponse {
   fresh_login: boolean
 }
 
+let chatClient: ChatClient | undefined = undefined
+let isStarting = false
+let isStopping = false
+
+export const startChat = async (): Promise<void> => {
+  if (chatClient?.isOn || isStarting) return
+
+  isStarting = true
+
+  try {
+    // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
+    chatClient = await getSessionFromStorage()
+      .then((orySession) => {
+        if (!orySession) {
+          throw new HoliError('[ChatLogin]: Can not start chat without Ory session token')
+        }
+        return ensureChatLoggedIn(orySession.session_token)
+      })
+      .then((credentials: StoredCredentials) => {
+        return new ChatClient({
+          baseUrl: chatUrl,
+          accessToken: credentials.access_token,
+          deviceId: credentials.device_id,
+          userId: credentials.user_id,
+          freshLogin: credentials.fresh_login,
+        })
+      })
+
+    initChatClient(chatClient)
+    // make compiler believe that chatClient is in fact defined
+    if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
+
+    await chatClient.start()
+  } finally {
+    isStarting = false
+  }
+}
+
+export const stopChat = async () => {
+  if (!chatClient) return // chatClient never started
+  if (!chatClient.isOn || isStopping) return
+
+  isStopping = true
+
+  try {
+    await chatClient.stop()
+    await logoutChat()
+  } finally {
+    isStopping = false
+  }
+}
+
 // TODO the class has no state in itself, consider refactoring this as functions / static methods.
 const serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
 const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
@@ -36,17 +93,17 @@ const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
  * user for the first time on each session.
  */
 
-export const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
   // fetch only if no Matrix session data found
   const storedSessionCredentials = await loadSessionCredentials()
   if (storedSessionCredentials?.access_token) {
     return Promise.resolve(storedSessionCredentials)
   } else {
-    return await storeSessionCredentials(await login(orySessionToken, freshLogin))
+    return await storeSessionCredentials(await loginChat(orySessionToken, freshLogin))
   }
 }
 
-const login = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const loginChat = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
   const response = await fetch(serverLoginUrl, {
     headers: {
       accept: 'application/json',
@@ -72,6 +129,6 @@ const login = async (orySessionToken: string, freshLogin = true): Promise<Sessio
   }
 }
 
-export const logoutChat = async (): Promise<void> => {
+const logoutChat = async (): Promise<void> => {
   await clearSessionCredentials()
 }

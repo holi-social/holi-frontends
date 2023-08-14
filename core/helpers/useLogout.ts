@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import client from '@holi/api/graphql/client'
-import { stopChat } from '@holi/chat/src/client/ChatInit'
+import { stopChat } from '@holi/chat/src/client/chatSession'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
 import { useErrorHandling } from '@holi/core/errors/hooks'

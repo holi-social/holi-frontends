@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 
-import { startChat } from '@holi/chat/src/client/ChatInit'
+import { startChat } from '@holi/chat/src/client/chatSession'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
