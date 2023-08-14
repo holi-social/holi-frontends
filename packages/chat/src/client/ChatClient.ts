@@ -88,6 +88,7 @@ export default class ChatClient {
 
   public stop = async () => {
     await this.mxClient?.logout(true)
+    this.isOn = false
   }
 
   /** Rooms */
