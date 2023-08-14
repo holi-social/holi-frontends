@@ -218,11 +218,17 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       return {
         title: 'Invitation',
         body: sender + ' invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+        data: {
+          room_id: event.room_id,
+        },
       }
     } else {
       return {
         title: 'Channel Update',
         body: sender + ' updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+        data: {
+          room_id: event.room_id,
+        },
       }
     }
   } else if (event.type === 'm.room.message') {
@@ -232,12 +238,18 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       return {
         title: sender,
         body: content.body,
+        data: {
+          room_id: event.room_id,
+        },
       }
     } else {
       // basically any content we don't want to implement yet
       return {
         title: 'New Message',
         body: sender + ' send a new message.',
+        data: {
+          room_id: event.room_id,
+        },
       }
     }
   } else {
@@ -246,6 +258,10 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     return {
       title: 'holi Chat',
       body: 'You have a new message or invitation.',
+      data: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        room_id: (event as any).room_id, // if available, use it
+      },
     }
   }
 }
