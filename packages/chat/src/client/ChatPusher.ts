@@ -1,6 +1,6 @@
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
-import { IPusherRequest, MatrixClient } from 'matrix-js-sdk'
+import { IPusher, IPusherRequest, MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
 import { pushGatewayUrl } from '@holi/core/helpers/config'
@@ -12,22 +12,28 @@ import { logDebug } from '@holi/core/helpers/logging'
  * @returns a successful promise if succeed
  */
 export const configurePusher = async (mxClient: MatrixClient): Promise<void> => {
-  // TODO only set up push notifications if this is a real device (not a simulator, not web)?
-  logDebug('ChatClient.configurePusher', 'starting')
-  const pushers = await mxClient.getPushers()
+  const token = await Notifications.getDevicePushTokenAsync()
+  logDebug('ChatClient.configurePusher', 'got token', JSON.stringify(token))
+  const pushkey = token.data
+
+  const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
   await Promise.all(
-    pushers.pushers.map((pusher) => {
-      // TODO don't remove all pushers, only the ones that are not for this device id
-      logDebug('ChatClient.configurePusher', 'removing existing pusher', JSON.stringify(pusher))
-      return mxClient.removePusher(pusher.pushkey, pusher.app_id)
-    })
+    pushers.pushers
+      .filter((pusher) => pusher.pushkey === pushkey)
+      .map((pusher) => {
+        logDebug(
+          'ChatClient.configurePusher',
+          'removing existing pusher for device push key',
+          pushkey,
+          JSON.stringify(pusher)
+        )
+        return mxClient.removePusher(pusher.pushkey, pusher.app_id)
+      })
   )
   await mxClient.getPushRules().then((rules) => {
     logDebug('ChatClient.configurePusher', 'existing push rules', JSON.stringify(rules))
   })
 
-  const token = await Notifications.getDevicePushTokenAsync()
-  logDebug('ChatClient.configurePusher', 'got token', JSON.stringify(token))
   if (token.type === 'android' || token.type === 'ios') {
     // see https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset
     const pusherRequest: IPusherRequest = {
@@ -54,7 +60,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
       kind: 'http',
       lang: 'en', // TODO use correct language https://holi.atlassian.net/browse/HOLI-5421
       profile_tag: 'override', // TODO double check what should go here https://holi.atlassian.net/browse/HOLI-5422
-      pushkey: token.data,
+      pushkey,
       enabled: true,
     }
     logDebug('ChatClient.configurePusher', 'configure sygnal pusher', JSON.stringify(pusherRequest))
