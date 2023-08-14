@@ -72,6 +72,8 @@
   "auth.registration.alreadyHasAccount": "Already got an account? <0>Login</0>",
   "auth.registration.error.initialization": "Oops! A technical error occurred!",
   "auth.registration.error.registration": "Oops! A technical error occurred!",
+  "chat.invitation.accept": "Start chatting",
+  "chat.invitation.copy": "{{firstName}} wants to start a new conversation with you.",
   "chat.empty.button.text": "Start new chat",
   "chat.empty.headline": "Start chatting with like-minded people now",
   "chat.empty.tagline": "No chats yet",
