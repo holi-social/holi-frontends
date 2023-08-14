@@ -1,4 +1,3 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
 import fetch from 'cross-fetch'
 // The Matrix SDK uses the TextEncoder internally.
 // Unfortunately, the Hermes JS engine does not support TextEncoder or TextDecoder.
@@ -6,7 +5,6 @@ import fetch from 'cross-fetch'
 import 'fast-text-encoding'
 import { Platform } from 'react-native'
 
-import { CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN } from '@holi/chat/src/utils/constants'
 import type { MatrixDeviceName } from '@holi/chat/src/utils/constants'
 import {
   StoredCredentials as SessionCredentials,
@@ -30,70 +28,50 @@ interface MatrixLoginResponse {
 }
 
 // TODO the class has no state in itself, consider refactoring this as functions / static methods.
-
+const serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
+const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 /**
  * @name ChatLogin
  * @description a disposable/temporary Matrix client necessary to log in to the
  * user for the first time on each session.
  */
-export default class ChatLogin {
-  // TODO: replace private with native private class properties e.g. #client
-  // RN has an issue with the @babel/plugin-proposal-private-methods in
-  // combination with Flatlist's.
-  // https://github.com/facebook/react-native/issues/36828
-  private readonly serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
 
-  readonly deviceName: MatrixDeviceName = `holi-${Platform.OS}`
+export const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+  // fetch only if no Matrix session data found
+  const storedSessionCredentials = await loadSessionCredentials()
+  if (storedSessionCredentials?.access_token) {
+    return Promise.resolve(storedSessionCredentials)
+  } else {
+    return await storeSessionCredentials(await login(orySessionToken, freshLogin))
+  }
+}
 
-  public ensureLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
-    // fetch only if no Matrix session data found
-    const storedSessionCredentials = await loadSessionCredentials()
-    if (storedSessionCredentials?.access_token) {
-      return Promise.resolve(storedSessionCredentials)
-    } else {
-      return await storeSessionCredentials(await this.login(orySessionToken, freshLogin))
+const login = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+  const response = await fetch(serverLoginUrl, {
+    headers: {
+      accept: 'application/json',
+      'accept-language': 'en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,en-DE;q=0.6',
+      'cache-control': 'no-cache',
+      'content-type': 'application/json',
+      pragma: 'no-cache',
+      ...(orySessionToken ? { authorization: `Bearer ${orySessionToken}` } : {}),
+    },
+    referrerPolicy: 'no-referrer',
+    body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${deviceName}"}`,
+    method: 'POST',
+    mode: 'cors',
+  })
+
+  if (response.ok) {
+    return {
+      ...((await response.json()) as MatrixLoginResponse),
+      fresh_login: freshLogin,
     }
+  } else {
+    throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
   }
+}
 
-  public login = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
-    const response = await fetch(this.serverLoginUrl, {
-      headers: {
-        accept: 'application/json',
-        'accept-language': 'en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,en-DE;q=0.6',
-        'cache-control': 'no-cache',
-        'content-type': 'application/json',
-        pragma: 'no-cache',
-        ...(orySessionToken ? { authorization: `Bearer ${orySessionToken}` } : {}),
-      },
-      referrerPolicy: 'no-referrer',
-      body: `{"type":"org.matrix.login.jwt","initial_device_display_name":"${this.deviceName}"}`,
-      method: 'POST',
-      mode: 'cors',
-    })
-
-    if (response.ok) {
-      return {
-        ...((await response.json()) as MatrixLoginResponse),
-        fresh_login: freshLogin,
-      }
-    } else {
-      throw new HoliError(`[ChatLogin]: request to Matrix login ended up with ${response.status} status code`)
-    }
-  }
-
-  public logout = async (): Promise<void> => {
-    await clearSessionCredentials()
-  }
-
-  public getSessionCredentials = async (): Promise<SessionCredentials> => {
-    const sessionCredentials = await loadSessionCredentials()
-    // TODO abort/retry loging on missing access
-    if (!sessionCredentials?.access_token) throw new Error('unable to restore local session credentials')
-
-    if (sessionCredentials.fresh_login === true) {
-      await AsyncStore.setItem(CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, 'false')
-    }
-
-    return sessionCredentials
-  }
+export const logoutChat = async (): Promise<void> => {
+  await clearSessionCredentials()
 }

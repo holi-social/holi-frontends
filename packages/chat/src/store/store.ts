@@ -4,12 +4,7 @@ import { MatrixEvent } from 'matrix-js-sdk'
 import { useMemo } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import type { RoomId } from '@holi/chat/src/client/types'
-import { StoredCredentials } from '@holi/chat/src/utils'
-import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { chatUrl } from '@holi/core/helpers/config'
 
 import { createChatMessage, updateMessages } from './messages'
 import { addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
@@ -19,62 +14,17 @@ import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessa
 export const chatStore = createStore()
 
 /** Client **/
-const chatLogin = new ChatLogin()
 let chatClient: ChatClient | undefined = undefined
+export const initChatClient = (newChatClient: ChatClient | undefined) => {
+  chatClient = newChatClient
+}
 
-const CHAT_CLIENT_UNINITIALIZED_ERROR =
-  '[ChatToggle]: chatClient was not initialized, please ensure to call ChatToggle.start() first before using it'
-
-export class ChatToggle {
-  private static isStarting = false
-  private static isStopping = false
-
-  public static start = async (): Promise<void> => {
-    if (chatClient?.isOn || this.isStarting) return
-
-    this.isStarting = true
-
-    try {
-      // initialize ChatClient here as this is *the* lifecycle hook where all of chat is initialized
-      chatClient = await getSessionFromStorage()
-        .then((orySession) => {
-          if (!orySession) {
-            throw new HoliError('[ChatToggle]: Can not start chat without Ory session token')
-          }
-          return chatLogin.ensureLoggedIn(orySession.session_token)
-        })
-        .then((credentials: StoredCredentials) => {
-          return new ChatClient({
-            baseUrl: chatUrl,
-            accessToken: credentials.access_token,
-            deviceId: credentials.device_id,
-            userId: credentials.user_id,
-            freshLogin: credentials.fresh_login,
-          })
-        })
-
-      // make compiler believe that chatClient is in fact defined
-      if (chatClient === undefined) throw new HoliError('[ChatToggle]: this should not happen')
-
-      await chatClient.start()
-    } finally {
-      this.isStarting = false
-    }
-  }
-
-  public static stop = async () => {
-    if (!chatClient) return // chatClient never started
-    if (chatClient.isOn || this.isStopping) return
-
-    this.isStopping = true
-
-    try {
-      await chatClient.stop()
-      await chatLogin.logout()
-    } finally {
-      this.isStopping = false
-    }
-  }
+const getChatClient = (): ChatClient => {
+  if (!chatClient)
+    throw new Error(
+      '[ChatStore]: chatClient was not initialized, please ensure to call initChatClient before using the store'
+    )
+  return chatClient
 }
 
 /** Rooms **/
@@ -134,9 +84,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, chatRoom: ChatRoom)
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
-  chatClient.subscribeToRooms((room, hasPendingInvitation) => {
+  getChatClient().subscribeToRooms((room, hasPendingInvitation) => {
     /**
      * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
@@ -176,9 +124,7 @@ export const useSubscribeToChat = () => {
  * the Matrix server.
  */
 export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
-  return chatClient.createRoom(userIds)
+  return getChatClient().createRoom(userIds)
 }
 /**
  * @name getOrCreateRoom (Client Helper)
@@ -186,9 +132,7 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  * exists, or creates a new one.
  */
 export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
-  return chatClient.getOrCreateRoom(userIds)
+  return getChatClient().getOrCreateRoom(userIds)
 }
 
 /**
@@ -217,12 +161,10 @@ export const selectRoomByIdAtom = atom(null, (get, set, roomId: string) => {
  * for the entire array.
  */
 export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
   const selectedRoom = get(selectedRoomAtom)
   if (selectedRoom === null) return
 
-  const room = await chatClient.joinRoom(roomId)
+  const room = await getChatClient().joinRoom(roomId)
   if (room === null) return
 
   set(selectedRoomAtom, (prevRoom) => updateInvitation(prevRoom || selectedRoom, room))
@@ -235,9 +177,7 @@ export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
  * @description sends a new message to the Chat client.
  */
 export const sendMessage = async (message: CreateMessage): Promise<string> => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-
-  return await chatClient.sendTextMessage(message.roomId, message.text)
+  return await getChatClient().sendTextMessage(message.roomId, message.text)
 }
 
 /**
@@ -280,8 +220,7 @@ const _messagesAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string,
 })
 
 _messagesAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
-  chatClient.subscribeToMessages(setAtom)
+  getChatClient().subscribeToMessages(setAtom)
 }
 
 /**
