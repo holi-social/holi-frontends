@@ -36,7 +36,14 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
       data: {
         //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
         url: pushGatewayUrl + '/_matrix/push/v1/notify',
-
+        // @ts-ignore sygnal feature, not typed yet by matrix sdk
+        default_payload: {
+          // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
+          title: 'holi Chat',
+          message: 'You have a new message or invitation.',
+          experienceId: '@holistic-foundation/projectholi', // @holistic-foundation/projectholi
+          scopeKey: '@holistic-foundation/projectholi', // @holistic-foundation/projectholi
+        },
         // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
         // "type", and "sender_display_name" from notification data
         // for now we don't want that because it helps to know this for easier notification display

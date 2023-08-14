@@ -7,7 +7,6 @@ import { TaskManagerTaskBody } from 'expo-task-manager'
 
 import { logDebug } from '@holi/core/helpers/logging'
 
-// TODO set configurable properties (e.g. notification icon, color and sound), see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
   if (!Device.isDevice) {
@@ -306,12 +305,14 @@ const registerHandleNotificationsWhenAppIsInBackground = async () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
   const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
   TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
-    logDebug('backgroundNotificationHandler', 'received task', JSON.stringify(body))
     try {
       // we know it's a chat notification update
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = (body as any).data.notification.data
-      await handleNewDataPush(data)
+      const notification = (body as any).data.notification
+      logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
+      // This is just left in to demonstrate how to receive notifications in the background.
+      // We can't prevent background notifications from appearing when they have a valid notification payload.
+      // But we need this payload for closed app notifications, so we should not send another notification here.
     } catch (e) {
       logDebug('backgroundNotificationHandler', 'error while processing', e)
     }
