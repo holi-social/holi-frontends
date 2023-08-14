@@ -72,6 +72,8 @@
   "auth.registration.alreadyHasAccount": "Du hast bereits ein Konto? <0>Anmelden</0>",
   "auth.registration.error.initialization": "Ups! Da ist ein technisches Problem aufgetreten!",
   "auth.registration.error.registration": "Ups! Da ist ein technisches Problem aufgetreten!",
+  "chat.invitation.accept": "Chat starten",
+  "chat.invitation.copy": "{{firstName}} möchte eine Unterhaltung mit dir beginnen",
   "chat.empty.button.text": "Neuen Chat starten",
   "chat.empty.headline": "Starte jetzt einen Chat mit Gleichgesinnten",
   "chat.empty.tagline": "Noch keine Chats",

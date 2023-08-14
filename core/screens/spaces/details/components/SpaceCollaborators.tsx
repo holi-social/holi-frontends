@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -28,7 +28,6 @@ const SPACE_MEMBER_PAGE_SIZE = 10
 
 const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(show)
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember>()
   const { navigate } = useRouting()
@@ -44,14 +43,6 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
   }
 
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-
-  useEffect(() => {
-    if (show) {
-      setVisible(show)
-    } else {
-      setVisible(false)
-    }
-  }, [show, setVisible])
 
   const handleNavigation = useCallback(
     (id: string) => {
@@ -77,7 +68,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismis
 
   return (
     <HoliModal
-      show={visible}
+      show={show}
       label={t('spaces.collaborators')}
       heading={t('spaces.collaborators')}
       testID={'space-collaborators-modal'}

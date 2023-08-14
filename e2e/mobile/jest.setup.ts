@@ -8,14 +8,16 @@ import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId 
 global.platform = appiumConfig.platform
 global.target = target
 
-beforeEach(async () => {
+beforeAll(async () => {
   // make test name visible in BrowserStack
   if (target === 'browserstack') {
     appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
   }
   global.Appium = await webdriverio.remote(appiumConfig)
+
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await resetImplicitTimeout()
+
   if (appiumConfig.capabilities['appium:app']) {
     let numAttempts = 5
     let appRunning = false
@@ -42,7 +44,7 @@ beforeEach(async () => {
 
 jest.setTimeout(4 * 60 * 1000) // a normal test runs up to 2 minutes, but give some time to spare
 
-afterEach(async () => {
+afterAll(async () => {
   if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {
     if (!global.sessionHolder) global.sessionHolder = {}
     global.sessionHolder.id = Appium.sessionId

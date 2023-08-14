@@ -2,15 +2,13 @@ import {
   ClientEvent,
   EventTimeline,
   EventTimelineSet,
-  ICreateRoomOpts,
   MatrixClient,
   Preset,
   RoomEvent,
-  RoomStateEvent,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
-import type { ICreateClientOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
+import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { configurePusher } from '@holi/chat/src/client/ChatPusher'
@@ -82,6 +80,8 @@ export default class ChatClient {
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
       console.debug({ state, prevState })
+      // TODO: initialization of the store should be done on Prepared
+      // further store updates after Syncing
       if (state === SyncState.Prepared) {
         this.isOn = true
       }
@@ -172,14 +172,14 @@ export default class ChatClient {
     }
   }
 
-  public joinRoom = async (roomId: string): Promise<boolean> => {
+  public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
       logError(new Error('There was a problem joining the room after accepting invitation'))
-      return false
+      return null
     }
 
-    return true
+    return room
   }
 
   public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
@@ -205,48 +205,12 @@ export default class ChatClient {
     }
   }
 
-  // TODO dead code? no, mostly likely used "soon" @mauricio
-  public subscribeToInvitations = async (
-    callback: (roomId: string, name: string, hasInvitation: boolean, senderId?: string) => void
-  ): Promise<(() => void) | void> => {
-    const memberInvitationHandler = async (event: MatrixEvent) => {
-      const hasInvitation = await this.hasPendingInvitation(event)
-      const roomId = event.getRoomId()
-      const { displayname } = event.getContent()
-      const senderId = event.getSender()
-
-      if (!hasInvitation || !roomId || !displayname) return
-      callback(roomId, displayname, hasInvitation, senderId)
-    }
-
-    this.mxClient.on(RoomStateEvent.NewMember, memberInvitationHandler)
-
-    return () => {
-      this.mxClient.off(RoomStateEvent.NewMember, memberInvitationHandler)
-    }
-  }
-
   public subscribeToMessages(callback: (roomId: string, event: MatrixEvent) => void): (() => void) | void {
     const incomingMessagesHandler = (event: MatrixEvent) => {
       if (event.getType() !== 'm.room.message') return
       const roomId = event.getRoomId()
       if (!roomId) return
       callback(roomId, event)
-    }
-
-    this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
-
-    return () => {
-      this.mxClient.off(RoomEvent.Timeline, incomingMessagesHandler)
-    }
-  }
-
-  // TODO dead code? no, mostly likely used "soon" @mauricio
-  public subscribeToRoomMessages(roomId: string, callback: (event: MatrixEvent) => void): (() => void) | void {
-    const incomingMessagesHandler = (event: MatrixEvent) => {
-      if (event.getType() !== 'm.room.message') return
-      if (roomId !== event.getRoomId()) return
-      callback(event)
     }
 
     this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
