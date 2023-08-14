@@ -10,6 +10,7 @@ import { logDebug } from '@holi/core/helpers/logging'
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
   if (!Device.isDevice) {
+    // doesn't work on android emulator (and also possibly not on iOS simulator)
     return Promise.resolve()
   } else {
     logDebug('initNotifications', 'initializing notifications')
@@ -39,6 +40,11 @@ export const initNotifications = async () => {
 //         sentTime: 1691669916530,
 //         notification: null,
 //         data: {
+//           title: 'holi Chat',
+//           message: 'You have a new message or invitation.',
+//           channelId: 'expo_notifications_fallback_notification_channel',
+//           scopeKey: '@holistic-foundation/projectholi',
+//           experienceId: '@holistic-foundation/projectholi',
 //           room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
 //           content: '{"is_direct":true,"displayname":"malte2","membership":"invite"}',
 //           type: 'm.room.member',
@@ -57,22 +63,22 @@ export const initNotifications = async () => {
 //         from: '984061681268',
 //         messageId: '0:1691669916540901%b0aa3b58f9fd7ecd',
 //       },
-//       channelId: null,
+//       channelId: 'expo_notifications_fallback_notification_channel',
 //       type: 'push',
 //     },
 //     content: {
-//       title: null,
+//       title: 'holi Chat',
 //       badge: null,
 //       autoDismiss: true,
 //       data: null,
-//       body: null,
+//       body: 'You have a new message or invitation.',
 //       sound: 'default',
 //       sticky: false,
 //       subtitle: null,
 //     },
-//     identifier: '0:1691669916540901%b0aa3b58f9fd7ecd',
+//     identifier: '0:1692011606570797%b0aa3b58f9fd7ecd',
 //   },
-//   date: 1691669916530,
+//   date: 1692011606554,
 // }
 
 // TODO write unit test with this as real mock data
@@ -81,17 +87,22 @@ export const initNotifications = async () => {
 //     trigger: {
 //       remoteMessage: {
 //         originalPriority: 1,
-//         sentTime: 1691672207949,
+//         sentTime: 1692011606554,
 //         notification: null,
 //         data: {
+//           title: 'holi Chat',
+//           message: 'You have a new message or invitation.',
+//           channelId: 'expo_notifications_fallback_notification_channel',
+//           scopeKey: '@holistic-foundation/projectholi',
+//           experienceId: '@holistic-foundation/projectholi',
+//           event_id: '$qY7LzQe-ZTIw6lR4ppuyghbABM8FC8LFSaG4BRX0lh0',
+//           content: '{"body":"hello world!","msgtype":"m.text"}',
 //           room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-//           unread: '3',
-//           content: '{"body":"hello","msgtype":"m.text"}',
-//           type: 'm.room.message',
-//           prio: 'high',
 //           sender: '@malte1:staging.chat.holi.social',
-//           event_id: '$ZWZ90Fddmi5R0z8eYnSfzJFlKnbMK3BefeReULkuDCc',
+//           type: 'm.room.message',
 //           sender_display_name: 'malte1',
+//           prio: 'high',
+//           unread: '1',
 //         },
 //         to: null,
 //         ttl: 2419200,
@@ -99,24 +110,24 @@ export const initNotifications = async () => {
 //         messageType: null,
 //         priority: 1,
 //         from: '984061681268',
-//         messageId: '0:1691672207967939%b0aa3b58f9fd7ecd',
+//         messageId: '0:1692011606570797%b0aa3b58f9fd7ecd',
 //       },
-//       channelId: null,
+//       channelId: 'expo_notifications_fallback_notification_channel',
 //       type: 'push',
 //     },
 //     content: {
-//       title: null,
+//       title: 'holi Chat',
 //       badge: null,
 //       autoDismiss: true,
 //       data: null,
-//       body: null,
+//       body: 'You have a new message or invitation.',
 //       sound: 'default',
 //       sticky: false,
 //       subtitle: null,
 //     },
-//     identifier: '0:1691672207967939%b0aa3b58f9fd7ecd',
+//     identifier: '0:1692011606570797%b0aa3b58f9fd7ecd',
 //   },
-//   date: 1691672207949,
+//   date: 1692011606554,
 // }
 
 interface UnknownSygnalMessageContent {
@@ -206,13 +217,11 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     if (event.membership === 'invite') {
       return {
         title: 'Invitation',
-        subtitle: 'Chat',
         body: sender + ' invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
       }
     } else {
       return {
         title: 'Channel Update',
-        subtitle: 'Chat',
         body: sender + ' updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
       }
     }
@@ -222,14 +231,12 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     if (content.msgtype === 'm.text') {
       return {
         title: sender,
-        subtitle: 'Chat',
         body: content.body,
       }
     } else {
       // basically any content we don't want to implement yet
       return {
         title: 'New Message',
-        subtitle: 'Chat',
         body: sender + ' send a new message.',
       }
     }
@@ -237,9 +244,8 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     // anonymized, or unknown event
     // wording it like the notification is intentionally vague
     return {
-      title: 'There is an update in the app',
-      subtitle: 'Chat',
-      body: 'Someone messaged you, invited you to a chat, or updated a chat.',
+      title: 'holi Chat',
+      body: 'You have a new message or invitation.',
     }
   }
 }
