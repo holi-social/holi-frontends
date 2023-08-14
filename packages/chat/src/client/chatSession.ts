@@ -60,11 +60,11 @@ export const startChat = async (): Promise<void> => {
         })
       })
 
-    initChatClient(chatClient)
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start()
+    initChatClient(chatClient)
   } finally {
     isStarting = false
   }
