@@ -86,6 +86,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
             label={t('user.profileView.message')}
             style={styles.profileButton}
             onPress={handleChat}
+            testID="user-profile-open-chat"
           >
             {t('user.profileView.message')}
           </HoliButton>

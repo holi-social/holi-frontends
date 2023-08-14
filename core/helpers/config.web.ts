@@ -1,8 +1,6 @@
 import { environment } from '@holi/core/helpers/environment'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
-const withoutTrailingSlash = (url: string) => url.replace(/\/$/, '')
-
 export const chatServerName = (() => {
   const serverName =
     environment === EnvironmentId.PRODUCTION ? 'production.chat.holi.social' : 'staging.chat.holi.social'
@@ -14,12 +12,7 @@ export const chatUrl = (() => {
   return process.env.NEXT_PUBLIC_HOLI_CHAT_SERVER_URL || baseUrl
 })()
 
-export const chatLoginUrl = (() => {
-  const defaultBaseUrl =
-    environment === EnvironmentId.PRODUCTION ? 'https://app.holi.social/' : 'https://staging.dev.holi.social/'
-  const baseUrl = withoutTrailingSlash(process.env.NEXT_PUBLIC_HOLI_API_GATEWAY || defaultBaseUrl)
-  return baseUrl + '/api/chatlogin'
-})()
+export const chatLoginUrl = '/api/chatlogin'
 
 export const owncloudUrl = (() => {
   const baseUrl =
