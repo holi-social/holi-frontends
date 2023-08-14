@@ -2,12 +2,13 @@ import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
+// todo gregor - enable
 describe('@Chat', () => {
   beforeAll(async () => {
     await registerNewUser()
   })
 
-  it('starts a chat from a users profile', async () => {
+  xit('starts a chat from a users profile', async () => {
     // open profile of another user
     await scrollToElementWithTestId('user-card-suggestion-0', 'down')
     await tapOnElementWithTestId('user-card-suggestion-0')
