@@ -169,6 +169,7 @@ const ChatRoomView = () => {
               <HoliTextInput
                 // TODO: provide correct accessibilityLabel prop
                 accessibilityLabel="Message"
+                testID={'chat-message-input'}
                 value={messageText}
                 onChange={setMessageText}
                 style={{
