@@ -16,7 +16,7 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "development-simulator": {
@@ -36,7 +36,7 @@
       },
       "ios": {
         "simulator": true,
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "preview": {
@@ -54,7 +54,7 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "production": {
@@ -70,7 +70,7 @@
         "ORY_BASE_URL": "https://auth.holi.social"
       },
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "simulator": {
