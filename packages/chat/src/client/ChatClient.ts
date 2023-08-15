@@ -184,7 +184,21 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
-  public subscribeToRooms = (callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void => {
+  public subscribeToMyMembership(
+    callback: (room: Room, membership: string, prevMembership?: string) => void
+  ): (() => void) | void {
+    const invitationHandler = (room: Room, membership: string, prevMembership?: string) => {
+      callback(room, membership, prevMembership)
+    }
+
+    this.mxClient.on(RoomEvent.MyMembership, invitationHandler)
+
+    return () => {
+      this.mxClient.off(RoomEvent.MyMembership, invitationHandler)
+    }
+  }
+
+  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void {
     const roomEventHandler = (room: Room) => {
       callback(room, this.hasPendingInvitation(room))
     }
