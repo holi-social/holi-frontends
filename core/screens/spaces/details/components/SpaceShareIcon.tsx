@@ -1,13 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Clipboard, Modal, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Clipboard, Platform, Pressable, StyleSheet } from 'react-native'
 
 import { useShareLink } from '@holi/core/hooks/useShareLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceShareIconProps = {
@@ -18,64 +16,21 @@ type SpaceShareIconProps = {
 
 const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
-  const [show, setShow] = React.useState(false)
-  const [isCopied, setIsCopied] = React.useState(false)
   const [url, onShareMobile] = useShareLink(title ?? '', `/spaces/${spaceIdOrName}`)
+  const { openToast } = useToast()
 
-  const copyToClipboard = () => {
+  const onShare = () => {
     Clipboard.setString(url)
-    setIsCopied(true)
-    setTimeout(() => {
-      setShow(false)
-      setTimeout(() => {
-        setIsCopied(false)
-      }, 500)
-    }, 1500)
-  }
-
-  const onShareWeb = () => {
-    setShow(true)
+    openToast(t('spaces:spaces.share.copied'), HoliToastType.SUCCESS)
   }
 
   const isWeb = Platform.OS === 'web'
 
   return (
     <>
-      <Pressable onPress={isWeb ? onShareWeb : onShareMobile} testID="space-share-btn">
+      <Pressable onPress={isWeb ? onShare : onShareMobile} testID="space-share-btn">
         <HoliIcon icon={ShareIcon} style={styles.shareIcon} color={color} />
       </Pressable>
-      <Modal animationType="fade" transparent visible={show} accessibilityLabel={t('spaces:spaces.share')}>
-        <View style={styles.modalContainer}>
-          <Pressable onPress={() => setShow(false)} style={styles.backdrop} testID="close-modal" />
-          <View style={styles.modalView}>
-            {!isCopied ? (
-              <>
-                <View style={{ flexDirection: 'row' }}>
-                  <HoliHeading level="4" size="small">
-                    {t('spaces:spaces.share')}
-                  </HoliHeading>
-                </View>
-                <HoliText style={styles.description} testID="space-share-link">
-                  {url}
-                </HoliText>
-                <View style={styles.buttonContainer}>
-                  <HoliButton
-                    label={t('spaces:spaces.share.copy.link')}
-                    onPress={copyToClipboard}
-                    testID="space-share-url-btn"
-                  >
-                    <HoliText bold>{t('spaces:spaces.share.copy.link')}</HoliText>
-                  </HoliButton>
-                </View>
-              </>
-            ) : (
-              <HoliText bold style={styles.copiedText}>
-                {t('spaces:spaces.share.copied')}
-              </HoliText>
-            )}
-          </View>
-        </View>
-      </Modal>
     </>
   )
 }
