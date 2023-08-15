@@ -1,8 +1,14 @@
 import * as Sentry from '@sentry/react-native'
 
-export const logInfo = (message?: string) => {
+export const logInfo = (error: unknown, message?: string) => {
+  const errorMessage = message ? ` ${message}:` : ''
   // eslint-disable-next-line no-console
-  console.info(message)
+  console.info('[logError.ts]' + errorMessage, error)
+}
+
+export const logInfoMsg = (message: string) => {
+  // eslint-disable-next-line no-console
+  console.info('[logError.ts]' + message)
 }
 
 export const logError = (error: unknown, message?: string, stack?: string) => {

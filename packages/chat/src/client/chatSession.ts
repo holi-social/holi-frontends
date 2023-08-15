@@ -17,7 +17,7 @@ import {
 } from '@holi/chat/src/utils/storage'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { logInfo } from '@holi/core/errors/helpers'
+import { logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatLoginUrl } from '@holi/core/helpers/config'
 import { chatUrl } from '@holi/core/helpers/config'
 
@@ -64,20 +64,22 @@ export const startChat = async (): Promise<void> => {
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
-    await chatClient.start(sessionErrorHandler)
+    await chatClient.start(unknownTokenHandler)
     initChatClient(chatClient)
   } finally {
     isStarting = false
   }
 }
 
-const sessionErrorHandler = (): void => {
-  logInfo('[chatSession] chat client is in ERROR state with an invalid token: reconnecting')
-  stopChat()
-    .catch((e) => {
-      logInfo('[chatSession] could not stop chatClient. This is expected.', e)
-    })
-    .finally(startChat)
+const unknownTokenHandler = async (): Promise<void> => {
+  logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
+  try {
+    await stopChat()
+  } catch (e) {
+    logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
+  } finally {
+    await startChat()
+  }
 }
 
 export const stopChat = async () => {
@@ -89,7 +91,7 @@ export const stopChat = async () => {
     await logoutChat()
     await chatClient.stop()
   } catch (e) {
-    logInfo('[chatSession] could not stop chatClient', e)
+    logInfo(e, '[chatSession] could not stop chatClient. This is probably not a problem.')
   } finally {
     isStopping = false
   }
