@@ -49,7 +49,7 @@ const unknownTokenHandler = async (): Promise<void> => {
 }
 
 export const startChat = async (): Promise<void> => {
-  if (chatClient?.isOn || isStarting) return
+  if (isStarting || chatClient?.isRunning()) return
 
   isStarting = true
 
