@@ -4,6 +4,7 @@ import {
   EventTimeline,
   EventTimelineSet,
   EventType,
+  HttpApiEvent,
   MatrixClient,
   Preset,
   RoomEvent,
@@ -67,7 +68,7 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<boolean> => {
+  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<boolean> => {
     if (!this.isOn) {
       try {
         await this.mxClient.startClient(options)
@@ -77,20 +78,26 @@ export default class ChatClient {
       }
     }
     // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
-      console.debug({ state, prevState })
+    this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
+      console.debug({ state, lastState })
       // TODO: initialization of the store should be done on Prepared
       // further store updates after Syncing
       if (state === SyncState.Prepared) {
         this.isOn = true
       }
     })
+    this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
+      unknownTokenHandler()
+    })
     return this.isOn
   }
 
   public stop = async () => {
-    await this.mxClient?.logout(true)
-    this.isOn = false
+    try {
+      await this.mxClient?.logout(true)
+    } finally {
+      this.isOn = false
+    }
   }
 
   /** Rooms */

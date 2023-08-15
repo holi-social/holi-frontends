@@ -17,6 +17,7 @@ import {
 } from '@holi/chat/src/utils/storage'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatLoginUrl } from '@holi/core/helpers/config'
 import { chatUrl } from '@holi/core/helpers/config'
 
@@ -35,6 +36,17 @@ interface MatrixLoginResponse {
 let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
+
+const unknownTokenHandler = async (): Promise<void> => {
+  logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
+  try {
+    await stopChat()
+  } catch (e) {
+    logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
+  } finally {
+    await startChat()
+  }
+}
 
 export const startChat = async (): Promise<void> => {
   if (chatClient?.isOn || isStarting) return
@@ -63,7 +75,7 @@ export const startChat = async (): Promise<void> => {
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
-    await chatClient.start()
+    await chatClient.start(unknownTokenHandler)
     initChatClient(chatClient)
   } finally {
     isStarting = false
@@ -71,14 +83,15 @@ export const startChat = async (): Promise<void> => {
 }
 
 export const stopChat = async () => {
-  if (!chatClient) return // chatClient never started
-  if (!chatClient.isOn || isStopping) return
+  if (!chatClient || isStopping) return // chatClient never started or already stopping
 
   isStopping = true
 
   try {
-    await chatClient.stop()
     await logoutChat()
+    await chatClient.stop()
+  } catch (e) {
+    logInfo(e, '[chatSession] could not stop chatClient. This is probably not a problem.')
   } finally {
     isStopping = false
   }
@@ -120,8 +133,9 @@ const loginChat = async (orySessionToken: string, freshLogin = true): Promise<Se
   })
 
   if (response.ok) {
+    const responseJson = (await response.json()) as MatrixLoginResponse
     return {
-      ...((await response.json()) as MatrixLoginResponse),
+      ...responseJson,
       fresh_login: freshLogin,
     }
   } else {
