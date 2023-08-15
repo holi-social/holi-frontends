@@ -38,18 +38,20 @@ let isStarting = false
 let isStopping = false
 
 const unknownTokenHandler = async (): Promise<void> => {
-  logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
-  try {
-    await stopChat()
-  } catch (e) {
-    logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
-  } finally {
-    await startChat()
+  if (!isStopping) {
+    logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
+    try {
+      await stopChat()
+    } catch (e) {
+      logInfo(e, '[chatSession] could not stop chatClient. This is expected.')
+    } finally {
+      await startChat()
+    }
   }
 }
 
 export const startChat = async (): Promise<void> => {
-  if (isStarting || chatClient?.isRunning()) return
+  if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true
 
