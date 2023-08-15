@@ -21,6 +21,8 @@ test.describe('@Reactions', () => {
       // open first post
       await clickElementByTestId(page, 'btn-to-post')
 
+      // TODO assure a comment by commenting ourselves, otherwise if no comment, the test fails
+
       // check reactions on first comment
       await assertReactions(page, 'btn-react-to-comment-HEART')
     })
