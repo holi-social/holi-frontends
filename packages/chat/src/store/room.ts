@@ -3,6 +3,7 @@ import { atom } from 'jotai'
 import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
 import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { isRoomEvent } from '@holi/chat/src/store/utils'
 
 import { createChatMessage } from './messages'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
@@ -38,9 +39,8 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
 })
 
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = room.getLastLiveEvent()
-  const lastMessage =
-    lastLiveEvent?.getType() === 'm.room.message' ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastLiveEvent = room.getLastLiveEvent()?.event
+  const lastMessage = isRoomEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
   // TODO extract memberships from room to its own atom record
   const getMembership = (membership?: string) => {
