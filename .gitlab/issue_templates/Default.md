@@ -6,12 +6,14 @@
 
 (How one can reproduce the issue - this is very important)
 
+1. 
+2. 
+3. 
+
 ## Example Project
 
-(If possible, create an example project here on GitLab.com that exhibits the problematic
-behavior, and link to it here in the bug report.
-If you are using an older version of GitLab, this will also determine whether the bug has been fixed
-in a more recent version)
+(If possible, create an example project here on gitlab.holi.team that exhibits the problematic
+behavior, and link to it here in the bug report.)
 
 ## What is the current bug behavior?
 
@@ -30,6 +32,5 @@ it's very hard to read otherwise.)
 
 (If you can, link to the line of code that might be responsible for the problem)
 
-/label ~bug ~reproduced ~needs-investigation
+/label ~bug ~needs-investigation
 /cc @project-manager
-/assign @qa-tester
