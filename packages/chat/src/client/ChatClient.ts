@@ -1,7 +1,9 @@
 import {
   ClientEvent,
+  Direction,
   EventTimeline,
   EventTimelineSet,
+  EventType,
   MatrixClient,
   Preset,
   RoomEvent,
@@ -172,7 +174,7 @@ export default class ChatClient {
       msgtype: 'm.text',
     }
 
-    const eventIdResponse = await this.mxClient.sendEvent(roomId, 'm.room.message', content, '')
+    const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content, '')
 
     return eventIdResponse.event_id
   }
@@ -203,18 +205,21 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToMessages(callback: (roomId: string, event: MatrixEvent) => void): (() => void) | void {
+  public createMessagesRequest(roomId: string, fromToken: string | null = null) {
+    return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
+  }
+
+  public subscribeToRoomMessages(room: Room, callback: (event: MatrixEvent) => void): (() => void) | void {
     const incomingMessagesHandler = (event: MatrixEvent) => {
-      if (event.getType() !== 'm.room.message') return
-      const roomId = event.getRoomId()
-      if (!roomId) return
-      callback(roomId, event)
+      if (event.getType() !== EventType.RoomMessage) return
+      if (room.roomId !== event.getRoomId()) return
+      callback(event)
     }
 
-    this.mxClient.on(RoomEvent.Timeline, incomingMessagesHandler)
+    room.on(RoomEvent.Timeline, incomingMessagesHandler)
 
     return () => {
-      this.mxClient.off(RoomEvent.Timeline, incomingMessagesHandler)
+      room.off(RoomEvent.Timeline, incomingMessagesHandler)
     }
   }
 }

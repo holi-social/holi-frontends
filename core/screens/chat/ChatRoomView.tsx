@@ -6,7 +6,13 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
-import { ChatRoom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
+import {
+  ChatRoom,
+  selectRoomByIdAtom,
+  sendMessage,
+  useRequestRoomMessages,
+  useSelectedRoom,
+} from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -71,6 +77,11 @@ const ChatRoomView = () => {
   const [messageText, setMessageText] = useState('')
 
   const { user: me } = useLoggedInUser()
+  const requestMessages = useRequestRoomMessages()
+  useEffect(() => {
+    requestMessages(roomId)
+  }, [requestMessages, roomId])
+
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
   const roomCreator = roomUsersRecord[room?.name ?? '']
   const setScreenOptions = useSetScreenOptions()
@@ -135,6 +146,13 @@ const ChatRoomView = () => {
                     </HoliBox>
                   )
                 }
+                onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                  const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                  if (needToLoad) {
+                    requestMessages(roomId)
+                  }
+                }}
               />
             )}
 
