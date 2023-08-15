@@ -1,10 +1,11 @@
 import { produce } from 'immer'
-import { atom, createStore, useAtom, useAtomValue } from 'jotai'
-import { MatrixEvent, Room } from 'matrix-js-sdk'
-import { useMemo } from 'react'
+import { atom, createStore, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { IRoomEvent, MatrixEvent, Room } from 'matrix-js-sdk'
+import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
+import { isRoomEvent } from '@holi/chat/src/store/utils'
 
 import { createChatMessage, updateMessages } from './messages'
 import {
@@ -50,6 +51,34 @@ const getChatClient = (): ChatClient => {
 const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
 
+export const useRequestRoomMessages = () => {
+  const setMessages = useSetAtom(_messageBunchAtomSetter)
+  const client = chatClient
+  const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
+  const isLoading = useRef(false)
+
+  return useCallback(
+    (roomId: string) => {
+      if (!roomId || !client) return
+      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
+
+      isLoading.current = true
+      client
+        .createMessagesRequest(roomId, tokenRef.current.end)
+        .then(async (resp) => {
+          const { chunk, start, end } = resp
+          const appendMessages = !!tokenRef.current.end
+          setMessages(roomId, chunk, appendMessages)
+
+          // unpdate start and end tokens only after merging messages
+          tokenRef.current = { start, end }
+        })
+        .finally(() => (isLoading.current = false))
+    },
+    [client, setMessages]
+  )
+}
+
 /**
  * @name roomAtomNameMapAtom
  * @description derived atom that holds all room atoms sorted by date of last
@@ -85,8 +114,17 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
  *
  * IMPORTANT! Do not use this atom to read/access rooms.
  */
-const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, chatRoom: ChatRoom) => {
+const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPendingInvitation: boolean) => {
+  const chatRoom = createChatRoom(room, hasPendingInvitation)
+
+  const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
   set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
+
+  if (!hasRoom) {
+    getChatClient().subscribeToRoomMessages(room, (event) => {
+      set(_newMessageAtomSubscriber, event)
+    })
+  }
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
@@ -100,7 +138,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (room.name !== 'Empty room' || Date.now() > timestamp) {
-        setAtom(createChatRoom(room, hasPendingInvitation))
+        setAtom(room, hasPendingInvitation)
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
@@ -200,18 +238,50 @@ const _messagesAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
 export const messagesAtomsRecordAtom = atom((get) => get(_messagesAtomsRecordAtom))
 
 /**
- * @name _messagesAtomsRecordAtomSubscriber (Write-Only)
- * @description Read (getter) function returns `Record<string, ChatMessagesAtom>`
- * Write (setter) function expects two argunments: `roomId` and `event` of type `MatrixEvent` and adds new message into the room's `Atom<ChatMessage[]>`
- * This atom should has `onMount` function that subsribes to `ChatClient` and listens for new messages.
+ * @name _messageBunchAtomSetter
+ * @description Write (setter) function is used to set a bunch of messages at once. It expects three arguments:
+ * @argument roomId: `string`
+ * @argument events: `IRoomEvent` - bunch of room events
+ * @argument merge?: `boolean` - if `false` overrides the list of previous room's messages, otherwise merges created messages with the existing ones
+ * This setter is used for initial messages and for pagination.
+ * When we initially fetch messages, we do not need to merge them with previous, but for pagination we want to merge older messages with the new ones
  */
-const _messagesAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string, event: MatrixEvent) => {
+const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IRoomEvent[], merge?: boolean) => {
+  if (!roomId) return
+
+  const addMessagesToRoomThread = produce(
+    (threadsRecord: Record<string, ChatMessagesAtom>, events: IRoomEvent[], merge = false) => {
+      threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
+      set(threadsRecord[roomId], (currentMessages) => {
+        // the list of messages must have `Backward` direction - from older to newer messages
+        // it is why we reverse `olderMessages`
+        const olderMessages = events
+          .filter(isRoomEvent)
+          .reverse()
+          .map((event) => createChatMessage(roomId, event))
+
+        // and put `olderMessages` in the begining of the list
+        return merge ? [...olderMessages, ...currentMessages] : olderMessages
+      })
+    }
+  )
+
+  set(_messagesAtomsRecordAtom, (prevThreadsRecord) => addMessagesToRoomThread(prevThreadsRecord, events, merge))
+})
+
+/**
+ * @name _newMessageAtomSubscriber (Read-Write)
+ * @description Write (setter) function expects `MatrixEvent` argunment
+ * and if it has EventType.RoomMessage type, setter adds new message into the room's `Atom<ChatMessage[]>`.
+ * This setter function is only used for new messages.
+ */
+const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
+  const roomId = event.getRoomId()
   if (!roomId) return
 
   const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
     threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-    const newMessage = createChatMessage(roomId, event)
-
+    const newMessage = createChatMessage(roomId, event.event as IRoomEvent)
     set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
     updateRoom(roomId, newMessage)
   })
@@ -229,10 +299,6 @@ const _messagesAtomsRecordAtomSubscriber = atom(null, (get, set, roomId: string,
 
   set(_messagesAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
 })
-
-_messagesAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  getChatClient().subscribeToMessages(setAtom)
-}
 
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
@@ -264,6 +330,5 @@ export const useSelectedRoom = (roomId: string): [ChatRoom | null, ChatMessage[]
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
-  useAtom(_messagesAtomsRecordAtomSubscriber)
   useAtom(_myRoomMembershipSubscriber)
 }
