@@ -1,9 +1,8 @@
-import { useSetAtom } from 'jotai'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { getOrCreateRoom, selectRoomByIdAtom } from '@holi/chat/src/store'
+import { getOrCreateRoom } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -18,7 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type UserProfileViewProps = {
+interface UserProfileViewProps {
   user: User
   contactPossible?: boolean
 }
@@ -27,7 +26,6 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
-  const selectRoomById = useSetAtom(selectRoomByIdAtom)
 
   const fullName = user.fullName || t('user.profileView.anonymous')
 
@@ -45,7 +43,6 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       return
     }
 
-    selectRoomById(room_id)
     navigate('/chat/rooms/' + room_id)
   }
 
