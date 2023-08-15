@@ -1,4 +1,5 @@
 import * as Font from 'expo-font'
+import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
@@ -13,14 +14,15 @@ import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
+SplashScreen.preventAutoHideAsync()
+
 const App = () => {
   const [isReady, setIsReady] = useState(false)
+  const [initDone, setInitDone] = useState(false)
 
   if (__DEV__) {
     console.debug('App starting with config', JSON.stringify(config, null, 2))
   }
-
-  SplashScreen.preventAutoHideAsync()
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {
@@ -33,31 +35,36 @@ const App = () => {
     require('@formatjs/intl-pluralrules/locale-data/de')
   }
 
+  const fonts = {
+    ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
+    ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
+    ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
+    ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
+  }
+
+  const [fontsLoaded] = useFonts(fonts)
+
   // TODO (mobile): refactor to util function
   const init = async () => {
     try {
-      await Promise.all([
-        Font.loadAsync({
-          ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
-          ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
-          ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
-          ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
-        }),
-        initI18n(),
-        initAuth(),
-        initNotifications(),
-      ])
+      await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
       logError(error, '[App.tsx]: Error initializing the app')
     } finally {
-      setIsReady(true)
-      await SplashScreen.hideAsync()
+      setInitDone(true)
     }
   }
 
   useEffect(() => {
     init()
-  }, [])
+  })
+
+  useEffect(() => {
+    if (fontsLoaded && initDone) {
+      setIsReady(true)
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded, initDone])
 
   if (!isReady) return null
 
