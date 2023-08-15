@@ -38,7 +38,10 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
     // see https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset
     const pusherRequest: IPusherRequest = {
       app_display_name: 'holi',
-      app_id: 'social.holi', // must match app_id in sygnal config
+      // according to https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset this should end up with the platform
+      // TODO add suffix for android
+      // must match app_id in sygnal config
+      app_id: token.type === 'ios' ? 'social.holi.ios' : 'social.holi',
       data: {
         //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
         url: pushGatewayUrl + '/_matrix/push/v1/notify',
