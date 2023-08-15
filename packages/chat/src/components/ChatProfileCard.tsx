@@ -1,10 +1,9 @@
-import { useSetAtom } from 'jotai'
 import React from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { joinRoomAtom } from '@holi/chat/src/store'
+import { joinRoom } from '@holi/chat/src/store'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -25,7 +24,6 @@ interface Props {
 
 const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
-  const joinRoom = useSetAtom(joinRoomAtom)
 
   return (
     <View style={styles.container}>

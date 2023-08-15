@@ -1,13 +1,19 @@
 import { produce } from 'immer'
 import { atom, createStore, useAtom, useAtomValue } from 'jotai'
-import { MatrixEvent } from 'matrix-js-sdk'
+import { MatrixEvent, Room } from 'matrix-js-sdk'
 import { useMemo } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
 
 import { createChatMessage, updateMessages } from './messages'
-import { addChatRoom, createChatRoom, updateInvitation, updateRoomAfterNewMessage } from './room'
+import {
+  UpdateInvitationOptions,
+  addChatRoom,
+  createChatRoom,
+  updateRoomAfterNewMessage,
+  updateRoomInvitation,
+} from './room'
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
 
 /** Store **/
@@ -106,15 +112,6 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   })
 }
 
-/**
- * @name useSubscribeToChat hook
- * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
- */
-export const useSubscribeToChat = () => {
-  useAtom(_roomAtomsRecordAtomSubscriber)
-  useAtom(_messagesAtomsRecordAtomSubscriber)
-}
-
 /** Room */
 
 /**
@@ -153,22 +150,36 @@ export const selectRoomByIdAtom = atom(null, (get, set, roomId: string) => {
 })
 
 /**
- * @name joinRoomAtom (Write-Only)
- * @description Joins a user to the invited room. It's important to consider
- * that the room needs to be selected to join the room. Selections is a
- * technique in Jōtai to select a specific atom (for example, a room atom) and
- * later update the state of that atom without the need to trigger a re-render
- * for the entire array.
+ * @name joinRoom
+ * @description Join a Matrix room by accepting the invitation. If you have
+ * already joined the room, this will be a no-op.
  */
-export const joinRoomAtom = atom(null, async (get, set, roomId: string) => {
+export const joinRoom = async (roomId: string): Promise<Room | null> => {
+  return await getChatClient().joinRoom(roomId)
+}
+
+/**
+ * @name _myRoomMembershipSubscriber
+ * @description Listens to event changes in my room membership when accepting a
+ * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
+ * the user joins a room, we update the room has an invitation.
+ */
+const _myRoomMembershipSubscriber = atom(null, (get, set, options: UpdateInvitationOptions) => {
   const selectedRoom = get(selectedRoomAtom)
-  if (selectedRoom === null) return
+  if (selectedRoom) set(selectedRoomAtom, updateRoomInvitation(selectedRoom, options))
 
-  const room = await getChatClient().joinRoom(roomId)
-  if (room === null) return
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[options.room.roomId]
+  if (!roomAtom) return
 
-  set(selectedRoomAtom, (prevRoom) => updateInvitation(prevRoom || selectedRoom, room))
+  set(roomAtom, (room) => updateRoomInvitation(room, options))
 })
+
+_myRoomMembershipSubscriber.onMount = (setAtom) => {
+  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
+    setAtom({ room, membership, prevMembership })
+  })
+}
 
 /** Room Messages */
 
@@ -245,4 +256,14 @@ export const useSelectedRoom = (roomId: string): [ChatRoom | null, ChatMessage[]
   const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
 
   return [room, messages]
+}
+
+/**
+ * @name useSubscribeToChat hook
+ * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
+ */
+export const useSubscribeToChat = () => {
+  useAtom(_roomAtomsRecordAtomSubscriber)
+  useAtom(_messagesAtomsRecordAtomSubscriber)
+  useAtom(_myRoomMembershipSubscriber)
 }
