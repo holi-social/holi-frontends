@@ -5,7 +5,7 @@ import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
-import { Loader4, Search } from '@holi/icons/src/generated'
+import { Loader, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -161,7 +161,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
     }, [onSubmit, searchText])
 
     const trailingComponent = useMemo(() => {
-      const icon = loading ? Loader4 : trailingIcon || Search
+      const icon = loading ? Loader : trailingIcon || Search
       return (
         <SpinningIconContainer spinning={loading}>
           <HoliIcon icon={icon} size={22} />
