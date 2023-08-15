@@ -54,9 +54,6 @@ export default class ChatClient {
     }
 
     this.mxClient = createClient(options)
-    // we're going to add eventlisteners for each matrix event tile, so the
-    // potential number of event listeners is quite high.
-    this.mxClient.setMaxListeners(500)
     this.mxClient.setGuest(false)
 
     const notifTimelineSet = new EventTimelineSet(undefined, {
