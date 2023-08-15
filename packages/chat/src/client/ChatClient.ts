@@ -33,7 +33,6 @@ const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in val
  */
 export default class ChatClient {
   private readonly mxClient: MatrixClient
-  public isOn = false
 
   public constructor(credentials: ChatCredentials) {
     if (
@@ -68,36 +67,28 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<boolean> => {
-    if (!this.isOn) {
-      try {
-        await this.mxClient.startClient(options)
-      } catch (err) {
-        logError(err)
-        throw err
-      }
+  public isRunning = () => {
+    return this.mxClient.clientRunning
+  }
+
+  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
+    try {
+      await this.mxClient.startClient(options)
+    } catch (err) {
+      logError(err, '[ChatClient] could not start client')
+      throw err
     }
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
       console.debug({ state, lastState })
-      // TODO: initialization of the store should be done on Prepared
-      // further store updates after Syncing
-      if (state === SyncState.Prepared) {
-        this.isOn = true
-      }
     })
     this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
       unknownTokenHandler()
     })
-    return this.isOn
   }
 
   public stop = async () => {
-    try {
-      await this.mxClient?.logout(true)
-    } finally {
-      this.isOn = false
-    }
+    await this.mxClient?.logout(true)
   }
 
   /** Rooms */
