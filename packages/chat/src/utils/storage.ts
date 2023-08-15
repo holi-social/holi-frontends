@@ -28,9 +28,9 @@ export const loadSessionCredentials = async (): Promise<StoredCredentials | unde
   const storedSessionCredentials = values.reduce(
     (acc, [key, value]) => ({
       ...acc,
-      ...(key === CHAT_LOCAL_STORAGE_KEY_USER_ID ? { user_id: value ?? '' } : {}),
       ...(key === CHAT_LOCAL_STORAGE_KEY_TOKEN ? { access_token: value ?? '' } : {}),
       ...(key === CHAT_LOCAL_STORAGE_KEY_DEVICE_ID ? { device_id: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_USER_ID ? { user_id: value ?? '' } : {}),
       ...(key === CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN ? { fresh_login: value === 'true' } : {}),
     }),
     {}

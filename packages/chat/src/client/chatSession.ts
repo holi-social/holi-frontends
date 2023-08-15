@@ -17,6 +17,7 @@ import {
 } from '@holi/chat/src/utils/storage'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logInfo } from '@holi/core/errors/helpers'
 import { chatLoginUrl } from '@holi/core/helpers/config'
 import { chatUrl } from '@holi/core/helpers/config'
 
@@ -63,22 +64,32 @@ export const startChat = async (): Promise<void> => {
     // make compiler believe that chatClient is in fact defined
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
-    await chatClient.start()
+    await chatClient.start(sessionErrorHandler)
     initChatClient(chatClient)
   } finally {
     isStarting = false
   }
 }
 
+const sessionErrorHandler = (): void => {
+  logInfo('[chatSession] chat client is in ERROR state with an invalid token: reconnecting')
+  stopChat()
+    .catch((e) => {
+      logInfo('[chatSession] could not stop chatClient. This is expected.', e)
+    })
+    .finally(startChat)
+}
+
 export const stopChat = async () => {
-  if (!chatClient) return // chatClient never started
-  if (!chatClient.isOn || isStopping) return
+  if (!chatClient || isStopping) return // chatClient never started or already stopping
 
   isStopping = true
 
   try {
-    await chatClient.stop()
     await logoutChat()
+    await chatClient.stop()
+  } catch (e) {
+    logInfo('[chatSession] could not stop chatClient', e)
   } finally {
     isStopping = false
   }
@@ -120,8 +131,9 @@ const loginChat = async (orySessionToken: string, freshLogin = true): Promise<Se
   })
 
   if (response.ok) {
+    const responseJson = (await response.json()) as MatrixLoginResponse
     return {
-      ...((await response.json()) as MatrixLoginResponse),
+      ...responseJson,
       fresh_login: freshLogin,
     }
   } else {

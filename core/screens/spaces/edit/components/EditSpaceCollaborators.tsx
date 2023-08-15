@@ -96,7 +96,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           queryOptions={queryOptions}
           fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
-          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} />
+          {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
         </Pagination>
       </ScrollView>
     )

@@ -1,5 +1,10 @@
 import * as Sentry from '@sentry/react-native'
 
+export const logInfo = (message?: string) => {
+  // eslint-disable-next-line no-console
+  console.info(message)
+}
+
 export const logError = (error: unknown, message?: string, stack?: string) => {
   logErrorLocal(error, message, stack)
   Sentry.captureException(error)

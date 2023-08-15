@@ -9,7 +9,7 @@ import {
   createClient,
 } from 'matrix-js-sdk'
 import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
-import { SyncState } from 'matrix-js-sdk/lib/sync'
+import { ISyncStateData, SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
@@ -65,7 +65,10 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public start = async (options?: IStartClientOpts): Promise<boolean> => {
+  public start = async (
+    sessionErrorHandler: (data?: ISyncStateData | undefined) => void,
+    options?: IStartClientOpts
+  ): Promise<boolean> => {
     if (!this.isOn) {
       try {
         await this.mxClient.startClient(options)
@@ -75,20 +78,29 @@ export default class ChatClient {
       }
     }
     // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, prevState: SyncState | null) => {
-      console.debug({ state, prevState })
-      // TODO: initialization of the store should be done on Prepared
-      // further store updates after Syncing
-      if (state === SyncState.Prepared) {
-        this.isOn = true
+    this.mxClient.on(
+      ClientEvent.Sync,
+      (state: SyncState, lastState: SyncState | null, data?: ISyncStateData | undefined) => {
+        console.debug({ state, lastState })
+        // TODO: initialization of the store should be done on Prepared
+        // further store updates after Syncing
+        if (state === SyncState.Prepared) {
+          this.isOn = true
+        }
+        if (data?.error?.name === 'M_UNKNOWN_TOKEN') {
+          sessionErrorHandler(data)
+        }
       }
-    })
+    )
     return this.isOn
   }
 
   public stop = async () => {
-    await this.mxClient?.logout(true)
-    this.isOn = false
+    try {
+      await this.mxClient?.logout(true)
+    } finally {
+      this.isOn = false
+    }
   }
 
   /** Rooms */
