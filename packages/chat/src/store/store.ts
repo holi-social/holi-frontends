@@ -171,23 +171,6 @@ export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
 }
 
 /**
- * @name selectedRoomAtom (Read-Only)
- * @description An atom containing a possible selected room.
- */
-export const selectedRoomAtom = atom<ChatRoom | null>(null)
-
-/**
- * @name selectRoomByIdAtom (Write-Only)
- * @description Selects the room for the `selectedRoomAtom`
- */
-export const selectRoomByIdAtom = atom(null, (get, set, roomId: string) => {
-  const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const roomAtom = roomAtomsRecord[roomId]
-  if (!roomAtom) return
-  set(selectedRoomAtom, get(roomAtom))
-})
-
-/**
  * @name joinRoom
  * @description Join a Matrix room by accepting the invitation. If you have
  * already joined the room, this will be a no-op.
@@ -197,18 +180,29 @@ export const joinRoom = async (roomId: string): Promise<Room | null> => {
 }
 
 /**
+ * @name messagesByRoomIdAtomCreator (Write-Only)
+ * @description A function that creates a `ChatRoom` atom based on the passed room id.
+ */
+const roomByIdAtomCreator = (roomId: string) => {
+  return atom((get) => {
+    const roomAtomsRecord = get(_roomAtomsRecordAtom)
+    const roomAtom = roomAtomsRecord[roomId]
+    if (!roomAtom) return null
+
+    return get(roomAtom)
+  })
+}
+
+/**
  * @name _myRoomMembershipSubscriber
  * @description Listens to event changes in my room membership when accepting a
  * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
  * the user joins a room, we update the room has an invitation.
  */
 const _myRoomMembershipSubscriber = atom(null, (get, set, options: UpdateInvitationOptions) => {
-  const selectedRoom = get(selectedRoomAtom)
-  if (selectedRoom) set(selectedRoomAtom, updateRoomInvitation(selectedRoom, options))
-
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[options.room.roomId]
-  if (!roomAtom) return
+  if (!roomAtom) return null
 
   set(roomAtom, (room) => updateRoomInvitation(room, options))
 })
@@ -314,11 +308,11 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
   })
 
 /**
- * @name useSelectedRoom (Hook Helper)
- * @description It returns the room selection with the data required for a specific room.
+ * @name useRoomById (Hook Helper)
+ * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`).
  */
-export const useSelectedRoom = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
-  const room = useAtomValue(selectedRoomAtom)
+export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
+  const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
   const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
 
   return [room, messages]
