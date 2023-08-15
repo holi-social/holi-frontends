@@ -47,6 +47,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
           // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
           title: 'holi Chat',
           message: 'You have a new message or invitation.',
+          // Android: using the default channel explicitly which ensures higher notification priority
           // https://github.com/expo/expo/blob/main/packages/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/builders/ChannelAwareNotificationBuilder.java#L25
           channelId: 'expo_notifications_fallback_notification_channel',
           experienceId: '@holistic-foundation/projectholi', // correct

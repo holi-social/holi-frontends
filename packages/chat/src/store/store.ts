@@ -137,10 +137,6 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, chatRoom: ChatRoom)
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   if (!chatClient) throw new Error(CHAT_CLIENT_UNINITIALIZED_ERROR)
 
-  chatClient.getRooms().forEach((room) => {
-    setAtom(createChatRoom(room, chatClient?.hasPendingInvitation(room)))
-  })
-
   chatClient.subscribeToRooms((room, hasPendingInvitation) => {
     /**
      * @name waitForCorrectRoomName

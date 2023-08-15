@@ -213,33 +213,36 @@ const parseToSygnalEvent = (
 
 const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | undefined => {
   if (event.type === 'm.room.member') {
-    const sender = event.sender_display_name
-    if (event.membership === 'invite') {
+    const memberChange: SygnalRoomMemberChange = event // just to be explicit
+    const sender = memberChange.sender_display_name
+    if (memberChange.membership === 'invite') {
       return {
         title: 'Invitation',
-        body: sender + ' invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+        body: sender + ' invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
         data: {
-          room_id: event.room_id,
+          room_id: memberChange.room_id,
         },
       }
     } else {
       return {
         title: 'Channel Update',
-        body: sender + ' updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+        body:
+          sender + ' updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
         data: {
-          room_id: event.room_id,
+          room_id: memberChange.room_id,
         },
       }
     }
   } else if (event.type === 'm.room.message') {
-    const sender = event.sender_display_name
-    const content = event.content
+    const roomMessage: SygnalRoomMessage = event // just to be explicit
+    const sender = roomMessage.sender_display_name
+    const content = roomMessage.content
     if (content.msgtype === 'm.text') {
       return {
         title: sender,
         body: content.body,
         data: {
-          room_id: event.room_id,
+          room_id: roomMessage.room_id,
         },
       }
     } else {
@@ -248,7 +251,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
         title: 'New Message',
         body: sender + ' send a new message.',
         data: {
-          room_id: event.room_id,
+          room_id: roomMessage.room_id,
         },
       }
     }
@@ -304,7 +307,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
           shouldSetBadge: false,
         }
       }
-      // only with `shouldPlaySound: true`, the notification pops over the screen
+      // Android: only with `shouldPlaySound: true`, the notification pops over the screen
       return {
         shouldShowAlert: true,
         shouldPlaySound: true,
