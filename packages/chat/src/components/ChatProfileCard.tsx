@@ -59,7 +59,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
         <HoliDivider />
         <HoliCardBoard.Slot>
           <HoliText color="gray300">
-            {t('chat.invitation.copy', { firstName: user?.firstName ?? 'Anonymous User' })}
+            {t('chat.invitation.copy', { fullName: user?.fullName ?? 'Anonymous User' })}
           </HoliText>
         </HoliCardBoard.Slot>
       </HoliCardBoard.Card>
