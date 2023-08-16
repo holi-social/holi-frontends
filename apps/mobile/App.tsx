@@ -43,7 +43,6 @@ const App = () => {
 
   const [fontsLoaded] = useFonts(fonts)
 
-  // TODO (mobile): refactor to util function
   const init = async () => {
     try {
       await Promise.all([initI18n(), initAuth(), initNotifications()])
