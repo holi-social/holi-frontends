@@ -1,4 +1,3 @@
-import * as Font from 'expo-font'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
