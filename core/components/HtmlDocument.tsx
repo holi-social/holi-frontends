@@ -37,11 +37,8 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
           return message
         })
         .then(setDocument)
-        .then(() => setLoading(false))
-        .catch((err?: Error) => {
-          setLoading(false)
-          onError && onError(err)
-        })
+        .catch(onError)
+        .finally(() => setLoading(false))
     }
   }, [onError, needToLoad, loading, url])
 
