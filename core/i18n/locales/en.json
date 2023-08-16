@@ -73,6 +73,7 @@
   "auth.registration.error.initialization": "Oops! A technical error occurred!",
   "auth.registration.error.registration": "Oops! A technical error occurred!",
   "chat.invitation.accept": "Start chatting",
+  "chat.invitation.reject": "Reject",
   "chat.invitation.copy": "{{fullName}} wants to start a new conversation with you.",
   "chat.empty.button.text": "Start new chat",
   "chat.empty.headline": "Start chatting with like-minded people now",

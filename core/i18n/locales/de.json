@@ -73,6 +73,7 @@
   "auth.registration.error.initialization": "Ups! Da ist ein technisches Problem aufgetreten!",
   "auth.registration.error.registration": "Ups! Da ist ein technisches Problem aufgetreten!",
   "chat.invitation.accept": "Chat starten",
+  "chat.invitation.reject": "Ablehnen",
   "chat.invitation.copy": "{{fullName}} möchte eine Unterhaltung mit dir beginnen",
   "chat.empty.button.text": "Neuen Chat starten",
   "chat.empty.headline": "Starte jetzt einen Chat mit Gleichgesinnten",
