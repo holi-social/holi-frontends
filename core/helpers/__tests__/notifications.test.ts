@@ -120,5 +120,7 @@ describe('initNotifications', () => {
       })
       expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
     })
+
+    // TODO use mock data for testing additional calls
   })
 })
