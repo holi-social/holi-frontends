@@ -21,6 +21,10 @@ export const useLoggedInUser = () => {
       logout({ redirectPath: '/' })
       displayError(error)
     },
+    // we avoid getting previous user from GraphQL cache by passing `userId`
+    variables: {
+      userId,
+    },
   })
 
   return {
