@@ -56,7 +56,7 @@ export const useRequestRoomMessages = () => {
 
   return useCallback(
     (roomId: string) => {
-      if (!roomId || !client) return
+      if (!roomId || !client || !client.isMemberOf(roomId)) return
       if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
 
       isLoading.current = true

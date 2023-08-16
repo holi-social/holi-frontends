@@ -154,6 +154,10 @@ export default class ChatClient {
     return this.mxClient.getUserId()
   }
 
+  public isMemberOf = (roomId: string): boolean => {
+    return this.getRoom(roomId)?.getMyMembership() === MembershipStatus.Joined.toLowerCase()
+  }
+
   public hasPendingInvitation = (roomOrEvent: Room | MatrixEvent): boolean => {
     if (isChatRoom(roomOrEvent)) {
       const userId = this.getUserId()
