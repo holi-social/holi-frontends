@@ -121,11 +121,11 @@ const parseToSygnalEvent = (
 const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | undefined => {
   if (event.type === 'm.room.member') {
     const memberChange: SygnalRoomMemberChange = event // just to be explicit
-    const sender = memberChange.sender_display_name
+    // const sender = memberChange.sender_display_name // currently not in sync with okuna
     if (memberChange.membership === 'invite') {
       return {
         title: 'Invitation',
-        body: sender + ' invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
+        body: 'Someone invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
         data: {
           room_id: memberChange.room_id,
         },
@@ -134,7 +134,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       return {
         title: 'Channel Update',
         body:
-          sender + ' updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+          'Someone updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
         data: {
           room_id: memberChange.room_id,
         },
@@ -142,11 +142,11 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     }
   } else if (event.type === 'm.room.message') {
     const roomMessage: SygnalRoomMessage = event // just to be explicit
-    const sender = roomMessage.sender_display_name
+    // const sender = roomMessage.sender_display_name // currently not in sync with okuna
     const content = roomMessage.content
     if (content.msgtype === 'm.text') {
       return {
-        title: sender,
+        title: 'New message',
         body: content.body,
         data: {
           room_id: roomMessage.room_id,
@@ -156,7 +156,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       // basically any content we don't want to implement yet
       return {
         title: 'New Message',
-        body: sender + ' send a new message.',
+        body: 'Someone send you a new message.',
         data: {
           room_id: roomMessage.room_id,
         },
