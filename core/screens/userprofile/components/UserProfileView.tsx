@@ -17,7 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type UserProfileViewProps = {
+interface UserProfileViewProps {
   user: User
   contactPossible?: boolean
 }

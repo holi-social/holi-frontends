@@ -45,7 +45,7 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageDateGroup[
   return Object.values(groupedMessages).reverse()
 }
 
-const RoomMessageList = ({ messages = [], mxIdUserRecord, starter }: RoomMessageListProps) => {
+const RoomMessageList = ({ messages = [], mxIdUserRecord, starter, onScroll }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -91,6 +91,7 @@ const RoomMessageList = ({ messages = [], mxIdUserRecord, starter }: RoomMessage
       removeClippedSubviews
       updateCellsBatchingPeriod={20}
       windowSize={11}
+      onScroll={onScroll}
     />
   )
 }
