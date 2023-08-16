@@ -3,7 +3,6 @@ import Constants from 'expo-constants'
 export interface HoliChatConfig {
   serverLoginUrl: string
   serverUrl: string
-  pushGatewayUrl: string
 }
 
 export interface HoliOryConfig {
@@ -56,7 +55,6 @@ export const config: HoliConfig = {
   chat: {
     serverLoginUrl: Constants.manifest?.extra?.chat.serverLoginUrl,
     serverUrl: Constants.manifest?.extra?.chat.serverUrl,
-    pushGatewayUrl: Constants.manifest?.extra?.chat.pushGatewayUrl,
   },
   ory: {
     url: Constants.manifest?.extra?.ory.url,
