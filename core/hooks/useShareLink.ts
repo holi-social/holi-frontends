@@ -13,8 +13,8 @@ export const useShareLink = (title: string, link: string, externalLink = false):
   const { openToast } = useToast()
   const { t } = useTranslation()
   const shareMessage = `
-${t('spaces.share.message.hey')}\n
-${title} ${t('spaces.share.message.invite')}\n
+${t('spaces.share.message.hey')}
+${t('spaces.share.message.invite')} ${title} ${t('spaces.share.message.join')}\n
 ${url.current}`
 
   useEffect(() => {
