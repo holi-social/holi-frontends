@@ -135,7 +135,7 @@ const InsightDetailPage = () => {
               <HoliButton
                 transparent
                 label={t('user.cards.modal.showInfo', { name: author?.fullName })}
-                onPress={initLoading ? () => setShowCuratorModal(true) : undefined}
+                onPress={initLoading ? undefined : () => setShowCuratorModal(true)}
               >
                 <View style={styles.authorInfoInner}>
                   <HoliAvatar

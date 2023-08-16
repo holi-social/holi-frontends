@@ -8,7 +8,7 @@ import {
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { Loader4 } from '@holi/icons/src/generated'
+import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -61,7 +61,7 @@ const SpaceAcceptInvitation: React.VFC<SpaceAcceptInvitationProps> = ({ space })
           variant="small"
           label={t('spaces.invite.btn.accept')}
           onPress={approveConnectionRequest}
-          icon={loading ? Loader4 : undefined}
+          icon={loading ? Loader : undefined}
         />
       ) : null}
     </>
