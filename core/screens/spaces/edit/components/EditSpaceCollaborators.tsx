@@ -96,7 +96,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
           queryOptions={queryOptions}
           fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
         >
-          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} />
+          {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
         </Pagination>
       </ScrollView>
     )
@@ -146,7 +146,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 const styles = StyleSheet.create({
   container: {
     ...Platform.select({
-      android: {
+      native: {
         paddingTop: vars.topBarHeight,
       },
     }),

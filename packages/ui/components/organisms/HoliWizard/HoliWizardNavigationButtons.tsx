@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, Loader4 } from '@holi/icons/src/generated'
+import { ArrowLeft, Loader } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -62,7 +62,7 @@ const HoliWizardNavigationButtons = ({
           onPress={onNextPress}
           testID={testID ? `${testID}-next-btn` : 'holi-wizard-next-btn'}
           style={styles.nextButton}
-          icon={isLoading ? Loader4 : undefined}
+          icon={isLoading ? Loader : undefined}
           iconSpinning={isLoading}
         />
       </View>

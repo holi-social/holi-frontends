@@ -5,8 +5,10 @@ import { Animated, Easing, View } from 'react-native'
 export const SpinningIconContainer: React.FC<{
   children: React.ReactElement
   spinning?: boolean
+  duration?: number | undefined
+  easing?: ((value: number) => number) | undefined
   testID?: string
-}> = ({ children, spinning = true, testID }) => {
+}> = ({ children, spinning = true, duration = 1280, easing = Easing.linear, testID }) => {
   if (spinning) {
     const spinValue = new Animated.Value(0)
     const spin = spinValue.interpolate({
@@ -16,8 +18,8 @@ export const SpinningIconContainer: React.FC<{
     Animated.loop(
       Animated.timing(spinValue, {
         toValue: 1,
-        duration: 1000,
-        easing: Easing.linear,
+        duration: duration,
+        easing: easing,
         useNativeDriver: false,
       })
     ).start(() => {

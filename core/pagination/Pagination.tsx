@@ -3,7 +3,7 @@ import React, { PropsWithChildren, createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import { Loader4 } from '@holi/icons/src/generated'
+import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface PaginationContextType<T> {
@@ -62,7 +62,7 @@ export function Pagination({
           type="primary"
           label={fetchMoreButtonText}
           disabled={isFetchingMore}
-          icon={isFetchingMore ? Loader4 : undefined}
+          icon={isFetchingMore ? Loader : undefined}
           iconSpinning={isFetchingMore}
           onPress={fetchNextPage}
           testID="btn-fetch-more"
