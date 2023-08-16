@@ -1,15 +1,21 @@
-import * as Device from 'expo-device'
 import { PermissionStatus } from 'expo-modules-core'
 import * as Notifications from 'expo-notifications'
-import { NotificationContentInput } from 'expo-notifications'
+import {
+  Notification,
+  NotificationBehavior,
+  NotificationContentInput,
+  NotificationRequest,
+  PushNotificationTrigger,
+} from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 
+import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
 
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
-  if (!Device.isDevice) {
+  if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
     return Promise.resolve()
   } else {
@@ -291,14 +297,12 @@ const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
 const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
-    handleNotification: async (
-      notification: Notifications.Notification
-    ): Promise<Notifications.NotificationBehavior> => {
+    handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
       logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
       // defensive programming, since types don't show all null-possibilities
-      const request: Partial<Notifications.NotificationRequest> = notification.request
+      const request: Partial<NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
-        const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
+        const trigger = request.trigger as Partial<PushNotificationTrigger>
         // TODO don't schedule when chat screen is visible
         await handleNewDataPush(trigger.remoteMessage?.data)
         return {
@@ -315,7 +319,6 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       }
     },
     handleSuccess: async (notificationId) => {
-      // TODO use Notifications.addNotificationResponseReceivedListener() to navigate to the correct chat after interaction
       // could be used for tracking
       logDebug('foregroundNotificationHandler', 'notification success', notificationId)
     },
