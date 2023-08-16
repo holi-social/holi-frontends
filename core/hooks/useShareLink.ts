@@ -7,7 +7,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 
 export type UseShareLink = [string, () => Promise<void>]
 
-export const useShareLink = (title: string, link: string, externalLink = false): UseShareLink => {
+export const useShareLink = (title: string, link: string, externalLink = false, toastMessage = ''): UseShareLink => {
   const url = useRef('')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
@@ -46,8 +46,8 @@ ${url.current}`
 
   const shareLinkWeb = useCallback(async () => {
     Clipboard.setString(shareMessage)
-    openToast(t('global.share.copied'), HoliToastType.SUCCESS)
-  }, [openToast, t, shareMessage])
+    openToast(toastMessage, HoliToastType.SUCCESS)
+  }, [openToast, shareMessage, toastMessage])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile
 
