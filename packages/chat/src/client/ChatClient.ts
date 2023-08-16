@@ -106,6 +106,7 @@ export default class ChatClient {
   public getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
     const room = this.mxClient.getRooms().find((room) => {
       return (
+        // look for a room that has all the requested userIds and is not a space room
         !room.isSpaceRoom() &&
         room.getMembers().length == userIds.length + 1 &&
         room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
@@ -187,7 +188,7 @@ export default class ChatClient {
       msgtype: 'm.text',
     }
 
-    const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content, '')
+    const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content)
 
     return eventIdResponse.event_id
   }

@@ -13,6 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -24,6 +25,15 @@ interface Props {
 
 const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
+  const { openToast } = useToast()
+
+  const handleJoin = async () => {
+    try {
+      await joinRoom(roomId)
+    } catch (e) {
+      openToast(t('chat.offline'))
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -50,7 +60,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
           ) : null}
           <HoliColumns>
             <HoliColumn width="auto">
-              <HoliButton label={t('chat.invitation.accept')} onPress={async () => await joinRoom(roomId)}>
+              <HoliButton label={t('chat.invitation.accept')} onPress={handleJoin}>
                 {t('chat.invitation.accept')}
               </HoliButton>
             </HoliColumn>
