@@ -128,26 +128,13 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPend
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
-  getChatClient().subscribeToRooms((room, hasPendingInvitation) => {
-    /**
-     * @name waitForCorrectRoomName
-     * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
-     * We use this function to watch for the room `name` change and only create an atom when correct name was passed
-     * or timeout exceeded.
-     * @param timestamp `number` represents timestamp limit till function postponds setting the atom
-     */
-    const waitForCorrectRoomName = (timestamp: number) => {
-      if (room.name !== 'Empty room' || Date.now() > timestamp) {
-        setAtom(room, hasPendingInvitation)
-      } else {
-        setTimeout(() => {
-          waitForCorrectRoomName(timestamp)
-        }, 50)
-      }
-    }
+  // get current rooms from ChatClient and store them to Atoms
+  getChatClient()
+    .getRooms()
+    .map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
 
-    waitForCorrectRoomName(Date.now() + 2000)
-  })
+  // set litener for new rooms
+  getChatClient().subscribeToRooms(setAtom)
 }
 
 /** Room */

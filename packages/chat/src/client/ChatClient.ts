@@ -75,13 +75,23 @@ export default class ChatClient {
       logError(err, '[ChatClient] could not start client')
       throw err
     }
+
+    let isPreparedResolver: (value: boolean) => void
+    const isPrepared = new Promise<boolean>((resolve) => {
+      isPreparedResolver = resolve
+    })
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
       console.debug({ state, lastState })
+      if (state === SyncState.Prepared) {
+        isPreparedResolver(true)
+      }
     })
     this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
       unknownTokenHandler()
     })
+
+    return isPrepared
   }
 
   public stop = async () => {
@@ -125,6 +135,10 @@ export default class ChatClient {
     }
 
     return await this.mxClient.createRoom({ ...dmRoomOptions, invite: userIds })
+  }
+
+  public getRooms = () => {
+    return this.mxClient.getRooms()
   }
 
   public getRoom = (id: string) => {
