@@ -1,15 +1,21 @@
-import * as Device from 'expo-device'
 import { PermissionStatus } from 'expo-modules-core'
 import * as Notifications from 'expo-notifications'
-import { NotificationContentInput } from 'expo-notifications'
+import {
+  Notification,
+  NotificationBehavior,
+  NotificationContentInput,
+  NotificationRequest,
+  PushNotificationTrigger,
+} from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 
+import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
 
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
-  if (!Device.isDevice) {
+  if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
     return Promise.resolve()
   } else {
@@ -30,105 +36,6 @@ export const initNotifications = async () => {
     }
   }
 }
-
-// TODO write unit test with this as real mock data
-// {
-//   request: {
-//     trigger: {
-//       remoteMessage: {
-//         originalPriority: 1,
-//         sentTime: 1691669916530,
-//         notification: null,
-//         data: {
-//           title: 'holi Chat',
-//           message: 'You have a new message or invitation.',
-//           channelId: 'expo_notifications_fallback_notification_channel',
-//           scopeKey: '@holistic-foundation/projectholi',
-//           experienceId: '@holistic-foundation/projectholi',
-//           room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
-//           content: '{"is_direct":true,"displayname":"malte2","membership":"invite"}',
-//           type: 'm.room.member',
-//           unread: '1',
-//           prio: 'high',
-//           sender: '@malte1:staging.chat.holi.social',
-//           event_id: '$QTHC68hNtAA0HJwgolBjnzyHmzcmS1u9aE-tukn1SSs',
-//           membership: 'invite',
-//           sender_display_name: 'malte1',
-//         },
-//         to: null,
-//         ttl: 2419200,
-//         collapseKey: null,
-//         messageType: null,
-//         priority: 1,
-//         from: '984061681268',
-//         messageId: '0:1691669916540901%b0aa3b58f9fd7ecd',
-//       },
-//       channelId: 'expo_notifications_fallback_notification_channel',
-//       type: 'push',
-//     },
-//     content: {
-//       title: 'holi Chat',
-//       badge: null,
-//       autoDismiss: true,
-//       data: null,
-//       body: 'You have a new message or invitation.',
-//       sound: 'default',
-//       sticky: false,
-//       subtitle: null,
-//     },
-//     identifier: '0:1692011606570797%b0aa3b58f9fd7ecd',
-//   },
-//   date: 1692011606554,
-// }
-
-// TODO write unit test with this as real mock data
-// {
-//   request: {
-//     trigger: {
-//       remoteMessage: {
-//         originalPriority: 1,
-//         sentTime: 1692011606554,
-//         notification: null,
-//         data: {
-//           title: 'holi Chat',
-//           message: 'You have a new message or invitation.',
-//           channelId: 'expo_notifications_fallback_notification_channel',
-//           scopeKey: '@holistic-foundation/projectholi',
-//           experienceId: '@holistic-foundation/projectholi',
-//           event_id: '$qY7LzQe-ZTIw6lR4ppuyghbABM8FC8LFSaG4BRX0lh0',
-//           content: '{"body":"hello world!","msgtype":"m.text"}',
-//           room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-//           sender: '@malte1:staging.chat.holi.social',
-//           type: 'm.room.message',
-//           sender_display_name: 'malte1',
-//           prio: 'high',
-//           unread: '1',
-//         },
-//         to: null,
-//         ttl: 2419200,
-//         collapseKey: null,
-//         messageType: null,
-//         priority: 1,
-//         from: '984061681268',
-//         messageId: '0:1692011606570797%b0aa3b58f9fd7ecd',
-//       },
-//       channelId: 'expo_notifications_fallback_notification_channel',
-//       type: 'push',
-//     },
-//     content: {
-//       title: 'holi Chat',
-//       badge: null,
-//       autoDismiss: true,
-//       data: null,
-//       body: 'You have a new message or invitation.',
-//       sound: 'default',
-//       sticky: false,
-//       subtitle: null,
-//     },
-//     identifier: '0:1692011606570797%b0aa3b58f9fd7ecd',
-//   },
-//   date: 1692011606554,
-// }
 
 interface UnknownSygnalMessageContent {
   msgtype: unknown
@@ -213,42 +120,45 @@ const parseToSygnalEvent = (
 
 const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | undefined => {
   if (event.type === 'm.room.member') {
-    const sender = event.sender_display_name
-    if (event.membership === 'invite') {
+    const memberChange: SygnalRoomMemberChange = event // just to be explicit
+    // const sender = memberChange.sender_display_name // currently not in sync with okuna
+    if (memberChange.membership === 'invite') {
       return {
         title: 'Invitation',
-        body: sender + ' invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+        body: 'Someone invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
         data: {
-          room_id: event.room_id,
+          room_id: memberChange.room_id,
         },
       }
     } else {
       return {
         title: 'Channel Update',
-        body: sender + ' updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+        body:
+          'Someone updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
         data: {
-          room_id: event.room_id,
+          room_id: memberChange.room_id,
         },
       }
     }
   } else if (event.type === 'm.room.message') {
-    const sender = event.sender_display_name
-    const content = event.content
+    const roomMessage: SygnalRoomMessage = event // just to be explicit
+    // const sender = roomMessage.sender_display_name // currently not in sync with okuna
+    const content = roomMessage.content
     if (content.msgtype === 'm.text') {
       return {
-        title: sender,
+        title: 'New message',
         body: content.body,
         data: {
-          room_id: event.room_id,
+          room_id: roomMessage.room_id,
         },
       }
     } else {
       // basically any content we don't want to implement yet
       return {
         title: 'New Message',
-        body: sender + ' send a new message.',
+        body: 'Someone send you a new message.',
         data: {
-          room_id: event.room_id,
+          room_id: roomMessage.room_id,
         },
       }
     }
@@ -288,14 +198,12 @@ const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
 const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
-    handleNotification: async (
-      notification: Notifications.Notification
-    ): Promise<Notifications.NotificationBehavior> => {
+    handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
       logDebug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
       // defensive programming, since types don't show all null-possibilities
-      const request: Partial<Notifications.NotificationRequest> = notification.request
+      const request: Partial<NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
-        const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
+        const trigger = request.trigger as Partial<PushNotificationTrigger>
         // TODO don't schedule when chat screen is visible
         await handleNewDataPush(trigger.remoteMessage?.data)
         return {
@@ -304,7 +212,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
           shouldSetBadge: false,
         }
       }
-      // only with `shouldPlaySound: true`, the notification pops over the screen
+      // Android: only with `shouldPlaySound: true`, the notification pops over the screen
       return {
         shouldShowAlert: true,
         shouldPlaySound: true,
@@ -312,7 +220,6 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       }
     },
     handleSuccess: async (notificationId) => {
-      // TODO use Notifications.addNotificationResponseReceivedListener() to navigate to the correct chat after interaction
       // could be used for tracking
       logDebug('foregroundNotificationHandler', 'notification success', notificationId)
     },

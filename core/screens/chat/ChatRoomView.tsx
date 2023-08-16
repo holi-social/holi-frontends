@@ -1,12 +1,11 @@
 import { useQuery } from '@apollo/client'
-import { useSetAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
-import { ChatRoom, selectRoomByIdAtom, sendMessage, useSelectedRoom } from '@holi/chat/src/store'
+import { ChatRoom, sendMessage, useRequestRoomMessages, useRoomById } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -65,12 +64,17 @@ const ChatRoomView = () => {
   const { t } = useTranslation()
 
   const [roomId = ''] = useParam('roomId')
-  const selectRoomById = useSetAtom(selectRoomByIdAtom)
-  const [room, messages] = useSelectedRoom(roomId)
+  const [room, messages] = useRoomById(roomId)
+
   const { roomUsersRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
   const [messageText, setMessageText] = useState('')
 
   const { user: me } = useLoggedInUser()
+  const requestMessages = useRequestRoomMessages()
+  useEffect(() => {
+    requestMessages(roomId)
+  }, [requestMessages, roomId])
+
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
   const roomCreator = roomUsersRecord[room?.name ?? '']
   const setScreenOptions = useSetScreenOptions()
@@ -98,12 +102,6 @@ const ChatRoomView = () => {
       },
     })
   }, [roomCreator, room?.name, setScreenOptions, t])
-
-  // Select the room in the case the room was open through a direct link or a reload.
-  useEffect(() => {
-    if (roomId.length < 1 || room) return
-    selectRoomById(roomId)
-  }, [room, roomId, selectRoomById])
 
   const handleSendMessage = async () => {
     const text = messageText.trim()
@@ -135,6 +133,13 @@ const ChatRoomView = () => {
                     </HoliBox>
                   )
                 }
+                onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                  const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                  if (needToLoad) {
+                    requestMessages(roomId)
+                  }
+                }}
               />
             )}
 

@@ -14,15 +14,6 @@ export const chatUrl = (() => {
 
 export const chatLoginUrl = '/api/chatlogin'
 
-export const pushGatewayUrl = (() => {
-  // TODO use internal hostname instead of public url https://holi.atlassian.net/browse/HOLI-5419
-  const baseUrl =
-    environment === EnvironmentId.PRODUCTION
-      ? 'https://production-push.chat.holi.social'
-      : 'https://staging-push.chat.holi.social'
-  return process.env.HOLI_CHAT_PUSH_GATEWAY_URL || baseUrl
-})()
-
 export const owncloudUrl = (() => {
   const baseUrl =
     environment === EnvironmentId.PRODUCTION

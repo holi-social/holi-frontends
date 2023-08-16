@@ -54,7 +54,7 @@ export const useNamesStep = ({ user }: UseNamesStepOptions) => {
   const onNamesChange = (fieldName: keyof NamesStepData, value: string) => {
     setNames((names) => ({
       ...names,
-      [fieldName]: value.trim(),
+      [fieldName]: value,
     }))
     resetErrorsForField(fieldName)
   }

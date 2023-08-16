@@ -1,6 +1,7 @@
+import { Provider } from 'jotai'
 import React, { memo, useEffect, useState } from 'react'
 
-import { ChatToggle } from '@holi/chat/src/store'
+import { startChat } from '@holi/chat/src/client/chatSession'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -13,23 +14,32 @@ import ChatStore from './ChatStore'
  * @description This component relies on `ChatClient` inscance and renders `<ChatStore />` component when chat is initialized.
  * `<ChatStore />` mounts Jotai atoms for chat rooms and messages, which have `onMount` functions for listen to chat events.
  */
-const ChatStoreInitializer = () => {
+const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   const [isChatReady, setIsChatReady] = useState(false)
   const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   useEffect(() => {
-    const startChat = !ftLoading && ftEnabled && identity
-
-    if (startChat) {
-      ChatToggle.start()
+    if (!ftLoading && ftEnabled && identity) {
+      startChat()
         .then(() => setIsChatReady(true))
         .catch(displayError)
+    } else {
+      setIsChatReady(false)
     }
   }, [displayError, identity, ftLoading, ftEnabled])
 
-  return isChatReady ? <ChatStore /> : null
+  // to reset Jotai Provider for new user login we render a new one only when new identity is provided
+  return identity ? (
+    <Provider key={identity}>
+      {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
+      {isChatReady && <ChatStore />}
+      {children}
+    </Provider>
+  ) : (
+    <>{children}</>
+  )
 }
 
 export default memo(ChatStoreInitializer)

@@ -1,7 +1,7 @@
 import { produce } from 'immer'
-import { MatrixEvent } from 'matrix-js-sdk'
+import { IRoomEvent } from 'matrix-js-sdk'
 
-import type { ChatMessage } from '@holi/chat/src/store/types'
+import type { ChatMessage, ChatMessageContent } from '@holi/chat/src/store/types'
 
 export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMessage) => {
   const dupMessage = thread.find((m) => m.id === newMessage.id)
@@ -13,13 +13,13 @@ export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMe
   Object.assign(dupMessage, newMessage)
 })
 
-export function createChatMessage(roomId: string, event: MatrixEvent): ChatMessage {
+export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessage {
   // TODO: handle empty strings fallback
   return {
-    id: event.getId() ?? '',
-    content: event.getContent(),
-    timestamp: event.getTs(),
+    id: event.event_id,
+    content: event.content as ChatMessageContent,
+    timestamp: event.origin_server_ts,
     room_id: roomId,
-    sender: event.getSender(),
+    sender: event.sender,
   }
 }

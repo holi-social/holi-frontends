@@ -65,58 +65,6 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     const response = await Notifications.getLastNotificationResponseAsync()
     if (response) {
-      // TODO use this real example data for test
-      // {
-      //   notification: {
-      //     request: {
-      //       trigger: {
-      //         remoteMessage: {
-      //           originalPriority: 1,
-      //           sentTime: 1692015244341,
-      //           notification: null,
-      //           data: {
-      //             channelId: 'expo_notifications_fallback_notification_channel',
-      //             message: 'You have a new message or invitation.',
-      //             content: '{...}',
-      //             room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-      //             sender: '@malte1:staging.chat.holi.social',
-      //             type: 'm.room.message',
-      //             sender_display_name: 'malte1',
-      //             prio: 'high',
-      //             unread: '1',
-      //             experienceId: '@holistic-foundation/projectholi',
-      //             scopeKey: '@holistic-foundation/projectholi',
-      //             event_id: '$iEfUuhURTKVUoZNuUlJeMDpyIK0kSMTmhOSR1kJoGeY',
-      //             title: 'holi Chat',
-      //           },
-      //           to: null,
-      //           ttl: 2419200,
-      //           collapseKey: null,
-      //           messageType: null,
-      //           priority: 1,
-      //           from: '984061681268',
-      //           messageId: '0:1692015244354449%b0aa3b58f9fd7ecd',
-      //         },
-      //         channelId: 'expo_notifications_fallback_notification_channel',
-      //         type: 'push',
-      //       },
-      //       content: {
-      //         title: 'holi Chat',
-      //         badge: null,
-      //         autoDismiss: true,
-      //         data: null,
-      //         body: 'You have a new message or invitation.',
-      //         sound: 'default',
-      //         sticky: false,
-      //         subtitle: null,
-      //       },
-      //       identifier: '0:1692015244354449%b0aa3b58f9fd7ecd',
-      //     },
-      //     date: 1692015244341,
-      //   },
-      //   actionIdentifier: 'expo.modules.notifications.actions.DEFAULT',
-      // }
-
       logDebug(
         'LinkingOptions.getInitialURL',
         'received response from push interaction, while app was closed',
@@ -134,28 +82,6 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     // listen to expo push notifications, while app is active or in background
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      // TODO use this real example data (of active app push) for test
-      // {
-      //   notification: {
-      //     request: {
-      //       trigger: null,
-      //       content: {H
-      //         title: 'malte1',
-      //         badge: null,
-      //         autoDismiss: true,
-      //         data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
-      //         body: 'something',
-      //         sound: 'default',
-      //         sticky: false,
-      //         subtitle: null,
-      //       },
-      //       identifier: 'e3319d84-02a0-4467-8159-07d48c04efc2',
-      //     },
-      //     date: 1692017592571,
-      //   },
-      //   actionIdentifier: 'expo.modules.notifications.actions.DEFAULT',
-      // }
-
       logDebug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
       const url = transformPushInteractionToUrl(response)
       if (url) {
