@@ -125,7 +125,7 @@ export const handleNotificationForLocalTriggerMock: Notifications.Notification =
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getLastNotificationResponseAsyncForRemoteTriggerMock: Notifications.NotificationResponse = {
+export const notificationResponseForRemoteTriggerMock: Notifications.NotificationResponse = {
   notification: {
     request: {
       trigger: {
@@ -179,7 +179,7 @@ export const getLastNotificationResponseAsyncForRemoteTriggerMock: Notifications
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getLastNotificationResponseAsyncForLocalTriggerMock: Notifications.NotificationResponse = {
+export const notificationResponseForLocalTriggerMock: Notifications.NotificationResponse = {
   notification: {
     request: {
       // @ts-ignore null can happen if you send it with null

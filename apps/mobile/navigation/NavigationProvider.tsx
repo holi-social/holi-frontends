@@ -65,7 +65,6 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     const response = await Notifications.getLastNotificationResponseAsync()
     if (response) {
-      // TODO test this with mock data
       logDebug(
         'LinkingOptions.getInitialURL',
         'received response from push interaction, while app was closed',
@@ -83,7 +82,6 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     // listen to expo push notifications, while app is active or in background
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      // TODO test this with mock data
       logDebug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
       const url = transformPushInteractionToUrl(response)
       if (url) {
