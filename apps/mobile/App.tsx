@@ -15,6 +15,10 @@ import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 SplashScreen.preventAutoHideAsync()
 
+if (__DEV__) {
+  console.debug('Starting app with config', config)
+}
+
 const App = () => {
   const [isReady, setIsReady] = useState(false)
   const [initDone, setInitDone] = useState(false)

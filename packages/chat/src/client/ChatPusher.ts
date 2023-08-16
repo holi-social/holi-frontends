@@ -3,7 +3,7 @@ import * as Notifications from 'expo-notifications'
 import { IPusher, IPusherRequest, MatrixClient } from 'matrix-js-sdk'
 import { Platform } from 'react-native'
 
-import { pushGatewayUrl } from '@holi/core/helpers/config'
+import { chatPushGatewayUrl } from '@holi/core/helpers/config'
 import { logDebug } from '@holi/core/helpers/logging'
 
 /**
@@ -67,7 +67,7 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
       app_id,
       data: {
         //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
-        url: pushGatewayUrl + '/_matrix/push/v1/notify',
+        url: chatPushGatewayUrl + (chatPushGatewayUrl.endsWith('/') ? '' : '/') + '_matrix/push/v1/notify',
         // @ts-ignore sygnal feature, not typed yet by matrix sdk
         default_payload,
         // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
