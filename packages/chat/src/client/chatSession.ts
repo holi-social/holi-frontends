@@ -95,6 +95,8 @@ export const stopChat = async () => {
   } catch (e) {
     logInfo(e, '[chatSession] could not stop chatClient. This is probably not a problem.')
   } finally {
+    chatClient = undefined
+    initChatClient(undefined)
     isStopping = false
   }
 }

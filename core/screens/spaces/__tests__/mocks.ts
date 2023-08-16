@@ -8,7 +8,7 @@ import { authenticatedUserQuery, skillsQuery } from '@holi/core/screens/userprof
 export const authenticatedUserMock = {
   request: {
     query: authenticatedUserQuery,
-    variables: {},
+    variables: { userId: '123' },
   },
   result: {
     data: {
