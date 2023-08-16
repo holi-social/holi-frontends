@@ -14,8 +14,10 @@ beforeEach(async () => {
     appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
   }
   global.Appium = await webdriverio.remote(appiumConfig)
+
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await resetImplicitTimeout()
+
   if (appiumConfig.capabilities['appium:app']) {
     let numAttempts = 5
     let appRunning = false

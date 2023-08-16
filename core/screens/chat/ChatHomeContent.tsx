@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { createNewRoom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
+import { roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
@@ -23,13 +23,6 @@ const ChatHomeContent = () => {
   const { navigate } = useRouting()
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleRoomCreation = async () => {
-    // TODO: Get Matrix user ids dynamically
-    const userIds: string[] = ['@dima_chat_iii:staging.chat.holi.social']
-    createNewRoom(userIds)
-  }
 
   if (!isLoggedIn) {
     return (
@@ -98,10 +91,6 @@ const ChatHomeContent = () => {
         starting chats from this view.
       </HoliText>
       <RoomList roomAtoms={sortedRoomAtoms} />
-      {/* TODO: remove start chat button after implementing the feature */}
-      {/*<HoliButton label={t('chat.empty.button.text')} onPress={handleRoomCreation}>
-        {t('chat.empty.button.text')}
-      </HoliButton>*/}
     </SafeAreaView>
   )
 }

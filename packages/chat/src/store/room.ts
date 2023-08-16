@@ -3,16 +3,26 @@ import { atom } from 'jotai'
 import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
 import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { isRoomEvent } from '@holi/chat/src/store/utils'
 
 import { createChatMessage } from './messages'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
 
-export type InvitationUpdate = Pick<ChatRoom, 'hasInvitation' | 'id'>
+export interface UpdateInvitationOptions {
+  room: Room
+  membership: string
+  prevMembership?: string
+}
 
-export const updateInvitation = produce((chatRoom: ChatRoom, hasJoined: boolean) => {
-  chatRoom.hasInvitation = !hasJoined
-  chatRoom.notificationCount = Math.max(chatRoom.notificationCount - 1, 0)
-})
+export const updateRoomInvitation = produce(
+  (chatRoom: ChatRoom, { room, membership, prevMembership }: UpdateInvitationOptions) => {
+    const hasJoined = prevMembership === 'invite' && membership === 'join'
+    if (!hasJoined) return
+
+    chatRoom.hasInvitation = !hasJoined
+    chatRoom.notificationCount = room.getUnreadNotificationCount()
+  }
+)
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
   room.lastMessage = message
@@ -25,15 +35,14 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
 
   const hasRoom = roomId in roomAtoms
   if (hasRoom) return
-
   roomAtoms[roomId] = roomAtom
 })
 
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
-  const lastLiveEvent = room.getLastLiveEvent()
-  const lastMessage =
-    lastLiveEvent?.getType() === 'm.room.message' ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastLiveEvent = room.getLastLiveEvent()?.event
+  const lastMessage = isRoomEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
+  // TODO extract memberships from room to its own atom record
   const getMembership = (membership?: string) => {
     switch (membership) {
       case 'join':

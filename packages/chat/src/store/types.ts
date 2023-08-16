@@ -5,6 +5,8 @@ import { ChatMember } from '@holi/chat/src/client/types'
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 
+export type RoomAtomsRecord = Record<string, ChatRoomAtom>
+
 export interface ChatRoom {
   id: string
   name: string

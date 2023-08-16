@@ -19,6 +19,8 @@ export enum MembershipStatus {
   Left = 'LEFT',
 }
 
+export type Membership = Lowercase<MembershipStatus>
+
 export interface RoomId {
   room_id: string
 }

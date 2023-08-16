@@ -3,14 +3,11 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { AccountCircle, Help, Lock, Notification2 } from '@holi/icons/src/generated'
@@ -19,25 +16,15 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const chatLoginClient = new ChatLogin()
-
 const SettingsOverview = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { logout, isLoggingOut } = useLogout()
-  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
-      if (!ftLoading && ftEnabled) {
-        const logoutFromChat = async () => {
-          await chatLoginClient.logout()
-        }
-        logoutFromChat().catch((err) => logError(err))
-      }
-
       logout()
     },
   })

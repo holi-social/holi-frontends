@@ -17,7 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type UserProfileViewProps = {
+interface UserProfileViewProps {
   user: User
   contactPossible?: boolean
 }
@@ -86,6 +86,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
             label={t('user.profileView.message')}
             style={styles.profileButton}
             onPress={handleChat}
+            testID="user-profile-open-chat"
           >
             {t('user.profileView.message')}
           </HoliButton>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -20,6 +20,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { DocType } from '@holi/web/pages/api/documents'
 
+const SMALL_DEVICE_HEIGHT = 624
+
 interface LoginRegistrationProps {
   headingText?: string
   onRegistration?: () => void
@@ -37,6 +39,8 @@ const LoginRegistration = ({
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
+  const { height: screenHeight } = useWindowDimensions()
+  const styles = getStyles(screenHeight)
 
   const [shownDocument, setShownDocument] = useState<DocType>('imprint')
 
@@ -58,120 +62,114 @@ const LoginRegistration = ({
 
   const footerDocs: DocType[] = ['imprint', 'privacyPolicy', 'openSource']
 
+  const docsElement = (
+    <View style={styles.bottomLinkContainer}>
+      {footerDocs.map((docType) => (
+        <HoliText size={'small'} color="gray300" key={docType}>
+          <HoliTextLink
+            label={t(`profile.loggedOut.footer.${docType}`)}
+            onPress={() => showModalFor(docType)}
+            href={'/profile'}
+            variant="inline"
+          >
+            {t(`profile.loggedOut.footer.${docType}`)}
+          </HoliTextLink>
+        </HoliText>
+      ))}
+    </View>
+  )
+
   return (
     <View style={styles.fillHeight}>
-      <View style={styles.fillHeight}>
-        <CenteredContentLayout>
-          <View>
-            <View style={styles.imageContainer}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_join_holi.svg')}
-                isSvg
-                width={251}
-                height={181}
-                label={t('profile.loggedOut.image')}
-              />
-            </View>
+      <CenteredContentLayout append={docsElement}>
+        <View style={styles.imageContainer}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_join_holi.svg')}
+            isSvg
+            width={251}
+            height={181}
+            label={t('profile.loggedOut.image')}
+          />
+        </View>
+        <HoliHeading level="1" size="medium" style={styles.text} testID="login-protection-heading">
+          {headingText}
+        </HoliHeading>
 
-            <HoliHeading level="1" size="medium" style={styles.text} testID="login-protection-heading">
-              {headingText}
-            </HoliHeading>
-          </View>
-
-          <HoliButton
-            label={t('auth.loginProtection.registrationLabel')}
-            onPress={onRegistration}
-            style={[styles.button, styles.fistButton]}
-            testID="btn-to-registration-form"
-          >
-            {t('auth.loginProtection.registration')}
-          </HoliButton>
-
-          <HoliButton
-            label={t('auth.loginProtection.continueAsGuest')}
-            onPress={() => {
-              onDismiss?.()
-              navigate('/')
-            }}
-            style={[styles.button, styles.secondButton]}
-            type="secondary"
-            testID="btn-to-continue-as-guest"
-          >
-            {t('auth.loginProtection.continueAsGuest')}
-          </HoliButton>
-
-          <AlreadyHaveAccountText style={styles.loginHeadline} />
-        </CenteredContentLayout>
-      </View>
-
-      <View style={styles.bottomLinkContainer}>
-        {footerDocs.map((docType) => (
-          <HoliText size={'small'} color="gray300" key={docType}>
-            <HoliTextLink
-              label={t(`profile.loggedOut.footer.${docType}`)}
-              onPress={() => showModalFor(docType)}
-              href={'/profile'}
-              variant="inline"
-            >
-              {t(`profile.loggedOut.footer.${docType}`)}
-            </HoliTextLink>
-          </HoliText>
-        ))}
-
-        <HoliModal
-          label={t(`profile.loggedOut.footer.${shownDocument}`)}
-          heading={t(`profile.loggedOut.footer.${shownDocument}`)}
-          {...modalProps}
-          autoHeight={false}
-          relativeHeight={1}
+        <HoliButton
+          label={t('auth.loginProtection.registrationLabel')}
+          onPress={onRegistration}
+          style={[styles.button, styles.firstButton]}
+          testID="btn-to-registration-form"
         >
-          <ScrollHeaderLayout.Default
-            style={mixins.container}
-            contentContainerStyle={{ maxWidth: '100%' }}
-            headerOverlap
-          >
-            <HtmlDocument url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
-          </ScrollHeaderLayout.Default>
-        </HoliModal>
-      </View>
+          {t('auth.loginProtection.registration')}
+        </HoliButton>
+
+        <HoliButton
+          label={t('auth.loginProtection.continueAsGuest')}
+          onPress={() => {
+            onDismiss?.()
+            navigate('/')
+          }}
+          style={[styles.button, styles.secondButton]}
+          type="secondary"
+          testID="btn-to-continue-as-guest"
+        >
+          {t('auth.loginProtection.continueAsGuest')}
+        </HoliButton>
+
+        <AlreadyHaveAccountText style={styles.loginHeadline} />
+      </CenteredContentLayout>
+      <HoliModal
+        label={t(`profile.loggedOut.footer.${shownDocument}`)}
+        heading={t(`profile.loggedOut.footer.${shownDocument}`)}
+        {...modalProps}
+        autoHeight={false}
+        relativeHeight={1}
+      >
+        <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }} headerOverlap>
+          <HtmlDocument url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
+        </ScrollHeaderLayout.Default>
+      </HoliModal>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  fillHeight: {
-    flex: 1,
-  },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  text: {
-    fontWeight: '400',
-    textAlign: 'center',
-    marginTop: 74,
-  },
-  button: {
-    maxWidth: 300,
-    alignSelf: 'center',
-  },
-  fistButton: {
-    marginTop: 24,
-  },
-  secondButton: {
-    marginTop: 16,
-  },
-  loginHeadline: {
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  bottomLinkContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    gap: 6,
-    flexDirection: 'row',
-    marginTop: 12,
-    marginBottom: 24,
-  },
-})
+const getStyles = (screenHeight: number) =>
+  StyleSheet.create({
+    fillHeight: {
+      flex: 1,
+    },
+    imageContainer: {
+      alignItems: 'center',
+    },
+    text: {
+      fontWeight: '400',
+      textAlign: 'center',
+      marginTop: screenHeight <= SMALL_DEVICE_HEIGHT ? 24 : 74,
+    },
+    button: {
+      maxWidth: 300,
+      alignSelf: 'center',
+    },
+    firstButton: {
+      marginTop: 24,
+    },
+    secondButton: {
+      marginTop: 16,
+    },
+    loginHeadline: {
+      marginTop: 16,
+      textAlign: 'center',
+      marginBottom: 24,
+    },
+    bottomLinkContainer: {
+      width: '100%',
+      justifyContent: 'center',
+      gap: 6,
+      flexDirection: 'row',
+      bottom: 24,
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    },
+  })
 
 export default LoginRegistration

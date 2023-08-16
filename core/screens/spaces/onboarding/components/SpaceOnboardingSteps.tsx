@@ -14,7 +14,7 @@ import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/compo
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add, Information, Loader4 } from '@holi/icons/src/generated'
+import { Add, Information, Loader } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -169,7 +169,7 @@ const SpaceOnboardingSteps = () => {
           )}
           <HoliButtonLoading
             disabled={loading || fetchingSpace || hasEmptySteps}
-            icon={loading ? Loader4 : undefined}
+            icon={loading ? Loader : undefined}
             iconSpinning={loading}
             label={t('global.save')}
             onPress={saveSteps}
