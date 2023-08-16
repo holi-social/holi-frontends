@@ -3,7 +3,7 @@ import * as Notifications from 'expo-notifications'
 import {
   notificationResponseForLocalTriggerMock,
   notificationResponseForRemoteTriggerMock,
-} from '@holi/core/helpers/__tests__/notificationMocks'
+} from '@holi/core/helpers/__tests__/mocks'
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
