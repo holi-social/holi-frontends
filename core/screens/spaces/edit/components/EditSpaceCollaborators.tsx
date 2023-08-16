@@ -146,7 +146,7 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 const styles = StyleSheet.create({
   container: {
     ...Platform.select({
-      android: {
+      native: {
         paddingTop: vars.topBarHeight,
       },
     }),
