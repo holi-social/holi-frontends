@@ -16,13 +16,13 @@ import {
 } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
-import { configurePusher } from '@holi/chat/src/client/ChatPusher'
 import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 
+import { configurePusher } from './configurePusher'
 import { RoomId } from './types'
 
 // TODO: make the client accessible to window for development.
