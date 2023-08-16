@@ -8,11 +8,16 @@ import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { initI18n } from '@holi/core/i18n'
+import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
+
+  if (__DEV__) {
+    console.debug('Starting app with config', config)
+  }
 
   SplashScreen.preventAutoHideAsync()
 
