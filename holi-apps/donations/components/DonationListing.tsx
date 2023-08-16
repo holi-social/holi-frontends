@@ -10,6 +10,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -74,33 +75,40 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   return (
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
-      <HoliBox padding={[24, 0, 16, 0]}>
-        {isFiltering && (
-          <HoliHeading testID="donations-list-search-heading">
-            <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
-              <HoliText size="large" bold style={styles.searchQuery} />
-            </Trans>
-          </HoliHeading>
-        )}
-        {!isFiltering && (
-          <HoliHeading level="1" testID="donations-list-search-heading">
-            {t('donations:donationListing.heading')}
-          </HoliHeading>
-        )}
-      </HoliBox>
-      <PartnerInfoRow
-        rowText={t('donations:app.subline')}
-        showOutlinkIcon={false}
-        partners={{ 'betterplace.org': partner }}
-        onPress={showPartnerModal}
-      />
-      <PartnerModal
-        partners={{ 'betterplace.org': partner }}
-        show={partnerModalVisible}
-        onDismiss={closeModal}
-        i18nNamespace={'donations'}
-      />
-      {isFiltering && (
+      {!!projects.length && (
+        <HoliBox padding={[24, 0, 16, 0]}>
+          {isFiltering && (
+            <HoliHeading testID="donations-list-search-heading">
+              <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
+                <HoliText size="large" bold style={styles.searchQuery} />
+              </Trans>
+            </HoliHeading>
+          )}
+          {!isFiltering && (
+            <HoliHeading level="1" testID="donations-list-search-heading">
+              {t('donations:donationListing.heading')}
+            </HoliHeading>
+          )}
+        </HoliBox>
+      )}
+      {!!projects.length && (
+        <>
+          <PartnerInfoRow
+            rowText={t('donations:app.subline')}
+            showOutlinkIcon={false}
+            partners={{ 'betterplace.org': partner }}
+            onPress={showPartnerModal}
+          />
+          <PartnerModal
+            partners={{ 'betterplace.org': partner }}
+            show={partnerModalVisible}
+            onDismiss={closeModal}
+            i18nNamespace={'donations'}
+          />
+        </>
+      )}
+
+      {isFiltering && !!projects.length && (
         <HoliBox padding={[16, 0, 0, 0]}>
           <View style={styles.searchFilter}>
             <HoliText bold testID="donations-list-search-summary">
@@ -122,17 +130,25 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
         {isFiltering && !projects.length && (
-          <View style={styles.noResultsContainer}>
-            <View style={styles.imageContainer}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_no_results.png')}
-                width={179}
-                height={131}
-                label=""
-                resizeMode="stretch"
-              />
-            </View>
-            <HoliText style={styles.noResultsHint}>{t('donations:donationListing.search.noResults')}</HoliText>
+          <View style={mixins.container}>
+            <HoliNoResults
+              firstText={t('donations:donationListing.search.empty.tagline')}
+              media={
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
+                  width={152}
+                  height={152}
+                  label=""
+                  isSvg
+                />
+              }
+              secondText={t('donations:donationListing.search.empty.headline')}
+              style={[styles.noResultsMessage]}
+            >
+              <HoliButton label={t('search.filter.reset')} onPress={resetSearch}>
+                {t('search.filter.reset')}
+              </HoliButton>
+            </HoliNoResults>
           </View>
         )}
         {
@@ -157,9 +173,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50,
   },
-  loadMoreButton: {
-    marginBottom: 20,
-  },
   searchQuery: {
     color: colors.brandColorB30,
   },
@@ -168,16 +181,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
-  noResultsContainer: {
-    alignItems: 'center',
-    padding: 32,
-  },
-  imageContainer: {
-    padding: 18,
-    marginBottom: 10,
-  },
-  noResultsHint: {
-    textAlign: 'center',
+  noResultsMessage: {
+    marginTop: 24,
   },
 })
 
