@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { atom, createStore, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { IRoomEvent, MatrixEvent, Room } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -16,9 +16,6 @@ import {
   updateRoomInvitation,
 } from './room'
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
-
-/** Store **/
-export const chatStore = createStore()
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined

@@ -95,7 +95,11 @@ export default class ChatClient {
   }
 
   public stop = async () => {
-    await this.mxClient?.logout(true)
+    try {
+      await this.mxClient?.logout(true)
+    } finally {
+      await this.mxClient?.clearStores()
+    }
   }
 
   /** Rooms */

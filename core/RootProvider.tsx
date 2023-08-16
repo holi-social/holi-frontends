@@ -48,8 +48,9 @@ const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
                 <SessionExpiryProtection>
                   <FeatureTogglesFetcher />
                   {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
-                  <ChatStoreInitializer />
-                  <LoginModalProvider>{children}</LoginModalProvider>
+                  <LoginModalProvider>
+                    <ChatStoreInitializer>{children}</ChatStoreInitializer>
+                  </LoginModalProvider>
                 </SessionExpiryProtection>
               </PortalProvider>
             </ToastProvider>
