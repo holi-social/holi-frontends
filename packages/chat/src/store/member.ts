@@ -20,7 +20,7 @@ export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoom
 
 export const isLastMemberCreator = (roomState: RoomState, member: RoomMember) => {
   const members = roomState.getMembers()
-  const isCreator = members.find((m) => m.powerLevel === 100)
+  const creator = members.find((m) => m.powerLevel === 100)
 
-  return member.membership === 'leave' && isCreator?.userId !== member.userId && members.length <= 2
+  return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
 }
