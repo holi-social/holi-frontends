@@ -10,7 +10,7 @@ import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, Help, Lock, Notification2 } from '@holi/icons/src/generated'
+import { AccountCircle, Help, FolderLock, Notification2 } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -66,7 +66,7 @@ const SettingsOverview = () => {
           />
           <MoreOptionItem
             label={t('profile.settings.legalDocuments.title')}
-            icon={Lock}
+            icon={FolderLock}
             iconRightStyle="arrow"
             onPress={() => navigate('/profile/settings/legalDocuments')}
             style={styles.settingsItem}
