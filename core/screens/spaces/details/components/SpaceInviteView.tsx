@@ -107,7 +107,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
       initialOffsetTop={0}
       showBottomBar
       renderProp={() => (
-        <View style={styles.form}>
+        <>
           <View style={styles.whom}>
             <HoliText size="large">{t('spaces.invite.hint.header')}</HoliText>
             <HoliText>{t('spaces.invite.hint.discussion')}</HoliText>
@@ -130,7 +130,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
           {!!searchValue && !searchValueIsEmail && (
             <SpaceInviteUserSearch space={space} loading={isLoaderShown} users={users} />
           )}
-        </View>
+        </>
       )}
     />
   )
@@ -141,9 +141,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
     paddingTop: 12,
     backgroundColor: colors.background30,
-  },
-  form: {
-    // height: Platform.OS === 'web' ? '100vw' : '100%',
   },
   whom: {
     display: 'flex',
