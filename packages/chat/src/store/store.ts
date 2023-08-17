@@ -1,13 +1,14 @@
 import { produce } from 'immer'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { IRoomEvent, MatrixEvent, Room } from 'matrix-js-sdk'
+import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
+import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
+import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import { isRoomEvent } from '@holi/chat/src/store/utils'
 
-import { createChatMessage, updateMessages } from './messages'
 import {
   UpdateInvitationOptions,
   addChatRoom,
@@ -41,40 +42,12 @@ const getChatClient = (): ChatClient => {
  * this read-only value.
  *
  * IMPORTANT! Do not set values to the room using this atom. It would be best to
- * use a `createRoomAtomRecord` derived atom to set values (updating the state).To
- * edit a particular room, you need to use a selector, which can be found below
- * under the Room section (e.g `createRoomAtom`).
+ * use a `createRoomAtomRecord` derived atom to set values (updating the
+ * state).To edit a particular room, you need to use a selector, which can be
+ * found below under the Room section (e.g `createRoomAtom`).
  */
 const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
-
-export const useRequestRoomMessages = () => {
-  const setMessages = useSetAtom(_messageBunchAtomSetter)
-  const client = chatClient
-  const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
-  const isLoading = useRef(false)
-
-  return useCallback(
-    (roomId: string) => {
-      if (!roomId || !client || !client.isMemberOf(roomId)) return
-      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
-
-      isLoading.current = true
-      client
-        .createMessagesRequest(roomId, tokenRef.current.end)
-        .then(async (resp) => {
-          const { chunk, start, end } = resp
-          const appendMessages = !!tokenRef.current.end
-          setMessages(roomId, chunk, appendMessages)
-
-          // unpdate start and end tokens only after merging messages
-          tokenRef.current = { start, end }
-        })
-        .finally(() => (isLoading.current = false))
-    },
-    [client, setMessages]
-  )
-}
 
 /**
  * @name roomAtomNameMapAtom
@@ -164,6 +137,15 @@ export const joinRoom = async (roomId: string): Promise<Room | null> => {
 }
 
 /**
+ * @name joinRoom
+ * @description Join a Matrix room by accepting the invitation. If you have
+ * already joined the room, this will be a no-op.
+ */
+export const leaveRoom = async (roomId: string): Promise<void> => {
+  await getChatClient().leaveRoom(roomId)
+}
+
+/**
  * @name messagesByRoomIdAtomCreator (Write-Only)
  * @description A function that creates a `ChatRoom` atom based on the passed room id.
  */
@@ -178,12 +160,12 @@ const roomByIdAtomCreator = (roomId: string) => {
 }
 
 /**
- * @name _myRoomMembershipSubscriber
+ * @name _myMembershipSubscriberAtom
  * @description Listens to event changes in my room membership when accepting a
  * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
  * the user joins a room, we update the room has an invitation.
  */
-const _myRoomMembershipSubscriber = atom(null, (get, set, options: UpdateInvitationOptions) => {
+const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
   const roomAtomsRecord = get(_roomAtomsRecordAtom)
   const roomAtom = roomAtomsRecord[options.room.roomId]
   if (!roomAtom) return null
@@ -191,13 +173,41 @@ const _myRoomMembershipSubscriber = atom(null, (get, set, options: UpdateInvitat
   set(roomAtom, (room) => updateRoomInvitation(room, options))
 })
 
-_myRoomMembershipSubscriber.onMount = (setAtom) => {
+_myMembershipSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
     setAtom({ room, membership, prevMembership })
   })
 }
 
-/** Room Messages */
+/**
+ * @name _membershipSubscriberAtom
+ * @description The membership subscriber is used to listening to members
+ * leaving rooms and eventually forgetting (deleting) a room in case the creator
+ * is the only member available. You can extend when updating the store based on
+ * membership events.
+ */
+const _membershipSubscriberAtom = atom(
+  null,
+  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const client = getChatClient()
+
+    // If the creator of the room is the last one we forget (delete) entirely the room
+    if (isLastMemberCreator(roomState, member)) {
+      await client.leaveRoom(roomState.roomId)
+      await client.forgetRoom(roomState.roomId, true)
+    }
+
+    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
+      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
+    )
+  }
+)
+
+_membershipSubscriberAtom.onMount = (setAtom) => {
+  return getChatClient().subscribeToMembership(setAtom)
+}
+
+/** Messages */
 
 /**
  * @name sendMessage (Client Helper)
@@ -217,12 +227,15 @@ export const messagesAtomsRecordAtom = atom((get) => get(_messagesAtomsRecordAto
 
 /**
  * @name _messageBunchAtomSetter
- * @description Write (setter) function is used to set a bunch of messages at once. It expects three arguments:
+ * @description Write (setter) function is used to set a bunch of messages at
+ * once. It expects three arguments:
  * @argument roomId: `string`
  * @argument events: `IRoomEvent` - bunch of room events
- * @argument merge?: `boolean` - if `false` overrides the list of previous room's messages, otherwise merges created messages with the existing ones
- * This setter is used for initial messages and for pagination.
- * When we initially fetch messages, we do not need to merge them with previous, but for pagination we want to merge older messages with the new ones
+ * @argument merge?: `boolean` - if `false` overrides the list of previous
+ * room's messages, otherwise merges created messages with the existing ones
+ * This setter is used for initial messages and for pagination. When we
+ * initially fetch messages, we do not need to merge them with previous, but for
+ * pagination we want to merge older messages with the new ones
  */
 const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IRoomEvent[], merge?: boolean) => {
   if (!roomId) return
@@ -280,7 +293,8 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
 
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
- * @description A function that creates message list atom based on the passed room id.
+ * @description A function that creates message list atom based on the passed
+ * room id.
  */
 const messagesByRoomIdAtomCreator = (roomId: string) =>
   atom((get) => {
@@ -292,8 +306,42 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
   })
 
 /**
+ * @name useRequestRoomMessages (Hook-Helper)
+ * @description
+ */
+export const useRequestRoomMessages = () => {
+  const setMessages = useSetAtom(_messageBunchAtomSetter)
+  const client = chatClient
+  const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
+  const isLoading = useRef(false)
+
+  return useCallback(
+    (roomId: string) => {
+      if (!client) return
+      if (!roomId || !client) return
+      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
+
+      isLoading.current = true
+      client
+        .createMessagesRequest(roomId, tokenRef.current.end)
+        .then(async (resp) => {
+          const { chunk, start, end } = resp
+          const appendMessages = !!tokenRef.current.end
+          setMessages(roomId, chunk, appendMessages)
+
+          // unpdate start and end tokens only after merging messages
+          tokenRef.current = { start, end }
+        })
+        .finally(() => (isLoading.current = false))
+    },
+    [client, setMessages]
+  )
+}
+
+/**
  * @name useRoomById (Hook Helper)
- * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`).
+ * @description It returns the specific room with all its data (`ChatRoom` and
+ * `ChatMessage[]`).
  */
 export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
   const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
@@ -304,9 +352,11 @@ export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] =>
 
 /**
  * @name useSubscribeToChat hook
- * @description helper hook subscribes to rooms and messages updates. Should be used on the `<ChatStore />`.
+ * @description helper hook subscribes to rooms and messages updates. Should be
+ * used on the `<ChatStore />`.
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
-  useAtom(_myRoomMembershipSubscriber)
+  useAtom(_myMembershipSubscriberAtom)
+  useAtom(_membershipSubscriberAtom)
 }

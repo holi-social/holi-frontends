@@ -3,9 +3,9 @@ import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { joinRoom } from '@holi/chat/src/store'
+import { joinRoom, leaveRoom } from '@holi/chat/src/store'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
@@ -25,7 +25,13 @@ interface Props {
 
 const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const { openToast } = useToast()
+
+  const handleRejectRoom = async () => {
+    await leaveRoom(roomId)
+    navigate('/chat')
+  }
 
   const handleJoin = async () => {
     try {
@@ -41,21 +47,19 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
         <HoliCardBoard.Slot>
           {user ? (
             <>
-              <HoliBox padding={[0, 0, 16, 0]}>
-                <HoliAvatar
-                  imageSrc={user?.avatar}
-                  imageBlurhash={user?.avatarBlurhash}
-                  label={user.fullName || ''}
-                  initials={user?.avatarLabel || ''}
-                  defaultColor={user?.avatarDefaultColor || ''}
-                  size="large"
-                  loading={userIsLoading}
-                />
-              </HoliBox>
-              <HoliBox padding={[0, 0, 16, 0]}>
+              <HoliAvatar
+                imageSrc={user?.avatar}
+                imageBlurhash={user?.avatarBlurhash}
+                label={user.fullName || ''}
+                initials={user?.avatarLabel || ''}
+                defaultColor={user?.avatarDefaultColor || ''}
+                size="large"
+                loading={userIsLoading}
+              />
+              <View>
                 <HoliHeading size="medium">{user.fullName}</HoliHeading>
                 {!!user?.pronouns ?? <HoliText color="gray300">{user?.pronouns}</HoliText>}
-              </HoliBox>
+              </View>
             </>
           ) : null}
           <HoliColumns>
@@ -71,6 +75,9 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
           <HoliText color="gray300">
             {t('chat.invitation.copy', { fullName: user?.fullName ?? 'Anonymous User' })}
           </HoliText>
+          <HoliButton label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
+            {t('chat.invitation.reject')}
+          </HoliButton>
         </HoliCardBoard.Slot>
       </HoliCardBoard.Card>
     </View>

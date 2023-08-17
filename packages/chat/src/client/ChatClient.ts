@@ -1,3 +1,4 @@
+import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room, RoomMember } from 'matrix-js-sdk'
 import {
   ClientEvent,
   Direction,
@@ -8,10 +9,11 @@ import {
   MatrixClient,
   Preset,
   RoomEvent,
+  type RoomState,
+  RoomStateEvent,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
-import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus } from '@holi/chat/src/client/types'
@@ -21,7 +23,6 @@ import { logError } from '@holi/core/errors/helpers'
 
 import { RoomId } from './types'
 
-// TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
 
 const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in value
@@ -176,6 +177,10 @@ export default class ChatClient {
     }
   }
 
+  public forgetRoom = async (roomId: string, deleteRoom?: boolean): Promise<void> => {
+    await this.mxClient.forget(roomId, deleteRoom)
+  }
+
   public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
@@ -184,6 +189,10 @@ export default class ChatClient {
     }
 
     return room
+  }
+
+  public leaveRoom = async (roomId: string): Promise<void> => {
+    await this.mxClient.leave(roomId)
   }
 
   public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
@@ -195,6 +204,22 @@ export default class ChatClient {
     const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content)
 
     return eventIdResponse.event_id
+  }
+
+  public subscribeToMembership(
+    callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
+  ): (() => void) | void {
+    const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+      if (event.getType() !== EventType.RoomMember) return
+
+      callback(event, roomState, member)
+    }
+
+    this.mxClient.on(RoomStateEvent.Members, handler)
+
+    return () => {
+      this.mxClient.off(RoomStateEvent.Members, handler)
+    }
   }
 
   public subscribeToMyMembership(

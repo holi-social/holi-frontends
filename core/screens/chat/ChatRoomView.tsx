@@ -46,6 +46,7 @@ const useIdOrIdentityToUserRecord = (room: ChatRoom | null) => {
     }
   )
   const users = data?.usersByChatIdentities.data ?? []
+
   const roomUsersRecord: Record<string, User> = users.reduce((acc, user) => {
     const mxUserId = room?.members.find((member) => member.name === user.identity)?.id
     if (mxUserId) {
@@ -71,9 +72,6 @@ const ChatRoomView = () => {
 
   const { user: me } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
-  useEffect(() => {
-    requestMessages(roomId)
-  }, [requestMessages, roomId])
 
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
   const roomCreator = roomUsersRecord[room?.name ?? '']
@@ -102,6 +100,11 @@ const ChatRoomView = () => {
       },
     })
   }, [roomCreator, room?.name, setScreenOptions, t])
+
+  useEffect(() => {
+    if (room?.hasInvitation) return
+    requestMessages(roomId)
+  }, [requestMessages, roomId, room?.hasInvitation])
 
   const handleSendMessage = async () => {
     const text = messageText.trim()
