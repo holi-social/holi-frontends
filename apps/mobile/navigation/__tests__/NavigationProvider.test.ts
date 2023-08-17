@@ -1,9 +1,5 @@
-import * as Notifications from 'expo-notifications'
+import { NotificationResponse } from 'expo-notifications'
 
-import {
-  notificationResponseForLocalTriggerMock,
-  notificationResponseForRemoteTriggerMock,
-} from '@holi/core/helpers/__tests__/mocks'
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
@@ -22,9 +18,85 @@ let mockAddNotificationResponseReceivedListener: jest.Mock | undefined
 
 jest.mock('expo-notifications', () => ({
   getLastNotificationResponseAsync: () => mockGetLastNotificationResponseAsync?.(),
-  addNotificationResponseReceivedListener: (listener: (event: Notifications.NotificationResponse) => void) =>
+  addNotificationResponseReceivedListener: (listener: (event: NotificationResponse) => void) =>
     mockAddNotificationResponseReceivedListener?.(listener),
 }))
+
+const notificationResponseForRemoteTriggerMock: NotificationResponse = {
+  notification: {
+    request: {
+      trigger: {
+        remoteMessage: {
+          originalPriority: 1,
+          sentTime: 1692015244341,
+          notification: null,
+          data: {
+            channelId: 'expo_notifications_fallback_notification_channel',
+            message: 'You have a new message or invitation.',
+            content: '{"body":"hello world!","msgtype":"m.text"}',
+            room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+            sender: '@malte1:staging.chat.holi.social',
+            type: 'm.room.message',
+            sender_display_name: 'malte1',
+            prio: 'high',
+            unread: '1',
+            experienceId: '@holistic-foundation/projectholi',
+            scopeKey: '@holistic-foundation/projectholi',
+            event_id: '$iEfUuhURTKVUoZNuUlJeMDpyIK0kSMTmhOSR1kJoGeY',
+            title: 'holi Chat',
+          },
+          to: null,
+          ttl: 2419200,
+          collapseKey: null,
+          messageType: null,
+          priority: 1,
+          from: '984061681268',
+          messageId: '0:1692015244354449%b0aa3b58f9fd7ecd',
+        },
+        // @ts-ignore is available on android
+        channelId: 'expo_notifications_fallback_notification_channel',
+        type: 'push',
+      },
+      content: {
+        title: 'holi Chat',
+        badge: null,
+        autoDismiss: true,
+        // @ts-ignore null can happen if no data is provided
+        data: null,
+        body: 'You have a new message or invitation.',
+        sound: 'default',
+        sticky: false,
+        subtitle: null,
+      },
+      identifier: '0:1692015244354449%b0aa3b58f9fd7ecd',
+    },
+    date: 1692015244341,
+  },
+  actionIdentifier: 'expo.modules.notifications.actions.DEFAULT',
+}
+
+const notificationResponseForLocalTriggerMock: NotificationResponse = {
+  notification: {
+    request: {
+      // @ts-ignore null can happen if you send it with null
+      trigger: null,
+      content: {
+        title: 'some title',
+        badge: null,
+        // @ts-ignore available on android
+        autoDismiss: true,
+        data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+        body: 'some body',
+        sound: 'default',
+        sticky: false,
+        subtitle: null,
+      },
+      identifier: 'e3319d84-02a0-4467-8159-07d48c04efc2',
+    },
+    date: 1692017592571,
+  },
+  actionIdentifier: 'expo.modules.notifications.actions.DEFAULT',
+}
 
 describe('rootLinkingConfig', () => {
   describe('getInitialURL', () => {

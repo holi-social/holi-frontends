@@ -37,7 +37,6 @@ export default {
         CFBundleAllowMixedLocalizations: true,
         LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       },
-      // TODO add googleServicesFile for iOS
     },
     android: {
       package: 'social.holi.app',
