@@ -20,7 +20,9 @@ import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
+import { configurePusher } from './configurePusher'
 import { RoomId } from './types'
 
 // TODO: make the client accessible to window for development.
@@ -70,6 +72,7 @@ export default class ChatClient {
   }
 
   public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
+    logDebug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
@@ -93,6 +96,16 @@ export default class ChatClient {
     })
 
     return isPrepared
+  }
+
+  /**
+   * Configures push notifications to use holi push notification gateway (Sygnal)
+   *
+   * @returns a successful promise if succeed
+   */
+  public configurePusher = async (): Promise<void> => {
+    // delegate to Platform-specific implementation (currently no-op for Web)
+    return configurePusher(this.mxClient)
   }
 
   public stop = async () => {
@@ -142,12 +155,12 @@ export default class ChatClient {
     return await this.mxClient.createRoom({ ...dmRoomOptions, invite: userIds })
   }
 
-  public getRooms = () => {
-    return this.mxClient.getRooms()
-  }
-
   public getRoom = (id: string) => {
     return this.mxClient.getRoom(id)
+  }
+
+  public getRooms = (): Room[] => {
+    return this.mxClient.getRooms()
   }
 
   public getUserId = (): string | null => {
