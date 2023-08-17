@@ -83,7 +83,6 @@
   "chat.maintenance.tagline": "Chat is taking a break",
   "chat.offline": "You are currently offline. Please retry, once you are online again.",
   "chat.room.start.description": "This is the beginning of your direct message history with <0>{{fullName}}</0>. When sending your first message, <0>{{fullName}}</0> will receive a request to accept you to open this conversation.",
-  "chat.title": "Chat",
   "comment.suggestionItem.label": "Select {{item}}",
   "component.readMore.readLess": "Read less",
   "component.readMore.readMore": "Read more",
