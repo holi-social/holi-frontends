@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
@@ -56,12 +56,11 @@ const SettingsOverview = () => {
             tintColor={colors.foreground20}
             style={styles.settingsItem}
           />
-          {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
           <MoreOptionItem
-            label={t('profile.settings.overview.help')}
+            label={t('profile.settings.help.title')}
             icon={Help}
-            iconRightStyle="outlink"
-            onPress={() => Linking.openURL(t('global.support.mail.href'))}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/help')}
             style={styles.settingsItem}
           />
           <MoreOptionItem
