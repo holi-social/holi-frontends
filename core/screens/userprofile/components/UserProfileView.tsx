@@ -15,6 +15,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface UserProfileViewProps {
@@ -24,6 +25,7 @@ interface UserProfileViewProps {
 
 const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
   const { t } = useTranslation()
+  const { openToast } = useToast()
   const { navigate } = useRouting()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
@@ -37,13 +39,17 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       return
     }
 
-    const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
-    if (!room_id) {
-      logError('Can not open a room without a room id')
-      return
-    }
+    try {
+      const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
+      if (!room_id) {
+        openToast(t('chat.offline'))
+        return
+      }
 
-    navigate('/chat/rooms/' + room_id)
+      navigate('/chat/rooms/' + room_id)
+    } catch (e) {
+      openToast(t('chat.offline'))
+    }
   }
 
   return (
