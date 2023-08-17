@@ -10,8 +10,12 @@ import {
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 
+import { Route } from '@react-navigation/core'
+
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
+import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 
 // TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
@@ -118,11 +122,23 @@ const parseToSygnalEvent = (
   }
 }
 
-const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | undefined => {
+const isInSameRoom = (currentRoute: Route<string> | undefined, roomId: string): boolean => {
+  logDebug('isInSameRoom', 'checking whether route is in room', currentRoute, roomId)
+  const name = currentRoute?.name
+  const params = currentRoute?.params
+  return name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === roomId
+}
+
+const generateNotificationContent = (
+  event: SygnalEvent,
+  currentRoute: Route<string> | undefined
+): NotificationContentInput | null => {
   if (event.type === 'm.room.member') {
     const memberChange: SygnalRoomMemberChange = event // just to be explicit
     // const sender = memberChange.sender_display_name // currently not in sync with okuna
-    if (memberChange.membership === 'invite') {
+    if (isInSameRoom(currentRoute, memberChange.room_id)) {
+      return null
+    } else if (memberChange.membership === 'invite') {
       return {
         title: 'Invitation',
         body: 'Someone invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
@@ -144,7 +160,9 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
     const roomMessage: SygnalRoomMessage = event // just to be explicit
     // const sender = roomMessage.sender_display_name // currently not in sync with okuna
     const content = roomMessage.content
-    if (content.msgtype === 'm.text') {
+    if (isInSameRoom(currentRoute, roomMessage.room_id)) {
+      return null
+    } else if (content.msgtype === 'm.text') {
       return {
         title: 'New message',
         body: content.body,
@@ -169,8 +187,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       title: 'holi Chat',
       body: 'You have a new message or invitation.',
       data: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        room_id: (event as any).room_id, // if available, use it
+        room_id: 'room_id' in event ? event.room_id : undefined,
       },
     }
   }
@@ -180,9 +197,10 @@ const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
   if (event) {
-    const content = generateNotificationContent(event)
-    logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
+    const currentRoute = navigationRef.current?.getCurrentRoute()
+    const content = generateNotificationContent(event, currentRoute)
     if (content) {
+      logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
         content,
         // Android:
@@ -191,6 +209,8 @@ const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
         //   caused an error "Failed to schedule notification" and we don't know why
         trigger: null, // `null` means to schedule directly
       })
+    } else {
+      logDebug('handleNewDataPush', 'skipping push notification')
     }
   }
 }
@@ -204,7 +224,6 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       const request: Partial<NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
         const trigger = request.trigger as Partial<PushNotificationTrigger>
-        // TODO don't schedule when chat screen is visible
         await handleNewDataPush(trigger.remoteMessage?.data)
         return {
           shouldShowAlert: false,
