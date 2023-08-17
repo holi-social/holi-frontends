@@ -7,6 +7,7 @@ import {
   EventType,
   HttpApiEvent,
   MatrixClient,
+  NotificationCountType,
   Preset,
   RoomEvent,
   type RoomState,
@@ -16,7 +17,8 @@ import {
 } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
-import { MembershipStatus } from '@holi/chat/src/client/types'
+import { MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
+import { addRoom, setUnreadNotificationHandlers } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -71,6 +73,19 @@ export default class ChatClient {
     return this.mxClient.clientRunning
   }
 
+  private getFirstSyncEvent(): Promise<boolean> {
+    return new Promise((resolve) => {
+      const handler = (state: SyncState) => {
+        if (state !== SyncState.Syncing) return
+
+        resolve(true)
+        this.mxClient.off(ClientEvent.Sync, handler)
+      }
+
+      this.mxClient.on(ClientEvent.Sync, handler)
+    })
+  }
+
   public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
     logDebug('ChatClient.start', `starting chat client with options=${options}`)
     try {
@@ -84,9 +99,11 @@ export default class ChatClient {
     const isPrepared = new Promise<boolean>((resolve) => {
       isPreparedResolver = resolve
     })
+
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
       console.debug({ state, lastState })
+
       if (state === SyncState.Prepared) {
         isPreparedResolver(true)
       }
@@ -272,6 +289,38 @@ export default class ChatClient {
 
     return () => {
       room.off(RoomEvent.Timeline, incomingMessagesHandler)
+    }
+  }
+
+  public subscribeToRoomsNotifications = async (
+    callback: (roomId: string, notificationCount: NotificationCount) => void
+  ) => {
+    const client = this.mxClient
+    await this.getFirstSyncEvent()
+    const currentRooms = client.getRooms()
+
+    const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {
+      if (!notificationCount) return
+      callback(roomId, notificationCount)
+    }
+
+    const unsubscribeRooms = setUnreadNotificationHandlers(currentRooms, handleUnreadNotifications)
+
+    const roomEventHandler = (room: Room) => {
+      const hasRoomIdx = currentRooms.findIndex((r) => r.roomId === room.roomId)
+      if (hasRoomIdx > 0) return
+
+      room.on(RoomEvent.UnreadNotifications, (notificationCount?: NotificationCount) => {
+        if (!notificationCount) return
+        handleUnreadNotifications(room.roomId, notificationCount)
+      })
+    }
+
+    this.mxClient.on(ClientEvent.Room, roomEventHandler)
+
+    return () => {
+      this.mxClient.off(ClientEvent.Room, roomEventHandler)
+      unsubscribeRooms()
     }
   }
 }
