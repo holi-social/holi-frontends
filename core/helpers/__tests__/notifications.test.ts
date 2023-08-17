@@ -5,7 +5,7 @@ import {
   handleNotificationForLocalTriggerMock,
   handleNotificationForRemoteInvitationTriggerMock,
   handleNotificationForRemoteMessageTriggerMock,
-} from '@holi/core/helpers/__tests__/notificationMocks'
+} from '@holi/core/helpers/__tests__/mocks'
 import { initNotifications } from '@holi/core/helpers/notifications'
 
 let mockIsDevice: jest.Mock | undefined

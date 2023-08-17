@@ -20,6 +20,14 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
+  const [roloadCount, setReloadCount] = useState(0)
+
+  useEffect(() => {
+    if (!identity) {
+      setReloadCount((value) => value + 1)
+    }
+  }, [identity])
+
   useEffect(() => {
     if (!ftLoading && ftEnabled && identity) {
       startChat()
@@ -31,14 +39,12 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   }, [displayError, identity, ftLoading, ftEnabled])
 
   // to reset Jotai Provider for new user login we render a new one only when new identity is provided
-  return identity ? (
-    <Provider key={identity}>
+  return (
+    <Provider key={roloadCount}>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {isChatReady && <ChatStore />}
       {children}
     </Provider>
-  ) : (
-    <>{children}</>
   )
 }
 

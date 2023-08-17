@@ -49,34 +49,6 @@ const getChatClient = (): ChatClient => {
 const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
 export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
 
-export const useRequestRoomMessages = () => {
-  const setMessages = useSetAtom(_messageBunchAtomSetter)
-  const client = chatClient
-  const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
-  const isLoading = useRef(false)
-
-  return useCallback(
-    (roomId: string) => {
-      if (!roomId || !client) return
-      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
-
-      isLoading.current = true
-      client
-        .createMessagesRequest(roomId, tokenRef.current.end)
-        .then(async (resp) => {
-          const { chunk, start, end } = resp
-          const appendMessages = !!tokenRef.current.end
-          setMessages(roomId, chunk, appendMessages)
-
-          // unpdate start and end tokens only after merging messages
-          tokenRef.current = { start, end }
-        })
-        .finally(() => (isLoading.current = false))
-    },
-    [client, setMessages]
-  )
-}
-
 /**
  * @name roomAtomNameMapAtom
  * @description derived atom that holds all room atoms sorted by date of last
@@ -235,7 +207,7 @@ _membershipSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToMembership(setAtom)
 }
 
-/** Room Messages */
+/** Messages */
 
 /**
  * @name sendMessage (Client Helper)
@@ -332,6 +304,39 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
 
     return get(messagesAtom)
   })
+
+/**
+ * @name useRequestRoomMessages (Hook-Helper)
+ * @description
+ */
+export const useRequestRoomMessages = () => {
+  const setMessages = useSetAtom(_messageBunchAtomSetter)
+  const client = chatClient
+  const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
+  const isLoading = useRef(false)
+
+  return useCallback(
+    (roomId: string) => {
+      if (!client) return
+      if (!roomId || !client) return
+      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
+
+      isLoading.current = true
+      client
+        .createMessagesRequest(roomId, tokenRef.current.end)
+        .then(async (resp) => {
+          const { chunk, start, end } = resp
+          const appendMessages = !!tokenRef.current.end
+          setMessages(roomId, chunk, appendMessages)
+
+          // unpdate start and end tokens only after merging messages
+          tokenRef.current = { start, end }
+        })
+        .finally(() => (isLoading.current = false))
+    },
+    [client, setMessages]
+  )
+}
 
 /**
  * @name useRoomById (Hook Helper)

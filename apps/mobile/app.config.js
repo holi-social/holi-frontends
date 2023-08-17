@@ -52,7 +52,6 @@ export default {
           'remote-notification', // enables the app to receive push notifications while app is in background
         ],
       },
-      // TODO add googleServicesFile for iOS
     },
     android: {
       package: 'social.holi.app',
