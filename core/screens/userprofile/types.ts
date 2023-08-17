@@ -1,3 +1,5 @@
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+
 export interface Term {
   id: string
   title: string
@@ -36,6 +38,7 @@ export interface User {
   sdgs?: SDG[]
   skills?: Skill[]
   connectionStatusToMyself?: UserConnectionStatus
+  connectionStatusToSpace?: SpaceConnectionType[]
 }
 
 export enum UserConnectionStatus {

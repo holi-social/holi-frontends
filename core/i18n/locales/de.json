@@ -569,8 +569,8 @@
   "spaces.invite.hint.discussion": "Lade nur Personen ein, die möglicherweise Interesse haben, an den Aktivitäten dieses Spaces teilzunehmen.",
   "spaces.invite.hint.header": "Wen möchtest du als Mitwirkenden einladen?",
   "spaces.invite.search.hint": "Personen, die du direkt einlädst, werden zu Mitwirkenden des Spaces.",
-  "spaces.invite.search.input": "E-Mail eingeben",
-  "spaces.invite.search.title": "Einladen über E-Mail",
+  "spaces.invite.search.input": "E-Mail oder Namen eingeben",
+  "spaces.invite.search.title": "Einladen über E-Mail oder Name",
   "spaces.invite.success": "Einladung versendet",
   "spaces.join.btnPending": "Anfrage ausstehend",
   "spaces.join.btnRequest": "Beitreten…",
@@ -829,5 +829,7 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
+  "spaces.invite.user.notFound": "Es sieht so aus, als ob dieser Benutzer nicht in unserem System ist...",
+  "spaces.invite.user.success": "{user} eingeladen"
 }

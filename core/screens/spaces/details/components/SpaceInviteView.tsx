@@ -1,106 +1,113 @@
-import { useMutation, useQuery } from '@apollo/client'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { z } from 'zod'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { ArrowLeftS } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
+import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
+import { Space } from '@holi/core/screens/spaces/types'
+import { UserByNameResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useDebounce } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpaceInviteViewParams = {
-  spaceIdOrName: string
+const USER_SEARCH_DEBOUNCE = 400
+
+const isEmail = (input: string) => z.string().email().safeParse(input).success
+
+type SpaveInviteViewProps = {
+  space: Space
 }
 
-const { useParam } = createParam<SpaceInviteViewParams>()
-
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const SpaceInviteView: React.VFC<ScreenProps> = () => {
+const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
   const [searchValue, setSearchValue] = useState('')
-  const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { navigate } = useRouting()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
-  })
+  const { displayError } = useErrorHandling()
+  const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
   const [inviteToSpaceByEmail, { loading: loadingInvite }] = useMutation<InviteToSpaceByEmailResponse>(
     inviteToSpaceByEmailMutation,
     {
       onCompleted() {
         openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
-        navigate(`/spaces/${spaceIdOrName}`)
+        // TODO(SF) really navigate? maybe clear input?
+        navigate(`/spaces/${space.name}`)
       },
-      onError() {
-        openToast(t('global.technicalError'), HoliToastType.ERROR)
+      onError(error) {
+        displayError(error, t('global.technicalError'))
       },
     }
   )
 
-  const space = data?.spaceById
-
-  const setScreenOptions = useSetScreenOptions()
-
-  useLayoutEffect(() => {
-    setScreenOptions({
-      headerBackTitleVisible: true,
-      headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTitle: () => <HoliText>{t('spaces.invite.btn.invite')}</HoliText>,
-      navigationCustomOptions: {
-        footerShown: false,
+  const [findUsersByNameWithSpaceConnection, { data: userSearchResult }] = useLazyQuery<UserByNameResponse>(
+    usersByNameWithSpaceConnectionQuery,
+    {
+      onError: (error) => {
+        displayError(error, t('global.technicalError'))
+        hideLoader()
       },
-    })
-  }, [setScreenOptions, t])
+      onCompleted: () => {
+        hideLoader()
+      },
+    }
+  )
+  const debouncedUserSearch = useDebounce(findUsersByNameWithSpaceConnection, USER_SEARCH_DEBOUNCE)
 
-  const sendInivitation = () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: space?.id } })
+  const searchValueIsEmail = isEmail(searchValue)
 
-  if (error) {
-    openToast(t('global.technicalError'), HoliToastType.ERROR)
-    navigate(`/spaces/${spaceIdOrName}`)
-    return <></>
-  }
+  const sendInvitationEmail = useCallback(
+    () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: space.id } }),
+    [inviteToSpaceByEmail, searchValue, space.id]
+  )
+  const onSubmitEditing = useCallback(() => {
+    if (searchValueIsEmail) {
+      sendInvitationEmail()
+    }
+  }, [searchValueIsEmail, sendInvitationEmail])
 
-  if (loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <DefaultLayout style={[styles.wrapper, styles.loading]}>
-        <View style={mixins.container}>
-          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
-  }
+  const onSearchInput = useCallback(
+    (input: string) => {
+      if (input && !isEmail(input)) {
+        showLoader()
+        // TODO(SF) pagination, const for limit
+        debouncedUserSearch({
+          variables: {
+            substring: input,
+            spaceId: space.id,
+            offset: 0,
+            limit: 10,
+          },
+        })
+      }
+      setSearchValue(input)
+    },
+    [debouncedUserSearch, showLoader, space.id]
+  )
+
+  const users = userSearchResult?.userByName.data || []
 
   return (
     <FormWrapper
-      onSave={sendInivitation}
+      onSave={sendInvitationEmail}
       loading={loadingInvite}
-      saveButtonDisabled={!searchValue || loadingInvite}
+      saveButtonDisabled={!searchValue || !searchValueIsEmail || loadingInvite}
       style={styles.wrapper}
       testID="space-details-container"
       buttonLabel={t('spaces.invite.btn.send')}
       initialOffsetTop={0}
       showBottomBar
       renderProp={() => (
-        <>
+        <View style={styles.form}>
           <View style={styles.whom}>
             <HoliText size="large">{t('spaces.invite.hint.header')}</HoliText>
             <HoliText>{t('spaces.invite.hint.discussion')}</HoliText>
@@ -111,31 +118,32 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
             <HoliTextInput
               placeholder={t('spaces.invite.search.input')}
               value={searchValue}
-              onChange={(value: string) => setSearchValue(value)}
+              onChange={onSearchInput}
               style={styles.input}
               accessibilityLabel={t('spaces.invite.search.input')}
-              inputProps={{ onSubmitEditing: sendInivitation }}
+              inputProps={{ onSubmitEditing }}
             />
             <HoliText size="extrasmall" style={styles.hint} skeletonOptions={{ numberOfLines: 2 }}>
               {t('spaces.invite.search.hint')}
             </HoliText>
           </View>
-        </>
+          {!!searchValue && !searchValueIsEmail && (
+            <SpaceInviteUserSearch space={space} loading={isLoaderShown} users={users} />
+          )}
+        </View>
       )}
     />
   )
 }
 
 const styles = StyleSheet.create({
-  loading: {
-    paddingTop: 32,
-    flex: 1,
-  },
   wrapper: {
     marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
     paddingTop: 12,
     backgroundColor: colors.background30,
-    height: '100%',
+  },
+  form: {
+    // height: Platform.OS === 'web' ? '100vw' : '100%',
   },
   whom: {
     display: 'flex',

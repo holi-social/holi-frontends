@@ -569,8 +569,8 @@
   "spaces.invite.hint.discussion": "Invite only people who might be interested in participating in the activities of this Space.",
   "spaces.invite.hint.header": "Who would you like to invite as a collaborator?",
   "spaces.invite.search.hint": "People you directly invite will become collaborators of the Space.",
-  "spaces.invite.search.input": "Enter email",
-  "spaces.invite.search.title": "Invite via email",
+  "spaces.invite.search.input": "Enter email or search for a name",
+  "spaces.invite.search.title": "Invite via email or name",
   "spaces.invite.success": "Invitation sent",
   "spaces.join.btnPending": "Waiting to join",
   "spaces.join.btnRequest": "Collaborate…",
@@ -829,5 +829,7 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}"
+  "wizard.stepsCount": "Step {{current}} of {{total}}",
+  "spaces.invite.user.notFound": "It looks like this user is not in our system…",
+  "spaces.invite.user.success": "{user} invited"
 }
