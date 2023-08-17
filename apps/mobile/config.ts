@@ -1,6 +1,7 @@
 import Constants from 'expo-constants'
 
 export interface HoliChatConfig {
+  serverName: string
   serverLoginUrl: string
   serverUrl: string
 }
@@ -53,6 +54,7 @@ export interface HoliConfig {
 
 export const config: HoliConfig = {
   chat: {
+    serverName: Constants.manifest?.extra?.chat.serverName,
     serverLoginUrl: Constants.manifest?.extra?.chat.serverLoginUrl,
     serverUrl: Constants.manifest?.extra?.chat.serverUrl,
   },
