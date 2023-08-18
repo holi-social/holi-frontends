@@ -8,7 +8,7 @@ export const setUnreadNotificationHandlers = (
   rooms: Room[],
   callback: (roomId: string, notificationCount?: NotificationCount) => void
 ): (() => void) => {
-  // Collects all the handlers to unsubscribe them later on
+  // Collects all the handlers to unlisten to them later on when we unsubscribe
   const handlers: ((notificationCount?: NotificationCount) => void)[] = []
 
   rooms.forEach((room) => {

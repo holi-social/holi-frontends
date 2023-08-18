@@ -319,12 +319,15 @@ export default class ChatClient {
       callback(roomId, notificationCount)
     }
 
+    // We set a `RoomEvent.UnreadNotifications` listener to all available rooms
+    // and pass the `handleUnreadNotifications` handler as a callback.
     const unsubscribeRooms = setUnreadNotificationHandlers(currentRooms, handleUnreadNotifications)
 
     const roomEventHandler = (room: Room) => {
       const hasRoomIdx = currentRooms.findIndex((r) => r.roomId === room.roomId)
       if (hasRoomIdx > 0) return
 
+      // We also do the same for any newly created room during a session.
       room.on(RoomEvent.UnreadNotifications, (notificationCount?: NotificationCount) => {
         if (!notificationCount) return
         handleUnreadNotifications(room.roomId, notificationCount)
