@@ -75,6 +75,13 @@ const ADMIN_PERMISSIONS: RolePermissions[] = [
       { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
     ],
   },
+  {
+    role: 'spaces.rolesAndPermissions.videocall.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.videocall.create', admin: true },
+      { name: 'spaces.rolesAndPermissions.videocall.join', admin: true },
+    ],
+  },
 ]
 
 const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
@@ -123,6 +130,13 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
       { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', admin: true },
       { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', admin: true },
       { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.videocall.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.videocall.create', admin: true },
+      { name: 'spaces.rolesAndPermissions.videocall.join', admin: true },
     ],
   },
 ]
