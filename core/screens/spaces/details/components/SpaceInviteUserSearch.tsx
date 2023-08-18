@@ -1,32 +1,24 @@
-import { useMutation } from '@apollo/client'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import {
-  UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceInviteUserSearchProps = {
-  space: Space
+  spaceId: string
   loading: boolean
   users: User[]
+  onInviteSent: () => void
 }
 
-// TODO(SF) what about MEMBERSHIP_REQUESTOR?
 const SPACE_CONNECTION_STATUS_PRIORITY = [
   SpaceConnectionType.ADMINISTRATOR,
   SpaceConnectionType.MEMBER,
@@ -36,37 +28,9 @@ const SPACE_CONNECTION_STATUS_PRIORITY = [
 const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
   SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
 
-const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ space, loading, users }) => {
+const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, loading, users, onInviteSent }) => {
   const { t } = useTranslation()
-  const { openToast } = useToast()
   const { navigate } = useRouting()
-  const { displayError } = useErrorHandling()
-
-  const [inviteToSpaceById] = useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
-    variables: {
-      spaceId: space.id,
-      connectAction: SpaceConnectionAction.CONNECT,
-      connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
-    },
-    onError: (error) => {
-      displayError(error, t('global.technicalError'))
-    },
-  })
-
-  const inviteUserToSpace = useCallback(
-    (user: User) =>
-      inviteToSpaceById({
-        variables: { userId: user.id },
-        onCompleted() {
-          openToast(t('spaces.invite.user.success', { user: user.fullName }), HoliToastType.SUCCESS)
-          // TODO(SF) really navigate? maybe clear input?
-          // navigate(`/spaces/${space.name}`)
-          // TODO(SF) change button to invited label
-        },
-      }),
-    [inviteToSpaceById, openToast, t]
-  )
-
   const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
 
   if (loading) {
@@ -80,10 +44,6 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ space, lo
       {users.map((user) => {
         const connectedToUser = user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
         const spaceConnection = getMostRelevantSpaceConnectionStatus(user.connectionStatusToSpace)
-        const isCollaborator = user.connectionStatusToSpace?.some((status) =>
-          [SpaceConnectionType.MEMBER, SpaceConnectionType.ADMINISTRATOR].includes(status)
-        )
-        const isInvited = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
         return (
           <View style={styles.listItem} key={user.id}>
             <HoliButton
@@ -128,23 +88,7 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ space, lo
                 </View>
               </View>
             </HoliButton>
-            {isInvited && (
-              <HoliText style={styles.userStatus} size="small">
-                {t('space.userConnection.MEMBERSHIP_INVITEE')}
-              </HoliText>
-            )}
-            {!isInvited && !isCollaborator && (
-              <HoliButton
-                label={t('spaces.invite.btn.send')}
-                type="secondary"
-                inline
-                // TODO(SF) necessary to define inline to override button padding..
-                style={{ padding: 6 }}
-                onPress={() => inviteUserToSpace(user)}
-              >
-                <HoliIcon icon={Add} size={20} />
-              </HoliButton>
-            )}
+            <SpaceInviteUserButton user={user} spaceId={spaceId} onInviteSent={onInviteSent} />
           </View>
         )
       })}

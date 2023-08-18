@@ -79,7 +79,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
     return <></>
   }
 
-  return <SpaceInviteView space={space} />
+  return <SpaceInviteView spaceId={space.id} />
 }
 
 const styles = StyleSheet.create({

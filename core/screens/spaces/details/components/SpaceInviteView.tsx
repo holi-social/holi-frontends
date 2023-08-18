@@ -6,11 +6,9 @@ import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
 import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
-import { Space } from '@holi/core/screens/spaces/types'
 import { UserByNameResponse } from '@holi/core/screens/userprofile/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -24,24 +22,24 @@ const USER_SEARCH_DEBOUNCE = 400
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
 type SpaveInviteViewProps = {
-  space: Space
+  spaceId: string
 }
 
-const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
+const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
   const [searchValue, setSearchValue] = useState('')
   const { t } = useTranslation()
   const { openToast } = useToast()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
+
+  const clearInput = useCallback(() => setSearchValue(''), [])
 
   const [inviteToSpaceByEmail, { loading: loadingInvite }] = useMutation<InviteToSpaceByEmailResponse>(
     inviteToSpaceByEmailMutation,
     {
       onCompleted() {
         openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
-        // TODO(SF) really navigate? maybe clear input?
-        navigate(`/spaces/${space.name}`)
+        clearInput()
       },
       onError(error) {
         displayError(error, t('global.technicalError'))
@@ -66,8 +64,8 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
   const searchValueIsEmail = isEmail(searchValue)
 
   const sendInvitationEmail = useCallback(
-    () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: space.id } }),
-    [inviteToSpaceByEmail, searchValue, space.id]
+    () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: spaceId } }),
+    [inviteToSpaceByEmail, searchValue, spaceId]
   )
   const onSubmitEditing = useCallback(() => {
     if (searchValueIsEmail) {
@@ -83,7 +81,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
         debouncedUserSearch({
           variables: {
             substring: input,
-            spaceId: space.id,
+            spaceId,
             offset: 0,
             limit: 10,
           },
@@ -91,7 +89,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
       }
       setSearchValue(input)
     },
-    [debouncedUserSearch, showLoader, space.id]
+    [debouncedUserSearch, showLoader, spaceId]
   )
 
   const users = userSearchResult?.userByName.data || []
@@ -128,7 +126,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ space }) => {
             </HoliText>
           </View>
           {!!searchValue && !searchValueIsEmail && (
-            <SpaceInviteUserSearch space={space} loading={isLoaderShown} users={users} />
+            <SpaceInviteUserSearch spaceId={spaceId} loading={isLoaderShown} users={users} onInviteSent={clearInput} />
           )}
         </>
       )}
