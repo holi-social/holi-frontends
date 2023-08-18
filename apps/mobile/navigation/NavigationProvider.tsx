@@ -57,6 +57,10 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   // see also https://reactnavigation.org/docs/configuring-links#mapping-path-to-route-names
   config: linkingConfig,
   getInitialURL: async () => {
+    // we don't have a badge count concept yet,
+    // so we just clear anything that is there on startup
+    await Notifications.setBadgeCountAsync(0)
+
     const url = await Linking.getInitialURL()
     if (url != null) {
       logDebug('LinkingOptions.getInitialURL', 'opening direct deep link', url)

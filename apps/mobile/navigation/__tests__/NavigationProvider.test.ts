@@ -17,6 +17,7 @@ let mockGetLastNotificationResponseAsync: jest.Mock | undefined
 let mockAddNotificationResponseReceivedListener: jest.Mock | undefined
 
 jest.mock('expo-notifications', () => ({
+  setBadgeCountAsync: () => false,
   getLastNotificationResponseAsync: () => mockGetLastNotificationResponseAsync?.(),
   addNotificationResponseReceivedListener: (listener: (event: NotificationResponse) => void) =>
     mockAddNotificationResponseReceivedListener?.(listener),
