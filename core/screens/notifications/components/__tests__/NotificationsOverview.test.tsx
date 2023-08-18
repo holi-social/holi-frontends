@@ -19,7 +19,7 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,
-    variables: {},
+    variables: { userId: '123' },
   },
   result: {
     data: {

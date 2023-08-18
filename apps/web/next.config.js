@@ -65,6 +65,8 @@ module.exports = withSentryConfig(
       'expo-modules-core',
       'expo-camera',
       'expo-constants',
+      'expo-device',
+      'expo-notifications',
       'expo-status-bar',
       '@jsamr/react-native-li',
       '@holi-apps/donations',

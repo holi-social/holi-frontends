@@ -53,8 +53,7 @@ const RoomMessageList = ({ messages = [], mxIdUserRecord, starter, onScroll }: R
   return (
     <SectionList
       sections={groupedMessages}
-      // FIXME: figure out why `id` is optional prop in `ChatMessage` type
-      keyExtractor={(item) => item.id!}
+      keyExtractor={(item) => item.id}
       renderItem={({ item: message, index, section: { data: list } }) => {
         const isFirstMessageInSection = index === 0
         const prevMessage = list[index + 1]

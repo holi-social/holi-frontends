@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -12,12 +11,15 @@ interface HtmlDocumentProps {
 }
 
 const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
-  const { t } = useTranslation()
   const [document, setDocument] = useState<string | null>(null)
+  // Large documents can take a while to load, if we triggered loading once, we don't want to load them again.
+  // Seen in real life in the app (document loaded twice).
+  const [loading, setLoading] = useState<boolean>(false)
   const needToLoad = url && !document
 
   useEffect(() => {
-    if (needToLoad) {
+    if (needToLoad && !loading) {
+      setLoading(true)
       fetch(url, {
         method: 'GET',
         headers: {
@@ -36,8 +38,9 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
         })
         .then(setDocument)
         .catch(onError)
+        .finally(() => setLoading(false))
     }
-  }, [onError, t, needToLoad, url])
+  }, [onError, needToLoad, loading, url])
 
   return <>{document ? <HoliHtmlView html={document} /> : <HoliLoader style={{ minHeight: 300 }} />}</>
 }

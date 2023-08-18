@@ -3,6 +3,7 @@ import { BrowserContext, Page, expect } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
+  clickElement,
   clickElementByTestId,
   locateElementByTestId,
   proceedAsGuest,
@@ -92,18 +93,18 @@ const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page
 const testFilteringByLocation = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
 
-  // open location dropdown
-  await clickElementByTestId(page, 'volunteering-filter-location-input')
+  // enter location
+  const locationInput = await locateElementByTestId(page, 'volunteering-filter-location-input')
+  await locationInput.fill('Hamburg')
 
-  // click on first location in the list
-  await clickElementByTestId(page, 'volunteering-filter-location-item')
+  await clickElement(page.locator('[role="menuitem"]'))
 
   await checkAccessibility(page)
 
   // click filter confirmation button and check if we are in the correct page with the filter queries
   await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
 
-  // check if the filtered spaces container is shown
+  // check if the filtered volunteering container is shown
   await page.waitForSelector(byTestId('volunteering-list-filtered'))
 }
 

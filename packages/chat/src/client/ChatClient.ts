@@ -1,3 +1,4 @@
+import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room, RoomMember } from 'matrix-js-sdk'
 import {
   ClientEvent,
   Direction,
@@ -8,20 +9,22 @@ import {
   MatrixClient,
   Preset,
   RoomEvent,
+  type RoomState,
+  RoomStateEvent,
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
-import type { ICreateClientOpts, ICreateRoomOpts, IStartClientOpts, MatrixEvent, Room } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
+import { configurePusher } from './configurePusher'
 import { RoomId } from './types'
 
-// TODO: Move all the direct calls of the matrix client behind the Client Chat facade.
 // TODO: make the client accessible to window for development.
 
 const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in value
@@ -69,29 +72,55 @@ export default class ChatClient {
   }
 
   public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
+    logDebug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
       logError(err, '[ChatClient] could not start client')
       throw err
     }
+
+    let isPreparedResolver: (value: boolean) => void
+    const isPrepared = new Promise<boolean>((resolve) => {
+      isPreparedResolver = resolve
+    })
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
       console.debug({ state, lastState })
+      if (state === SyncState.Prepared) {
+        isPreparedResolver(true)
+      }
     })
     this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
       unknownTokenHandler()
     })
+
+    return isPrepared
+  }
+
+  /**
+   * Configures push notifications to use holi push notification gateway (Sygnal)
+   *
+   * @returns a successful promise if succeed
+   */
+  public configurePusher = async (): Promise<void> => {
+    // delegate to Platform-specific implementation (currently no-op for Web)
+    return configurePusher(this.mxClient)
   }
 
   public stop = async () => {
-    await this.mxClient?.logout(true)
+    try {
+      await this.mxClient?.logout(true)
+    } finally {
+      await this.mxClient?.clearStores()
+    }
   }
 
   /** Rooms */
   public getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
     const room = this.mxClient.getRooms().find((room) => {
       return (
+        // look for a room that has all the requested userIds and is not a space room
         !room.isSpaceRoom() &&
         room.getMembers().length == userIds.length + 1 &&
         room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
@@ -131,6 +160,10 @@ export default class ChatClient {
     return this.mxClient.getRoom(id)
   }
 
+  public getRooms = (): Room[] => {
+    return this.mxClient.getRooms()
+  }
+
   public getUserId = (): string | null => {
     return this.mxClient.getUserId()
   }
@@ -153,6 +186,10 @@ export default class ChatClient {
     }
   }
 
+  public forgetRoom = async (roomId: string, deleteRoom?: boolean): Promise<void> => {
+    await this.mxClient.forget(roomId, deleteRoom)
+  }
+
   public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
@@ -163,15 +200,35 @@ export default class ChatClient {
     return room
   }
 
+  public leaveRoom = async (roomId: string): Promise<void> => {
+    await this.mxClient.leave(roomId)
+  }
+
   public sendTextMessage = async (roomId: string, text: string): Promise<string> => {
     const content: ChatMessageContent = {
       body: text,
       msgtype: 'm.text',
     }
 
-    const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content, '')
+    const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content)
 
     return eventIdResponse.event_id
+  }
+
+  public subscribeToMembership(
+    callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
+  ): (() => void) | void {
+    const handler = (event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+      if (event.getType() !== EventType.RoomMember) return
+
+      callback(event, roomState, member)
+    }
+
+    this.mxClient.on(RoomStateEvent.Members, handler)
+
+    return () => {
+      this.mxClient.off(RoomStateEvent.Members, handler)
+    }
   }
 
   public subscribeToMyMembership(
