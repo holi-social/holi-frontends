@@ -13,6 +13,10 @@ import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
+if (__DEV__) {
+  console.debug('Starting app with config', config)
+}
+
 const App = () => {
   const [isReady, setIsReady] = useState(false)
 

@@ -4,15 +4,12 @@
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
-    HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
-    HOLI_API_GATEWAY: https://staging.unified.apis.holi.social
-    ORY_BASE_URL: https://dev-auth.holi.social
-    OWNCLOUD_BASE_URL: https://development.cloud.holi.social
-    JITSI_URL: https://development.meet.holi.social
   dependencies: [] # explicitly disable artifact usage
-  script:
-    - cd apps/mobile
-    - expo publish --release-channel $ENVIRONMENT_ID
+  script: >
+    echo "Loading environment from \"${ENVIRONMENT_FILE}\""
+    . ${ENVIRONMENT_FILE}
+    cd apps/mobile
+    expo publish --release-channel $ENVIRONMENT_ID
   interruptible: true
   tags:
     - holi-big
@@ -99,6 +96,8 @@ mobile_review_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
     on_stop: mobile_review_destroy
     auto_stop_in: 2 weeks
+  variables:
+    ENVIRONMENT_FILE: .env.staging
   except:
     - main
     - production
@@ -190,6 +189,7 @@ mobile_staging_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
   variables:
     ENVIRONMENT_ID: staging
+    ENVIRONMENT_FILE: .env.staging
   only:
     - main
 
@@ -249,11 +249,7 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_ID: production
-    HOLI_API_URL: https://production.unified.apis.holi.social/graphql
-    HOLI_API_GATEWAY: https://production.unified.apis.holi.social
-    ORY_BASE_URL: https://auth.holi.social
-    OWNCLOUD_BASE_URL: https://production.cloud.holi.social
-    JITSI_URL: https://meet.holi.social
+    ENVIRONMENT_FILE: .env.production
   only:
     - production
 

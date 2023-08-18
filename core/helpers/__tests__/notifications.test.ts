@@ -8,6 +8,13 @@ import {
 } from '@holi/core/helpers/__tests__/mocks'
 import { initNotifications } from '@holi/core/helpers/notifications'
 
+jest.mock('@holi/mobile/tracing', () => ({}))
+
+let mockGetCurrentRoute: jest.Mock | undefined
+jest.mock('@holi/mobile/navigation/NavigationProvider', () => ({
+  navigationRef: { current: { getCurrentRoute: () => mockGetCurrentRoute?.() } },
+}))
+
 let mockIsDevice: jest.Mock | undefined
 
 jest.mock('@holi/core/helpers/isDevice', () => ({
@@ -180,6 +187,30 @@ describe('initNotifications', () => {
           },
         },
       })
+    })
+
+    it('should skip message events when navigated in same room', async () => {
+      setNotificationMocks()
+      mockGetCurrentRoute = jest.fn().mockReturnValue({
+        key: 'ChatRoom-Hr7733Al6mhpXQSd29to7',
+        name: 'ChatRoom',
+        params: { roomId: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+      })
+
+      await initNotifications()
+
+      const handler = mockSetNotificationHandler?.mock.lastCall[0]
+      const handleNotificationCallback = handler.handleNotification
+
+      const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerMock)
+      expect(emptyCallResult).toEqual({
+        shouldShowAlert: false,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      })
+      expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+
+      expect(mockGetCurrentRoute).toHaveBeenCalled()
     })
 
     it('should allow display of local notifications', async () => {
