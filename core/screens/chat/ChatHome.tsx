@@ -11,6 +11,8 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
+import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
+import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -24,10 +26,10 @@ const ChatHome = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const { loading: ftLoading, enabled: ftEnabled, status } = useFeatureToggle(FeatureToggleName.CHAT)
+  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
 
-  // TODO don't show on maintenance but handle that in the view
-  useToastForNotAvailableFeature(!ftLoading && !ftEnabled)
+  useToastForNotAvailableFeature(!ftLoading && !ftEnabled && !ftMaintenance)
 
   useEffect(() => {
     setScreenOptions({
@@ -44,13 +46,14 @@ const ChatHome = () => {
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [navigate, setScreenOptions, t, title])
-
   if (ftLoading) {
     return <HoliLoader style={{ backgroundColor: colors.background10 }} />
+  } else if (ftMaintenance) {
+    return <ChatMaintenance />
   } else if (!ftLoading && ftEnabled) {
     return <ChatHomeContent />
   } else {
-    // unknown status (= missing feature toggle) || disabled || maintenance
+    // unknown status (= missing feature toggle) || disabled
     return (
       <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
         <View style={mixins.container}>

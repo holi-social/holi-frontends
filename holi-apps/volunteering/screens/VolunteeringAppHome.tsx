@@ -1,10 +1,13 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { onScreenScrollY } from '@holi/core/helpers'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -24,6 +27,8 @@ import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 
 const VolunteeringAppHome = () => {
+  const { displayError } = useErrorHandling()
+
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const setScreenOptions = useSetScreenOptions()
@@ -34,6 +39,16 @@ const VolunteeringAppHome = () => {
   const [category] = useParam('category', singleParamConfig)
 
   const updateParams = useUpdateParams()
+
+  const { geolocationDetails, geolocationError } = useGeolocationDetails(location)
+  const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
+    return (
+      geolocationDetails && {
+        ...geolocationDetails,
+        label: geolocationDetails.name,
+      }
+    )
+  }, [geolocationDetails])
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
@@ -57,7 +72,8 @@ const VolunteeringAppHome = () => {
   )
 
   const { navigate } = useRouting()
-  const filters: VolunteeringFilters = { location, category }
+  const filters = { location: initialLocationSelection, category }
+
   const isFiltering = !!(location || category)
 
   useLayoutEffect(() => {
@@ -91,6 +107,16 @@ const VolunteeringAppHome = () => {
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
+
+  useEffect(() => {
+    if (geolocationError) {
+      displayError(geolocationError, t('volunteering:listing.error'))
+    }
+  }, [displayError, geolocationError, t])
+
+  if (geolocationError) {
+    return <></>
+  }
 
   return (
     <SafeAreaProvider>

@@ -56,7 +56,7 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
     canFetchMore,
     isFetchingMore,
   } = usePaginationQuery<VolunteeringEngagement>(VolunteeringEngagementsQuery, {
-    queryPath: 'appVolunteering_engagements',
+    queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
     variables: {
       location: filters.location,

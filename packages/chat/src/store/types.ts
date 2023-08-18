@@ -30,7 +30,7 @@ export interface ChatMessage {
   content: ChatMessageContent
   timestamp?: number
   room_id: string
-  id?: string
+  id: string
   sender: string | undefined
 }
 

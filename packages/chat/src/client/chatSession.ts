@@ -18,8 +18,8 @@ import {
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logInfo, logInfoMsg } from '@holi/core/errors/helpers'
-import { chatLoginUrl } from '@holi/core/helpers/config'
-import { chatUrl } from '@holi/core/helpers/config'
+import { chatServerLoginUrl } from '@holi/core/helpers/config'
+import { chatServerUrl } from '@holi/core/helpers/config'
 
 export enum SSOAction {
   LOGIN = 'login',
@@ -66,7 +66,7 @@ export const startChat = async (): Promise<void> => {
       })
       .then((credentials: StoredCredentials) => {
         return new ChatClient({
-          baseUrl: chatUrl,
+          baseUrl: chatServerUrl,
           accessToken: credentials.access_token,
           deviceId: credentials.device_id,
           userId: credentials.user_id,
@@ -78,6 +78,7 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
+    await chatClient.configurePusher()
     initChatClient(chatClient)
   } finally {
     isStarting = false
@@ -95,12 +96,14 @@ export const stopChat = async () => {
   } catch (e) {
     logInfo(e, '[chatSession] could not stop chatClient. This is probably not a problem.')
   } finally {
+    chatClient = undefined
+    initChatClient(undefined)
     isStopping = false
   }
 }
 
 // TODO the class has no state in itself, consider refactoring this as functions / static methods.
-const serverLoginUrl = chatLoginUrl + '/_matrix/client/r0/login'
+const serverLoginUrl = chatServerLoginUrl + '/_matrix/client/r0/login'
 const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
 /**
  * @name ChatLogin
