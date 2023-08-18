@@ -37,7 +37,7 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     logError(error, t('volunteering:listing.error'))
   }
 
-  const { data: engagements = [] } = data?.appVolunteering_engagements || {}
+  const { data: engagements = [] } = data?.appVolunteering_engagementOpportunities || {}
 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
