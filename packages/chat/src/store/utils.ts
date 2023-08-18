@@ -1,11 +1,19 @@
 import { Draft } from 'immer'
+import { Atom } from 'jotai'
 import { EventType, IEvent, IRoomEvent } from 'matrix-js-sdk'
 
-import type { ChatMessage, CreateMessage } from '@holi/chat/src/store/types'
+import { AtomRecordGetter } from './types'
 
-export const isCreateMessage = (input: CreateMessage | ChatMessage): input is CreateMessage => {
-  // eslint-disable-next-line no-prototype-builtins
-  return input.hasOwnProperty('text') && input.hasOwnProperty('roomId')
+export const getAtomFromRecordId = <T>(
+  get: AtomRecordGetter,
+  atomsRecordAtom: Atom<Record<string, T>>,
+  roomId: string
+): T | null => {
+  const atomsRecord = get(atomsRecordAtom)
+  const value = atomsRecord[roomId]
+  if (!value) return null
+
+  return value
 }
 
 export const isRoomEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {

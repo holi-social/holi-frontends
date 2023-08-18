@@ -4,19 +4,20 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { RoomId } from '@holi/chat/src/client/types'
+import type { NotificationCount, RoomId } from '@holi/chat/src/client/types'
 import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
-import { isRoomEvent } from '@holi/chat/src/store/utils'
-
 import {
   UpdateInvitationOptions,
   addChatRoom,
   createChatRoom,
   updateRoomAfterNewMessage,
   updateRoomInvitation,
-} from './room'
-import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
+  updateRoomUnreadNotifications,
+} from '@holi/chat/src/store/room'
+import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
+import { getAtomFromRecordId, isRoomEvent } from '@holi/chat/src/store/utils'
+import { logError } from '@holi/core/errors/helpers'
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined
@@ -98,12 +99,12 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPend
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
+  const client = getChatClient()
   // get current rooms from ChatClient and store them to Atoms
-  getChatClient()
-    .getRooms()
-    .map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
+  client.getRooms().map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
 
   // set litener for new rooms
+
   getChatClient().subscribeToRooms((room) => {
     /**
      * @name waitForCorrectRoomName
@@ -124,6 +125,30 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 
     waitForCorrectRoomName(Date.now() + 2000)
   })
+}
+
+/**
+ * @name _roomAtomsRecordAtomSubscriber (Write-Only)
+ * @description This atom listens to unread notification changes emitted from
+ * the server. It updates all the user rooms with the incoming unread
+ * notification.
+ */
+const _roomsNotificationsSubscriberAtom = atom(
+  null,
+  (get, set, roomId: string, notificationCount: NotificationCount) => {
+    const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+    if (!roomAtom) return
+
+    set(roomAtom, (prevRoom) =>
+      updateRoomUnreadNotifications(prevRoom, notificationCount.total ?? prevRoom.notificationCount)
+    )
+  }
+)
+
+_roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
+  getChatClient()
+    .subscribeToUnreadRoomsNotifications(setAtom)
+    .catch((err) => logError(err))
 }
 
 /** Room */
@@ -376,6 +401,7 @@ export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] =>
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
+  useAtom(_roomsNotificationsSubscriberAtom)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
 }

@@ -15,14 +15,17 @@ export interface UpdateInvitationOptions {
 }
 
 export const updateRoomInvitation = produce(
-  (chatRoom: ChatRoom, { room, membership, prevMembership }: UpdateInvitationOptions) => {
+  (chatRoom: ChatRoom, { membership, prevMembership }: UpdateInvitationOptions) => {
     const hasJoined = prevMembership === 'invite' && membership === 'join'
     if (!hasJoined) return
 
     chatRoom.hasInvitation = !hasJoined
-    chatRoom.notificationCount = room.getUnreadNotificationCount()
   }
 )
+
+export const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number) => {
+  chatRoom.notificationCount = count
+})
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
   room.lastMessage = message

@@ -7,7 +7,6 @@ import {
   EventType,
   HttpApiEvent,
   MatrixClient,
-  NotificationCountType,
   Preset,
   RoomEvent,
   type RoomState,
@@ -18,7 +17,7 @@ import {
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
-import { addRoom, setUnreadNotificationHandlers } from '@holi/chat/src/client/utils'
+import { setUnreadNotificationHandlers } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -292,7 +291,7 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRoomsNotifications = async (
+  public subscribeToUnreadRoomsNotifications = async (
     callback: (roomId: string, notificationCount: NotificationCount) => void
   ) => {
     const client = this.mxClient

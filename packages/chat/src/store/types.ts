@@ -1,11 +1,11 @@
-import type { PrimitiveAtom } from 'jotai'
+import type { Atom, PrimitiveAtom } from 'jotai'
 
 import { ChatMember } from '@holi/chat/src/client/types'
 
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
-
 export type RoomAtomsRecord = Record<string, ChatRoomAtom>
+export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 
 export interface ChatRoom {
   id: string
