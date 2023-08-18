@@ -14,14 +14,6 @@ export const chatServerUrl = (() => {
 
 export const chatServerLoginUrl = '/api/chatlogin'
 
-export const chatPushGatewayUrl = (() => {
-  const baseUrl =
-    environment === EnvironmentId.PRODUCTION
-      ? 'https://production-push.cloud.holi.social'
-      : 'https://staging-push.cloud.holi.social'
-  return process.env.NEXT_PUBLIC_HOLI_CHAT_PUSH_GATEWAY_URL || baseUrl
-})()
-
 export const owncloudUrl = (() => {
   const baseUrl =
     environment === EnvironmentId.PRODUCTION
