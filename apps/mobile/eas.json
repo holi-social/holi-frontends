@@ -17,7 +17,7 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "development-simulator": {
@@ -37,6 +37,7 @@
         "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
+        "simulator": true,
         "resourceClass": "m-medium"
       }
     },
