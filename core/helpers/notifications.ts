@@ -9,6 +9,7 @@ import {
 } from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
+import { Platform } from 'react-native'
 
 import { Route } from '@react-navigation/core'
 
@@ -284,20 +285,24 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
 }
 
 const registerHandleNotificationsWhenAppIsInBackground = async () => {
-  // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
-  const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
-  TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
-    try {
-      // we know it's a chat notification update
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const notification = (body as any).data.notification
-      logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
-      // This is just left in to demonstrate how to receive notifications in the background.
-      // We can't prevent background notifications from appearing when they have a valid notification payload.
-      // But we need this payload for closed app notifications, so we should not send another notification here.
-    } catch (e) {
-      logDebug('backgroundNotificationHandler', 'error while processing', e)
-    }
-  })
-  await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+  if (Platform.OS === 'android') {
+    // since we don't really need it, we can skip the hassle for ios right now
+
+    // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
+    const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
+    TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
+      try {
+        // we know it's a chat notification update
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const notification = (body as any).data.notification
+        logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
+        // This is just left in to demonstrate how to receive notifications in the background.
+        // We can't prevent background notifications from appearing when they have a valid notification payload.
+        // But we need this payload for closed app notifications, so we should not send another notification here.
+      } catch (e) {
+        logDebug('backgroundNotificationHandler', 'error while processing', e)
+      }
+    })
+    await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+  }
 }
