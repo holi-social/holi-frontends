@@ -56,7 +56,6 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
             title: 'holi Chat',
             body: 'You have a new message or invitation.',
           },
-          // TODO set bade to 0 when notification is interacted and app is started, because default seems to be setting it to 1
           // badge: 0, // doesn't seem to work, is set to `1` on server
         },
         experienceId: '@holistic-foundation/projectholi', // correct
