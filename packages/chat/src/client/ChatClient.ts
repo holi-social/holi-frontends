@@ -14,6 +14,7 @@ import {
   Visibility,
   createClient,
 } from 'matrix-js-sdk'
+import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
@@ -72,7 +73,7 @@ export default class ChatClient {
     return this.mxClient.clientRunning
   }
 
-  private getFirstSyncEvent(): Promise<boolean> {
+  private waitForNextSyncEvent(): Promise<boolean> {
     return new Promise((resolve) => {
       const handler = (state: SyncState) => {
         if (state !== SyncState.Syncing) return
@@ -231,6 +232,21 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
+  public setLatestMessagesAsRead = async (roomId: string): Promise<boolean> => {
+    const room = this.mxClient.getRoom(roomId)
+    const userId = this.mxClient.getUserId()
+
+    if (!userId) return false
+    if (!room || room.getUnreadNotificationCount() === 0) return false
+
+    const events = room.getLiveTimeline().getEvents()
+    const lastEvent = events[events.length - 1]
+
+    await this.mxClient.sendReadReceipt(lastEvent, ReceiptType.ReadPrivate)
+
+    return true
+  }
+
   public subscribeToMembership(
     callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
   ): (() => void) | void {
@@ -295,7 +311,7 @@ export default class ChatClient {
     callback: (roomId: string, notificationCount: NotificationCount) => void
   ) => {
     const client = this.mxClient
-    await this.getFirstSyncEvent()
+    await this.waitForNextSyncEvent()
     const currentRooms = client.getRooms()
 
     const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {

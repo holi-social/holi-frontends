@@ -3,11 +3,13 @@ import { atom } from 'jotai'
 import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
 import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { createChatMessage } from '@holi/chat/src/store/messages'
+import { getChatClient } from '@holi/chat/src/store/store'
+import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
 import { isRoomEvent } from '@holi/chat/src/store/utils'
+import { logError } from '@holi/core/errors/helpers'
 
-import { createChatMessage } from './messages'
-import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
-
+/** Immer Producers **/
 export interface UpdateInvitationOptions {
   room: Room
   membership: string
@@ -40,6 +42,8 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
   if (hasRoom) return
   roomAtoms[roomId] = roomAtom
 })
+
+/** Helpers **/
 
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
@@ -81,5 +85,13 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()
         : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
+  }
+}
+
+export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
+  try {
+    await getChatClient().setLatestMessagesAsRead(roomId)
+  } catch (err) {
+    logError(err)
   }
 }

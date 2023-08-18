@@ -25,7 +25,7 @@ export const initChatClient = (newChatClient: ChatClient | undefined) => {
   chatClient = newChatClient
 }
 
-const getChatClient = (): ChatClient => {
+export const getChatClient = (): ChatClient => {
   if (!chatClient)
     throw new Error(
       '[ChatStore]: chatClient was not initialized, please ensure to call initChatClient before using the store'
