@@ -68,7 +68,7 @@ describe('HoliTabs', () => {
       jest.spyOn(Animated, 'ScrollView', 'get').mockImplementation(() => ScrollView)
     })
 
-    it.only('renders correctly when open', () => {
+    it('renders correctly when open', () => {
       const tree = renderer.create(<HoliTabs tabs={tabs} id={TABS_ID} />).toJSON()
       expect(tree).toMatchSnapshot()
     })

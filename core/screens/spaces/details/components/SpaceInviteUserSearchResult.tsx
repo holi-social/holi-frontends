@@ -12,7 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type SpaceInviteUserSearchProps = {
+type SpaceInviteUserSearchResultProps = {
   spaceId: string
   loading: boolean
   users: User[]
@@ -28,7 +28,12 @@ const SPACE_CONNECTION_STATUS_PRIORITY = [
 const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
   SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
 
-const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, loading, users, onInviteSent }) => {
+const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({
+  spaceId,
+  loading,
+  users,
+  onInviteSent,
+}) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
@@ -136,4 +141,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceInviteUserSearch
+export default SpaceInviteUserSearchResult

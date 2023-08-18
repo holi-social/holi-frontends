@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
+import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
 import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
 import { UserByNameResponse } from '@holi/core/screens/userprofile/queries'
@@ -100,7 +100,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       loading={loadingInvite}
       saveButtonDisabled={!searchValue || !searchValueIsEmail || loadingInvite}
       style={styles.wrapper}
-      testID="space-details-container"
+      testID="space-invite-form"
       buttonLabel={t('spaces.invite.btn.send')}
       initialOffsetTop={0}
       showBottomBar
@@ -120,13 +120,19 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
               style={styles.input}
               accessibilityLabel={t('spaces.invite.search.input')}
               inputProps={{ onSubmitEditing }}
+              testID="space-invite-user"
             />
             <HoliText size="extrasmall" style={styles.hint} skeletonOptions={{ numberOfLines: 2 }}>
               {t('spaces.invite.search.hint')}
             </HoliText>
           </View>
           {!!searchValue && !searchValueIsEmail && (
-            <SpaceInviteUserSearch spaceId={spaceId} loading={isLoaderShown} users={users} onInviteSent={clearInput} />
+            <SpaceInviteUserSearchResult
+              spaceId={spaceId}
+              loading={isLoaderShown}
+              users={users}
+              onInviteSent={clearInput}
+            />
           )}
         </>
       )}

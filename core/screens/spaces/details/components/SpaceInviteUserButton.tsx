@@ -28,9 +28,8 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
-  const isCollaborator = user.connectionStatusToSpace?.some((status) =>
-    [SpaceConnectionType.MEMBER, SpaceConnectionType.ADMINISTRATOR].includes(status)
-  )
+
+  const isCollaborator = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBER)
   const isInvited = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
   const [inviteToSpaceById, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
@@ -80,6 +79,8 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
       inline
       style={{ padding: 6 }}
       onPress={() => inviteUserToSpace(user)}
+      testID="btn-to-invite"
+      disabled={loading}
     >
       <SpinningIconContainer spinning={loading}>
         <HoliIcon icon={loading ? Loader : Add} size={20} />
