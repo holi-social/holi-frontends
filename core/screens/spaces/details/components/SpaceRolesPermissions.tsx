@@ -210,12 +210,12 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
           style={styles.tabWrapper}
           tabs={[
             {
-              title: 'Admin',
+              title: t('spaces.rolesAndPermissions.tabs.admin'),
               style: styles.tabStyle,
               children: <AdminTab />,
             },
             {
-              title: 'Collaborator',
+              title: t('spaces.rolesAndPermissions.tabs.collaborators'),
               style: styles.tabStyle,
               children: <CollaboratorTab />,
             },
