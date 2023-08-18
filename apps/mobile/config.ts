@@ -32,10 +32,6 @@ export interface HoliJitsiConfig {
   url: string
 }
 
-export interface HoliEASConfig {
-  projectId: string
-}
-
 export interface HoliE2EConfig {
   userId: string | undefined
 }
@@ -49,7 +45,6 @@ export interface HoliConfig {
   sentry: HoliSentryConfig
   owncloud: HoliOwnCloudConfig
   jitsi: HoliJitsiConfig
-  eas: HoliEASConfig
   e2e: HoliE2EConfig
 }
 
@@ -79,9 +74,6 @@ export const config: HoliConfig = {
   },
   jitsi: {
     url: Constants.manifest?.extra?.jitsi.url,
-  },
-  eas: {
-    projectId: Constants.manifest?.extra?.eas.projectId,
   },
   e2e: {
     userId: Constants.manifest?.extra?.e2e.userId,

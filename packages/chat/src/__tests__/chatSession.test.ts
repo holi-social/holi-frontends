@@ -1,8 +1,12 @@
 import { ClientEvent } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+
 // eslint-disable-next-line no-restricted-imports
 import { startChat } from '../client/chatSession'
+// eslint-disable-next-line no-restricted-imports
+import { StoredCredentials } from '../utils'
 
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
@@ -46,19 +50,19 @@ jest.mock('matrix-js-sdk', () => {
 })
 
 jest.mock('@holi/core/helpers/config', () => ({
-  chatUrl: 'some chat url',
-  pushGatewayUrl: 'some.push.gateway.url',
+  chatServerUrl: 'some.chat.server.url',
+  chatPushGatewayUrl: 'some.push.gateway.url',
 }))
 
 jest.mock('@holi/core/auth/helpers/auth', () => ({
-  getSessionFromStorage: () =>
+  getSessionFromStorage: (): Promise<Partial<OrySessionContext>> =>
     Promise.resolve({
       session_token: 'some session token for ory',
     }),
 }))
 
 jest.mock('@holi/chat/src/utils/storage', () => ({
-  loadSessionCredentials: () =>
+  loadSessionCredentials: (): Promise<StoredCredentials> =>
     Promise.resolve({
       access_token: 'some access token for matrix',
       device_id: 'some device id',
