@@ -43,7 +43,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       testID="space-edit-modal"
       showBottomBar
       renderProp={(scrollToPropsFor) => (
-        <>
+        <View style={styles.container}>
           <View style={styles.title}>
             <HoliText size="extralarge" testID="space-name-and-goal-title">
               {title}
@@ -79,7 +79,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
             style={styles.goalInputContainer}
             {...scrollToPropsFor('goal')}
           />
-        </>
+        </View>
       )}
     />
   )
@@ -88,6 +88,10 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
 export default SpaceNameAndGoalForm
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingBottom: 42,
+  },
   title: {
     paddingVertical: 24,
   },

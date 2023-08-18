@@ -18,6 +18,7 @@ import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceOnboardingParams = {
   spaceIdOrName: string
@@ -30,6 +31,7 @@ const SpaceOnboarding = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
+  const mixins = useStyleMixins()
 
   const [fetchSpace, { data }] = useLazyQuery<SpaceByIdResponse>(spaceByIdQuery)
 
@@ -63,43 +65,45 @@ const SpaceOnboarding = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollHeaderLayout.Default style={styles.layout}>
-        <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
-        <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
-        <HoliLink
-          label={t('spaces.onboarding.setup.nextSteps.title')}
-          href={`/spaces/${spaceIdOrName}/onboarding/steps`}
-        >
-          <View style={styles.link}>
-            <View style={styles.row}>
-              <HoliIcon icon={Team} style={styles.icon} />
-              <View style={styles.textWrapper}>
-                <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
-                <HoliText size="small" style={styles.text}>
-                  {t('spaces.onboarding.setup.nextSteps.text')}
-                </HoliText>
+        <View style={mixins.container}>
+          <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
+          <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
+          <HoliLink
+            label={t('spaces.onboarding.setup.nextSteps.title')}
+            href={`/spaces/${spaceIdOrName}/onboarding/steps`}
+          >
+            <View style={styles.link}>
+              <View style={styles.row}>
+                <HoliIcon icon={Team} style={styles.icon} />
+                <View style={styles.textWrapper}>
+                  <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
+                  <HoliText size="small" style={styles.text}>
+                    {t('spaces.onboarding.setup.nextSteps.text')}
+                  </HoliText>
+                </View>
               </View>
+              <HoliIcon icon={ArrowRightS} />
             </View>
-            <HoliIcon icon={ArrowRightS} />
-          </View>
-        </HoliLink>
-        <HoliButton
-          label={t('spaces.onboarding.setup.checklist.title')}
-          transparent
-          onPress={showFeatureNotImplementedToast}
-        >
-          <View style={styles.link}>
-            <View style={styles.row}>
-              <HoliIcon icon={Checkbox} style={styles.icon} />
-              <View style={styles.textWrapper}>
-                <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
-                <HoliText size="small" style={styles.text}>
-                  {t('spaces.onboarding.setup.checklist.text')}
-                </HoliText>
+          </HoliLink>
+          <HoliButton
+            label={t('spaces.onboarding.setup.checklist.title')}
+            transparent
+            onPress={showFeatureNotImplementedToast}
+          >
+            <View style={styles.link}>
+              <View style={styles.row}>
+                <HoliIcon icon={Checkbox} style={styles.icon} />
+                <View style={styles.textWrapper}>
+                  <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
+                  <HoliText size="small" style={styles.text}>
+                    {t('spaces.onboarding.setup.checklist.text')}
+                  </HoliText>
+                </View>
               </View>
+              <HoliIcon icon={ArrowRightS} />
             </View>
-            <HoliIcon icon={ArrowRightS} />
-          </View>
-        </HoliButton>
+          </HoliButton>
+        </View>
       </ScrollHeaderLayout.Default>
     </SafeAreaView>
   )
@@ -116,8 +120,6 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
-    paddingHorizontal: 20,
-
     paddingTop: 24,
   },
   desc: {
