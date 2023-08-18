@@ -658,6 +658,8 @@
   "spaces.rolesAndPermissions.update.postPublic": "Post public updates",
   "spaces.rolesAndPermissions.update.title": "Updates",
   "spaces.seeMore": "See more",
+  "spaces.share.message.title": "Hey there 👋",
+  "spaces.share.message.text": "Please check out {{space}} in the holi app for positive change!",
   "spaces.share": "Share",
   "spaces.share.copied": "Copied to clipboard!",
   "spaces.share.copy.link": "Copy link",
