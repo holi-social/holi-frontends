@@ -1,9 +1,7 @@
 # job templates
 
 .mobile_publish:
-  image:
-    name: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
-    pull_policy: always
+  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
@@ -62,7 +60,10 @@
   variables:
     BUILD_PLATFORM: changeme
     TEST_SUITES: changeme
+    ENVIRONMENT_FILE: .env.staging
   script:
+    - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
+    - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
     - 'eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1' # TODO remove again (just temporarily to see why the command below fails currently)
     - 'export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
