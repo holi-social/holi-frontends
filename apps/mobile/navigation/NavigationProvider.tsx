@@ -26,12 +26,12 @@ const navigationTheme: Theme = {
 
 const transformPushInteractionToUrl = (response: Notifications.NotificationResponse) => {
   const request: Partial<Notifications.NotificationRequest> = response.notification.request
-  let data: Record<string, string> = {}
+  let data: Record<string, unknown> = {}
 
   if (request.trigger?.type === 'push') {
     // background or closed app push
     const trigger = request.trigger as Partial<Notifications.PushNotificationTrigger>
-    const triggerData = trigger?.remoteMessage?.data
+    const triggerData = trigger?.remoteMessage?.data ?? trigger.payload // android ?? ios
     if (triggerData) {
       data = triggerData
     }
@@ -41,7 +41,7 @@ const transformPushInteractionToUrl = (response: Notifications.NotificationRespo
   }
 
   const roomId = data.room_id
-  if (roomId) {
+  if (roomId && typeof roomId === 'string') {
     logDebug('transformPushInteractionToUrl', 'navigating to room', roomId)
     return 'https://app.holi.social/chat/rooms/' + roomId
   }

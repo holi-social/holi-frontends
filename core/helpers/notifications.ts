@@ -41,36 +41,32 @@ export const initNotifications = async () => {
   }
 }
 
-interface UnknownSygnalMessageContent {
-  msgtype: unknown
-  body: unknown
-}
-
-interface UnimplementedSygnalMessageContent extends UnknownSygnalMessageContent {
-  msgtype: undefined // anything, just using undefined to have no overlap with real values
+interface AndroidUnknownMessageContent {
+  msgtype: string | undefined
   body: string | undefined
 }
 
-interface SygnalMessageContentText extends UnknownSygnalMessageContent {
+interface AndroidMessageContentText {
   msgtype: 'm.text'
   body: string // e.g. "example text"
 }
 
-type SygnalMessageContent = SygnalMessageContentText | UnimplementedSygnalMessageContent
+type AndroidMessageContent = AndroidMessageContentText | AndroidUnknownMessageContent
 
-interface SygnalMemberChangeContent {
+interface AndroidMemberChangeContent {
   is_direct: boolean
   displayname: string
   membership: 'invite' | string
 }
 
-interface UnknownSygnalEvent {
-  event_id: string // e.g. "$RZc5AqDDH1Nx3Ru5OeWCennKG5wJcdMQfPOHrv8_1VA"
-  type: unknown
-  content: unknown
+interface BaseEvent {
+  // for all we know, these two are always present,
+  // but just to be sure we mark them as optional
+  event_id?: string // e.g. "$RZc5AqDDH1Nx3Ru5OeWCennKG5wJcdMQfPOHrv8_1VA"
+  room_id?: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
 }
 
-interface AnonymizedSygnalEvent extends UnknownSygnalEvent {
+interface AndroidEventAnonymized extends BaseEvent {
   // type etc. not available if 'event_id_only' is configured in pusher
   type: undefined
   content: undefined
@@ -78,31 +74,52 @@ interface AnonymizedSygnalEvent extends UnknownSygnalEvent {
   sender_display_name: undefined
 }
 
-interface SygnalRoomEvent extends UnknownSygnalEvent {
+interface AndroidBaseEvent extends BaseEvent {
   prio: string // e.g. "high"
   unread: string // e.g. "1"
-  room_id: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
   sender: string // e.g. "@malte1:staging.chat.holi.social"
   sender_display_name: string // e.g. "malte1"
 }
 
-interface SygnalRoomMemberChange extends SygnalRoomEvent {
+interface AndroidRoomMemberChange extends AndroidBaseEvent {
   type: 'm.room.member'
-  content: SygnalMemberChangeContent
+  content: AndroidMemberChangeContent
   membership: 'invite' | string
 }
 
-interface SygnalRoomMessage extends SygnalRoomEvent {
+interface AndroidRoomMessage extends AndroidBaseEvent {
   type: 'm.room.message'
-  content: SygnalMessageContent // e.g. { body: "example text", msgtype: "m.text" }
+  content: AndroidMessageContent // e.g. { body: "example text", msgtype: "m.text" }
 }
 
-type SygnalEvent = SygnalRoomMemberChange | SygnalRoomMessage | AnonymizedSygnalEvent
+interface IosMessageWithContent extends BaseEvent {
+  aps: {
+    badge: number
+    alert: {
+      'loc-key': 'MSG_FROM_USER_WITH_CONTENT'
+      'loc-args': [string, string] // sender + content
+    }
+  }
+}
+
+interface IosEventAnonymized extends BaseEvent {
+  aps: {
+    badge: number | undefined
+    alert: object | undefined
+  }
+}
+
+type SygnalEvent =
+  | AndroidRoomMemberChange
+  | AndroidRoomMessage
+  | AndroidEventAnonymized
+  | IosMessageWithContent
+  | IosEventAnonymized
 
 const parseToSygnalEvent = (
   remoteData:
     | {
-        [p: string]: string
+        [key: string]: unknown
       }
     | undefined
 ): SygnalEvent | undefined => {
@@ -113,7 +130,8 @@ const parseToSygnalEvent = (
     const { content, ...rest } = remoteData
 
     return {
-      content: content ? JSON.parse(content) : undefined,
+      // Android events benefit from parsing the content JSON
+      content: content && typeof content === 'string' ? JSON.parse(content) : undefined,
       ...rest,
     } as SygnalEvent
   } catch (e) {
@@ -122,7 +140,7 @@ const parseToSygnalEvent = (
   }
 }
 
-const isInSameRoom = (currentRoute: Route<string> | undefined, roomId: string): boolean => {
+const isInSameRoom = (currentRoute: Route<string> | undefined, roomId: string | undefined): boolean => {
   logDebug('isInSameRoom', 'checking whether route is in room', currentRoute, roomId)
   const name = currentRoute?.name
   const params = currentRoute?.params
@@ -133,8 +151,24 @@ const generateNotificationContent = (
   event: SygnalEvent,
   currentRoute: Route<string> | undefined
 ): NotificationContentInput | null => {
-  if (event.type === 'm.room.member') {
-    const memberChange: SygnalRoomMemberChange = event // just to be explicit
+  if (
+    'aps' in event &&
+    event.aps.alert &&
+    'loc-key' in event.aps.alert &&
+    event.aps.alert['loc-key'] === 'MSG_FROM_USER_WITH_CONTENT' &&
+    event.aps.alert['loc-args'].length >= 2
+  ) {
+    // first arg is the sender display name, currently not in sync with okuna
+    const [, message] = event.aps.alert['loc-args']
+    return {
+      title: 'New message',
+      body: message,
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  } else if ('type' in event && event.type === 'm.room.member') {
+    const memberChange: AndroidRoomMemberChange = event // just to be explicit
     // const sender = memberChange.sender_display_name // currently not in sync with okuna
     if (isInSameRoom(currentRoute, memberChange.room_id)) {
       return null
@@ -156,8 +190,8 @@ const generateNotificationContent = (
         },
       }
     }
-  } else if (event.type === 'm.room.message') {
-    const roomMessage: SygnalRoomMessage = event // just to be explicit
+  } else if ('type' in event && event.type === 'm.room.message') {
+    const roomMessage: AndroidRoomMessage = event // just to be explicit
     // const sender = roomMessage.sender_display_name // currently not in sync with okuna
     const content = roomMessage.content
     if (isInSameRoom(currentRoute, roomMessage.room_id)) {
@@ -193,7 +227,7 @@ const generateNotificationContent = (
   }
 }
 
-const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
+const handleNewDataPush = async (data: { [key: string]: unknown } | undefined) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
   if (event) {
@@ -224,7 +258,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       const request: Partial<NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
         const trigger = request.trigger as Partial<PushNotificationTrigger>
-        await handleNewDataPush(trigger.remoteMessage?.data)
+        await handleNewDataPush(trigger.remoteMessage?.data ?? trigger.payload) // android ?? ios
         return {
           shouldShowAlert: false,
           shouldPlaySound: false,

@@ -38,8 +38,8 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
     const app_id = token.type === 'ios' ? 'social.holi.ios' : 'social.holi'
     let default_payload
     if (token.type === 'android') {
+      // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
       default_payload = {
-        // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
         title: 'holi Chat',
         message: 'You have a new message or invitation.',
         // Android: using the default channel explicitly which ensures higher notification priority
@@ -49,10 +49,16 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
         scopeKey: '@holistic-foundation/projectholi', // correct
       }
     } else if (token.type === 'ios') {
+      // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
       default_payload = {
-        // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
-        title: 'holi Chat',
-        message: 'You have a new message or invitation.',
+        aps: {
+          alert: {
+            title: 'holi Chat',
+            body: 'You have a new message or invitation.',
+          },
+          // TODO set bade to 0 when notification is interacted and app is started, because default seems to be setting it to 1
+          // badge: 0, // doesn't seem to work, is set to `1` on server
+        },
         experienceId: '@holistic-foundation/projectholi', // correct
         scopeKey: '@holistic-foundation/projectholi', // correct
       }
