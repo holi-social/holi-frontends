@@ -19,3 +19,5 @@ coverage
 
 # generated license disclaimer
 license-disclaimer.txt
+
+*.apk

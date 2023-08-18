@@ -53,6 +53,8 @@ export default {
     android: {
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
+      // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
+      googleServicesFile: './google-services.json',
     },
     plugins: [
       ['sentry-expo'],
@@ -86,6 +88,7 @@ export default {
         serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
         serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
         serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
+        pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
       },
       ory: {
         url: requiredEnvVar('ORY_BASE_URL'),

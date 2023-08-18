@@ -7,6 +7,7 @@ import { Platform } from 'react-native'
 import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
+import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
@@ -18,6 +19,10 @@ if (__DEV__) {
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
+
+  if (__DEV__) {
+    console.debug('App starting with config', JSON.stringify(config, null, 2))
+  }
 
   SplashScreen.preventAutoHideAsync()
 
@@ -44,6 +49,7 @@ const App = () => {
         }),
         initI18n(),
         initAuth(),
+        initNotifications(),
       ])
     } catch (error) {
       logError(error, '[App.tsx]: Error initializing the app')

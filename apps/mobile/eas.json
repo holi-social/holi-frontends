@@ -10,6 +10,7 @@
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
         "HOLI_CHAT_SERVER_NAME": "staging.chat.holi.social",
         "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_CHAT_PUSH_GATEWAY_URL": "https://staging-push.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
@@ -29,12 +30,14 @@
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
         "HOLI_CHAT_SERVER_NAME": "staging.chat.holi.social",
         "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_CHAT_PUSH_GATEWAY_URL": "https://staging-push.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
         "ORY_BASE_URL": "https://dev-auth.holi.social"
       },
       "ios": {
+        "simulator": true,
         "resourceClass": "m1-medium"
       }
     },
@@ -47,6 +50,7 @@
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
         "HOLI_CHAT_SERVER_NAME": "staging.chat.holi.social",
         "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_CHAT_PUSH_GATEWAY_URL": "https://staging-push.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
@@ -63,6 +67,7 @@
         "HOLI_API_URL": "https://production.unified.apis.holi.social/graphql",
         "HOLI_CHAT_SERVER_NAME": "production.chat.holi.social",
         "HOLI_CHAT_SERVER_URL": "https://production.chat.holi.social/",
+        "HOLI_CHAT_PUSH_GATEWAY_URL": "https://production-push.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://app.holi.social",
         "JITSI_URL": "https://meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
@@ -80,6 +85,7 @@
         "HOLI_API_URL": "https://staging.unified.apis.holi.social/graphql",
         "HOLI_CHAT_SERVER_NAME": "staging.chat.holi.social",
         "HOLI_CHAT_SERVER_URL": "https://staging.chat.holi.social/",
+        "HOLI_CHAT_PUSH_GATEWAY_URL": "https://staging-push.chat.holi.social/",
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",

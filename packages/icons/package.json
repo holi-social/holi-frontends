@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "yarn svgr -d ./src/generated ./assets",
-    "clean": "rimraf src/generated",
+    "clean": "",
     "clean:all": "yarn clean"
   },
   "dependencies": {

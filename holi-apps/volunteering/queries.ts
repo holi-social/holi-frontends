@@ -31,7 +31,7 @@ export type VolunteeringEngagementsQueryResponse = {
 export const VolunteeringEngagementsQuery = gql`
   ${FullEngagementFragment}
 
-  query VolunteeringEngagements($location: String, $category: String, $limit: Int!, $offset: Int!) {
+  query VolunteeringEngagements($location: AppVolunteering_GeoJSON, $category: String, $limit: Int!, $offset: Int!) {
     appVolunteering_engagements(location: $location, category: $category, limit: $limit, offset: $offset) {
       totalResults
       data {

@@ -78,6 +78,7 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
+    await chatClient.configurePusher()
     initChatClient(chatClient)
   } finally {
     isStarting = false
