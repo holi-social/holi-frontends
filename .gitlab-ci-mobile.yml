@@ -10,9 +10,16 @@
     OWNCLOUD_BASE_URL: https://development.cloud.holi.social
     JITSI_URL: https://development.meet.holi.social
   dependencies: [] # explicitly disable artifact usage
-  script:
-    - cd apps/mobile
-    - expo publish --release-channel $ENVIRONMENT_ID
+  script: >
+    if [ ! -f ".env.${ENVIRONMENT_ID}" ]; then
+      echo "Loading environment from \".env.staging\""
+      . .env.staging
+    else
+      echo "Loading environment from \".env.${ENVIRONMENT_ID}\""
+      . .env.${ENVIRONMENT_ID}
+    fi
+    cd apps/mobile
+    expo publish --release-channel $ENVIRONMENT_ID
   interruptible: true
   tags:
     - holi-big
