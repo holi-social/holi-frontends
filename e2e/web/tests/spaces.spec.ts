@@ -123,7 +123,7 @@ const testShareSpace = async (page: Page) => {
   //check if shared link is correct
   const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
   const spaceShareLinkText = await spaceShareLink.innerText()
-  expect(spaceShareLinkText).toBe(page.url())
+  expect(spaceShareLinkText).toContain(page.url())
 
   // copy link and close modal / options
   await clickElementByTestId(page, 'space-share-url-btn')

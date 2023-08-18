@@ -14,7 +14,8 @@
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
-        "ORY_BASE_URL": "https://dev-auth.holi.social"
+        "ORY_BASE_URL": "https://dev-auth.holi.social",
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
         "resourceClass": "m-medium"
@@ -34,7 +35,8 @@
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
-        "ORY_BASE_URL": "https://dev-auth.holi.social"
+        "ORY_BASE_URL": "https://dev-auth.holi.social",
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
         "simulator": true,
@@ -54,7 +56,8 @@
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
-        "ORY_BASE_URL": "https://dev-auth.holi.social"
+        "ORY_BASE_URL": "https://dev-auth.holi.social",
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
         "resourceClass": "m-medium"
@@ -71,7 +74,8 @@
         "HOLI_NEXTJS_API_URL": "https://app.holi.social",
         "JITSI_URL": "https://meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://production.cloud.holi.social",
-        "ORY_BASE_URL": "https://auth.holi.social"
+        "ORY_BASE_URL": "https://auth.holi.social",
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
         "resourceClass": "m-medium"
@@ -89,7 +93,8 @@
         "HOLI_NEXTJS_API_URL": "https://staging.dev.holi.social",
         "JITSI_URL": "https://development.meet.holi.social",
         "OWNCLOUD_BASE_URL": "https://development.cloud.holi.social",
-        "ORY_BASE_URL": "https://dev-auth.holi.social"
+        "ORY_BASE_URL": "https://dev-auth.holi.social",
+        "SENTRY_DSN": "https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191"
       },
       "ios": {
         "simulator": true
