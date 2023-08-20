@@ -6,8 +6,6 @@ import { StyleSheet, View } from 'react-native'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliDivider from '@holi/ui/components/atoms/HoliDivider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -58,26 +56,24 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
               />
               <View>
                 <HoliHeading size="medium">{user.fullName}</HoliHeading>
-                {!!user?.pronouns ?? <HoliText color="gray300">{user?.pronouns}</HoliText>}
+                {user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
               </View>
             </>
           ) : null}
-          <HoliColumns>
-            <HoliColumn width="auto">
-              <HoliButton label={t('chat.invitation.accept')} onPress={handleJoin}>
-                {t('chat.invitation.accept')}
-              </HoliButton>
-            </HoliColumn>
-          </HoliColumns>
         </HoliCardBoard.Slot>
         <HoliDivider />
         <HoliCardBoard.Slot>
           <HoliText color="gray300">
             {t('chat.invitation.copy', { fullName: user?.fullName ?? 'Anonymous User' })}
           </HoliText>
-          <HoliButton label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
-            {t('chat.invitation.reject')}
-          </HoliButton>
+          <View style={styles.buttons}>
+            <HoliButton inline label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
+              {t('chat.invitation.reject')}
+            </HoliButton>
+            <HoliButton inline label={t('chat.invitation.accept')} onPress={handleJoin}>
+              {t('chat.invitation.accept')}
+            </HoliButton>
+          </View>
         </HoliCardBoard.Slot>
       </HoliCardBoard.Card>
     </View>
@@ -94,5 +90,10 @@ const styles = StyleSheet.create({
     maxWidth: vars.maxScreenWidth,
     paddingHorizontal: 16,
     paddingVertical: vars.bottomBarHeight,
+  },
+  buttons: {
+    flexDirection: 'row',
+    columnGap: 20,
+    maxWidth: '100%',
   },
 })
