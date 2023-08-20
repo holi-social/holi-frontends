@@ -3,7 +3,7 @@
 exports[`renders correctly for web passes aspect ratio 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
@@ -68,7 +68,7 @@ exports[`renders correctly for web renders image with single source correctly fo
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'contain' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
@@ -82,7 +82,7 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'cover' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
@@ -96,7 +96,7 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'fill' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="http://placekitten.com/320/213"
   srcSet="http://placekitten.com/320/213 320w,http://placekitten.com/576/384 576w,http://placekitten.com/992/661 992w,http://placekitten.com/1200/800 1200w"
   style={
