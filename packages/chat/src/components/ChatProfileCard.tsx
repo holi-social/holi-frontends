@@ -56,7 +56,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
               />
               <View>
                 <HoliHeading size="medium">{user.fullName}</HoliHeading>
-                {user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
+                {!!user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
               </View>
             </>
           ) : null}

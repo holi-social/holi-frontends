@@ -25,8 +25,8 @@ export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
 const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
-  const { i18n } = useTranslation()
-  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
+  const { i18n, t } = useTranslation()
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const hasUnseenMessages = notificationCount > 0
 
   if (loading) {
@@ -90,6 +90,11 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
               )}
             </View>
 
+            {hasInvitation && (
+              <HoliText numberOfLines={1} color="brandB300">
+                {t('chat.invitation.newconversation')}
+              </HoliText>
+            )}
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
                 {lastMessage.content.body}
