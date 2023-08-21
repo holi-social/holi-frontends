@@ -21,18 +21,37 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpaceInviteUserSearchProps = {
   user: User
   spaceId: string
-  onInviteSent: () => void
+  onInviteHandled: () => void
 }
 
-const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spaceId, onInviteSent }) => {
+const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spaceId, onInviteHandled }) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const userName = user.fullName || t('user.profileView.anonymous')
+
+  const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] =
+    useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
+      variables: {
+        spaceId: spaceId,
+        userId: user.id,
+        connectAction: SpaceConnectionAction.CONNECT,
+        connectionType: SpaceConnectionType.MEMBER,
+      },
+      onCompleted() {
+        openToast(t('spaces.invite.user.request.accepted', { user: userName }), HoliToastType.SUCCESS)
+        onInviteHandled()
+      },
+      onError(error) {
+        displayError(error, t('global.technicalError'))
+      },
+    })
 
   const isCollaborator = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBER)
+  const wantsToJoin = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isInvited = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
-  const [inviteToSpaceById, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
+  const [inviteToSpaceById, { loading: loadingInvite }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
@@ -47,18 +66,18 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   )
 
   const inviteUserToSpace = useCallback(
-    (user: User) =>
+    () =>
       inviteToSpaceById({
         variables: { userId: user.id },
         onCompleted() {
-          openToast(t('spaces.invite.user.success', { user: user.fullName }), HoliToastType.SUCCESS)
-          onInviteSent()
+          openToast(t('spaces.invite.user.success', { user: userName }), HoliToastType.SUCCESS)
+          onInviteHandled()
         },
       }),
-    [inviteToSpaceById, onInviteSent, openToast, t]
+    [inviteToSpaceById, onInviteHandled, openToast, t, user, userName]
   )
 
-  // TODO(SF) handle membership requestors
+  const loading = loadingUserConnectionUpdate || loadingInvite
 
   if (isCollaborator) {
     return <></>
@@ -78,7 +97,7 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
       type="secondary"
       inline
       style={{ padding: 6 }}
-      onPress={() => inviteUserToSpace(user)}
+      onPress={wantsToJoin ? () => acceptRequestToJoin() : inviteUserToSpace}
       testID="btn-to-invite"
       disabled={loading}
     >

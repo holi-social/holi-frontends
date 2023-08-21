@@ -581,6 +581,7 @@
   "spaces.invite.search.title": "Einladen über E-Mail oder Name",
   "spaces.invite.success": "Einladung versendet",
   "spaces.invite.user.notFound": "Es sieht so aus, als ob dieser Benutzer nicht in unserem System ist...",
+  "spaces.invite.user.request.accepted": "{{user}} ist jetzt Mitwirkende:r",
   "spaces.invite.user.success": "{{user}} eingeladen",
   "spaces.join.btnPending": "Anfrage ausstehend",
   "spaces.join.btnRequest": "Beitreten…",

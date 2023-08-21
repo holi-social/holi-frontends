@@ -16,7 +16,7 @@ type SpaceInviteUserSearchResultProps = {
   spaceId: string
   loading: boolean
   users: User[]
-  onInviteSent: () => void
+  onInviteHandled: () => void
 }
 
 const SPACE_CONNECTION_STATUS_PRIORITY = [
@@ -32,7 +32,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
   spaceId,
   loading,
   users,
-  onInviteSent,
+  onInviteHandled,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -93,7 +93,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
                 </View>
               </View>
             </HoliButton>
-            <SpaceInviteUserButton user={user} spaceId={spaceId} onInviteSent={onInviteSent} />
+            <SpaceInviteUserButton user={user} spaceId={spaceId} onInviteHandled={onInviteHandled} />
           </View>
         )
       })}

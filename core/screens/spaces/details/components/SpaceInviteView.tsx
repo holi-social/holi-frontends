@@ -57,6 +57,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       onCompleted: () => {
         hideLoader()
       },
+      fetchPolicy: 'cache-and-network',
     }
   )
   const debouncedUserSearch = useDebounce(findUsersByNameWithSpaceConnection, USER_SEARCH_DEBOUNCE)
@@ -131,7 +132,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
               spaceId={spaceId}
               loading={isLoaderShown}
               users={users}
-              onInviteSent={clearInput}
+              onInviteHandled={clearInput}
             />
           )}
         </>
