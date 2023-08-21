@@ -38,7 +38,7 @@ const OwnProfile = () => {
   const { height: deviceHeight } = useWindowDimensions()
 
   const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
-  const { storedOnboardingState } = useStoredOnboardingState()
+  const { storedOnboardingState, storeOnboardingState } = useStoredOnboardingState()
   const isOnboardingFinished = storedOnboardingState === 'finished'
   const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
@@ -64,6 +64,10 @@ const OwnProfile = () => {
     const title = t('profile.title')
 
     if (isLoggedIn && isOnboardingFinished) {
+      if (user?.firstName === null) {
+        storeOnboardingState('accountSetup')
+        return
+      }
       setScreenOptions({
         title,
         headerShown: true,
@@ -111,7 +115,17 @@ const OwnProfile = () => {
         headerShown: false,
       })
     }
-  }, [navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished, setScreenOptions])
+  }, [
+    navigate,
+    t,
+    isLoggedIn,
+    toggleEditMode,
+    showFeatureNotImplementedToast,
+    isOnboardingFinished,
+    setScreenOptions,
+    storeOnboardingState,
+    user,
+  ])
 
   return (
     <LoginProtection>

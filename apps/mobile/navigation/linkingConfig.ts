@@ -37,6 +37,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.AccountSettings]: 'profile/settings/account',
             [RouteName.ChangePassword]: 'profile/settings/changePassword',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',
+            [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
           },
         },
@@ -83,12 +84,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.ChatStack]: {
       screens: {
         [RouteName.ChatRoom]: 'chat/rooms/:roomId',
-      },
-    },
-
-    [RouteName.ChatStack]: {
-      screens: {
-        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
+        [RouteName.ChatStartConversation]: 'chat/start',
       },
     },
 
