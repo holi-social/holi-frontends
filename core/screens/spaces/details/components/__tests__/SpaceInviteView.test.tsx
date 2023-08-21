@@ -64,7 +64,7 @@ const emailInviteErrorMock = {
   request: emailInviteRequest,
   error: new HoliError('Test error'),
 }
-const invitateMutationRequest = {
+const inviteMutationRequest = {
   query: updateSpaceUserConnectionMutation,
   variables: {
     connectAction: SpaceConnectionAction.CONNECT,
@@ -74,7 +74,7 @@ const invitateMutationRequest = {
   },
 }
 export const inviteMutationSuccessMock = {
-  request: invitateMutationRequest,
+  request: inviteMutationRequest,
   result: {
     data: {},
   },

@@ -18,7 +18,7 @@ const user: User = {
   fullName: 'Test user',
   connectionStatusToSpace: [],
 }
-const invitateMutationRequest = {
+const inviteMutationRequest = {
   query: updateSpaceUserConnectionMutation,
   variables: {
     connectAction: SpaceConnectionAction.CONNECT,
@@ -28,13 +28,13 @@ const invitateMutationRequest = {
   },
 }
 const inviteMutationSuccessMock = {
-  request: invitateMutationRequest,
+  request: inviteMutationRequest,
   result: {
     data: {},
   },
 }
 const inviteMutationErrorMock = {
-  request: invitateMutationRequest,
+  request: inviteMutationRequest,
   error: new HoliError('Test error'),
 }
 
