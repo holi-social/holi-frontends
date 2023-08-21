@@ -29,7 +29,8 @@ const isImageSourceURIBase64 = ({ uri }: ImageSource) => !!uri?.startsWith('data
 const holiImageScaling = (
   calculatedWidth: number | undefined,
   calculatedHeight: number | undefined,
-  encodedOriginalUrl: string
+  encodedOriginalUrl: string,
+  fillDown = true
 ) => {
   const imagesUrl = isProduction ? 'https://images.holi.social' : 'https://dev-images.holi.social'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
@@ -38,16 +39,29 @@ const holiImageScaling = (
   // - 'crop' section seems to be required, '0:0' means using full width/height of source
   // https://docs.imgproxy.net/generating_the_url?id=resize
   // - 'resize' section fills given space by width and height and crops overhanging parts
-  // - we use 'fill-down' instead of 'fill' to keep the requested aspect ratio,
+  // - when filling, we use 'fill-down' instead of 'fill' to keep the requested aspect ratio,
   //   even when images are smaller than the requested sizes
+  // - we use fit for a simple bounding box approach
   // - cropping is done with centered gravity
   // - pictures are not enlarged to requested size (to keep bandwidth lower)
   // https://docs.imgproxy.net/generating_the_url?id=format
   // - 'ext' section forces a file format, we use webp (better than jpg on 80% quality)
   // https://docs.imgproxy.net/generating_the_url?id=quality
   // - 'quality' section forces a compression quality, we use the default 80% explicitly
-  return imagesUrl + '/crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
+  if (fillDown) {
+    return (
+      imagesUrl + '/crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
+    )
+  } else {
+    return imagesUrl + '/crop:0:0/resize:fit' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
+  }
 }
+
+// App crashes on images too big. Max amount of pixels can be up to 2.31 million (a square bounding box of 1520x1520).
+// As a general fix, we limit unbounded images to this, respectively a smaller, bounding box.
+// This is still unsafe for the odd case where a "rectangly" image is passed in with only defining a width or height where
+// the defined dimension is the (much) shorter side of the image.
+const MAX_IMAGE_DIMENSION = 1200
 
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
@@ -57,14 +71,16 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
   const calculatedHeight = calcPixelRatioSize(source.height)
 
   if (debugMode) {
-    const width = calculatedWidth ?? calcPixelRatioSize(1200)
-    const height = calculatedHeight ?? calcPixelRatioSize(1200)
+    const width = calculatedWidth ?? calcPixelRatioSize(MAX_IMAGE_DIMENSION)
+    const height = calculatedHeight ?? calcPixelRatioSize(MAX_IMAGE_DIMENSION)
     const padding = encodeURIComponent('') // add spaces, if needed to see image size
     const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
     const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
     return { ...source, uri: newUri }
   } else if (!calculatedWidth && !calculatedHeight) {
-    return source
+    // Due to app crashes, we don't allow fully unbounded images
+    const newUri = holiImageScaling(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION, encodeURIComponent(uri), false)
+    return { ...source, uri: newUri }
   } else if (isImageSourceURIBase64(source)) {
     return source
   } else if (uri.startsWith('https://ik.imagekit.io/')) {
@@ -78,7 +94,6 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
 
       // will intentionally override previous value, if present
       url.searchParams.set('tr', params)
-
       return { ...source, uri: url.href }
     } catch (error) {
       return source
