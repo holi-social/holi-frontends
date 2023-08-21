@@ -222,15 +222,13 @@ export default class ChatClient {
   }
 
   public ignoreUser = async (userId: string): Promise<void> => {
-    //if (this.isUserIgnored(userId)) return
-    console.debug('ignoring user', userId)
-    await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().concat(userId))
+    const usersToIgnore = this.mxClient.getIgnoredUsers().concat(userId)
+    await this.mxClient.setIgnoredUsers(usersToIgnore)
   }
 
   public unignoreUser = async (userId: string): Promise<void> => {
-    //if (!this.isUserIgnored(userId)) return
-    console.debug('unignoring user', userId)
-    await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().filter((uId: string) => uId === userId))
+    const usersToIgnore = this.mxClient.getIgnoredUsers().filter((uId: string) => uId !== userId)
+    await this.mxClient.setIgnoredUsers(usersToIgnore)
   }
 
   public getIgnoredUsers = (): string[] => {

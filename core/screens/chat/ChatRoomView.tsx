@@ -64,9 +64,12 @@ const ChatRoomView = () => {
       headerTitle: () => {
         if (!chatPartner || !chatPartnerHoliUser) return null
         const isUserIgnored = ignoredUsers.includes(chatPartner.id)
-        const [blockLabel, blockAction] = isUserIgnored
-          ? [t('chat.user.unblock', { user: chatPartnerHoliUser.fullName }), () => unignoreUser(chatPartner.id)]
-          : [t('chat.user.block', { user: chatPartnerHoliUser.fullName }), () => ignoreUser(chatPartner.id)]
+        const blockLabel = isUserIgnored
+          ? t('chat.user.unblock', { user: chatPartnerHoliUser.fullName })
+          : t('chat.user.block', { user: chatPartnerHoliUser.fullName })
+        const blockAction = isUserIgnored
+          ? () => unignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
+          : () => ignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
         return (
           <View style={{ flexDirection: 'row', columnGap: 20 }}>
             <HoliLink
@@ -95,11 +98,11 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [chatPartner, room?.name, setScreenOptions, t, ignoredUsers, chatPartnerHoliUser])
+  }, [chatPartner, room?.name, setScreenOptions, t, ignoredUsers, chatPartnerHoliUser, requestMessages, roomId])
 
   useEffect(() => {
     if (room?.hasInvitation) return
-    requestMessages(roomId)
+    requestMessages(roomId, false)
   }, [requestMessages, roomId, room?.hasInvitation])
 
   const handleSendMessage = async () => {
@@ -138,7 +141,7 @@ const ChatRoomView = () => {
                   const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
 
                   if (needToLoad) {
-                    requestMessages(roomId)
+                    requestMessages(roomId, false)
                   }
                 }}
               />

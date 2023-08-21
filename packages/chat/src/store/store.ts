@@ -212,29 +212,18 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
 }
 
 const _ignoredUsersAtom = atom<string[]>([])
-const _ignoredUsersAtomSubscriber = atom(
-  null,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async (_get, set, event: MatrixEvent, lastEvent: MatrixEvent | undefined) => {
-    const client = getChatClient()
-    set(_ignoredUsersAtom, () => {
-      const ignoredUsers = client.getIgnoredUsers()
-      console.debug('_ignoredUsersAtomSubscriber setting ignored users', ignoredUsers)
-      return ignoredUsers
-    })
-  }
-)
+const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
+  const client = getChatClient()
+  set(_ignoredUsersAtom, client.getIgnoredUsers)
+})
 
 _ignoredUsersAtomSubscriber.onMount = (setAtom) => {
-  return getChatClient().subscribeToIgnoredUsers(setAtom)
+  getChatClient().subscribeToIgnoredUsers(setAtom)
+  setAtom() // triggers that the list of ignored users is intially populated
 }
 
 export const useIgnoredUsers = () => {
   return useAtomValue(_ignoredUsersAtom)
-}
-
-export const isUserIgnored = (userId: string) => {
-  return getChatClient().isUserIgnored(userId)
 }
 
 export const ignoreUser = async (userId: string) => {
@@ -269,18 +258,18 @@ const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IR
   if (!roomId) return
 
   const addMessagesToRoomThread = produce(
-    (threadsRecord: Record<string, ChatMessagesAtom>, events: IRoomEvent[], merge = false) => {
+    (threadsRecord: Record<string, ChatMessagesAtom>, roomEvents: IRoomEvent[], merge = false) => {
       threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-      set(threadsRecord[roomId], (currentMessages) => {
+      set(threadsRecord[roomId], (existingMessages) => {
         // the list of messages must have `Backward` direction - from older to newer messages
         // it is why we reverse `olderMessages`
-        const olderMessages = events
+        const requestedMessages = roomEvents
           .filter(isRoomEvent)
           .reverse()
           .map((event) => createChatMessage(roomId, event))
 
-        // and put `olderMessages` in the begining of the list
-        return merge ? [...olderMessages, ...currentMessages] : olderMessages
+        // and put `requestedMessages` in the begining of the list
+        return merge ? [...requestedMessages, ...existingMessages] : requestedMessages
       })
     }
   )
@@ -343,18 +332,22 @@ export const useRequestRoomMessages = () => {
   const isLoading = useRef(false)
 
   return useCallback(
-    (roomId: string) => {
+    (roomId: string, resync: boolean) => {
       if (!client) return
       if (!roomId || !client) return
       if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
 
       isLoading.current = true
+      let merge = !!tokenRef.current.end
+      if (resync) {
+        tokenRef.current = { start: undefined, end: undefined }
+        merge = false
+      }
       client
         .createMessagesRequest(roomId, tokenRef.current.end)
         .then(async (resp) => {
-          const { chunk, start, end } = resp
-          const appendMessages = !!tokenRef.current.end
-          setMessages(roomId, chunk, appendMessages)
+          const { chunk: roomEvents, start, end } = resp
+          setMessages(roomId, roomEvents, merge)
 
           // unpdate start and end tokens only after merging messages
           tokenRef.current = { start, end }
