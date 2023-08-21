@@ -27,7 +27,7 @@ const invitateMutationRequest = {
     spaceId: spaceId,
   },
 }
-export const inviteMutationSuccessMock = {
+const inviteMutationSuccessMock = {
   request: invitateMutationRequest,
   result: {
     data: {},
@@ -38,14 +38,34 @@ const inviteMutationErrorMock = {
   error: new HoliError('Test error'),
 }
 
+const acceptMembershipRequest = {
+  query: updateSpaceUserConnectionMutation,
+  variables: {
+    connectAction: SpaceConnectionAction.CONNECT,
+    connectionType: SpaceConnectionType.MEMBER,
+    userId: user.id,
+    spaceId: spaceId,
+  },
+}
+const acceptMembershipRequestSuccessMock = {
+  request: acceptMembershipRequest,
+  result: {
+    data: {},
+  },
+}
+const acceptMembershipRequestErrorMock = {
+  request: acceptMembershipRequest,
+  error: new HoliError('Test error'),
+}
+
 const renderComponent = ({
   mocks,
   connectionStatusToSpace,
-  onInviteSent,
+  onInviteHandled,
 }: {
   mocks?: MockedResponse[]
   connectionStatusToSpace?: SpaceConnectionType[]
-  onInviteSent?: () => void
+  onInviteHandled?: () => void
 } = {}) =>
   render(
     <ToastProvider>
@@ -53,7 +73,7 @@ const renderComponent = ({
         <SpaceInviteUserButton
           user={{ ...user, connectionStatusToSpace: connectionStatusToSpace || [] }}
           spaceId={spaceId}
-          onInviteSent={onInviteSent || jest.fn()}
+          onInviteHandled={onInviteHandled || jest.fn()}
         />
       </MockedProvider>
     </ToastProvider>
@@ -76,18 +96,55 @@ describe('SpaceInviteUserButton', () => {
   })
 
   it('invites user on button press', async () => {
-    const onInviteSent = jest.fn()
-    renderComponent({ onInviteSent })
+    const onInviteHandled = jest.fn()
+    renderComponent({ onInviteHandled })
 
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
     expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.invite.user.success', HoliToastType.SUCCESS)
-    expect(onInviteSent).toHaveBeenCalled()
+    expect(onInviteHandled).toHaveBeenCalled()
   })
 
-  it('displays toast in case of error', async () => {
+  it('displays toast in case of error during invite', async () => {
     renderComponent({ mocks: [inviteMutationErrorMock] })
+
+    fireEvent.press(screen.getByTestId('btn-to-invite'))
+    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
+
+    expect(global.mockOpenToast).toHaveBeenCalledWith(
+      'global.technicalError',
+      HoliToastType.ERROR,
+      undefined,
+      undefined
+    )
+  })
+
+  it('displays button if the user already requested membership', () => {
+    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR] })
+    expect(toJSON()).toMatchSnapshot()
+  })
+
+  it('accepts membership request on button press if the user already requested membership', async () => {
+    const onInviteHandled = jest.fn()
+    renderComponent({
+      connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR],
+      mocks: [acceptMembershipRequestSuccessMock],
+      onInviteHandled,
+    })
+
+    fireEvent.press(screen.getByTestId('btn-to-invite'))
+    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
+
+    expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.invite.user.request.accepted', HoliToastType.SUCCESS)
+    expect(onInviteHandled).toHaveBeenCalled()
+  })
+
+  it('displays toast in case of error during membership update', async () => {
+    renderComponent({
+      mocks: [acceptMembershipRequestErrorMock],
+      connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR],
+    })
 
     fireEvent.press(screen.getByTestId('btn-to-invite'))
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())

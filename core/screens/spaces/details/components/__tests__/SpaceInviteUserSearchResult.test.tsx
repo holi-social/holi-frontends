@@ -7,7 +7,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const spaceId = 'space1'
-const onInviteSent = jest.fn()
+const onInviteHandled = jest.fn()
 const createUser = (props: Partial<User>): User => ({
   id: '',
   identity: '',
@@ -45,14 +45,14 @@ const users: User[] = [
 describe('SpaceInviteUserSearchResult', () => {
   it('displays loading while loading', () => {
     const { toJSON } = render(
-      <SpaceInviteUserSearchResult spaceId={spaceId} loading={true} users={[]} onInviteSent={onInviteSent} />
+      <SpaceInviteUserSearchResult spaceId={spaceId} loading={true} users={[]} onInviteHandled={onInviteHandled} />
     )
     expect(toJSON()).toMatchSnapshot()
   })
 
   it('displays text if no results where found', () => {
     const { toJSON } = render(
-      <SpaceInviteUserSearchResult spaceId={spaceId} loading={false} users={[]} onInviteSent={onInviteSent} />
+      <SpaceInviteUserSearchResult spaceId={spaceId} loading={false} users={[]} onInviteHandled={onInviteHandled} />
     )
     expect(toJSON()).toMatchSnapshot()
   })
@@ -60,7 +60,12 @@ describe('SpaceInviteUserSearchResult', () => {
   it('displays user with space and user connections', () => {
     const { toJSON } = render(
       <MockedProvider>
-        <SpaceInviteUserSearchResult spaceId={spaceId} loading={false} users={users} onInviteSent={onInviteSent} />
+        <SpaceInviteUserSearchResult
+          spaceId={spaceId}
+          loading={false}
+          users={users}
+          onInviteHandled={onInviteHandled}
+        />
       </MockedProvider>
     )
     expect(toJSON()).toMatchSnapshot()

@@ -4,12 +4,16 @@ import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpaceInviteView from '@holi/core/screens/spaces/details/components/SpaceInviteView'
-import { inviteMutationSuccessMock } from '@holi/core/screens/spaces/details/components/__tests__/SpaceInviteUserButton.test'
-import { inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
+import {
+  inviteToSpaceByEmailMutation,
+  updateSpaceUserConnectionMutation,
+} from '@holi/core/screens/spaces/details/mutations'
 import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
+import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const spaceId = 'space1'
+const userId = 'user1'
 const userSearchRequest = {
   query: usersByNameWithSpaceConnectionQuery,
   variables: {
@@ -27,8 +31,8 @@ const userSearchSuccessMock = {
         totalResults: 1,
         data: [
           {
-            id: 'user1',
-            identity: 'user1',
+            id: userId,
+            identity: userId,
             avatarDefaultColor: '#000000',
             avatarLabel: 'TU',
             fullName: 'Test User',
@@ -59,6 +63,21 @@ const emailInviteSuccessMock = {
 const emailInviteErrorMock = {
   request: emailInviteRequest,
   error: new HoliError('Test error'),
+}
+const invitateMutationRequest = {
+  query: updateSpaceUserConnectionMutation,
+  variables: {
+    connectAction: SpaceConnectionAction.CONNECT,
+    connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+    userId,
+    spaceId,
+  },
+}
+export const inviteMutationSuccessMock = {
+  request: invitateMutationRequest,
+  result: {
+    data: {},
+  },
 }
 
 const renderComponent = (mocks: MockedResponse[] = [userSearchSuccessMock]) =>
