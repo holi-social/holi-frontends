@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   overlayButtonBigScreens: {
-    bottom: Platform.OS === 'web' ? 64 : 0,
+    bottom: Platform.OS === 'web' ? 64 : 16,
   },
   modalContent: {
     paddingHorizontal: 10,
