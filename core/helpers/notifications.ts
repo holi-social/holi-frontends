@@ -11,14 +11,11 @@ import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 import { Platform } from 'react-native'
 
-import { Route } from '@react-navigation/core'
-
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
-// TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
   if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
@@ -31,7 +28,7 @@ export const initNotifications = async () => {
       response = await Notifications.requestPermissionsAsync()
     }
 
-    // TODO ensure that also provisional and ephemeral is covered by this GRANTED interpretation, see https://docs.expo.dev/versions/latest/sdk/notifications/#interpret-the-ios-permissions-response
+    // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
     if (response.status === PermissionStatus.GRANTED) {
       logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
       // permanent, no de-registration needed
@@ -105,7 +102,7 @@ interface IosMessageWithContent extends BaseEvent {
 
 interface IosEventAnonymized extends BaseEvent {
   aps: {
-    badge: number | undefined
+    badge: number
     alert: object | undefined
   }
 }
@@ -141,17 +138,70 @@ const parseToSygnalEvent = (
   }
 }
 
-const isInSameRoom = (currentRoute: Route<string> | undefined, roomId: string | undefined): boolean => {
-  logDebug('isInSameRoom', 'checking whether route is in room', currentRoute, roomId)
-  const name = currentRoute?.name
-  const params = currentRoute?.params
-  return name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === roomId
+const navigationStateAllowsPushDisplay = (): boolean => {
+  const currentRoute = navigationRef.current?.getCurrentRoute()
+  const routeName = currentRoute?.name
+  // you could also filter based on params here
+  return routeName != RouteName.ChatRoom && routeName != RouteName.ChatHome
 }
 
-const generateNotificationContent = (
-  event: SygnalEvent,
-  currentRoute: Route<string> | undefined
-): NotificationContentInput | null => {
+const createIosMessagePush = (locArgs: [string, string], roomId: string | undefined) => {
+  // first arg is the sender display name, currently not in sync with okuna
+  const [, message] = locArgs
+  return {
+    title: 'New message',
+    body: message,
+    data: {
+      room_id: roomId,
+    },
+  }
+}
+
+const createAndroidRoomMemberChangePush = (event: AndroidRoomMemberChange): NotificationContentInput | null => {
+  // const sender = memberChange.sender_display_name // currently not in sync with okuna
+  if (event.membership === 'invite') {
+    return {
+      title: 'Invitation',
+      body: 'Someone invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  } else {
+    return {
+      title: 'Channel Update',
+      body: 'Someone updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  }
+}
+
+const createAndroidRoomMessagePush = (event: AndroidRoomMessage) => {
+  // const sender = roomMessage.sender_display_name // currently not in sync with okuna
+  const content = event.content
+  if (content.msgtype === 'm.text') {
+    return {
+      title: 'New message',
+      body: content.body,
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  } else {
+    // basically any content we don't want to implement yet
+    return {
+      title: 'New Message',
+      body: 'Someone send you a new message.',
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  }
+}
+
+const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | null => {
   if (
     'aps' in event &&
     event.aps.alert &&
@@ -159,62 +209,11 @@ const generateNotificationContent = (
     event.aps.alert['loc-key'] === 'MSG_FROM_USER_WITH_CONTENT' &&
     event.aps.alert['loc-args'].length >= 2
   ) {
-    // first arg is the sender display name, currently not in sync with okuna
-    const [, message] = event.aps.alert['loc-args']
-    return {
-      title: 'New message',
-      body: message,
-      data: {
-        room_id: event.room_id,
-      },
-    }
+    return createIosMessagePush(event.aps.alert['loc-args'], event.room_id)
   } else if ('type' in event && event.type === 'm.room.member') {
-    const memberChange: AndroidRoomMemberChange = event // just to be explicit
-    // const sender = memberChange.sender_display_name // currently not in sync with okuna
-    if (isInSameRoom(currentRoute, memberChange.room_id)) {
-      return null
-    } else if (memberChange.membership === 'invite') {
-      return {
-        title: 'Invitation',
-        body: 'Someone invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
-        data: {
-          room_id: memberChange.room_id,
-        },
-      }
-    } else {
-      return {
-        title: 'Channel Update',
-        body:
-          'Someone updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
-        data: {
-          room_id: memberChange.room_id,
-        },
-      }
-    }
+    return createAndroidRoomMemberChangePush(event)
   } else if ('type' in event && event.type === 'm.room.message') {
-    const roomMessage: AndroidRoomMessage = event // just to be explicit
-    // const sender = roomMessage.sender_display_name // currently not in sync with okuna
-    const content = roomMessage.content
-    if (isInSameRoom(currentRoute, roomMessage.room_id)) {
-      return null
-    } else if (content.msgtype === 'm.text') {
-      return {
-        title: 'New message',
-        body: content.body,
-        data: {
-          room_id: roomMessage.room_id,
-        },
-      }
-    } else {
-      // basically any content we don't want to implement yet
-      return {
-        title: 'New Message',
-        body: 'Someone send you a new message.',
-        data: {
-          room_id: roomMessage.room_id,
-        },
-      }
-    }
+    return createAndroidRoomMessagePush(event)
   } else {
     // anonymized, or unknown event
     // wording it like the notification is intentionally vague
@@ -231,9 +230,8 @@ const generateNotificationContent = (
 const handleNewDataPush = async (data: { [key: string]: unknown } | undefined) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
-  if (event) {
-    const currentRoute = navigationRef.current?.getCurrentRoute()
-    const content = generateNotificationContent(event, currentRoute)
+  if (event && navigationStateAllowsPushDisplay()) {
+    const content = generateNotificationContent(event)
     if (content) {
       logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
