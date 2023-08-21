@@ -97,6 +97,7 @@
     "clean": "rimraf .expo",
     "clean:all": "yarn clean && rimraf node_modules",
     "dev": "expo start",
+    "dev_client": "expo start --dev-client",
     "eject": "expo eject",
     "ios": "expo start --ios",
     "lint": "TIMING=1 eslint .",
