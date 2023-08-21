@@ -35,24 +35,46 @@ export const configurePusher = async (mxClient: MatrixClient): Promise<void> => 
   })
 
   if (token.type === 'android' || token.type === 'ios') {
+    const app_id = token.type === 'ios' ? 'social.holi.ios' : 'social.holi'
+    let default_payload
+    if (token.type === 'android') {
+      // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
+      default_payload = {
+        title: 'holi Chat',
+        message: 'You have a new message or invitation.',
+        // Android: using the default channel explicitly which ensures higher notification priority
+        // https://github.com/expo/expo/blob/main/packages/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/builders/ChannelAwareNotificationBuilder.java#L25
+        channelId: 'expo_notifications_fallback_notification_channel',
+        experienceId: '@holistic-foundation/projectholi', // correct
+        scopeKey: '@holistic-foundation/projectholi', // correct
+      }
+    } else if (token.type === 'ios') {
+      // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
+      default_payload = {
+        aps: {
+          alert: {
+            title: 'holi Chat',
+            body: 'You have a new message or invitation.',
+          },
+          // badge: 0, // doesn't seem to work, is set to `1` on server
+        },
+        experienceId: '@holistic-foundation/projectholi', // correct
+        scopeKey: '@holistic-foundation/projectholi', // correct
+      }
+    }
+
     // see https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset
     const pusherRequest: IPusherRequest = {
       app_display_name: 'holi',
-      app_id: 'social.holi', // must match app_id in sygnal config
+      // according to https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3pushersset this should end up with the platform
+      // TODO add suffix for android
+      // must match app_id in sygnal config
+      app_id,
       data: {
         //url: 'https://chat-push-gateway:5000/_matrix/push/v1/notify',
-        url: chatPushGatewayUrl + '/_matrix/push/v1/notify',
+        url: chatPushGatewayUrl + (chatPushGatewayUrl.endsWith('/') ? '' : '/') + '_matrix/push/v1/notify',
         // @ts-ignore sygnal feature, not typed yet by matrix sdk
-        default_payload: {
-          // https://docs.expo.dev/push-notifications/sending-notifications-custom/#payload-formats
-          title: 'holi Chat',
-          message: 'You have a new message or invitation.',
-          // Android: using the default channel explicitly which ensures higher notification priority
-          // https://github.com/expo/expo/blob/main/packages/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/builders/ChannelAwareNotificationBuilder.java#L25
-          channelId: 'expo_notifications_fallback_notification_channel',
-          experienceId: '@holistic-foundation/projectholi', // correct
-          scopeKey: '@holistic-foundation/projectholi', // correct
-        },
+        default_payload,
         // `format: 'event_id_only'` would tell sygnal to omit "content", "sender",
         // "type", and "sender_display_name" from notification data
         // for now we don't want that because it helps to know this for easier notification display

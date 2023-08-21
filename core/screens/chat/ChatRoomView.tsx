@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -9,13 +9,16 @@ import {
   chatInitializedAtom,
   ignoreUser,
   sendMessage,
+  setLatestMessagesAsRead,
   unignoreUser,
   useIgnoredUsers,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
   getChatPartner,
@@ -41,6 +44,7 @@ const { useParam } = createParam<ChatRoomPageParams>()
 
 const ChatRoomView = () => {
   const { t } = useTranslation()
+  const { navigateBack } = useRouting()
   const chatInitialized = useAtomValue(chatInitializedAtom)
 
   const [roomId = ''] = useParam('roomId')
@@ -59,8 +63,14 @@ const ChatRoomView = () => {
   const setScreenOptions = useSetScreenOptions()
   const ignoredUsers = useIgnoredUsers()
 
+  const handleBackPress = useCallback(async () => {
+    navigateBack()
+    await setLatestMessagesAsRead(roomId)
+  }, [navigateBack, roomId])
+
   useLayoutEffect(() => {
     setScreenOptions({
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () => {
         if (!chatPartner || !chatPartnerHoliUser) return null
         const isUserIgnored = ignoredUsers.includes(chatPartner.id)
@@ -98,7 +108,17 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [chatPartner, room?.name, setScreenOptions, t, ignoredUsers, chatPartnerHoliUser, requestMessages, roomId])
+  }, [
+    handleBackPress,
+    chatPartner,
+    room?.name,
+    setScreenOptions,
+    t,
+    ignoredUsers,
+    chatPartnerHoliUser,
+    requestMessages,
+    roomId,
+  ])
 
   useEffect(() => {
     if (room?.hasInvitation) return

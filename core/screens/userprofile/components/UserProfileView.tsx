@@ -7,8 +7,10 @@ import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -31,7 +33,12 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
 
   const fullName = user.fullName || t('user.profileView.anonymous')
 
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
+
   const handleChat = async () => {
+    if (!isLoggedIn) return openLoginModal()
+
     // TODO:  the correct Matrix identity should come from Okuna
     const identity = user.identity
     if (!identity) {

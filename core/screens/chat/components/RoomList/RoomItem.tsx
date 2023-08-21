@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { getChatPartner, useMatrixIdToHoliUserRecord } from '@holi/core/screens/chat/components/RoomList/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -33,6 +33,10 @@ const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
 
+  const handleOnPress = async () => {
+    await setLatestMessagesAsRead(roomId)
+  }
+
   if (loading) {
     return (
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
@@ -56,7 +60,7 @@ const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   }
 
   return (
-    <HoliLink href={`/chat/rooms/${roomId}`} label={chatPartnerHoliUser?.fullName ?? ''}>
+    <HoliLink href={`/chat/rooms/${roomId}`} label={chatPartnerHoliUser?.fullName ?? ''} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}

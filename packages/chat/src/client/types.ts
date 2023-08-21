@@ -1,3 +1,5 @@
+import { NotificationCountType } from 'matrix-js-sdk'
+
 export enum MembershipStatus {
   /**
    * The user is effectively joined to the room. For example, actually joined
@@ -20,6 +22,7 @@ export enum MembershipStatus {
 }
 
 export type Membership = Lowercase<MembershipStatus>
+export type NotificationCount = Partial<Record<NotificationCountType, number>>
 
 export interface RoomId {
   room_id: string

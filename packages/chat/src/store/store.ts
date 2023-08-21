@@ -4,19 +4,27 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { RoomId } from '@holi/chat/src/client/types'
+import type { NotificationCount, RoomId } from '@holi/chat/src/client/types'
 import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
-import { isRoomEvent } from '@holi/chat/src/store/utils'
-
 import {
   UpdateInvitationOptions,
   addChatRoom,
   createChatRoom,
   updateRoomAfterNewMessage,
   updateRoomInvitation,
-} from './room'
-import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, ChatRoomId, CreateMessage } from './types'
+  updateRoomUnreadNotifications,
+} from '@holi/chat/src/store/room'
+import type {
+  ChatMessage,
+  ChatMessagesAtom,
+  ChatRoom,
+  ChatRoomAtom,
+  ChatRoomId,
+  CreateMessage,
+} from '@holi/chat/src/store/types'
+import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
+import { logError } from '@holi/core/errors/helpers'
 
 export const chatInitializedAtom = atom(false)
 
@@ -92,13 +100,56 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPend
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
+  const client = getChatClient()
   // get current rooms from ChatClient and store them to Atoms
-  getChatClient()
-    .getRooms()
-    .map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
+  client.getRooms().map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
 
   // set litener for new rooms
-  getChatClient().subscribeToRooms(setAtom)
+
+  getChatClient().subscribeToRooms((room) => {
+    /**
+     * @name waitForCorrectRoomName
+     * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
+     * We use this function to watch for the room `name` change and only create an atom when correct name was passed
+     * or timeout exceeded.
+     * @param timestamp `number` represents timestamp limit till function postponds setting the atom
+     */
+    const waitForCorrectRoomName = (timestamp: number) => {
+      if (room.name !== 'Empty room' || Date.now() > timestamp) {
+        setAtom(room, getChatClient().hasPendingInvitation(room))
+      } else {
+        setTimeout(() => {
+          waitForCorrectRoomName(timestamp)
+        }, 50)
+      }
+    }
+
+    waitForCorrectRoomName(Date.now() + 2000)
+  })
+}
+
+/**
+ * @name _roomAtomsRecordAtomSubscriber (Write-Only)
+ * @description This atom listens to unread notification changes emitted from
+ * the server. It updates all the user rooms with the incoming unread
+ * notification.
+ */
+const _roomsNotificationsSubscriberAtom = atom(
+  null,
+  (get, set, roomId: string, notificationCount: NotificationCount) => {
+    const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+    if (!roomAtom) return
+
+    set(roomAtom, (prevRoom) =>
+      updateRoomUnreadNotifications(prevRoom, notificationCount.total ?? prevRoom.notificationCount)
+    )
+  }
+)
+
+_roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
+  getChatClient()
+    .subscribeToUnreadRoomsNotifications(setAtom)
+    .catch((err) => logError(err))
 }
 
 /** Room */
@@ -262,9 +313,9 @@ const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IR
       threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
       set(threadsRecord[roomId], (existingMessages) => {
         // the list of messages must have `Backward` direction - from older to newer messages
-        // it is why we reverse `olderMessages`
+        // it is why we reverse `requestedMessages`
         const requestedMessages = roomEvents
-          .filter(isRoomEvent)
+          .filter(isRoomMessageEvent)
           .reverse()
           .map((event) => createChatMessage(roomId, event))
 
@@ -377,6 +428,7 @@ export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
+  useAtom(_roomsNotificationsSubscriberAtom)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
   useAtom(_ignoredUsersAtomSubscriber)
