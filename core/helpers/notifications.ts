@@ -138,11 +138,13 @@ const parseToSygnalEvent = (
   }
 }
 
-const navigationStateAllowsPushDisplay = (): boolean => {
+const navigationStateAllowsPushDisplayFor = (pushRoomId: string | undefined): boolean => {
   const currentRoute = navigationRef.current?.getCurrentRoute()
-  const routeName = currentRoute?.name
-  // you could also filter based on params here
-  return routeName != RouteName.ChatRoom && routeName != RouteName.ChatHome
+  const name = currentRoute?.name
+  const params = currentRoute?.params
+  const isInChatHome = name === RouteName.ChatHome
+  const isInSameRoom = name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
+  return !isInChatHome && !isInSameRoom
 }
 
 const createIosMessagePush = (locArgs: [string, string], roomId: string | undefined) => {
@@ -230,7 +232,7 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
 const handleNewDataPush = async (data: { [key: string]: unknown } | undefined) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
-  if (event && navigationStateAllowsPushDisplay()) {
+  if (event && navigationStateAllowsPushDisplayFor(event.room_id)) {
     const content = generateNotificationContent(event)
     if (content) {
       logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
