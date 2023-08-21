@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { ChatRoomAtom } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
+import { getChatPartner, useMatrixIdToHoliUserRecord } from '@holi/core/screens/chat/components/RoomList/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -14,8 +15,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 interface RoomItemProps {
   roomAtom: ChatRoomAtom
-  user?: User
-  loading?: boolean
+  loggedInUser: User // optimization to not re-fetch the logged in user on scrolling
   testID?: string
 }
 
@@ -24,9 +24,13 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
+const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
-  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
+  const room = useAtomValue(roomAtom)
+  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord([room])
+  const chatPartner = getChatPartner(loggedInUser, room)
+  const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
 
   if (loading) {
@@ -52,18 +56,18 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
   }
 
   return (
-    <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''}>
+    <HoliLink href={`/chat/rooms/${roomId}`} label={chatPartnerHoliUser?.fullName ?? ''}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
           <View>
-            {user !== null ? (
+            {chatPartnerHoliUser !== null ? (
               <HoliAvatar
-                imageSrc={user?.avatar}
-                imageBlurhash={user?.avatarBlurhash}
+                imageSrc={chatPartnerHoliUser?.avatar}
+                imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
                 label={name}
-                initials={user?.avatarLabel || ''}
-                defaultColor={user?.avatarDefaultColor || ''}
+                initials={chatPartnerHoliUser?.avatarLabel || ''}
+                defaultColor={chatPartnerHoliUser?.avatarDefaultColor || ''}
                 size="medium"
               />
             ) : null}
@@ -80,7 +84,7 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
           <View style={styles.content}>
             <View style={[styles.rowWrapper, styles.nameDateRaw]}>
               <View style={{ flexShrink: 1 }}>
-                <HoliText bold>{user?.fullName}</HoliText>
+                <HoliText bold>{chatPartnerHoliUser?.fullName}</HoliText>
               </View>
 
               {!!timestamp && (

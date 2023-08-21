@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -16,7 +16,7 @@ import {
   updateRoomAfterNewMessage,
   updateRoomInvitation,
 } from './room'
-import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
+import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, ChatRoomId, CreateMessage } from './types'
 
 export const chatInitializedAtom = atom(false)
 
@@ -37,36 +37,28 @@ export const getChatClient = (): ChatClient => {
 /** Rooms **/
 
 /**
- * @name roomAtomsRecordAtom (Read-Only)
- * @description An object with id and room atoms, each atom contains the room
- * (conversation) of the logged-in user. To get the room information, you must
- * pass the single room to a const `room = useAtomValue(roomAtom)` to access
- * this read-only value.
+ * Internal
  *
  * IMPORTANT! Do not set values to the room using this atom. It would be best to
  * use a `createRoomAtomRecord` derived atom to set values (updating the
  * state).To edit a particular room, you need to use a selector, which can be
  * found below under the Room section (e.g `createRoomAtom`).
  */
-const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
-export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
+const _roomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom>>({})
 
 /**
- * @name roomAtomNameMapAtom
- * @description derived atom that holds all room atoms sorted by date of last
- * message in descending order
- * @returns `Map<ChatRoomAtom, string`
+ * @description A read-only atom to receive a record mapping room ids to room atoms.
+ * Each atom contains the room (conversation) of the logged-in user. To get the room
+ * information, you must pass the single room to a const `room = useAtomValue(roomAtom)`
+ * to access this read-only value.
+ *
+ * @see _roomAtomsRecordAtom
  */
-export const roomAtomNameMapAtom = atom<Map<ChatRoomAtom, string>>((get) => {
-  const roomAtomsRecordAtom = get(_roomAtomsRecordAtom)
-  const roomAtomNameMap: Map<ChatRoomAtom, string> = new Map()
+export const roomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom>> = atom((get) => get(_roomAtomsRecordAtom))
 
-  for (const roomAtom of Object.values(roomAtomsRecordAtom)) {
-    roomAtomNameMap.set(roomAtom, get(roomAtom).name)
-  }
-  return roomAtomNameMap
-})
-
+/**
+ * Derived atom that holds all room atoms sorted by date of last message in descending order
+ */
 export const roomAtomsSortedByDateAtom = atom((get) => {
   const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
   return roomAtoms.sort((rA, rB) => {
@@ -155,7 +147,7 @@ const roomByIdAtomCreator = (roomId: string) => {
   return atom((get) => {
     const roomAtomsRecord = get(_roomAtomsRecordAtom)
     const roomAtom = roomAtomsRecord[roomId]
-    if (!roomAtom) return null
+    if (!roomAtom) return undefined
 
     return get(roomAtom)
   })
@@ -329,14 +321,13 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
 
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
- * @description A function that creates message list atom based on the passed
- * room id.
+ * @description A function that returns an atom of messages for the given room id.
  */
 const messagesByRoomIdAtomCreator = (roomId: string) =>
   atom((get) => {
     const roomMessagesAtomsRecord = get(_messagesAtomsRecordAtom)
     const messagesAtom = roomMessagesAtomsRecord[roomId]
-    if (!messagesAtom) return []
+    if (!messagesAtom) return undefined
 
     return get(messagesAtom)
   })
@@ -379,7 +370,7 @@ export const useRequestRoomMessages = () => {
  * @description It returns the specific room with all its data (`ChatRoom` and
  * `ChatMessage[]`).
  */
-export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
+export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[] | undefined] => {
   const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
   const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
 

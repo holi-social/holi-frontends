@@ -21,12 +21,12 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const ChatHomeContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { isLoggedIn, isLoading } = useLoggedInUser()
+  const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const { navigate } = useRouting()
   const chatInitialized = useAtomValue(chatInitializedAtom)
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
-  if (isLoading || !chatInitialized) return <HoliLoader />
+  if (isLoading || !chatInitialized || !loggedInUser) return <HoliLoader />
 
   if (!isLoggedIn) {
     return (
@@ -84,7 +84,7 @@ const ChatHomeContent = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <RoomList roomAtoms={sortedRoomAtoms} />
+      <RoomList roomAtoms={sortedRoomAtoms} loggedInUser={loggedInUser} />
 
       <View style={[mixins.container, styles.overlayButtonWrapper]}>
         <HoliButton

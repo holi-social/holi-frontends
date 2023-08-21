@@ -2,6 +2,7 @@ import type { PrimitiveAtom } from 'jotai'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
 
+export type ChatRoomId = string
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
 
