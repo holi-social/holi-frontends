@@ -38,12 +38,14 @@ export enum RouteName {
   ChatHome = 'ChatHome',
   ChatStack = 'ChatStack',
   ChatRoom = 'ChatRoom',
+  ChatStartConversation = 'ChatStartConversation',
 
   // Auth Stack
   Profile = 'Profile',
   SettingsOverview = 'SettingsOverview',
   AccountSettings = 'AccountSettings',
   ChangePassword = 'ChangePassword',
+  HelpSettings = 'HelpSettings',
   LegalDocuments = 'LegalDocuments',
   Document = 'Document',
 

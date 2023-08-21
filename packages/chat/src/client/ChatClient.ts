@@ -71,7 +71,12 @@ export default class ChatClient {
     return this.mxClient.clientRunning
   }
 
-  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
+  /**
+   * Starts the client and returns a promise that completes when the client has been initialized
+   *
+   * @returns promise that completes when client has intialized (technically: when the client has reached SyncState.Prepared)
+   */
+  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<void> => {
     logDebug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
@@ -80,22 +85,23 @@ export default class ChatClient {
       throw err
     }
 
-    let isPreparedResolver: (value: boolean) => void
-    const isPrepared = new Promise<boolean>((resolve) => {
+    // TODO consider adding timeouts for the case that SyncState.Prepared is never reached
+    let isPreparedResolver: () => void
+    const isPreparedPromise = new Promise<void>((resolve) => {
       isPreparedResolver = resolve
     })
     // TODO: Implement soft logout and reconnect
     this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
       console.debug({ state, lastState })
       if (state === SyncState.Prepared) {
-        isPreparedResolver(true)
+        isPreparedResolver()
       }
     })
     this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
       unknownTokenHandler()
     })
 
-    return isPrepared
+    return isPreparedPromise
   }
 
   /**
