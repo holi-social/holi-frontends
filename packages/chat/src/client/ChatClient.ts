@@ -329,7 +329,6 @@ export default class ChatClient {
 
       // We also do the same for any newly created room during a session.
       room.on(RoomEvent.UnreadNotifications, (notificationCount?: NotificationCount) => {
-        if (!notificationCount) return
         handleUnreadNotifications(room.roomId, notificationCount)
       })
     }
