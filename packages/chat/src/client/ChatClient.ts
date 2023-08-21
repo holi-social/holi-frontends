@@ -18,7 +18,6 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
-import { setUnreadNotificationHandlers } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -312,32 +311,47 @@ export default class ChatClient {
   ) => {
     const client = this.mxClient
     await this.waitForNextSyncEvent()
-    const currentRooms = client.getRooms()
-
+    const rooms = client.getRooms()
     const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {
       if (!notificationCount) return
       callback(roomId, notificationCount)
     }
 
-    // We set a `RoomEvent.UnreadNotifications` listener to all available rooms
-    // and pass the `handleUnreadNotifications` handler as a callback.
-    const unsubscribeRooms = setUnreadNotificationHandlers(currentRooms, handleUnreadNotifications)
-
-    const roomEventHandler = (room: Room) => {
-      const hasRoomIdx = currentRooms.findIndex((r) => r.roomId === room.roomId)
-      if (hasRoomIdx > 0) return
-
-      // We also do the same for any newly created room during a session.
-      room.on(RoomEvent.UnreadNotifications, (notificationCount?: NotificationCount) => {
+    // Creates the `listener` for the `RoomEvent.UnreadNotifications` event
+    const createListener = (room: Room) => {
+      const listener = (notificationCount?: NotificationCount) => {
         handleUnreadNotifications(room.roomId, notificationCount)
-      })
+      }
+
+      room.on(RoomEvent.UnreadNotifications, listener)
+
+      return listener
     }
 
-    this.mxClient.on(ClientEvent.Room, roomEventHandler)
+    // A recursive function that adds `RoomEvent.UnreadNotifications` listeners
+    // to each room after the first sync and any other new room in the future
+    // coming from the `ClientEvent.Room` event.
+    const addListeners = async (
+      room?: Room,
+      incomingListeners: ((notificationCount?: NotificationCount) => void)[] = []
+    ) => {
+      const listeners = room ? incomingListeners : rooms.map(createListener)
+      const roomEventListener = (room: Room) => {
+        const hasRoomIdx = rooms.findIndex((r) => r.roomId === room.roomId)
+        if (hasRoomIdx > 0) return
 
-    return () => {
-      this.mxClient.off(ClientEvent.Room, roomEventHandler)
-      unsubscribeRooms()
+        addListeners(room, [...incomingListeners, createListener(room)])
+      }
+
+      this.mxClient.on(ClientEvent.Room, roomEventListener)
+
+      // Returns a function that removes all the added listeners
+      return () => {
+        this.mxClient.off(ClientEvent.Room, roomEventListener)
+        client.getRooms().forEach((room, idx) => room.off(RoomEvent.UnreadNotifications, listeners[idx]))
+      }
     }
+
+    return addListeners()
   }
 }
