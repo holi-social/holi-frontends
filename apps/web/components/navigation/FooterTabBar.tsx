@@ -14,7 +14,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const FooterTabBar = () => {
   const { width } = useWindowDimensions()
-  const styles = getStyles(width)
+  const floatingFooter = width >= +vars.breakpointL
   const { navigate } = useRouting()
   const pathname = usePathname()
   const { t } = useTranslation()
@@ -23,32 +23,33 @@ const FooterTabBar = () => {
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
   const isSpaces = pathname.startsWith('/spaces')
-  const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
+  const isProfileLoginRegistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
 
   return (
     <View
-      style={styles.fullWidthContainer}
+      style={[styles.fullWidthContainer, floatingFooter ? styles.boxedContainer : null]}
       accessible={true}
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.bottomNavigation')}
     >
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, floatingFooter ? styles.boxedButtonContainer : null]}>
         <HoliButton
           label={t('navigation.home')}
           inline
           transparent
           onPress={() => navigate('/')}
           testID="btn-to-home-view"
-          contentStyle={styles.button}
+          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
         >
           <HoliIcon
             icon={isHome ? HomeSmile2Filled : HomeSmile2}
             color={(isHome ? styles.activeTintColor : styles.inactiveTintColor).color}
+            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size="extrasmall"
+            size={floatingFooter ? 'default' : 'extrasmall'}
             style={[styles.buttonLabel, isHome ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('navigation.home')}
@@ -61,14 +62,15 @@ const FooterTabBar = () => {
           transparent
           onPress={() => navigate('/spaces')}
           testID="btn-to-spaces"
-          contentStyle={styles.button}
+          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
         >
           <HoliIcon
             icon={isSpaces ? SpacesFilled : Spaces}
             color={(isSpaces ? styles.activeTintColor : styles.inactiveTintColor).color}
+            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size="extrasmall"
+            size={floatingFooter ? 'default' : 'extrasmall'}
             style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('spaces.title')}
@@ -80,26 +82,31 @@ const FooterTabBar = () => {
           inline
           transparent
           onPress={() => navigate('/chat')}
-          contentStyle={styles.button}
+          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
         >
           <HoliIcon
             icon={isChat ? Chat3Filled : Chat3}
             color={(isChat ? styles.activeTintColor : styles.inactiveTintColor).color}
+            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size="extrasmall"
+            size={floatingFooter ? 'default' : 'extrasmall'}
             style={[styles.buttonLabel, isChat ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('chat.title')}
           </HoliText>
         </HoliButton>
 
-        <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} style={styles.button}>
+        <LoginProfileButton
+          focused={isProfileLoginRegistrationForgotPassword}
+          floatingFooter={floatingFooter}
+          style={floatingFooter ? styles.boxedButton : styles.button}
+        >
           <HoliText
-            size="extrasmall"
+            size={floatingFooter ? 'default' : 'extrasmall'}
             style={[
               styles.buttonLabel,
-              isProfileLoginRefistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
+              isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
             ]}
           >
             {isLoggedIn ? t('profile.title') : t('auth.login')}
@@ -112,38 +119,57 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const getStyles = (screenWidth: number) =>
-  StyleSheet.create({
-    fullWidthContainer: {
-      alignItems: 'center',
-      backgroundColor: colors.background10,
-      borderTopWidth: 1,
-      borderTopColor: colors.background30,
-      paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
-      height: vars.bottomBarHeight,
-      maxHeight: vars.bottomBarHeight,
-    },
-    buttonContainer: {
-      flex: 1,
-      width: '100%',
-      maxWidth: vars.maxScreenWidth,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: vars.bottomBarHeight,
-      maxHeight: vars.bottomBarHeight,
-    },
-    button: {
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      alignItems: 'center',
-    },
-    activeTintColor: {
-      color: colors.foreground30,
-    },
-    inactiveTintColor: {
-      color: colors.foreground20,
-    },
-    buttonLabel: {
-      paddingTop: 8,
-    },
-  })
+const styles = StyleSheet.create({
+  fullWidthContainer: {
+    alignItems: 'center',
+    backgroundColor: colors.background10,
+    borderTopWidth: 1,
+    borderColor: colors.background30,
+    paddingHorizontal: 16,
+    height: vars.bottomBarHeight,
+    maxHeight: vars.bottomBarHeight,
+  },
+  boxedContainer: {
+    height: vars.bottomBarHeightBig,
+    maxHeight: vars.bottomBarHeightBig,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderRadius: 16,
+    shadowColor: colors.foreground30,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+  },
+  buttonContainer: {
+    flex: 1,
+    width: '100%',
+    maxWidth: vars.maxScreenWidth,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: vars.bottomBarHeight,
+    maxHeight: vars.bottomBarHeight,
+  },
+  boxedButtonContainer: {
+    width: 'auto',
+    margin: 'auto',
+    gap: 40,
+    height: vars.bottomBarHeightBig,
+    maxHeight: vars.bottomBarHeightBig,
+  },
+  button: {
+    padding: 8,
+    alignItems: 'center',
+  },
+  boxedButton: {
+    padding: 8,
+    minWidth: 76,
+  },
+  activeTintColor: {
+    color: colors.foreground30,
+  },
+  inactiveTintColor: {
+    color: colors.foreground20,
+  },
+  buttonLabel: {
+    paddingTop: 4,
+  },
+})

@@ -22,7 +22,7 @@ const staticStyles = StyleSheet.create({
 
 const useStyleMixins = () => {
   const paddingHorizontal = useBreakpointMatcher([
-    [0, 24],
+    [0, 16],
     [+vars.breakpointS, 32],
     [+vars.breakpointL, 64],
   ])

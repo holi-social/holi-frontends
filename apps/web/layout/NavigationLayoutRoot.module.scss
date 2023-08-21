@@ -30,4 +30,12 @@
   z-index: 10;
   height: #{$bottom-bar-height}px;
   max-height: #{$bottom-bar-height}px;
+  @media (min-width: #{$breakpoint-l}px) {
+    width: auto;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: #{$bottom-bar-height-big}px;
+    max-height: #{$bottom-bar-height-big}px;
+  }
 }

@@ -12,12 +12,14 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type LoginProfileButtonProps = {
   focused?: boolean
+  floatingFooter?: boolean
   style?: ViewStyle | Record<string, unknown>
   testID?: string
 }
 
 const LoginProfileButton = ({
   focused,
+  floatingFooter,
   children,
   style,
   ...props
@@ -43,14 +45,15 @@ const LoginProfileButton = ({
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
-          size="micro"
-          style={focused && styles.userAvatarHighlighted}
+          size={floatingFooter ? 'medium' : 'micro'}
+          style={[styles.avatar, focused && styles.userAvatarHighlighted]}
           testID="logged-in-profile"
         />
       ) : (
         <HoliIcon
           icon={focused ? AccountCircleFilled : AccountCircle}
           color={focused ? colors.foreground30 : colors.foreground20}
+          size={floatingFooter ? 32 : undefined}
         />
       )}
 
@@ -64,6 +67,10 @@ export default LoginProfileButton
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
+  },
+  avatar: {
+    maxWidth: 32,
+    maxHeight: 32,
   },
   userAvatarHighlighted: {
     borderColor: colors.foreground30,
