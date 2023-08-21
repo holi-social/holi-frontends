@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
@@ -217,6 +217,29 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
   return await getChatClient().sendTextMessage(message.roomId, message.text)
 }
 
+const _ignoredUsersAtom = atom<string[]>([])
+
+export const useIsUserIgnored = (userId: string) => {
+  const ignoredUsers = useAtomValue(_ignoredUsersAtom)
+  return ignoredUsers.includes(userId)
+}
+
+export const useIgnoredUsers = () => {
+  return useAtomValue(_ignoredUsersAtom)
+}
+
+export const isUserIgnored = (userId: string) => {
+  return getChatClient().isUserIgnored(userId)
+}
+
+export const ignoreUser = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const unignoreUser = async (userId: string) => {
+  return await getChatClient().unignoreUser(userId)
+}
+
 /**
  * @name messagesAtomsRecordAtom (Read-Only)
  * @description An atom of type `Record<string, ChatMessagesAtom>` collects `Atom<ChatMessage[]>` for all rooms ids.
@@ -359,4 +382,10 @@ export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
+  //useSetAtom(_ignoredUsersAtom)(getChatClient().getIgnoredUsers())
+}
+
+_ignoredUsersAtom.onMount = (setAtom) => {
+  console.debug('_ignoredUsersAtom.onMount')
+  setAtom(getChatClient().getIgnoredUsers())
 }

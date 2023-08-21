@@ -83,6 +83,8 @@
   "chat.maintenance.headline": "Dieses Feature ist aufgrund einer Wartung gerade nicht verfügbar.\nEs ist bald wieder da!",
   "chat.maintenance.tagline": "Der Chat macht eine Pause",
   "chat.room.start.description": "Das ist der Beginn deiner direkten Nachrichten mit <0>{{fullName}}</0>. Wenn du deine erste Nachricht absendest, bekommt <0>{{fullName}}</0> eine Anfrage dieses Gespräch zu akzeptieren.",
+  "chat.user.block": "{{user}} blockieren",
+  "chat.user.unblock": "{{user}} nicht mehr blockieren",
   "comment.suggestionItem.label": "{{item}} auswählen",
   "component.readMore.readLess": "Zeige weniger",
   "component.readMore.readMore": "Weiterlesen",

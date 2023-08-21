@@ -215,6 +215,24 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
+  public ignoreUser = async (userId: string): Promise<void> => {
+    if (this.isUserIgnored(userId)) return
+    await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().concat(userId))
+  }
+
+  public unignoreUser = async (userId: string): Promise<void> => {
+    if (!this.isUserIgnored(userId)) return
+    await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().filter((uId: string) => uId === userId))
+  }
+
+  public getIgnoredUsers = (): string[] => {
+    return this.mxClient.getIgnoredUsers()
+  }
+
+  public isUserIgnored = (userId: string): boolean => {
+    return this.mxClient.isUserIgnored(userId)
+  }
+
   public subscribeToMembership(
     callback: (event: MatrixEvent, state: RoomState, member: RoomMember) => void
   ): (() => void) | void {

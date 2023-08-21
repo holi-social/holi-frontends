@@ -5,7 +5,15 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
-import { ChatRoom, sendMessage, useRequestRoomMessages, useRoomById } from '@holi/chat/src/store'
+import {
+  ChatRoom,
+  ignoreUser,
+  sendMessage,
+  unignoreUser,
+  useIgnoredUsers,
+  useRequestRoomMessages,
+  useRoomById,
+} from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -22,6 +30,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -76,30 +85,45 @@ const ChatRoomView = () => {
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
   const roomCreator = roomUsersRecord[room?.name ?? '']
   const setScreenOptions = useSetScreenOptions()
+  const ignoredUsers = useIgnoredUsers()
 
   useEffect(() => {
     setScreenOptions({
-      headerTitle: () =>
-        roomCreator ? (
-          <HoliLink label={t('user.visitProfile', { name: roomCreator.fullName })} href={`/profile/${roomCreator.id}`}>
-            <View style={styles.headerTitle}>
-              <HoliAvatar
-                imageSrc={roomCreator.avatar}
-                imageBlurhash={roomCreator.avatarBlurhash}
-                label={roomCreator.fullName}
-                initials={roomCreator.avatarLabel}
-                defaultColor={roomCreator.avatarDefaultColor}
-                size="micro"
-              />
-              <HoliText bold>{roomCreator.fullName}</HoliText>
-            </View>
-          </HoliLink>
-        ) : null,
+      headerTitle: () => {
+        if (!roomCreator) return null
+        const isUserIgnored = ignoredUsers.includes(roomCreator.identity)
+        const [blockLabel, blockAction] = isUserIgnored
+          ? [t('chat.user.unblock', { user: roomCreator.fullName }), () => unignoreUser(roomCreator.identity)]
+          : [t('chat.user.block', { user: roomCreator.fullName }), () => ignoreUser(roomCreator.identity)]
+        return (
+          <View style={{ flexDirection: 'row', columnGap: 20 }}>
+            <HoliLink
+              label={t('user.visitProfile', { name: roomCreator.fullName })}
+              href={`/profile/${roomCreator.id}`}
+            >
+              <View style={styles.headerTitle}>
+                <HoliAvatar
+                  imageSrc={roomCreator.avatar}
+                  imageBlurhash={roomCreator.avatarBlurhash}
+                  label={roomCreator.fullName}
+                  initials={roomCreator.avatarLabel}
+                  defaultColor={roomCreator.avatarDefaultColor}
+                  size="micro"
+                />
+                <HoliText bold>{roomCreator.fullName}</HoliText>
+              </View>
+            </HoliLink>
+            <HoliButton inline variant="small" type="secondary" label={blockLabel} onPress={blockAction}>
+              {blockLabel}
+            </HoliButton>
+          </View>
+        )
+      },
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [roomCreator, room?.name, setScreenOptions, t])
+  }, [roomCreator, room?.name, setScreenOptions, t, ignoredUsers])
 
   useEffect(() => {
     if (room?.hasInvitation) return

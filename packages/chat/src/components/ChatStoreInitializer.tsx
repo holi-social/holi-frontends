@@ -2,11 +2,18 @@ import { Provider } from 'jotai'
 import React, { memo, useEffect, useState } from 'react'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
+import { useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
-import ChatStore from './ChatStore'
+/**
+ * To be mounted once ChatClient is initialized. It subscribes to chat events and updates Jotai atoms.
+ */
+const ChatStore = () => {
+  useSubscribeToChat()
+  return null
+}
 
 /**
  *
@@ -20,7 +27,7 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
-  const [roloadCount, setReloadCount] = useState(0)
+  const [reloadCount, setReloadCount] = useState(0)
 
   useEffect(() => {
     if (!identity) {
@@ -40,7 +47,7 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
 
   // to reset Jotai Provider for new user login we render a new one only when new identity is provided
   return (
-    <Provider key={roloadCount}>
+    <Provider key={reloadCount}>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {isChatReady && <ChatStore />}
       {children}
