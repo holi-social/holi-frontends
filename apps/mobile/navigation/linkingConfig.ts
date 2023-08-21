@@ -84,12 +84,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.ChatStack]: {
       screens: {
         [RouteName.ChatRoom]: 'chat/rooms/:roomId',
-      },
-    },
-
-    [RouteName.ChatStack]: {
-      screens: {
-        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
+        [RouteName.ChatStartConversation]: 'chat/start',
       },
     },
 

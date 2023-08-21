@@ -38,6 +38,7 @@ export enum RouteName {
   ChatHome = 'ChatHome',
   ChatStack = 'ChatStack',
   ChatRoom = 'ChatRoom',
+  ChatStartConversation = 'ChatStartConversation',
 
   // Auth Stack
   Profile = 'Profile',
