@@ -6,8 +6,8 @@ import { StyleSheet } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -36,7 +36,7 @@ const ClientRootProvider = ({ children }: PropsWithChildren<unknown>) => {
   ) : (
     // FIXME: Use Suspence
     <SafeArea style={styles.loadingContainer}>
-      <HoliText style={{ textAlign: 'center' }}>Loading translations...</HoliText>
+      <HoliLoader />
     </SafeArea>
   )
 }

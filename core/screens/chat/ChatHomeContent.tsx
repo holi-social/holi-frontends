@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
+import { chatInitializedAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
@@ -12,6 +13,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -19,10 +21,12 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const ChatHomeContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, isLoading } = useLoggedInUser()
   const { navigate } = useRouting()
-
+  const chatInitialized = useAtomValue(chatInitializedAtom)
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
+
+  if (isLoading || !chatInitialized) return <HoliLoader />
 
   if (!isLoggedIn) {
     return (

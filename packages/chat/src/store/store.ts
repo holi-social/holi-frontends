@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import type { ClientEvent, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
