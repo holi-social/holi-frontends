@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
-import { useCallback, useMemo, useRef } from 'react'
+import type { ClientEvent, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import type { RoomId } from '@holi/chat/src/client/types'
@@ -18,13 +18,15 @@ import {
 } from './room'
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from './types'
 
+export const chatInitializedAtom = atom(false)
+
 /** Client **/
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
   chatClient = newChatClient
 }
 
-const getChatClient = (): ChatClient => {
+export const getChatClient = (): ChatClient => {
   if (!chatClient)
     throw new Error(
       '[ChatStore]: chatClient was not initialized, please ensure to call initChatClient before using the store'
@@ -218,10 +220,21 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
 }
 
 const _ignoredUsersAtom = atom<string[]>([])
+const _ignoredUsersAtomSubscriber = atom(
+  null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async (_get, set, event: MatrixEvent, lastEvent: MatrixEvent | undefined) => {
+    const client = getChatClient()
+    set(_ignoredUsersAtom, () => {
+      const ignoredUsers = client.getIgnoredUsers()
+      console.debug('_ignoredUsersAtomSubscriber setting ignored users', ignoredUsers)
+      return ignoredUsers
+    })
+  }
+)
 
-export const useIsUserIgnored = (userId: string) => {
-  const ignoredUsers = useAtomValue(_ignoredUsersAtom)
-  return ignoredUsers.includes(userId)
+_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
+  return getChatClient().subscribeToIgnoredUsers(setAtom)
 }
 
 export const useIgnoredUsers = () => {
@@ -382,10 +395,5 @@ export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
-  //useSetAtom(_ignoredUsersAtom)(getChatClient().getIgnoredUsers())
-}
-
-_ignoredUsersAtom.onMount = (setAtom) => {
-  console.debug('_ignoredUsersAtom.onMount')
-  setAtom(getChatClient().getIgnoredUsers())
+  useAtom(_ignoredUsersAtomSubscriber)
 }

@@ -222,12 +222,14 @@ export default class ChatClient {
   }
 
   public ignoreUser = async (userId: string): Promise<void> => {
-    if (this.isUserIgnored(userId)) return
+    //if (this.isUserIgnored(userId)) return
+    console.debug('ignoring user', userId)
     await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().concat(userId))
   }
 
   public unignoreUser = async (userId: string): Promise<void> => {
-    if (!this.isUserIgnored(userId)) return
+    //if (!this.isUserIgnored(userId)) return
+    console.debug('unignoring user', userId)
     await this.mxClient.setIgnoredUsers(this.mxClient.getIgnoredUsers().filter((uId: string) => uId === userId))
   }
 
@@ -235,8 +237,18 @@ export default class ChatClient {
     return this.mxClient.getIgnoredUsers()
   }
 
-  public isUserIgnored = (userId: string): boolean => {
-    return this.mxClient.isUserIgnored(userId)
+  public subscribeToIgnoredUsers(callback: (event: MatrixEvent) => void): (() => void) | void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handler = (event: MatrixEvent, lastEvent: MatrixEvent | undefined) => {
+      if (event.getType() !== EventType.IgnoredUserList) return
+      callback(event)
+    }
+
+    this.mxClient.on(ClientEvent.AccountData, handler)
+
+    return () => {
+      this.mxClient.off(ClientEvent.AccountData, handler)
+    }
   }
 
   public subscribeToMembership(

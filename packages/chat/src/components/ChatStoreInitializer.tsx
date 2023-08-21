@@ -1,8 +1,8 @@
-import { Provider } from 'jotai'
+import { Provider, useSetAtom } from 'jotai'
 import React, { memo, useEffect, useState } from 'react'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
-import { useSubscribeToChat } from '@holi/chat/src/store'
+import { chatInitializedAtom, useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -12,6 +12,12 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
  */
 const ChatStore = () => {
   useSubscribeToChat()
+  const setInitialized = useSetAtom(chatInitializedAtom)
+  //const setIgnoredUsers = useSetAtom(_ignoredUsersAtom)
+  useEffect(() => {
+    setInitialized(true)
+    //setIgnoredUsers(getChatClient().getIgnoredUsers())
+  })
   return null
 }
 
@@ -38,7 +44,9 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   useEffect(() => {
     if (!ftLoading && ftEnabled && identity) {
       startChat()
-        .then(() => setIsChatReady(true))
+        .then(() => {
+          setIsChatReady(true)
+        })
         .catch(displayError)
     } else {
       setIsChatReady(false)

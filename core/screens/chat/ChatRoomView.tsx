@@ -1,12 +1,15 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import { useAtomValue } from 'jotai'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { ChatRoomMember } from '@holi/chat/src/client/types'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
   ChatRoom,
+  chatInitializedAtom,
   ignoreUser,
   sendMessage,
   unignoreUser,
@@ -15,6 +18,7 @@ import {
   useRoomById,
 } from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import { chatServerName } from '@holi/core/helpers/config'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
@@ -40,77 +44,94 @@ export type ChatRoomPageParams = {
 
 const { useParam } = createParam<ChatRoomPageParams>()
 
-const useIdOrIdentityToUserRecord = (room: ChatRoom | null) => {
-  const userNames = room?.members.map(({ name }) => name) ?? []
+type HoliIdentity = string
+type MatrixId = string // TODO create value type that ensures this is a valid Matrix ID
+
+const toHoliIdentity = (matrixId: MatrixId): HoliIdentity => matrixId.replace('@', '').replace(`:${chatServerName}`, '')
+
+const useMatrixIdToHoliUserRecord = (room: ChatRoom | null) => {
+  const roomMemberMatrixIds = room?.members.map((member) => member.id) ?? []
+  const roomMemberHoliIdentities = room?.members.map((member) => toHoliIdentity(member.id)) ?? []
 
   const { data, loading } = useQuery<UsersByChatIdentitiesResponse, UsersByChatIdentitiesQueryVariables>(
     usersByChatIdentitiesQuery,
     {
       variables: {
-        identities: userNames,
+        identities: roomMemberHoliIdentities,
         offset: 0,
-        limit: userNames.length,
+        limit: roomMemberHoliIdentities.length,
       },
-      skip: !userNames.length,
+      skip: !roomMemberHoliIdentities.length,
     }
   )
-  const users = data?.usersByChatIdentities.data ?? []
 
-  const roomUsersRecord: Record<string, User> = users.reduce((acc, user) => {
-    const mxUserId = room?.members.find((member) => member.name === user.identity)?.id
-    if (mxUserId) {
-      return { ...acc, [mxUserId]: user, [user.identity]: user }
+  // might not contain holi users for every matrix ID
+  // (e.g. because of data inconsistencies or because the holi user was already deleted but the Matrix user still exists)
+  const roomMemberHoliUsers = data?.usersByChatIdentities.data ?? []
+
+  const matrixIdToHoliUserRecord: Record<MatrixId, User> = roomMemberMatrixIds.reduce((acc, matrixId) => {
+    return {
+      ...acc,
+      [matrixId]: roomMemberHoliUsers.find((holiUser) => holiUser.identity === toHoliIdentity(matrixId)),
     }
-    return acc
   }, {})
 
   return {
-    roomUsersRecord,
+    matrixIdToHoliUserRecord,
     loading,
   }
 }
 
+const getChatPartner = (me: User | undefined, room: ChatRoom | null): ChatRoomMember | undefined => {
+  if (!me || !room) return undefined
+  const meMatrixId = '@' + me.identity + ':' + chatServerName
+  return room.members.find((member) => member.id !== meMatrixId)
+}
+
 const ChatRoomView = () => {
   const { t } = useTranslation()
+  const chatInitialized = useAtomValue(chatInitializedAtom)
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
 
-  const { roomUsersRecord, loading: loadingUsers } = useIdOrIdentityToUserRecord(room)
+  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(room)
   const [messageText, setMessageText] = useState('')
 
   const { user: me } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
 
   const amIRoomCreator = Boolean(room?.creator?.name && me?.identity && room.creator?.name == me?.identity)
-  const roomCreator = roomUsersRecord[room?.name ?? '']
+  const chatPartner = getChatPartner(me, room)
+  const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
+  console.debug({ chatServerName, chatPartner, chatPartnerHoliUser, matrixIdToHoliUserRecord })
   const setScreenOptions = useSetScreenOptions()
   const ignoredUsers = useIgnoredUsers()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => {
-        if (!roomCreator) return null
-        const isUserIgnored = ignoredUsers.includes(roomCreator.identity)
+        if (!chatPartner || !chatPartnerHoliUser) return null
+        const isUserIgnored = ignoredUsers.includes(chatPartner.id)
         const [blockLabel, blockAction] = isUserIgnored
-          ? [t('chat.user.unblock', { user: roomCreator.fullName }), () => unignoreUser(roomCreator.identity)]
-          : [t('chat.user.block', { user: roomCreator.fullName }), () => ignoreUser(roomCreator.identity)]
+          ? [t('chat.user.unblock', { user: chatPartnerHoliUser.fullName }), () => unignoreUser(chatPartner.id)]
+          : [t('chat.user.block', { user: chatPartnerHoliUser.fullName }), () => ignoreUser(chatPartner.id)]
         return (
           <View style={{ flexDirection: 'row', columnGap: 20 }}>
             <HoliLink
-              label={t('user.visitProfile', { name: roomCreator.fullName })}
-              href={`/profile/${roomCreator.id}`}
+              label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
+              href={`/profile/${chatPartner.id}`}
             >
               <View style={styles.headerTitle}>
                 <HoliAvatar
-                  imageSrc={roomCreator.avatar}
-                  imageBlurhash={roomCreator.avatarBlurhash}
-                  label={roomCreator.fullName}
-                  initials={roomCreator.avatarLabel}
-                  defaultColor={roomCreator.avatarDefaultColor}
+                  imageSrc={chatPartnerHoliUser.avatar}
+                  imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+                  label={chatPartnerHoliUser.fullName}
+                  initials={chatPartnerHoliUser.avatarLabel}
+                  defaultColor={chatPartnerHoliUser.avatarDefaultColor}
                   size="micro"
                 />
-                <HoliText bold>{roomCreator.fullName}</HoliText>
+                <HoliText bold>{chatPartnerHoliUser.fullName}</HoliText>
               </View>
             </HoliLink>
             <HoliButton inline variant="small" type="secondary" label={blockLabel} onPress={blockAction}>
@@ -123,7 +144,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [roomCreator, room?.name, setScreenOptions, t, ignoredUsers])
+  }, [chatPartner, room?.name, setScreenOptions, t, ignoredUsers, chatPartnerHoliUser])
 
   useEffect(() => {
     if (room?.hasInvitation) return
@@ -138,8 +159,10 @@ const ChatRoomView = () => {
     setMessageText('')
   }
 
+  console.debug('chatInitialized', chatInitialized, 'room', room, 'loadingUsers', loadingUsers)
+
   // TODO: provide skeleton instead of HoliLoader
-  if (!room || loadingUsers) return <HoliLoader />
+  if (!chatInitialized || !room || loadingUsers) return <HoliLoader />
 
   return (
     <KeyboardAvoidingViewWrapper
@@ -147,16 +170,16 @@ const ChatRoomView = () => {
         <SafeAreaView style={styles.wrapper}>
           <View style={{ backgroundColor: colors.background20, flex: 1 }}>
             {room.hasInvitation ? (
-              <ChatProfileCard roomId={roomId} user={roomCreator} userIsLoading={loadingUsers} />
+              <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
             ) : (
               <RoomMessageList
                 messages={messages}
-                mxIdUserRecord={roomUsersRecord}
+                matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
                 starter={
                   amIRoomCreator &&
-                  roomCreator && (
+                  chatPartner && (
                     <HoliBox padding={[0, 16]}>
-                      <RoomMessageListStart user={roomCreator} />
+                      <RoomMessageListStart user={chatPartnerHoliUser} />
                     </HoliBox>
                   )
                 }
