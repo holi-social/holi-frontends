@@ -6,7 +6,7 @@ import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/store/messages'
 import { getChatClient } from '@holi/chat/src/store/store'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
-import { isRoomEvent } from '@holi/chat/src/store/utils'
+import { isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 
 /** Immer Producers **/
@@ -47,7 +47,7 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
 
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
-  const lastMessage = isRoomEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
   // TODO extract memberships from room to its own atom record
   const getMembership = (membership?: string) => {

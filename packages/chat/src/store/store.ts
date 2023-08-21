@@ -16,7 +16,7 @@ import {
   updateRoomUnreadNotifications,
 } from '@holi/chat/src/store/room'
 import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
-import { getAtomFromRecordId, isRoomEvent } from '@holi/chat/src/store/utils'
+import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 
 /** Client **/
@@ -291,7 +291,7 @@ const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IR
         // the list of messages must have `Backward` direction - from older to newer messages
         // it is why we reverse `olderMessages`
         const olderMessages = events
-          .filter(isRoomEvent)
+          .filter(isRoomMessageEvent)
           .reverse()
           .map((event) => createChatMessage(roomId, event))
 

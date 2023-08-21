@@ -231,19 +231,18 @@ export default class ChatClient {
     return eventIdResponse.event_id
   }
 
-  public setLatestMessagesAsRead = async (roomId: string): Promise<boolean> => {
+  public setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
     const room = this.mxClient.getRoom(roomId)
     const userId = this.mxClient.getUserId()
 
-    if (!userId) return false
-    if (!room || room.getUnreadNotificationCount() === 0) return false
+    // If the user is not logged-in we do an early return
+    if (!userId) return
+    if (!room || room.getUnreadNotificationCount() === 0) return
 
     const events = room.getLiveTimeline().getEvents()
     const lastEvent = events[events.length - 1]
 
     await this.mxClient.sendReadReceipt(lastEvent, ReceiptType.ReadPrivate)
-
-    return true
   }
 
   public subscribeToMembership(

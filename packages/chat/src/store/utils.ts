@@ -16,7 +16,7 @@ export const getAtomFromRecordId = <T>(
   return value
 }
 
-export const isRoomEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
+export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
   return event?.type === EventType.RoomMessage
 }
 
