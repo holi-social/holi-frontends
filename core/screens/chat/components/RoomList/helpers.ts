@@ -16,7 +16,8 @@ type MatrixId = string // TODO create value type that ensures this is a valid Ma
 /**
  * Converts a Matrix ID (e.g. `@otto:holi.social`) to a Holi identity (e.g. `otto`).
  */
-const toHoliIdentity = (matrixId: MatrixId): HoliIdentity => matrixId.replace('@', '').replace(`:${chatServerName}`, '')
+const toHoliIdentity = (matrixId: MatrixId): HoliIdentity =>
+  matrixId.endsWith(`:${chatServerName}`) ? matrixId.substring(1, matrixId.indexOf(':')) : ''
 
 /**
  * Converts a Holi identity (e.g. `otto`) to a Matrix ID (e.g. `@otto:holi.social`).

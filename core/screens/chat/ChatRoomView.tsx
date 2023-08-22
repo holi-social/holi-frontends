@@ -57,7 +57,6 @@ const ChatRoomView = () => {
   const { user: loggedInUser } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
 
-  // TODO fix
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
