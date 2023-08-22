@@ -90,7 +90,7 @@
   "chat.start.input.label": "Suche nach Personen",
   "chat.start.title": "Neuer Chat",
   "chat.start.userItem.checkbox.label": "{{user}} wählen",
-  "chat.title": "Chats",
+  "chat.title": "Chat",
   "chat.user.block": "{{user}} blockieren",
   "chat.user.unblock": "{{user}} nicht mehr blockieren",
   "comment.suggestionItem.label": "{{item}} auswählen",
