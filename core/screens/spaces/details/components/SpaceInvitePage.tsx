@@ -106,17 +106,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   contentStyle: {
-    ...Platform.select({
-      web: {
-        paddingTop: 40,
-      },
-      android: {
-        paddingTop: +vars.topBarHeight + 44,
-      },
-      ios: {
-        paddingTop: +vars.topBarHeight,
-      },
-    }),
+    paddingTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
     paddingBottom: 0,
     flex: 1,
   },
