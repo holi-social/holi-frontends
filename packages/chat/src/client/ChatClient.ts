@@ -99,11 +99,9 @@ export default class ChatClient {
       throw err
     }
 
-    if (__DEV__) {
-      this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-        logDebug('ChatClient', 'received sync event', { state, lastState })
-      })
-    }
+    this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
+      logDebug('ChatClient', 'received sync event', { state, lastState })
+    })
 
     return new Promise<void>((resolve) => {
       // TODO: Implement soft logout and reconnect
@@ -117,8 +115,6 @@ export default class ChatClient {
         unknownTokenHandler()
       })
     })
-
-    return isPreparedPromise
   }
 
   /**
