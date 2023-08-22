@@ -27,6 +27,11 @@ import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/ut
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 
+/**
+ * Client
+ *
+ **/
+
 const _chatInitializedAtom = atom(false)
 
 /**
@@ -38,7 +43,6 @@ const _chatInitializedAtom = atom(false)
  */
 export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
-/** Client **/
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
   chatClient = newChatClient
@@ -52,7 +56,10 @@ export const getChatClient = (): ChatClient => {
   return chatClient
 }
 
-/** Rooms **/
+/**
+ * Rooms
+ *
+ **/
 
 /**
  * Internal
@@ -183,7 +190,10 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
     .catch((err) => logError(err))
 }
 
-/** Room */
+/**
+ * Room
+ *
+ **/
 
 /**
  * @name createNewRoom (Client Helper)
@@ -283,7 +293,10 @@ _membershipSubscriberAtom.onMount = (setAtom) => {
   return getChatClient().subscribeToMembership(setAtom)
 }
 
-/** Messages */
+/**
+ * Messages
+ *
+ **/
 
 /**
  * @name sendMessage (Client Helper)
@@ -291,29 +304,6 @@ _membershipSubscriberAtom.onMount = (setAtom) => {
  */
 export const sendMessage = async (message: CreateMessage): Promise<string> => {
   return await getChatClient().sendTextMessage(message.roomId, message.text)
-}
-
-const _ignoredUsersAtom = atom<string[]>([])
-const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
-  const client = getChatClient()
-  set(_ignoredUsersAtom, client.getIgnoredUsers)
-})
-
-_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
-  getChatClient().subscribeToIgnoredUsers(setAtom)
-  setAtom() // triggers that the list of ignored users is intially populated
-}
-
-export const useIgnoredUsers = () => {
-  return useAtomValue(_ignoredUsersAtom)
-}
-
-export const ignoreUser = async (userId: string) => {
-  await getChatClient().ignoreUser(userId)
-}
-
-export const unignoreUser = async (userId: string) => {
-  return await getChatClient().unignoreUser(userId)
 }
 
 const _messagesAtomsRecordAtom = atom<Record<ChatRoomId, ChatMessagesAtom>>({})
@@ -441,6 +431,30 @@ export const useRequestRoomMessages = () => {
     [client, setMessages]
   )
 }
+
+/**
+ * Members
+ *
+ **/
+
+const _ignoredUsersAtom = atom<string[]>([])
+
+const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
+  set(_ignoredUsersAtom, getChatClient().getIgnoredUsers)
+})
+
+_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
+  getChatClient().subscribeToIgnoredUsers(setAtom)
+}
+
+export const useIgnoredUsersAtom = () => {
+  return useAtomValue(_ignoredUsersAtom)
+}
+
+/**
+ * Global Atoms
+ *
+ **/
 
 /**
  * @name useRoomById (Hook Helper)

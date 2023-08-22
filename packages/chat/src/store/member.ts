@@ -1,7 +1,20 @@
 import { produce } from 'immer'
 import type { MatrixEvent, RoomMember, RoomState } from 'matrix-js-sdk'
 
+import { getChatClient } from '@holi/chat/src/store/store'
 import type { ChatRoomAtom } from '@holi/chat/src/store/types'
+
+export const ignoreUser = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const ignoreUserAndLeaveRoom = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const unignoreUser = async (userId: string) => {
+  return await getChatClient().unignoreUser(userId)
+}
 
 export interface MemberEventOptions {
   event: MatrixEvent

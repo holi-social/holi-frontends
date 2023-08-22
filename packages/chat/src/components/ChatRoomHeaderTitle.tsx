@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
-import { ignoreUser, unignoreUser, useIgnoredUsers, useRequestRoomMessages } from '@holi/chat/src/store'
+import { ignoreUser, unignoreUser, useIgnoredUsersAtom, useRequestRoomMessages } from '@holi/chat/src/store'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,7 +18,7 @@ interface Props {
 
 const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser, roomId }: Props) => {
   const { t } = useTranslation()
-  const ignoredUsers = useIgnoredUsers()
+  const ignoredUsers = useIgnoredUsersAtom()
   const requestMessages = useRequestRoomMessages()
 
   // TODO: Display a fallback name in case the user
