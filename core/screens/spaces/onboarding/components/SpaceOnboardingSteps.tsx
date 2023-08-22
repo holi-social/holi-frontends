@@ -134,6 +134,7 @@ const SpaceOnboardingSteps = () => {
         style={styles.formWrapper}
         buttonLabel={t('global.save')}
         onSave={saveSteps}
+        scrollToInput={false}
         keyboardShouldPersistTaps="handled"
         renderProp={() => (
           <>
