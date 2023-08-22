@@ -48,6 +48,8 @@
     - [Web](#web-1)
     - [OAuth2](#oauth2)
   - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
+    - [Linting and Autocomplete](#linting-and-autocomplete)
+    - [Code Generation](#code-generation)
   - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
     - [Feature Branches \& Environments](#feature-branches--environments)
     - [Skipping parts of CI](#skipping-parts-of-ci)
@@ -62,7 +64,6 @@
       - [Configuration for mobile builds](#configuration-for-mobile-builds)
   - [sentry.io logging/tracing](#sentryio-loggingtracing)
   - [Accessibility testing](#accessibility-testing)
-  <!-- /TOC -->
 
 ## Development
 
@@ -756,7 +757,7 @@ On mobile builds, environment variables are evaluated at build time and the valu
 ```ts
 import Constants from 'expo-constants'
 
-export const holiApiUrl = Constants.manifest?.extra?.holi_api.url
+export const holiApiUrl = Constants.expoConfig?.extra?.holi_api.url
 ```
 
 #### Configuration for mobile builds
