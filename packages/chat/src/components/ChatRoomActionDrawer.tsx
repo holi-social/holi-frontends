@@ -1,22 +1,32 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import type { ChatRoomMember } from '@holi/chat/src/client/types'
+import { ignoreUser } from '@holi/chat/src/store'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CloseCircle } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface Props {
-  userFullName: string
+  chatPartner: ChatRoomMember
+  chatPartnerFullName: string
 }
 
-const ChatRoomActionDrawer = ({ userFullName }: Props) => {
+const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName }: Props) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
+
+  const handleBlockConfirmation = async () => {
+    await ignoreUser(chatPartner.id)
+    navigate('/chat')
+  }
 
   return (
     <HoliActionDrawer.Drawer label={t('chat.actions.more')} testID="chat-room-action-drawer">
       <HoliActionDrawer.Action
         icon={CloseCircle}
-        title={t('chat.actions.block', { fullName: userFullName })}
+        title={t('chat.actions.block', { fullName: chatPartnerFullName })}
         iconColor={colors.error20}
         variant="danger"
         showConfirmation
@@ -24,10 +34,10 @@ const ChatRoomActionDrawer = ({ userFullName }: Props) => {
         <HoliActionDrawer.Confirmation
           confirmText={t('chat.actions.block.confimation.block')}
           dismissText={t('chat.actions.block.confimation.cancel')}
-          title={t('chat.actions.block', { fullName: userFullName })}
-          description={t('chat.actions.block.confirmation.text', { fullName: userFullName })}
+          title={t('chat.actions.block', { fullName: chatPartnerFullName })}
+          description={t('chat.actions.block.confirmation.text', { fullName: chatPartnerFullName })}
           testID="chat-room-block-confirmation"
-          handleConfirmation={() => undefined}
+          handleConfirmation={handleBlockConfirmation}
           hasDismissBtn
           requireLogin
         />

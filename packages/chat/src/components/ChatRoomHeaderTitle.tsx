@@ -12,17 +12,14 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface Props {
   roomId: string
-  chatPartner?: ChatRoomMember
-  chatPartnerHoliUser?: User
+  chatPartner: ChatRoomMember
+  chatPartnerHoliUser: User
 }
 
 const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser, roomId }: Props) => {
   const { t } = useTranslation()
   const ignoredUsers = useIgnoredUsersAtom()
   const requestMessages = useRequestRoomMessages()
-
-  // TODO: Display a fallback name in case the user
-  if (!chatPartner || !chatPartnerHoliUser) return null
 
   const isUserIgnored = ignoredUsers.includes(chatPartner?.id)
 

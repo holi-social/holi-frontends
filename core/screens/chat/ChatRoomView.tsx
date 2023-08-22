@@ -6,7 +6,9 @@ import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
+  MatrixMemberId,
   getChatPartner,
+  getHoliUserFromChatMember,
   isRoomCreator,
   sendMessage,
   setLatestMessagesAsRead,
@@ -41,17 +43,18 @@ const ChatRoomView = () => {
   const [room, messages] = useRoomById(roomId)
 
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
-    room?.members.map((m) => m.id) || []
+    // TODO: fix cast when we move members out of rooms
+    room?.members.map((m) => m.id as MatrixMemberId) || []
   )
   const [messageText, setMessageText] = useState('')
 
   const { user: loggedInUser } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
+  const setScreenOptions = useSetScreenOptions()
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
-  const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
-  const setScreenOptions = useSetScreenOptions()
+  const chatPartnerHoliUser = getHoliUserFromChatMember(chatPartner, matrixIdToHoliUserRecord)
 
   const handleBackPress = useCallback(async () => {
     navigateBack()
@@ -60,11 +63,20 @@ const ChatRoomView = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
-      headerRight: () => <ChatRoomActionDrawer userFullName={chatPartnerHoliUser?.fullName ?? ''} />,
+      headerRight: () =>
+        !!chatPartner && (
+          <ChatRoomActionDrawer
+            roomId={roomId}
+            chatPartner={chatPartner}
+            chatPartnerFullName={chatPartnerHoliUser?.fullName ?? chatPartner.name}
+          />
+        ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
-      headerTitle: () => (
-        <ChatRoomHeaderTitle roomId={roomId} chatPartner={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-      ),
+      headerTitle: () =>
+        !!chatPartner &&
+        !!chatPartnerHoliUser && (
+          <ChatRoomHeaderTitle roomId={roomId} chatPartner={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+        ),
       navigationCustomOptions: {
         footerShown: false,
       },

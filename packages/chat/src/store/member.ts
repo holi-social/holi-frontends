@@ -21,6 +21,12 @@ export const toHoliIdentity = (matrixId: MatrixMemberId): HoliIdentity =>
  */
 const toMatrixIdentity = (holiIdentity: HoliIdentity): MatrixMemberId => `@${holiIdentity}:${chatServerName}`
 
+/**
+ * A type guard that verifies if its a Matrix member ID (e.g. `@asap:holi.social`).
+ */
+export const isMatrixIdentity = (id: string): id is MatrixMemberId =>
+  id.startsWith('@') && id.endsWith(`:${chatServerName}`)
+
 export const ignoreUser = async (userId: string) => {
   await getChatClient().ignoreUser(userId)
 }
@@ -31,6 +37,16 @@ export const ignoreUserAndLeaveRoom = async (userId: string) => {
 
 export const unignoreUser = async (userId: string) => {
   return await getChatClient().unignoreUser(userId)
+}
+
+export const getHoliUserFromChatMember = (
+  member: ChatRoomMember | undefined,
+  userRecord: Record<MatrixMemberId, User | undefined>
+) => {
+  if (!member) return
+  if (!isMatrixIdentity(member.id)) return
+
+  return userRecord[member.id]
 }
 
 export const getChatPartner = (loggedInUser: User, room: ChatRoom): ChatRoomMember | undefined => {
