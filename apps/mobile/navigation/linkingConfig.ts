@@ -37,6 +37,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.AccountSettings]: 'profile/settings/account',
             [RouteName.ChangePassword]: 'profile/settings/changePassword',
             [RouteName.LegalDocuments]: 'profile/settings/legalDocuments',
+            [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
           },
         },
@@ -70,7 +71,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditUpdate]: 'spaces/:spaceIdOrName/updates/:postId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',
         [RouteName.SpaceUpdateCommentInputPage]: 'spaces/:spaceIdOrName/updates/:postId/comment',
-        [RouteName.SpaceInviteView]: 'spaces/:spaceIdOrName/invite',
+        [RouteName.SpaceInvitePage]: 'spaces/:spaceIdOrName/invite',
         [RouteName.Collaborators]: 'spaces/:spaceIdOrName/collaborators',
         [RouteName.EditCollaborators]: 'spaces/:spaceIdOrName/collaborators/manage',
         [RouteName.SpaceRolesPermissions]: 'spaces/:spaceIdOrName/collaborators/rolesAndPermissions',
@@ -83,12 +84,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.ChatStack]: {
       screens: {
         [RouteName.ChatRoom]: 'chat/rooms/:roomId',
-      },
-    },
-
-    [RouteName.ChatStack]: {
-      screens: {
-        [RouteName.ChatRoom]: 'chat/rooms/:roomId',
+        [RouteName.ChatStartConversation]: 'chat/start',
       },
     },
 

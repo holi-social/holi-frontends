@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
+import * as Notifications from 'expo-notifications'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppState, AppStateStatus, BackHandler, Linking, Platform } from 'react-native'
@@ -49,6 +50,13 @@ const UpdateAppModal = () => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === 'active') {
         refetch()
+
+        // we don't have a badge count concept yet,
+        // so we just clear anything that is there
+        // when the app comes in foreground
+        // doing it here, because UpdateAppModal always mounted
+        // and only used on mobile
+        Notifications.setBadgeCountAsync(0)
       }
     }
     const appStateListener = AppState.addEventListener('change', handleAppStateChange)

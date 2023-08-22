@@ -26,7 +26,7 @@ test.describe('@Spaces', () => {
     await testDisplaysMultipleGroups(page)
     await testFiltering(page)
     await testDisplaysSpaceDetails(page)
-    await testShareSpace(page)
+    await testShareSpace(browserName, page)
     await testCreatingEditingDeletingASpace(context, page, userHandler)
   })
 })
@@ -115,18 +115,19 @@ const testDisplaysSpaceDetails = async (page: Page) => {
   expect(page.url()).toContain(spaceUrlPrefix)
 }
 
-const testShareSpace = async (page: Page) => {
+const testShareSpace = async (browserName: string, page: Page) => {
   // open space share modal
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await clickElementByTestId(page, 'space-share-btn')
 
-  //check if shared link is correct
-  const spaceShareLink = await locateElementByTestId(page, 'space-share-link')
-  const spaceShareLinkText = await spaceShareLink.innerText()
-  expect(spaceShareLinkText).toBe(page.url())
+  // There is no dedicated PlayWright API for the clipboard yet and the following currently only works in chrome, see https://github.com/microsoft/playwright/issues/15860
+  if (browserName === 'chromium') {
+    // check if shared link is correct
+    const clipboardText = await page.evaluate('navigator.clipboard.readText()')
+    expect(clipboardText).toContain(page.url())
+  }
 
-  // copy link and close modal / options
-  await clickElementByTestId(page, 'space-share-url-btn')
+  // expect success toast
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await page.waitForSelector(byTestId('space-options-btn'))
 }

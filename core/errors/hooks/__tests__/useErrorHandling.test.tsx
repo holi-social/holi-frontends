@@ -20,24 +20,24 @@ const ErrorComponent: React.VFC<ErrorComponentProps> = ({ message }) => {
 }
 
 describe('displays errors correctly', () => {
-  it('displays toast with global error message', () => {
+  it('displays toast with global error message', async () => {
     render(
       <ToastProvider>
         <ErrorComponent />
       </ToastProvider>
     )
 
-    screen.findByText('global.technicalError')
+    expect(await screen.findByText('global.technicalError'))
   })
 
-  it('displays toast with custom error message', () => {
+  it('displays toast with custom error message', async () => {
     render(
       <ToastProvider>
         <ErrorComponent message="Custom Error" />
       </ToastProvider>
     )
 
-    screen.findByText('Custom Error')
+    expect(await screen.findByText('Custom Error'))
   })
 
   it('warn logs and tracks error with sentry in development', () => {

@@ -6,12 +6,20 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseShareLink = [string, () => Promise<void>]
+export interface UseShareLinkProps {
+  title: string
+  link: string
+  externalLink?: boolean
+  createMessage?: (url: string) => string
+}
 
-export const useShareLink = (title: string, link: string, externalLink = false): UseShareLink => {
+export const useShareLink = ({ title, link, createMessage, externalLink = false }: UseShareLinkProps): UseShareLink => {
   const url = useRef('')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { t } = useTranslation()
+
+  const shareMessage = (createMessage && createMessage(url.current)) || url.current
 
   useEffect(() => {
     // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
@@ -43,11 +51,11 @@ export const useShareLink = (title: string, link: string, externalLink = false):
   }, [displayError, title])
 
   const shareLinkWeb = useCallback(async () => {
-    Clipboard.setString(url.current)
+    Clipboard.setString(shareMessage)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
-  }, [openToast, t])
+  }, [openToast, t, shareMessage])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile
 
-  return [url.current, shareLink]
+  return [shareMessage, shareLink]
 }
