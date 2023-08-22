@@ -6,6 +6,7 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logDebug } from '@holi/core/helpers/logging'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -27,24 +28,34 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
 
   useEffect(() => {
     if (needToLoad && !loading) {
+      logDebug('HtmlDocument', 'loading document', url)
       setLoading(true)
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/html',
-          'Content-Type': 'application/html',
-        },
-      })
-        .then(async (res) => {
+
+      Promise.all([
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/html',
+            'Content-Type': 'application/html',
+          },
+        }).then(async (res) => {
           const message = await res.text()
+          logDebug('HtmlDocument', 'got document, with length', message.length)
 
           if (res.status !== 200) {
             throw res.status === 400 ? new HoliBadRequestError() : new HoliError(message)
           }
 
           return message
-        })
-        .then(setDocument)
+        }),
+        // needed so `setDocument` is deferred long enough
+        // else, rendering the document would freeze the modal animation
+        // (because the html rendering is quite JS performance intensive)
+        new Promise((resolve) => setTimeout(resolve, 800)).finally(() =>
+          logDebug('HtmlDocument', 'finished waiting for outside modal animation')
+        ),
+      ])
+        .then(([document]) => setDocument(document))
         .catch(onError)
         .finally(() => setLoading(false))
     }
