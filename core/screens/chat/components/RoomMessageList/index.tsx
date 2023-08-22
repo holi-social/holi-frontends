@@ -50,7 +50,7 @@ const groupByDate = (messages: ChatMessage[], locale: string): MessageListItem[]
   return Object.values(groupedMessages).reverse().flat()
 }
 
-const RoomMessageList = ({ messages = [], mxIdUserRecord, starter, onScroll }: RoomMessageListProps) => {
+const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onScroll }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
 
   const groupedMessages = groupByDate(messages, i18n.language)
@@ -83,7 +83,7 @@ const RoomMessageList = ({ messages = [], mxIdUserRecord, starter, onScroll }: R
         return (
           <RoomMessage
             message={item}
-            user={mxIdUserRecord[item.sender ?? '']}
+            user={matrixIdToHoliUserRecord[item.sender ?? '']}
             showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
             isPrevMessageFromSameUser={isPrevMessageFromSameUser}
             isNextMessageFromSameUser={isNextMessageFromSameUser}

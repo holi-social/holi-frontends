@@ -28,8 +28,8 @@ export interface RoomId {
   room_id: string
 }
 
-export interface ChatMember {
+export interface ChatRoomMember {
+  id: string // the matrix ID (e.g. '@otto:holi.social')
   name: string
-  id: string
   membership?: MembershipStatus
 }
