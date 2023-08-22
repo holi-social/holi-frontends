@@ -79,7 +79,16 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
     return <></>
   }
 
-  return <SpaceInviteView spaceId={space.id} />
+  return (
+    <DefaultLayout
+      scrollable={false}
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
+    >
+      <SpaceInviteView spaceId={space.id} />
+    </DefaultLayout>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -92,6 +101,24 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     backgroundColor: colors.background30,
     height: '100%',
+  },
+  layoutStyle: {
+    height: '100%',
+  },
+  contentStyle: {
+    ...Platform.select({
+      web: {
+        paddingTop: 40,
+      },
+      android: {
+        paddingTop: +vars.topBarHeight + 44,
+      },
+      ios: {
+        paddingTop: +vars.topBarHeight,
+      },
+    }),
+    paddingBottom: 0,
+    flex: 1,
   },
 })
 
