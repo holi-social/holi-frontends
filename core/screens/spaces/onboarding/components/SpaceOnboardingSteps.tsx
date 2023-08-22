@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   previewButton: {
-    marginBottom: 24,
+    marginBottom: vars.bottomBarHeight,
   },
   preview: {
     flexDirection: 'row',
