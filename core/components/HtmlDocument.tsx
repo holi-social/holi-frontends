@@ -14,9 +14,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface HtmlDocumentProps {
   url?: URL | string
   onError?: (err?: Error) => void
+  // Uses a web view for documents that are too large.
+  // This also injects a ScrollView,
+  // so don't use one around it when using this option.
+  fallbackToWebView?: boolean
 }
 
-const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
+const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) => {
   const [document, setDocument] = useState<string | null>(null)
   // Large documents can take a while to load, if we triggered loading once, we don't want to load them again.
   // Seen in real life in the app (document loaded twice).
@@ -61,26 +65,22 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     }
   }, [onError, needToLoad, loading, url])
 
-  return (
-    <>
-      {document ? (
-        // long documents have bad performance and break on old devices
-        document.length < 1_048_576 ? (
-          <ScrollHeaderLayout.Default
-            style={mixins.container}
-            contentContainerStyle={{ maxWidth: '100%' }}
-            headerOverlap
-          >
-            <HoliHtmlView html={document} />
-          </ScrollHeaderLayout.Default>
-        ) : (
-          <HoliWebView webViewProps={{ source: { uri: url ? url.toString() : '' } }} style={styles.webView} />
-        )
-      ) : (
-        <HoliLoader style={{ minHeight: 300 }} />
-      )}
-    </>
-  )
+  if (!document) {
+    return <HoliLoader style={{ minHeight: 300 }} />
+  } else if (fallbackToWebView) {
+    // introduced this option as a feature,
+    // so we don't need to change all usages of HtmlDocument
+    // (unwrapping scroll views)
+    return document.length < 1_048_576 ? (
+      <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
+        <HoliHtmlView html={document} />
+      </ScrollHeaderLayout.Default>
+    ) : (
+      <HoliWebView webViewProps={{ source: { uri: url ? url.toString() : '' } }} style={styles.webView} />
+    )
+  } else {
+    return <HoliHtmlView html={document} />
+  }
 }
 
 const getStyles = (bottomInset: number) =>

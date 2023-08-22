@@ -123,7 +123,7 @@ const LoginRegistration = ({
         autoHeight={false}
         relativeHeight={1}
       >
-        <HtmlDocument url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
+        <HtmlDocument fallbackToWebView url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
       </HoliModal>
     </View>
   )
