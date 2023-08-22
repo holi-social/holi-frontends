@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
+import HoliWebView from '@holi/core/components/HoliWebView'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
@@ -16,6 +18,8 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
   // Seen in real life in the app (document loaded twice).
   const [loading, setLoading] = useState<boolean>(false)
   const needToLoad = url && !document
+  const { height: deviceHeight } = useWindowDimensions()
+  const styles = getStyles(deviceHeight)
 
   useEffect(() => {
     if (needToLoad && !loading) {
@@ -42,7 +46,33 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     }
   }, [onError, needToLoad, loading, url])
 
-  return <>{document ? <HoliHtmlView html={document} /> : <HoliLoader style={{ minHeight: 300 }} />}</>
+  return (
+    <>
+      {document ? (
+        // long documents have bad performance and break on old devices
+        document.length < 1048576 ? (
+          <HoliHtmlView html={document} />
+        ) : (
+          <ScrollView>
+            <HoliWebView
+              webViewProps={{ source: { uri: url ? url.toString() : '' }, nestedScrollEnabled: true }}
+              style={styles.webView}
+            />
+          </ScrollView>
+        )
+      ) : (
+        <HoliLoader style={{ minHeight: 300 }} />
+      )}
+    </>
+  )
 }
+
+const getStyles = (deviceHeight: number) =>
+  StyleSheet.create({
+    webView: {
+      minHeight: deviceHeight - 80,
+      marginTop: 25,
+    },
+  })
 
 export default HtmlDocument
