@@ -10,7 +10,7 @@ import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/deta
 import SpaceCollaboratorsManage, {
   SpaceCollaboratorsManageParams,
 } from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
-import SpaceInviteView, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInviteView'
+import SpaceInvitePage, { SpaceInvitePageParams } from '@holi/core/screens/spaces/details/components/SpaceInvitePage'
 import SpaceRolesPermissions, {
   SpaceRolesPermissionsParams,
 } from '@holi/core/screens/spaces/details/components/SpaceRolesPermissions'
@@ -51,7 +51,7 @@ export type SpacesScreens = {
   [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
-  [RouteName.SpaceInviteView]: SpaceInviteViewParams
+  [RouteName.SpaceInvitePage]: SpaceInvitePageParams
   [RouteName.Collaborators]: SpaceCollaboratorsManageParams
   [RouteName.EditCollaborators]: EditSpaceCollaboratorsParams
   [RouteName.SpaceRolesPermissions]: SpaceRolesPermissionsParams
@@ -91,7 +91,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateDetailPage} component={PostDetailPage} />
       <SpacesStack.Screen name={RouteName.SpaceUpdateCommentInputPage} component={CommentInputPage} />
-      <SpacesStack.Screen name={RouteName.SpaceInviteView} component={SpaceInviteView} />
+      <SpacesStack.Screen name={RouteName.SpaceInvitePage} component={SpaceInvitePage} />
       <SpacesStack.Screen name={RouteName.Collaborators} component={SpaceCollaboratorsManage} />
       <SpacesStack.Screen name={RouteName.EditCollaborators} component={EditSpaceCollaborators} />
       <SpacesStack.Screen name={RouteName.SpaceRolesPermissions} component={SpaceRolesPermissions} />

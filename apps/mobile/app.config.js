@@ -48,6 +48,9 @@ export default {
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
         LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
+        UIBackgroundModes: [
+          'remote-notification', // enables the app to receive push notifications while app is in background
+        ],
       },
     },
     android: {

@@ -13,7 +13,6 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import { useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -64,7 +63,6 @@ const SpaceDetails = () => {
   const id = space?.id || `${spaceIdOrName}`
 
   const [isLoading, deleteSpace] = useDeleteSpace(id)
-  const [spaceUrl] = useShareLink(space?.title ?? '', `/spaces/${space?.name}`)
   const [isLoadingReport, reportContent] = useReportContent({
     id,
     contentType: ContentType.SPACE,
@@ -216,7 +214,7 @@ const SpaceDetails = () => {
       headerRight: (props) => (
         <View style={!isMember || !isAdmin ? styles.headerRight : null}>
           {!isMember || !isAdmin ? (
-            <SpaceShareIcon spaceIdOrName={space?.name} title={space?.title} {...props} />
+            <SpaceShareIcon {...props} spaceIdOrName={space?.name || spaceIdOrName} title={space?.title} />
           ) : null}
           {renderActionDrawer()}
         </View>
@@ -225,7 +223,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceUrl, t])
+  }, [id, isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceIdOrName, t])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)

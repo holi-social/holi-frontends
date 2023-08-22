@@ -1,7 +1,6 @@
 import * as Notifications from 'expo-notifications'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handleNotificationForRemoteInvitationTriggerMock: Notifications.Notification = {
+export const handleNotificationForRemoteInvitationTriggerAndroidMock: Notifications.Notification = {
   request: {
     trigger: {
       remoteMessage: {
@@ -52,8 +51,7 @@ export const handleNotificationForRemoteInvitationTriggerMock: Notifications.Not
   date: 1692011606554,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handleNotificationForRemoteMessageTriggerMock: Notifications.Notification = {
+export const handleNotificationForRemoteMessageTriggerAndroidMock: Notifications.Notification = {
   request: {
     trigger: {
       remoteMessage: {
@@ -103,7 +101,47 @@ export const handleNotificationForRemoteMessageTriggerMock: Notifications.Notifi
   date: 1692011606554,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const handleNotificationForRemoteMessageTriggerIosMock = {
+  date: 1692372610.1332145,
+  request: {
+    content: {
+      summaryArgumentCount: 0,
+      targetContentIdentifier: null,
+      threadIdentifier: '',
+      attachments: [],
+      categoryIdentifier: '',
+      summaryArgument: null,
+      data: null,
+      title: 'holi Chat',
+      subtitle: null,
+      badge: 1,
+      launchImageName: '',
+      sound: null,
+      body: 'You have a new message or invitation.',
+    },
+    identifier: '2792C695-5EF3-42F7-9C8A-BEEB3A42903A',
+    trigger: {
+      payload: {
+        event_id: '$gCXXxNG7LTPBf1fp6Hp_GHUtshnX6gLzxb5MULBmM1Y',
+        room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+        experienceId: '@holistic-foundation/projectholi',
+        scopeKey: '@holistic-foundation/projectholi',
+        aps: {
+          badge: 1,
+          alert: {
+            body: 'You have a new message or invitation.',
+            title: 'holi Chat',
+            'loc-key': 'MSG_FROM_USER_WITH_CONTENT',
+            'loc-args': ['malte1', 'hello world!'],
+          },
+        },
+      },
+      type: 'push',
+      class: 'UNPushNotificationTrigger',
+    },
+  },
+}
+
 export const handleNotificationForLocalTriggerMock: Notifications.Notification = {
   request: {
     // @ts-ignore null can happen if you send it with null

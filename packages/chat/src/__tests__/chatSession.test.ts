@@ -78,39 +78,82 @@ jest.mock('expo-notifications', () => ({
 }))
 
 describe('startChat', () => {
-  it('should call configure pusher, which removes correct pusher and sets new one', async () => {
-    mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'android', data: 'some pushkey' })
-    mockRemovePusher = jest.fn()
-    mockSetPusher = jest.fn()
+  describe('Android', () => {
+    it('should call configure pusher, which removes correct pusher and sets new one', async () => {
+      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'android', data: 'some pushkey' })
+      mockRemovePusher = jest.fn()
+      mockSetPusher = jest.fn()
 
-    await startChat()
+      await startChat()
 
-    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
-    expect(mockRemovePusher).toHaveBeenCalledTimes(1)
-    expect(mockSetPusher).toHaveBeenCalledTimes(1)
+      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+      expect(mockRemovePusher).toHaveBeenCalledTimes(1)
+      expect(mockSetPusher).toHaveBeenCalledTimes(1)
 
-    expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
 
-    const pusher = mockSetPusher.mock.lastCall[0]
-    expect(pusher).toEqual({
-      app_display_name: 'holi',
-      app_id: 'social.holi',
-      data: {
-        default_payload: {
-          channelId: 'expo_notifications_fallback_notification_channel',
-          experienceId: '@holistic-foundation/projectholi',
-          message: 'You have a new message or invitation.',
-          scopeKey: '@holistic-foundation/projectholi',
-          title: 'holi Chat',
+      const pusher = mockSetPusher.mock.lastCall[0]
+      expect(pusher).toEqual({
+        app_display_name: 'holi',
+        app_id: 'social.holi',
+        data: {
+          default_payload: {
+            channelId: 'expo_notifications_fallback_notification_channel',
+            title: 'holi Chat',
+            message: 'You have a new message or invitation.',
+            experienceId: '@holistic-foundation/projectholi',
+            scopeKey: '@holistic-foundation/projectholi',
+          },
+          url: 'some.push.gateway.url/_matrix/push/v1/notify',
         },
-        url: 'some.push.gateway.url/_matrix/push/v1/notify',
-      },
-      device_display_name: 'mock mock',
-      enabled: true,
-      kind: 'http',
-      lang: 'en',
-      profile_tag: 'override',
-      pushkey: 'some pushkey',
+        device_display_name: 'mock mock',
+        enabled: true,
+        kind: 'http',
+        lang: 'en',
+        profile_tag: 'override',
+        pushkey: 'some pushkey',
+      })
+    })
+  })
+
+  describe('iOS', () => {
+    it('should call configure pusher, which removes correct pusher and sets new one', async () => {
+      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'ios', data: 'some pushkey' })
+      mockRemovePusher = jest.fn()
+      mockSetPusher = jest.fn()
+
+      await startChat()
+
+      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+      expect(mockRemovePusher).toHaveBeenCalledTimes(1)
+      expect(mockSetPusher).toHaveBeenCalledTimes(1)
+
+      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+
+      const pusher = mockSetPusher.mock.lastCall[0]
+      expect(pusher).toEqual({
+        app_display_name: 'holi',
+        app_id: 'social.holi.ios',
+        data: {
+          default_payload: {
+            aps: {
+              alert: {
+                title: 'holi Chat',
+                body: 'You have a new message or invitation.',
+              },
+            },
+            experienceId: '@holistic-foundation/projectholi',
+            scopeKey: '@holistic-foundation/projectholi',
+          },
+          url: 'some.push.gateway.url/_matrix/push/v1/notify',
+        },
+        device_display_name: 'mock mock',
+        enabled: true,
+        kind: 'http',
+        lang: 'en',
+        profile_tag: 'override',
+        pushkey: 'some pushkey',
+      })
     })
   })
 })
