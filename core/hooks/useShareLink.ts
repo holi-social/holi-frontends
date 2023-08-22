@@ -9,7 +9,7 @@ export type UseShareLink = [string, () => Promise<void>]
 export interface UseShareLinkProps {
   link: string
   externalLink?: boolean
-  createMessage?: (url: string) => string
+  createMessage: (url: string) => string
 }
 
 export const useShareLink = ({ link, createMessage, externalLink = false }: UseShareLinkProps): UseShareLink => {
@@ -30,7 +30,7 @@ export const useShareLink = ({ link, createMessage, externalLink = false }: UseS
   const shareLinkMobile = useCallback(async () => {
     try {
       const result = await Share.share({
-        message: createMessage ? createMessage(url.current) : url.current,
+        message: createMessage(url.current),
         url: url.current,
       })
       if (result.action === Share.sharedAction) {
@@ -48,7 +48,7 @@ export const useShareLink = ({ link, createMessage, externalLink = false }: UseS
   }, [createMessage, displayError])
 
   const shareLinkWeb = useCallback(async () => {
-    const message = createMessage ? createMessage(url.current) : url.current
+    const message = createMessage(url.current)
     Clipboard.setString(message)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
   }, [createMessage, openToast, t])
