@@ -18,13 +18,13 @@ import { reactNativeTracing } from './tracing'
 
 // Only set this to `true` if on a dev client! Keep this `false` in all commits!
 // (`enableInExpoDevelopment: true` crashes on expo go)
-const debug = false
+const debugSentry = false
 
 Sentry.init({
   dsn: config.sentry.dsn,
-  enableInExpoDevelopment: debug,
+  enableInExpoDevelopment: debugSentry,
   environment: environment,
-  debug: debug, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
+  debug: debugSentry, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
   onReady: (response) => {
     // helpful to determine if sentry works in production app!
     // eslint-disable-next-line no-console
@@ -55,7 +55,7 @@ Sentry.init({
     return event
   },
   integrations: [reactNativeTracing],
-  tracesSampleRate: debug ? 1 : 0.1,
+  tracesSampleRate: debugSentry ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.Native.wrap(App)
