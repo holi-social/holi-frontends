@@ -6,22 +6,20 @@ import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
+  getChatPartner,
+  isRoomCreator,
   sendMessage,
   setLatestMessagesAsRead,
   useChatInitialized,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
+import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import {
-  getChatPartner,
-  isRoomCreator,
-  useMatrixIdToHoliUserRecord,
-} from '@holi/core/screens/chat/components/RoomList/helpers'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
 import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessageList/RoomMessageListStart'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'

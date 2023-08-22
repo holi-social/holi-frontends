@@ -1,6 +1,6 @@
 import Constants from 'expo-constants'
 
-export const chatServerName = Constants.expoConfig?.extra?.chat.serverName
+export const chatServerName: string = Constants.expoConfig?.extra?.chat.serverName
 export const chatServerUrl = Constants.expoConfig?.extra?.chat.serverUrl
 export const chatServerLoginUrl = Constants.expoConfig?.extra?.chat.serverLoginUrl
 export const chatPushGatewayUrl = Constants.expoConfig?.extra?.chat.pushGatewayUrl

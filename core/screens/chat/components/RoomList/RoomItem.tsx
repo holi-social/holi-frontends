@@ -3,9 +3,9 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import { ChatRoomAtom, MatrixMemberId, getChatPartner, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
-import { getChatPartner, useMatrixIdToHoliUserRecord } from '@holi/core/screens/chat/components/RoomList/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
@@ -27,9 +27,11 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
-  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
+  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(
+    room.members.map((m) => m.id as MatrixMemberId)
+  )
   const chatPartner = getChatPartner(loggedInUser, room)
-  const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
+  const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id as MatrixMemberId]
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
 

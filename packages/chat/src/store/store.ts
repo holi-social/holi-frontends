@@ -246,54 +246,6 @@ const roomByIdAtomCreator = (roomId: string) => {
 }
 
 /**
- * @name _myMembershipSubscriberAtom
- * @description Listens to event changes in my room membership when accepting a
- * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
- * the user joins a room, we update the room has an invitation.
- */
-const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
-  const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const roomAtom = roomAtomsRecord[options.room.roomId]
-  if (!roomAtom) return null
-
-  set(roomAtom, (room) => updateRoomInvitation(room, options))
-})
-
-_myMembershipSubscriberAtom.onMount = (setAtom) => {
-  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
-    setAtom({ room, membership, prevMembership })
-  })
-}
-
-/**
- * @name _membershipSubscriberAtom
- * @description The membership subscriber is used to listening to members
- * leaving rooms and eventually forgetting (deleting) a room in case the creator
- * is the only member available. You can extend when updating the store based on
- * membership events.
- */
-const _membershipSubscriberAtom = atom(
-  null,
-  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
-    const client = getChatClient()
-
-    // If the creator of the room is the last one we forget (delete) entirely the room
-    if (isLastMemberCreator(roomState, member)) {
-      await client.leaveRoom(roomState.roomId)
-      await client.forgetRoom(roomState.roomId, true)
-    }
-
-    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
-      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
-    )
-  }
-)
-
-_membershipSubscriberAtom.onMount = (setAtom) => {
-  return getChatClient().subscribeToMembership(setAtom)
-}
-
-/**
  * Messages
  *
  **/
@@ -436,6 +388,54 @@ export const useRequestRoomMessages = () => {
  * Members
  *
  **/
+
+/**
+ * @name _myMembershipSubscriberAtom
+ * @description Listens to event changes in my room membership when accepting a
+ * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
+ * the user joins a room, we update the room has an invitation.
+ */
+const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[options.room.roomId]
+  if (!roomAtom) return null
+
+  set(roomAtom, (room) => updateRoomInvitation(room, options))
+})
+
+_myMembershipSubscriberAtom.onMount = (setAtom) => {
+  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
+    setAtom({ room, membership, prevMembership })
+  })
+}
+
+/**
+ * @name _membershipSubscriberAtom
+ * @description The membership subscriber is used to listening to members
+ * leaving rooms and eventually forgetting (deleting) a room in case the creator
+ * is the only member available. You can extend when updating the store based on
+ * membership events.
+ */
+const _membershipSubscriberAtom = atom(
+  null,
+  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const client = getChatClient()
+
+    // If the creator of the room is the last one we forget (delete) entirely the room
+    if (isLastMemberCreator(roomState, member)) {
+      await client.leaveRoom(roomState.roomId)
+      await client.forgetRoom(roomState.roomId, true)
+    }
+
+    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
+      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
+    )
+  }
+)
+
+_membershipSubscriberAtom.onMount = (setAtom) => {
+  return getChatClient().subscribeToMembership(setAtom)
+}
 
 const _ignoredUsersAtom = atom<string[]>([])
 
