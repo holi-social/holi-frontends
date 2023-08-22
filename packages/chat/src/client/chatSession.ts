@@ -78,11 +78,10 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
+    initChatClient(chatClient)
     await chatClient.configurePusher().catch((e) => {
       logError(e, 'Could not set up push notifications for chat')
     })
-
-    initChatClient(chatClient)
   } finally {
     isStarting = false
   }

@@ -134,6 +134,7 @@ const SpaceOnboardingSteps = () => {
         style={styles.formWrapper}
         buttonLabel={t('global.save')}
         onSave={saveSteps}
+        scrollToInput={false}
         keyboardShouldPersistTaps="handled"
         renderProp={() => (
           <>
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   previewButton: {
-    marginBottom: 24,
+    marginBottom: vars.bottomBarHeight,
   },
   preview: {
     flexDirection: 'row',

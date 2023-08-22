@@ -26,7 +26,9 @@ const ChatHomeContent = () => {
   const chatInitialized = useChatInitialized()
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
-  if (isLoading || !chatInitialized || !loggedInUser) return <HoliLoader />
+  if (isLoading || !chatInitialized || !loggedInUser) {
+    return <HoliLoader />
+  }
 
   if (!isLoggedIn) {
     return (
