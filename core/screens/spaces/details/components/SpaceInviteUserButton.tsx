@@ -96,7 +96,7 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
       label={t('spaces.invite.btn.send')}
       type="secondary"
       inline
-      style={{ padding: 6 }}
+      style={styles.button}
       onPress={wantsToJoin ? () => acceptRequestToJoin() : inviteUserToSpace}
       testID="btn-to-invite"
       disabled={loading}
@@ -111,6 +111,10 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
 const styles = StyleSheet.create({
   userStatus: {
     color: colors.foreground20,
+  },
+  button: {
+    paddingHorizontal: 6,
+    paddingVertical: 6,
   },
 })
 

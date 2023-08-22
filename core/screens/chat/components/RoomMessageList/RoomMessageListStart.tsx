@@ -10,33 +10,33 @@ import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface RoomMessageListStartProps {
-  user: User
+  chatPartnerHoliUser: User
 }
 
-const RoomMessageListStart = ({ user }: RoomMessageListStartProps) => {
+const RoomMessageListStart = ({ chatPartnerHoliUser }: RoomMessageListStartProps) => {
   const { t } = useTranslation()
 
   return (
     <View>
       <HoliAvatar
-        imageSrc={user.avatar}
-        imageBlurhash={user.avatarBlurhash}
-        label={user.fullName}
-        initials={user.avatarLabel}
-        defaultColor={user.avatarDefaultColor}
+        imageSrc={chatPartnerHoliUser.avatar}
+        imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+        label={chatPartnerHoliUser.fullName}
+        initials={chatPartnerHoliUser.avatarLabel}
+        defaultColor={chatPartnerHoliUser.avatarDefaultColor}
         size="large"
       />
 
       <HoliBox padding={[8, 0, 0, 0]}>
-        <HoliHeading level="2">{user.fullName}</HoliHeading>
+        <HoliHeading level="2">{chatPartnerHoliUser.fullName}</HoliHeading>
       </HoliBox>
 
       <HoliBox padding={[16, 0, 0, 0]}>
         <HoliText>
-          <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: user.fullName }}>
+          <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUser.fullName }}>
             <HoliTextLink
-              label={t('user.visitProfile', { name: user.fullName })}
-              href={`/profile/${user.id}`}
+              label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
+              href={`/profile/${chatPartnerHoliUser.id}`}
               variant="primary"
             />
           </Trans>

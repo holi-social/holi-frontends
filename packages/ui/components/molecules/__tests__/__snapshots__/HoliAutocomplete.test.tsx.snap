@@ -126,7 +126,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }
@@ -347,7 +347,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }

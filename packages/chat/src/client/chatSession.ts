@@ -17,7 +17,7 @@ import {
 } from '@holi/chat/src/utils/storage'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { logInfo, logInfoMsg } from '@holi/core/errors/helpers'
+import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
 import { chatServerLoginUrl } from '@holi/core/helpers/config'
 import { chatServerUrl } from '@holi/core/helpers/config'
 
@@ -78,7 +78,10 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
-    await chatClient.configurePusher()
+    await chatClient.configurePusher().catch((e) => {
+      logError(e, 'Could not set up push notifications for chat')
+    })
+
     initChatClient(chatClient)
   } finally {
     isStarting = false

@@ -32,7 +32,19 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
     }
   }, [navigate, videoCallLink.url])
 
-  const [, shareLink] = useShareLink({ title: videoCallLink.roomName, link: videoCallLink.url, externalLink: true })
+  const [, shareLink] = useShareLink({
+    link: videoCallLink.url,
+    externalLink: true,
+    createMessage: (url) => {
+      if (Platform.OS === 'web') {
+        return url
+      }
+      if (Platform.OS === 'ios') {
+        return videoCallLink.roomName
+      }
+      return `${videoCallLink.roomName} ${url}`
+    },
+  })
 
   const formattedDate = useMemo(() => {
     const dateString = getRelativeDateString(videoCallLink.created, i18n.language)

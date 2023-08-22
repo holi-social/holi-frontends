@@ -6,19 +6,16 @@ import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/core/screens/chat/components/R
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { useRoomAtomUserMap } from './helpers'
 import type { RoomListProps } from './types'
 
-const RoomList = ({ roomAtoms }: RoomListProps) => {
+const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
   const mixins = useStyleMixins()
-  const { roomAtomUserMap, loading } = useRoomAtomUserMap()
 
   return (
     <FlatList
       data={roomAtoms}
       renderItem={({ item: roomAtom }) => {
-        const user = roomAtomUserMap.get(roomAtom)
-        return <RoomItem roomAtom={roomAtom} user={user} loading={!user && loading} />
+        return <RoomItem roomAtom={roomAtom} loggedInUser={loggedInUser} />
       }}
       // use ListHeaderComponent to add the List space above for HeaderAnimated
       ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
