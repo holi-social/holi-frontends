@@ -40,7 +40,7 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
           },
         }).then(async (res) => {
           const message = await res.text()
-          logDebug('HtmlDocument', 'got document, with length', message.length)
+          logDebug('HtmlDocument', 'got document, with length', message.length.toLocaleString('en'))
 
           if (res.status !== 200) {
             throw res.status === 400 ? new HoliBadRequestError() : new HoliError(message)
@@ -65,7 +65,7 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     <>
       {document ? (
         // long documents have bad performance and break on old devices
-        document.length < 1048576 ? (
+        document.length < 1_048_576 ? (
           <ScrollHeaderLayout.Default
             style={mixins.container}
             contentContainerStyle={{ maxWidth: '100%' }}
