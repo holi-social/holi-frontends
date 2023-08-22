@@ -7,6 +7,7 @@ import { Platform } from 'react-native'
 import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
 import { config } from '@holi/mobile/config'
@@ -15,17 +16,11 @@ import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 SplashScreen.preventAutoHideAsync()
 
-if (__DEV__) {
-  console.debug('Starting app with config', config)
-}
+logDebug('App', 'starting app with config', config)
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
   const [initDone, setInitDone] = useState(false)
-
-  if (__DEV__) {
-    console.debug('App starting with config', JSON.stringify(config, null, 2))
-  }
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {

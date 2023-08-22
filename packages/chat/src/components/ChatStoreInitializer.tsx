@@ -4,6 +4,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { startChat } from '@holi/chat/src/client/chatSession'
 import { useSetChatInitialized, useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { logDebug } from '@holi/core/helpers/logging'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
@@ -15,6 +16,7 @@ const ChatStore = () => {
   useSubscribeToChat()
   const setInitialized = useSetChatInitialized()
   useEffect(() => {
+    logDebug('ChatStoreInitializer', 'setting chat initialized')
     setInitialized(true)
   })
   return null

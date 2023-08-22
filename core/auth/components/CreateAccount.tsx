@@ -21,6 +21,7 @@ import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -92,7 +93,7 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
           throw err
         }
 
-        console.debug('[Registration.tsx] registration was successful.')
+        logDebug('CreateAccount', 'registration was successful')
 
         const verificationFlowData = getVerificationFlow(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`

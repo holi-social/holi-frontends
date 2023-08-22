@@ -25,6 +25,7 @@ import type {
 } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
 const _chatInitializedAtom = atom(false)
 
@@ -115,11 +116,17 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPend
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
+
+  const addRoomToStore = (room: Room, logPhase: string) => {
+    const hasPendingInvitation = getChatClient().hasPendingInvitation(room)
+    logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
+    setAtom(room, hasPendingInvitation)
+  }
+
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
+  client.getRooms().forEach((room) => addRoomToStore(room, 'init'))
 
   // set litener for new rooms
-
   getChatClient().subscribeToRooms((room) => {
     /**
      * @name waitForCorrectRoomName
@@ -130,7 +137,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (room.name !== 'Empty room' || Date.now() > timestamp) {
-        setAtom(room, getChatClient().hasPendingInvitation(room))
+        addRoomToStore(room, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)

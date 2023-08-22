@@ -14,6 +14,7 @@ import {
 import { AxiosError } from 'axios'
 
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
 
@@ -136,7 +137,7 @@ export const handleFormSubmitError = (
           logError(err.response, '[auth/helpers/form.ts] 400 error')
         }
 
-        console.debug('[auth/helpers/form.ts] Form validation failed.')
+        logDebug('auth/helpers/form.ts', 'form validation failed')
         // The error response data contains a flow with error messages.
         // With this data, the view can display the errors.
         setFlow(err.response.data)
