@@ -102,9 +102,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   if (args === 'initDone') {
     logDebug('Chat.store', 'chat initialized')
     // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
-    if (!get(_chatInitializedAtom)) {
-      set(_chatInitializedAtom, true)
-    }
+    set(_chatInitializedAtom, true)
   } else {
     const { room, hasPendingInvitation } = args
     const chatRoom = createChatRoom(room, hasPendingInvitation)
