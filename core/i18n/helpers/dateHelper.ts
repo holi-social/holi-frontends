@@ -1,4 +1,5 @@
-export const getLocale = (language: string): string => ['en', 'de'].find((lang) => lang === language) || 'en'
+export const getLocale = (language: string): string =>
+  ['en', 'de'].find((lang) => lang === language.split('-')[0]) || 'en'
 
 const calculateNumberOfDaysAgo = (date: Date): number => {
   const today = new Date()
