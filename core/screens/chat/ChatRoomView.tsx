@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
+import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer'
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
@@ -61,6 +62,7 @@ const ChatRoomView = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
+      headerRight: () => <ChatRoomActionDrawer userFullName={chatPartnerHoliUser?.fullName ?? ''} />,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () => (
         <ChatRoomHeaderTitle roomId={roomId} chatPartner={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
