@@ -196,6 +196,29 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
  **/
 
 /**
+ * @name removeRoomAtom (Write-Only)
+ * @description Removes a room from the Jōtai store but not from the Matrix
+ * client. We do this, for example, when we ignore users and don't want to
+ * display a room if there are only two members, one of them being the one
+ * ignored (blocked). Exported is only the helper hook below `useRemoveRoomAtom`
+ */
+const removeRoomAtom = atom(null, (get, set, roomId: string) => {
+  const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+  if (!roomAtom) return
+  if (get(roomAtom).members.length > 2) return
+
+  const removeRoom = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, roomId: string) => {
+    delete roomAtomsRecord[roomId]
+  })
+
+  set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
+})
+
+export const useRemoveRoomAtom = () => {
+  return useSetAtom(removeRoomAtom)
+}
+
+/**
  * @name createNewRoom (Client Helper)
  * @description Initiates the creation of a room in Matrix through the
  * ChatClient. The store updates once the room creation event is received from
