@@ -2,7 +2,7 @@ import { produce } from 'immer'
 import { atom } from 'jotai'
 import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
-import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/store/messages'
 import { getChatClient } from '@holi/chat/src/store/store'
 import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
@@ -61,7 +61,7 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
     }
   }
 
-  const createChatMember = (mxRoomMember: RoomMember): ChatMember => {
+  const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
     const { userId: id, name, membership } = mxRoomMember
     return {
       id,

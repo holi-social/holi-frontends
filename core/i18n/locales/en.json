@@ -90,6 +90,8 @@
   "chat.start.title": "Create new chat",
   "chat.start.userItem.checkbox.label": "Select {{user}}",
   "chat.title": "Chat",
+  "chat.user.block": "Block {{user}}",
+  "chat.user.unblock": "Unblock {{user}}",
   "comment.suggestionItem.label": "Select {{item}}",
   "component.readMore.readLess": "Read less",
   "component.readMore.readMore": "Read more",

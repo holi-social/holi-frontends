@@ -6,25 +6,17 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/core/screens/chat/components/RoomList/RoomItem'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-import { useRoomAtomUserMap } from './helpers'
 import type { RoomListProps } from './types'
 
-const RoomList = ({ roomAtoms }: RoomListProps) => {
+const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
-  const { roomAtomUserMap, loading } = useRoomAtomUserMap()
 
   return (
     <FlashList
       data={roomAtoms}
       renderItem={({ item: roomAtom }) => {
-        const user = roomAtomUserMap.get(roomAtom)
-        // `useRoomAtomUserMap` loads a bunch of users and can be triggered multiple times.
-        // `loading` indicator represents a loading state of the whole bunch.
-        // So, to check individually each item preperation we check if a user for current RoomItem is loaded, if he is not, we check if `loading` is active
-        const isRoomItemLoading = !user && loading
-        return <RoomItem roomAtom={roomAtom} user={user} loading={isRoomItemLoading} />
+        return <RoomItem roomAtom={roomAtom} loggedInUser={loggedInUser} />
       }}
-      extraData={roomAtomUserMap}
       keyExtractor={(item) => item.toString()}
       estimatedItemSize={ROOM_ITEM_HEIGHT}
       ListHeaderComponent={() => (

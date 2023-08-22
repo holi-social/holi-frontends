@@ -69,7 +69,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             "placeholder": [],
             "source": [
               {
-                "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
+                "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fbetterplace-assets.betterplace.org%2Fuploads%2Fhomepage%2Fhomepage%2Fhero_image_desktop%2F000%2F000%2F001%2Fcc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
               },
             ],
             "tintColor": undefined,
