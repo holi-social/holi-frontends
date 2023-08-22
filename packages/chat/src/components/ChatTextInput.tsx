@@ -1,11 +1,22 @@
 import React, { type Dispatch, type SetStateAction, useEffect, useRef } from 'react'
-import { Animated, StyleSheet } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Animated, Platform, StyleSheet, TextInputKeyPressEventData } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
+
+interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
+  shiftKey: boolean
+}
+
+const isTextInputKeyPressEventDataWeb = (
+  event: TextInputKeyPressEventData | TextInputKeyPressEventDataWeb
+): event is TextInputKeyPressEventDataWeb => {
+  return Platform.OS === 'web'
+}
 
 const generateContainerStyles = (value: Animated.Value) => {
   const positionStyles = { transform: [{ translateY: value }] }
@@ -16,10 +27,12 @@ interface Props {
   text: string
   setText: Dispatch<SetStateAction<string>>
   isVisible: boolean
+  userName?: string
   onPress: () => Promise<void>
 }
 
-export const ChatTextInput = ({ isVisible, onPress, text, setText }: Props) => {
+export const ChatTextInput = ({ isVisible, onPress, text, setText, userName = '' }: Props) => {
+  const { t } = useTranslation()
   const positionRef = useRef(new Animated.Value(100))
 
   useEffect(() => {
@@ -34,13 +47,25 @@ export const ChatTextInput = ({ isVisible, onPress, text, setText }: Props) => {
   return (
     <Animated.View style={generateContainerStyles(positionRef.current)}>
       <HoliTextInput
-        // TODO: provide correct accessibilityLabel prop
-        accessibilityLabel="Message"
+        accessibilityLabel={t('chat.room.input.placeholder', { fullName: userName })}
+        placeholder={t('chat.room.input.placeholder', { fullName: userName })}
         value={text}
         onChange={setText}
         style={styles.textInputContainer}
         inputStyle={styles.textInput}
         maxNoOfVisibleLines={5}
+        inputProps={{
+          onKeyPress: (event) => {
+            if (
+              isTextInputKeyPressEventDataWeb(event.nativeEvent) &&
+              event.nativeEvent.key === 'Enter' &&
+              event.nativeEvent.shiftKey
+            ) {
+              event.preventDefault()
+              onPress()
+            }
+          },
+        }}
         testID={'chat-message-input'}
       />
       <HoliButton label="" disabled={!text.trim()} onPress={onPress} inline style={styles.button}>

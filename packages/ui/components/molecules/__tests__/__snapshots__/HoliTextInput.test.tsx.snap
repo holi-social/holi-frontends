@@ -92,7 +92,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -231,7 +231,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "width": "100%",
             },
             {
-              "height": 45,
+              "height": 22,
             },
           ]
         }
@@ -370,7 +370,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -547,7 +547,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "maxWidth": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -686,7 +686,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -891,7 +891,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -1031,7 +1031,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
