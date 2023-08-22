@@ -99,23 +99,18 @@ export default class ChatClient {
       throw err
     }
 
-    // TODO consider adding timeouts for the case that SyncState.Prepared is never reached
-    let isPreparedResolver: () => void
-    const isPreparedPromise = new Promise<void>((resolve) => {
-      isPreparedResolver = resolve
+    return new Promise<void>((resolve) => {
+      // TODO: Implement soft logout and reconnect
+      this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
+        console.debug({ state, lastState })
+        if (state === SyncState.Prepared) {
+          resolve()
+        }
+      })
+      this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
+        unknownTokenHandler()
+      })
     })
-    // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-      console.debug({ state, lastState })
-      if (state === SyncState.Prepared) {
-        isPreparedResolver()
-      }
-    })
-    this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
-      unknownTokenHandler()
-    })
-
-    return isPreparedPromise
   }
 
   /**
