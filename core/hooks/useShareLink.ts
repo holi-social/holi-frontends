@@ -7,19 +7,16 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 
 export type UseShareLink = [string, () => Promise<void>]
 export interface UseShareLinkProps {
-  title: string
   link: string
   externalLink?: boolean
   createMessage?: (url: string) => string
 }
 
-export const useShareLink = ({ title, link, createMessage, externalLink = false }: UseShareLinkProps): UseShareLink => {
+export const useShareLink = ({ link, createMessage, externalLink = false }: UseShareLinkProps): UseShareLink => {
   const url = useRef('')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { t } = useTranslation()
-
-  const shareMessage = (createMessage && createMessage(url.current)) || url.current
 
   useEffect(() => {
     // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
@@ -33,7 +30,7 @@ export const useShareLink = ({ title, link, createMessage, externalLink = false 
   const shareLinkMobile = useCallback(async () => {
     try {
       const result = await Share.share({
-        message: title + (Platform.OS === 'android' ? `: ${url.current}` : ''),
+        message: createMessage ? createMessage(url.current) : url.current,
         url: url.current,
       })
       if (result.action === Share.sharedAction) {
@@ -48,14 +45,15 @@ export const useShareLink = ({ title, link, createMessage, externalLink = false 
     } catch (error) {
       displayError(error)
     }
-  }, [displayError, title])
+  }, [createMessage, displayError])
 
   const shareLinkWeb = useCallback(async () => {
-    Clipboard.setString(shareMessage)
+    const message = createMessage ? createMessage(url.current) : url.current
+    Clipboard.setString(message)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
-  }, [openToast, t, shareMessage])
+  }, [createMessage, openToast, t])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile
 
-  return [shareMessage, shareLink]
+  return [url.current, shareLink]
 }

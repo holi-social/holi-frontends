@@ -15,7 +15,6 @@ type SpaceShareIconProps = {
 const SpaceShareIcon: React.VFC<SpaceShareIconProps> = ({ spaceIdOrName, title, color }: SpaceShareIconProps) => {
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
-    title: title ?? '',
     link: `/spaces/${spaceIdOrName}`,
     createMessage: (url) =>
       `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: title })}\n${url}`,
