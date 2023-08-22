@@ -117,6 +117,8 @@ export default class ChatClient {
         unknownTokenHandler()
       })
     })
+
+    return isPreparedPromise
   }
 
   /**

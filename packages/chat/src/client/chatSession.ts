@@ -78,9 +78,7 @@ export const startChat = async (): Promise<void> => {
     if (chatClient === undefined) throw new HoliError('[ChatLogin]: this should not happen')
 
     await chatClient.start(unknownTokenHandler)
-
-    // no need to await this, it would only slow down initial rendering of the chat
-    chatClient.configurePusher().catch((e) => {
+    await chatClient.configurePusher().catch((e) => {
       logError(e, 'Could not set up push notifications for chat')
     })
 
