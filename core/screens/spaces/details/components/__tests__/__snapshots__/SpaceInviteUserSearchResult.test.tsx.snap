@@ -306,7 +306,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             },
           ],
           {
-            "padding": 6,
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
           },
         ]
       }
@@ -593,7 +594,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             },
           ],
           {
-            "padding": 6,
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
           },
         ]
       }
@@ -1067,7 +1069,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             },
           ],
           {
-            "padding": 6,
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
           },
         ]
       }

@@ -22,6 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => void
+  scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
   loading?: boolean
@@ -44,6 +45,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       isModal = false,
       buttonLabel,
       showBottomBar = false,
+      scrollToInput = true,
       testID = 'form-wrapper',
       ...scrollViewProps
     }: FormWrapperProps,
@@ -71,6 +73,8 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
      * - prevent double scrollbars in web (no main page scrolling)
      */
     const scrollIntoView = useCallback(() => {
+      if (!scrollToInput) return
+
       if (Platform.OS === 'web') {
         scrollViewRef.current?.scrollToEnd({ animated: true })
       } else {
@@ -83,7 +87,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
           })
         )
       }
-    }, [scrollContentHeight, keyboardHeight, screenHeight])
+    }, [scrollContentHeight, keyboardHeight, screenHeight, scrollToInput])
 
     useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
     useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
