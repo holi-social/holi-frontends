@@ -1,9 +1,8 @@
-import Constants from 'expo-constants'
-
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import { config } from '@holi/mobile/config'
 
 export const environment = (() => {
-  const environment = Constants.manifest?.extra?.environment
+  const environment = config.environment
   if (environment === EnvironmentId.PRODUCTION) {
     return EnvironmentId.PRODUCTION
   } else if (environment === EnvironmentId.STAGING) {

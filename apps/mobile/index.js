@@ -1,6 +1,5 @@
 import { ApolloError } from '@apollo/client'
 import { CodedError, registerRootComponent } from 'expo'
-import Constants from 'expo-constants'
 import 'fast-text-encoding'
 // Polyfill for Intl including required locale data
 import 'intl'
@@ -12,19 +11,27 @@ import * as Sentry from 'sentry-expo'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { environment } from '@holi/core/helpers/environment'
-import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 import App from './App'
+import { config } from './config'
 import { reactNativeTracing } from './tracing'
 
-const dsn =
-  Constants.manifest?.extra?.sentry.dsn ?? 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191'
+// Only set this to `true` if on a dev client! Keep this `false` in all commits!
+// (`enableInExpoDevelopment: true` crashes on expo go)
+const debug = false
 
 Sentry.init({
-  dsn,
-  enableInExpoDevelopment: false, // tracing causes errors in expo go app
+  dsn: config.sentry.dsn,
+  enableInExpoDevelopment: debug,
   environment: environment,
-  debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  debug: debug, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
+  onReady: (response) => {
+    // helpful to determine if sentry works in production app!
+    // eslint-disable-next-line no-console
+    console.log(
+      response?.didCallNativeInit ? 'Sentry successfully initialized in env ' + environment : 'Sentry not initialized'
+    )
+  },
   beforeSend: function (event, hint) {
     const exception = hint.originalException
 
@@ -48,8 +55,7 @@ Sentry.init({
     return event
   },
   integrations: [reactNativeTracing],
-  // sentry tracing is only testable and enabled on custom dev builds, so having 'development' here is fine
-  tracesSampleRate: [EnvironmentId.STAGING, EnvironmentId.DEVELOPMENT].includes(environment) ? 1 : 0.1,
+  tracesSampleRate: debug ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.Native.wrap(App)
