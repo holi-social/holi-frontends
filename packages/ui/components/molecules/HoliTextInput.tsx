@@ -1,4 +1,4 @@
-import React, { ReactChild, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { ReactChild, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AccessibilityProps,
   KeyboardTypeOptions,
@@ -9,7 +9,6 @@ import {
   StyleSheet,
   TargetedEvent,
   TextInput,
-  TextInputContentSizeChangeEventData,
   TextInputIOSProps,
   TextInputProps,
   TextStyle,
@@ -60,6 +59,32 @@ export interface HoliTextInputProps {
 
 const isIOS = Platform.OS === 'ios'
 
+const isHTMLTextAreaElement = (inputNode: HTMLTextAreaElement | TextInput | null): inputNode is HTMLTextAreaElement => {
+  return Platform.OS === 'web' && !!inputNode && 'style' in inputNode
+}
+
+const INPUT_HEIGHT = 22
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min * INPUT_HEIGHT), max * INPUT_HEIGHT)
+const useAdjustInputHeightWeb = (
+  textArea: TextInput | HTMLTextAreaElement | null,
+  value?: string,
+  noOfVisibleLines = 1,
+  maxNoOfVisibleLines = 1
+) => {
+  useEffect(() => {
+    if (!isHTMLTextAreaElement(textArea)) return
+
+    // We need to reset the height momentarily to get the correct scrollHeight for the textarea
+    textArea.style.height = '0px'
+    const height = clamp(textArea.scrollHeight, noOfVisibleLines, maxNoOfVisibleLines)
+
+    // We then set the height directly, outside of the render loop
+    // Trying to set this with state or a ref will product an incorrect value.
+    textArea.style.height = height + 'px'
+  }, [maxNoOfVisibleLines, noOfVisibleLines, textArea, value])
+}
+
 const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
   (
     {
@@ -81,16 +106,10 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     ref
   ) => {
     const dimensions = useWindowDimensions()
-    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
     const [isFocused, setFocused] = useState<boolean>(false)
     const [isHovered, setHovered] = useState<boolean>(false)
     const hasValidationErrors = !!props?.validationErrorText
-
-    // numberOfLines values is only used for auto-sizing the textarea when there is new text input
-    const [numberOfLines, setNumberOfLines] = useState<number>(
-      clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
-    )
 
     const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
       accessible: true,
@@ -98,10 +117,6 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
       accessibilityControls: props.accessibilityControls,
     }
-
-    useEffect(() => {
-      setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
-    }, [noOfVisibleLines, maxNoOfVisibleLines])
 
     const handleFocus = useCallback(
       (event: NativeSyntheticEvent<TargetedEvent>) => {
@@ -121,15 +136,9 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     const { theme } = useTheme()
     const styles = useMemo(() => getStyles(theme), [theme])
 
-    const adjustInputHeight = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
-      const inputHeight = event.nativeEvent.contentSize.height
-      // to force input change its height dynamicaly in WEB we need to start from 0 instead of 1 value for `newNumberOfLines`
-      // it couses a small bug, that with two lines of text the input will have height only for one line with scrolling
-      // but otherwise I could not find a way to change input hight dynamicaly
-      const newNumberOfLines = Math.round(inputHeight / LINE_HEIGHT) - (Platform.OS === 'web' ? 1 : 0)
-      const value = clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines)
-      setNumberOfLines(value)
-    }
+    const [inputHeight, seInputHeight] = useState(INPUT_HEIGHT)
+    const textAreaRef = useRef<TextInput>(null)
+    useAdjustInputHeightWeb(textAreaRef.current, value, noOfVisibleLines, maxNoOfVisibleLines)
 
     const keyboardType: KeyboardTypeOptions = (() => {
       if (type === 'email') return 'email-address'
@@ -205,14 +214,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
           >
             <TextInput
               value={value}
-              style={[
-                styles.input,
-                inline ? styles.inline : styles.block,
-                // seems that caret in the input for Mobile is bigger than our LINE_HEIGHT
-                // that causes input with multi lines to redundant scrolling
-                // So, add 8px to fix it
-                { height: Math.ceil(numberOfLines * LINE_HEIGHT + (Platform.OS === 'web' ? 0 : 8)) },
-              ]}
+              style={[styles.input, inline ? styles.inline : styles.block, { height: inputHeight }]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
@@ -225,7 +227,9 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 if (type === 'number') text = text.replace(/[^0-9]/g, '')
                 props.onChange?.(text)
               }}
-              onContentSizeChange={adjustInputHeight}
+              onContentSizeChange={(event) =>
+                seInputHeight(clamp(event.nativeEvent.contentSize.height, noOfVisibleLines, maxNoOfVisibleLines))
+              }
               keyboardType={keyboardType}
               textContentType={textContentType}
               maxLength={maxNoOfCharacters}
@@ -238,6 +242,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               {...accessibilityProps}
               {...props?.inputProps}
               testID={!isIOS ? `${props?.testID || 'holi-text'}-input` : ''}
+              ref={textAreaRef}
             />
             {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
               <View style={styles.trailingIconWrapper}>

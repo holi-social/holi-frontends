@@ -177,14 +177,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
 
 const styles = StyleSheet.create({
   overlayButtonWrapper: {
-    ...Platform.select({
-      native: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: 0,
   },
   overlayButton: {

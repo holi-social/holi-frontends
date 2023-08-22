@@ -169,6 +169,7 @@ const ChatRoomView = () => {
               isVisible={!room.hasInvitation}
               text={messageText}
               setText={setMessageText}
+              userName={chatPartnerHoliUser?.fullName}
               onPress={handleSendMessage}
             />
           </View>
