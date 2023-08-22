@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   overlayButtonWrapper: {
-    position: 'fixed',
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: 0,
   },
   overlayButton: {
