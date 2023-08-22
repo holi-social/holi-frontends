@@ -36,7 +36,7 @@ const _chatInitializedAtom = atom(false)
  *
  * @returns `true` if the chat client has been initialized, `false` otherwise.
  */
-export const useChatInitialized = () => useAtom(_chatInitializedAtom)
+export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined

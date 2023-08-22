@@ -23,7 +23,7 @@ const ChatHomeContent = () => {
   const mixins = useStyleMixins()
   const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const { navigate } = useRouting()
-  const [chatInitialized] = useChatInitialized()
+  const chatInitialized = useChatInitialized()
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
   if (isLoading || !chatInitialized || !loggedInUser) {
