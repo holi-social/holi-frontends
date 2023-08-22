@@ -85,7 +85,12 @@ export default class ChatClient {
     })
   }
 
-  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts) => {
+  /**
+   * Starts the client and returns a promise that completes when the client has been initialized
+   *
+   * @returns promise that completes when client has intialized (technically: when the client has reached SyncState.Prepared)
+   */
+  public start = async (unknownTokenHandler: () => void, options?: IStartClientOpts): Promise<void> => {
     logDebug('ChatClient.start', `starting chat client with options=${options}`)
     try {
       await this.mxClient.startClient(options)
@@ -94,24 +99,18 @@ export default class ChatClient {
       throw err
     }
 
-    let isPreparedResolver: (value: boolean) => void
-    const isPrepared = new Promise<boolean>((resolve) => {
-      isPreparedResolver = resolve
+    return new Promise<void>((resolve) => {
+      // TODO: Implement soft logout and reconnect
+      this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
+        console.debug({ state, lastState })
+        if (state === SyncState.Prepared) {
+          resolve()
+        }
+      })
+      this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
+        unknownTokenHandler()
+      })
     })
-
-    // TODO: Implement soft logout and reconnect
-    this.mxClient.on(ClientEvent.Sync, (state: SyncState, lastState: SyncState | null) => {
-      console.debug({ state, lastState })
-
-      if (state === SyncState.Prepared) {
-        isPreparedResolver(true)
-      }
-    })
-    this.mxClient.on(HttpApiEvent.SessionLoggedOut, () => {
-      unknownTokenHandler()
-    })
-
-    return isPrepared
   }
 
   /**
@@ -243,6 +242,34 @@ export default class ChatClient {
     const lastEvent = events[events.length - 1]
 
     await this.mxClient.sendReadReceipt(lastEvent, ReceiptType.ReadPrivate)
+  }
+
+  public ignoreUser = async (userId: string): Promise<void> => {
+    const usersToIgnore = this.mxClient.getIgnoredUsers().concat(userId)
+    await this.mxClient.setIgnoredUsers(usersToIgnore)
+  }
+
+  public unignoreUser = async (userId: string): Promise<void> => {
+    const usersToIgnore = this.mxClient.getIgnoredUsers().filter((uId: string) => uId !== userId)
+    await this.mxClient.setIgnoredUsers(usersToIgnore)
+  }
+
+  public getIgnoredUsers = (): string[] => {
+    return this.mxClient.getIgnoredUsers()
+  }
+
+  public subscribeToIgnoredUsers(callback: (event: MatrixEvent) => void): (() => void) | void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handler = (event: MatrixEvent, lastEvent: MatrixEvent | undefined) => {
+      if (event.getType() !== EventType.IgnoredUserList) return
+      callback(event)
+    }
+
+    this.mxClient.on(ClientEvent.AccountData, handler)
+
+    return () => {
+      this.mxClient.off(ClientEvent.AccountData, handler)
+    }
   }
 
   public subscribeToMembership(

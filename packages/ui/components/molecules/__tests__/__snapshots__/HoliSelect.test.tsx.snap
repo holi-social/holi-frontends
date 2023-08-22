@@ -128,7 +128,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -1503,7 +1503,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -2812,7 +2812,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -3089,7 +3089,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -4315,7 +4315,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -4999,7 +4999,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -5242,7 +5242,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }
@@ -5489,7 +5489,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 "width": "100%",
               },
               {
-                "height": 23,
+                "height": 22,
               },
             ]
           }

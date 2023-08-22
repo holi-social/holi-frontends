@@ -21,6 +21,10 @@ export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.
 
 export interface User {
   id: string
+  /**
+   * Guaranteed to be unique (by Ory, replicated into Okuna). Identical to the "local part"
+   * (aka user name without server part) in Matrix (e.g. `otto` for Matrix user ID `@otto:holi.social`).
+   */
   identity: string
   avatar?: string
   avatarBlurhash?: string

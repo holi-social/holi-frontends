@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { ChatMessage } from '@holi/chat/src/store'
 import { getTimeFormat } from '@holi/core/i18n/helpers/dateHelper'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -29,6 +30,8 @@ const RoomMessage = ({
   testID,
 }: RoomMessageProps) => {
   const { i18n } = useTranslation()
+
+  const locale = getLocale(i18n.language)
 
   const { user: me } = useLoggedInUser()
   const isMyMessage = !!(me || user) && me?.id === user?.id
@@ -68,7 +71,7 @@ const RoomMessage = ({
 
             <View style={styles.date}>
               <HoliText size="extrasmall" color="gray300">
-                {getTimeFormat(i18n.language, timestamp)}
+                {getTimeFormat(locale, timestamp)}
               </HoliText>
             </View>
           </HoliBox>

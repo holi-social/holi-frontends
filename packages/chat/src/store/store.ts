@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -15,9 +15,32 @@ import {
   updateRoomInvitation,
   updateRoomUnreadNotifications,
 } from '@holi/chat/src/store/room'
-import type { ChatMessage, ChatMessagesAtom, ChatRoom, ChatRoomAtom, CreateMessage } from '@holi/chat/src/store/types'
+import type {
+  ChatMessage,
+  ChatMessagesAtom,
+  ChatRoom,
+  ChatRoomAtom,
+  ChatRoomId,
+  CreateMessage,
+} from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
+
+const _chatInitializedAtom = atom(false)
+
+/**
+ * Hook to set the chat client initialization state. Intended for usage in the `ChatStoreInitializer` only.
+ */
+export const useSetChatInitialized = () => useSetAtom(_chatInitializedAtom)
+
+/**
+ * Hook to check if the chat client has been initialized. Intended for usage in arbitrary
+ * components that need to check if the chat client has been initialized, e.g. in order to
+ * render a loading indicator.
+ *
+ * @returns `true` if the chat client has been initialized, `false` otherwise.
+ */
+export const useChatInitialized = () => useAtom(_chatInitializedAtom)
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined
@@ -36,36 +59,28 @@ export const getChatClient = (): ChatClient => {
 /** Rooms **/
 
 /**
- * @name roomAtomsRecordAtom (Read-Only)
- * @description An object with id and room atoms, each atom contains the room
- * (conversation) of the logged-in user. To get the room information, you must
- * pass the single room to a const `room = useAtomValue(roomAtom)` to access
- * this read-only value.
+ * Internal
  *
  * IMPORTANT! Do not set values to the room using this atom. It would be best to
  * use a `createRoomAtomRecord` derived atom to set values (updating the
  * state).To edit a particular room, you need to use a selector, which can be
  * found below under the Room section (e.g `createRoomAtom`).
  */
-const _roomAtomsRecordAtom = atom<Record<string, ChatRoomAtom>>({})
-export const roomAtomsRecordAtom = atom((get) => get(_roomAtomsRecordAtom))
+const _roomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom>>({})
 
 /**
- * @name roomAtomNameMapAtom
- * @description derived atom that holds all room atoms sorted by date of last
- * message in descending order
- * @returns `Map<ChatRoomAtom, string`
+ * @description A read-only atom to receive a record mapping room ids to room atoms.
+ * Each atom contains the room (conversation) of the logged-in user. To get the room
+ * information, you must pass the single room to a const `room = useAtomValue(roomAtom)`
+ * to access this read-only value.
+ *
+ * @see _roomAtomsRecordAtom
  */
-export const roomAtomNameMapAtom = atom<Map<ChatRoomAtom, string>>((get) => {
-  const roomAtomsRecordAtom = get(_roomAtomsRecordAtom)
-  const roomAtomNameMap: Map<ChatRoomAtom, string> = new Map()
+export const roomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom>> = atom((get) => get(_roomAtomsRecordAtom))
 
-  for (const roomAtom of Object.values(roomAtomsRecordAtom)) {
-    roomAtomNameMap.set(roomAtom, get(roomAtom).name)
-  }
-  return roomAtomNameMap
-})
-
+/**
+ * Derived atom that holds all room atoms sorted by date of last message in descending order
+ */
 export const roomAtomsSortedByDateAtom = atom((get) => {
   const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
   return roomAtoms.sort((rA, rB) => {
@@ -197,7 +212,7 @@ const roomByIdAtomCreator = (roomId: string) => {
   return atom((get) => {
     const roomAtomsRecord = get(_roomAtomsRecordAtom)
     const roomAtom = roomAtomsRecord[roomId]
-    if (!roomAtom) return null
+    if (!roomAtom) return undefined
 
     return get(roomAtom)
   })
@@ -261,13 +276,37 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
   return await getChatClient().sendTextMessage(message.roomId, message.text)
 }
 
+const _ignoredUsersAtom = atom<string[]>([])
+const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
+  const client = getChatClient()
+  set(_ignoredUsersAtom, client.getIgnoredUsers)
+})
+
+_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
+  getChatClient().subscribeToIgnoredUsers(setAtom)
+  setAtom() // triggers that the list of ignored users is intially populated
+}
+
+export const useIgnoredUsers = () => {
+  return useAtomValue(_ignoredUsersAtom)
+}
+
+export const ignoreUser = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const unignoreUser = async (userId: string) => {
+  return await getChatClient().unignoreUser(userId)
+}
+
+const _messagesAtomsRecordAtom = atom<Record<ChatRoomId, ChatMessagesAtom>>({})
+
 /**
- * @name messagesAtomsRecordAtom (Read-Only)
- * @description An atom of type `Record<string, ChatMessagesAtom>` collects `Atom<ChatMessage[]>` for all rooms ids.
- * Only reading from this atom is allowed.
+ * @description A read-only atom containing records to look up `Atom<ChatMessage[]>` by room ID.
  */
-const _messagesAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
-export const messagesAtomsRecordAtom = atom((get) => get(_messagesAtomsRecordAtom))
+export const messagesAtomsRecordAtom: Atom<Record<ChatRoomId, ChatMessagesAtom>> = atom((get) =>
+  get(_messagesAtomsRecordAtom)
+)
 
 /**
  * @name _messageBunchAtomSetter
@@ -285,18 +324,18 @@ const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IR
   if (!roomId) return
 
   const addMessagesToRoomThread = produce(
-    (threadsRecord: Record<string, ChatMessagesAtom>, events: IRoomEvent[], merge = false) => {
+    (threadsRecord: Record<string, ChatMessagesAtom>, roomEvents: IRoomEvent[], merge = false) => {
       threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-      set(threadsRecord[roomId], (currentMessages) => {
+      set(threadsRecord[roomId], (existingMessages) => {
         // the list of messages must have `Backward` direction - from older to newer messages
-        // it is why we reverse `olderMessages`
-        const olderMessages = events
+        // it is why we reverse `requestedMessages`
+        const requestedMessages = roomEvents
           .filter(isRoomMessageEvent)
           .reverse()
           .map((event) => createChatMessage(roomId, event))
 
-        // and put `olderMessages` in the begining of the list
-        return merge ? [...olderMessages, ...currentMessages] : olderMessages
+        // and put `requestedMessages` in the begining of the list
+        return merge ? [...requestedMessages, ...existingMessages] : requestedMessages
       })
     }
   )
@@ -337,14 +376,14 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
 
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
- * @description A function that creates message list atom based on the passed
- * room id.
+ * @description A function that returns an atom of messages for the given room id.
+ * @returns `Atom<ChatMessage[]>` or `undefined` if the room does not exist.
  */
 const messagesByRoomIdAtomCreator = (roomId: string) =>
   atom((get) => {
     const roomMessagesAtomsRecord = get(_messagesAtomsRecordAtom)
     const messagesAtom = roomMessagesAtomsRecord[roomId]
-    if (!messagesAtom) return []
+    if (!messagesAtom) return undefined
 
     return get(messagesAtom)
   })
@@ -360,18 +399,22 @@ export const useRequestRoomMessages = () => {
   const isLoading = useRef(false)
 
   return useCallback(
-    (roomId: string) => {
+    (roomId: string, resync: boolean) => {
       if (!client) return
       if (!roomId || !client) return
       if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
 
       isLoading.current = true
+      let merge = !!tokenRef.current.end
+      if (resync) {
+        tokenRef.current = { start: undefined, end: undefined }
+        merge = false
+      }
       client
         .createMessagesRequest(roomId, tokenRef.current.end)
         .then(async (resp) => {
-          const { chunk, start, end } = resp
-          const appendMessages = !!tokenRef.current.end
-          setMessages(roomId, chunk, appendMessages)
+          const { chunk: roomEvents, start, end } = resp
+          setMessages(roomId, roomEvents, merge)
 
           // unpdate start and end tokens only after merging messages
           tokenRef.current = { start, end }
@@ -384,10 +427,10 @@ export const useRequestRoomMessages = () => {
 
 /**
  * @name useRoomById (Hook Helper)
- * @description It returns the specific room with all its data (`ChatRoom` and
- * `ChatMessage[]`).
+ * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`) or
+ * `undefined` for both if the room ID could not be found.
  */
-export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] => {
+export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[] | undefined] => {
   const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
   const messages = useAtomValue(useMemo(() => messagesByRoomIdAtomCreator(roomId), [roomId]))
 
@@ -395,13 +438,15 @@ export const useRoomById = (roomId: string): [ChatRoom | null, ChatMessage[]] =>
 }
 
 /**
- * @name useSubscribeToChat hook
- * @description helper hook subscribes to rooms and messages updates. Should be
- * used on the `<ChatStore />`.
+ * @description hook that triggers atoms subscriptions to Matrix events (calling useAtom will result
+ * in the atoms `.onMount` method being called). As a result, the atoms will be populated with domain
+ * objects derived from the Matrix events. Example: Matrix message events will be converted to
+ * `ChatMessage` instances and stored in the `messagesAtomsRecordAtom`.
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_roomsNotificationsSubscriberAtom)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
+  useAtom(_ignoredUsersAtomSubscriber)
 }

@@ -13,9 +13,9 @@ else
     nvm install "$(cat .node-version)"
 fi
 
-# valid (prepared) values: 'staging' | 'local'
+# valid (prepared) values: 'staging' | 'local' | 'production'
 # will result in loading `.env.${DEV_ENV}`
-export DEV_ENV=staging
+export DEV_ENV=${DEV_ENV:-staging}
 
 if [ ! -f ".env.${DEV_ENV}" ]; then
   echo
