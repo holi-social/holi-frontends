@@ -25,13 +25,9 @@ import type {
 } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
+import { logDebug } from '@holi/core/helpers/logging'
 
 const _chatInitializedAtom = atom(false)
-
-/**
- * Hook to set the chat client initialization state. Intended for usage in the `ChatStoreInitializer` only.
- */
-export const useSetChatInitialized = () => useSetAtom(_chatInitializedAtom)
 
 /**
  * Hook to check if the chat client has been initialized. Intended for usage in arbitrary
@@ -40,7 +36,7 @@ export const useSetChatInitialized = () => useSetAtom(_chatInitializedAtom)
  *
  * @returns `true` if the chat client has been initialized, `false` otherwise.
  */
-export const useChatInitialized = () => useAtom(_chatInitializedAtom)
+export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined
@@ -90,6 +86,8 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
   })
 })
 
+type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean } | 'initDone'
+
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
  * @description A write-only atom that programmatically creates a room based on
@@ -100,26 +98,45 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
  *
  * IMPORTANT! Do not use this atom to read/access rooms.
  */
-const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, room: Room, hasPendingInvitation: boolean) => {
-  const chatRoom = createChatRoom(room, hasPendingInvitation)
+const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
+  if (args === 'initDone') {
+    logDebug('Chat.store', 'chat initialized')
+    // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
+    set(_chatInitializedAtom, true)
+  } else {
+    const { room, hasPendingInvitation } = args
+    const chatRoom = createChatRoom(room, hasPendingInvitation)
 
-  const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
-  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
+    const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
+    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
 
-  if (!hasRoom) {
-    getChatClient().subscribeToRoomMessages(room, (event) => {
-      set(_newMessageAtomSubscriber, event)
-    })
+    if (!hasRoom) {
+      getChatClient().subscribeToRoomMessages(room, (event) => {
+        set(_newMessageAtomSubscriber, event)
+      })
+    }
   }
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
+
+  const addRoomToStore = (room: Room, logPhase: string) => {
+    const hasPendingInvitation = getChatClient().hasPendingInvitation(room)
+    logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
+    setAtom({ room, hasPendingInvitation })
+  }
+
   // get current rooms from ChatClient and store them to Atoms
-  client.getRooms().map((room) => setAtom(room, getChatClient().hasPendingInvitation(room)))
+  client.getRooms().forEach((room) => addRoomToStore(room, 'init'))
+
+  // hack to be able to set `_chatInitializedAtom` to true. we know that the chat has been initialized when we added
+  // all rooms to the store. this is a hack because we cannot set atoms in the `onMount` lifecycle.
+  // strictly speaking, this is a timing issue, as room events might arrive shortly after, but in tests they always
+  // arrived so quick that they were already available in client.getRooms() above.
+  setAtom('initDone')
 
   // set litener for new rooms
-
   getChatClient().subscribeToRooms((room) => {
     /**
      * @name waitForCorrectRoomName
@@ -130,7 +147,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      */
     const waitForCorrectRoomName = (timestamp: number) => {
       if (room.name !== 'Empty room' || Date.now() > timestamp) {
-        setAtom(room, getChatClient().hasPendingInvitation(room))
+        addRoomToStore(room, 'subscription')
       } else {
         setTimeout(() => {
           waitForCorrectRoomName(timestamp)
