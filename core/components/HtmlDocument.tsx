@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import HoliWebView from '@holi/core/components/HoliWebView'
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HtmlDocumentProps {
   url?: URL | string
@@ -18,8 +21,9 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
   // Seen in real life in the app (document loaded twice).
   const [loading, setLoading] = useState<boolean>(false)
   const needToLoad = url && !document
-  const { height: deviceHeight } = useWindowDimensions()
-  const styles = getStyles(deviceHeight)
+  const { bottom } = useSafeAreaInsets()
+  const styles = getStyles(bottom)
+  const mixins = useStyleMixins()
 
   useEffect(() => {
     if (needToLoad && !loading) {
@@ -51,14 +55,15 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
       {document ? (
         // long documents have bad performance and break on old devices
         document.length < 1048576 ? (
-          <HoliHtmlView html={document} />
+          <ScrollHeaderLayout.Default
+            style={mixins.container}
+            contentContainerStyle={{ maxWidth: '100%' }}
+            headerOverlap
+          >
+            <HoliHtmlView html={document} />
+          </ScrollHeaderLayout.Default>
         ) : (
-          <ScrollView>
-            <HoliWebView
-              webViewProps={{ source: { uri: url ? url.toString() : '' }, nestedScrollEnabled: true }}
-              style={styles.webView}
-            />
-          </ScrollView>
+          <HoliWebView webViewProps={{ source: { uri: url ? url.toString() : '' } }} style={styles.webView} />
         )
       ) : (
         <HoliLoader style={{ minHeight: 300 }} />
@@ -67,11 +72,13 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
   )
 }
 
-const getStyles = (deviceHeight: number) =>
+const getStyles = (bottomInset: number) =>
   StyleSheet.create({
     webView: {
-      minHeight: deviceHeight - 80,
-      marginTop: 25,
+      marginTop: 16,
+      marginLeft: 8,
+      marginRight: Platform.OS === 'android' ? 8 : 0,
+      marginBottom: bottomInset,
     },
   })
 
