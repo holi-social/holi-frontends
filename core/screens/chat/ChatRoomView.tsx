@@ -1,16 +1,13 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
+import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
-  ignoreUser,
   sendMessage,
   setLatestMessagesAsRead,
-  unignoreUser,
   useChatInitialized,
-  useIgnoredUsers,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
@@ -28,10 +25,6 @@ import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
 import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessageList/RoomMessageListStart'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliLink from '@holi/ui/components/atoms/HoliLink'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -42,7 +35,6 @@ export type ChatRoomPageParams = {
 const { useParam } = createParam<ChatRoomPageParams>()
 
 const ChatRoomView = () => {
-  const { t } = useTranslation()
   const { navigateBack } = useRouting()
   const chatInitialized = useChatInitialized()
 
@@ -61,7 +53,6 @@ const ChatRoomView = () => {
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
   const setScreenOptions = useSetScreenOptions()
-  const ignoredUsers = useIgnoredUsers()
 
   const handleBackPress = useCallback(async () => {
     navigateBack()
@@ -71,54 +62,14 @@ const ChatRoomView = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
-      headerTitle: () => {
-        if (!chatPartner || !chatPartnerHoliUser) return null
-        const isUserIgnored = ignoredUsers.includes(chatPartner.id)
-        const blockLabel = isUserIgnored
-          ? t('chat.user.unblock', { user: chatPartnerHoliUser.fullName })
-          : t('chat.user.block', { user: chatPartnerHoliUser.fullName })
-        const blockAction = isUserIgnored
-          ? () => unignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
-          : () => ignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
-        return (
-          <View style={{ flexDirection: 'row', columnGap: 20 }}>
-            <HoliLink
-              label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
-              href={`/profile/${chatPartner.id}`}
-            >
-              <View style={styles.headerTitle}>
-                <HoliAvatar
-                  imageSrc={chatPartnerHoliUser.avatar}
-                  imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-                  label={chatPartnerHoliUser.fullName}
-                  initials={chatPartnerHoliUser.avatarLabel}
-                  defaultColor={chatPartnerHoliUser.avatarDefaultColor}
-                  size="micro"
-                />
-                <HoliText bold>{chatPartnerHoliUser.fullName}</HoliText>
-              </View>
-            </HoliLink>
-            <HoliButton inline variant="small" type="secondary" label={blockLabel} onPress={blockAction}>
-              {blockLabel}
-            </HoliButton>
-          </View>
-        )
-      },
+      headerTitle: () => (
+        <ChatRoomHeaderTitle roomId={roomId} chatPartner={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+      ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [
-    handleBackPress,
-    chatPartner,
-    room?.name,
-    setScreenOptions,
-    t,
-    ignoredUsers,
-    chatPartnerHoliUser,
-    requestMessages,
-    roomId,
-  ])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
 
   useEffect(() => {
     if (room?.hasInvitation) return
