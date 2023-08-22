@@ -27,7 +27,7 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
-  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord([room])
+  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartner = getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = chatPartner && matrixIdToHoliUserRecord[chatPartner.id]
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room

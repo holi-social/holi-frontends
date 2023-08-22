@@ -26,7 +26,21 @@ import type {
 import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 
-export const chatInitializedAtom = atom(false)
+const _chatInitializedAtom = atom(false)
+
+/**
+ * Hook to set the chat client initialization state. Intended for usage in the `ChatStoreInitializer` only.
+ */
+export const useSetChatInitialized = () => useSetAtom(_chatInitializedAtom)
+
+/**
+ * Hook to check if the chat client has been initialized. Intended for usage in arbitrary
+ * components that need to check if the chat client has been initialized, e.g. in order to
+ * render a loading indicator.
+ *
+ * @returns `true` if the chat client has been initialized, `false` otherwise.
+ */
+export const useChatInitialized = () => useAtom(_chatInitializedAtom)
 
 /** Client **/
 let chatClient: ChatClient | undefined = undefined
@@ -285,13 +299,14 @@ export const unignoreUser = async (userId: string) => {
   return await getChatClient().unignoreUser(userId)
 }
 
+const _messagesAtomsRecordAtom = atom<Record<ChatRoomId, ChatMessagesAtom>>({})
+
 /**
- * @name messagesAtomsRecordAtom (Read-Only)
- * @description An atom of type `Record<string, ChatMessagesAtom>` collects `Atom<ChatMessage[]>` for all rooms ids.
- * Only reading from this atom is allowed.
+ * @description A read-only atom containing records to look up `Atom<ChatMessage[]>` by room ID.
  */
-const _messagesAtomsRecordAtom = atom<Record<string, ChatMessagesAtom>>({})
-export const messagesAtomsRecordAtom = atom((get) => get(_messagesAtomsRecordAtom))
+export const messagesAtomsRecordAtom: Atom<Record<ChatRoomId, ChatMessagesAtom>> = atom((get) =>
+  get(_messagesAtomsRecordAtom)
+)
 
 /**
  * @name _messageBunchAtomSetter
@@ -362,6 +377,7 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
  * @description A function that returns an atom of messages for the given room id.
+ * @returns `Atom<ChatMessage[]>` or `undefined` if the room does not exist.
  */
 const messagesByRoomIdAtomCreator = (roomId: string) =>
   atom((get) => {
@@ -411,8 +427,8 @@ export const useRequestRoomMessages = () => {
 
 /**
  * @name useRoomById (Hook Helper)
- * @description It returns the specific room with all its data (`ChatRoom` and
- * `ChatMessage[]`).
+ * @description It returns the specific room with all its data (`ChatRoom` and `ChatMessage[]`) or
+ * `undefined` for both if the room ID could not be found.
  */
 export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[] | undefined] => {
   const room = useAtomValue(useMemo(() => roomByIdAtomCreator(roomId), [roomId]))
@@ -422,9 +438,10 @@ export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[
 }
 
 /**
- * @name useSubscribeToChat hook
- * @description helper hook subscribes to rooms and messages updates. Should be
- * used on the `<ChatStore />`.
+ * @description hook that triggers atoms subscriptions to Matrix events (calling useAtom will result
+ * in the atoms `.onMount` method being called). As a result, the atoms will be populated with domain
+ * objects derived from the Matrix events. Example: Matrix message events will be converted to
+ * `ChatMessage` instances and stored in the `messagesAtomsRecordAtom`.
  */
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)

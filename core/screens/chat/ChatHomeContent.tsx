@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
-import { chatInitializedAtom } from '@holi/chat/src/store'
+import { useChatInitialized } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
@@ -23,7 +23,7 @@ const ChatHomeContent = () => {
   const mixins = useStyleMixins()
   const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const { navigate } = useRouting()
-  const chatInitialized = useAtomValue(chatInitializedAtom)
+  const chatInitialized = useChatInitialized()
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
   if (isLoading || !chatInitialized || !loggedInUser) return <HoliLoader />

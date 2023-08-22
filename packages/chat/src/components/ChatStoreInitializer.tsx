@@ -1,30 +1,28 @@
-import { Provider, useSetAtom } from 'jotai'
+import { Provider } from 'jotai'
 import React, { memo, useEffect, useState } from 'react'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
-import { chatInitializedAtom, useSubscribeToChat } from '@holi/chat/src/store'
+import { useSetChatInitialized, useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 /**
  * To be mounted once ChatClient is initialized. It subscribes to chat events and updates Jotai atoms.
+ * Sets the chatInializedAtom to true when done.
  */
 const ChatStore = () => {
   useSubscribeToChat()
-  const setInitialized = useSetAtom(chatInitializedAtom)
-  //const setIgnoredUsers = useSetAtom(_ignoredUsersAtom)
+  const setInitialized = useSetChatInitialized()
   useEffect(() => {
     setInitialized(true)
-    //setIgnoredUsers(getChatClient().getIgnoredUsers())
   })
   return null
 }
 
 /**
- *
  * @name ChatStoreInitializer component
- * @description This component relies on `ChatClient` inscance and renders `<ChatStore />` component when chat is initialized.
+ * @description This component relies on `ChatClient` instance and renders `<ChatStore />` component when chat is initialized.
  * `<ChatStore />` mounts Jotai atoms for chat rooms and messages, which have `onMount` functions for listen to chat events.
  */
 const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
@@ -44,9 +42,7 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   useEffect(() => {
     if (!ftLoading && ftEnabled && identity) {
       startChat()
-        .then(() => {
-          setIsChatReady(true)
-        })
+        .then(() => setIsChatReady(true))
         .catch(displayError)
     } else {
       setIsChatReady(false)

@@ -1,4 +1,3 @@
-import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
@@ -6,11 +5,11 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
-  chatInitializedAtom,
   ignoreUser,
   sendMessage,
   setLatestMessagesAsRead,
   unignoreUser,
+  useChatInitialized,
   useIgnoredUsers,
   useRequestRoomMessages,
   useRoomById,
@@ -45,12 +44,14 @@ const { useParam } = createParam<ChatRoomPageParams>()
 const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack } = useRouting()
-  const chatInitialized = useAtomValue(chatInitializedAtom)
+  const chatInitialized = useChatInitialized()
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
 
-  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(room ? [room] : [])
+  const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
+    room?.members.map((m) => m.id) || []
+  )
   const [messageText, setMessageText] = useState('')
 
   const { user: loggedInUser } = useLoggedInUser()
@@ -132,8 +133,6 @@ const ChatRoomView = () => {
     await sendMessage({ roomId, text })
     setMessageText('')
   }
-
-  console.debug({ room, messages })
 
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader />
