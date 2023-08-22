@@ -74,9 +74,11 @@ const browserStackCapabilities = () => {
       'appium:automationVersion': 'latest',
       // BrowserStack options builder: https://www.browserstack.com/app-automate/capabilities#
       'appium:app': requireEnvVar('BROWSERSTACK_APP_URL'),
-      'appium:settings[snapshotMaxDepth]': '100',
+      'appium:settings[snapshotMaxDepth]': 100,
+      'appium:autoGrantPermissions': 'true',
+      'appium:autoAcceptAlerts': 'true',
       'bstack:options': {
-        appiumVersion: '2.0.0',
+        appiumVersion: '2.0.1',
         projectName: gitlabBranchName || localGitInfo.branch,
         buildName: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
         sessionName: 'undefined',
@@ -103,6 +105,7 @@ const localAndroidEmulator = () => ({
     'appium:automationName': 'UiAutomator2',
     'appium:deviceName': 'Android Emulator',
     'appium:appPackage': process.env.APP_PATH ? appId : undefined,
+    'appium:autoGrantPermissions': 'true',
   },
 })
 
@@ -119,7 +122,8 @@ const localIOSSimulator = () => ({
     'appium:udid': requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     //bundleId: process.env.APP_PATH ? appId : undefined,
     'appium:showIOSLog': false,
-    'appium:settings[snapshotMaxDepth]': '100',
+    'appium:settings[snapshotMaxDepth]': 100,
+    'appium:autoAcceptAlerts': 'true',
   },
 })
 

@@ -13,6 +13,22 @@ else
     nvm install "$(cat .node-version)"
 fi
 
+# valid (prepared) values: 'staging' | 'local'
+# will result in loading `.env.${DEV_ENV}`
+export DEV_ENV=staging
+
+if [ ! -f ".env.${DEV_ENV}" ]; then
+  echo
+  echo "Environment file \".env.${DEV_ENV}\" could not be found!"
+  echo
+  exit 1
+else
+  echo
+  echo "Loading environment \"${DEV_ENV}\""
+  echo
+  . ".env.${DEV_ENV}"
+fi
+
 # e2e tests
 export E2E_USER_USERNAME=
 export E2E_USER_PASSWORD=

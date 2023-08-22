@@ -7,12 +7,12 @@ export const chatServerName = (() => {
   return process.env.NEXT_PUBLIC_HOLI_CHAT_SERVER_NAME || serverName
 })()
 
-export const chatUrl = (() => {
+export const chatServerUrl = (() => {
   const baseUrl = 'https://' + chatServerName
   return process.env.NEXT_PUBLIC_HOLI_CHAT_SERVER_URL || baseUrl
 })()
 
-export const chatLoginUrl = '/api/chatlogin'
+export const chatServerLoginUrl = '/api/chatlogin'
 
 export const owncloudUrl = (() => {
   const baseUrl =

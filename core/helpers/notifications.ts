@@ -9,11 +9,13 @@ import {
 } from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
+import { Platform } from 'react-native'
 
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { logDebug } from '@holi/core/helpers/logging'
+import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 
-// TODO setup background events for iOS, see https://docs.expo.dev/versions/latest/sdk/notifications/#configurable-properties
 export const initNotifications = async () => {
   if (!isDevice()) {
     // doesn't work on android emulator (and also possibly not on iOS simulator)
@@ -26,7 +28,7 @@ export const initNotifications = async () => {
       response = await Notifications.requestPermissionsAsync()
     }
 
-    // TODO ensure that also provisional and ephemeral is covered by this GRANTED interpretation, see https://docs.expo.dev/versions/latest/sdk/notifications/#interpret-the-ios-permissions-response
+    // iOS also has PROVISIONAL and EPHEMERAL, but we don't request those, so we are fine
     if (response.status === PermissionStatus.GRANTED) {
       logDebug('initNotifications', 'notification permissions granted, setting up notificationHandler')
       // permanent, no de-registration needed
@@ -37,36 +39,32 @@ export const initNotifications = async () => {
   }
 }
 
-interface UnknownSygnalMessageContent {
-  msgtype: unknown
-  body: unknown
-}
-
-interface UnimplementedSygnalMessageContent extends UnknownSygnalMessageContent {
-  msgtype: undefined // anything, just using undefined to have no overlap with real values
+interface AndroidUnknownMessageContent {
+  msgtype: string | undefined
   body: string | undefined
 }
 
-interface SygnalMessageContentText extends UnknownSygnalMessageContent {
+interface AndroidMessageContentText {
   msgtype: 'm.text'
   body: string // e.g. "example text"
 }
 
-type SygnalMessageContent = SygnalMessageContentText | UnimplementedSygnalMessageContent
+type AndroidMessageContent = AndroidMessageContentText | AndroidUnknownMessageContent
 
-interface SygnalMemberChangeContent {
+interface AndroidMemberChangeContent {
   is_direct: boolean
   displayname: string
   membership: 'invite' | string
 }
 
-interface UnknownSygnalEvent {
-  event_id: string // e.g. "$RZc5AqDDH1Nx3Ru5OeWCennKG5wJcdMQfPOHrv8_1VA"
-  type: unknown
-  content: unknown
+interface BaseEvent {
+  // for all we know, these two are always present,
+  // but just to be sure we mark them as optional
+  event_id?: string // e.g. "$RZc5AqDDH1Nx3Ru5OeWCennKG5wJcdMQfPOHrv8_1VA"
+  room_id?: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
 }
 
-interface AnonymizedSygnalEvent extends UnknownSygnalEvent {
+interface AndroidEventAnonymized extends BaseEvent {
   // type etc. not available if 'event_id_only' is configured in pusher
   type: undefined
   content: undefined
@@ -74,31 +72,52 @@ interface AnonymizedSygnalEvent extends UnknownSygnalEvent {
   sender_display_name: undefined
 }
 
-interface SygnalRoomEvent extends UnknownSygnalEvent {
+interface AndroidBaseEvent extends BaseEvent {
   prio: string // e.g. "high"
   unread: string // e.g. "1"
-  room_id: string // e.g. "!yYrrLMRIfsHiunBbat:staging.chat.holi.social"
   sender: string // e.g. "@malte1:staging.chat.holi.social"
   sender_display_name: string // e.g. "malte1"
 }
 
-interface SygnalRoomMemberChange extends SygnalRoomEvent {
+interface AndroidRoomMemberChange extends AndroidBaseEvent {
   type: 'm.room.member'
-  content: SygnalMemberChangeContent
+  content: AndroidMemberChangeContent
   membership: 'invite' | string
 }
 
-interface SygnalRoomMessage extends SygnalRoomEvent {
+interface AndroidRoomMessage extends AndroidBaseEvent {
   type: 'm.room.message'
-  content: SygnalMessageContent // e.g. { body: "example text", msgtype: "m.text" }
+  content: AndroidMessageContent // e.g. { body: "example text", msgtype: "m.text" }
 }
 
-type SygnalEvent = SygnalRoomMemberChange | SygnalRoomMessage | AnonymizedSygnalEvent
+interface IosMessageWithContent extends BaseEvent {
+  aps: {
+    badge: number
+    alert: {
+      'loc-key': 'MSG_FROM_USER_WITH_CONTENT'
+      'loc-args': [string, string] // sender + content
+    }
+  }
+}
+
+interface IosEventAnonymized extends BaseEvent {
+  aps: {
+    badge: number
+    alert: object | undefined
+  }
+}
+
+type SygnalEvent =
+  | AndroidRoomMemberChange
+  | AndroidRoomMessage
+  | AndroidEventAnonymized
+  | IosMessageWithContent
+  | IosEventAnonymized
 
 const parseToSygnalEvent = (
   remoteData:
     | {
-        [p: string]: string
+        [key: string]: unknown
       }
     | undefined
 ): SygnalEvent | undefined => {
@@ -109,7 +128,8 @@ const parseToSygnalEvent = (
     const { content, ...rest } = remoteData
 
     return {
-      content: content ? JSON.parse(content) : undefined,
+      // Android events benefit from parsing the content JSON
+      content: content && typeof content === 'string' ? JSON.parse(content) : undefined,
       ...rest,
     } as SygnalEvent
   } catch (e) {
@@ -118,50 +138,84 @@ const parseToSygnalEvent = (
   }
 }
 
-const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | undefined => {
-  if (event.type === 'm.room.member') {
-    const memberChange: SygnalRoomMemberChange = event // just to be explicit
-    // const sender = memberChange.sender_display_name // currently not in sync with okuna
-    if (memberChange.membership === 'invite') {
-      return {
-        title: 'Invitation',
-        body: 'Someone invited you to a ' + (memberChange.content.is_direct ? 'direct chat' : 'chat') + '.',
-        data: {
-          room_id: memberChange.room_id,
-        },
-      }
-    } else {
-      return {
-        title: 'Channel Update',
-        body:
-          'Someone updated ' + (memberChange.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
-        data: {
-          room_id: memberChange.room_id,
-        },
-      }
+const navigationStateAllowsPushDisplayFor = (pushRoomId: string | undefined): boolean => {
+  const currentRoute = navigationRef.current?.getCurrentRoute()
+  const name = currentRoute?.name
+  const params = currentRoute?.params
+  const isInChatHome = name === RouteName.ChatHome
+  const isInSameRoom = name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
+  return !isInChatHome && !isInSameRoom
+}
+
+const createIosMessagePush = (locArgs: [string, string], roomId: string | undefined) => {
+  // first arg is the sender display name, currently not in sync with okuna
+  const [, message] = locArgs
+  return {
+    title: 'New message',
+    body: message,
+    data: {
+      room_id: roomId,
+    },
+  }
+}
+
+const createAndroidRoomMemberChangePush = (event: AndroidRoomMemberChange): NotificationContentInput | null => {
+  // const sender = memberChange.sender_display_name // currently not in sync with okuna
+  if (event.membership === 'invite') {
+    return {
+      title: 'Invitation',
+      body: 'Someone invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+      data: {
+        room_id: event.room_id,
+      },
     }
-  } else if (event.type === 'm.room.message') {
-    const roomMessage: SygnalRoomMessage = event // just to be explicit
-    // const sender = roomMessage.sender_display_name // currently not in sync with okuna
-    const content = roomMessage.content
-    if (content.msgtype === 'm.text') {
-      return {
-        title: 'New message',
-        body: content.body,
-        data: {
-          room_id: roomMessage.room_id,
-        },
-      }
-    } else {
-      // basically any content we don't want to implement yet
-      return {
-        title: 'New Message',
-        body: 'Someone send you a new message.',
-        data: {
-          room_id: roomMessage.room_id,
-        },
-      }
+  } else {
+    return {
+      title: 'Channel Update',
+      body: 'Someone updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+      data: {
+        room_id: event.room_id,
+      },
     }
+  }
+}
+
+const createAndroidRoomMessagePush = (event: AndroidRoomMessage) => {
+  // const sender = roomMessage.sender_display_name // currently not in sync with okuna
+  const content = event.content
+  if (content.msgtype === 'm.text') {
+    return {
+      title: 'New message',
+      body: content.body,
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  } else {
+    // basically any content we don't want to implement yet
+    return {
+      title: 'New Message',
+      body: 'Someone send you a new message.',
+      data: {
+        room_id: event.room_id,
+      },
+    }
+  }
+}
+
+const generateNotificationContent = (event: SygnalEvent): NotificationContentInput | null => {
+  if (
+    'aps' in event &&
+    event.aps.alert &&
+    'loc-key' in event.aps.alert &&
+    event.aps.alert['loc-key'] === 'MSG_FROM_USER_WITH_CONTENT' &&
+    event.aps.alert['loc-args'].length >= 2
+  ) {
+    return createIosMessagePush(event.aps.alert['loc-args'], event.room_id)
+  } else if ('type' in event && event.type === 'm.room.member') {
+    return createAndroidRoomMemberChangePush(event)
+  } else if ('type' in event && event.type === 'm.room.message') {
+    return createAndroidRoomMessagePush(event)
   } else {
     // anonymized, or unknown event
     // wording it like the notification is intentionally vague
@@ -169,20 +223,19 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
       title: 'holi Chat',
       body: 'You have a new message or invitation.',
       data: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        room_id: (event as any).room_id, // if available, use it
+        room_id: 'room_id' in event ? event.room_id : undefined,
       },
     }
   }
 }
 
-const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
+const handleNewDataPush = async (data: { [key: string]: unknown } | undefined) => {
   const event = parseToSygnalEvent(data)
   logDebug('handleNewDataPush', 'using sygnal event', JSON.stringify(event))
-  if (event) {
+  if (event && navigationStateAllowsPushDisplayFor(event.room_id)) {
     const content = generateNotificationContent(event)
-    logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
     if (content) {
+      logDebug('handleNewDataPush', 'scheduling notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
         content,
         // Android:
@@ -191,6 +244,8 @@ const handleNewDataPush = async (data: { [p: string]: string } | undefined) => {
         //   caused an error "Failed to schedule notification" and we don't know why
         trigger: null, // `null` means to schedule directly
       })
+    } else {
+      logDebug('handleNewDataPush', 'skipping push notification')
     }
   }
 }
@@ -204,8 +259,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       const request: Partial<NotificationRequest> = notification.request
       if (request.trigger?.type === 'push') {
         const trigger = request.trigger as Partial<PushNotificationTrigger>
-        // TODO don't schedule when chat screen is visible
-        await handleNewDataPush(trigger.remoteMessage?.data)
+        await handleNewDataPush(trigger.remoteMessage?.data ?? trigger.payload) // android ?? ios
         return {
           shouldShowAlert: false,
           shouldPlaySound: false,
@@ -231,20 +285,24 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
 }
 
 const registerHandleNotificationsWhenAppIsInBackground = async () => {
-  // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
-  const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
-  TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
-    try {
-      // we know it's a chat notification update
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const notification = (body as any).data.notification
-      logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
-      // This is just left in to demonstrate how to receive notifications in the background.
-      // We can't prevent background notifications from appearing when they have a valid notification payload.
-      // But we need this payload for closed app notifications, so we should not send another notification here.
-    } catch (e) {
-      logDebug('backgroundNotificationHandler', 'error while processing', e)
-    }
-  })
-  await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+  if (Platform.OS === 'android') {
+    // since we don't really need it, we can skip the hassle for ios right now
+
+    // see https://docs.expo.dev/versions/latest/sdk/notifications/#handle-incoming-notifications-when-the-app-is-1
+    const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK'
+    TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async (body: TaskManagerTaskBody) => {
+      try {
+        // we know it's a chat notification update
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const notification = (body as any).data.notification
+        logDebug('backgroundNotificationHandler', 'received background notification', JSON.stringify(notification))
+        // This is just left in to demonstrate how to receive notifications in the background.
+        // We can't prevent background notifications from appearing when they have a valid notification payload.
+        // But we need this payload for closed app notifications, so we should not send another notification here.
+      } catch (e) {
+        logDebug('backgroundNotificationHandler', 'error while processing', e)
+      }
+    })
+    await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+  }
 }

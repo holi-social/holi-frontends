@@ -1,13 +1,21 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
-import { ChatRoom, sendMessage, useRequestRoomMessages, useRoomById } from '@holi/chat/src/store'
+import {
+  ChatRoom,
+  sendMessage,
+  setLatestMessagesAsRead,
+  useRequestRoomMessages,
+  useRoomById,
+} from '@holi/chat/src/store'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
 import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessageList/RoomMessageListStart'
@@ -63,6 +71,7 @@ const useIdOrIdentityToUserRecord = (room: ChatRoom | null) => {
 
 const ChatRoomView = () => {
   const { t } = useTranslation()
+  const { navigateBack } = useRouting()
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -77,8 +86,14 @@ const ChatRoomView = () => {
   const roomCreator = roomUsersRecord[room?.name ?? '']
   const setScreenOptions = useSetScreenOptions()
 
+  const handleBackPress = useCallback(async () => {
+    navigateBack()
+    await setLatestMessagesAsRead(roomId)
+  }, [navigateBack, roomId])
+
   useEffect(() => {
     setScreenOptions({
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () =>
         roomCreator ? (
           <HoliLink label={t('user.visitProfile', { name: roomCreator.fullName })} href={`/profile/${roomCreator.id}`}>
@@ -99,7 +114,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [roomCreator, room?.name, setScreenOptions, t])
+  }, [handleBackPress, roomCreator, room?.name, setScreenOptions, t])
 
   useEffect(() => {
     if (room?.hasInvitation) return

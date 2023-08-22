@@ -51,7 +51,10 @@ const possibleBrowsers = [
   },
   {
     name: 'Mobile_Chrome',
-    use: devices['Pixel 5'],
+    use: {
+      ...devices['Pixel 5'],
+      permissions: ['clipboard-read'],
+    },
     runAsDefault: true,
   },
 ]

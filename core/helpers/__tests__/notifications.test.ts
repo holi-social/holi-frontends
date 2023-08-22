@@ -3,10 +3,18 @@ import { Notification, NotificationHandler, NotificationRequestInput } from 'exp
 
 import {
   handleNotificationForLocalTriggerMock,
-  handleNotificationForRemoteInvitationTriggerMock,
-  handleNotificationForRemoteMessageTriggerMock,
+  handleNotificationForRemoteInvitationTriggerAndroidMock,
+  handleNotificationForRemoteMessageTriggerAndroidMock,
+  handleNotificationForRemoteMessageTriggerIosMock,
 } from '@holi/core/helpers/__tests__/mocks'
 import { initNotifications } from '@holi/core/helpers/notifications'
+
+jest.mock('@holi/mobile/tracing', () => ({}))
+
+let mockGetCurrentRoute: jest.Mock | undefined
+jest.mock('@holi/mobile/navigation/NavigationProvider', () => ({
+  navigationRef: { current: { getCurrentRoute: () => mockGetCurrentRoute?.() } },
+}))
 
 let mockIsDevice: jest.Mock | undefined
 
@@ -48,7 +56,7 @@ describe('initNotifications', () => {
     expect(mockGetPermissionsAsync).toHaveBeenCalledTimes(1)
     expect(mockRequestPermissionsAsync).toHaveBeenCalledTimes(1)
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
-    expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1)
+    // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
   })
 
@@ -74,7 +82,7 @@ describe('initNotifications', () => {
     expect(mockGetPermissionsAsync).toHaveBeenCalledTimes(1)
     expect(mockRequestPermissionsAsync).toHaveBeenCalledTimes(0)
     expect(mockSetNotificationHandler).toHaveBeenCalledTimes(1)
-    expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1)
+    // expect(mockRegisterTaskAsync).toHaveBeenCalledTimes(1) // not needed right now
     expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
   })
 
@@ -126,59 +134,117 @@ describe('initNotifications', () => {
       expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
     })
 
-    it('should re-schedule invitation notifications with real content', async () => {
-      setNotificationMocks()
+    describe('Android', () => {
+      it('should re-schedule invitation notifications with real content', async () => {
+        setNotificationMocks()
 
-      await initNotifications()
+        await initNotifications()
 
-      const handler = mockSetNotificationHandler?.mock.lastCall[0]
-      const handleNotificationCallback = handler.handleNotification
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
 
-      const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteInvitationTriggerMock)
-      expect(emptyCallResult).toEqual({
-        shouldShowAlert: false,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-      })
-      expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
-      const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
-      expect(notificationRequest).toEqual({
-        trigger: null,
-        content: {
-          title: 'Invitation',
-          body: 'Someone invited you to a direct chat.',
-          data: {
-            room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+        const emptyCallResult = await handleNotificationCallback(
+          handleNotificationForRemoteInvitationTriggerAndroidMock
+        )
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
+        const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
+        expect(notificationRequest).toEqual({
+          trigger: null,
+          content: {
+            title: 'Invitation',
+            body: 'Someone invited you to a direct chat.',
+            data: {
+              room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+            },
           },
-        },
+        })
+      })
+
+      it('should re-schedule message notifications with real content', async () => {
+        setNotificationMocks()
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
+        const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
+        expect(notificationRequest).toEqual({
+          trigger: null,
+          content: {
+            title: 'New message',
+            body: 'hello world!',
+            data: {
+              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+            },
+          },
+        })
+      })
+
+      it('should skip message events when navigated in same room', async () => {
+        setNotificationMocks()
+        mockGetCurrentRoute = jest.fn().mockReturnValue({
+          key: 'ChatRoom-Hr7733Al6mhpXQSd29to7',
+          name: 'ChatRoom',
+          params: { roomId: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+        })
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+
+        expect(mockGetCurrentRoute).toHaveBeenCalled()
       })
     })
 
-    it('should re-schedule message notifications with real content', async () => {
-      setNotificationMocks()
+    describe('iOS', () => {
+      it('should re-schedule message notifications with real content', async () => {
+        setNotificationMocks()
 
-      await initNotifications()
+        await initNotifications()
 
-      const handler = mockSetNotificationHandler?.mock.lastCall[0]
-      const handleNotificationCallback = handler.handleNotification
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
 
-      const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerMock)
-      expect(emptyCallResult).toEqual({
-        shouldShowAlert: false,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-      })
-      expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
-      const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
-      expect(notificationRequest).toEqual({
-        trigger: null,
-        content: {
-          title: 'New message',
-          body: 'hello world!',
-          data: {
-            room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerIosMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
+        const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
+        expect(notificationRequest).toEqual({
+          trigger: null,
+          content: {
+            title: 'New message',
+            body: 'hello world!',
+            data: {
+              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+            },
           },
-        },
+        })
       })
     })
 

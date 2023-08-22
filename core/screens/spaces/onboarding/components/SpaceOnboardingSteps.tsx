@@ -1,9 +1,10 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { logError } from '@holi/core/errors/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,14 +15,12 @@ import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/compo
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Add, Information, Loader } from '@holi/icons/src/generated'
+import { Add, Information } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -32,7 +31,6 @@ const { useParam } = createParam<SpaceOnboardingStepsParams>()
 const SpaceOnboardingSteps = () => {
   const { t } = useTranslation()
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()
@@ -124,111 +122,110 @@ const SpaceOnboardingSteps = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
-      <SafeAreaView style={mixins.container}>
-        <View style={styles.intro}>
-          <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
-          <HoliButton
-            label={t('spaces.onboarding.steps.example.text')}
-            onPress={showExample}
-            transparent
-            style={styles.example}
-          >
-            {t('spaces.onboarding.steps.example.text')}
-          </HoliButton>
-        </View>
-        <View style={styles.steps}>
-          {stepsList.map((step, index) => (
-            <SpaceOnboardingStepInput
-              key={index}
-              index={index + 1}
-              step={step}
-              totalSteps={stepsList.length}
-              handleChange={handleChange}
-              removeStep={removeStep}
-              isNewStep={isNewStep}
-            />
-          ))}
-          <HoliButton
-            label={t('spaces.onboarding.steps.add')}
-            onPress={addStep}
-            variant="medium"
-            type="secondary"
-            style={styles.addStepBtn}
-          >
-            <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-            <HoliIcon icon={Add} size={16} />
-          </HoliButton>
-          {stepsList.length > 0 && (
-            <HoliButton label={t('spaces.onboarding.steps.preview.link')} onPress={showPreview} transparent>
-              <View style={styles.preview}>
-                <HoliIcon icon={Information} style={styles.previewIcon} />
-                <HoliText bold>{t('spaces.onboarding.steps.preview.link')}</HoliText>
-              </View>
-            </HoliButton>
-          )}
-          <HoliButtonLoading
-            disabled={loading || fetchingSpace || hasEmptySteps}
-            icon={loading ? Loader : undefined}
-            iconSpinning={loading}
-            label={t('global.save')}
-            onPress={saveSteps}
-            testID="btn-save-space-onboarding-steps"
-            style={styles.saveBtn}
-          />
-        </View>
+    <DefaultLayout
+      scrollable={false}
+      headerOverlap={true}
+      style={styles.layoutStyle}
+      contentStyle={styles.contentStyle}
+    >
+      <FormWrapper
+        saveButtonDisabled={loading || fetchingSpace || hasEmptySteps}
+        loading={loading}
+        style={styles.formWrapper}
+        buttonLabel={t('global.save')}
+        onSave={saveSteps}
+        keyboardShouldPersistTaps="handled"
+        renderProp={() => (
+          <>
+            <View style={styles.intro}>
+              <HoliText style={styles.desc}>{t('spaces.onboarding.steps.hint')}</HoliText>
+              <HoliButton
+                label={t('spaces.onboarding.steps.example.text')}
+                onPress={showExample}
+                transparent
+                style={styles.example}
+              >
+                {t('spaces.onboarding.steps.example.text')}
+              </HoliButton>
+            </View>
+            <View>
+              {stepsList.map((step, index) => (
+                <SpaceOnboardingStepInput
+                  key={index}
+                  index={index + 1}
+                  step={step}
+                  totalSteps={stepsList.length}
+                  handleChange={handleChange}
+                  removeStep={removeStep}
+                  isNewStep={isNewStep}
+                />
+              ))}
+              <HoliButton
+                label={t('spaces.onboarding.steps.add')}
+                onPress={addStep}
+                variant="medium"
+                type="secondary"
+                style={styles.addStepBtn}
+              >
+                <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
+                <HoliIcon icon={Add} size={16} />
+              </HoliButton>
+              {stepsList.length > 0 && (
+                <HoliButton
+                  label={t('spaces.onboarding.steps.preview.link')}
+                  onPress={showPreview}
+                  transparent
+                  style={styles.previewButton}
+                >
+                  <View style={styles.preview}>
+                    <HoliIcon icon={Information} style={styles.previewIcon} />
+                    <HoliText bold>{t('spaces.onboarding.steps.preview.link')}</HoliText>
+                  </View>
+                </HoliButton>
+              )}
+            </View>
+          </>
+        )}
+      />
+      <HoliModal
+        show={exampleVisible}
+        label={t('spaces.onboarding.steps.example.label')}
+        onDismiss={hideExample}
+        style={styles.exampleWrapper}
+      >
+        <SpaceCollaboratorOnboardingSteps steps={exampleSteps} header={t('spaces.onboarding.steps.example.label')} />
+      </HoliModal>
 
-        <HoliModal
-          show={exampleVisible}
-          label={t('spaces.onboarding.steps.example.label')}
-          onDismiss={hideExample}
-          style={styles.exampleWrapper}
-        >
-          <SpaceCollaboratorOnboardingSteps steps={exampleSteps} header={t('spaces.onboarding.steps.example.label')} />
-        </HoliModal>
-
-        <HoliModal
-          show={previewVisible}
-          label={t('spaces.onboarding.steps.preview.label')}
-          onDismiss={hidePreview}
-          style={styles.previewModal}
-        >
-          <SpaceCollaboratorOnboardingSteps steps={stepsList} header={t('spaces.collaborate.onboarding.info.header')} />
-        </HoliModal>
-      </SafeAreaView>
-    </ScrollHeaderLayout.Default>
+      <HoliModal
+        show={previewVisible}
+        label={t('spaces.onboarding.steps.preview.label')}
+        onDismiss={hidePreview}
+        style={styles.previewModal}
+      >
+        <SpaceCollaboratorOnboardingSteps steps={stepsList} header={t('spaces.collaborate.onboarding.info.header')} />
+      </HoliModal>
+    </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
-  layout: {
+  layoutStyle: {
+    height: '100%',
+  },
+  contentStyle: {
+    flex: 1,
+    paddingBottom: 0,
     backgroundColor: colors.background20,
-    ...Platform.select({
-      native: {
-        minHeight: '100%',
-      },
-      web: {
-        minHeight: '100vh',
-      },
-    }),
-    paddingTop: 24,
+    paddingTop: vars.topBarHeight,
+  },
+  formWrapper: {
+    height: '100%',
   },
   header: {
     marginBottom: 24,
   },
   intro: {
-    ...Platform.select({
-      web: {
-        paddingHorizontal: 20,
-      },
-    }),
-  },
-  steps: {
-    ...Platform.select({
-      web: {
-        paddingHorizontal: 20,
-      },
-    }),
+    paddingTop: 42,
   },
   desc: {
     marginTop: 8,
@@ -241,6 +238,9 @@ const styles = StyleSheet.create({
     width: 'auto',
     marginBottom: 40,
     alignSelf: 'flex-start',
+  },
+  previewButton: {
+    marginBottom: 24,
   },
   preview: {
     flexDirection: 'row',
@@ -256,12 +256,6 @@ const styles = StyleSheet.create({
   addStepBtn: {
     marginTop: 24,
     marginBottom: 24,
-    maxWidth: 320,
-    alignSelf: 'center',
-  },
-  saveBtn: {
-    marginVertical: 24,
-    paddingHorizontal: 16,
     maxWidth: 320,
     alignSelf: 'center',
   },

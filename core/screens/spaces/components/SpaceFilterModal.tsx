@@ -96,20 +96,22 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
   }
 
   return (
-    <>
+    <View>
       {/* Floating filter button */}
-      <HoliButton
-        label={t('spaces.filter.button.label')}
-        testID="btn-filter-spaces"
-        inline
-        style={styles.overlayButton}
-        onPress={openModal}
-      >
-        <HoliText size="small" bold>
-          {t('spaces.filter.button.text')}
-        </HoliText>
-        <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
-      </HoliButton>
+      <View style={[mixins.container, styles.overlayButtonWrapper]}>
+        <HoliButton
+          label={t('spaces.filter.button.label')}
+          testID="btn-filter-spaces"
+          inline
+          style={styles.overlayButton}
+          onPress={openModal}
+        >
+          <HoliText size="small" bold>
+            {t('spaces.filter.button.text')}
+          </HoliText>
+          <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
+        </HoliButton>
+      </View>
 
       {/* Filter modal */}
       <HoliModal
@@ -169,13 +171,17 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({
           </View>
         </HoliModalContentWrapper>
       </HoliModal>
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  overlayButtonWrapper: {
+    position: 'fixed',
+    bottom: 0,
+  },
   overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    position: 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
     right: 16,
     borderWidth: 1,

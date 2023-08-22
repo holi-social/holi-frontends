@@ -1,8 +1,12 @@
 import { ClientEvent } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
+import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+
 // eslint-disable-next-line no-restricted-imports
 import { startChat } from '../client/chatSession'
+// eslint-disable-next-line no-restricted-imports
+import { StoredCredentials } from '../utils'
 
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
@@ -46,19 +50,19 @@ jest.mock('matrix-js-sdk', () => {
 })
 
 jest.mock('@holi/core/helpers/config', () => ({
-  chatUrl: 'some chat url',
-  pushGatewayUrl: 'some.push.gateway.url',
+  chatServerUrl: 'some.chat.server.url',
+  chatPushGatewayUrl: 'some.push.gateway.url',
 }))
 
 jest.mock('@holi/core/auth/helpers/auth', () => ({
-  getSessionFromStorage: () =>
+  getSessionFromStorage: (): Promise<Partial<OrySessionContext>> =>
     Promise.resolve({
       session_token: 'some session token for ory',
     }),
 }))
 
 jest.mock('@holi/chat/src/utils/storage', () => ({
-  loadSessionCredentials: () =>
+  loadSessionCredentials: (): Promise<StoredCredentials> =>
     Promise.resolve({
       access_token: 'some access token for matrix',
       device_id: 'some device id',
@@ -74,39 +78,82 @@ jest.mock('expo-notifications', () => ({
 }))
 
 describe('startChat', () => {
-  it('should call configure pusher, which removes correct pusher and sets new one', async () => {
-    mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'android', data: 'some pushkey' })
-    mockRemovePusher = jest.fn()
-    mockSetPusher = jest.fn()
+  describe('Android', () => {
+    it('should call configure pusher, which removes correct pusher and sets new one', async () => {
+      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'android', data: 'some pushkey' })
+      mockRemovePusher = jest.fn()
+      mockSetPusher = jest.fn()
 
-    await startChat()
+      await startChat()
 
-    expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
-    expect(mockRemovePusher).toHaveBeenCalledTimes(1)
-    expect(mockSetPusher).toHaveBeenCalledTimes(1)
+      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+      expect(mockRemovePusher).toHaveBeenCalledTimes(1)
+      expect(mockSetPusher).toHaveBeenCalledTimes(1)
 
-    expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
 
-    const pusher = mockSetPusher.mock.lastCall[0]
-    expect(pusher).toEqual({
-      app_display_name: 'holi',
-      app_id: 'social.holi',
-      data: {
-        default_payload: {
-          channelId: 'expo_notifications_fallback_notification_channel',
-          experienceId: '@holistic-foundation/projectholi',
-          message: 'You have a new message or invitation.',
-          scopeKey: '@holistic-foundation/projectholi',
-          title: 'holi Chat',
+      const pusher = mockSetPusher.mock.lastCall[0]
+      expect(pusher).toEqual({
+        app_display_name: 'holi',
+        app_id: 'social.holi',
+        data: {
+          default_payload: {
+            channelId: 'expo_notifications_fallback_notification_channel',
+            title: 'holi Chat',
+            message: 'You have a new message or invitation.',
+            experienceId: '@holistic-foundation/projectholi',
+            scopeKey: '@holistic-foundation/projectholi',
+          },
+          url: 'some.push.gateway.url/_matrix/push/v1/notify',
         },
-        url: 'some.push.gateway.url/_matrix/push/v1/notify',
-      },
-      device_display_name: 'mock mock',
-      enabled: true,
-      kind: 'http',
-      lang: 'en',
-      profile_tag: 'override',
-      pushkey: 'some pushkey',
+        device_display_name: 'mock mock',
+        enabled: true,
+        kind: 'http',
+        lang: 'en',
+        profile_tag: 'override',
+        pushkey: 'some pushkey',
+      })
+    })
+  })
+
+  describe('iOS', () => {
+    it('should call configure pusher, which removes correct pusher and sets new one', async () => {
+      mockGetDevicePushTokenAsync = jest.fn().mockReturnValue({ type: 'ios', data: 'some pushkey' })
+      mockRemovePusher = jest.fn()
+      mockSetPusher = jest.fn()
+
+      await startChat()
+
+      expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(1)
+      expect(mockRemovePusher).toHaveBeenCalledTimes(1)
+      expect(mockSetPusher).toHaveBeenCalledTimes(1)
+
+      expect(mockRemovePusher.mock.lastCall).toEqual(['some pushkey', 'our app id'])
+
+      const pusher = mockSetPusher.mock.lastCall[0]
+      expect(pusher).toEqual({
+        app_display_name: 'holi',
+        app_id: 'social.holi.ios',
+        data: {
+          default_payload: {
+            aps: {
+              alert: {
+                title: 'holi Chat',
+                body: 'You have a new message or invitation.',
+              },
+            },
+            experienceId: '@holistic-foundation/projectholi',
+            scopeKey: '@holistic-foundation/projectholi',
+          },
+          url: 'some.push.gateway.url/_matrix/push/v1/notify',
+        },
+        device_display_name: 'mock mock',
+        enabled: true,
+        kind: 'http',
+        lang: 'en',
+        profile_tag: 'override',
+        pushkey: 'some pushkey',
+      })
     })
   })
 })

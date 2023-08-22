@@ -6,7 +6,7 @@ import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserAdd } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 
-export type SpaceInviteProps = {
+export interface SpaceInviteProps {
   space: Space
 }
 

@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -25,9 +25,13 @@ export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
 const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
-  const { i18n } = useTranslation()
-  const { id: roomId, name, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
+  const { i18n, t } = useTranslation()
+  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = useAtomValue(roomAtom)
   const hasUnseenMessages = notificationCount > 0
+
+  const handleOnPress = async () => {
+    await setLatestMessagesAsRead(roomId)
+  }
 
   if (loading) {
     return (
@@ -52,7 +56,7 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
   }
 
   return (
-    <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''}>
+    <HoliLink href={`/chat/rooms/${roomId}`} label={user?.fullName ?? ''} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
         <View testID={testID} style={styles.rowWrapper}>
           {/* View bellow is used to position message indicator regarding the HoliAvatar */}
@@ -90,6 +94,11 @@ const RoomItem = ({ roomAtom, user, testID, loading }: RoomItemProps) => {
               )}
             </View>
 
+            {hasInvitation && (
+              <HoliText numberOfLines={1} color="brandB300">
+                {t('chat.invitation.newconversation')}
+              </HoliText>
+            )}
             {lastMessage && (
               <HoliText numberOfLines={1} color="gray300">
                 {lastMessage.content.body}

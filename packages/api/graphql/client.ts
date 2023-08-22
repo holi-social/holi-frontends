@@ -102,7 +102,7 @@ export const createCache = () =>
           appGoodNews_articles: {
             keyArgs: [],
           },
-          appVolunteering_engagements: {
+          appVolunteering_engagementOpportunities: {
             keyArgs: ['location', 'category'],
           },
           spaces: {

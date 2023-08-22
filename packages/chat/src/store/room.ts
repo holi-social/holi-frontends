@@ -3,11 +3,13 @@ import { atom } from 'jotai'
 import { EventTimeline, EventType, type Room, RoomMember } from 'matrix-js-sdk'
 
 import { ChatMember, MembershipStatus } from '@holi/chat/src/client/types'
-import { isRoomEvent } from '@holi/chat/src/store/utils'
+import { createChatMessage } from '@holi/chat/src/store/messages'
+import { getChatClient } from '@holi/chat/src/store/store'
+import type { ChatMessage, ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
+import { isRoomMessageEvent } from '@holi/chat/src/store/utils'
+import { logError } from '@holi/core/errors/helpers'
 
-import { createChatMessage } from './messages'
-import type { ChatMessage, ChatRoom, ChatRoomAtom } from './types'
-
+/** Immer Producers **/
 export interface UpdateInvitationOptions {
   room: Room
   membership: string
@@ -15,14 +17,17 @@ export interface UpdateInvitationOptions {
 }
 
 export const updateRoomInvitation = produce(
-  (chatRoom: ChatRoom, { room, membership, prevMembership }: UpdateInvitationOptions) => {
+  (chatRoom: ChatRoom, { membership, prevMembership }: UpdateInvitationOptions) => {
     const hasJoined = prevMembership === 'invite' && membership === 'join'
     if (!hasJoined) return
 
     chatRoom.hasInvitation = !hasJoined
-    chatRoom.notificationCount = room.getUnreadNotificationCount()
   }
 )
+
+export const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number) => {
+  chatRoom.notificationCount = count
+})
 
 export const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
   room.lastMessage = message
@@ -38,9 +43,11 @@ export const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, roo
   roomAtoms[roomId] = roomAtom
 })
 
+/** Helpers **/
+
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
-  const lastMessage = isRoomEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
 
   // TODO extract memberships from room to its own atom record
   const getMembership = (membership?: string) => {
@@ -78,5 +85,13 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
       room.getLastActiveTimestamp() > 0
         ? room.getLastActiveTimestamp()
         : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
+  }
+}
+
+export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
+  try {
+    await getChatClient().setLatestMessagesAsRead(roomId)
+  } catch (err) {
+    logError(err)
   }
 }
