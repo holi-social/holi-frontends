@@ -103,6 +103,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       style={styles.wrapper}
       testID="space-invite-form"
       buttonLabel={t('spaces.invite.btn.send')}
+      scrollToInput={false}
       initialOffsetTop={0}
       showBottomBar
       renderProp={() => (
