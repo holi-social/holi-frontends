@@ -30,7 +30,6 @@ export const useLogout = () => {
     logout: useCallback(
       async ({ message, skipLogoutFlow = false, redirectPath = '/profile' }: LogoutOptions = {}) => {
         isLoggingOutVar(true)
-        await stopChat()
 
         getSessionFromStorage()
           .then((session) => {
@@ -53,7 +52,7 @@ export const useLogout = () => {
             // not displaying an user-facing error messages as with the removal from the storage logout should be done
           })
           .catch((error) => displayError(error, t('auth.logout.error')))
-          .finally(() => isLoggingOutVar(false))
+          .finally(() => stopChat().finally(() => isLoggingOutVar(false)))
       },
       [navigate, openToast, t, displayError]
     ),

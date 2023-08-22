@@ -34,18 +34,17 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   const [reloadCount, setReloadCount] = useState(0)
 
   useEffect(() => {
-    if (!identity) {
-      setReloadCount((value) => value + 1)
-    }
-  }, [identity])
-
-  useEffect(() => {
-    if (!ftLoading && ftEnabled && identity) {
-      startChat()
-        .then(() => setIsChatReady(true))
-        .catch(displayError)
-    } else {
-      setIsChatReady(false)
+    if (!ftLoading && ftEnabled) {
+      if (identity) {
+        startChat()
+          .then(() => {
+            setIsChatReady(true)
+          })
+          .catch(displayError)
+      } else {
+        setIsChatReady(false)
+        setReloadCount((value) => value + 1)
+      }
     }
   }, [displayError, identity, ftLoading, ftEnabled])
 
