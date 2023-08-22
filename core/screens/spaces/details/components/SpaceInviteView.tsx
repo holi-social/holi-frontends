@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
@@ -15,7 +15,7 @@ import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { useDebounce } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const USER_SEARCH_DEBOUNCE = 400
 
@@ -105,7 +105,6 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       buttonLabel={t('spaces.invite.btn.send')}
       scrollToInput={false}
       initialOffsetTop={0}
-      showBottomBar
       renderProp={() => (
         <>
           <View style={styles.whom}>
@@ -144,7 +143,6 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
     paddingTop: 12,
     backgroundColor: colors.background30,
   },
