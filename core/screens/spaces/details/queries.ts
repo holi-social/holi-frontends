@@ -26,6 +26,7 @@ export const usersByNameWithSpaceConnectionQuery = gql`
         connectionStatusToMyself
         connectionStatusToSpace(spaceId: $spaceId)
       }
+      totalResults
     }
   }
 `

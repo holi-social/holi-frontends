@@ -10,7 +10,7 @@ export interface PaginationContextType<T> {
   totalResults: number
   data: T[]
   loading: boolean | undefined
-  error: ApolloError | undefined
+  error?: ApolloError | undefined
 }
 
 export interface PaginationProps {
@@ -20,7 +20,7 @@ export interface PaginationProps {
   fetchMoreButtonLabel?: string
 }
 
-const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
+export const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
 
 export function usePaginationContext<T>() {
   const context = useContext(PaginationContext) as PaginationContextType<T>
