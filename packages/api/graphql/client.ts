@@ -45,11 +45,6 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      PostPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
       AppDonations_ProjectsResponse: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
@@ -119,6 +114,18 @@ export const createCache = () =>
                 topicSlug,
                 geolocation: geolocation?.properties?.place_id,
                 skillSlugs,
+              })
+            },
+          },
+          spaceById: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            keyArgs: (args: Record<string, any> | null) => {
+              // reminder: keep in sync with parameters of `discoverSpaces` in `Query`, always exclude offset and limit
+              const { limit, offset, visibility } = args || {}
+              return JSON.stringify({
+                limit,
+                offset,
+                visibility,
               })
             },
           },

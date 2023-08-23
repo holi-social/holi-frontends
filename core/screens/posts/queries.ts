@@ -83,6 +83,7 @@ export const PostFragment = gql`
     reactions {
       HEART
     }
+    isPublic
   }
 `
 
