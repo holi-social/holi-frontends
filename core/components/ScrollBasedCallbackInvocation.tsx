@@ -26,14 +26,14 @@ const ScrollBasedCallbackInvocation = ({
     // react native only returns zeros when we ask too early -_-
     setTimeout(() => {
       placeholderRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        const distanceBelowFold = windowHeight - pageY
-        if (lastPosition >= distanceBelowFold) {
+        if (lastPosition >= scrollY + belowFoldThreshold) {
           // short circuit when previous call already triggered
           return
         }
 
+        const distanceBelowFold = windowHeight - pageY
         if (distanceBelowFold > belowFoldThreshold) {
-          setLastPosition(distanceBelowFold + belowFoldThreshold)
+          setLastPosition(scrollY)
           callback()
         }
       })
