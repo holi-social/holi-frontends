@@ -9,6 +9,7 @@ import {
 import at from 'lodash.at'
 import { useCallback, useState } from 'react'
 
+import { logError } from '@holi/core/errors/helpers'
 import { Paged } from '@holi/core/types'
 
 type PagedResponse<T, QueryName extends string> = {
@@ -25,7 +26,7 @@ interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<T
   isFetchingMore: boolean
   totalResults: number
   canFetchMore: boolean
-  fetchNextPage: () => Promise<TFetchData>
+  fetchNextPage: () => Promise<TFetchData | void>
 }
 
 function usePaginationQuery<TData>(
@@ -65,7 +66,7 @@ function usePaginationQuery<TData>(
       variables: {
         offset: data.length,
       },
-    })
+    }).catch((error) => logError(error, '[usePaginationQuery.tsx] error fetching more'))
   }, [fetchMore, data.length])
 
   return {

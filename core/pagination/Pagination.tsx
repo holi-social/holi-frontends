@@ -1,7 +1,8 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
-import React, { PropsWithChildren, createContext, useContext } from 'react'
+import React, { PropsWithChildren, createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -18,6 +19,8 @@ export interface PaginationProps {
   queryOptions: PaginationQueryHookOptions
   fetchMoreButtonProps?: Partial<HoliButtonLoadingProps>
   fetchMoreButtonLabel?: string
+  loadMoreOnScroll?: boolean
+  scrollPlaceholder?: React.ReactNode
 }
 
 export const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
@@ -37,6 +40,8 @@ export function Pagination({
   queryOptions,
   fetchMoreButtonLabel,
   fetchMoreButtonProps = {},
+  loadMoreOnScroll = false,
+  scrollPlaceholder,
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
@@ -54,10 +59,11 @@ export function Pagination({
     totalResults,
   }
 
-  return (
-    <PaginationContext.Provider value={contextValue}>
-      {children}
-      {canFetchMore && (
+  const loadMoreComponent = useMemo(
+    () =>
+      loadMoreOnScroll ? (
+        <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={scrollPlaceholder} />
+      ) : (
         <HoliButtonLoading
           type="primary"
           label={fetchMoreButtonText}
@@ -68,7 +74,14 @@ export function Pagination({
           testID="btn-fetch-more"
           {...fetchMoreButtonProps}
         />
-      )}
+      ),
+    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, isFetchingMore, loadMoreOnScroll, scrollPlaceholder]
+  )
+
+  return (
+    <PaginationContext.Provider value={contextValue}>
+      {children}
+      {canFetchMore && loadMoreComponent}
     </PaginationContext.Provider>
   )
 }

@@ -10,7 +10,7 @@
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
-    - 'expo publish --release-channel $EXPO_PUBLISH_RELEASE_CHANNEL'
+    - 'eas update --channel=$EXPO_PUBLISH_RELEASE_CHANNEL --auto'
   interruptible: true
   tags:
     - holi-big
