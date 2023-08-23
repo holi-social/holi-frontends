@@ -7,7 +7,8 @@ export const chatServerName = (() => {
 })()
 
 export const chatServerUrl = (() => {
-  const baseUrl = 'https://' + chatServerName
+  const baseUrl =
+    environment === EnvironmentId.PRODUCTION ? 'https://chat.holi.social' : 'https://development-chat.holi.social'
   return process.env.NEXT_PUBLIC_HOLI_CHAT_SERVER_URL || baseUrl
 })()
 
