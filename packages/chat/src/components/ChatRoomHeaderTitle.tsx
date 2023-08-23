@@ -3,33 +3,18 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
-import { ignoreUser, unignoreUser, useIgnoredUsersAtom, useRequestRoomMessages } from '@holi/chat/src/store'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface Props {
-  roomId: string
   chatPartner: ChatRoomMember
   chatPartnerHoliUser: User
 }
 
-const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser, roomId }: Props) => {
+const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser }: Props) => {
   const { t } = useTranslation()
-  const ignoredUsers = useIgnoredUsersAtom()
-  const requestMessages = useRequestRoomMessages()
-
-  const isUserIgnored = ignoredUsers.includes(chatPartner?.id)
-
-  const blockLabel = isUserIgnored
-    ? t('chat.user.unblock', { user: chatPartnerHoliUser.fullName })
-    : t('chat.user.block', { user: chatPartnerHoliUser.fullName })
-
-  const blockAction = isUserIgnored
-    ? () => unignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
-    : () => ignoreUser(chatPartner.id).then(() => requestMessages(roomId, true))
 
   return (
     <View style={styles.container}>
@@ -49,9 +34,6 @@ const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser, roomId }: Props
           <HoliText bold>{chatPartnerHoliUser.fullName}</HoliText>
         </View>
       </HoliLink>
-      <HoliButton inline variant="small" type="secondary" label={blockLabel} onPress={blockAction}>
-        {blockLabel}
-      </HoliButton>
     </View>
   )
 }

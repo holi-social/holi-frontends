@@ -1,30 +1,29 @@
 import { produce } from 'immer'
 import type { MatrixEvent, RoomMember, RoomState } from 'matrix-js-sdk'
 
-import { ChatRoomMember } from '@holi/chat/src/client/types'
+import type { ChatRoomMember, MatrixIdentity } from '@holi/chat/src/client/types'
 import { getChatClient } from '@holi/chat/src/store/store'
 import type { ChatRoom, ChatRoomAtom } from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
 import type { User } from '@holi/core/screens/userprofile/types'
 
 type HoliIdentity = string
-export type MatrixMemberId = `@${string}:${typeof chatServerName}`
 
 /**
  * Converts a Matrix ID (e.g. `@otto:holi.social`) to a Holi identity (e.g. `otto`).
  */
-export const toHoliIdentity = (matrixId: MatrixMemberId): HoliIdentity =>
+export const toHoliIdentity = (matrixId: MatrixIdentity): HoliIdentity =>
   matrixId.endsWith(`:${chatServerName}`) ? matrixId.substring(1, matrixId.indexOf(':')) : ''
 
 /**
  * Converts a Holi identity (e.g. `otto`) to a Matrix ID (e.g. `@otto:holi.social`).
  */
-const toMatrixIdentity = (holiIdentity: HoliIdentity): MatrixMemberId => `@${holiIdentity}:${chatServerName}`
+const toMatrixIdentity = (holiIdentity: HoliIdentity): MatrixIdentity => `@${holiIdentity}:${chatServerName}`
 
 /**
  * A type guard that verifies if its a Matrix member ID (e.g. `@asap:holi.social`).
  */
-export const isMatrixIdentity = (id: string): id is MatrixMemberId =>
+export const isMatrixIdentity = (id: string): id is MatrixIdentity =>
   id.startsWith('@') && id.endsWith(`:${chatServerName}`)
 
 export const ignoreUser = async (userId: string) => {
@@ -41,7 +40,7 @@ export const unignoreUser = async (userId: string) => {
 
 export const getHoliUserFromChatMember = (
   member: ChatRoomMember | undefined,
-  userRecord: Record<MatrixMemberId, User | undefined>
+  userRecord: Record<MatrixIdentity, User>
 ) => {
   if (!member) return
   if (!isMatrixIdentity(member.id)) return

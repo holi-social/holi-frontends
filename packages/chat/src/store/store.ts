@@ -4,7 +4,7 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { NotificationCount, RoomId } from '@holi/chat/src/client/types'
+import type { MatrixIdentity, NotificationCount, RoomId } from '@holi/chat/src/client/types'
 import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import {
@@ -93,7 +93,9 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
   })
 })
 
-type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean } | 'initDone'
+type RoomAtomsRecordAtomSubscriberArgs =
+  | { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixIdentity[] }
+  | 'initDone'
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
@@ -111,27 +113,31 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
     // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
     set(_chatInitializedAtom, true)
   } else {
-    const { room, hasPendingInvitation } = args
+    const { room, hasPendingInvitation, ignoredUsers } = args
     const chatRoom = createChatRoom(room, hasPendingInvitation)
-
     const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
-    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
 
     if (!hasRoom) {
       getChatClient().subscribeToRoomMessages(room, (event) => {
         set(_newMessageAtomSubscriber, event)
       })
     }
+
+    const ignoredRoomMembers = chatRoom.members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
+    if (ignoredRoomMembers.length === chatRoom.members.length - 1) return
+
+    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
   }
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
+  const ignoredUsers = client.getIgnoredUsers()
 
   const addRoomToStore = (room: Room, logPhase: string) => {
     const hasPendingInvitation = getChatClient().hasPendingInvitation(room)
     logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
-    setAtom({ room, hasPendingInvitation })
+    setAtom({ room, hasPendingInvitation, ignoredUsers })
   }
 
   // get current rooms from ChatClient and store them to Atoms
