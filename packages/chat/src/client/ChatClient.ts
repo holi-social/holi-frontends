@@ -17,7 +17,7 @@ import {
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
-import { MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
+import { MatrixId, MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -254,8 +254,8 @@ export default class ChatClient {
     await this.mxClient.setIgnoredUsers(usersToIgnore)
   }
 
-  public getIgnoredUsers = (): string[] => {
-    return this.mxClient.getIgnoredUsers()
+  public getIgnoredUsers = (): MatrixId[] => {
+    return this.mxClient.getIgnoredUsers() as MatrixId[]
   }
 
   public subscribeToIgnoredUsers(callback: (event: MatrixEvent) => void): (() => void) | void {

@@ -1,5 +1,7 @@
 import { NotificationCountType } from 'matrix-js-sdk'
 
+export type MatrixId = `@${string}:${string}`
+
 export enum MembershipStatus {
   /**
    * The user is effectively joined to the room. For example, actually joined
@@ -29,7 +31,7 @@ export interface RoomId {
 }
 
 export interface ChatRoomMember {
-  id: string // the matrix ID (e.g. '@otto:holi.social')
+  id: MatrixId // the matrix ID (e.g. '@otto:holi.social')
   name: string
   membership?: MembershipStatus
 }
