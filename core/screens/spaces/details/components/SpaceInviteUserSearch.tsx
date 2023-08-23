@@ -35,12 +35,14 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
 
   const debouncedTriggerUserSearch = useDebounce(setSearchInput, USER_SEARCH_DEBOUNCE)
 
+  const loaderComponent = <HoliLoader style={styles.loader} />
+
   useEffect(() => {
     debouncedTriggerUserSearch(searchValue)
   }, [debouncedTriggerUserSearch, searchValue])
 
   if (!searchInput) {
-    return <HoliLoader style={styles.loader} />
+    return loaderComponent
   }
 
   return (
@@ -53,7 +55,8 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
           spaceId,
         },
       }}
-      fetchMoreButtonProps={{ style: styles.buttonContainer }}
+      loadMoreOnScrell={true}
+      scrollPlaceholder={loaderComponent}
     >
       <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
     </Pagination>
@@ -62,11 +65,8 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
 
 const styles = StyleSheet.create({
   loader: {
-    marginTop: 350,
-    marginBottom: 24,
-  },
-  buttonContainer: {
-    marginBottom: 24,
+    marginVertical: 24,
+    position: 'relative',
   },
 })
 
