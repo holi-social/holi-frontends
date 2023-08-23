@@ -47,11 +47,15 @@ export const useMatrixIdToHoliUserRecord = (matrixIds: MatrixId[]) => {
   // (e.g. because of data inconsistencies or because the holi user was already deleted but the Matrix user still exists)
   const holiUsers = data?.usersByChatIdentities.data ?? []
 
-  const matrixIdToHoliUserRecord: Record<MatrixId, User | undefined> = matrixIds.reduce((record, matrixId) => {
-    return {
-      ...record,
-      [matrixId]: holiUsers.find((holiUser) => holiUser.identity === toHoliIdentity(matrixId)),
+  const matrixIdToHoliUserRecord: Record<MatrixId, User> = matrixIds.reduce((record, matrixId) => {
+    const holiUser = holiUsers.find((holiUser) => holiUser.identity === toHoliIdentity(matrixId))
+    if (holiUser) {
+      return {
+        ...record,
+        [matrixId]: holiUsers.find((holiUser) => holiUser.identity === toHoliIdentity(matrixId)),
+      }
     }
+    return record
   }, {})
 
   return {
