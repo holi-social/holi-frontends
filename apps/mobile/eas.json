@@ -45,6 +45,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "channel": "staging",
       "env": {
         "E2E_USER_ID": "5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0",
         "ENVIRONMENT_ID": "staging",
@@ -64,6 +65,7 @@
       }
     },
     "production": {
+      "channel": "production",
       "env": {
         "ENVIRONMENT_ID": "production",
         "HOLI_API_GATEWAY": "https://production.unified.apis.holi.social",
