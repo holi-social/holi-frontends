@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
@@ -52,6 +53,8 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
     }
   }, [searchValueIsEmail, sendInvitationEmail])
 
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
+
   return (
     <FormWrapper
       onSave={sendInvitationEmail}
@@ -62,6 +65,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       buttonLabel={t('spaces.invite.btn.send')}
       scrollToInput={false}
       initialOffsetTop={0}
+      {...throttledScrollEventProps}
       renderProp={() => (
         <>
           <View style={styles.whom}>

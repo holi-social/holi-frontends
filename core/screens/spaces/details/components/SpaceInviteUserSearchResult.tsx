@@ -99,8 +99,8 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
 
 const styles = StyleSheet.create({
   loader: {
-    marginTop: 350,
-    marginBottom: 24,
+    marginVertical: 24,
+    position: 'relative',
   },
   list: {
     paddingVertical: 20,
