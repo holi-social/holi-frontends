@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { MatrixIdentity } from '@holi/chat/src/client/types'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer'
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
@@ -43,8 +42,7 @@ const ChatRoomView = () => {
   const [room, messages] = useRoomById(roomId)
 
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
-    // TODO: fix cast when we move members out of rooms
-    room?.members.map((m) => m.id as MatrixIdentity) || []
+    room?.members.map((m) => m.id) || []
   )
   const [messageText, setMessageText] = useState('')
 

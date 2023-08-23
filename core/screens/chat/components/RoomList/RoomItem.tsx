@@ -3,13 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import {
-  ChatRoomAtom,
-  MatrixMemberId,
-  getChatPartner,
-  getHoliUserFromChatMember,
-  setLatestMessagesAsRead,
-} from '@holi/chat/src/store'
+import { ChatRoomAtom, getChatPartner, getHoliUserFromChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -33,10 +27,7 @@ export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PA
 const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
-  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(
-    // TODO: fix cast when we move members out of rooms
-    room.members.map((m) => m.id as MatrixMemberId)
-  )
+  const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartner = getChatPartner(loggedInUser, room)
   const chatPartnerHoliUser = getHoliUserFromChatMember(chatPartner, matrixIdToHoliUserRecord)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
