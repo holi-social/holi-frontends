@@ -55,7 +55,7 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
           spaceId,
         },
       }}
-      loadMoreOnScrell={true}
+      loadMoreOnScroll={true}
       scrollPlaceholder={loaderComponent}
     >
       <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />

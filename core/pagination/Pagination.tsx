@@ -19,7 +19,7 @@ export interface PaginationProps {
   queryOptions: PaginationQueryHookOptions
   fetchMoreButtonProps?: Partial<HoliButtonLoadingProps>
   fetchMoreButtonLabel?: string
-  loadMoreOnScrell?: boolean
+  loadMoreOnScroll?: boolean
   scrollPlaceholder?: React.ReactNode
 }
 
@@ -40,7 +40,7 @@ export function Pagination({
   queryOptions,
   fetchMoreButtonLabel,
   fetchMoreButtonProps = {},
-  loadMoreOnScrell = false,
+  loadMoreOnScroll = false,
   scrollPlaceholder,
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
@@ -61,7 +61,7 @@ export function Pagination({
 
   const loadMoreComponent = useMemo(
     () =>
-      loadMoreOnScrell ? (
+      loadMoreOnScroll ? (
         <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={scrollPlaceholder} />
       ) : (
         <HoliButtonLoading
@@ -75,7 +75,7 @@ export function Pagination({
           {...fetchMoreButtonProps}
         />
       ),
-    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, isFetchingMore, loadMoreOnScrell, scrollPlaceholder]
+    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, isFetchingMore, loadMoreOnScroll, scrollPlaceholder]
   )
 
   return (
