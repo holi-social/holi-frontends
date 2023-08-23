@@ -3,11 +3,12 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
+import { ChatRoomAtom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
 import { useChatInitialized } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import RoomList from '@holi/core/screens/chat/components/RoomList'
+import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
@@ -18,69 +19,78 @@ import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const ChatHomeContent = () => {
+const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
   const { navigate } = useRouting()
-  const chatInitialized = useChatInitialized()
-  const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
 
-  if (isLoading || !chatInitialized || !loggedInUser) return <HoliLoader />
+  return (
+    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+      <View style={mixins.container}>
+        <HoliNoResults
+          firstText={t('loginRedirect.title')}
+          media={
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_chat_emtpy.svg')}
+              width={251}
+              height={188}
+              label=""
+              isSvg
+            />
+          }
+          secondText={t('loginRedirect.text')}
+          style={[styles.noResultsMessage]}
+        >
+          <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
+            {t('loginRedirect.btnConfirm')}
+          </HoliButton>
+        </HoliNoResults>
+      </View>
+    </ScrollHeaderLayout.Default>
+  )
+}
 
-  if (!isLoggedIn) {
-    return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('loginRedirect.title')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_chat_emtpy.svg')}
-                width={251}
-                height={188}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('loginRedirect.text')}
-            style={[styles.noResultsMessage]}
-          >
-            <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
-              {t('loginRedirect.btnConfirm')}
-            </HoliButton>
-          </HoliNoResults>
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
-  }
+const ChatHomeNoExistingRooms = () => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const { navigate } = useRouting()
 
-  if (!sortedRoomAtoms.length) {
-    return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
-        <View style={mixins.container}>
-          <HoliNoResults
-            firstText={t('chat.empty.tagline')}
-            media={
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_chat_emtpy.svg')}
-                width={251}
-                height={188}
-                label=""
-                isSvg
-              />
-            }
-            secondText={t('chat.empty.headline')}
-            style={[styles.noResultsMessage]}
-          >
-            <HoliButton label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')}>
-              {t('chat.empty.button.text')}
-            </HoliButton>
-          </HoliNoResults>
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
-  }
+  return (
+    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+      <View style={mixins.container}>
+        <HoliNoResults
+          firstText={t('chat.empty.tagline')}
+          media={
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_chat_emtpy.svg')}
+              width={251}
+              height={188}
+              label=""
+              isSvg
+            />
+          }
+          secondText={t('chat.empty.headline')}
+          style={[styles.noResultsMessage]}
+        >
+          <HoliButton label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')}>
+            {t('chat.empty.button.text')}
+          </HoliButton>
+        </HoliNoResults>
+      </View>
+    </ScrollHeaderLayout.Default>
+  )
+}
+
+const ChatHomeRoomList = ({
+  loggedInUser,
+  sortedRoomAtoms,
+}: {
+  loggedInUser: User
+  sortedRoomAtoms: ChatRoomAtom[]
+}) => {
+  const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const { navigate } = useRouting()
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -98,6 +108,26 @@ const ChatHomeContent = () => {
       </View>
     </SafeAreaView>
   )
+}
+
+const ChatHomeContent = () => {
+  const { isLoggedIn, isLoading, user: loggedInUser } = useLoggedInUser()
+  const chatInitialized = useChatInitialized()
+  const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
+
+  if (!isLoading && !isLoggedIn) {
+    return <ChatHomeNeedToLogin />
+  }
+
+  if (isLoading || !chatInitialized || !loggedInUser) {
+    return <HoliLoader />
+  }
+
+  if (!sortedRoomAtoms.length) {
+    return <ChatHomeNoExistingRooms />
+  }
+
+  return <ChatHomeRoomList loggedInUser={loggedInUser} sortedRoomAtoms={sortedRoomAtoms} />
 }
 
 export default memo(ChatHomeContent)

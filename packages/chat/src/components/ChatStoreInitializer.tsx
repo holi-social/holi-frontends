@@ -2,7 +2,7 @@ import { Provider } from 'jotai'
 import React, { memo, useEffect, useState } from 'react'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
-import { useSetChatInitialized, useSubscribeToChat } from '@holi/chat/src/store'
+import { useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -13,10 +13,6 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
  */
 const ChatStore = () => {
   useSubscribeToChat()
-  const setInitialized = useSetChatInitialized()
-  useEffect(() => {
-    setInitialized(true)
-  })
   return null
 }
 
