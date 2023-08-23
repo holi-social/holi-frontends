@@ -117,18 +117,6 @@ export const createCache = () =>
               })
             },
           },
-          spaceById: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            keyArgs: (args: Record<string, any> | null) => {
-              // reminder: keep in sync with parameters of `discoverSpaces` in `Query`, always exclude offset and limit
-              const { limit, offset, visibility } = args || {}
-              return JSON.stringify({
-                limit,
-                offset,
-                visibility,
-              })
-            },
-          },
           discoverSpaces: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
