@@ -93,7 +93,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliColumn>
         <HoliColumn>
           <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-            {!isCurrentUserPostCreator && ( // is not creator
+            {/* reporting own content makes no sense, so we hide this option */}
+            {!isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 isLoading={isLoadingReport}
                 icon={Flag}
@@ -110,7 +111,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
                 />
               </HoliActionDrawer.Action>
             )}
-
+            {/* editing only allowed for own content */}
             {spaceIdOrName && isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 icon={Edit2}
@@ -119,7 +120,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
                 handleAction={editAction}
               />
             )}
-            {isCurrentUserPostCreator && ( // is creator
+            {/* deleting only allowed for own content */}
+            {isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 isLoading={isLoadingPostDeletion}
                 icon={Delete}
