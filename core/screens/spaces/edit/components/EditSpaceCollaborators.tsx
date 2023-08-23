@@ -86,25 +86,19 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const AllCollaborators = () => {
-    return (
-      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
-        <Pagination
-          query={spaceMembersQuery}
-          queryOptions={queryOptions}
-          fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-        >
-          {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
-        </Pagination>
-      </ScrollView>
-    )
-  }
-
   return (
     <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
       <View style={styles.tabWrapper}>
         <View style={styles.tabStyle}>
-          <AllCollaborators />
+          <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+            <Pagination
+              query={spaceMembersQuery}
+              queryOptions={queryOptions}
+              fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+            >
+              {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
+            </Pagination>
+          </ScrollView>
         </View>
       </View>
       {selectedMember && !!space && (
