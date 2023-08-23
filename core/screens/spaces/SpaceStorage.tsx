@@ -67,7 +67,10 @@ const SpaceStorage: React.FC = () => {
 
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <HoliWebView style={styles.webView} uri={storageUrl} webViewProps={{ setSupportMultipleWindows: false }} />
+      <HoliWebView
+        style={styles.webView}
+        webViewProps={{ setSupportMultipleWindows: false, source: { uri: storageUrl } }}
+      />
     </DefaultLayout>
   )
 }

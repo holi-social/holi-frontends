@@ -5,7 +5,6 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { getDocumentURL } from '@holi/core/helpers'
@@ -17,7 +16,6 @@ import HoliTextLink from '@holi/ui/components/atoms/HoliTextLink'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { DocType } from '@holi/web/pages/api/documents'
 
 const SMALL_DEVICE_HEIGHT = 624
@@ -36,7 +34,6 @@ const LoginRegistration = ({
   const { t } = useTranslation()
   const { navigate } = useRouting()
   headingText = headingText ?? t('profile.loggedOut.heading')
-  const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
@@ -126,9 +123,7 @@ const LoginRegistration = ({
         autoHeight={false}
         relativeHeight={1}
       >
-        <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }} headerOverlap>
-          <HtmlDocument url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
-        </ScrollHeaderLayout.Default>
+        <HtmlDocument fallbackToWebView url={getDocumentURL(shownDocument)} onError={onDocumentLoadError} />
       </HoliModal>
     </View>
   )

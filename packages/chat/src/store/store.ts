@@ -4,8 +4,8 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { NotificationCount, RoomId } from '@holi/chat/src/client/types'
-import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
+import type { MatrixId, NotificationCount, RoomId } from '@holi/chat/src/client/types'
+import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import {
   UpdateInvitationOptions,
@@ -27,6 +27,11 @@ import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/ut
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 
+/**
+ * Client
+ *
+ **/
+
 const _chatInitializedAtom = atom(false)
 
 /**
@@ -38,7 +43,6 @@ const _chatInitializedAtom = atom(false)
  */
 export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
-/** Client **/
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
   chatClient = newChatClient
@@ -52,7 +56,10 @@ export const getChatClient = (): ChatClient => {
   return chatClient
 }
 
-/** Rooms **/
+/**
+ * Rooms
+ *
+ **/
 
 /**
  * Internal
@@ -86,7 +93,9 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
   })
 })
 
-type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boolean } | 'initDone'
+type RoomAtomsRecordAtomSubscriberArgs =
+  | { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixId[] }
+  | 'initDone'
 
 /**
  * @name _roomAtomsRecordAtomSubscriber (Write-Only)
@@ -104,27 +113,32 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
     // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
     set(_chatInitializedAtom, true)
   } else {
-    const { room, hasPendingInvitation } = args
+    const { room, hasPendingInvitation, ignoredUsers } = args
     const chatRoom = createChatRoom(room, hasPendingInvitation)
-
     const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
-    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
 
     if (!hasRoom) {
       getChatClient().subscribeToRoomMessages(room, (event) => {
         set(_newMessageAtomSubscriber, event)
       })
     }
+
+    // We hide chat rooms with only ignored members from the user. We do an
+    // early return not to include the chat room in the store.
+    if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
+
+    set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
   }
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const client = getChatClient()
+  const ignoredUsers = client.getIgnoredUsers()
 
   const addRoomToStore = (room: Room, logPhase: string) => {
     const hasPendingInvitation = getChatClient().hasPendingInvitation(room)
     logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
-    setAtom({ room, hasPendingInvitation })
+    setAtom({ room, hasPendingInvitation, ignoredUsers })
   }
 
   // get current rooms from ChatClient and store them to Atoms
@@ -183,7 +197,33 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
     .catch((err) => logError(err))
 }
 
-/** Room */
+/**
+ * Room
+ *
+ **/
+
+/**
+ * @name _removeRoomAtom (Write-Only)
+ * @description Removes a room from the Jōtai store but not from the Matrix
+ * client. We do this, for example, when we ignore users and don't want to
+ * display a room if there are only two members, one of them being the one
+ * ignored (blocked). Exported is only the helper hook below `useRemoveRoomAtom`
+ */
+const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
+  const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
+  if (!roomAtom) return
+  if (get(roomAtom).members.length > 2) return
+
+  const removeRoom = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, roomId: string) => {
+    delete roomAtomsRecord[roomId]
+  })
+
+  set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
+})
+
+export const useSetRemoveRoomAtom = () => {
+  return useSetAtom(_removeRoomAtom)
+}
 
 /**
  * @name createNewRoom (Client Helper)
@@ -236,54 +276,9 @@ const roomByIdAtomCreator = (roomId: string) => {
 }
 
 /**
- * @name _myMembershipSubscriberAtom
- * @description Listens to event changes in my room membership when accepting a
- * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
- * the user joins a room, we update the room has an invitation.
- */
-const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
-  const roomAtomsRecord = get(_roomAtomsRecordAtom)
-  const roomAtom = roomAtomsRecord[options.room.roomId]
-  if (!roomAtom) return null
-
-  set(roomAtom, (room) => updateRoomInvitation(room, options))
-})
-
-_myMembershipSubscriberAtom.onMount = (setAtom) => {
-  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
-    setAtom({ room, membership, prevMembership })
-  })
-}
-
-/**
- * @name _membershipSubscriberAtom
- * @description The membership subscriber is used to listening to members
- * leaving rooms and eventually forgetting (deleting) a room in case the creator
- * is the only member available. You can extend when updating the store based on
- * membership events.
- */
-const _membershipSubscriberAtom = atom(
-  null,
-  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
-    const client = getChatClient()
-
-    // If the creator of the room is the last one we forget (delete) entirely the room
-    if (isLastMemberCreator(roomState, member)) {
-      await client.leaveRoom(roomState.roomId)
-      await client.forgetRoom(roomState.roomId, true)
-    }
-
-    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
-      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
-    )
-  }
-)
-
-_membershipSubscriberAtom.onMount = (setAtom) => {
-  return getChatClient().subscribeToMembership(setAtom)
-}
-
-/** Messages */
+ * Messages
+ *
+ **/
 
 /**
  * @name sendMessage (Client Helper)
@@ -291,29 +286,6 @@ _membershipSubscriberAtom.onMount = (setAtom) => {
  */
 export const sendMessage = async (message: CreateMessage): Promise<string> => {
   return await getChatClient().sendTextMessage(message.roomId, message.text)
-}
-
-const _ignoredUsersAtom = atom<string[]>([])
-const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
-  const client = getChatClient()
-  set(_ignoredUsersAtom, client.getIgnoredUsers)
-})
-
-_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
-  getChatClient().subscribeToIgnoredUsers(setAtom)
-  setAtom() // triggers that the list of ignored users is intially populated
-}
-
-export const useIgnoredUsers = () => {
-  return useAtomValue(_ignoredUsersAtom)
-}
-
-export const ignoreUser = async (userId: string) => {
-  await getChatClient().ignoreUser(userId)
-}
-
-export const unignoreUser = async (userId: string) => {
-  return await getChatClient().unignoreUser(userId)
 }
 
 const _messagesAtomsRecordAtom = atom<Record<ChatRoomId, ChatMessagesAtom>>({})
@@ -441,6 +413,78 @@ export const useRequestRoomMessages = () => {
     [client, setMessages]
   )
 }
+
+/**
+ * Members
+ *
+ **/
+
+/**
+ * @name _myMembershipSubscriberAtom
+ * @description Listens to event changes in my room membership when accepting a
+ * new invitation. Memberships can be `joinRoom`, `join`, or `leave`, Whenever
+ * the user joins a room, we update the room has an invitation.
+ */
+const _myMembershipSubscriberAtom = atom(null, (get, set, options: UpdateInvitationOptions) => {
+  const roomAtomsRecord = get(_roomAtomsRecordAtom)
+  const roomAtom = roomAtomsRecord[options.room.roomId]
+  if (!roomAtom) return null
+
+  set(roomAtom, (room) => updateRoomInvitation(room, options))
+})
+
+_myMembershipSubscriberAtom.onMount = (setAtom) => {
+  return getChatClient().subscribeToMyMembership((room, membership, prevMembership) => {
+    setAtom({ room, membership, prevMembership })
+  })
+}
+
+/**
+ * @name _membershipSubscriberAtom
+ * @description The membership subscriber is used to listening to members
+ * leaving rooms and eventually forgetting (deleting) a room in case the creator
+ * is the only member available. You can extend when updating the store based on
+ * membership events.
+ */
+const _membershipSubscriberAtom = atom(
+  null,
+  async (_get, set, event: MatrixEvent, roomState: RoomState, member: RoomMember) => {
+    const client = getChatClient()
+
+    // If the creator of the room is the last one we forget (delete) entirely the room
+    if (isLastMemberCreator(roomState, member)) {
+      await client.leaveRoom(roomState.roomId)
+      await client.forgetRoom(roomState.roomId, true)
+    }
+
+    set(_roomAtomsRecordAtom, (prevRoomAtomsRecord) =>
+      leaveRoomUpdate(prevRoomAtomsRecord, { event, roomState, member })
+    )
+  }
+)
+
+_membershipSubscriberAtom.onMount = (setAtom) => {
+  return getChatClient().subscribeToMembership(setAtom)
+}
+
+const _ignoredUsersAtom = atom<string[]>([])
+
+const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
+  set(_ignoredUsersAtom, getChatClient().getIgnoredUsers)
+})
+
+_ignoredUsersAtomSubscriber.onMount = (setAtom) => {
+  getChatClient().subscribeToIgnoredUsers(setAtom)
+}
+
+export const useIgnoredUsersAtom = () => {
+  return useAtomValue(_ignoredUsersAtom)
+}
+
+/**
+ * Global Atoms
+ *
+ **/
 
 /**
  * @name useRoomById (Hook Helper)

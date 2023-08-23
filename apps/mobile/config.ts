@@ -55,35 +55,35 @@ export interface HoliConfig {
 
 export const config: HoliConfig = {
   chat: {
-    serverName: Constants.manifest?.extra?.chat.serverName,
-    serverLoginUrl: Constants.manifest?.extra?.chat.serverLoginUrl,
-    serverUrl: Constants.manifest?.extra?.chat.serverUrl,
-    pushGatewayUrl: Constants.manifest?.extra?.chat.pushGatewayUrl,
+    serverName: Constants.expoConfig?.extra?.chat.serverName,
+    serverLoginUrl: Constants.expoConfig?.extra?.chat.serverLoginUrl,
+    serverUrl: Constants.expoConfig?.extra?.chat.serverUrl,
+    pushGatewayUrl: Constants.expoConfig?.extra?.chat.pushGatewayUrl,
   },
   ory: {
-    url: Constants.manifest?.extra?.ory.url,
+    url: Constants.expoConfig?.extra?.ory.url,
   },
   holi_api: {
-    url: Constants.manifest?.extra?.holi_api.url,
-    gateway: Constants.manifest?.extra?.holi_api.gateway,
+    url: Constants.expoConfig?.extra?.holi_api.url,
+    gateway: Constants.expoConfig?.extra?.holi_api.gateway,
   },
   holi_nextjs_api: {
-    url: Constants.manifest?.extra?.holi_nextjs_api.url,
+    url: Constants.expoConfig?.extra?.holi_nextjs_api.url,
   },
-  environment: Constants.manifest?.extra?.environment,
+  environment: Constants.expoConfig?.extra?.environment,
   sentry: {
-    dsn: Constants.manifest?.extra?.sentry.dsn,
+    dsn: Constants.expoConfig?.extra?.sentry.dsn,
   },
   owncloud: {
-    url: Constants.manifest?.extra?.owncloud.url,
+    url: Constants.expoConfig?.extra?.owncloud.url,
   },
   jitsi: {
-    url: Constants.manifest?.extra?.jitsi.url,
+    url: Constants.expoConfig?.extra?.jitsi.url,
   },
   eas: {
-    projectId: Constants.manifest?.extra?.eas.projectId,
+    projectId: Constants.expoConfig?.extra?.eas.projectId,
   },
   e2e: {
-    userId: Constants.manifest?.extra?.e2e.userId,
+    userId: Constants.expoConfig?.extra?.e2e.userId,
   },
 }
