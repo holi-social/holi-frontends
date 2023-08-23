@@ -13,6 +13,8 @@ else
     nvm install "$(cat .node-version)"
 fi
 
+# you can set you default DEV_ENV here, if you don't want to use staging by default
+# this is used by direnv, when entering the frontend directory in a shell
 export MY_DEFAULT_DEV_ENV=
 
 # valid (prepared) values: 'staging' | 'local' | 'production'
