@@ -1,6 +1,6 @@
 import type { Platform } from 'react-native'
 
-export type ServerName = `${'staging' | 'local'}.chat.holi.social`
+export type ServerName = 'holi.social' | 'development-chat.holi.social' | 'local.chat.holi.social'
 export type UserName = `@${string}:${ServerName}`
 export type MatrixDeviceName = `holi-${Platform['OS']}`
 
