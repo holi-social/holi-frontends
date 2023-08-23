@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,8 +19,6 @@ const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
-  const { width } = useWindowDimensions()
-  const isBigScreen = width >= +vars.breakpointL
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
@@ -41,7 +39,7 @@ const AppsDrawer: React.FC = () => {
         type="secondary"
         testID="home-apps-button"
         inline
-        style={[styles.overlayButton, isBigScreen ? styles.overlayButtonBigScreens : {}]}
+        style={styles.overlayButton}
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
@@ -88,13 +86,14 @@ const styles = StyleSheet.create({
     borderColor: colors.background30,
     borderWidth: 1,
     shadowColor: colors.foreground30,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
     elevation: 4,
     overflow: 'visible',
-  },
-  overlayButtonBigScreens: {
-    bottom: Platform.OS === 'web' ? 64 : 16,
   },
   modalContent: {
     paddingHorizontal: 10,

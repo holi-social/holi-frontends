@@ -8,7 +8,6 @@ export default {
   maxWidthForReadableText: '500',
   topBarHeight: '52',
   bottomBarHeight: '62',
-  bottomBarHeightBig: '102',
   loaderHeight: '66',
   breakpointXs: '375',
   breakpointS: '576',

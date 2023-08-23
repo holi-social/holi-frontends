@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
@@ -11,13 +11,13 @@ import { Chat3, Chat3Filled, HomeSmile2, HomeSmile2Filled, Spaces, SpacesFilled 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const FooterTabBar = () => {
-  const { width } = useWindowDimensions()
-  const floatingFooter = width >= +vars.breakpointL
   const { navigate } = useRouting()
   const pathname = usePathname()
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
   const { isLoggedIn } = useLoggedInUser()
 
   const isHome = pathname === '/'
@@ -29,27 +29,26 @@ const FooterTabBar = () => {
 
   return (
     <View
-      style={[styles.fullWidthContainer, floatingFooter ? styles.boxedContainer : null]}
+      style={styles.fullWidthContainer}
       accessible={true}
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.bottomNavigation')}
     >
-      <View style={[styles.buttonContainer, floatingFooter ? styles.boxedButtonContainer : null]}>
+      <View style={[mixins.container, styles.buttonContainer]}>
         <HoliButton
           label={t('navigation.home')}
           inline
           transparent
           onPress={() => navigate('/')}
           testID="btn-to-home-view"
-          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
+          contentStyle={styles.button}
         >
           <HoliIcon
             icon={isHome ? HomeSmile2Filled : HomeSmile2}
             color={(isHome ? styles.activeTintColor : styles.inactiveTintColor).color}
-            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size={floatingFooter ? 'default' : 'extrasmall'}
+            size="extrasmall"
             style={[styles.buttonLabel, isHome ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('navigation.home')}
@@ -62,15 +61,14 @@ const FooterTabBar = () => {
           transparent
           onPress={() => navigate('/spaces')}
           testID="btn-to-spaces"
-          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
+          contentStyle={styles.button}
         >
           <HoliIcon
             icon={isSpaces ? SpacesFilled : Spaces}
             color={(isSpaces ? styles.activeTintColor : styles.inactiveTintColor).color}
-            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size={floatingFooter ? 'default' : 'extrasmall'}
+            size="extrasmall"
             style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('spaces.title')}
@@ -82,28 +80,23 @@ const FooterTabBar = () => {
           inline
           transparent
           onPress={() => navigate('/chat')}
-          contentStyle={[styles.button, floatingFooter ? styles.boxedButton : null]}
+          contentStyle={styles.button}
         >
           <HoliIcon
             icon={isChat ? Chat3Filled : Chat3}
             color={(isChat ? styles.activeTintColor : styles.inactiveTintColor).color}
-            size={floatingFooter ? 32 : undefined}
           />
           <HoliText
-            size={floatingFooter ? 'default' : 'extrasmall'}
+            size="extrasmall"
             style={[styles.buttonLabel, isChat ? styles.activeTintColor : styles.inactiveTintColor]}
           >
             {t('chat.title')}
           </HoliText>
         </HoliButton>
 
-        <LoginProfileButton
-          focused={isProfileLoginRegistrationForgotPassword}
-          floatingFooter={floatingFooter}
-          style={floatingFooter ? styles.boxedButton : styles.button}
-        >
+        <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliText
-            size={floatingFooter ? 'default' : 'extrasmall'}
+            size="extrasmall"
             style={[
               styles.buttonLabel,
               isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
@@ -121,23 +114,13 @@ export default FooterTabBar
 
 const styles = StyleSheet.create({
   fullWidthContainer: {
+    width: '100%',
     alignItems: 'center',
     backgroundColor: colors.background10,
     borderTopWidth: 1,
-    borderColor: colors.background30,
-    paddingHorizontal: 16,
+    borderTopColor: colors.background30,
     height: vars.bottomBarHeight,
     maxHeight: vars.bottomBarHeight,
-  },
-  boxedContainer: {
-    height: vars.bottomBarHeightBig,
-    maxHeight: vars.bottomBarHeightBig,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderRadius: 16,
-    shadowColor: colors.foreground30,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
   },
   buttonContainer: {
     flex: 1,
@@ -148,20 +131,10 @@ const styles = StyleSheet.create({
     height: vars.bottomBarHeight,
     maxHeight: vars.bottomBarHeight,
   },
-  boxedButtonContainer: {
-    width: 'auto',
-    margin: 'auto',
-    gap: 40,
-    height: vars.bottomBarHeightBig,
-    maxHeight: vars.bottomBarHeightBig,
-  },
   button: {
-    padding: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     alignItems: 'center',
-  },
-  boxedButton: {
-    padding: 8,
-    minWidth: 76,
   },
   activeTintColor: {
     color: colors.foreground30,
@@ -170,6 +143,6 @@ const styles = StyleSheet.create({
     color: colors.foreground20,
   },
   buttonLabel: {
-    paddingTop: 4,
+    paddingTop: 8,
   },
 })
