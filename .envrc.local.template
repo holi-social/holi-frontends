@@ -26,7 +26,7 @@ else
   echo
   echo "Loading environment \"${DEV_ENV}\""
   echo
-  . ".env.${DEV_ENV}"
+  . "./.env.${DEV_ENV}"
 fi
 
 # e2e tests
