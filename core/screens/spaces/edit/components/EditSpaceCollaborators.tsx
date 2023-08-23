@@ -15,9 +15,7 @@ import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -102,34 +100,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     )
   }
 
-  const PendingCollaborators = () => {
-    return (
-      <ScrollHeaderLayout.Default style={[mixins.container, styles.pending]} headerOverlap>
-        <View>
-          <HoliText style={styles.soon}>{t('global.comingSoon')}</HoliText>
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
-  }
-
   return (
     <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
-      <HoliTabs
-        id="collaborator-tabs"
-        style={styles.tabWrapper}
-        tabs={[
-          {
-            title: t('spaces.collaborators.manage.tabs.all'),
-            style: styles.tabStyle,
-            children: <AllCollaborators />,
-          },
-          {
-            title: t('spaces.collaborators.manage.tabs.pending'),
-            style: styles.tabStyle,
-            children: <PendingCollaborators />,
-          },
-        ]}
-      />
+      <View style={styles.tabWrapper}>
+        <View style={styles.tabStyle}>
+          <AllCollaborators />
+        </View>
+      </View>
       {selectedMember && !!space && (
         <SpacePermissions
           space={space}
@@ -182,18 +159,6 @@ const styles = StyleSheet.create({
   all: {
     paddingTop: 16,
     backgroundColor: colors.background20,
-  },
-  pending: {
-    backgroundColor: colors.background20,
-  },
-  loading: {
-    maxWidth: 60,
-    alignSelf: 'center',
-    marginTop: 16,
-    backgroundColor: colors.background20,
-  },
-  soon: {
-    marginTop: 16,
   },
 })
 
