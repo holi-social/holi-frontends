@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomAtom, getChatPartner, getHoliUserFromChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import { ChatRoomAtom, getChatPartner, getHoliUserForChatMember, setLatestMessagesAsRead } from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -29,7 +29,7 @@ const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const room = useAtomValue(roomAtom)
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
   const chatPartner = getChatPartner(loggedInUser, room)
-  const chatPartnerHoliUser = getHoliUserFromChatMember(chatPartner, matrixIdToHoliUserRecord)
+  const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
 

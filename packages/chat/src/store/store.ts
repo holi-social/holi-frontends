@@ -4,8 +4,8 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { MatrixIdentity, NotificationCount, RoomId } from '@holi/chat/src/client/types'
-import { isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
+import type { MatrixId, NotificationCount, RoomId } from '@holi/chat/src/client/types'
+import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import {
   UpdateInvitationOptions,
@@ -94,7 +94,7 @@ export const roomAtomsSortedByDateAtom = atom((get) => {
 })
 
 type RoomAtomsRecordAtomSubscriberArgs =
-  | { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixIdentity[] }
+  | { room: Room; hasPendingInvitation: boolean; ignoredUsers: MatrixId[] }
   | 'initDone'
 
 /**
@@ -123,8 +123,9 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
       })
     }
 
-    const ignoredRoomMembers = chatRoom.members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
-    if (ignoredRoomMembers.length === chatRoom.members.length - 1) return
+    // We hide chat rooms with only ignored members from the user. We do an
+    // early return not to include the chat room in the store.
+    if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
 
     set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
   }
@@ -202,13 +203,13 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
  **/
 
 /**
- * @name removeRoomAtom (Write-Only)
+ * @name _removeRoomAtom (Write-Only)
  * @description Removes a room from the Jōtai store but not from the Matrix
  * client. We do this, for example, when we ignore users and don't want to
  * display a room if there are only two members, one of them being the one
  * ignored (blocked). Exported is only the helper hook below `useRemoveRoomAtom`
  */
-const removeRoomAtom = atom(null, (get, set, roomId: string) => {
+const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
   const roomAtom = getAtomFromRecordId(get, _roomAtomsRecordAtom, roomId)
   if (!roomAtom) return
   if (get(roomAtom).members.length > 2) return
@@ -220,8 +221,8 @@ const removeRoomAtom = atom(null, (get, set, roomId: string) => {
   set(_roomAtomsRecordAtom, (prevAtomRecord) => removeRoom(prevAtomRecord, roomId))
 })
 
-export const useRemoveRoomAtom = () => {
-  return useSetAtom(removeRoomAtom)
+export const useSetRemoveRoomAtom = () => {
+  return useSetAtom(_removeRoomAtom)
 }
 
 /**

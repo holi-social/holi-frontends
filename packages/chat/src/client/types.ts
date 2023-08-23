@@ -1,8 +1,6 @@
 import { NotificationCountType } from 'matrix-js-sdk'
 
-import { chatServerName } from '@holi/core/helpers/config'
-
-export type MatrixIdentity = `@${string}:${typeof chatServerName}`
+export type MatrixId = `@${string}:${string}`
 
 export enum MembershipStatus {
   /**
@@ -33,7 +31,7 @@ export interface RoomId {
 }
 
 export interface ChatRoomMember {
-  id: MatrixIdentity // the matrix ID (e.g. '@otto:holi.social')
+  id: MatrixId // the matrix ID (e.g. '@otto:holi.social')
   name: string
   membership?: MembershipStatus
 }

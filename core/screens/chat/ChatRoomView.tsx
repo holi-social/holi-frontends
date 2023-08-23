@@ -7,7 +7,7 @@ import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
 import {
   getChatPartner,
-  getHoliUserFromChatMember,
+  getHoliUserForChatMember,
   isRoomCreator,
   sendMessage,
   setLatestMessagesAsRead,
@@ -52,7 +52,7 @@ const ChatRoomView = () => {
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
   const chatPartner = loggedInUser && room && getChatPartner(loggedInUser, room)
-  const chatPartnerHoliUser = getHoliUserFromChatMember(chatPartner, matrixIdToHoliUserRecord)
+  const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
 
   const handleBackPress = useCallback(async () => {
     navigateBack()
@@ -70,11 +70,7 @@ const ChatRoomView = () => {
           />
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
-      headerTitle: () =>
-        !!chatPartner &&
-        !!chatPartnerHoliUser && (
-          <ChatRoomHeaderTitle chatPartner={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-        ),
+      headerTitle: () => !!chatPartnerHoliUser && <ChatRoomHeaderTitle user={chatPartnerHoliUser} />,
       navigationCustomOptions: {
         footerShown: false,
       },

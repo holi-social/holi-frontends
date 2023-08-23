@@ -2,36 +2,31 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomMember } from '@holi/chat/src/client/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface Props {
-  chatPartner: ChatRoomMember
-  chatPartnerHoliUser: User
+  user: User
 }
 
-const ChatRoomHeaderTitle = ({ chatPartner, chatPartnerHoliUser }: Props) => {
+const ChatRoomHeaderTitle = ({ user }: Props) => {
   const { t } = useTranslation()
 
   return (
     <View style={styles.container}>
-      <HoliLink
-        label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
-        href={`/profile/${chatPartner.id}`}
-      >
+      <HoliLink label={t('user.visitProfile', { name: user.fullName })} href={'/profile/' + user.id}>
         <View style={styles.title}>
           <HoliAvatar
-            imageSrc={chatPartnerHoliUser.avatar}
-            imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-            label={chatPartnerHoliUser.fullName}
-            initials={chatPartnerHoliUser.avatarLabel}
-            defaultColor={chatPartnerHoliUser.avatarDefaultColor}
+            imageSrc={user.avatar}
+            imageBlurhash={user.avatarBlurhash}
+            label={user.fullName}
+            initials={user.avatarLabel}
+            defaultColor={user.avatarDefaultColor}
             size="micro"
           />
-          <HoliText bold>{chatPartnerHoliUser.fullName}</HoliText>
+          <HoliText bold>{user.fullName}</HoliText>
         </View>
       </HoliLink>
     </View>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
-import { ignoreUser, useRemoveRoomAtom } from '@holi/chat/src/store'
+import { ignoreUser, useSetRemoveRoomAtom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CloseCircle } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -17,7 +17,7 @@ interface Props {
 const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Props) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const removeRoom = useRemoveRoomAtom()
+  const removeRoom = useSetRemoveRoomAtom()
 
   const handleBlockConfirmation = async () => {
     await ignoreUser(chatPartner.id)
