@@ -23,6 +23,7 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
       "bottom": 0,
       "justifyContent": "center",
       "left": 0,
+      "marginBottom": 24,
       "marginHorizontal": 16,
       "marginTop": 350,
       "position": "absolute",

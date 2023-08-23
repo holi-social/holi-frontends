@@ -89,6 +89,11 @@ export const createCache = () =>
           data: nestedPaginationPolicy(['idOrName']),
         },
       },
+      UserPaged: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
@@ -128,6 +133,9 @@ export const createCache = () =>
                 skillIds,
               })
             },
+          },
+          userByName: {
+            keyArgs: ['substring'],
           },
         },
       },

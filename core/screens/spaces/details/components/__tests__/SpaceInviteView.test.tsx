@@ -43,10 +43,6 @@ const userSearchSuccessMock = {
     },
   },
 }
-const userSearchErrorMock = {
-  request: userSearchRequest,
-  error: new HoliError('Test error'),
-}
 const emailInviteRequest = {
   query: inviteToSpaceByEmailMutation,
   variables: {
@@ -111,20 +107,6 @@ describe('SpaceInviteView', () => {
 
     enterSearchTerm('foo@bar.com')
     expect(emailInviteButton).not.toBeDisabled()
-  })
-
-  it('handles error during user search', async () => {
-    renderComponent([userSearchErrorMock])
-
-    enterSearchTerm('foobar')
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
-
-    expect(global.mockOpenToast).toHaveBeenCalledWith(
-      'global.technicalError',
-      HoliToastType.ERROR,
-      undefined,
-      undefined
-    )
   })
 
   it('clears input after user invite', async () => {

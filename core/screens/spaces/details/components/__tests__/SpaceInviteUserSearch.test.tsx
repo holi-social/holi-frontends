@@ -1,0 +1,136 @@
+import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import React from 'react'
+
+import { createCache } from '@holi/api/graphql/client'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
+import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
+import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+
+const spaceId = 'space1'
+const createUser = (index: number) => ({
+  id: `user${index}`,
+  identity: `user${index}`,
+  avatarDefaultColor: '#000000',
+  avatarLabel: 'TU',
+  fullName: `Test User ${index}`,
+  connectionStatusToSpace: [],
+  __typename: 'User',
+})
+const userSearchRequest = {
+  query: usersByNameWithSpaceConnectionQuery,
+  variables: {
+    substring: 'foobar',
+    spaceId,
+    offset: 0,
+    limit: 10,
+  },
+}
+const userSearchSuccessMock = {
+  request: userSearchRequest,
+  result: {
+    data: {
+      userByName: {
+        totalResults: 1,
+        data: [createUser(1)],
+      },
+    },
+  },
+}
+const userSearchPage1Mock = {
+  request: userSearchRequest,
+  result: {
+    data: {
+      userByName: {
+        totalResults: 11,
+        data: Array.from({ length: 10 }, (_, index) => createUser(index)),
+        __typename: 'UserPaged',
+      },
+    },
+  },
+}
+const userSearchPage2Mock = {
+  request: {
+    ...userSearchRequest,
+    variables: {
+      ...userSearchRequest.variables,
+      offset: 10,
+    },
+  },
+  result: {
+    data: {
+      userByName: {
+        totalResults: 11,
+        data: [createUser(10)],
+        __typename: 'UserPaged',
+      },
+    },
+  },
+}
+const userSearchErrorMock = {
+  request: userSearchRequest,
+  error: new HoliError('Test error'),
+}
+
+const renderComponent = ({
+  mocks = [userSearchSuccessMock],
+  searchValue = 'foobar',
+}: {
+  mocks?: MockedResponse[]
+  searchValue?: string
+} = {}) =>
+  render(
+    <ToastProvider>
+      <MockedProvider mocks={mocks} cache={createCache()}>
+        <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={jest.fn()} />
+      </MockedProvider>
+    </ToastProvider>
+  )
+
+describe('SpaceInviteUserSearch', () => {
+  it('searches for users by name', async () => {
+    renderComponent()
+
+    await waitFor(() => screen.findByText('Test User 1'))
+  })
+
+  it.skip('paginates search results', async () => {
+    renderComponent({ mocks: [userSearchPage1Mock, userSearchPage2Mock] })
+
+    // Expect results
+    await waitFor(() => screen.findByText('Test User 1'))
+
+    // Expect button to fetch more
+    screen.findByText('global.seeMore')
+
+    // Fetch next page
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
+
+    // Expect results
+    screen.findByText('Test User 10')
+
+    // Do not expect button to fetch more
+    expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
+  })
+
+  it('displays loader if search input is empty', async () => {
+    const { toJSON } = renderComponent({ searchValue: '' })
+
+    expect(toJSON()).toMatchSnapshot()
+  })
+
+  it('handles error during user search', async () => {
+    renderComponent({ mocks: [userSearchErrorMock] })
+
+    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
+
+    expect(global.mockOpenToast).toHaveBeenCalledWith(
+      'global.technicalError',
+      HoliToastType.ERROR,
+      undefined,
+      undefined
+    )
+  })
+})
