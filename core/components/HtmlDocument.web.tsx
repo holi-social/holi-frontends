@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HtmlDocumentProps {
   url?: URL | string
@@ -16,6 +18,7 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
   // Seen in real life in the app (document loaded twice).
   const [loading, setLoading] = useState<boolean>(false)
   const needToLoad = url && !document
+  const mixins = useStyleMixins()
 
   useEffect(() => {
     if (needToLoad && !loading) {
@@ -42,7 +45,17 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
     }
   }, [onError, needToLoad, loading, url])
 
-  return <>{document ? <HoliHtmlView html={document} /> : <HoliLoader style={{ minHeight: 300 }} />}</>
+  return (
+    <>
+      {document ? (
+        <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
+          <HoliHtmlView html={document} style={{ paddingTop: 4 /* otherwise, the headline is cut off slightly */ }} />{' '}
+        </ScrollHeaderLayout.Default>
+      ) : (
+        <HoliLoader style={{ minHeight: 300 }} />
+      )}
+    </>
+  )
 }
 
 export default HtmlDocument

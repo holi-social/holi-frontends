@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { ShouldStartLoadRequest, WebViewSourceHtml, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -11,7 +12,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const HoliWebView: React.FC<HoliWebViewProps> = ({ uri, style, webViewProps }) => {
+const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps }) => {
   const webViewRef = useRef<WebView>(null)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
@@ -41,19 +42,30 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ uri, style, webViewProps }) =
     </View>
   )
 
+  const isWebViewSourceUri = (value: WebViewSourceUri | WebViewSourceHtml | undefined): value is WebViewSourceUri => {
+    return !!value && 'uri' in value
+  }
+
+  const openInExternalBrowser = (event: ShouldStartLoadRequest): boolean => {
+    if (isWebViewSourceUri(webViewProps.source)) {
+      // open in external browser
+      Linking.openURL(event.url)
+    }
+    // don't follow the link in webview itself
+    return false
+  }
+
   return (
     <WebView
       ref={webViewRef}
       style={style}
-      source={{
-        uri,
-      }}
       onError={handleError}
       onHttpError={handleError}
       onRenderProcessGone={handleError}
       startInLoadingState={true}
       renderLoading={() => <HoliLoader style={styles.loaderContainer} />}
       renderError={renderError}
+      onShouldStartLoadWithRequest={openInExternalBrowser}
       {...webViewProps}
     />
   )
