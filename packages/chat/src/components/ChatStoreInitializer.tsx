@@ -7,6 +7,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
+import ChatDevTools from './ChatDevTools'
+
 /**
  * To be mounted once ChatClient is initialized. It subscribes to chat events and updates Jotai atoms.
  * Sets the chatInializedAtom to true when done.
@@ -48,6 +50,7 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   return (
     <Provider key={reloadCount}>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
+      {isChatReady && <ChatDevTools />}
       {isChatReady && <ChatStore />}
       {children}
     </Provider>
