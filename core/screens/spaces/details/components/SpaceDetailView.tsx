@@ -66,7 +66,7 @@ const SpaceDetailView = ({ space, style, onChangeTab = () => null }: SpaceDetail
             style: styles.tabStyle,
             children: (
               <Suspense fallback={<HoliLoader />}>
-                <SpaceUpdatesTabLazy space={space} />
+                <SpaceUpdatesTabLazy space={space} style={[mixins.container, styles.tabItem]} />
               </Suspense>
             ),
           },

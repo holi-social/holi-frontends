@@ -45,11 +45,6 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      PostPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
       AppDonations_ProjectsResponse: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
