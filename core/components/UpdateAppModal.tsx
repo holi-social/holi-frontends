@@ -10,18 +10,18 @@ import { logError } from '@holi/core/errors/helpers'
 import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
+const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
+const BUILD_NUMBER =
+  Platform.OS === 'ios'
+    ? Constants.expoConfig?.ios?.buildNumber
+    : Platform.OS === 'android'
+    ? Constants.expoConfig?.android?.versionCode?.toString()
+    : null
+
 const UpdateAppModal = () => {
   const { t } = useTranslation()
-  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
-  const BUILD_NUMBER =
-    Platform.OS === 'ios'
-      ? Constants.manifest?.ios?.buildNumber
-      : Platform.OS === 'android'
-      ? Constants.manifest?.android?.versionCode?.toString()
-      : null
-
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
-    variables: { version: Constants.manifest?.version, buildNumber: BUILD_NUMBER },
+    variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
   })
   const [showModal, setShowModal] = useState(false)
 
