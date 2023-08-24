@@ -65,6 +65,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       buttonLabel={t('spaces.invite.btn.send')}
       scrollToInput={false}
       initialOffsetTop={0}
+      keyboardShouldPersistTaps="handled"
       {...throttledScrollEventProps}
       renderProp={() => (
         <>
