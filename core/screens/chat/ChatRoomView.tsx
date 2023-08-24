@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -9,7 +9,6 @@ import {
   getChatPartner,
   getHoliUserForChatMember,
   isRoomCreator,
-  sendMessage,
   setLatestMessagesAsRead,
   useChatInitialized,
   useRequestRoomMessages,
@@ -46,7 +45,6 @@ const ChatRoomView = () => {
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(
     room?.members.map((m) => m.id) || []
   )
-  const [messageText, setMessageText] = useState('')
 
   const { user: loggedInUser } = useLoggedInUser()
   const requestMessages = useRequestRoomMessages()
@@ -84,14 +82,6 @@ const ChatRoomView = () => {
     requestMessages(roomId, false)
   }, [requestMessages, roomId, room?.hasInvitation])
 
-  const handleSendMessage = async () => {
-    const text = messageText.trim()
-    if (!text) return
-
-    await sendMessage({ roomId, text })
-    setMessageText('')
-  }
-
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader />
 
@@ -125,13 +115,7 @@ const ChatRoomView = () => {
                 />
               )}
 
-              <ChatTextInput
-                isVisible={!room.hasInvitation}
-                text={messageText}
-                setText={setMessageText}
-                userName={chatPartnerHoliUser?.fullName}
-                onPress={handleSendMessage}
-              />
+              <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
             </View>
           </View>
         </SafeAreaView>
