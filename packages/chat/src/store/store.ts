@@ -4,7 +4,7 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { MatrixId, NotificationCount, RoomId } from '@holi/chat/src/client/types'
+import type { MatrixId, NotificationCount } from '@holi/chat/src/client/types'
 import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import {
@@ -223,42 +223,6 @@ const _removeRoomAtom = atom(null, (get, set, roomId: string) => {
 
 export const useSetRemoveRoomAtom = () => {
   return useSetAtom(_removeRoomAtom)
-}
-
-/**
- * @name createNewRoom (Client Helper)
- * @description Initiates the creation of a room in Matrix through the
- * ChatClient. The store updates once the room creation event is received from
- * the Matrix server.
- */
-export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().createRoom(userIds)
-}
-/**
- * @name getOrCreateRoom (Client Helper)
- * @description returns the room id of an existing one-on-one room, if it
- * exists, or creates a new one.
- */
-export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds)
-}
-
-/**
- * @name joinRoom
- * @description Join a Matrix room by accepting the invitation. If you have
- * already joined the room, this will be a no-op.
- */
-export const joinRoom = async (roomId: string): Promise<Room | null> => {
-  return await getChatClient().joinRoom(roomId)
-}
-
-/**
- * @name joinRoom
- * @description Join a Matrix room by accepting the invitation. If you have
- * already joined the room, this will be a no-op.
- */
-export const leaveRoom = async (roomId: string): Promise<void> => {
-  await getChatClient().leaveRoom(roomId)
 }
 
 /**
