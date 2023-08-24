@@ -121,7 +121,7 @@ export default {
         projectId: requiredEnvVar('EXPO_PROJECT_ID'),
       },
       e2e: {
-        userId: requiredEnvVar('E2E_USER_ID'),
+        userId: process.env('E2E_USER_ID'), // not required as not used in production
       },
     },
   },
