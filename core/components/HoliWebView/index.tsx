@@ -47,12 +47,15 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps }) => {
   }
 
   const openInExternalBrowser = (event: ShouldStartLoadRequest): boolean => {
-    if (isWebViewSourceUri(webViewProps.source)) {
+    // type-correct way of checking whether we are not initially loading the page, but reacting on a tap on a link
+    if (isWebViewSourceUri(webViewProps.source) && event.url !== webViewProps.source.uri) {
       // open in external browser
       Linking.openURL(event.url)
+      // don't follow the link in webview itself
+      return false
+    } else {
+      return true
     }
-    // don't follow the link in webview itself
-    return false
   }
 
   return (
