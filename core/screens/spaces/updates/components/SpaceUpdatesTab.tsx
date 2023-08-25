@@ -64,7 +64,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   return (
     <View style={style}>
       {!loading && posts.length === 0 ? (
-        <HoliBox padding={24}>
+        <HoliBox padding={[24, 0, 24, 0]}>
           <HoliNoResults
             firstText={t('spaces.updates.noResults.tagline')}
             secondText={headline}
@@ -147,7 +147,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
               <HoliLoader />
             </HoliBox>
           ) : (
-            <HoliBox padding={[0, 24, 24, 24]}>
+            <HoliBox padding={[0, 0, 24, 0]}>
               <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
                 {posts.map((post) => (
                   <HoliGridCell key={post.id}>
@@ -166,7 +166,6 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexGrow: 1,
-    paddingHorizontal: 24,
     gap: 8,
   },
   buttonWrapper: {

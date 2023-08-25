@@ -103,7 +103,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       >
         <HoliKeyboardSaveView
           onHeightChange={onHeightChange}
-          style={{ position: 'relative' }}
+          style={styles.keyboardSaveView}
           initialOffsetTop={initialOffsetTop ?? (showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0)}
         >
           <ScrollView
@@ -154,6 +154,14 @@ const createStyles = (screenHeight: number) =>
       ...Platform.select({
         android: {
           paddingBottom: 0,
+        },
+      }),
+    },
+    keyboardSaveView: {
+      position: 'relative',
+      ...Platform.select({
+        android: {
+          minHeight: '100%',
         },
       }),
     },
