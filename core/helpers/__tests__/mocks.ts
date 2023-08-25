@@ -13,12 +13,12 @@ export const handleNotificationForRemoteInvitationTriggerAndroidMock: Notificati
           channelId: 'expo_notifications_fallback_notification_channel',
           scopeKey: '@holistic-foundation/projectholi',
           experienceId: '@holistic-foundation/projectholi',
-          room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+          sender: '@malte1:development-chat.holi.social',
           content: '{"is_direct":true,"displayname":"malte2","membership":"invite"}',
           type: 'm.room.member',
           unread: '1',
           prio: 'high',
-          sender: '@malte1:staging.chat.holi.social',
           event_id: '$QTHC68hNtAA0HJwgolBjnzyHmzcmS1u9aE-tukn1SSs',
           membership: 'invite',
           sender_display_name: 'malte1',
@@ -66,8 +66,8 @@ export const handleNotificationForRemoteMessageTriggerAndroidMock: Notifications
           experienceId: '@holistic-foundation/projectholi',
           event_id: '$qY7LzQe-ZTIw6lR4ppuyghbABM8FC8LFSaG4BRX0lh0',
           content: '{"body":"hello world!","msgtype":"m.text"}',
-          room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-          sender: '@malte1:staging.chat.holi.social',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+          sender: '@malte1:development-chat.holi.social',
           type: 'm.room.message',
           sender_display_name: 'malte1',
           prio: 'high',
@@ -123,7 +123,7 @@ export const handleNotificationForRemoteMessageTriggerIosMock = {
     trigger: {
       payload: {
         event_id: '$gCXXxNG7LTPBf1fp6Hp_GHUtshnX6gLzxb5MULBmM1Y',
-        room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+        room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
         experienceId: '@holistic-foundation/projectholi',
         scopeKey: '@holistic-foundation/projectholi',
         aps: {
@@ -151,7 +151,7 @@ export const handleNotificationForLocalTriggerMock: Notifications.Notification =
       badge: null,
       // @ts-ignore available on android
       autoDismiss: true,
-      data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+      data: { room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
       body: 'some body',
       sound: 'default',
       sticky: false,

@@ -162,7 +162,7 @@ describe('initNotifications', () => {
             title: 'Invitation',
             body: 'Someone invited you to a direct chat.',
             data: {
-              room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
@@ -190,7 +190,7 @@ describe('initNotifications', () => {
             title: 'New message',
             body: 'hello world!',
             data: {
-              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
@@ -201,7 +201,7 @@ describe('initNotifications', () => {
         mockGetCurrentRoute = jest.fn().mockReturnValue({
           key: 'ChatRoom-Hr7733Al6mhpXQSd29to7',
           name: 'ChatRoom',
-          params: { roomId: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+          params: { roomId: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
         })
 
         await initNotifications()
@@ -244,7 +244,7 @@ describe('initNotifications', () => {
             title: 'New message',
             body: 'hello world!',
             data: {
-              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
