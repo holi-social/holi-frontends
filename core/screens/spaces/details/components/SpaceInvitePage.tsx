@@ -58,7 +58,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   if (loading) {
     // TODO: replace with proper loading indicator
     return (
-      <DefaultLayout style={[styles.wrapper, styles.loading]}>
+      <DefaultLayout style={styles.loading}>
         <View style={mixins.container}>
           <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
         </View>
@@ -82,7 +82,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   return (
     <DefaultLayout
       scrollable={false}
-      headerOverlap={true}
+      headerOverlap={Platform.OS !== 'android'}
       style={styles.layoutStyle}
       contentStyle={styles.contentStyle}
     >
@@ -95,28 +95,22 @@ const styles = StyleSheet.create({
   loading: {
     paddingTop: 32,
     flex: 1,
-  },
-  wrapper: {
     marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
-    paddingTop: 12,
     backgroundColor: colors.background30,
     height: '100%',
   },
   layoutStyle: {
     height: '100%',
-    ...Platform.select({
-      android: {
-        paddingTop: vars.topBarHeight,
-      },
-      ios: {
-        paddingTop: 0,
-      },
-    }),
   },
   contentStyle: {
     paddingTop: 0,
     paddingBottom: 0,
     flex: 1,
+    ...Platform.select({
+      ios: {
+        paddingTop: 24,
+      },
+    }),
   },
 })
 
