@@ -35,7 +35,7 @@ lint_compile_test:
       - 'e2e/*/node_modules'
   interruptible: true
   tags:
-    - holi-big
+    - holi-huge
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:

@@ -4,11 +4,7 @@ import i18n from '@holi/core/i18n'
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
-global.console = {
-  ...console,
-  error: jest.fn(),
-  warn: jest.fn(),
-}
+
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()

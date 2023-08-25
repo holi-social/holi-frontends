@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
@@ -14,17 +13,18 @@ const user: User = {
   avatarDefaultColor: 'green',
   avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   aboutMe: 'aboutMe',
+  identity: 'dima',
 }
 
 describe('HoliUserCard', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(<HoliUserCard user={user} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliUserCard user={user} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly with small variant', () => {
-    const tree = renderer.create(<HoliUserCard user={user} variant="small" />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliUserCard user={user} variant="small" />).toJSON()
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('has a category chip if category prop is present', () => {

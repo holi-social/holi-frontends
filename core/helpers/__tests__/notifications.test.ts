@@ -11,6 +11,9 @@ import { initNotifications } from '@holi/core/helpers/notifications'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 
+// prevent matrix-sdk-internal logging noise
+console.debug = jest.fn()
+
 let mockGetCurrentRoute: jest.Mock | undefined
 jest.mock('@holi/mobile/navigation/NavigationProvider', () => ({
   navigationRef: { current: { getCurrentRoute: () => mockGetCurrentRoute?.() } },

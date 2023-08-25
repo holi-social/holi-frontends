@@ -1,60 +1,53 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer
-      .create(
-        <HoliConfirmation
-          label="Test"
-          title="Test Title"
-          description="Test Description"
-          show={true}
-          onDismiss={() => null}
-          onConfirm={() => null}
-        />
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <HoliConfirmation
+        label="Test"
+        title="Test Title"
+        description="Test Description"
+        show={true}
+        onDismiss={() => null}
+        onConfirm={() => null}
+      />
+    )
+    expect(screen.toJSON()).toMatchSnapshot()
   })
   it('renders correctly when open and confirmationButtonType is danger', () => {
-    const tree = renderer
-      .create(
-        <HoliConfirmation
-          label="Test"
-          title="Test Title"
-          description="Test Description"
-          confirmationButtonType="danger"
-          show={true}
-          onDismiss={() => null}
-          onConfirm={() => null}
-        />
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <HoliConfirmation
+        label="Test"
+        title="Test Title"
+        description="Test Description"
+        confirmationButtonType="danger"
+        show={true}
+        onDismiss={() => null}
+        onConfirm={() => null}
+      />
+    )
+    expect(screen.toJSON()).toMatchSnapshot()
   })
   it('renders correctly when closed', () => {
-    const tree = renderer
-      .create(
-        <HoliConfirmation
-          label="Test"
-          title="Test Title"
-          description="Test Description"
-          show={false}
-          onDismiss={() => null}
-          onConfirm={() => null}
-        />
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <HoliConfirmation
+        label="Test"
+        title="Test Title"
+        description="Test Description"
+        show={false}
+        onDismiss={() => null}
+        onConfirm={() => null}
+      />
+    )
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('calls onConfirm prop function correctly', () => {
-  it('calls onConfirm prop when clicked on confirmation button if dialog is open', async () => {
+  it('calls onConfirm prop when clicked on confirmation button if dialog is open', () => {
     const mockFn = jest.fn()
     const { getByTestId } = render(
       <HoliConfirmation
@@ -68,7 +61,7 @@ describe('calls onConfirm prop function correctly', () => {
       />
     )
 
-    await fireEvent.press(getByTestId('test-confirmation-confirm'))
+    fireEvent.press(getByTestId('test-confirmation-confirm'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

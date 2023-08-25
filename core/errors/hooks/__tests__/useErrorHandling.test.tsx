@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
@@ -8,6 +9,12 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.unmock('@holi/ui/components/molecules/HoliToastProvider')
+
+const mockConsoleWarn = jest.fn()
+const mockConsoleError = jest.fn()
+
+global.console.warn = mockConsoleWarn
+global.console.error = mockConsoleError
 
 type ErrorComponentProps = { message?: string }
 
@@ -49,7 +56,7 @@ describe('displays errors correctly', () => {
       </ToastProvider>
     )
 
-    expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
+    expect(mockConsoleError).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
     expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
   })
 
@@ -62,7 +69,7 @@ describe('displays errors correctly', () => {
       </ToastProvider>
     )
 
-    expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
+    expect(mockConsoleWarn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
     expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
   })
 })

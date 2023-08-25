@@ -1,6 +1,6 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 
@@ -18,8 +18,6 @@ import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-
-jest.useFakeTimers()
 
 const topicSlug = 'topic1'
 const createSpacePaginationMock = (offset = 0) => ({
@@ -151,7 +149,7 @@ describe('usePaginationQuery', () => {
 
     expect(await screen.findByText('50 results'))
 
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
   })
@@ -171,14 +169,14 @@ describe('usePaginationQuery', () => {
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
     // Fetch second page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
@@ -209,14 +207,14 @@ describe('usePaginationQuery', () => {
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
     // Fetch second page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
     expect(await screen.findByText('50 results'))
@@ -225,4 +223,8 @@ describe('usePaginationQuery', () => {
     // It should not be possible to fetch another page
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
+
+  // solve act() wrap warning
+  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
+  afterEach(cleanup)
 })
