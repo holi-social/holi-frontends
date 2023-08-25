@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals'
 import { NotificationResponse } from 'expo-notifications'
 
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
