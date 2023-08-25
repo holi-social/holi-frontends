@@ -7,7 +7,7 @@ const IS_DEVTOOL_ENABLED =
 
 const ChatDevTools = () => {
   if (!IS_DEVTOOL_ENABLED) return null
-  return <DevTools />
+  return <DevTools theme="dark" options={{ shouldShowPrivateAtoms: true }} />
 }
 
 export default ChatDevTools

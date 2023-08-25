@@ -14683,10 +14683,10 @@ jotai-devtools@^0.6.2:
     react-json-tree "^0.18.0"
     react-resizable-panels "^0.0.54"
 
-jotai@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/jotai/-/jotai-2.2.1.tgz"
-  integrity sha512-Gz4tpbRQy9OiFgBwF9F7TieDn0UTE3C0IFSDuxHjOIvgn2tACH30UKz6p/wIlfoZROXSTCIxEvYEa7Y25WM+8g==
+jotai@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.4.0.tgz#3f0b30fa54dfb4b4bb22141264512bccca5f5149"
+  integrity sha512-NUHJdAJe3C8Prf0DD6EzezCATjkNvfCNI7pgkaX7bCPPsqE0oK8L9RzZsEhz/UxFoGRayXwacTvAli0VEYKkqQ==
 
 js-cookie@^2.2.1:
   version "2.2.1"
