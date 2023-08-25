@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
 import { z } from 'zod'
 
+import { PostFragment } from '@holi/core/screens/posts/queries'
 import { Post } from '@holi/core/screens/posts/types'
 import { VisibilityFilter } from '@holi/core/screens/spaces/types'
-import { SpaceUpdatePostFragment } from '@holi/core/screens/spaces/updates/queries'
 
 export const CreateSpacePostSchema = z.object({
   spaceId: z.string() /* UUID */,
@@ -16,16 +16,16 @@ export const CreateSpacePostSchema = z.object({
 export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
 
 export const createSpacePostMutation = gql`
-  ${SpaceUpdatePostFragment}
+  ${PostFragment}
 
 
   mutation createSpacePost($input: CreatePostInput!) {
     createSpacePost2(input: $input) {
-      ...SpaceUpdatePostFragment
+      ...PostFragment
       space {
         posts(offset: 0, limit: 10, visibility: ${VisibilityFilter.ALL}) {
           data {
-            ...SpaceUpdatePostFragment
+            ...PostFragment
           }
         }
       }
@@ -48,11 +48,11 @@ export const UpdatePostInputSchema = z.object({
 export type UpdatePostInput = z.infer<typeof UpdatePostInputSchema>
 
 export const updateSpacePostMutation = gql`
-  ${SpaceUpdatePostFragment}
+  ${PostFragment}
 
   mutation updateSpacePost($input: UpdatePostInput!) {
     updateSpacePost(input: $input) {
-      ...SpaceUpdatePostFragment
+      ...PostFragment
     }
   }
 `

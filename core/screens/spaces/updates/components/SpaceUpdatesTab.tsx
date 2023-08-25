@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -26,9 +26,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface SpaceUpdatesTabProps {
   space: Space
+  style?: StyleProp<ViewStyle>
 }
 
-const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
+const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const postGridItemsInRow = useBreakpointMatcher()
@@ -61,9 +62,9 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
     StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
 
   return (
-    <>
+    <View style={style}>
       {!loading && posts.length === 0 ? (
-        <HoliBox padding={24}>
+        <HoliBox padding={[24, 0, 24, 0]}>
           <HoliNoResults
             firstText={t('spaces.updates.noResults.tagline')}
             secondText={headline}
@@ -79,7 +80,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
           />
         </HoliBox>
       ) : (
-        <HoliBox padding={[12, 0, 0, 0]}>
+        <View>
           {hasPostFilter && (
             <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.buttonWrapper}>
               <HoliButton
@@ -146,7 +147,7 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               <HoliLoader />
             </HoliBox>
           ) : (
-            <HoliBox padding={[0, 24, 24, 24]}>
+            <HoliBox padding={[0, 0, 24, 0]}>
               <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
                 {posts.map((post) => (
                   <HoliGridCell key={post.id}>
@@ -156,20 +157,19 @@ const SpaceUpdatesTab = ({ space }: SpaceUpdatesTabProps) => {
               </HoliGridWrapper>
             </HoliBox>
           )}
-        </HoliBox>
+        </View>
       )}
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   buttonContainer: {
     flexGrow: 1,
-    paddingHorizontal: 24,
     gap: 8,
   },
   buttonWrapper: {
-    paddingVertical: 12,
+    paddingBottom: 12,
   },
   wrapper: {
     paddingTop: 12,
