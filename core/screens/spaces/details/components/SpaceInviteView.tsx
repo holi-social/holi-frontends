@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
@@ -105,7 +105,14 @@ const styles = StyleSheet.create({
   },
   whom: {
     display: 'flex',
-    paddingTop: +vars.topBarHeight + 24,
+    ...Platform.select({
+      native: {
+        paddingTop: +vars.topBarHeight + 52,
+      },
+      web: {
+        paddingTop: +vars.topBarHeight + 24,
+      },
+    }),
     paddingBottom: 8,
     flexDirection: 'column',
     alignItems: 'flex-start',

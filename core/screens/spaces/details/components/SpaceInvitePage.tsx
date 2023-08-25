@@ -82,7 +82,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   return (
     <DefaultLayout
       scrollable={false}
-      headerOverlap={Platform.OS !== 'android'}
+      headerOverlap={true}
       style={styles.layoutStyle}
       contentStyle={styles.contentStyle}
     >
@@ -100,17 +100,13 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   layoutStyle: {
+    flex: 1,
     height: '100%',
   },
   contentStyle: {
     paddingTop: 0,
     paddingBottom: 0,
     flex: 1,
-    ...Platform.select({
-      ios: {
-        paddingTop: 24,
-      },
-    }),
   },
 })
 
