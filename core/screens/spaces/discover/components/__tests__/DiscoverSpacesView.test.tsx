@@ -1,5 +1,4 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { it } from '@jest/globals'
 import { fireEvent, render } from '@testing-library/react-native'
 import React, { PropsWithChildren } from 'react'
 
@@ -43,21 +42,26 @@ const spaceTermContext: SpaceTermContextResult = {
   sdgs: [],
 }
 
-describe('DiscoverSpacesView', () => {
-  const renderDiscoverSpaces = (
-    userTopics: Topic[] = [],
-    userSkills: Skill[] = [],
-    contextProps: Partial<SpaceTermContextResult> = {}
-  ) => {
-    return render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
-          <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} />
-        </SpaceTermContext.Provider>
-      </MockedProvider>
-    )
-  }
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
 
+const renderDiscoverSpaces = (
+  userTopics: Topic[] = [],
+  userSkills: Skill[] = [],
+  contextProps: Partial<SpaceTermContextResult> = {}
+) => {
+  return render(
+    <MockedProvider mocks={[]} addTypename={false}>
+      <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
+        <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} />
+      </SpaceTermContext.Provider>
+    </MockedProvider>
+  )
+}
+
+describe('DiscoverSpacesView', () => {
   it('renders correctly, without user spaces, when loading', async () => {
     const { getByTestId, queryAllByTestId } = renderDiscoverSpaces([], [], { loadingTopics: true })
 

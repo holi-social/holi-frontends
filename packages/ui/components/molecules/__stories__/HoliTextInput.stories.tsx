@@ -107,6 +107,7 @@ export const WithTrailingIcon = ({ ...args }) => (
     {...args}
   />
 )
+WithTrailingIcon.args = {}
 
 export const Password = ({ ...args }) => (
   <HoliTextInput

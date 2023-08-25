@@ -23,6 +23,15 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   },
 }))
 
+jest.mock('@holi/core/helpers/useLogout', () => ({
+  useLogout: () => ({ logout: jest.fn() }),
+}))
+
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const mySpacesMock = { ...mySpacesWithEmptyResultMock, result: { data: { mySpaces } } }
 
 const mySpacesErrorMock = { ...mySpacesWithEmptyResultMock, error: new HoliError('Test error') }

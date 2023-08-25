@@ -25,7 +25,7 @@ describe('NotificationWithUserAvatar.tsx', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders user avatar component', async () => {
+  it('renders user avatar component', () => {
     const { getByText } = render(<NotificationWithUserAvatar notification={notificationConnectionRequest} />)
 
     expect(getByText(notificationConnectionRequest.options.user.avatarLabel)).toBeDefined()
