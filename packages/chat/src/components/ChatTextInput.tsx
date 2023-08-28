@@ -7,6 +7,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
@@ -32,6 +33,7 @@ interface Props {
 
 export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const { t } = useTranslation()
+  const { openToast } = useToast()
   const positionRef = useRef(new Animated.Value(100))
 
   const [messageText, setMessageText] = useState('')
@@ -49,8 +51,13 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
     const text = messageText.trim()
     if (!text) return
 
-    await sendMessage({ roomId, text })
-    setMessageText('')
+    try {
+      setMessageText('')
+      await sendMessage({ roomId, text })
+    } catch (err) {
+      setMessageText(text)
+      openToast(t('global.technicalError'))
+    }
   }
 
   return (
@@ -77,7 +84,13 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
         }}
         testID={'chat-message-input'}
       />
-      <HoliButton label="" disabled={!messageText.trim()} onPress={handleSendMessage} inline style={styles.button}>
+      <HoliButton
+        label={t('chat.room.sendButton.label')}
+        disabled={!messageText.trim()}
+        onPress={handleSendMessage}
+        inline
+        style={styles.button}
+      >
         <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
       </HoliButton>
     </Animated.View>
