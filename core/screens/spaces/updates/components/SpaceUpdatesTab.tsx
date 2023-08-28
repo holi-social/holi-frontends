@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -14,8 +13,6 @@ import SpaceUpdatesList from '@holi/core/screens/spaces/updates/components/Space
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -33,7 +30,6 @@ const POSTS_RESULT_PAGE_SIZE = 10
 const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const postGridItemsInRow = useBreakpointMatcher()
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
 
@@ -49,8 +45,8 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const headline = isMember ? t('spaces.updates.noResults.headline.member') : t('spaces.updates.noResults.headline')
 
-  const hasPosts = space.hasPrivatePosts || !!space.hasPublicPosts
-  const hasPostFilter = isMember && !!space.hasPublicPosts
+  const hasPosts = space.hasPrivatePosts || space.hasPublicPosts
+  const hasPostFilter = isMember && space.hasPrivatePosts && space.hasPublicPosts
 
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
@@ -133,21 +129,17 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
         </ScrollView>
       )}
 
-      <HoliBox padding={[0, 0, 24, 0]}>
-        <HoliGridWrapper itemsInRow={postGridItemsInRow} style={styles.wrapper}>
-          <Pagination
-            query={spacePostsQuery}
-            queryOptions={{
-              ...spacePostQueryOptions,
-              variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.ALL },
-            }}
-            loadMoreOnScroll={true}
-            scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
-          >
-            <SpaceUpdatesList space={space} />
-          </Pagination>
-        </HoliGridWrapper>
-      </HoliBox>
+      <Pagination
+        query={spacePostsQuery}
+        queryOptions={{
+          ...spacePostQueryOptions,
+          variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.ALL },
+        }}
+        loadMoreOnScroll={true}
+        scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+      >
+        <SpaceUpdatesList space={space} />
+      </Pagination>
     </View>
   )
 }
@@ -159,9 +151,6 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     paddingBottom: 12,
-  },
-  wrapper: {
-    paddingTop: 12,
   },
   buttonSpacing: {
     paddingHorizontal: 6,
