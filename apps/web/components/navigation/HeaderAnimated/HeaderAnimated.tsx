@@ -9,6 +9,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import HeaderAnimatedGradientBackground from './HeaderAnimatedGradientBackground'
 
@@ -52,6 +53,7 @@ export const useHeaderHideAnimation = () => {
 const HeaderAnimated = () => {
   const options = useScreenOptions()
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
   const headerHideAnimation = useHeaderHideAnimation()
 
   const {
@@ -70,7 +72,7 @@ const HeaderAnimated = () => {
 
   return (
     <Animated.View
-      style={[styles.headerOuter, { top: headerHideAnimation }]}
+      style={[mixins.container, styles.headerOuter, { top: headerHideAnimation }]}
       accessible
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.topNavigation')}
@@ -134,7 +136,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: vars.topBarHeight,
     maxHeight: vars.topBarHeight,
-    paddingHorizontal: 20,
   },
   headerContent: {
     flexDirection: 'row',

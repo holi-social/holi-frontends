@@ -3,7 +3,7 @@
 exports[`renders correctly for web passes aspect ratio 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
   srcSet="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
   style={
@@ -68,7 +68,7 @@ exports[`renders correctly for web renders image with single source correctly fo
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'contain' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
   srcSet="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
   style={
@@ -82,7 +82,7 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'cover' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
   srcSet="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
   style={
@@ -96,7 +96,7 @@ exports[`renders correctly for web renders responsive image  based on s 2 pixel 
 exports[`renders correctly for web renders responsive image  based on s 2 pixel density correctly for resize mode 'fill' 1`] = `
 <img
   alt="alt text"
-  sizes="(min-width:1200px) 1200px, 100vw"
+  sizes="(min-width:840px) 840px, 100vw"
   src="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213"
   srcSet="https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F320%2F213 320w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F576%2F384 576w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F992%2F661 992w,https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/http%3A%2F%2Fplacekitten.com%2F1200%2F800 1200w"
   style={
