@@ -5,9 +5,9 @@ import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { ChatRoomMember, MatrixId, MembershipStatus, NotificationCount, RoomId } from '@holi/chat/src/client/types'
-import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import type {
   ChatMessage,
+  ChatMessageContent,
   ChatMessagesAtom,
   ChatRoom,
   ChatRoomAtom,
@@ -448,6 +448,40 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
   })
 
 /**
+ * Messages Client Actions
+ *
+ **/
+
+export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
+  try {
+    await getChatClient().setLatestMessagesAsRead(roomId)
+  } catch (err) {
+    logError(err)
+  }
+}
+
+export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMessage) => {
+  const dupMessage = thread.find((m) => m.id === newMessage.id)
+  if (!dupMessage) {
+    thread.push(newMessage)
+    return
+  }
+
+  Object.assign(dupMessage, newMessage)
+})
+
+export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessage {
+  // TODO: handle empty strings fallback
+  return {
+    id: event.event_id,
+    content: event.content as ChatMessageContent,
+    timestamp: event.origin_server_ts,
+    room_id: roomId,
+    sender: event.sender,
+  }
+}
+
+/**
  * @name useRequestRoomMessages (Hook-Helper)
  * @description
  */
@@ -552,7 +586,7 @@ export const useIgnoredUsersAtom = () => {
 }
 
 /**
- * Member Actions
+ * Member Client Actions
  *
  **/
 export const ignoreUser = async (userId: string) => {
