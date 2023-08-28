@@ -1,6 +1,6 @@
 import { produce } from 'immer'
-import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState, User } from 'matrix-js-sdk'
+import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
@@ -604,7 +604,7 @@ export const unignoreUser = async (userId: string) => {
 
 export const getHoliUserForChatMember = (
   member: ChatRoomMember | undefined,
-  userRecord: Record<MatrixId, User | undefined>
+  userRecord: Record<MatrixId, HoliUser | undefined>
 ) => {
   if (!member) return
 
