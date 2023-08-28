@@ -1,4 +1,3 @@
-export * from './member'
 export * from './messages'
 export * from './room'
 export * from './store'

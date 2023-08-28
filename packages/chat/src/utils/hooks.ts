@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 
 import { MatrixId } from '@holi/chat/src/client/types'
-import { toHoliIdentity } from '@holi/chat/src/store/member'
+import { toHoliIdentity } from '@holi/chat/src/store/utils'
 import {
   UsersByChatIdentitiesQueryVariables,
   UsersByChatIdentitiesResponse,

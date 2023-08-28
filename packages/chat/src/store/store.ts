@@ -1,11 +1,10 @@
 import { produce } from 'immer'
 import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState, User } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
-import type { MatrixId, NotificationCount } from '@holi/chat/src/client/types'
-import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
+import type { ChatRoomMember, MatrixId, NotificationCount } from '@holi/chat/src/client/types'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
 import {
   UpdateInvitationOptions,
@@ -23,9 +22,10 @@ import type {
   ChatRoomId,
   CreateMessage,
 } from '@holi/chat/src/store/types'
-import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
+import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
+import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
 
 /**
  * Client
@@ -196,11 +196,6 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
     .subscribeToUnreadRoomsNotifications(setAtom)
     .catch((err) => logError(err))
 }
-
-/**
- * Room
- *
- **/
 
 /**
  * @name _removeRoomAtom (Write-Only)
@@ -379,7 +374,7 @@ export const useRequestRoomMessages = () => {
 }
 
 /**
- * Members
+ * Member Atoms
  *
  **/
 
@@ -443,6 +438,70 @@ _ignoredUsersAtomSubscriber.onMount = (setAtom) => {
 
 export const useIgnoredUsersAtom = () => {
   return useAtomValue(_ignoredUsersAtom)
+}
+
+/**
+ * Member Actions
+ *
+ **/
+export const ignoreUser = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const ignoreUserAndLeaveRoom = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const unignoreUser = async (userId: string) => {
+  return await getChatClient().unignoreUser(userId)
+}
+
+export const getHoliUserForChatMember = (
+  member: ChatRoomMember | undefined,
+  userRecord: Record<MatrixId, User | undefined>
+) => {
+  if (!member) return
+
+  return userRecord[member.id]
+}
+
+/**
+ * Verifies if all the passed members (excluding the logged-in user) are ignored.
+ */
+export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: MatrixId[]): boolean => {
+  const ignoredRoomMembers = members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
+  return ignoredRoomMembers.length === members.length - 1
+}
+
+export const getChatPartner = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember | undefined => {
+  // TODO this will have to be changed once we support multiple users per room
+  return room.members.find((member) => member.id !== toMatrixIdentity(holiUser.identity))
+}
+
+export const isRoomCreator = (user: HoliUser, room: ChatRoom): boolean | undefined => {
+  return room.creator ? room.creator.id === toMatrixIdentity(user.identity) : undefined
+}
+
+export interface MemberEventOptions {
+  event: MatrixEvent
+  roomState: RoomState
+  member: RoomMember
+}
+
+export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, options: MemberEventOptions) => {
+  const { event, roomState, member } = options
+
+  if (member.membership !== 'leave') return
+  if (event.getSender() !== member.userId) return
+
+  delete roomAtomsRecord[roomState.roomId]
+})
+
+export const isLastMemberCreator = (roomState: RoomState, member: RoomMember) => {
+  const members = roomState.getMembers()
+  const creator = members.find((m) => m.powerLevel === 100)
+
+  return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
 }
 
 /**
