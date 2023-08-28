@@ -89,6 +89,7 @@
   "chat.maintenance.tagline": "Der Chat macht eine Pause",
   "chat.offline": "Du bist gerade offline. Bitte versuche es nochmal, wenn Du wieder online bist.",
   "chat.room.input.placeholder": "Schreibe {{fullName}}",
+  "chat.room.sendButton.label": "Nachricht senden",
   "chat.room.error.noRoom": "Der Chatraum konnte nicht gefunden werden.",
   "chat.room.start.description": "Das ist der Beginn deiner direkten Nachrichten mit <0>{{fullName}}</0>. Wenn du deine erste Nachricht absendest, bekommt <0>{{fullName}}</0> eine Anfrage dieses Gespräch zu akzeptieren.",
   "chat.start.button.label": "Schreiben",
