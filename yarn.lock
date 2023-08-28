@@ -3461,10 +3461,10 @@
   resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-6.0.19.tgz#0197fccc5649259787d5468228139f8815909803"
   integrity sha512-duvtnaW1gDR2gnvUqnWhl6DMW7sN0HEWqS8Z/BbwaMi75U+Xp17Q72R9JtiIrxQbzsq+KvH9L9B/pxMVwbLirg==
 
-"@matrix-org/matrix-sdk-crypto-js@^0.1.0-alpha.7":
-  version "0.1.0-alpha.9"
-  resolved "https://registry.npmjs.org/@matrix-org/matrix-sdk-crypto-js/-/matrix-sdk-crypto-js-0.1.0-alpha.9.tgz"
-  integrity sha512-g5cjpFwA9h0CbEGoAqNVI2QcyDsbI8FHoLo9+OXWHIezEKITsSv78mc5ilIwN+2YpmVlH0KNeQWTHw4vi0BMnw==
+"@matrix-org/matrix-sdk-crypto-wasm@^1.2.0":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@matrix-org/matrix-sdk-crypto-wasm/-/matrix-sdk-crypto-wasm-1.2.1.tgz#5b546c8a0e53b614f10b77b3b649818aed9d0db1"
+  integrity sha512-DCb7Q83PCQK0uav5vB3KNV/hJPlxAhT/ddar+VHz2kC39hMLKGzWYVhprpLYVcavaE/6OX+Q/xFkAoV/3QtUHQ==
 
 "@mdx-js/mdx@^1.6.22":
   version "1.6.22"
@@ -9638,6 +9638,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
+
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-1.0.0.tgz"
@@ -14949,6 +14954,11 @@ junk@^3.1.0:
   resolved "https://registry.npmjs.org/junk/-/junk-3.1.0.tgz"
   integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 keygrip@~1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/keygrip/-/keygrip-1.1.0.tgz"
@@ -15614,28 +15624,30 @@ matrix-events-sdk@0.0.1:
   resolved "https://registry.npmjs.org/matrix-events-sdk/-/matrix-events-sdk-0.0.1.tgz"
   integrity sha512-1QEOsXO+bhyCroIe2/A5OwaxHvBm7EsSQ46DEDn8RBIfQwN5HWBpFvyWWR4QY0KHPPnnJdI99wgRiAl7Ad5qaA==
 
-matrix-js-sdk@^25.1.1:
-  version "25.1.1"
-  resolved "https://registry.npmjs.org/matrix-js-sdk/-/matrix-js-sdk-25.1.1.tgz"
-  integrity sha512-GJElcbP+OzODqSaAKTe4C7AFg/2KbrHVNzahelWxf3I09IVeWBW3gml6sI3ozfB3DlEBpQnUzDMBsr7n2asILw==
+matrix-js-sdk@^27.2.0:
+  version "27.2.0"
+  resolved "https://registry.yarnpkg.com/matrix-js-sdk/-/matrix-js-sdk-27.2.0.tgz#c06d5ce9f961b18ed62593e1c01eeaec754725bc"
+  integrity sha512-jsoA5oPv0eQbELlOzQ6J3v1HTPU0oydqgLQNVpztsajEj6AfJYvCaZueFak8jac9RsopZlqWbP8CXI8r5MvNEA==
   dependencies:
     "@babel/runtime" "^7.12.5"
-    "@matrix-org/matrix-sdk-crypto-js" "^0.1.0-alpha.7"
+    "@matrix-org/matrix-sdk-crypto-wasm" "^1.2.0"
     another-json "^0.2.0"
     bs58 "^5.0.0"
     content-type "^1.0.4"
+    jwt-decode "^3.1.2"
     loglevel "^1.7.1"
     matrix-events-sdk "0.0.1"
-    matrix-widget-api "^1.3.1"
+    matrix-widget-api "^1.5.0"
+    oidc-client-ts "^2.2.4"
     p-retry "4"
     sdp-transform "^2.14.1"
     unhomoglyph "^1.0.6"
     uuid "9"
 
-matrix-widget-api@^1.3.1:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/matrix-widget-api/-/matrix-widget-api-1.4.0.tgz"
-  integrity sha512-dw0dRylGQzDUoiaY/g5xx1tBbS7aoov31PRtFMAvG58/4uerYllV9Gfou7w+I1aglwB6hihTREzKltVjARWV6A==
+matrix-widget-api@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/matrix-widget-api/-/matrix-widget-api-1.5.0.tgz#4ae3e46a7f2854f944ddaf8a5af63d72fba76c45"
+  integrity sha512-hKGfqQKK5qVMwW0Sp8l2TiuW8UuHafTvUZNSWBPghedB/rSFbVLlr0mufuEV0iq/pQ7ChW96q/WEC6Llie4SnA==
   dependencies:
     "@types/events" "^3.0.0"
     events "^3.2.0"
@@ -16933,6 +16945,14 @@ objectorarray@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/objectorarray/-/objectorarray-1.0.5.tgz"
   integrity sha512-eJJDYkhJFFbBBAxeh8xW+weHlkI28n2ZdQV/J/DNfWfSKlGEf2xcfAbZTv3riEXHAhL9SVOTs2pRmXiSTf78xg==
+
+oidc-client-ts@^2.2.4:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/oidc-client-ts/-/oidc-client-ts-2.2.5.tgz#ca0a9f791d8d9d00a1720226d3e96b50065ce015"
+  integrity sha512-omAHoLdFcylnwZeHJahOnJBwd0r78JzhmVAmsQjLGrexAnQKiHW9Ilr9FlRD5qjMikmabvaucI4k49AbQLXhmQ==
+  dependencies:
+    crypto-js "^4.1.1"
+    jwt-decode "^3.1.2"
 
 on-exit-leak-free@^2.1.0:
   version "2.1.0"

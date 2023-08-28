@@ -4,6 +4,7 @@ import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matri
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
+import { setChatInitialized } from '@holi/chat/src/client/chatSession'
 import type { MatrixId, NotificationCount } from '@holi/chat/src/client/types'
 import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
 import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
@@ -26,22 +27,6 @@ import type {
 import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
-
-/**
- * Client
- *
- **/
-
-const _chatInitializedAtom = atom(false)
-
-/**
- * Hook to check if the chat client has been initialized. Intended for usage in arbitrary
- * components that need to check if the chat client has been initialized, e.g. in order to
- * render a loading indicator.
- *
- * @returns `true` if the chat client has been initialized, `false` otherwise.
- */
-export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
@@ -111,7 +96,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   if (args === 'initDone') {
     logDebug('Chat.store', 'chat initialized')
     // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
-    set(_chatInitializedAtom, true)
+    setChatInitialized(true)
   } else {
     const { room, hasPendingInvitation, ignoredUsers } = args
     const chatRoom = createChatRoom(room, hasPendingInvitation)
