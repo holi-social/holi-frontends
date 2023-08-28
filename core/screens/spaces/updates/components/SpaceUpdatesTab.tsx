@@ -49,8 +49,8 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const headline = isMember ? t('spaces.updates.noResults.headline.member') : t('spaces.updates.noResults.headline')
 
-  const hasPosts = space.hasPrivatePosts || space.hasPublicPosts
-  const hasPostFilter = isMember && space.hasPublicPosts
+  const hasPosts = space.hasPrivatePosts || !!space.hasPublicPosts
+  const hasPostFilter = isMember && !!space.hasPublicPosts
 
   const isFilterAll = filter === VisibilityFilter.ALL
   const isFilterPublic = filter === VisibilityFilter.PUBLIC
@@ -139,7 +139,7 @@ const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
             query={spacePostsQuery}
             queryOptions={{
               ...spacePostQueryOptions,
-              variables: { idOrName: space.name, visibility: filter },
+              variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.ALL },
             }}
             loadMoreOnScroll={true}
             scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}

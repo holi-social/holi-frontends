@@ -35,7 +35,7 @@ export type PostPreviewProps = {
   hasVisibilityIcon?: boolean
 }
 
-const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: PostPreviewProps) => {
+const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName = '' }: PostPreviewProps) => {
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
@@ -46,7 +46,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
     successMsg: t('global.report.successMessage'),
   })
 
-  const { deletePost, isLoadingPostDeletion } = useDeletePost(spaceIdOrName, post)
+  const { deletePost, isLoadingPostDeletion } = useDeletePost(post, spaceIdOrName)
 
   const commenters = post.commenters.data
 
