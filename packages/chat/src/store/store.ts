@@ -319,7 +319,8 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   }
 
   const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
-    const { userId: id, name, membership } = mxRoomMember
+    const { userId, name, membership } = mxRoomMember
+    const id = userId as MatrixId
     return {
       id,
       name,
