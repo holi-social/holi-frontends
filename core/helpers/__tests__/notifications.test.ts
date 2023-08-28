@@ -2,6 +2,8 @@ import { PermissionStatus } from 'expo-modules-core'
 import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
 import {
+  handleNotificationForBadgeUpdateTriggerAndroidMock,
+  handleNotificationForBadgeUpdateTriggerIosMock,
   handleNotificationForLocalTriggerMock,
   handleNotificationForRemoteInvitationTriggerAndroidMock,
   handleNotificationForRemoteMessageTriggerAndroidMock,
@@ -196,6 +198,23 @@ describe('initNotifications', () => {
         })
       })
 
+      it('should not schedule notifications for unknown/unimportant events', async () => {
+        setNotificationMocks()
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerAndroidMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
+      })
+
       it('should skip message events when navigated in same room', async () => {
         setNotificationMocks()
         mockGetCurrentRoute = jest.fn().mockReturnValue({
@@ -248,6 +267,23 @@ describe('initNotifications', () => {
             },
           },
         })
+      })
+
+      it('should not schedule notifications for unknown/unimportant events', async () => {
+        setNotificationMocks()
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerIosMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
       })
     })
 
