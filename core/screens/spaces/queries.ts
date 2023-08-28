@@ -40,6 +40,8 @@ export const FullSpaceFragment = gql`
     name
     avatarDefaultColor
     location
+    hasPublicPosts
+    hasPrivatePosts
     geolocation {
       latitude
       longitude

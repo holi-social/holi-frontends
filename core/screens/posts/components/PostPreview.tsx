@@ -46,7 +46,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
     successMsg: t('global.report.successMessage'),
   })
 
-  const { deletePost, isLoadingPostDeletion } = useDeletePost(post.id)
+  const { deletePost, isLoadingPostDeletion } = useDeletePost(spaceIdOrName, post)
 
   const commenters = post.commenters.data
 
