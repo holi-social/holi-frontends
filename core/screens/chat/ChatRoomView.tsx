@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -15,6 +16,7 @@ import {
   useRoomById,
 } from '@holi/chat/src/store'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
+import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -25,6 +27,7 @@ import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessage
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -35,7 +38,8 @@ export type ChatRoomPageParams = {
 const { useParam } = createParam<ChatRoomPageParams>()
 
 const ChatRoomView = () => {
-  const { navigateBack } = useRouting()
+  const { t } = useTranslation()
+  const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
   const mixins = useStyleMixins()
 
@@ -77,10 +81,27 @@ const ChatRoomView = () => {
     })
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
 
+  const { userId } = useAuth()
+  const isLoggedIn = userId !== null
+  const { openToast } = useToast()
   useEffect(() => {
-    if (room?.hasInvitation) return
+    // redirect not logged in user to Chat screen
+    if (!isLoggedIn) {
+      replaceRoute('/chat')
+      return
+    }
+    // redirect logged in user to Chat screen if room not found
+    if (chatInitialized && !room) {
+      openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
+      replaceRoute('/chat')
+    }
+  }, [chatInitialized, isLoggedIn, openToast, replaceRoute, room, t])
+
+  // request initial chunk of room messages
+  useEffect(() => {
+    if (!room?.id || room?.hasInvitation) return
     requestMessages(roomId, false)
-  }, [requestMessages, roomId, room?.hasInvitation])
+  }, [requestMessages, roomId, room?.id, room?.hasInvitation])
 
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader />
