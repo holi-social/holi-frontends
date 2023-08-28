@@ -82,11 +82,11 @@ const ChatRoomView = () => {
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
 
   const { userId } = useAuth()
-  const isLoggedIn = userId !== null
+  const notLoggedIn = userId === null
   const { openToast } = useToast()
   useEffect(() => {
     // redirect not logged in user to Chat screen
-    if (!isLoggedIn) {
+    if (notLoggedIn) {
       replaceRoute('/chat')
       return
     }
@@ -95,7 +95,7 @@ const ChatRoomView = () => {
       openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
       replaceRoute('/chat')
     }
-  }, [chatInitialized, isLoggedIn, openToast, replaceRoute, room, t])
+  }, [chatInitialized, notLoggedIn, openToast, replaceRoute, room, t])
 
   // request initial chunk of room messages
   useEffect(() => {
