@@ -24,7 +24,6 @@ const useDeletePost = (post: Post, spaceIdOrName: string, handleConfirm?: () => 
       handleConfirm?.()
       displayError(error, t('global.technicalError'), 5000)
     },
-    // refetchQueries: [spacePostsQuery],
     // refetch first page of both the current visibility filter and the ALL filter
     refetchQueries: [
       {
