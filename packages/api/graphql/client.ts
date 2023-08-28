@@ -45,11 +45,6 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      PostPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
       AppDonations_ProjectsResponse: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
@@ -86,12 +81,14 @@ export const createCache = () =>
       },
       SpaceMemberPaged: {
         fields: {
+          // Only allow pagination on the space detail screen, recognizable by `idOrName`
           data: nestedPaginationPolicy(['idOrName']),
         },
       },
       UserPaged: {
         fields: {
-          data: indexAwareOffsetLimitPagination(),
+          // Only allow pagination when searching for users by `substring`
+          data: nestedPaginationPolicy(['substring']),
         },
       },
       Query: {

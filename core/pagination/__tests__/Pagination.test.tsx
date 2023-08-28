@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 
@@ -15,8 +15,6 @@ import {
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-
-jest.useFakeTimers()
 
 const TestComponent: React.FC = () => {
   const { loading, error, data, totalResults } = usePaginationContext<Insight>()
@@ -39,24 +37,24 @@ const TestComponent: React.FC = () => {
   )
 }
 
-describe('PaginationContext', () => {
-  const renderPagination = (mocks: MockedResponse[]) =>
-    render(
-      <MockedProvider mocks={mocks} cache={createCache()}>
-        <ToastProvider>
-          <Pagination
-            query={lastInsightsQuery}
-            queryOptions={{
-              queryPath: 'lastInsights',
-              pageSize,
-            }}
-          >
-            <TestComponent />
-          </Pagination>
-        </ToastProvider>
-      </MockedProvider>
-    )
+const renderPagination = (mocks: MockedResponse[]) =>
+  render(
+    <MockedProvider mocks={mocks} cache={createCache()}>
+      <ToastProvider>
+        <Pagination
+          query={lastInsightsQuery}
+          queryOptions={{
+            queryPath: 'lastInsights',
+            pageSize,
+          }}
+        >
+          <TestComponent />
+        </Pagination>
+      </ToastProvider>
+    </MockedProvider>
+  )
 
+describe('PaginationContext', () => {
   it('provides loading state in pagination context', async () => {
     renderPagination([createPaginationMock()])
 
@@ -95,14 +93,14 @@ describe('PaginationContext', () => {
     expect(await screen.findByText('50 results'))
 
     // Fetch second page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
     expect(await screen.findByText('global.seeMore'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
     expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
@@ -110,4 +108,8 @@ describe('PaginationContext', () => {
     // The button to fetch more should be hidden now
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
   })
+
+  // solve act() wrap warning
+  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
+  afterEach(cleanup)
 })

@@ -16,6 +16,11 @@ jest.mock('@holi/core/auth/helpers/useAuth', () => ({
   setUserLoggedOut: jest.fn(),
 }))
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserQuery,

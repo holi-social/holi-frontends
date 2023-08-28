@@ -61,13 +61,16 @@ function usePaginationQuery<TData>(
   const canFetchMore = !loading && data.length < totalResults
 
   const memoizedFetchMore = useCallback(async () => {
+    if (isFetchingMore) {
+      return
+    }
     setIsFetchingMore(true)
     return fetchMore({
       variables: {
         offset: data.length,
       },
     }).catch((error) => logError(error, '[usePaginationQuery.tsx] error fetching more'))
-  }, [fetchMore, data.length])
+  }, [isFetchingMore, data.length, fetchMore])
 
   return {
     // Sometimes there is a delay between setting loading to false and filling the pagedData/error

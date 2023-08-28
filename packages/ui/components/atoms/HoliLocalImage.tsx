@@ -1,8 +1,6 @@
+import { ImageSource } from 'expo-image'
 import React from 'react'
-import { AccessibilityProps, Image } from 'react-native'
-// TODO: "no exported member" !!!!!!!!!!!!!!!!!!!!
-// https://github.com/react-native-svg/react-native-svg/pull/1443
-// @ts-ignore
+import { AccessibilityProps, Image, ImageRequireSource, ImageSourcePropType, ImageURISource } from 'react-native'
 import { WithLocalSvg } from 'react-native-svg'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
@@ -13,8 +11,6 @@ import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.sh
 // <HoliLocalImage imageSource={PngLogo} width={30} height={30} label="some alt text" />
 // <HoliLocalImage imageSource={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} width={30} height={30} label="some alt text" />
 
-// TODO: use this implementation to distinguish between require() and {uri: 'http:someImageurl'}
-// https://gist.github.com/cryser29/9320f782562af06fb06082b1fce29094
 const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   imageSource,
   isSvg = false,
@@ -29,7 +25,17 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
     accessibilityRole: 'image',
     accessibilityLabel: label,
   }
-  if (!imageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
+
+  let consolidatedImageSource: ImageSource | ImageRequireSource | undefined = undefined
+  if (isImageURISource(imageSource)) {
+    consolidatedImageSource = imageSource as ImageSource
+  } else {
+    if (isImageRequireSource(imageSource)) {
+      consolidatedImageSource = imageSource as ImageRequireSource
+    }
+  }
+
+  if (!consolidatedImageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
 
   return isSvg ? (
     <WithLocalSvg
@@ -42,10 +48,18 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   ) : (
     <Image
       {...accessibilityProps}
-      source={imageSource}
+      source={consolidatedImageSource}
       style={[{ overflow: 'visible', resizeMode: resizeMode }, style, { width, height }]}
     />
   )
+}
+
+function isImageURISource(source: ImageSourcePropType): source is ImageURISource {
+  return (source as ImageURISource).uri !== undefined
+}
+
+function isImageRequireSource(source: ImageSourcePropType): source is ImageRequireSource {
+  return typeof source === 'number'
 }
 
 export default HoliLocalImage

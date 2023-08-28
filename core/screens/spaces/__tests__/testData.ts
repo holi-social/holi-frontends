@@ -35,6 +35,7 @@ export const user: User = {
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
   interests: topics,
+  identity: 'some',
 }
 
 export const authenticatedUser = {
@@ -47,6 +48,7 @@ export const authenticatedUser = {
   aboutMe: "I'm the User that is visited in E2E tests!",
   avatarDefaultColor: '#7571EC',
   avatarLabel: 'EV',
+  identity: 'ee',
 }
 
 export const membership: SpaceMember = {

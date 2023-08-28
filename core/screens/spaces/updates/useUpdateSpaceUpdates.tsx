@@ -8,7 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, VisibilityType } from '@holi/core/screens/spaces/types'
+import { Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
   CreateSpacePostMutationResponse,
   UpdateSpacePostMutationResponse,
@@ -91,7 +91,17 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     {
       onCompleted: () => navigateBack(),
       onError: (error) => displayError(error, error.message),
-      refetchQueries: [spacePostsQuery],
+      // refetch first page of both the current visibility filter and the ALL filter
+      refetchQueries: [
+        {
+          query: spacePostsQuery,
+          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: visibility },
+        },
+        {
+          query: spacePostsQuery,
+          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+        },
+      ],
     }
   )
 

@@ -21,6 +21,11 @@ const topic: Topic = { id: 'topic1', title: 'Topic 1', slug: 'topic-1', isDiscov
 
 const skill: Skill = { id: 'skill1', title: 'Skill 1', slug: 'skill-1' }
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const discoverSpacesErrorMock = (
   topicIds: string[],
   skillIds: string[]

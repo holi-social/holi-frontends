@@ -5,8 +5,6 @@ import React from 'react'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 
-jest.useFakeTimers()
-
 // TODO: re-enable with HOLI-4898
 xdescribe('SpaceDetailView', () => {
   it('renders correctly', () => {
