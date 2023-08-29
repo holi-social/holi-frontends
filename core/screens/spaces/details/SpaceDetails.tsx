@@ -261,25 +261,23 @@ const SpaceDetails = () => {
   }
 
   return (
-    <>
-      <SafeAreaProvider>
-        <ScrollHeaderLayout.Refreshable
-          refreshableProps={{
-            isLoading: refreshing,
-            onRefresh,
-          }}
-          style={styles.defaultLayout}
-          contentStyle={styles.contentStyle}
-          headerOverlap
-          keyboardShouldPersistTaps="handled"
-        >
-          <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
-          <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-        </ScrollHeaderLayout.Refreshable>
-        {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
-      </SafeAreaProvider>
+    <SafeAreaProvider>
+      <ScrollHeaderLayout.Refreshable
+        refreshableProps={{
+          isLoading: refreshing,
+          onRefresh,
+        }}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+        headerOverlap
+        keyboardShouldPersistTaps="handled"
+      >
+        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
+        <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
+      </ScrollHeaderLayout.Refreshable>
+      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
       {isMember && currentTabIndex === 1 && <UpdateButton />}
-    </>
+    </SafeAreaProvider>
   )
 }
 
