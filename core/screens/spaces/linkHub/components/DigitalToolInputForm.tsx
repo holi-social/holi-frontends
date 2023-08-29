@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -42,7 +41,6 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
   description,
   selectedCollection,
   thumbnail,
-  thumbnailBlurhash,
   fieldErrors = {},
   currentThumbnail,
 }: DigitalToolInputFormProps) => {
@@ -134,11 +132,12 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
 
       {/* ThumbnailUploader */}
       <View style={styles.thumbnailContainer}>
+        {/*// TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
         {thumbnailUri ? (
-          <HoliImage
+          <ReactNativeImage
             source={{ uri: thumbnailUri }}
-            blurhash={thumbnailBlurhash}
-            label={t('spaces.input.digitalTool.thumbnail.label')}
+            resizeMode="cover"
+            accessibilityLabel={t('spaces.input.coverImage.label')}
             style={styles.thumbnail}
           />
         ) : (
