@@ -9,7 +9,7 @@ import { deleteSpacePostMutation } from '@holi/core/screens/spaces/updates/mutat
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const useDeletePost = (post: Post, spaceIdOrName: string, handleConfirm?: () => void) => {
+const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () => void) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
@@ -25,21 +25,23 @@ const useDeletePost = (post: Post, spaceIdOrName: string, handleConfirm?: () => 
       displayError(error, t('global.technicalError'), 5000)
     },
     // refetch first page of both the current visibility filter and the ALL filter
-    refetchQueries: [
-      {
-        query: spacePostsQuery,
-        variables: {
-          idOrName: spaceIdOrName,
-          offset: 0,
-          limit: 10,
-          visibility: post.isPublic ? VisibilityFilter.PUBLIC : VisibilityFilter.MEMBERS,
-        },
-      },
-      {
-        query: spacePostsQuery,
-        variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
-      },
-    ],
+    refetchQueries: spaceIdOrName
+      ? [
+          {
+            query: spacePostsQuery,
+            variables: {
+              idOrName: spaceIdOrName,
+              offset: 0,
+              limit: 10,
+              visibility: post.isPublic ? VisibilityFilter.PUBLIC : VisibilityFilter.MEMBERS,
+            },
+          },
+          {
+            query: spacePostsQuery,
+            variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+          },
+        ]
+      : [],
   })
 
   return { isLoadingPostDeletion, deletePost }

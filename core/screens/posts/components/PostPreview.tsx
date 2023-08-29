@@ -35,7 +35,7 @@ export type PostPreviewProps = {
   hasVisibilityIcon?: boolean
 }
 
-const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName = '' }: PostPreviewProps) => {
+const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: PostPreviewProps) => {
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { t } = useTranslation()
   const { openLoginModal } = useLoginModal()
