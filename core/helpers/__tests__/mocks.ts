@@ -13,12 +13,12 @@ export const handleNotificationForRemoteInvitationTriggerAndroidMock: Notificati
           channelId: 'expo_notifications_fallback_notification_channel',
           scopeKey: '@holistic-foundation/projectholi',
           experienceId: '@holistic-foundation/projectholi',
-          room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+          sender: '@malte1:development-chat.holi.social',
           content: '{"is_direct":true,"displayname":"malte2","membership":"invite"}',
           type: 'm.room.member',
           unread: '1',
           prio: 'high',
-          sender: '@malte1:staging.chat.holi.social',
           event_id: '$QTHC68hNtAA0HJwgolBjnzyHmzcmS1u9aE-tukn1SSs',
           membership: 'invite',
           sender_display_name: 'malte1',
@@ -66,8 +66,8 @@ export const handleNotificationForRemoteMessageTriggerAndroidMock: Notifications
           experienceId: '@holistic-foundation/projectholi',
           event_id: '$qY7LzQe-ZTIw6lR4ppuyghbABM8FC8LFSaG4BRX0lh0',
           content: '{"body":"hello world!","msgtype":"m.text"}',
-          room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-          sender: '@malte1:staging.chat.holi.social',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+          sender: '@malte1:development-chat.holi.social',
           type: 'm.room.message',
           sender_display_name: 'malte1',
           prio: 'high',
@@ -101,16 +101,63 @@ export const handleNotificationForRemoteMessageTriggerAndroidMock: Notifications
   date: 1692011606554,
 }
 
-export const handleNotificationForRemoteMessageTriggerIosMock = {
+export const handleNotificationForBadgeUpdateTriggerAndroidMock: Notifications.Notification = {
+  request: {
+    trigger: {
+      remoteMessage: {
+        originalPriority: 1,
+        sentTime: 1692968279988,
+        notification: null,
+        data: {
+          channelId: 'expo_notifications_fallback_notification_channel',
+          message: 'You have a new message or invitation.',
+          title: 'holi Chat',
+          scopeKey: '@holistic-foundation/projectholi',
+          experienceId: '@holistic-foundation/projectholi',
+          unread: '0',
+          prio: 'high',
+          sender: '',
+        },
+        to: null,
+        ttl: 2419200,
+        collapseKey: null,
+        messageType: null,
+        priority: 1,
+        from: '984061681268',
+        messageId: '0:1692968280001586%b0aa3b58f9fd7ecd',
+      },
+      // @ts-ignore is available on android
+      channelId: 'expo_notifications_fallback_notification_channel',
+      type: 'push',
+    },
+    content: {
+      title: 'holi Chat',
+      badge: null,
+      autoDismiss: true,
+      // @ts-ignore null can happen if no data is provided
+      data: null,
+      body: 'You have a new message or invitation.',
+      sound: 'default',
+      sticky: false,
+      subtitle: null,
+    },
+    identifier: '0:1692968280001586%b0aa3b58f9fd7ecd',
+  },
+  date: 1692968279988,
+}
+
+export const handleNotificationForRemoteMessageTriggerIosMock: Notifications.Notification = {
   date: 1692372610.1332145,
   request: {
     content: {
       summaryArgumentCount: 0,
+      // @ts-ignore actual data
       targetContentIdentifier: null,
       threadIdentifier: '',
       attachments: [],
       categoryIdentifier: '',
       summaryArgument: null,
+      // @ts-ignore actual data
       data: null,
       title: 'holi Chat',
       subtitle: null,
@@ -123,7 +170,7 @@ export const handleNotificationForRemoteMessageTriggerIosMock = {
     trigger: {
       payload: {
         event_id: '$gCXXxNG7LTPBf1fp6Hp_GHUtshnX6gLzxb5MULBmM1Y',
-        room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+        room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
         experienceId: '@holistic-foundation/projectholi',
         scopeKey: '@holistic-foundation/projectholi',
         aps: {
@@ -137,6 +184,37 @@ export const handleNotificationForRemoteMessageTriggerIosMock = {
         },
       },
       type: 'push',
+      // @ts-ignore actual data
+      class: 'UNPushNotificationTrigger',
+    },
+  },
+}
+
+export const handleNotificationForBadgeUpdateTriggerIosMock: Notifications.Notification = {
+  date: 1693236549.2070017,
+  request: {
+    content: {
+      summaryArgumentCount: 0,
+      // @ts-ignore actual data
+      targetContentIdentifier: null,
+      threadIdentifier: '',
+      attachments: [],
+      categoryIdentifier: '',
+      summaryArgument: '',
+      // @ts-ignore actual data
+      data: null,
+      title: null,
+      subtitle: null,
+      badge: 0,
+      launchImageName: '',
+      sound: null,
+      body: null,
+    },
+    identifier: '28AEBDCF-8FA8-4324-A976-C4B9D2BFEABD',
+    trigger: {
+      payload: { aps: { badge: 0 } },
+      type: 'push',
+      // @ts-ignore actual data
       class: 'UNPushNotificationTrigger',
     },
   },
@@ -151,7 +229,7 @@ export const handleNotificationForLocalTriggerMock: Notifications.Notification =
       badge: null,
       // @ts-ignore available on android
       autoDismiss: true,
-      data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+      data: { room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
       body: 'some body',
       sound: 'default',
       sticky: false,
