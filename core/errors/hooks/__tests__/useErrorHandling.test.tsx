@@ -50,7 +50,7 @@ describe('displays errors correctly', () => {
     )
 
     expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 
   it('warn logs and tracks error with sentry in production', () => {
@@ -63,6 +63,6 @@ describe('displays errors correctly', () => {
     )
 
     expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 })
