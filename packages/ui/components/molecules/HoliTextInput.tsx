@@ -147,6 +147,9 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     })()
 
     const textContentType: TextInputIOSProps['textContentType'] = (() => {
+      // use value from predefined inputProps
+      if (props?.inputProps?.textContentType) return props?.inputProps?.textContentType
+
       const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
       if (type === 'password') return iOS12Plus ? 'newPassword' : 'password'
       if (type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
