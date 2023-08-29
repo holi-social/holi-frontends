@@ -198,6 +198,7 @@ const ChatStartConversationView = () => {
                   index,
                 })}
                 style={[mixins.container, styles.list]}
+                keyboardShouldPersistTaps="handled"
               />
             ) : (
               <View style={[mixins.container, styles.listDesctiption]}>

@@ -1,32 +1,24 @@
 import { produce } from 'immer'
-import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatSession'
-import type { MatrixId, NotificationCount } from '@holi/chat/src/client/types'
-import { hasOnlyIgnoredMembers, isLastMemberCreator, leaveRoomUpdate } from '@holi/chat/src/store/member'
-import { createChatMessage, updateMessages } from '@holi/chat/src/store/messages'
-import {
-  UpdateInvitationOptions,
-  addChatRoom,
-  createChatRoom,
-  updateRoomAfterNewMessage,
-  updateRoomInvitation,
-  updateRoomUnreadNotifications,
-} from '@holi/chat/src/store/room'
+import { ChatRoomMember, MatrixId, MembershipStatus, NotificationCount, RoomId } from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
+  ChatMessageContent,
   ChatMessagesAtom,
   ChatRoom,
   ChatRoomAtom,
   ChatRoomId,
   CreateMessage,
 } from '@holi/chat/src/store/types'
-import { getAtomFromRecordId, isRoomMessageEvent } from '@holi/chat/src/store/utils'
+import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
+import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
 
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
@@ -42,7 +34,42 @@ export const getChatClient = (): ChatClient => {
 }
 
 /**
- * Rooms
+ * Room Producers
+ *
+ **/
+export interface UpdateInvitationOptions {
+  room: Room
+  membership: string
+  prevMembership?: string
+}
+
+const updateRoomInvitation = produce((chatRoom: ChatRoom, { membership, prevMembership }: UpdateInvitationOptions) => {
+  const hasJoined = prevMembership === 'invite' && membership === 'join'
+  if (!hasJoined) return
+
+  chatRoom.hasInvitation = !hasJoined
+})
+
+const updateRoomUnreadNotifications = produce((chatRoom: ChatRoom, count: number) => {
+  chatRoom.notificationCount = count
+})
+
+const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage) => {
+  room.lastMessage = message
+  room.timestamp = message.timestamp
+})
+
+const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom) => {
+  const roomId = room.id
+  const roomAtom = atom(room)
+
+  const hasRoom = roomId in roomAtoms
+  if (hasRoom) return
+  roomAtoms[roomId] = roomAtom
+})
+
+/**
+ * Room Atoms
  *
  **/
 
@@ -129,7 +156,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   // get current rooms from ChatClient and store them to Atoms
   client.getRooms().forEach((room) => addRoomToStore(room, 'init'))
 
-  // hack to be able to set `_chatInitializedAtom` to true. we know that the chat has been initialized when we added
+  // hack to be able to set `chatInitialized` to true. we know that the chat has been initialized when we added
   // all rooms to the store. this is a hack because we cannot set atoms in the `onMount` lifecycle.
   // strictly speaking, this is a timing issue, as room events might arrive shortly after, but in tests they always
   // arrived so quick that they were already available in client.getRooms() above.
@@ -183,11 +210,6 @@ _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
 }
 
 /**
- * Room
- *
- **/
-
-/**
  * @name _removeRoomAtom (Write-Only)
  * @description Removes a room from the Jōtai store but not from the Matrix
  * client. We do this, for example, when we ignore users and don't want to
@@ -222,6 +244,91 @@ const roomByIdAtomCreator = (roomId: string) => {
 
     return get(roomAtom)
   })
+}
+
+/**
+ * Room Actions
+ *
+ **/
+
+/**
+ * @name createNewRoom (Client Helper)
+ * @description Initiates the creation of a room in Matrix through the
+ * ChatClient. The store updates once the room creation event is received from
+ * the Matrix server.
+ */
+export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
+  return getChatClient().createRoom(userIds)
+}
+/**
+ * @name getOrCreateRoom (Client Helper)
+ * @description returns the room id of an existing one-on-one room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds)
+}
+
+/**
+ * @name joinRoom
+ * @description Join a Matrix room by accepting the invitation. If you have
+ * already joined the room, this will be a no-op.
+ */
+export const joinRoom = async (roomId: string): Promise<Room | null> => {
+  return await getChatClient().joinRoom(roomId)
+}
+
+/**
+ * @name joinRoom
+ * @description Join a Matrix room by accepting the invitation. If you have
+ * already joined the room, this will be a no-op.
+ */
+export const leaveRoom = async (roomId: string): Promise<void> => {
+  await getChatClient().leaveRoom(roomId)
+}
+
+export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
+  const lastLiveEvent = room.getLastLiveEvent()?.event
+  const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
+
+  // TODO extract memberships from room to its own atom record
+  const getMembership = (membership?: string) => {
+    switch (membership) {
+      case 'join':
+        return MembershipStatus.Joined
+      case 'invite':
+        return MembershipStatus.Invited
+      case 'leave':
+        return MembershipStatus.Left
+    }
+  }
+
+  const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
+    const { userId, name, membership } = mxRoomMember
+    const id = userId as MatrixId
+    return {
+      id,
+      name,
+      membership: getMembership(membership),
+    }
+  }
+
+  const roomMxCreatorId = room.getCreator()
+  const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
+
+  return {
+    hasInvitation,
+    id: room.roomId,
+    notificationCount: room.getUnreadNotificationCount() + (hasInvitation ? 1 : 0),
+    name: room.name,
+    lastMessage: lastMessage,
+    creator: roomMxCreator && createChatMember(roomMxCreator),
+    members: room.getMembers().map(createChatMember),
+    timestamp:
+      room.getLastActiveTimestamp() > 0
+        ? room.getLastActiveTimestamp()
+        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
+  }
 }
 
 /**
@@ -327,6 +434,40 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
   })
 
 /**
+ * Messages Client Actions
+ *
+ **/
+
+export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => {
+  try {
+    await getChatClient().setLatestMessagesAsRead(roomId)
+  } catch (err) {
+    logError(err)
+  }
+}
+
+export const updateMessages = produce((thread: ChatMessage[], newMessage: ChatMessage) => {
+  const dupMessage = thread.find((m) => m.id === newMessage.id)
+  if (!dupMessage) {
+    thread.push(newMessage)
+    return
+  }
+
+  Object.assign(dupMessage, newMessage)
+})
+
+export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessage {
+  // TODO: handle empty strings fallback
+  return {
+    id: event.event_id,
+    content: event.content as ChatMessageContent,
+    timestamp: event.origin_server_ts,
+    room_id: roomId,
+    sender: event.sender,
+  }
+}
+
+/**
  * @name useRequestRoomMessages (Hook-Helper)
  * @description
  */
@@ -364,7 +505,7 @@ export const useRequestRoomMessages = () => {
 }
 
 /**
- * Members
+ * Member Atoms
  *
  **/
 
@@ -428,6 +569,70 @@ _ignoredUsersAtomSubscriber.onMount = (setAtom) => {
 
 export const useIgnoredUsersAtom = () => {
   return useAtomValue(_ignoredUsersAtom)
+}
+
+/**
+ * Member Client Actions
+ *
+ **/
+export const ignoreUser = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const ignoreUserAndLeaveRoom = async (userId: string) => {
+  await getChatClient().ignoreUser(userId)
+}
+
+export const unignoreUser = async (userId: string) => {
+  return await getChatClient().unignoreUser(userId)
+}
+
+export const getHoliUserForChatMember = (
+  member: ChatRoomMember | undefined,
+  userRecord: Record<MatrixId, HoliUser | undefined>
+) => {
+  if (!member) return
+
+  return userRecord[member.id]
+}
+
+/**
+ * Verifies if all the passed members (excluding the logged-in user) are ignored.
+ */
+export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: MatrixId[]): boolean => {
+  const ignoredRoomMembers = members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
+  return ignoredRoomMembers.length === members.length - 1
+}
+
+export const getChatPartner = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember | undefined => {
+  // TODO this will have to be changed once we support multiple users per room
+  return room.members.find((member) => member.id !== toMatrixIdentity(holiUser.identity))
+}
+
+export const isRoomCreator = (user: HoliUser, room: ChatRoom): boolean | undefined => {
+  return room.creator ? room.creator.id === toMatrixIdentity(user.identity) : undefined
+}
+
+export interface MemberEventOptions {
+  event: MatrixEvent
+  roomState: RoomState
+  member: RoomMember
+}
+
+export const leaveRoomUpdate = produce((roomAtomsRecord: Record<string, ChatRoomAtom>, options: MemberEventOptions) => {
+  const { event, roomState, member } = options
+
+  if (member.membership !== 'leave') return
+  if (event.getSender() !== member.userId) return
+
+  delete roomAtomsRecord[roomState.roomId]
+})
+
+export const isLastMemberCreator = (roomState: RoomState, member: RoomMember) => {
+  const members = roomState.getMembers()
+  const creator = members.find((m) => m.powerLevel === 100)
+
+  return member.membership === 'leave' && creator?.userId !== member.userId && members.length <= 2
 }
 
 /**

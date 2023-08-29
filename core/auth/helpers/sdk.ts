@@ -8,7 +8,8 @@ import { baseOptions } from '@holi/core/auth/helpers/sharedConfig'
 export type OrySessionToken = string
 
 export type OrySessionContext = {
-  session_token: OrySessionToken
+  // `session_token` is only set for native clients
+  session_token?: OrySessionToken
   session: KratosSession
 }
 

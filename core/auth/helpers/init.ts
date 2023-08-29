@@ -6,15 +6,12 @@ const kratosSdk = newKratosSdk()
 
 type SessionState = 'active' | 'expired' | 'invalid'
 
-export const validateSessionWithOry = async (orySessionToken: OrySessionToken): Promise<SessionState> => {
-  // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
-  try {
-    const { data: session } = await kratosSdk.toSession({ xSessionToken: orySessionToken })
-    return session.active ? 'active' : 'expired'
-  } catch (_) {
-    return 'invalid'
-  }
-}
+// sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token (native clients) resp. cookie (web, automatically sent)
+export const validateSessionWithOry = async (orySessionToken?: OrySessionToken): Promise<SessionState> =>
+  kratosSdk
+    .toSession({ xSessionToken: orySessionToken })
+    .then(({ data }) => (data?.active ? 'active' : 'expired'))
+    .catch(() => 'invalid')
 
 export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionContext | null) => {
   if (sessionFromStorage === null) {

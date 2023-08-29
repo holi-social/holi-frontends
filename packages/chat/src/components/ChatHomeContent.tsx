@@ -7,7 +7,6 @@ import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import { ChatRoomAtom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import RoomList from '@holi/core/screens/chat/components/RoomList'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -18,6 +17,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import RoomList from 'packages/chat/src/components/RoomList'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
