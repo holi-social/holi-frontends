@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
@@ -25,6 +25,9 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
   const mixins = useStyleMixins()
   const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const styles = createStyles(screenOffset)
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {
@@ -74,37 +77,39 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
 
 export default AddNewDrawer
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.background20,
-  },
-  overlayButton: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 40,
-    right: 16,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    shadowColor: colors.foreground30,
-    backgroundColor: colors.background10,
-    shadowOffset: {
-      width: 2,
-      height: 2,
+const createStyles = (screenOffset: number) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: colors.background20,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    overflow: 'visible',
-  },
-  buttonTitle: { marginRight: 6 },
-  modalContent: {
-    paddingHorizontal: 10,
-  },
-  listContents: {
-    gap: 7,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 48,
-  },
-})
+    overlayButton: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 40,
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      borderWidth: 1,
+      shadowColor: colors.foreground30,
+      backgroundColor: colors.background10,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      overflow: 'visible',
+      transform: [{ translateX: -16 + screenOffset }],
+      right: '50%',
+    },
+    buttonTitle: { marginRight: 6 },
+    modalContent: {
+      paddingHorizontal: 10,
+    },
+    listContents: {
+      gap: 7,
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      marginTop: 20,
+      marginBottom: 48,
+    },
+  })

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -45,7 +45,9 @@ const SpaceDetails = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
+  const styles = createStyles(screenOffset)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   // On initial page load on web `spaceIdOrName` is undefined
@@ -223,7 +225,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [id, isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceIdOrName, t])
+  }, [id, isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceIdOrName, t, styles.headerRight])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
@@ -259,96 +261,100 @@ const SpaceDetails = () => {
   }
 
   return (
-    <SafeAreaProvider>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
-          isLoading: refreshing,
-          onRefresh,
-        }}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
-        keyboardShouldPersistTaps="handled"
-      >
-        <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
-        <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-      </ScrollHeaderLayout.Refreshable>
-      {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+    <>
+      <SafeAreaProvider>
+        <ScrollHeaderLayout.Refreshable
+          refreshableProps={{
+            isLoading: refreshing,
+            onRefresh,
+          }}
+          style={styles.defaultLayout}
+          contentStyle={styles.contentStyle}
+          headerOverlap
+          keyboardShouldPersistTaps="handled"
+        >
+          <SpaceDetailView style={styles.spaceDetailView} space={space} onChangeTab={setCurrentTabIndex} />
+          <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
+        </ScrollHeaderLayout.Refreshable>
+        {isMember && currentTabIndex === 2 && <AddNewDrawer spaceIdOrName={space.name} />}
+      </SafeAreaProvider>
       {isMember && currentTabIndex === 1 && <UpdateButton />}
-    </SafeAreaProvider>
+    </>
   )
 }
 
-const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingBottom: 0,
-    paddingTop: vars.topBarHeight,
+const createStyles = (screenOffset: number) =>
+  StyleSheet.create({
+    defaultLayout: {
+      paddingBottom: 0,
+      paddingTop: vars.topBarHeight,
 
-    ...Platform.select({
-      web: {
-        height: '100vh',
-        maxHeight: '100%',
-      },
-      default: {
-        minHeight: '100%',
-      },
-    }),
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    paddingTop: vars.topBarHeight,
-    minHeight: '100%',
-  },
-  spaceDetailView: {
-    flex: 1,
-    paddingTop: 0,
-    ...Platform.select({
-      web: {
-        paddingTop: 12,
-      },
-    }),
-  },
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: vars.topBarHeight + 50,
-  },
-  overlayContainer: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 42,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
-  },
-  overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: vars.topBarHeight,
-    right: 24,
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    justifyContent: 'center',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 14,
-  },
-  floatingContainer: {
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 42,
-    left: 0,
-    right: 0,
-    gap: 8,
-    width: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-})
+      ...Platform.select({
+        web: {
+          height: '100vh',
+          maxHeight: '100%',
+        },
+        default: {
+          minHeight: '100%',
+        },
+      }),
+    },
+    contentStyle: {
+      paddingBottom: 0,
+      paddingTop: vars.topBarHeight,
+      minHeight: '100%',
+    },
+    spaceDetailView: {
+      flex: 1,
+      paddingTop: 0,
+      ...Platform.select({
+        web: {
+          paddingTop: 12,
+        },
+      }),
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: vars.topBarHeight + 50,
+    },
+    overlayContainer: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 42,
+      left: 0,
+      right: 0,
+      paddingHorizontal: 24,
+      justifyContent: 'center',
+    },
+    overlayButton: {
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      borderWidth: 1,
+      marginRight: 10,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      bottom: vars.topBarHeight,
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      justifyContent: 'center',
+      transform: [{ translateX: -16 + screenOffset }],
+      right: '50%',
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 14,
+    },
+    floatingContainer: {
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      bottom: 42,
+      left: 0,
+      right: 0,
+      gap: 8,
+      width: '100%',
+      justifyContent: 'center',
+      flexDirection: 'row',
+    },
+  })
 
 export default withProfiler(memo(SpaceDetails), { name: 'SpaceDetails' })
