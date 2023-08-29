@@ -207,11 +207,11 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
     <View style={styles.container} testID="volunteering-detailview-container">
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ isLoading: refreshing, onRefresh }}
-        style={{ backgroundColor: colors.background30 }}
+        style={[mixins.container, styles.container]}
         headerOverlap
       >
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+          <View style={[styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
@@ -224,7 +224,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
         )}
       </ScrollHeaderLayout.Refreshable>
 
-      <View style={[mixins.container, styles.volunteeringButton]}>
+      <View style={styles.volunteeringButton}>
         <HoliButtonLoading
           icon={ShareBox}
           label={t('volunteering:engagementDetail.getInTouch')}
@@ -256,7 +256,8 @@ const getStyles = (statusBarHeight: number) =>
     container: {
       alignItems: 'center',
       flex: 1,
-      backgroundColor: colors.background30,
+      backgroundColor: colors.background20,
+      paddingHorizontal: 0,
     },
     wrapper: {
       paddingBottom: 132,
