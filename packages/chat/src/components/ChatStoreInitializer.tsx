@@ -1,13 +1,12 @@
 import { Provider } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
-import React, { Suspense, memo, useEffect } from 'react'
+import React, { Suspense, memo, useEffect, useState } from 'react'
 
-import { startChat, useChatConnected, useChatReload } from '@holi/chat/src/client/chatSession'
+import { startChat } from '@holi/chat/src/client/chatSession'
 import { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
-import { logDebug } from '@holi/core/helpers/logging'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
@@ -18,7 +17,6 @@ export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./Cha
  * Sets the chatInializedAtom to true when done.
  */
 const ChatStore = () => {
-  logDebug('ChatStore', 'subscribeToChat')
   useSubscribeToChat()
   return null
 }
@@ -31,30 +29,36 @@ const ChatStore = () => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithChildren & { initialAtoms?: any }) => {
-  const reloadCount = useChatReload()
-  const chatConnected = useChatConnected()
+  const [isChatReady, setIsChatReady] = useState(false)
   const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
+  const [reloadCount, setReloadCount] = useState(0)
+
   useEffect(() => {
     if (!ftLoading && ftEnabled) {
       if (identity) {
-        startChat().catch(displayError)
+        startChat()
+          .then(() => {
+            setIsChatReady(true)
+          })
+          .catch(displayError)
+      } else {
+        setIsChatReady(false)
+        setReloadCount((value) => value + 1)
       }
     }
   }, [displayError, identity, ftLoading, ftEnabled])
-
-  logDebug('ChatStoreInitializer', 'reloadCount', reloadCount)
 
   // to reset Jotai Provider for new user login we render a new one only when new identity is provided
   return (
     <Provider key={reloadCount}>
       <Suspense>
-        <ChatDevTools isChatReady={chatConnected} />
+        <ChatDevTools isChatReady={isChatReady} />
       </Suspense>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
-      {chatConnected && <ChatStore />}
+      {isChatReady && <ChatStore />}
       <HydrateAtoms initialValues={initialAtoms}>{children}</HydrateAtoms>
     </Provider>
   )
