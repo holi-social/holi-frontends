@@ -3,8 +3,11 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -52,6 +55,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
   const { displayError } = useErrorHandling()
+  const postGridItemsInRow = useBreakpointMatcher()
 
   const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
@@ -151,18 +155,19 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             </HoliNoResults>
           </View>
         )}
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          projects
+        <HoliGridWrapper itemsInRow={postGridItemsInRow} gap={isFiltering ? 16 : 32}>
+          {projects
             // FIX: duplication in projects after loading more
-            .map((project) =>
-              isFiltering ? (
-                <DonationListingItemFiltered key={project.id} project={project} />
-              ) : (
-                <DonationListingItem key={project.id} project={project} />
-              )
-            )
-        }
+            .map((project) => (
+              <HoliGridCell key={project.id}>
+                {isFiltering ? (
+                  <DonationListingItemFiltered key={project.id} project={project} />
+                ) : (
+                  <DonationListingItem key={project.id} project={project} />
+                )}
+              </HoliGridCell>
+            ))}
+        </HoliGridWrapper>
       </HoliBox>
     </View>
   )
