@@ -56,8 +56,8 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
         label={t('allTools.drawer.headline')}
         show={visible}
         onDismiss={hide}
-        testID="add-new-drawer-modal"
         style={{ backgroundColor: colors.background20 }}
+        testID="add-new-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('allTools.drawer.headline')}</HoliHeading>

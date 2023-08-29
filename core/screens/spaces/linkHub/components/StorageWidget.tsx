@@ -66,12 +66,12 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
     return (
       <CollaboratorAreaCard
         headerLeftIcon={Zzz}
-        title={t('spaces.storage.maintenance.title')}
+        title={t('global.maintenance.title', { feature: t('spaces.storage.maintenance.feature') })}
         style={style}
         disabled={ftMaintenance}
       >
         <HoliText size="small" style={styles.maintenance}>
-          {t('spaces.storage.maintenance.description')}
+          {t('global.maintenance.description')}
         </HoliText>
       </CollaboratorAreaCard>
     )

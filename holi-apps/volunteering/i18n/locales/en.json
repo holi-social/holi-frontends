@@ -3,6 +3,7 @@
   "shared.partner.modal.close": "Got it",
   "app.name": "Volunteering",
   "app.subline": "via voltastics.com",
+  "maintenance.feature": "The volunteering app",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",

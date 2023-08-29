@@ -18,7 +18,7 @@ const UpdatesOfYourApps = (props: UpdatesOfYourAppsProps) => {
   const { t } = useTranslation()
 
   return (
-    <View style={[mixins.container, props.style]}>
+    <View style={[mixins.container, props.style, styles.wrapper]}>
       <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
       <DonationUpdates style={styles.updatesContainer} />
       <GoodNewsUpdates style={styles.updatesContainer} />
@@ -30,9 +30,15 @@ const UpdatesOfYourApps = (props: UpdatesOfYourAppsProps) => {
 export default UpdatesOfYourApps
 
 const styles = StyleSheet.create({
+  wrapper: {
+    gap: 24,
+  },
   updatesContainer: {
     // dummy ...
     minHeight: 200,
-    marginTop: 40,
+  },
+  maintenance: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
 })
