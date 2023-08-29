@@ -4,8 +4,10 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { onScreenScrollY } from '@holi/core/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -144,7 +146,16 @@ const VolunteeringAppHome = () => {
   )
 }
 
-export default memo(VolunteeringAppHome)
+const WrappedVolunteeringAppHome = () => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedVolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {

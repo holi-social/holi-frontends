@@ -54,7 +54,13 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
       </HoliButton>
 
       {/* Add new modal (drawer) */}
-      <HoliModal label={t('allTools.drawer.headline')} show={visible} onDismiss={hide} testID="add-new-drawer-modal">
+      <HoliModal
+        label={t('allTools.drawer.headline')}
+        show={visible}
+        onDismiss={hide}
+        style={{ backgroundColor: colors.background20 }}
+        testID="add-new-drawer-modal"
+      >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="1">{t('allTools.drawer.headline')}</HoliHeading>
           <View style={styles.listContents}>

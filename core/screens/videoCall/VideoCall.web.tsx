@@ -1,6 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -20,4 +22,10 @@ const VideoCall: React.FC = () => {
   return null
 }
 
-export default withProfiler(VideoCall, { name: 'VideoCall' })
+const WrappedVideoCall = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.VIDEOCALL} featureNameKey="spaces.videocall.maintenance.feature">
+    <VideoCall />
+  </FeatureToggleGuard>
+)
+
+export default withProfiler(WrappedVideoCall, { name: 'VideoCall' })
