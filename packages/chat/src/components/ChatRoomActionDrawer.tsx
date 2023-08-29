@@ -5,6 +5,7 @@ import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { ignoreUser, useSetRemoveRoomAtom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CloseCircle } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -17,19 +18,21 @@ interface Props {
 const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Props) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { openToast } = useToast()
   const removeRoom = useSetRemoveRoomAtom()
 
   const handleBlockConfirmation = async () => {
     await ignoreUser(chatPartner.id)
     removeRoom(roomId)
     navigate('/chat')
+    openToast(t('user.profileView.block.successMessage', { name: chatPartnerFullName }), HoliToastType.SUCCESS)
   }
 
   return (
     <HoliActionDrawer.Drawer label={t('chat.actions.more')} testID="chat-room-action-drawer">
       <HoliActionDrawer.Action
         icon={CloseCircle}
-        title={t('chat.actions.block', { fullName: chatPartnerFullName })}
+        title={t('chat.actions.block', { name: chatPartnerFullName })}
         iconColor={colors.error20}
         variant="danger"
         showConfirmation
@@ -37,8 +40,8 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
         <HoliActionDrawer.Confirmation
           confirmText={t('chat.actions.block.confimation.block')}
           dismissText={t('chat.actions.block.confimation.cancel')}
-          title={t('chat.actions.block', { fullName: chatPartnerFullName })}
-          description={t('chat.actions.block.confirmation.text', { fullName: chatPartnerFullName })}
+          title={t('chat.actions.block', { name: chatPartnerFullName })}
+          description={t('chat.actions.block.confirmation.text', { name: chatPartnerFullName })}
           testID="chat-room-block-confirmation"
           handleConfirmation={handleBlockConfirmation}
           hasDismissBtn

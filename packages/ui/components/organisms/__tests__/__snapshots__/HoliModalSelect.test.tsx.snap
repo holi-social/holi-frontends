@@ -402,8 +402,8 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
           style={
             {
               "alignSelf": "center",
-              "maxWidth": 1200,
-              "paddingHorizontal": 20,
+              "maxWidth": 840,
+              "paddingHorizontal": 32,
               "width": "100%",
             }
           }
@@ -1628,8 +1628,8 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
           style={
             {
               "alignSelf": "center",
-              "maxWidth": 1200,
-              "paddingHorizontal": 20,
+              "maxWidth": 840,
+              "paddingHorizontal": 32,
               "width": "100%",
             }
           }
@@ -2620,8 +2620,8 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
           style={
             {
               "alignSelf": "center",
-              "maxWidth": 1200,
-              "paddingHorizontal": 20,
+              "maxWidth": 840,
+              "paddingHorizontal": 32,
               "width": "100%",
             }
           }

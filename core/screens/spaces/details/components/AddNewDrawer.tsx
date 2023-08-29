@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { RESOURCES_COMING_SOON, RESOURCE_CATEGORIES_LIST } from '@holi/core/constants/spaceConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,7 +13,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
@@ -25,6 +25,8 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
   const mixins = useStyleMixins()
   const { visible, show, hide } = useModalState()
   const { navigate } = useRouting()
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {
@@ -44,7 +46,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
         type="secondary"
         inline
         testID="space-resources-add-button"
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={show}
       >
         <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
@@ -87,7 +89,6 @@ const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: 40,
-    right: 16,
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderWidth: 1,
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4,
     overflow: 'visible',
+    right: '50%',
   },
   buttonTitle: { marginRight: 6 },
   modalContent: {

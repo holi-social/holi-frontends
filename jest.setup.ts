@@ -1,14 +1,11 @@
+import { jest } from '@jest/globals'
 import { initReactI18next } from 'react-i18next'
 
 import i18n from '@holi/core/i18n'
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
-global.console = {
-  ...console,
-  error: jest.fn(),
-  warn: jest.fn(),
-}
+
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
@@ -50,6 +47,8 @@ jest.mock('@sentry/react-native', () => ({
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
 
+jest.mock('react-native/Libraries/Network/RCTNetworking')
+
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
   return {
@@ -64,8 +63,18 @@ jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
   jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
 )
 
+jest.mock('@holi/core/helpers/useSafeAreaInsets', () => ({
+  useSafeAreaInsets: () => ({
+    top: 0,
+  }),
+}))
+
 jest.mock('@holi/api/config', () => ({
   holiNextJSApiUrl: 'https://localhost:3000',
+}))
+
+jest.mock('@holi/core/helpers/dynamicImport', () => ({
+  dynamicImport: () => () => null,
 }))
 
 i18n.use(initReactI18next).init({

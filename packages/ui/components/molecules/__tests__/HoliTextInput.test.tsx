@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import {
   Disabled,
@@ -18,43 +18,43 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => ({
 }))
 
 describe('HoliTextInput', () => {
-  test('renders correctly with default props', () => {
-    const tree = renderer.create(<Primary {...Primary.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly with default props', () => {
+    render(<Primary {...Primary.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly with error', () => {
-    const tree = renderer.create(<WithError {...WithError.args} />).toJSON()
-    expect(tree).toHaveTextContent('Validation Error Text')
+  it('renders correctly with error', () => {
+    render(<WithError {...WithError.args} />)
+    expect(screen.toJSON()).toHaveTextContent('Validation Error Text')
   })
 
-  test('renders correctly without label', () => {
-    const tree = renderer.create(<NoLabel {...NoLabel.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly without label', () => {
+    render(<NoLabel {...NoLabel.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly when disabled', () => {
-    const tree = renderer.create(<Disabled {...Disabled.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly when disabled', () => {
+    render(<Disabled {...Disabled.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly when multiline starting with one line', () => {
-    const tree = renderer.create(<Multiline {...Multiline.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly when multiline starting with one line', () => {
+    render(<Multiline {...Multiline.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly when multiline starting with more than one line', () => {
-    const tree = renderer.create(<MultilineVariant {...MultilineVariant.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly when multiline starting with more than one line', () => {
+    render(<MultilineVariant {...MultilineVariant.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly with trailing icon', () => {
-    const tree = renderer.create(<WithTrailingIcon {...WithTrailingIcon.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly with trailing icon', () => {
+    render(<WithTrailingIcon {...WithTrailingIcon.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  test('renders correctly with type password', () => {
-    const tree = renderer.create(<Password {...Password.args} />).toJSON()
-    expect(tree).toMatchSnapshot()
+  it('renders correctly with type password', () => {
+    render(<Password {...Password.args} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 })
