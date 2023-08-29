@@ -9,9 +9,11 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -234,7 +236,16 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   )
 }
 
-export default withProfiler(memo(VolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
+const WrappedVolunteeringEngagementDetail = (props: VolunteeringEngagementDetailProps) => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringEngagementDetail {...props} />
+  </FeatureToggleGuard>
+)
+
+export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({

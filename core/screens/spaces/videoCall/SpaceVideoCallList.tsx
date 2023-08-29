@@ -2,8 +2,10 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -68,7 +70,13 @@ const SpaceVideoCallList = () => {
   )
 }
 
-export default SpaceVideoCallList
+const WrappedSpaceVideoCallList = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.VIDEOCALL} featureNameKey="spaces.videocall.maintenance.feature">
+    <SpaceVideoCallList />
+  </FeatureToggleGuard>
+)
+
+export default WrappedSpaceVideoCallList
 
 const styles = StyleSheet.create({
   container: {
