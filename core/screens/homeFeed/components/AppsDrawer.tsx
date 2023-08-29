@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,6 +19,8 @@ const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
@@ -39,7 +41,7 @@ const AppsDrawer: React.FC = () => {
         type="secondary"
         testID="home-apps-button"
         inline
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
-    right: 16,
+    right: '50%',
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderColor: colors.background30,
