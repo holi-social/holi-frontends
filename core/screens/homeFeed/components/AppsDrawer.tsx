@@ -20,8 +20,7 @@ const AppsDrawer: React.FC = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, parseInt(vars.maxScreenWidth, 10)) / 2
-  const styles = getStyles(screenOffset)
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
@@ -42,7 +41,7 @@ const AppsDrawer: React.FC = () => {
         type="secondary"
         testID="home-apps-button"
         inline
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
@@ -79,35 +78,33 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const getStyles = (screenOffset: number) =>
-  StyleSheet.create({
-    overlayButton: {
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-      bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
-      right: '50%',
-      transform: [{ translateX: -16 + screenOffset }],
-      justifyContent: 'center',
-      paddingHorizontal: 20,
-      borderColor: colors.background30,
-      borderWidth: 1,
-      shadowColor: colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 4,
-      overflow: 'visible',
+const styles = StyleSheet.create({
+  overlayButton: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
+    right: '50%',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    borderColor: colors.background30,
+    borderWidth: 1,
+    shadowColor: colors.foreground30,
+    shadowOffset: {
+      width: 2,
+      height: 2,
     },
-    modalContent: {
-      paddingHorizontal: 10,
-    },
-    listContents: {
-      gap: 12,
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      marginTop: 20,
-      marginBottom: 48,
-    },
-  })
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    overflow: 'visible',
+  },
+  modalContent: {
+    paddingHorizontal: 10,
+  },
+  listContents: {
+    gap: 12,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 48,
+  },
+})
