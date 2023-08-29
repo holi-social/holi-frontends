@@ -5,9 +5,17 @@ import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from
 
 export enum FeatureToggleName {
   CHAT = 'CHAT',
+  OWNCLOUD_ONLYOFFICE = 'OWNCLOUD_ONLYOFFICE',
+  VIDEOCALL = 'VIDEOCALL',
 }
 
-export const useFeatureToggle = (name: FeatureToggleName) => {
+export type FeatureToggleState = {
+  loading: boolean
+  status?: FeatureToggleStatus
+  enabled?: boolean
+}
+
+export const useFeatureToggle = (name?: FeatureToggleName) => {
   const { displayError } = useErrorHandling()
   const { loading, error, data } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
     fetchPolicy: 'cache-first', // answer query directly from cache, it will be refetched in background in handleAppStateChange

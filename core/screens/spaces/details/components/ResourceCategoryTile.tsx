@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { FeatureToggleName, FeatureToggleState, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,6 +14,7 @@ export type ResourceCategory = {
   id: string
   icon: HoliIconType
   translationKey: string
+  featureToggleName?: FeatureToggleName
   path?: string
 }
 
@@ -30,6 +33,8 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
   const { t } = useTranslation()
   const name = t(resourceCategoryData.translationKey)
   const isActive = !!resourceCategoryData.path
+  const ftState: FeatureToggleState | undefined = useFeatureToggle(resourceCategoryData.featureToggleName)
+  const ftMaintenance = ftState.status === FeatureToggleStatus.MAINTENANCE
 
   const onTilePress = useCallback(() => {
     if (isActive) {
@@ -43,27 +48,23 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
       inline
       transparent
       onPress={onTilePress}
-      disabled={!isActive}
+      disabled={!isActive || ftMaintenance}
       style={[styles.contentContainer, style]}
       testID={`resource-category-tile-${resourceCategoryData.id}`}
     >
-      <View
-        style={[
-          styles.categoryTile,
-          isActive && { backgroundColor: colors.background10, borderColor: colors.foreground10 },
-        ]}
-      >
+      <View style={styles.categoryTile}>
         {!!resourceCategoryData.icon && (
           <HoliIcon
             icon={resourceCategoryData.icon}
             size={30}
-            color={isActive ? colors.foreground30 : colors.foreground10}
+            color={isActive && !ftMaintenance ? colors.foreground30 : colors.foreground10}
           />
         )}
-        {!isActive && (
+
+        {(!isActive || ftMaintenance) && (
           <View style={styles.inactiveContainer}>
             <HoliText size="extrasmall" color="white100">
-              {t('allTools.drawer.comingSoon.label')}
+              {ftMaintenance ? t('allTools.drawer.maintenance.label') : t('allTools.drawer.comingSoon.label')}
             </HoliText>
           </View>
         )}
@@ -71,7 +72,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
 
       <HoliText
         selectable={false}
-        style={[styles.categoryName, isActive ? { color: colors.foreground30 } : { marginTop: 4 }]}
+        style={[styles.categoryName, isActive && !ftMaintenance ? { color: colors.foreground30 } : { marginTop: 4 }]}
         size={'extrasmall'}
       >
         {name}
@@ -95,8 +96,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.background10,
     borderColor: colors.background30,
-    borderRadius: 13,
+    borderRadius: 16,
     borderWidth: 1,
     width: tileWidth,
     height: tileWidth,
@@ -110,11 +112,11 @@ const styles = StyleSheet.create({
   inactiveContainer: {
     position: 'absolute',
     bottom: -6,
-    width: 37,
     height: 16,
+    paddingHorizontal: 4,
     borderRadius: 500,
-    backgroundColor: colors.foreground10,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.foreground10,
   },
 })
