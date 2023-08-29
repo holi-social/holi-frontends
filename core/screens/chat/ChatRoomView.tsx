@@ -104,7 +104,7 @@ const ChatRoomView = () => {
   }, [requestMessages, roomId, room?.id, room?.hasInvitation])
 
   // TODO: provide skeleton instead of HoliLoader
-  if (!chatInitialized || !room || loadingUsers) return <HoliLoader />
+  if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
     <KeyboardAvoidingViewWrapper

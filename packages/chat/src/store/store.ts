@@ -13,7 +13,9 @@ import type {
   ChatRoomAtom,
   ChatRoomId,
   CreateMessage,
+  RoomAtomByRoomId,
 } from '@holi/chat/src/store/types'
+import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
 import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi/chat/src/store/utils'
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
@@ -47,6 +49,8 @@ export const getChatClient = (): ChatClient => {
     )
   return chatClient
 }
+
+export const isChatInitializedAtom = atom(false)
 
 /**
  * Room Producers
@@ -96,7 +100,13 @@ const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: Chat
  * state).To edit a particular room, you need to use a selector, which can be
  * found below under the Room section (e.g `createRoomAtom`).
  */
-const _roomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom>>({})
+const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
+export const roomAtomsRecordInitializationAtom = atom(null, (get, set, roomAtomsRecord: RoomAtomByRoomId) => {
+  if (Object.keys(get(_roomAtomsRecordAtom)).length > 0) {
+    return
+  }
+  set(_roomAtomsRecordAtom, () => roomAtomsRecord)
+})
 
 /**
  * @description A read-only atom to receive a record mapping room ids to room atoms.
@@ -106,7 +116,7 @@ const _roomAtomsRecordAtom = atom<Record<ChatRoomId, ChatRoomAtom>>({})
  *
  * @see _roomAtomsRecordAtom
  */
-export const roomAtomsRecordAtom: Atom<Record<ChatRoomId, ChatRoomAtom>> = atom((get) => get(_roomAtomsRecordAtom))
+export const roomAtomsRecordAtom: Atom<RoomAtomByRoomId> = atom((get) => get(_roomAtomsRecordAtom))
 
 /**
  * Derived atom that holds all room atoms sorted by date of last message in descending order
@@ -302,31 +312,42 @@ export const leaveRoom = async (roomId: string): Promise<void> => {
   await getChatClient().leaveRoom(roomId)
 }
 
+// TODO extract memberships from room to its own atom record
+const getMembership = (membership?: string) => {
+  switch (membership) {
+    case 'join':
+      return MembershipStatus.Joined
+    case 'invite':
+      return MembershipStatus.Invited
+    case 'leave':
+      return MembershipStatus.Left
+  }
+}
+
+export const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
+  const { userId, name, membership } = mxRoomMember
+  const id = userId as MatrixId
+  return {
+    id,
+    name,
+    membership: getMembership(membership),
+  }
+}
+
+export function createChatMemberFixture(overrides?: Partial<ChatRoomMember>): ChatRoomMember {
+  const identity = overrides?.name ? overrides.name + 'Identity' : 'defaultUserIdentity'
+
+  const defaultChatMember: ChatRoomMember = {
+    name: 'defaultUserName',
+    id: `@${identity}:test.chat`,
+    membership: MembershipStatus.Joined,
+  }
+  return { ...defaultChatMember, ...overrides }
+}
+
 export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   const lastLiveEvent = room.getLastLiveEvent()?.event
   const lastMessage = isRoomMessageEvent(lastLiveEvent) ? createChatMessage(room.roomId, lastLiveEvent) : undefined
-
-  // TODO extract memberships from room to its own atom record
-  const getMembership = (membership?: string) => {
-    switch (membership) {
-      case 'join':
-        return MembershipStatus.Joined
-      case 'invite':
-        return MembershipStatus.Invited
-      case 'leave':
-        return MembershipStatus.Left
-    }
-  }
-
-  const createChatMember = (mxRoomMember: RoomMember): ChatRoomMember => {
-    const { userId, name, membership } = mxRoomMember
-    const id = userId as MatrixId
-    return {
-      id,
-      name,
-      membership: getMembership(membership),
-    }
-  }
 
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
@@ -346,6 +367,24 @@ export function createChatRoom(room: Room, hasInvitation = false): ChatRoom {
   }
 }
 
+export function createChatRoomFixture(overrides?: Partial<ChatRoom>): ChatRoom {
+  const creator = overrides?.creator ? overrides.creator : createChatMemberFixture()
+
+  const defaultRoom: ChatRoom = {
+    id: 'defaultRoomId',
+    name: 'defaultRoomName',
+    hasInvitation: true,
+    notificationCount: 0,
+    lastMessage: undefined,
+    creator: creator,
+    members: [creator],
+    senderId: 'defaultSenderId',
+    timestamp: new Date().getTime(),
+  }
+
+  return { ...defaultRoom, ...overrides }
+}
+
 /**
  * Messages
  *
@@ -359,7 +398,16 @@ export const sendMessage = async (message: CreateMessage): Promise<string> => {
   return await getChatClient().sendTextMessage(message.roomId, message.text)
 }
 
-const _messagesAtomsRecordAtom = atom<Record<ChatRoomId, ChatMessagesAtom>>({})
+const _messagesAtomsRecordAtom = atom<MessageAtomsByRoomId>({})
+export const messagesAtomsRecordInitializationAtom = atom(
+  null,
+  (get, set, chatMessagesByRoomId: MessageAtomsByRoomId) => {
+    if (Object.keys(get(_messagesAtomsRecordAtom)).length > 0) {
+      return
+    }
+    set(_messagesAtomsRecordAtom, () => chatMessagesByRoomId)
+  }
+)
 
 /**
  * @description A read-only atom containing records to look up `Atom<ChatMessage[]>` by room ID.
@@ -480,6 +528,46 @@ export function createChatMessage(roomId: string, event: IRoomEvent): ChatMessag
     room_id: roomId,
     sender: event.sender,
   }
+}
+
+export function createChatMessageFixture(
+  overrides?: Partial<ChatMessage> | string,
+  sender?: ChatRoomMember,
+  room?: ChatRoom
+): ChatMessage {
+  const defaultMessage: ChatMessage = {
+    id: 'defaultMessageId',
+    content: {
+      body: 'Default chat message',
+      msgtype: 'm.text',
+    },
+    timestamp: new Date().getTime(),
+    room_id: 'defaultRoomId',
+    sender: 'defaultSenderId',
+  }
+
+  let fixture = { ...defaultMessage }
+
+  if (typeof overrides === 'string') {
+    fixture.content.body = overrides
+  } else {
+    fixture = { ...fixture, ...overrides }
+
+    const bodyContentOverride = overrides?.content?.body
+    if (bodyContentOverride) {
+      defaultMessage.content.body = bodyContentOverride
+    }
+  }
+
+  if (room) {
+    fixture.room_id = room.id
+  }
+
+  if (sender) {
+    fixture.sender = sender.id
+  }
+
+  return fixture
 }
 
 /**

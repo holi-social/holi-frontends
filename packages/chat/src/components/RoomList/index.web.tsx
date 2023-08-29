@@ -29,6 +29,7 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       })}
       onScroll={onScreenScrollY}
       style={[mixins.container, styles.list]}
+      testID={'chat-room-list'}
     />
   )
 }
