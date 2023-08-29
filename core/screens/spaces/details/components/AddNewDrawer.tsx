@@ -27,7 +27,6 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
-  const styles = createStyles(screenOffset)
 
   const onCategoryButtonClick = useCallback(
     ({ path }: ResourceCategory) => {
@@ -47,7 +46,7 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
         type="secondary"
         inline
         testID="space-resources-add-button"
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={show}
       >
         <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
@@ -77,39 +76,37 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
 
 export default AddNewDrawer
 
-const createStyles = (screenOffset: number) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: colors.background20,
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.background20,
+  },
+  overlayButton: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 40,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    shadowColor: colors.foreground30,
+    backgroundColor: colors.background10,
+    shadowOffset: {
+      width: 2,
+      height: 2,
     },
-    overlayButton: {
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-      bottom: 40,
-      justifyContent: 'center',
-      paddingHorizontal: 20,
-      borderWidth: 1,
-      shadowColor: colors.foreground30,
-      backgroundColor: colors.background10,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 4,
-      overflow: 'visible',
-      transform: [{ translateX: -16 + screenOffset }],
-      right: '50%',
-    },
-    buttonTitle: { marginRight: 6 },
-    modalContent: {
-      paddingHorizontal: 10,
-    },
-    listContents: {
-      gap: 7,
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      marginTop: 20,
-      marginBottom: 48,
-    },
-  })
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    overflow: 'visible',
+    right: '50%',
+  },
+  buttonTitle: { marginRight: 6 },
+  modalContent: {
+    paddingHorizontal: 10,
+  },
+  listContents: {
+    gap: 7,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 48,
+  },
+})
