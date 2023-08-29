@@ -2,8 +2,8 @@ import { FlashList } from '@shopify/flash-list'
 import React, { memo } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/core/screens/chat/components/RoomList/RoomItem'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import type { RoomListProps } from './types'

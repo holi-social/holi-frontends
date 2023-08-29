@@ -6,6 +6,8 @@ import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer'
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
 import { ChatTextInput } from '@holi/chat/src/components/ChatTextInput'
+import RoomMessageList from '@holi/chat/src/components/RoomMessageList'
+import RoomMessageListStart from '@holi/chat/src/components/RoomMessageList/RoomMessageListStart'
 import {
   getChatPartner,
   getHoliUserForChatMember,
@@ -22,8 +24,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import RoomMessageList from '@holi/core/screens/chat/components/RoomMessageList'
-import RoomMessageListStart from '@holi/core/screens/chat/components/RoomMessageList/RoomMessageListStart'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
