@@ -6,7 +6,9 @@ import { Platform, View, useWindowDimensions } from 'react-native'
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import client from '@holi/api/graphql/client'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -115,4 +117,10 @@ const DonationsAppHome = () => {
   )
 }
 
-export default memo(DonationsAppHome)
+const WrappedDonationsAppHome = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+    <DonationsAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedDonationsAppHome)

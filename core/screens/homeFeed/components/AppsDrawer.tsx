@@ -61,6 +61,7 @@ const AppsDrawer: React.FC = () => {
         label={t('apps.drawer.title')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
+        style={{ backgroundColor: colors.background20 }}
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>

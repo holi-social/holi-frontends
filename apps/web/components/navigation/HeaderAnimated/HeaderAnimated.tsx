@@ -72,7 +72,7 @@ const HeaderAnimated = () => {
 
   return (
     <Animated.View
-      style={[mixins.container, styles.headerOuter, { top: headerHideAnimation }]}
+      style={[styles.headerOuter, { top: headerHideAnimation }]}
       accessible
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.topNavigation')}
@@ -95,35 +95,36 @@ const HeaderAnimated = () => {
           </>
         )}
       </View>
-
-      <View style={styles.headerContent}>
-        <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
-          {typeof headerLeft === 'function' ? (
-            headerLeft({ tintColor: headerTintColor, canGoBack: true })
-          ) : headerLeft !== undefined ? (
-            headerLeft
-          ) : (
-            <HeaderBackButton tintColor={headerTintColor} />
-          )}
-        </View>
-
-        <View style={{ maxWidth: '70%' }}>
-          {typeof headerTitle === 'function' ? (
-            headerTitle({ children: title || '', tintColor: headerTintColor })
-          ) : headerTitle !== undefined ? (
-            headerLeft
-          ) : (
-            <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
-          )}
-        </View>
-
-        {headerRight && (
-          <View style={[styles.sideHeaderElement, styles.rightHeaderElement]}>
-            {typeof headerRight === 'function'
-              ? headerRight({ tintColor: headerTintColor, canGoBack: true })
-              : headerRight}
+      <View style={[mixins.container, { height: '100%' }]}>
+        <View style={styles.headerContent}>
+          <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
+            {typeof headerLeft === 'function' ? (
+              headerLeft({ tintColor: headerTintColor, canGoBack: true })
+            ) : headerLeft !== undefined ? (
+              headerLeft
+            ) : (
+              <HeaderBackButton tintColor={headerTintColor} />
+            )}
           </View>
-        )}
+
+          <View style={{ maxWidth: '70%' }}>
+            {typeof headerTitle === 'function' ? (
+              headerTitle({ children: title || '', tintColor: headerTintColor })
+            ) : headerTitle !== undefined ? (
+              headerLeft
+            ) : (
+              <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
+            )}
+          </View>
+
+          {headerRight && (
+            <View style={[styles.sideHeaderElement, styles.rightHeaderElement]}>
+              {typeof headerRight === 'function'
+                ? headerRight({ tintColor: headerTintColor, canGoBack: true })
+                : headerRight}
+            </View>
+          )}
+        </View>
       </View>
     </Animated.View>
   )
@@ -134,6 +135,7 @@ export default HeaderAnimated
 const styles = StyleSheet.create({
   headerOuter: {
     alignItems: 'center',
+    width: '100%',
     height: vars.topBarHeight,
     maxHeight: vars.topBarHeight,
   },
