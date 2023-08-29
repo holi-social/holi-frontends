@@ -113,7 +113,7 @@ const deviceName: MatrixDeviceName = `holi-${Platform.OS}`
  * user for the first time on each session.
  */
 
-const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const ensureChatLoggedIn = async (orySessionToken?: string, freshLogin = true): Promise<SessionCredentials> => {
   // fetch only if no Matrix session data found
   const storedSessionCredentials = await loadSessionCredentials()
   if (storedSessionCredentials?.access_token) {
@@ -123,7 +123,7 @@ const ensureChatLoggedIn = async (orySessionToken: string, freshLogin = true): P
   }
 }
 
-const loginChat = async (orySessionToken: string, freshLogin = true): Promise<SessionCredentials> => {
+const loginChat = async (orySessionToken?: string, freshLogin = true): Promise<SessionCredentials> => {
   const response = await fetch(serverLoginUrl, {
     headers: {
       accept: 'application/json',

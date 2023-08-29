@@ -56,8 +56,8 @@ describe('displays errors correctly', () => {
       </ToastProvider>
     )
 
-    expect(mockConsoleError).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 
   it('warn logs and tracks error with sentry in production', () => {
@@ -69,7 +69,7 @@ describe('displays errors correctly', () => {
       </ToastProvider>
     )
 
-    expect(mockConsoleWarn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 })

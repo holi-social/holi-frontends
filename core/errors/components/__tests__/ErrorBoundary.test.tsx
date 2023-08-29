@@ -74,7 +74,7 @@ describe('renders correctly', () => {
       new HoliError('Test'),
       expect.any(String)
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
   })
 
   it('logs and tracks error with sentry', () => {
@@ -91,7 +91,7 @@ describe('renders correctly', () => {
       new HoliError('Test'),
       expect.any(String)
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
   })
 
   it('resets error to retry rendering', async () => {

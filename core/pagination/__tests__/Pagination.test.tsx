@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { cleanup, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 
@@ -93,15 +93,17 @@ describe('PaginationContext', () => {
     expect(await screen.findByText('50 results'))
 
     // Fetch second page
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
+    await waitFor(() => screen.getByText('global.loading'))
     await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
     expect(await screen.findByText('global.seeMore'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
+    await waitFor(() => screen.getByText('global.loading'))
     await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
     expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
 
