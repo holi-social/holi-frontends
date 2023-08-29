@@ -6,6 +6,8 @@ export type HoliIdentity = string
 export type ChatRoomId = string
 export type ChatRoomAtom = PrimitiveAtom<ChatRoom>
 export type ChatMessagesAtom = PrimitiveAtom<ChatMessage[]>
+export type RoomAtomByRoomId = Record<ChatRoomId, ChatRoomAtom>
+export type MessageAtomsByRoomId = Record<ChatRoomId, ChatMessagesAtom>
 
 export type AtomRecordGetter = <T>(atom: Atom<Record<string, T>>) => Record<string, T>
 

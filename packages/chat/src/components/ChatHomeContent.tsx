@@ -102,6 +102,7 @@ const ChatHomeRoomList = ({
           inline
           style={styles.overlayButton}
           onPress={() => navigate('/chat/start')}
+          testID={'start-chat-button'}
         >
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>

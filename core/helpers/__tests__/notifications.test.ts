@@ -2,6 +2,8 @@ import { PermissionStatus } from 'expo-modules-core'
 import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
 import {
+  handleNotificationForBadgeUpdateTriggerAndroidMock,
+  handleNotificationForBadgeUpdateTriggerIosMock,
   handleNotificationForLocalTriggerMock,
   handleNotificationForRemoteInvitationTriggerAndroidMock,
   handleNotificationForRemoteMessageTriggerAndroidMock,
@@ -162,7 +164,7 @@ describe('initNotifications', () => {
             title: 'Invitation',
             body: 'Someone invited you to a direct chat.',
             data: {
-              room_id: '!MjefvsnaJLCiTQHFue:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
@@ -190,10 +192,27 @@ describe('initNotifications', () => {
             title: 'New message',
             body: 'hello world!',
             data: {
-              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
+      })
+
+      it('should not schedule notifications for unknown/unimportant events', async () => {
+        setNotificationMocks()
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerAndroidMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
       })
 
       it('should skip message events when navigated in same room', async () => {
@@ -201,7 +220,7 @@ describe('initNotifications', () => {
         mockGetCurrentRoute = jest.fn().mockReturnValue({
           key: 'ChatRoom-Hr7733Al6mhpXQSd29to7',
           name: 'ChatRoom',
-          params: { roomId: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+          params: { roomId: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
         })
 
         await initNotifications()
@@ -244,10 +263,27 @@ describe('initNotifications', () => {
             title: 'New message',
             body: 'hello world!',
             data: {
-              room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             },
           },
         })
+      })
+
+      it('should not schedule notifications for unknown/unimportant events', async () => {
+        setNotificationMocks()
+
+        await initNotifications()
+
+        const handler = mockSetNotificationHandler?.mock.lastCall[0]
+        const handleNotificationCallback = handler.handleNotification
+
+        const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerIosMock)
+        expect(emptyCallResult).toEqual({
+          shouldShowAlert: false,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+        expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
       })
     })
 

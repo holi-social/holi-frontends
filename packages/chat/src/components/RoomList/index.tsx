@@ -24,6 +24,7 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       )}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
       contentContainerStyle={{ paddingHorizontal: 16 }}
+      testID={'chat-room-list'}
     />
   )
 }

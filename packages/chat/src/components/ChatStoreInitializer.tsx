@@ -1,4 +1,5 @@
 import { Provider } from 'jotai'
+import { useHydrateAtoms } from 'jotai/utils'
 import React, { Suspense, memo, useEffect } from 'react'
 
 import { startChat, useChatConnected, useChatReload } from '@holi/chat/src/client/chatSession'
@@ -27,7 +28,9 @@ const ChatStore = () => {
  * @description This component relies on `ChatClient` instance and renders `<ChatStore />` component when chat is initialized.
  * `<ChatStore />` mounts Jotai atoms for chat rooms and messages, which have `onMount` functions for listen to chat events.
  */
-const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithChildren & { initialAtoms?: any }) => {
   const reloadCount = useChatReload()
   const chatConnected = useChatConnected()
   const { user: { identity } = {} } = useLoggedInUser()
@@ -52,9 +55,20 @@ const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
       </Suspense>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {chatConnected && <ChatStore />}
-      {children}
+      <HydrateAtoms initialValues={initialAtoms}>{children}</HydrateAtoms>
     </Provider>
   )
+}
+
+function HydrateAtoms({
+  initialValues,
+  children,
+}: {
+  initialValues: Parameters<typeof useHydrateAtoms>[0]
+  children: React.ReactNode
+}) {
+  useHydrateAtoms(initialValues)
+  return <>{children}</>
 }
 
 export default memo(ChatStoreInitializer)
