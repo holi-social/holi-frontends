@@ -61,7 +61,9 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
   ]
 
   const { status } = useFeatureToggle(FeatureToggleName.OWNCLOUD_ONLYOFFICE)
+  const ftOff = status === FeatureToggleStatus.OFF
   const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
+  if (ftOff) return <></>
   if (ftMaintenance) {
     return (
       <CollaboratorAreaCard
