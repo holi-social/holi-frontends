@@ -725,6 +725,8 @@
   "spaces.spaceListing.loading": "Lädt Spaces…",
   "spaces.spaceListing.loadMoreButton.text": "Weitere Spaces",
   "spaces.storage.title": "Dateien und Dokumente",
+  "spaces.storage.maintenance.title": "Dateien macht eine Pause",
+  "spaces.storage.maintenance.description": "Dieses Feature ist aufgrund einer Wartung gerade nicht verfügbar. Es ist bald wieder da!",
   "spaces.storage.widget.description": "Ein gemeinsames Zuhause für alle deine Dateien und Dokumente.",
   "spaces.storage.widget.instruction": "Zugriff auf Dateien und Speicher",
   "spaces.storage.widget.onlyoffice.link": "Besuch mal owncloud.com/onlyoffice",

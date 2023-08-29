@@ -2,12 +2,14 @@ import React, { useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ExternalLink, FolderOpen, Information } from '@holi/icons/src/generated'
+import { ExternalLink, FolderOpen, Information, Zzz } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -57,6 +59,23 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
       imageHeight: 70,
     },
   ]
+
+  const { status } = useFeatureToggle(FeatureToggleName.OWNCLOUD_ONLYOFFICE)
+  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
+  if (ftMaintenance) {
+    return (
+      <CollaboratorAreaCard
+        headerLeftIcon={Zzz}
+        title={t('spaces.storage.maintenance.title')}
+        style={style}
+        disabled={ftMaintenance}
+      >
+        <HoliText size="small" style={styles.maintenance}>
+          {t('spaces.storage.maintenance.description')}
+        </HoliText>
+      </CollaboratorAreaCard>
+    )
+  }
 
   return (
     <CollaboratorAreaCard
@@ -132,6 +151,10 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingBottom: 16,
     marginTop: 24,
+  },
+  maintenance: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   instruction: {
     marginTop: 12,

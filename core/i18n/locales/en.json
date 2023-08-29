@@ -725,6 +725,8 @@
   "spaces.spaceListing.loading": "Loading Spaces…",
   "spaces.spaceListing.loadMoreButton.text": "See more",
   "spaces.storage.title": "Files and Documents",
+  "spaces.storage.maintenance.title": "Files is taking a break",
+  "spaces.storage.maintenance.description": "This feature is temporarily unavailable due to maintenance. It will come back soon!",
   "spaces.storage.widget.description": "A shared home for all your files.",
   "spaces.storage.widget.instruction": "Access files and storages",
   "spaces.storage.widget.onlyoffice.link": "Visit owncloud.com/onlyoffice",
