@@ -34,6 +34,7 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
   const name = t(resourceCategoryData.translationKey)
   const isActive = !!resourceCategoryData.path
   const ftState: FeatureToggleState | undefined = useFeatureToggle(resourceCategoryData.featureToggleName)
+  const ftOff = ftState.status === FeatureToggleStatus.OFF
   const ftMaintenance = ftState.status === FeatureToggleStatus.MAINTENANCE
 
   const onTilePress = useCallback(() => {
@@ -41,6 +42,8 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
       onPress?.(resourceCategoryData)
     }
   }, [onPress, isActive, resourceCategoryData])
+
+  if (ftOff) return <></>
 
   return (
     <HoliButton
