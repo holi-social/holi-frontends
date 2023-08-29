@@ -4,6 +4,7 @@ import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, Ro
 import { useCallback, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
+import { setChatInitialized } from '@holi/chat/src/client/chatSession'
 import { ChatRoomMember, MatrixId, MembershipStatus, NotificationCount, RoomId } from '@holi/chat/src/client/types'
 import type {
   ChatMessage,
@@ -20,22 +21,6 @@ import { getAtomFromRecordId, isRoomMessageEvent, toMatrixIdentity } from '@holi
 import { logError } from '@holi/core/errors/helpers'
 import { logDebug } from '@holi/core/helpers/logging'
 import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
-
-/**
- * Client
- *
- **/
-
-const _chatInitializedAtom = atom(false)
-
-/**
- * Hook to check if the chat client has been initialized. Intended for usage in arbitrary
- * components that need to check if the chat client has been initialized, e.g. in order to
- * render a loading indicator.
- *
- * @returns `true` if the chat client has been initialized, `false` otherwise.
- */
-export const useChatInitialized = () => useAtomValue(_chatInitializedAtom)
 
 let chatClient: ChatClient | undefined = undefined
 export const initChatClient = (newChatClient: ChatClient | undefined) => {
@@ -148,7 +133,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   if (args === 'initDone') {
     logDebug('Chat.store', 'chat initialized')
     // hack to be able to set the atom, see _roomAtomsRecordAtomSubscriber.onMount for details
-    set(_chatInitializedAtom, true)
+    setChatInitialized(true)
   } else {
     const { room, hasPendingInvitation, ignoredUsers } = args
     const chatRoom = createChatRoom(room, hasPendingInvitation)
@@ -181,7 +166,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   // get current rooms from ChatClient and store them to Atoms
   client.getRooms().forEach((room) => addRoomToStore(room, 'init'))
 
-  // hack to be able to set `_chatInitializedAtom` to true. we know that the chat has been initialized when we added
+  // hack to be able to set `chatInitialized` to true. we know that the chat has been initialized when we added
   // all rooms to the store. this is a hack because we cannot set atoms in the `onMount` lifecycle.
   // strictly speaking, this is a timing issue, as room events might arrive shortly after, but in tests they always
   // arrived so quick that they were already available in client.getRooms() above.
