@@ -23,8 +23,7 @@ const ChatStore = () => {
  */
 const ChatStoreInitializer = ({ children }: React.PropsWithChildren) => {
   const [isChatReady, setIsChatReady] = useState(false)
-  const { user } = useLoggedInUser()
-  const { identity } = user || {}
+  const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 

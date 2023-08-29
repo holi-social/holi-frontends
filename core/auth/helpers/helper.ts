@@ -1,4 +1,5 @@
 import { GenericError, LoginFlow, SettingsFlow, UiNodeInputAttributes, VerificationFlow } from '@ory/kratos-client'
+import type { AxiosError } from 'axios'
 
 import { oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import { logError } from '@holi/core/errors/helpers'
@@ -16,9 +17,8 @@ interface KratosErrorHandlingOptions {
 
 export const handleKratosSdkError =
   (method: string, { errorCodesToIgnore = [] }: KratosErrorHandlingOptions = {}) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (error: any) => {
-    const errorDetails: GenericError = error?.response?.data?.error || {}
+  (error: unknown) => {
+    const errorDetails: GenericError = (error as AxiosError)?.response?.data?.error || {}
     if (errorDetails.id && errorCodesToIgnore.includes(errorDetails.id)) {
       return error
     }
