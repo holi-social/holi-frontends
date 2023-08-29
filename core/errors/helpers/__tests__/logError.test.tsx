@@ -1,6 +1,14 @@
 /* eslint-disable no-console */
+import { jest } from '@jest/globals'
+
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
+
+const mockConsoleWarn = jest.fn()
+const mockConsoleError = jest.fn()
+
+global.console.warn = mockConsoleWarn
+global.console.error = mockConsoleError
 
 describe('logError', () => {
   const setContextMock = jest.fn()

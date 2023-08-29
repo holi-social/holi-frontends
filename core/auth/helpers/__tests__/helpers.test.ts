@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 import { handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 
+const mockConsoleWarn = jest.fn()
+global.console.warn = mockConsoleWarn
+
 const errorDetails = {
   id: 'session_inactive',
   code: 401,

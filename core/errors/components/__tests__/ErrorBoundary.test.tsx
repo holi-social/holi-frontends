@@ -10,6 +10,12 @@ type ErrorComponentProps = {
   throwError?: boolean
 }
 
+const mockConsoleWarn = jest.fn()
+const mockConsoleError = jest.fn()
+
+global.console.warn = mockConsoleWarn
+global.console.error = mockConsoleError
+
 const ErrorComponent: React.VFC<ErrorComponentProps> = ({ throwError = true }) => {
   if (throwError) {
     throw new HoliError('Test')
@@ -63,7 +69,7 @@ describe('renders correctly', () => {
       </ErrorBoundary>
     )
 
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(mockConsoleWarn).toHaveBeenCalledWith(
       '[logError.ts] [ErrorBoundary.tsx]:',
       new HoliError('Test'),
       expect.any(String)
@@ -80,7 +86,7 @@ describe('renders correctly', () => {
       </ErrorBoundary>
     )
 
-    expect(console.error).toHaveBeenCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       '[logError.ts] [ErrorBoundary.tsx]:',
       new HoliError('Test'),
       expect.any(String)

@@ -9,6 +9,10 @@ import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/det
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+// prevent warnings about incomplete apollo mocks,
+// which aren't used as we only test the loading indicator
+global.console.warn = jest.fn()
+
 const acceptRequest = {
   request: {
     query: updateSpaceUserConnectionMutation,
@@ -37,6 +41,7 @@ const declineRequest = {
     return {}
   }),
 }
+
 const MOCKS = [acceptRequest, declineRequest]
 
 describe('NotificationSpaceConnectionItem.tsx', () => {

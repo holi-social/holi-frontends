@@ -14,6 +14,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
+import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
@@ -32,7 +33,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -66,6 +66,8 @@ type OnboardingCard = {
   image: StaticImageData
   description: string
   instruction: string
+  width: number
+  height: number
 }
 
 const onboardingContentList: Array<OnboardingCard> = [
@@ -73,16 +75,22 @@ const onboardingContentList: Array<OnboardingCard> = [
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_1.svg'),
     description: 'spaces.edit.onboarding.description',
     instruction: 'spaces.edit.onboarding.instruction',
+    width: 202,
+    height: 179,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_2.svg'),
     description: 'spaces.edit.onboarding.tip1',
     instruction: '',
+    width: 215,
+    height: 188,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_onboarding_tip_3.svg'),
     description: 'spaces.edit.onboarding.tip2',
     instruction: '',
+    width: 279,
+    height: 200,
   },
 ]
 
@@ -163,30 +171,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       setIsEdit(false)
     }
     hide()
-  }
-
-  type OnboardCardProps = {
-    content: OnboardingCard
-  }
-
-  const OnboardCard = ({ content }: OnboardCardProps) => {
-    return (
-      <View style={styles.onboardCardContainer}>
-        <HoliLocalImage
-          imageSource={content.image}
-          width={202}
-          height={180}
-          label={''}
-          isSvg={true}
-          resizeMode="contain"
-          style={styles.illustration}
-        />
-        <HoliText style={styles.onboardingDescription}>{t(content.description)}</HoliText>
-        <HoliText bold style={styles.onboardingInstruction}>
-          {t(content.instruction)}
-        </HoliText>
-      </View>
-    )
   }
 
   return (
@@ -362,6 +346,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         autoHeight={isEdit ? false : true}
         headerStyle={styles.modalHeader}
         testID="space-chips-modal"
+        style={isOnboarding && !isEdit ? styles.modal : undefined}
       >
         {isEdit && (
           <>
@@ -384,11 +369,12 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             style={[styles.modalContentWrapper]}
           >
             <HoliCarousel
+              style={styles.carouselContainer}
               marginHorizontal={20}
               slides={onboardingContentList.map((content: OnboardingCard) => ({
                 children: (
                   <View style={styles.carouselContainer}>
-                    <OnboardCard content={content} />
+                    <SpaceOnboardCard content={content} imgWidth={content.width} imgHeight={content.height} />
                   </View>
                 ),
               }))}
@@ -421,7 +407,7 @@ const getStyles = (statusBarHeight: number) =>
       paddingTop: vars.topBarHeight + statusBarHeight,
     },
     modalHeader: {
-      backgroundColor: colors.background20,
+      backgroundColor: colors.background30,
     },
     header: {
       alignItems: 'center',
@@ -502,6 +488,8 @@ const getStyles = (statusBarHeight: number) =>
     },
     carouselContainer: {
       width: '100%',
+      display: 'flex',
+      flex: 1,
       marginBottom: Platform.OS === 'web' ? 54 : 0,
     },
     onboardCardContainer: {
@@ -512,13 +500,17 @@ const getStyles = (statusBarHeight: number) =>
       alignItems: 'center',
       alignContent: 'center',
       backgroundColor: colors.background20,
-      height: '100%',
+      flex: 1,
     },
     onboardingDescription: {
       marginTop: 24,
     },
     onboardingInstruction: {
       marginTop: 12,
+    },
+    modal: {
+      backgroundColor: colors.background30,
+      height: Platform.OS === 'web' ? '100%' : '75%',
     },
   })
 

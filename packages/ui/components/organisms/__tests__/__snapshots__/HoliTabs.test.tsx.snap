@@ -29,8 +29,8 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "flex-start",
-          "maxWidth": 1200,
-          "paddingHorizontal": 20,
+          "maxWidth": 840,
+          "paddingHorizontal": 32,
           "width": "100%",
         }
       }
