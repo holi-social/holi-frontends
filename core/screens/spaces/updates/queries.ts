@@ -21,6 +21,7 @@ export const spacePostsQuery = gql`
         data {
           ...PostFragment
         }
+        totalResults
       }
     }
   }

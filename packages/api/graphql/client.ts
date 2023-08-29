@@ -1,6 +1,7 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
@@ -72,6 +73,9 @@ export const createCache = () =>
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
+          posts: {
+            keyArgs: ['idOrName', 'visibility'],
+          },
         },
       },
       SpacePaged: {
@@ -89,6 +93,16 @@ export const createCache = () =>
         fields: {
           // Only allow pagination when searching for users by `substring`
           data: nestedPaginationPolicy(['substring']),
+        },
+      },
+      PostPaged: {
+        fields: {
+          data: {
+            ...indexAwareOffsetLimitPagination(),
+            // Use Apollo's default offsetLimitPagination's read method for Posts, since the limit
+            // is always the same in this case (no screens asking for different limits for Posts)
+            read: offsetLimitPagination().read,
+          },
         },
       },
       Query: {
