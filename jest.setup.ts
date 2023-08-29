@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import { initReactI18next } from 'react-i18next'
 
 import i18n from '@holi/core/i18n'
@@ -60,8 +61,18 @@ jest.mock('@holi/core/components/ScrollHeaderLayout/Refreshable', () =>
   jest.requireActual('@holi/core/components/ScrollHeaderLayout/Default')
 )
 
+jest.mock('@holi/core/helpers/useSafeAreaInsets', () => ({
+  useSafeAreaInsets: () => ({
+    top: 0,
+  }),
+}))
+
 jest.mock('@holi/api/config', () => ({
   holiNextJSApiUrl: 'https://localhost:3000',
+}))
+
+jest.mock('@holi/core/helpers/dynamicImport', () => ({
+  dynamicImport: () => () => null,
 }))
 
 i18n.use(initReactI18next).init({
