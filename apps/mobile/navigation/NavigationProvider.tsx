@@ -81,7 +81,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     // listen to incoming links from deep linking, while app is active or in background
     const eventListenerSubscription = Linking.addEventListener('url', ({ url }: { url: string }) => {
       logDebug('LinkingOptions.subscribe', 'received url from deeplinking', url)
-      return listener(url)
+      listener(url)
     })
 
     // listen to expo push notifications, while app is active or in background
