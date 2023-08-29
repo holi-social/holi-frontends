@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import RoomList from '@holi/chat/src/components/RoomList'
 import { ChatRoomAtom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,7 +18,6 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import RoomList from 'packages/chat/src/components/RoomList'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
