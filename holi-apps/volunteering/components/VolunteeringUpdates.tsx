@@ -2,19 +2,14 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
-import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
-import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
-import { Hearts, Zzz } from '@holi/icons/src/generated'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Hearts } from '@holi/icons/src/generated'
 
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
@@ -37,32 +32,6 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     },
     fetchPolicy: 'cache-and-network',
   })
-
-  const { loading: ftLoading, status } = useFeatureToggle(FeatureToggleName.APPS_VOLUNTEERING)
-  const ftOff = status === FeatureToggleStatus.OFF
-  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
-
-  if (ftLoading) {
-    return (
-      <View style={styles.loader}>
-        <HoliLottie animType="loader" />
-      </View>
-    )
-  } else if (ftOff) {
-    return <></>
-  } else if (ftMaintenance) {
-    return (
-      <CollaboratorAreaCard
-        headerLeftIcon={Zzz}
-        title={t('global.maintenance.title', { feature: t('volunteering:maintenance.feature') })}
-        disabled={ftMaintenance}
-      >
-        <HoliText size="small" style={styles.maintenance}>
-          {t('global.maintenance.description')}
-        </HoliText>
-      </CollaboratorAreaCard>
-    )
-  }
 
   if (error) {
     logError(error, t('volunteering:listing.error'))
@@ -110,16 +79,3 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
 }
 
 export default withProfiler(VolunteeringUpdates, { name: 'VolunteeringUpdates' })
-
-const styles = StyleSheet.create({
-  maintenance: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-  },
-  loader: {
-    height: 64,
-    width: 64,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-})

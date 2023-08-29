@@ -5,7 +5,7 @@ import { FeatureToggleStatus, FeatureTogglesResponse, featureTogglesQuery } from
 
 export enum FeatureToggleName {
   CHAT = 'CHAT',
-  OWNCLOUD_ONLYOFFICE = 'OWNCLOUD_ONLYOFFICE',
+  STORAGE = 'STORAGE',
   VIDEOCALL = 'VIDEOCALL',
   APPS_DONATIONS = 'APPS_DONATIONS',
   APPS_GOODNEWS = 'APPS_GOODNEWS',

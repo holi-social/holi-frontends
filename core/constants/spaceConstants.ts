@@ -23,7 +23,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.STORAGE,
     icon: FolderOpenFilled,
     translationKey: 'spaces.resources.category.file',
-    featureToggleName: FeatureToggleName.OWNCLOUD_ONLYOFFICE,
+    featureToggleName: FeatureToggleName.STORAGE,
     path: '/storage',
   },
 

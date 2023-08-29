@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -20,9 +22,27 @@ const UpdatesOfYourApps = (props: UpdatesOfYourAppsProps) => {
   return (
     <View style={[mixins.container, props.style, styles.wrapper]}>
       <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
-      <DonationUpdates style={styles.updatesContainer} />
-      <GoodNewsUpdates style={styles.updatesContainer} />
-      <VolunteeringUpdates style={styles.updatesContainer} />
+      <FeatureToggleGuard
+        toggleName={FeatureToggleName.APPS_DONATIONS}
+        featureNameKey="donations:maintenance.feature"
+        noLayout
+      >
+        <DonationUpdates style={styles.updatesContainer} />
+      </FeatureToggleGuard>
+      <FeatureToggleGuard
+        toggleName={FeatureToggleName.APPS_GOODNEWS}
+        featureNameKey="goodnews:maintenance.feature"
+        noLayout
+      >
+        <GoodNewsUpdates style={styles.updatesContainer} />
+      </FeatureToggleGuard>
+      <FeatureToggleGuard
+        toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+        featureNameKey="volunteering:maintenance.feature"
+        noLayout
+      >
+        <VolunteeringUpdates style={styles.updatesContainer} />
+      </FeatureToggleGuard>
     </View>
   )
 }

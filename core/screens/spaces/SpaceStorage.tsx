@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
@@ -75,6 +77,12 @@ const SpaceStorage: React.FC = () => {
   )
 }
 
+const WrappedSpaceStorage = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.STORAGE} featureNameKey="spaces.storage.maintenance.feature">
+    <SpaceStorage />
+  </FeatureToggleGuard>
+)
+
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     webView: {
@@ -94,4 +102,4 @@ const getStyles = (deviceHeight: number) =>
     },
   })
 
-export default withProfiler(SpaceStorage, { name: 'SpaceStorage' })
+export default withProfiler(WrappedSpaceStorage, { name: 'SpaceStorage' })
