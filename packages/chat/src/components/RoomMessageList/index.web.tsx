@@ -101,8 +101,9 @@ export default RoomMessageList
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: colors.background20,
+    width: '100%',
     height: '100%',
+    backgroundColor: colors.background20,
   },
   listItemContainer: {
     alignSelf: 'center',

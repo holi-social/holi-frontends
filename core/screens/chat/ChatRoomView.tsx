@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -29,7 +29,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChatRoomPageParams = {
   roomId: string
@@ -110,31 +110,34 @@ const ChatRoomView = () => {
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
         <SafeAreaView style={styles.container}>
-          {room.hasInvitation ? (
-            <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
-          ) : (
-            <RoomMessageList
-              messages={messages || []}
-              matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-              starter={
-                amIRoomCreator &&
-                chatPartnerHoliUser && (
-                  <HoliBox padding={[0, 16]}>
-                    <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
-                  </HoliBox>
-                )
-              }
-              onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                if (needToLoad) {
-                  requestMessages(roomId, false)
+          <View style={styles.listContainer}>
+            {room.hasInvitation ? (
+              <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
+            ) : (
+              <RoomMessageList
+                messages={messages || []}
+                matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                starter={
+                  amIRoomCreator &&
+                  chatPartnerHoliUser && (
+                    <HoliBox padding={[0, 16]}>
+                      <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
+                    </HoliBox>
+                  )
                 }
-              }}
-            />
-          )}
+                onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                  const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
 
-          <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
+                  if (needToLoad) {
+                    requestMessages(roomId, false)
+                  }
+                }}
+              />
+            )}
+          </View>
+          <View style={styles.inputContainer}>
+            <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
+          </View>
         </SafeAreaView>
       )}
     />
@@ -151,10 +154,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    alignItems: 'center',
     minHeight: '100%',
     backgroundColor: colors.white100,
   },
-  listFooterSpacer: {
-    height: vars.topBarHeight,
+  listContainer: {
+    flex: 1,
+    height: '100%',
+    width: '100%',
+  },
+  inputContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: colors.background20,
   },
 })
