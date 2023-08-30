@@ -47,7 +47,7 @@ const ScrollBasedRender = ({
         }
       })
     }, 0)
-  }, [showChildren, windowHeight, belowFoldThreshold, scrollY, children])
+  }, [showChildren, windowHeight, belowFoldThreshold, scrollY])
 
   const wrappedPlaceholder = useMemo(
     () => (
