@@ -62,13 +62,15 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
         const isNextMessageFromSameUser = nextMessage && nextMessage?.sender === message.sender
 
         return (
-          <RoomMessage
-            message={message}
-            user={matrixIdToHoliUserRecord[message.sender ?? '']}
-            showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
-            isPrevMessageFromSameUser={isPrevMessageFromSameUser}
-            isNextMessageFromSameUser={isNextMessageFromSameUser}
-          />
+          <View style={styles.listItemContainer}>
+            <RoomMessage
+              message={message}
+              user={matrixIdToHoliUserRecord[message.sender ?? '']}
+              showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
+              isPrevMessageFromSameUser={isPrevMessageFromSameUser}
+              isNextMessageFromSameUser={isNextMessageFromSameUser}
+            />
+          </View>
         )
       }}
       renderSectionFooter={({ section }) => (
@@ -101,6 +103,11 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: colors.background20,
     height: '100%',
+  },
+  listItemContainer: {
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: vars.maxScreenWidth,
   },
   listFooterSpacer: {
     paddingTop: vars.topBarHeight,
