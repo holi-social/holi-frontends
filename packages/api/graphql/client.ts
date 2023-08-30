@@ -21,14 +21,16 @@ const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
 export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
-// There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
-const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+// There might be something fishy here, types dont match
+// must be last in chain, because it handles the actual call to the server
+// (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
+const uploadCapableTerminatingLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
 
 export const createCache = () =>
   new InMemoryCache({
@@ -160,10 +162,10 @@ interface ApolloCreateClientOptions {
 const isSSR = typeof window === 'undefined'
 
 const API_URL = process.env.HOLI_API_URL
-const httpLink = new HttpLink({ uri: API_URL, fetch })
+const ssrHttpLink = new HttpLink({ uri: API_URL, fetch })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = isSSR ? from([errorLink, httpLink]) : link
+  const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
 
   return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
 }
