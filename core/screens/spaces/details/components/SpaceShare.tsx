@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -16,8 +16,8 @@ const SpaceShare: React.VFC<SpaceShareProps> = ({ space, style }: SpaceShareProp
   const { t } = useTranslation()
   const [, shareLink] = useShareLink({
     link: `/spaces/${space.name}`,
-    createMessage: (url) =>
-      `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: space.title })}\n${url}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', { space: space.title })}`,
   })
 
   const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
