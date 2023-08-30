@@ -40,7 +40,7 @@ let isStarting = false
 let isStopping = false
 
 const chatConnected = makeVar(false)
-const chatReload = makeVar(0)
+const chatReloadCounter = makeVar(0)
 const chatInitialized = makeVar(false)
 
 export const setChatConnected = (value: boolean) => {
@@ -52,8 +52,8 @@ export const useChatConnected = () => {
   return useReactiveVar(chatConnected)
 }
 
-export const useChatReload = () => {
-  return useReactiveVar(chatReload)
+export const useChatReloadCounter = () => {
+  return useReactiveVar(chatReloadCounter)
 }
 
 export const setChatInitialized = (value: boolean) => {
@@ -125,7 +125,7 @@ export const stopChat = async () => {
   logDebug('chatSession.stopChat', 'isStopping')
   setChatInitialized(false)
   setChatConnected(false)
-  chatReload(chatReload() + 1)
+  chatReloadCounter(chatReloadCounter() + 1)
 
   try {
     await logoutChat()

@@ -2,7 +2,7 @@ import { Provider } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import React, { Suspense, memo, useEffect } from 'react'
 
-import { startChat, useChatConnected, useChatReload } from '@holi/chat/src/client/chatSession'
+import { startChat, useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatSession'
 import { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -31,7 +31,7 @@ const ChatStore = () => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithChildren & { initialAtoms?: any }) => {
-  const reloadCount = useChatReload()
+  const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
   const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
@@ -51,7 +51,7 @@ const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithCh
   return (
     <Provider key={reloadCount}>
       <Suspense>
-        <ChatDevTools isChatReady={chatConnected} />
+        <ChatDevTools chatConnected={chatConnected} />
       </Suspense>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {chatConnected && <ChatStore />}
