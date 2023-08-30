@@ -8,7 +8,13 @@ import type { GeolocationGeoJSON, Paged } from '@holi/core/types'
 export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}
 
-  query DiscoverSpaces($topicIds: [UUID], $geolocation: GeoJSON, $skillIds: [UUID], $offset: Int!, $limit: Int!) {
+  query DiscoverSpaces(
+    $topicIds: [UUID]
+    $geolocation: GeoJSON
+    $skillIds: [UUID]
+    $offset: Int! = 0
+    $limit: Int! = 5
+  ) {
     discoverSpaces(
       topicIds: $topicIds
       geolocation: $geolocation
