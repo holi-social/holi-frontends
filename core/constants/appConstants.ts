@@ -1,6 +1,6 @@
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
-import { AppsSoonFilled, HandHeart, Hearts, Newspaper } from '@holi/icons/src/generated'
+import { AppsSoonFilled, HandHeartFilled, HeartsFilled, NewspaperFilled } from '@holi/icons/src/generated'
 
 export const HOLI_APPS = {
   DONATIONS: 'donations',
@@ -24,7 +24,7 @@ export const HOLI_APPS_NAVIGATION_PATHS = {
 export const APP_SWIPER_APPS: HoliApp[] = [
   {
     id: HOLI_APPS.DONATIONS,
-    icon: HandHeart,
+    icon: HandHeartFilled,
     translationKey: 'donations:app.name',
     featureToggleName: FeatureToggleName.APPS_DONATIONS,
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path,
@@ -32,7 +32,7 @@ export const APP_SWIPER_APPS: HoliApp[] = [
   },
   {
     id: HOLI_APPS.GOOD_NEWS,
-    icon: Newspaper,
+    icon: NewspaperFilled,
     translationKey: 'goodnews:app.name',
     featureToggleName: FeatureToggleName.APPS_GOODNEWS,
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path,
@@ -40,7 +40,7 @@ export const APP_SWIPER_APPS: HoliApp[] = [
   },
   {
     id: HOLI_APPS.VOLUNTEERING,
-    icon: Hearts,
+    icon: HeartsFilled,
     translationKey: 'volunteering:app.name',
     featureToggleName: FeatureToggleName.APPS_VOLUNTEERING,
     path: HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path,
