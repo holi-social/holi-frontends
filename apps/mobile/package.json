@@ -93,6 +93,7 @@
     "build_android": "npx --yes eas-cli build --platform android",
     "build_android_apk": "npx --yes eas-cli build --platform android --profile preview",
     "build_ios": "npx --yes eas-cli build --platform ios",
+    "build_ios_dev": "npx --yes eas-cli build --platform ios --profile preview",
     "build_ios_sim": "npx --yes eas-cli build --platform ios --profile simulator",
     "build_ios_dev_sim": "npx --yes eas-cli build --platform ios --profile development-simulator",
     "clean": "rimraf .expo",
