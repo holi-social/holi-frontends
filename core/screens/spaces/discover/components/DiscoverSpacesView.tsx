@@ -28,11 +28,6 @@ export const SPACES_GROUP_LIMIT = 5
 
 export const SPACES_SLIDER_SKELETONS = 3
 
-// Generate a random key for each ScrollBasedRender in order to force an initial render
-// and avoid an empty state. When all keys, children and screen height are the same,
-// ScrollBasedRender doesn't trigger a rendering, which might lead to an empty list.
-const getRandomKey = (prefix: number | string) => `${prefix}_${Math.random()}`
-
 const SpacesGroupSliderSkeletons: React.FC = () => {
   return (
     <View testID={'spaces-group-slider-skeletons'}>
@@ -84,7 +79,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 
       <View style={styles.body}>
         {userTopics.map((userTopic, index) => (
-          <ScrollBasedRender key={getRandomKey(index)}>
+          <ScrollBasedRender key={index} isLoggedIn={isLoggedIn}>
             <SpacesGroupSlider
               topic={userTopic}
               pageSize={SPACES_GROUP_LIMIT}
@@ -95,7 +90,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         ))}
 
         {userSkills.map((userSkill, index) => (
-          <ScrollBasedRender key={getRandomKey(index)}>
+          <ScrollBasedRender key={index} isLoggedIn={isLoggedIn}>
             <SpacesGroupSlider
               skill={userSkill}
               pageSize={SPACES_GROUP_LIMIT}
@@ -115,7 +110,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 
         {!loading &&
           defaultTopics.map((defaultTopic, index) => (
-            <ScrollBasedRender key={getRandomKey(index)}>
+            <ScrollBasedRender key={index} isLoggedIn={isLoggedIn}>
               <SpacesGroupSlider
                 topic={defaultTopic}
                 pageSize={SPACES_GROUP_LIMIT}

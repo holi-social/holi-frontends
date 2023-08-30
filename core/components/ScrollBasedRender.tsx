@@ -10,6 +10,9 @@ const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -200
 const DEFAULT_PLACEHOLDER_HEIGHT = 350
 
 interface Props {
+  // optionally include the login state in order to force a re-check
+  // if children should be rendered or not after logging in or out
+  isLoggedIn?: boolean
   // below fold = top edge of the component is below lower window edge
   // negative means below fold, positive means partially visible
   // default = -200
@@ -20,6 +23,7 @@ interface Props {
 
 // disclaimer: we don't detect when other components re-render and change height, causing children to maybe be visible
 const ScrollBasedRender = ({
+  isLoggedIn,
   belowFoldThreshold = DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD,
   placeholder,
   children,
@@ -47,7 +51,7 @@ const ScrollBasedRender = ({
         }
       })
     }, 0)
-  }, [showChildren, windowHeight, belowFoldThreshold, scrollY])
+  }, [showChildren, windowHeight, belowFoldThreshold, scrollY, isLoggedIn])
 
   const wrappedPlaceholder = useMemo(
     () => (
