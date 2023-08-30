@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
@@ -94,6 +94,7 @@ const DonationsAppHome = () => {
       refreshableProps={{ isLoading: refreshing, onRefresh }}
       keyboardShouldPersistTaps="always"
       headerOverlap
+      style={styles.defaultLayout}
     >
       <HoliModal
         show={showSearchModal}
@@ -124,3 +125,11 @@ const WrappedDonationsAppHome = () => (
 )
 
 export default memo(WrappedDonationsAppHome)
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    backgroundColor: colors.background20,
+    paddingBottom: 0,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+})
