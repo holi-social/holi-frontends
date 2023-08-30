@@ -26,7 +26,6 @@ const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
   const operationName: string | undefined =
     'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
   if (typeof uri === 'string' && operationName) {
-    // TODO add to sentry config, prevent hasNewNotifications spans
     const url = new URL(uri)
     url.searchParams.set('op', operationName)
     // using custom uri for easier debugging, logging, and sentry span creation config
