@@ -1,31 +1,55 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
+jest.useFakeTimers()
+
+const mocks = [
+  {
+    request: {
+      query: featureTogglesQuery,
+    },
+    result: {
+      data: {
+        featureToggles: [
+          {
+            name: FeatureToggleName.STORAGE,
+            status: FeatureToggleStatus.PRODUCTION,
+            __typename: 'FeatureToggle',
+          },
+        ],
+      },
+    },
+  },
+]
+
 describe('SpaceInvolvement', () => {
   it('renders correctly for the public', () => {
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <SpaceInvolvement space={space} />
       </MockedProvider>
     )
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
-  it('renders correctly for collaborators', () => {
+  it('renders correctly for collaborators', async () => {
     const spaceForMember = {
       ...space,
       connectionStatusToMyself: [SpaceConnectionType.MEMBER],
     }
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <SpaceInvolvement space={spaceForMember} />
       </MockedProvider>
     )
+    await waitFor(() => screen.findByText('spaces.storage.title'))
     expect(screen.toJSON()).toHaveTextContent('spaces.storage.title')
   })
 })

@@ -121,7 +121,7 @@ const ChatHomeContent = () => {
   }
 
   if (isLoading || !chatInitialized || !loggedInUser) {
-    return <HoliLoader />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
   if (!sortedRoomAtoms.length) {

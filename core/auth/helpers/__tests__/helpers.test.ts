@@ -19,6 +19,12 @@ const errorResponse = {
     },
   },
 }
+const generalError = {
+  response: {
+    status: 500,
+    statusText: 'Internal server error',
+  },
+}
 
 describe('handleKratosSdkError', () => {
   const errorHandler = handleKratosSdkError('createBrowserLogoutFlow')
@@ -56,5 +62,36 @@ describe('handleKratosSdkError', () => {
 
     expect(console.warn).not.toHaveBeenCalled()
     expect(captureSentryException).not.toBeCalled()
+  })
+
+  it('does not log or report errors with status code 400', () => {
+    expect(() => errorHandlerIgnoringCodes({ response: { status: 400 } })).toThrow()
+
+    expect(console.warn).not.toHaveBeenCalled()
+    expect(captureSentryException).not.toBeCalled()
+  })
+
+  it('handles general errors', () => {
+    expect(() => errorHandler(generalError)).toThrow()
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '[logError.ts] [kratosSdk.createBrowserLogoutFlow] Internal server error:',
+      generalError,
+      undefined
+    )
+  })
+
+  it('adds context information to sentry exception for general errors', () => {
+    expect(() => errorHandler(generalError)).toThrow()
+
+    expect(captureSentryException).toHaveBeenCalledWith(generalError, expect.any(Function))
+
+    const scopeFunction = captureSentryException.mock.calls[0][1]
+    const setContextMock = jest.fn()
+    scopeFunction({ setContext: setContextMock })
+
+    expect(setContextMock).toHaveBeenCalledWith('Error Context', {
+      method: 'kratosSdk.createBrowserLogoutFlow',
+    })
   })
 })

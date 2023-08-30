@@ -1,3 +1,4 @@
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import type { ResourceCategory } from '@holi/core/screens/spaces/details/components/ResourceCategoryTile'
 import { CalendarEvent, CheckboxFilled, FolderOpenFilled, LinkM, VidiconFilled } from '@holi/icons/src/generated'
 
@@ -22,6 +23,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.STORAGE,
     icon: FolderOpenFilled,
     translationKey: 'spaces.resources.category.file',
+    featureToggleName: FeatureToggleName.STORAGE,
     path: '/storage',
   },
 
@@ -36,6 +38,7 @@ export const RESOURCE_CATEGORIES_LIST: ResourceCategory[] = [
     id: SPACE_COLLABORATOR_TOOLS.VIDEO_CALL,
     icon: VidiconFilled,
     translationKey: 'spaces.resources.category.videoCall',
+    featureToggleName: FeatureToggleName.VIDEOCALL,
     path: '/video-call',
   },
 ]

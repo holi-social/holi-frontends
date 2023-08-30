@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -145,7 +147,13 @@ const DonationsAppProjectDetail = () => {
   )
 }
 
-export default withProfiler(memo(DonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
+const WrappedDonationsAppProjectDetail = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+    <DonationsAppProjectDetail />
+  </FeatureToggleGuard>
+)
+
+export default withProfiler(memo(WrappedDonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({

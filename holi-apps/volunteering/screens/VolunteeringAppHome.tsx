@@ -4,8 +4,9 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { onScreenScrollY } from '@holi/core/helpers'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -122,7 +123,7 @@ const VolunteeringAppHome = () => {
     <SafeAreaProvider>
       <DefaultLayout
         style={styles.defaultLayout}
-        scrollable={false}
+        scrollable={true}
         testID={'volunteering-list-container'}
         keyboardShouldPersistTaps="handled"
         hasFooterTabBar={false}
@@ -138,17 +139,26 @@ const VolunteeringAppHome = () => {
           <VolunteeringFilterForm onSubmit={submit} filters={filters} />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} />
       </DefaultLayout>
     </SafeAreaProvider>
   )
 }
 
-export default memo(VolunteeringAppHome)
+const WrappedVolunteeringAppHome = () => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedVolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },

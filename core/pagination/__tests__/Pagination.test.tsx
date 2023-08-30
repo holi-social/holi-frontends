@@ -16,6 +16,8 @@ import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+jest.useFakeTimers()
+
 const TestComponent: React.FC = () => {
   const { loading, error, data, totalResults } = usePaginationContext<Insight>()
 

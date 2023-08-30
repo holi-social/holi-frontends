@@ -1,6 +1,7 @@
 {
   "app.name": "Gute Nachrichten",
   "app.subline": "kuratiert von goodnews.eu",
+  "maintenance.feature": "Die Goodnews App",
   "listing.partnerModal.goodnews.eu.headline": "Die tägliche Dosis Optimismus",
   "listing.partnerModal.goodnews.eu.text": "Die wichtigsten guten Nachrichten, Innovationen und Lösungen aus der ganzen Welt, jeden Tag von Montag bis Freitag.",
   "listing.partnerModal.goodnews.eu.buttonText": "kuratiert von goodnews.eu",

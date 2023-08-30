@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   mainImageContainer: {
     backgroundColor: colors.background20,
     borderRadius: 20,
-    marginBottom: 16,
   },
   mainImage: {
     height: 104,

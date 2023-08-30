@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { jitsiUrl } from '@holi/core/helpers/config'
-import { useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import i18n from '@holi/core/i18n'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -34,16 +34,8 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
 
   const [, shareLink] = useShareLink({
     link: videoCallLink.url,
-    externalLink: true,
-    createMessage: (url) => {
-      if (Platform.OS === 'web') {
-        return url
-      }
-      if (Platform.OS === 'ios') {
-        return videoCallLink.roomName
-      }
-      return `${videoCallLink.roomName} ${url}`
-    },
+    linkType: LinkType.EXTERNAL,
+    message: Platform.OS === 'web' ? '' : `${videoCallLink.roomName}`,
   })
 
   const formattedDate = useMemo(() => {

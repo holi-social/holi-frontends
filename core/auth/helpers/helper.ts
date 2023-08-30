@@ -18,11 +18,16 @@ interface KratosErrorHandlingOptions {
 export const handleKratosSdkError =
   (method: string, { errorCodesToIgnore = [] }: KratosErrorHandlingOptions = {}) =>
   (error: unknown) => {
-    const errorDetails: GenericError = (error as AxiosError)?.response?.data?.error || {}
+    const response = (error as AxiosError)?.response
+    if (response?.status === 400) {
+      // Bad user input should be handled by UI
+      throw error
+    }
+    const errorDetails: GenericError = response?.data?.error || {}
     if (errorDetails.id && errorCodesToIgnore.includes(errorDetails.id)) {
       return error
     }
-    logError(error, `[kratosSdk.${method}] ${errorDetails.reason}`, {
+    logError(error, `[kratosSdk.${method}] ${errorDetails.reason || response?.statusText}`, {
       context: {
         method: `kratosSdk.${method}`,
         ...errorDetails,
