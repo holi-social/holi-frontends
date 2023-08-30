@@ -12,7 +12,7 @@ export interface SpaceByIdQueryVariables {
 
 export const spacePostsQuery = gql`
   ${PostFragment}
-  query SpacePostsBySpaceId($idOrName: String!, $offset: Int!, $limit: Int!, $visibility: VisibilityFilter!) {
+  query SpacePostsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10, $visibility: VisibilityFilter!) {
     spaceById(idOrName: $idOrName) {
       id
       hasPublicPosts

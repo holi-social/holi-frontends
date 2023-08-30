@@ -14,6 +14,10 @@ let mockRemovePusher: jest.Mock | undefined
 
 const mockedClients: MatrixClient[] = []
 
+const notImplemented = () => (): any => {
+  //noop
+}
+
 const mockedMatrixUsers: {
   [userId: string]: {
     userId: string
@@ -59,7 +63,7 @@ function mockedGetOrMakeRoom(roomId: string) {
       getAliases() {
         return this.aliases
       },
-      currentState: { setStateEvents: jest.fn() },
+      currentState: { setStateEvents: notImplemented() },
     }
   }
   return mockedRooms[roomId]
@@ -95,59 +99,57 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
   let stopped: (typeof mockedMatrixUsers)[string] | undefined
 
   const matrix = Object.assign(new EventEmitter(), {
-    startClient: jest.fn(async () => {
+    startClient: async () => {
       if (!(userId in mockedMatrixUsers) && stopped) mockedMatrixUsers[userId] = stopped
       stopped = undefined
       mockedMatrixUsers[userId].presence = 'online'
-    }),
-    stopClient: jest.fn(() => {
+    },
+    stopClient: () => {
       stopped = mockedMatrixUsers[userId]
       delete mockedMatrixUsers[userId]
-    }),
-    login: jest.fn(),
-    register: jest.fn(),
-    registerRequest: jest.fn(
-      async ({ username, device_id }: { username: string; password: string; device_id?: string }) => {
-        userId = `@${username}:${CHAT_SERVER_NAME}`
-        mockedMatrixUsers[userId] = {
-          userId,
-          presence: 'offline',
-        }
-        userId = `@${username}:${CHAT_SERVER_NAME}`
-        return {
-          user_id: userId,
-          device_id: device_id ?? `${username}_device_id`,
-          access_token: `${username}_access_token`,
-        }
+    },
+    login: notImplemented(),
+    register: notImplemented(),
+    registerRequest: ({ username, device_id }: { username: string; password: string; device_id?: string }) => {
+      userId = `@${username}:${CHAT_SERVER_NAME}`
+      mockedMatrixUsers[userId] = {
+        userId,
+        presence: 'offline',
       }
-    ),
-    setGuest: jest.fn(),
-    setPushRuleEnabled: jest.fn(async () => true),
-    searchUserDirectory: jest.fn(async ({ term }) => ({
+      userId = `@${username}:${CHAT_SERVER_NAME}`
+      return {
+        user_id: userId,
+        device_id: device_id ?? `${username}_device_id`,
+        access_token: `${username}_access_token`,
+      }
+    },
+    setGuest: notImplemented(),
+    setPushRuleEnabled: async () => true,
+    searchUserDirectory: async ({ term }) => ({
       results: Object.values(mockedMatrixUsers)
         .filter((u) => u.userId.includes(term))
         .map((u) => ({ user_id: u.userId, display_name: u.displayName, avatar_url: u.avatarUrl })),
-    })),
-    getUserId: jest.fn(() => userId),
-    getUsers: jest.fn(() => Object.values(mockedMatrixUsers)),
-    getUser: jest.fn((userId: string) => mockedMatrixUsers[userId] ?? null),
-    getProfileInfo: jest.fn(async (userId: string) => {
+    }),
+    getUserId: () => userId,
+    getUsers: () => Object.values(mockedMatrixUsers),
+    getUser: (userId: string) => mockedMatrixUsers[userId] ?? null,
+    getProfileInfo: async (userId: string) => {
       if (!(userId in mockedMatrixUsers)) return null
       return {
         displayname: mockedMatrixUsers[userId].displayName,
         avatar_url: mockedMatrixUsers[userId].avatarUrl,
       }
-    }),
-    setDisplayName: jest.fn(async (displayname: string) => {
+    },
+    setDisplayName: (displayname: string) => {
       if (!(userId in mockedMatrixUsers)) return
       mockedMatrixUsers[userId].displayName = displayname
-    }),
-    setAvatarUrl: jest.fn(async (avatarUrl: string) => {
+    },
+    setAvatarUrl: (avatarUrl: string) => {
       if (!(userId in mockedMatrixUsers)) return
       mockedMatrixUsers[userId].avatarUrl = avatarUrl
       mockedMatrixUsers[userId].presence = 'online'
-    }),
-    setPresence: jest.fn(async ({ presence }: { presence: string }) => {
+    },
+    setPresence: async ({ presence }: { presence: string }) => {
       if (!(userId in mockedMatrixUsers)) return
       mockedMatrixUsers[userId].presence = presence
       for (const matrix of mockedClients) {
@@ -157,8 +159,8 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
           getContent: () => ({ presence }),
         })
       }
-    }),
-    createRoom: jest.fn(async ({ invite }) => {
+    },
+    createRoom: async ({ invite }) => {
       const invitedUserId = invite[0]
       const roomId = `!roomId_${userId}_${invitedUserId}:${CHAT_SERVER_NAME}`
       if (!(roomId in mockedRooms)) {
@@ -169,12 +171,12 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
       if (invite?.[0]) await matrix.invite(room.roomId, invite[0])
       matrix.emit('Room.myMembership' as any, room, room.members[userId])
       return room
-    }),
-    getRoom: jest.fn((roomId: string) => {
+    },
+    getRoom: (roomId: string) => {
       if (!(roomId in mockedRooms) || !(userId in mockedRooms[roomId].members)) return null
       return mockedRooms[roomId]
-    }),
-    joinRoom: jest.fn(async (roomName: string) => {
+    },
+    joinRoom: async (roomName: string) => {
       const roomId = `!${roomName}:${CHAT_SERVER_NAME}`
       if (!(roomId in mockedRooms)) mockedGetOrMakeRoom(roomId)
       const room = mockedRooms[roomId]
@@ -186,10 +188,10 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
       }
       matrix.emit('Room.myMembership' as any, room, room.members[userId])
       return room
-    }),
-    getRooms: jest.fn(() => Object.values(mockedRooms).filter((room) => userId in room.members)),
-    getHomeserverUrl: jest.fn(() => CHAT_SERVER_NAME),
-    invite: jest.fn(async (roomId: string, peerId: string) => {
+    },
+    getRooms: () => Object.values(mockedRooms).filter((room) => userId in room.members),
+    getHomeserverUrl: () => CHAT_SERVER_NAME,
+    invite: async (roomId: string, peerId: string) => {
       expect(roomId in mockedRooms).toBeTrue()
       const room = mockedRooms[roomId]
       //not a member?
@@ -201,8 +203,8 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
         if (!room.getMember(matrix.getUserId()!)) continue
         matrix.emit('RoomMember.membership' as any, { getSender: () => userId }, room.getMember(peerId))
       }
-    }),
-    leave: jest.fn(async (roomId: string) => {
+    },
+    leave: async (roomId: string) => {
       expect(roomId in mockedRooms).toBeTrue()
       const room = mockedRooms[roomId]
       // is member?
@@ -213,8 +215,8 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
         matrix.emit('RoomMember.membership' as any, { getSender: () => userId }, room.getMember(userId))
       }
       matrix.emit('Room.myMembership' as any, room, room.members[userId])
-    }),
-    sendEvent: jest.fn(async (roomId: string, type: string, content: any) => {
+    },
+    sendEvent: async (roomId: string, type: string, content: any) => {
       if (stopped) return true
       expect(roomId in mockedRooms).toBeTrue()
       const room = mockedRooms[roomId]
@@ -223,45 +225,45 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
         matrix.emit(
           'Room.timeline' as any,
           {
-            getType: jest.fn(() => type),
-            getSender: jest.fn(() => userId),
-            getContent: jest.fn(() => content),
+            getType: () => type,
+            getSender: () => userId,
+            getContent: () => content,
             event: { type, sender: userId, content },
           },
           matrix.getRoom(roomId)
         )
       }
       return true
-    }),
-    sendToDevice: jest.fn(async (type: string, contentMap: { [userId: string]: { [deviceID: string]: any } }) => {
+    },
+    sendToDevice: async (type: string, contentMap: { [userId: string]: { [deviceID: string]: any } }) => {
       if (stopped) return true
       for (const [partnerId, map] of Object.entries(contentMap)) {
         for (const matrix of mockedClients) {
           if (partnerId !== matrix.getUserId()) continue
           for (const content of Object.values(map)) {
             matrix.emit('toDeviceEvent' as any, {
-              getType: jest.fn(() => type),
-              getSender: jest.fn(() => userId),
-              getContent: jest.fn(() => content),
+              getType: () => type,
+              getSender: () => userId,
+              getContent: () => content,
               event: { type, sender: userId, content },
             })
           }
         }
       }
-    }),
-    store: {
-      storeRoom: jest.fn(),
     },
-    createFilter: jest.fn(async () => true),
-    setMaxListeners: jest.fn(),
-    setNotifTimelineSet: jest.fn(),
-    on: jest.fn((event: EmittedEvents, fn: onFunctionType) => {
+    store: {
+      storeRoom: notImplemented(),
+    },
+    createFilter: async () => true,
+    setMaxListeners: notImplemented(),
+    setNotifTimelineSet: notImplemented(),
+    on: (event: EmittedEvents, fn: onFunctionType) => {
       mockMatrixListeners.push([event, fn])
       if (event === 'sync') {
         fn('PREPARED')
       }
-    }),
-    off: jest.fn(),
+    },
+    off: notImplemented(),
     getPushRules: () => Promise.resolve(),
     getPushers: () =>
       Promise.resolve({
