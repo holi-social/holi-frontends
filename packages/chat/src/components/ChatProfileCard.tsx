@@ -35,7 +35,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
     try {
       await joinRoom(roomId)
     } catch (e) {
-      openToast(t('chat.offline'))
+      openToast(t('global.offline.description'))
     }
   }
 

@@ -49,13 +49,13 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
     try {
       const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
       if (!room_id) {
-        openToast(t('chat.offline'))
+        openToast(t('global.offline.description'))
         return
       }
 
       navigate('/chat/rooms/' + room_id)
     } catch (e) {
-      openToast(t('chat.offline'))
+      openToast(t('global.offline.description'))
     }
   }
 
