@@ -242,9 +242,9 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
           if (partnerId !== matrix.getUserId()) continue
           for (const content of Object.values(map)) {
             matrix.emit('toDeviceEvent' as any, {
-              getType: noop(() => type),
-              getSender: noop(() => userId),
-              getContent: noop(() => content),
+              getType: () => type,
+              getSender: () => userId,
+              getContent: () => content,
               event: { type, sender: userId, content },
             })
           }
