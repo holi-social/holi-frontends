@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
     zIndex: 2,
     backgroundColor: 'transparent',
   },

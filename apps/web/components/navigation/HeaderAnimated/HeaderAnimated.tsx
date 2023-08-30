@@ -95,8 +95,9 @@ const HeaderAnimated = () => {
           </>
         )}
       </View>
-      <View style={[mixins.container, { height: '100%' }]}>
-        <View style={styles.headerContent}>
+
+      <View style={[mixins.container, styles.headerContent]}>
+        <View style={{ width: '100%' }}>
           <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
             {typeof headerLeft === 'function' ? (
               headerLeft({ tintColor: headerTintColor, canGoBack: true })
@@ -107,7 +108,7 @@ const HeaderAnimated = () => {
             )}
           </View>
 
-          <View style={{ maxWidth: '70%' }}>
+          <View style={styles.centerHeaderElement}>
             {typeof headerTitle === 'function' ? (
               headerTitle({ children: title || '', tintColor: headerTintColor })
             ) : headerTitle !== undefined ? (
@@ -142,8 +143,6 @@ const styles = StyleSheet.create({
   headerContent: {
     flexDirection: 'row',
     flex: 1,
-    width: '100%',
-    maxWidth: vars.maxScreenWidth,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -157,5 +156,9 @@ const styles = StyleSheet.create({
   },
   rightHeaderElement: {
     right: 0,
+  },
+  centerHeaderElement: {
+    maxWidth: '70%',
+    alignSelf: 'center',
   },
 })
