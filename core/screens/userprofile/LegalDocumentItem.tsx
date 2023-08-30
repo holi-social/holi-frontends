@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HtmlDocument from '@holi/core/components/HtmlDocument'
@@ -32,7 +32,7 @@ const LegalDocumentItem = () => {
     }
     navigateBack()
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     setScreenOptions({ title: t(`profile.settings.legalDocuments.${docType}`) })
   }, [setScreenOptions, docType, t])
 
