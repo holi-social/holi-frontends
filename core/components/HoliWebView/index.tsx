@@ -12,7 +12,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps }) => {
+const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps, navigateToExternalBrowser = false }) => {
   const webViewRef = useRef<WebView>(null)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
@@ -48,7 +48,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({ style, webViewProps }) => {
 
   const openInExternalBrowser = (event: ShouldStartLoadRequest): boolean => {
     // type-correct way of checking whether we are not initially loading the page, but reacting on a tap on a link
-    if (isWebViewSourceUri(webViewProps.source) && event.url !== webViewProps.source.uri) {
+    if (navigateToExternalBrowser && isWebViewSourceUri(webViewProps.source) && event.url !== webViewProps.source.uri) {
       // open in external browser
       Linking.openURL(event.url)
       // don't follow the link in webview itself
