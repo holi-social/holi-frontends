@@ -76,7 +76,11 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
         <HoliHtmlView html={document} />
       </ScrollHeaderLayout.Default>
     ) : (
-      <HoliWebView webViewProps={{ source: { uri: url ? url.toString() : '' } }} style={styles.webView} />
+      <HoliWebView
+        webViewProps={{ source: { uri: url ? url.toString() : '' } }}
+        style={styles.webView}
+        navigateToExternalBrowser
+      />
     )
   } else {
     return <HoliHtmlView html={document} />
