@@ -24,12 +24,6 @@ export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedEr
 // There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
 const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 
-// Web authentication works using http-only cookies that are transparently added to requests by the Browser
-// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
-// For mobile it is also necessary to explicitly set the Accept-Language header.
-// `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
-
 export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
@@ -162,10 +156,18 @@ const isSSR = typeof window === 'undefined'
 const API_URL = process.env.HOLI_API_URL
 const httpLink = new HttpLink({ uri: API_URL, fetch })
 
+const cache = createCache()
+
+// Web authentication works using http-only cookies that are transparently added to requests by the Browser
+// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
+// For mobile it is also necessary to explicitly set the Accept-Language header.
+// `headerLink` is therefore only needed on Mobile (i.e. when defined)
+const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, httpLink]) : link
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
+  return new ApolloClient({ ssrMode, link: clientLink, cache })
 }
 
 // Web

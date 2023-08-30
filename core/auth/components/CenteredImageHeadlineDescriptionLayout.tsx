@@ -10,8 +10,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
-  imageSource: StaticImageData
-  imageLabelText: string
+  imageSource?: StaticImageData
+  imageLabelText?: string
   headlineText: string
   descriptionText: string
   contentStyle?: StyleProp<ViewStyle>
@@ -34,21 +34,30 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
     },
     ref
   ) => {
+    const imageLabelValue = imageLabelText ?? headlineText
+
     return (
       <CenteredContentLayout {...props} ref={ref} testID={testID}>
         <View style={[styles.inner, contentStyle]}>
-          <View style={styles.imageContainer}>
-            <HoliLocalImage
-              imageSource={imageSource}
-              isSvg
-              width={251}
-              height={181}
-              label={imageLabelText}
-              resizeMode="contain"
-            />
-          </View>
+          {imageSource && (
+            <View style={styles.imageContainer}>
+              <HoliLocalImage
+                imageSource={imageSource}
+                isSvg
+                width={251}
+                height={181}
+                label={imageLabelValue}
+                resizeMode="contain"
+              />
+            </View>
+          )}
 
-          <HoliHeading level="1" size="medium" style={styles.headline} testID={`${testID}-headline`}>
+          <HoliHeading
+            level="1"
+            size="medium"
+            style={[styles.headline, !!imageSource && { marginTop: 74 }]}
+            testID={`${testID}-headline`}
+          >
             {headlineText}
           </HoliHeading>
 
@@ -74,7 +83,6 @@ const styles = StyleSheet.create({
   headline: {
     fontWeight: '400',
     textAlign: 'center',
-    marginTop: 74,
   },
   description: {
     color: colors.foreground20,

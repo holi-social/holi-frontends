@@ -131,6 +131,8 @@
   "global.next": "Weiter",
   "global.noResults": "Keine Ergebnisse gefunden",
   "global.notAvailable": "Leider noch nicht verfügbar!",
+  "global.offline.title": "Keine Internetverbindung",
+  "global.offline.description": "Du bist gerade offline. Wir verbinden dich, sobald du wieder online bist...",
   "global.permissions.mediaLibrary.denied": "Bitte erteile der App in den Einstellungen deines Geräts die Berechtigung zum Öffnen der Medienbibliothek",
   "global.permissions.mediaLibrary.text": "Die App greift auf deine Fotos zu, damit du sie veröffentlichen kannst.",
   "global.report": "Melden",
