@@ -21,10 +21,28 @@ const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
 export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
+const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
+  const body = options && options.body && typeof options.body === 'string' ? JSON.parse(options.body) : undefined
+  const operationName: string | undefined =
+    'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
+  if (typeof uri === 'string' && operationName) {
+    // TODO add to sentry config, prevent hasNewNotifications spans
+    // using custom uri for easier debugging, logging, and sentry span creation config
+    // e.g. https://staging.unified.apis.holi.social/graphql?op=hasNewNotifications
+    return fetch(uri + '?op=' + operationName, options)
+  } else {
+    return fetch(uri, options)
+  }
+}
+
 // There might be something fishy here, types dont match
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
-const uploadCapableTerminatingLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
+const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
+  uri: holiApiUrl,
+  credentials: 'include',
+  fetch: customFetch,
+})
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
