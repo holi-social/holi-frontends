@@ -47,7 +47,7 @@ const ChatHome = () => {
     })
   }, [navigate, setScreenOptions, t, title])
   if (ftLoading) {
-    return <HoliLoader style={{ backgroundColor: colors.background10 }} />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   } else if (ftMaintenance) {
     return <ChatMaintenance />
   } else if (!ftLoading && ftEnabled) {
