@@ -5,10 +5,9 @@ export const useIsOnline = () => {
   const [isOnline, setIsOnline] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      if (typeof state.isConnected === 'boolean') {
-        setIsOnline(state.isConnected)
-      }
+    const unsubscribe = NetInfo.addEventListener(({ isConnected }) => {
+      if (isConnected === null) return
+      setIsOnline(isConnected)
     })
     return unsubscribe
   }, [])
