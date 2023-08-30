@@ -14,7 +14,7 @@ let mockRemovePusher: jest.Mock | undefined
 
 const mockedClients: MatrixClient[] = []
 
-const noop = () => (): any => {
+const notImplemented = () => (): any => {
   //noop
 }
 
@@ -63,7 +63,7 @@ function mockedGetOrMakeRoom(roomId: string) {
       getAliases() {
         return this.aliases
       },
-      currentState: { setStateEvents: noop() },
+      currentState: { setStateEvents: notImplemented() },
     }
   }
   return mockedRooms[roomId]
@@ -108,8 +108,8 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
       stopped = mockedMatrixUsers[userId]
       delete mockedMatrixUsers[userId]
     },
-    login: noop(),
-    register: noop(),
+    login: notImplemented(),
+    register: notImplemented(),
     registerRequest: ({ username, device_id }: { username: string; password: string; device_id?: string }) => {
       userId = `@${username}:${CHAT_SERVER_NAME}`
       mockedMatrixUsers[userId] = {
@@ -123,7 +123,7 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
         access_token: `${username}_access_token`,
       }
     },
-    setGuest: noop(),
+    setGuest: notImplemented(),
     setPushRuleEnabled: async () => true,
     searchUserDirectory: async ({ term }) => ({
       results: Object.values(mockedMatrixUsers)
@@ -252,18 +252,18 @@ function fakeMatrixClient({ userId }: { baseUrl: string; userId: string }): jest
       }
     },
     store: {
-      storeRoom: noop(),
+      storeRoom: notImplemented(),
     },
     createFilter: async () => true,
-    setMaxListeners: noop(),
-    setNotifTimelineSet: noop(),
+    setMaxListeners: notImplemented(),
+    setNotifTimelineSet: notImplemented(),
     on: (event: EmittedEvents, fn: onFunctionType) => {
       mockMatrixListeners.push([event, fn])
       if (event === 'sync') {
         fn('PREPARED')
       }
     },
-    off: noop(),
+    off: notImplemented(),
     getPushRules: () => Promise.resolve(),
     getPushers: () =>
       Promise.resolve({
