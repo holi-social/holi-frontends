@@ -71,7 +71,7 @@ const CollaboratorAreaCard: React.VFC<CollaboratorAreaCardProps> = ({
   }
 
   return (
-    <View style={[styles.wrapper, disabled ? { backgroundColor: colors.foreground10 } : {}, style]}>
+    <View style={[styles.wrapper, style]}>
       <Header />
       <View style={styles.contentContainer}>{children && children}</View>
     </View>
