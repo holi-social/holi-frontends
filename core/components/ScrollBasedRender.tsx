@@ -5,7 +5,7 @@ import { View, useWindowDimensions } from 'react-native'
 import { mobileScrollYAtom } from '@holi/core/helpers'
 
 // a bit negative to already load content next-up
-const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -300
+const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -200
 
 const DEFAULT_PLACEHOLDER_HEIGHT = 350
 
@@ -47,7 +47,7 @@ const ScrollBasedRender = ({
         }
       })
     }, 0)
-  }, [showChildren, windowHeight, belowFoldThreshold, scrollY])
+  }, [showChildren, windowHeight, belowFoldThreshold, scrollY, children])
 
   const wrappedPlaceholder = useMemo(
     () => (
