@@ -4,7 +4,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
-import fetch from 'cross-fetch'
+import crossFetch from 'cross-fetch'
 import { concat, mergeDeepWith, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -27,9 +27,11 @@ const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
     'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
   if (typeof uri === 'string' && operationName) {
     // TODO add to sentry config, prevent hasNewNotifications spans
+    const url = new URL(uri)
+    url.searchParams.set('op', operationName)
     // using custom uri for easier debugging, logging, and sentry span creation config
     // e.g. https://staging.unified.apis.holi.social/graphql?op=hasNewNotifications
-    return fetch(uri + '?op=' + operationName, options)
+    return fetch(url, options)
   } else {
     return fetch(uri, options)
   }
@@ -180,7 +182,7 @@ interface ApolloCreateClientOptions {
 const isSSR = typeof window === 'undefined'
 
 const API_URL = process.env.HOLI_API_URL
-const ssrHttpLink = new HttpLink({ uri: API_URL, fetch })
+const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
