@@ -109,16 +109,30 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
         )}
 
         {!loading &&
-          defaultTopics.map((defaultTopic, index) => (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
-            </ScrollBasedRender>
-          ))}
+          defaultTopics.map((defaultTopic, index) => {
+            // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
+            if (index < 2) {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              )
+            }
+            return (
+              <ScrollBasedRender key={index}>
+                <SpacesGroupSlider
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              </ScrollBasedRender>
+            )
+          })}
 
         {/* Example how to do location based discovery: */}
         {/*<ScrollBasedRender>*/}
