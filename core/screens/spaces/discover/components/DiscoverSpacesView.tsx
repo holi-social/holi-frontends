@@ -110,9 +110,8 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 
         {!loading &&
           defaultTopics.map((defaultTopic, index) => {
-            // if the user has no topics or skills saved, render the first two default topics without
-            // ScrollBasedRender, to avoid an empty list after login
-            if (index < 2 && userTopics.length + userSkills.length === 0) {
+            // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
+            if (index < 2) {
               return (
                 <SpacesGroupSlider
                   key={index}
