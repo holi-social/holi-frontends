@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
 import ChatRoomActionDrawer from '@holi/chat/src/components/ChatRoomActionDrawer'
 import ChatRoomHeaderTitle from '@holi/chat/src/components/ChatRoomHeaderTitle'
@@ -13,7 +14,6 @@ import {
   getHoliUserForChatMember,
   isRoomCreator,
   setLatestMessagesAsRead,
-  useChatInitialized,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
