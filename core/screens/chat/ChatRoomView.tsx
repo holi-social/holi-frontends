@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatSession'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -29,7 +29,7 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type ChatRoomPageParams = {
   roomId: string
@@ -109,7 +109,7 @@ const ChatRoomView = () => {
   return (
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.listContainer}>
             {room.hasInvitation ? (
               <ChatProfileCard roomId={roomId} user={chatPartnerHoliUser} userIsLoading={loadingUsers} />
@@ -135,10 +135,8 @@ const ChatRoomView = () => {
               />
             )}
           </View>
-          <View style={styles.inputContainer}>
-            <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-          </View>
-        </SafeAreaView>
+          <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
+        </View>
       )}
     />
   )
@@ -156,17 +154,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     minHeight: '100%',
-    backgroundColor: colors.white100,
+    paddingTop: vars.topBarHeight,
+    backgroundColor: colors.background20,
   },
   listContainer: {
     flex: 1,
     height: '100%',
     width: '100%',
-  },
-  inputContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: colors.background20,
   },
 })

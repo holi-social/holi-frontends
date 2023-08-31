@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: vars.maxScreenWidth,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 6,
+    paddingBottom: 24,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderBottomColor: colors.white100,
@@ -117,13 +118,15 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 8,
     paddingHorizontal: 8,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
   },
   textInputContainer: {
+    maxHeight: 60,
     backgroundColor: colors.white100,
     flexShrink: 1,
   },
   textInput: {
+    height: '100%',
     borderWidth: 0,
     paddingVertical: 0,
     paddingHorizontal: 0,
