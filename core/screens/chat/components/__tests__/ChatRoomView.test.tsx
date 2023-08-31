@@ -4,7 +4,7 @@ import React from 'react'
 
 import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
-import { TestBed, atomsFor, queriesFor } from '@holi/core/screens/chat/components/__tests__/TestBed'
+import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/core/screens/chat/components/__tests__/TestBed'
 import { User } from '@holi/core/screens/userprofile/types'
 
 // keep in sync with __mocks__/matrix-js-sdk.ts
@@ -22,10 +22,17 @@ jest.mock('@holi/core/helpers/config', () => ({
 }))
 
 let mockLoggedInUser: User | undefined = undefined
-let mockLoggedInUserState = {
+
+interface MockLoggedInUserState {
+  isLoggedIn: boolean
+  isLoading: boolean
+}
+
+let mockLoggedInUserState: MockLoggedInUserState | undefined = {
   isLoggedIn: false,
   isLoading: false,
 }
+
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
     user: mockLoggedInUser,
@@ -81,7 +88,7 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
 
 describe('ChatRoomView', () => {
   describe('with feature-enabled chat', () => {
-    beforeAll(() => {
+    beforeEach(() => {
       mockChatFeatureToggle = {
         loading: false,
         error: false,
@@ -89,6 +96,7 @@ describe('ChatRoomView', () => {
         enabled: true,
       }
     })
+
     describe('for signed-in user', () => {
       beforeAll(() => {
         mockOrySessionInStorage = {
@@ -113,6 +121,13 @@ describe('ChatRoomView', () => {
         ]
       })
 
+      afterAll(() => {
+        mockOrySessionInStorage = undefined
+        mockLoggedInUser = undefined
+        mockLoggedInUserState = undefined
+        mockMatrixSessionInStorage = []
+      })
+
       it('shows an invitation screen for a new room', async () => {
         const someMember = createChatMemberFixture({ name: 'defaultUserName' })
         const someRoom = createChatRoomFixture({
@@ -127,7 +142,7 @@ describe('ChatRoomView', () => {
         const rooms = [someRoom]
 
         render(
-          <TestBed jotaiAtoms={atomsFor(rooms)} apolloMocks={queriesFor(rooms, members)}>
+          <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
             <ChatRoomView />
           </TestBed>
         )
@@ -162,7 +177,7 @@ describe('ChatRoomView', () => {
         const rooms = [bobsRoom]
 
         render(
-          <TestBed jotaiAtoms={atomsFor(rooms)} apolloMocks={queriesFor(rooms, members)}>
+          <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
             <ChatRoomView />
           </TestBed>
         )

@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals'
 import { render, screen, waitFor } from '@testing-library/react-native'
-import { afterEach } from 'jest-circus'
 import React from 'react'
 
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
@@ -124,7 +123,7 @@ describe('ChatHome', () => {
     })
 
     describe('for signed-in user', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         mockOrySessionInStorage = {
           session_token: 'session_token_stub',
         }
@@ -146,7 +145,8 @@ describe('ChatHome', () => {
           ['mx_device', 'someDeviceId'],
         ]
       })
-      afterEach(() => {
+
+      afterAll(() => {
         mockOrySessionInStorage = undefined
         mockLoggedInUser = undefined
         mockLoggedInUserState = undefined
