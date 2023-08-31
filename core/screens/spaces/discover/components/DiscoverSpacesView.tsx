@@ -80,6 +80,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
       <View style={styles.body}>
         {userTopics.map((userTopic, index) => {
           if (index < 2) {
+            // render the first two topics without ScrollBasedRender, to avoid an empty list after login
             return (
               <SpacesGroupSlider
                 key={index}
@@ -104,6 +105,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
 
         {userSkills.map((userSkill, index) => {
           if (index < 2) {
+            // render the first two skills without ScrollBasedRender, to avoid an empty list after login
             return (
               <SpacesGroupSlider
                 key={index}
