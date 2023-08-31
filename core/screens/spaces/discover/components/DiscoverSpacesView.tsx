@@ -78,27 +78,53 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ style, userTopi
       </View>
 
       <View style={styles.body}>
-        {userTopics.map((userTopic, index) => (
-          <ScrollBasedRender key={index}>
-            <SpacesGroupSlider
-              topic={userTopic}
-              pageSize={SPACES_GROUP_LIMIT}
-              style={styles.spacesGroup}
-              testID="discover-topics-slider-user-specific"
-            />
-          </ScrollBasedRender>
-        ))}
+        {userTopics.map((userTopic, index) => {
+          if (index < 2) {
+            return (
+              <SpacesGroupSlider
+                key={index}
+                topic={userTopic}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-topics-slider-user-specific"
+              />
+            )
+          }
+          return (
+            <ScrollBasedRender key={index}>
+              <SpacesGroupSlider
+                topic={userTopic}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-topics-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          )
+        })}
 
-        {userSkills.map((userSkill, index) => (
-          <ScrollBasedRender key={index}>
-            <SpacesGroupSlider
-              skill={userSkill}
-              pageSize={SPACES_GROUP_LIMIT}
-              style={styles.spacesGroup}
-              testID="discover-skills-slider-user-specific"
-            />
-          </ScrollBasedRender>
-        ))}
+        {userSkills.map((userSkill, index) => {
+          if (index < 2) {
+            return (
+              <SpacesGroupSlider
+                key={index}
+                skill={userSkill}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-skills-slider-user-specific"
+              />
+            )
+          }
+          return (
+            <ScrollBasedRender key={index}>
+              <SpacesGroupSlider
+                skill={userSkill}
+                pageSize={SPACES_GROUP_LIMIT}
+                style={styles.spacesGroup}
+                testID="discover-skills-slider-user-specific"
+              />
+            </ScrollBasedRender>
+          )
+        })}
 
         {loading && <SpacesGroupSliderSkeletons />}
 
