@@ -4,13 +4,13 @@ import { SectionList, View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { ChatMessage } from '@holi/chat/src/store'
+import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
-import { getSectionDisplayDate } from './helpers'
 import { RoomMessageListProps } from './types'
 
 interface MessageDateGroup {
@@ -62,13 +62,15 @@ const RoomMessageList = ({ messages = [], matrixIdToHoliUserRecord, starter, onS
         const isNextMessageFromSameUser = nextMessage && nextMessage?.sender === message.sender
 
         return (
-          <RoomMessage
-            message={message}
-            user={matrixIdToHoliUserRecord[message.sender ?? '']}
-            showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
-            isPrevMessageFromSameUser={isPrevMessageFromSameUser}
-            isNextMessageFromSameUser={isNextMessageFromSameUser}
-          />
+          <View style={styles.listItemContainer}>
+            <RoomMessage
+              message={message}
+              user={matrixIdToHoliUserRecord[message.sender ?? '']}
+              showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
+              isPrevMessageFromSameUser={isPrevMessageFromSameUser}
+              isNextMessageFromSameUser={isNextMessageFromSameUser}
+            />
+          </View>
         )
       }}
       renderSectionFooter={({ section }) => (
@@ -99,8 +101,14 @@ export default RoomMessageList
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: colors.background20,
+    width: '100%',
     height: '100%',
+    backgroundColor: colors.background20,
+  },
+  listItemContainer: {
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: vars.maxScreenWidth,
   },
   listFooterSpacer: {
     paddingTop: vars.topBarHeight,

@@ -26,7 +26,6 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
       label={title}
       transparent
       onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-      style={styles.mainImageContainer}
       testID={'donations-list-item'}
     >
       <DonationImage picture={picture} label={title} style={styles.mainImage} width={imageWidth} height={imageHeight} />
@@ -48,9 +47,6 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
 export default DonationListingItem
 
 const styles = StyleSheet.create({
-  mainImageContainer: {
-    marginBottom: 40,
-  },
   mainImage: {
     aspectRatio: 327 / 214,
     borderRadius: 24,

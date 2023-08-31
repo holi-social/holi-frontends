@@ -1,12 +1,15 @@
-import React, { type Dispatch, type SetStateAction, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleSheet, TextInputKeyPressEventData } from 'react-native'
 
+import { sendMessage } from '@holi/chat/src/store'
+import { logError } from '@holi/core/errors/helpers'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
   shiftKey: boolean
@@ -24,16 +27,17 @@ const generateContainerStyles = (value: Animated.Value) => {
 }
 
 interface Props {
-  text: string
-  setText: Dispatch<SetStateAction<string>>
+  roomId: string
   isVisible: boolean
   userName?: string
-  onPress: () => Promise<void>
 }
 
-export const ChatTextInput = ({ isVisible, onPress, text, setText, userName = '' }: Props) => {
+export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const { t } = useTranslation()
+  const { openToast } = useToast()
   const positionRef = useRef(new Animated.Value(100))
+
+  const [messageText, setMessageText] = useState('')
 
   useEffect(() => {
     if (!isVisible) return
@@ -44,13 +48,26 @@ export const ChatTextInput = ({ isVisible, onPress, text, setText, userName = ''
     }).start()
   }, [isVisible])
 
+  const handleSendMessage = async () => {
+    const text = messageText.trim()
+    if (!text) return
+
+    try {
+      setMessageText('')
+      await sendMessage({ roomId, text })
+    } catch (err) {
+      setMessageText(text)
+      openToast(t('global.technicalError'))
+    }
+  }
+
   return (
     <Animated.View style={generateContainerStyles(positionRef.current)}>
       <HoliTextInput
         accessibilityLabel={t('chat.room.input.placeholder', { fullName: userName })}
         placeholder={t('chat.room.input.placeholder', { fullName: userName })}
-        value={text}
-        onChange={setText}
+        value={messageText}
+        onChange={setMessageText}
         style={styles.textInputContainer}
         inputStyle={styles.textInput}
         maxNoOfVisibleLines={5}
@@ -62,13 +79,19 @@ export const ChatTextInput = ({ isVisible, onPress, text, setText, userName = ''
               event.nativeEvent.shiftKey
             ) {
               event.preventDefault()
-              onPress()
+              handleSendMessage().catch(logError)
             }
           },
         }}
         testID={'chat-message-input'}
       />
-      <HoliButton label="" disabled={!text.trim()} onPress={onPress} inline style={styles.button}>
+      <HoliButton
+        label={t('chat.room.sendButton.label')}
+        disabled={!messageText.trim()}
+        onPress={handleSendMessage}
+        inline
+        style={styles.button}
+      >
         <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
       </HoliButton>
     </Animated.View>
@@ -80,8 +103,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    width: '100%',
+    maxWidth: vars.maxScreenWidth,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 6,
+    paddingBottom: 24,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderBottomColor: colors.white100,
@@ -92,13 +118,15 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 8,
     paddingHorizontal: 8,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
   },
   textInputContainer: {
+    maxHeight: 60,
     backgroundColor: colors.white100,
     flexShrink: 1,
   },
   textInput: {
+    height: '100%',
     borderWidth: 0,
     paddingVertical: 0,
     paddingHorizontal: 0,

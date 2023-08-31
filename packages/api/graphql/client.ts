@@ -1,6 +1,7 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'cross-fetch'
@@ -23,12 +24,6 @@ export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedEr
 // There might be something fishy here, types dont match and if it is not the last link in the chain, throws the error "You are calling concat on a terminating link"
 const uploadLink: ApolloLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 
-// Web authentication works using http-only cookies that are transparently added to requests by the Browser
-// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
-// For mobile it is also necessary to explicitly set the Accept-Language header.
-// `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
-
 export const createCache = () =>
   new InMemoryCache({
     // eslint-disable-next-line prettier/prettier
@@ -41,11 +36,6 @@ export const createCache = () =>
         },
       },
       InsightPaged: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
-      },
-      PostPaged: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
         },
@@ -77,6 +67,9 @@ export const createCache = () =>
           topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
+          posts: {
+            keyArgs: ['idOrName', 'visibility'],
+          },
         },
       },
       SpacePaged: {
@@ -94,6 +87,16 @@ export const createCache = () =>
         fields: {
           // Only allow pagination when searching for users by `substring`
           data: nestedPaginationPolicy(['substring']),
+        },
+      },
+      PostPaged: {
+        fields: {
+          data: {
+            ...indexAwareOffsetLimitPagination(),
+            // Use Apollo's default offsetLimitPagination's read method for Posts, since the limit
+            // is always the same in this case (no screens asking for different limits for Posts)
+            read: offsetLimitPagination().read,
+          },
         },
       },
       Query: {
@@ -153,10 +156,18 @@ const isSSR = typeof window === 'undefined'
 const API_URL = process.env.HOLI_API_URL
 const httpLink = new HttpLink({ uri: API_URL, fetch })
 
+const cache = createCache()
+
+// Web authentication works using http-only cookies that are transparently added to requests by the Browser
+// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
+// For mobile it is also necessary to explicitly set the Accept-Language header.
+// `headerLink` is therefore only needed on Mobile (i.e. when defined)
+const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   const clientLink = isSSR ? from([errorLink, httpLink]) : link
 
-  return new ApolloClient({ ssrMode, link: clientLink, cache: createCache() })
+  return new ApolloClient({ ssrMode, link: clientLink, cache })
 }
 
 // Web

@@ -4,6 +4,9 @@ import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 
+// prevent matrix-sdk-internal logging noise
+console.debug = jest.fn()
+
 let mockGetInitialURL: jest.Mock | undefined
 let mockAddEventListener: jest.Mock | undefined
 
@@ -35,8 +38,8 @@ const notificationResponseForRemoteTriggerAndroidMock: NotificationResponse = {
             channelId: 'expo_notifications_fallback_notification_channel',
             message: 'You have a new message or invitation.',
             content: '{"body":"hello world!","msgtype":"m.text"}',
-            room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
-            sender: '@malte1:staging.chat.holi.social',
+            room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+            sender: '@malte1:development-chat.holi.social',
             type: 'm.room.message',
             sender_display_name: 'malte1',
             prio: 'high',
@@ -102,7 +105,7 @@ const notificationResponseForRemoteTriggerIosMock: NotificationResponse = {
       trigger: {
         payload: {
           event_id: '$C5oGwtFD5GrO-dxSNtjWTWbX9z3Gq9l1kXK4HDe8Bkw',
-          room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
           experienceId: '@holistic-foundation/projectholi',
           scopeKey: '@holistic-foundation/projectholi',
           aps: {
@@ -133,7 +136,7 @@ const notificationResponseForLocalTriggerAndroidMock: NotificationResponse = {
         badge: null,
         // @ts-ignore available on android
         autoDismiss: true,
-        data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+        data: { room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
         body: 'some body',
         sound: 'default',
         sticky: false,
@@ -159,7 +162,7 @@ const notificationResponseForLocalTriggerIosMock: NotificationResponse = {
         attachments: [],
         categoryIdentifier: '',
         summaryArgument: '',
-        data: { room_id: '!qwGdHhthYWLZHsDwuG:staging.chat.holi.social' },
+        data: { room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
         title: 'New message',
         subtitle: null,
         badge: null,
@@ -192,7 +195,9 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual('https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social')
+        expect(initialUrl).toEqual(
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+        )
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
 
@@ -201,7 +206,9 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual('https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social')
+        expect(initialUrl).toEqual(
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+        )
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
     })
@@ -212,7 +219,9 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual('https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social')
+        expect(initialUrl).toEqual(
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+        )
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
 
@@ -221,7 +230,9 @@ describe('rootLinkingConfig', () => {
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
 
-        expect(initialUrl).toEqual('https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social')
+        expect(initialUrl).toEqual(
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
+        )
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
       })
     })
@@ -258,7 +269,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForRemoteTriggerAndroidMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social'
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
 
         urlResultCatcher.mockClear()
@@ -266,7 +277,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForLocalTriggerAndroidMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social'
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
       })
     })
@@ -284,7 +295,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForRemoteTriggerIosMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social'
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
 
         urlResultCatcher.mockClear()
@@ -292,7 +303,7 @@ describe('rootLinkingConfig', () => {
         registeredListener(notificationResponseForLocalTriggerIosMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
-          'https://app.holi.social/chat/rooms/!qwGdHhthYWLZHsDwuG:staging.chat.holi.social'
+          'https://app.holi.social/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
       })
     })

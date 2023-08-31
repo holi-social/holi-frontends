@@ -8,6 +8,11 @@ import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/
 import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const spaceId = 'space1'
 const createUser = (index: number) => ({
   id: `user${index}`,

@@ -35,7 +35,7 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
     try {
       await joinRoom(roomId)
     } catch (e) {
-      openToast(t('chat.offline'))
+      openToast(t('global.offline.description'))
     }
   }
 
@@ -70,7 +70,12 @@ const ChatProfileCard = ({ roomId, user, userIsLoading }: PropsWithChildren<Prop
             <HoliButton inline label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
               {t('chat.invitation.reject')}
             </HoliButton>
-            <HoliButton inline label={t('chat.invitation.accept')} onPress={handleJoin}>
+            <HoliButton
+              inline
+              label={t('chat.invitation.accept')}
+              testID={'chat-invitation-accept'}
+              onPress={handleJoin}
+            >
               {t('chat.invitation.accept')}
             </HoliButton>
           </View>

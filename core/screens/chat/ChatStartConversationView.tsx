@@ -8,6 +8,7 @@ import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
@@ -39,6 +40,7 @@ const ChatStartConversationView = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { replaceRoute, navigate } = useRouting()
+  const { top: safeAreaInsetTop } = useSafeAreaInsets()
 
   const [searchUserInputValue, setSearchUserInputValue] = useState('')
   const [users, setUsers] = useState<User[]>([])
@@ -142,7 +144,7 @@ const ChatStartConversationView = () => {
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
         <SafeAreaView style={styles.wrapper}>
-          <View style={styles.inner}>
+          <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
             <HoliTextInput
               value={searchUserInputValue}
               placeholder={t('chat.start.input.label')}
@@ -198,6 +200,7 @@ const ChatStartConversationView = () => {
                   index,
                 })}
                 style={[mixins.container, styles.list]}
+                keyboardShouldPersistTaps="handled"
               />
             ) : (
               <View style={[mixins.container, styles.listDesctiption]}>
@@ -239,8 +242,9 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    marginTop: vars.topBarHeight,
-    paddingTop: 16,
+    // 16 is space between the header and the input
+    // we do not use `paddingTop` for this spacing, because it will be overriden with `safeAreaInsetTop` for Android
+    marginTop: +vars.topBarHeight + 16,
   },
   list: {
     flex: 1,

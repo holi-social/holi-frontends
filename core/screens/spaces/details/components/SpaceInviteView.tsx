@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
@@ -12,7 +12,7 @@ import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@hol
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -65,6 +65,7 @@ const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
       buttonLabel={t('spaces.invite.btn.send')}
       scrollToInput={false}
       initialOffsetTop={0}
+      keyboardShouldPersistTaps="handled"
       {...throttledScrollEventProps}
       renderProp={() => (
         <>
@@ -104,7 +105,14 @@ const styles = StyleSheet.create({
   },
   whom: {
     display: 'flex',
-    paddingVertical: 24,
+    ...Platform.select({
+      native: {
+        paddingTop: +vars.topBarHeight + 52,
+      },
+      web: {
+        paddingTop: +vars.topBarHeight + 24,
+      },
+    }),
     paddingBottom: 8,
     flexDirection: 'column',
     alignItems: 'flex-start',

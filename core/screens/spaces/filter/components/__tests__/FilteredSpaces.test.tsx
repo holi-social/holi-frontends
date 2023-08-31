@@ -12,9 +12,12 @@ import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filt
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-jest.useFakeTimers()
-
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
+
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
 
 const createSpacesMock = (variables = {}) => ({
   request: {

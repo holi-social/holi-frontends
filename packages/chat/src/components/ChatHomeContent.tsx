@@ -3,11 +3,11 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import RoomList from '@holi/chat/src/components/RoomList'
 import { ChatRoomAtom, roomAtomsSortedByDateAtom } from '@holi/chat/src/store'
-import { useChatInitialized } from '@holi/chat/src/store'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import RoomList from '@holi/core/screens/chat/components/RoomList'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -102,6 +102,7 @@ const ChatHomeRoomList = ({
           inline
           style={styles.overlayButton}
           onPress={() => navigate('/chat/start')}
+          testID={'start-chat-button'}
         >
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>
@@ -120,7 +121,7 @@ const ChatHomeContent = () => {
   }
 
   if (isLoading || !chatInitialized || !loggedInUser) {
-    return <HoliLoader />
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
   }
 
   if (!sortedRoomAtoms.length) {

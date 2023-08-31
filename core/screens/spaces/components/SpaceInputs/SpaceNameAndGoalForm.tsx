@@ -40,6 +40,7 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       saveButtonDisabled={saveButtonDisabled}
       loading={loading}
       style={style}
+      scrollToInput={false}
       testID="space-edit-modal"
       showBottomBar
       renderProp={(scrollToPropsFor) => (

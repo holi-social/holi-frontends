@@ -9,9 +9,11 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -205,11 +207,11 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
     <View style={styles.container} testID="volunteering-detailview-container">
       <ScrollHeaderLayout.Refreshable
         refreshableProps={{ isLoading: refreshing, onRefresh }}
-        style={{ backgroundColor: colors.background30 }}
+        style={[mixins.container, styles.container]}
         headerOverlap
       >
         {engagement && (
-          <View style={[mixins.container, styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+          <View style={[styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
@@ -222,7 +224,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
         )}
       </ScrollHeaderLayout.Refreshable>
 
-      <View style={[mixins.container, styles.volunteeringButton]}>
+      <View style={styles.volunteeringButton}>
         <HoliButtonLoading
           icon={ShareBox}
           label={t('volunteering:engagementDetail.getInTouch')}
@@ -234,7 +236,16 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   )
 }
 
-export default withProfiler(memo(VolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
+const WrappedVolunteeringEngagementDetail = (props: VolunteeringEngagementDetailProps) => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringEngagementDetail {...props} />
+  </FeatureToggleGuard>
+)
+
+export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
 
 const getStyles = (statusBarHeight: number) =>
   StyleSheet.create({
@@ -245,7 +256,8 @@ const getStyles = (statusBarHeight: number) =>
     container: {
       alignItems: 'center',
       flex: 1,
-      backgroundColor: colors.background30,
+      backgroundColor: colors.background20,
+      paddingHorizontal: 0,
     },
     wrapper: {
       paddingBottom: 132,

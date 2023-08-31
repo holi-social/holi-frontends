@@ -5,13 +5,13 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { ChatMessage } from '@holi/chat/src/store'
+import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 import RoomMessage from './RoomMessage'
-import { getSectionDisplayDate } from './helpers'
 import { RoomMessageListProps } from './types'
 
 interface ListSectionHeader {

@@ -24,7 +24,7 @@ export const ROOM_ITEM_CONTENT_HEIGHT = 52
 export const ROOM_ITEM_VERTICAL_PADDING = 16
 export const ROOM_ITEM_HEIGHT = ROOM_ITEM_CONTENT_HEIGHT + ROOM_ITEM_VERTICAL_PADDING * 2
 
-const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
+const RoomItem = ({ roomAtom, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const room = useAtomValue(roomAtom)
   const { matrixIdToHoliUserRecord, loading } = useMatrixIdToHoliUserRecord(room.members.map((m) => m.id))
@@ -32,6 +32,7 @@ const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
   const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp } = room
   const hasUnseenMessages = notificationCount > 0
+  const testID = `room-item-${name}`
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
@@ -40,7 +41,7 @@ const RoomItem = ({ roomAtom, loggedInUser, testID }: RoomItemProps) => {
   if (loading) {
     return (
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
-        <View testID={testID} style={styles.rowWrapper}>
+        <View testID={testID + '-skeleton'} style={styles.rowWrapper}>
           <View>
             <HoliAvatar size="medium" loading />
           </View>

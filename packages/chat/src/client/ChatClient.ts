@@ -7,6 +7,7 @@ import {
   EventType,
   HttpApiEvent,
   MatrixClient,
+  MatrixScheduler,
   Preset,
   RoomEvent,
   type RoomState,
@@ -54,6 +55,7 @@ export default class ChatClient {
       timelineSupport: true,
       // TODO: implement roomNameGenerator
       // roomNameGenerator: (_: string, state: RoomNameState) => {}
+      scheduler: new MatrixScheduler(),
     }
 
     this.mxClient = createClient(options)

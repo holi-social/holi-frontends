@@ -1,8 +1,8 @@
 import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 
+import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import { onScreenScrollY } from '@holi/core/helpers'
-import RoomItem, { ROOM_ITEM_HEIGHT } from '@holi/core/screens/chat/components/RoomList/RoomItem'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -29,6 +29,7 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       })}
       onScroll={onScreenScrollY}
       style={[mixins.container, styles.list]}
+      testID={'chat-room-list'}
     />
   )
 }

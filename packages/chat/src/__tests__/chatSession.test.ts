@@ -11,6 +11,9 @@ import { StoredCredentials } from '../utils'
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
 
+// prevent matrix-sdk-internal logging noise
+console.debug = jest.fn()
+
 jest.mock('matrix-js-sdk', () => {
   return {
     ...jest.requireActual('matrix-js-sdk'),

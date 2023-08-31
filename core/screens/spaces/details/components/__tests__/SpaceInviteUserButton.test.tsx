@@ -9,6 +9,11 @@ import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/s
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+// prevent logging about incomplete apollo mocks,
+// because we didn't flesh out the response data
+global.console.error = jest.fn()
+global.console.warn = jest.fn()
+
 const spaceId = 'space1'
 const user: User = {
   id: 'user1',
