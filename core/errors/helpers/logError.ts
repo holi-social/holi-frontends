@@ -13,6 +13,14 @@ export const logInfoMsg = (message: string) => {
   console.info('[logError.ts]' + message)
 }
 
+/**
+ * Helper function to log an error and send it to Sentry. You can pass optional
+ * parameters to add an additional log message, a stack trace or an object
+ * containing more information about the error context that would be send to
+ * Sentry as well.
+ *
+ * (!) Make sure to never log or pass any user identifiable data.
+ */
 export const logError = (error: unknown, message?: string, { stack, context }: ErrorInfo = {}) => {
   if (isNetworkConnectionError(error)) return
   logErrorLocal(error, message, stack)
