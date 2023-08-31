@@ -26,7 +26,6 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -120,9 +119,9 @@ const ChatRoomView = () => {
                 starter={
                   amIRoomCreator &&
                   chatPartnerHoliUser && (
-                    <HoliBox padding={[0, 16]}>
+                    <View style={styles.listStage}>
                       <RoomMessageListStart chatPartnerHoliUser={chatPartnerHoliUser} />
-                    </HoliBox>
+                    </View>
                   )
                 }
                 onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
@@ -161,5 +160,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     width: '100%',
+  },
+  listStage: {
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    maxWidth: vars.maxScreenWidth,
   },
 })
