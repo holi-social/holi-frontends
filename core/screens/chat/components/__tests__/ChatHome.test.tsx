@@ -1,11 +1,12 @@
 import { jest } from '@jest/globals'
 import { render, screen, waitFor } from '@testing-library/react-native'
+import { afterEach } from 'jest-circus'
 import React from 'react'
 
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
 import { createChatMemberFixture, createChatMessageFixture, createChatRoomFixture } from '@holi/chat/src/store'
 import ChatHome from '@holi/core/screens/chat/ChatHome'
-import { TestBed, atomsFor, queriesFor } from '@holi/core/screens/chat/components/__tests__/TestBed'
+import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/core/screens/chat/components/__tests__/TestBed'
 import { User } from '@holi/core/screens/userprofile/types'
 
 // keep in sync with __mocks__/matrix-js-sdk.ts
@@ -23,10 +24,17 @@ jest.mock('@holi/core/helpers/config', () => ({
 }))
 
 let mockLoggedInUser: User | undefined = undefined
-let mockLoggedInUserState = {
+
+interface MockLoggedInUserState {
+  isLoggedIn: boolean
+  isLoading: boolean
+}
+
+let mockLoggedInUserState: MockLoggedInUserState | undefined = {
   isLoggedIn: false,
   isLoading: false,
 }
+
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
     user: mockLoggedInUser,
@@ -46,6 +54,7 @@ jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
 let mockOrySessionInStorage: Record<string, string> | undefined = {
   session_token: 'session_token_stub',
 }
+
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   getSessionFromStorage: () => {
     return Promise.resolve(mockOrySessionInStorage)
@@ -115,7 +124,7 @@ describe('ChatHome', () => {
     })
 
     describe('for signed-in user', () => {
-      beforeAll(() => {
+      beforeEach(() => {
         mockOrySessionInStorage = {
           session_token: 'session_token_stub',
         }
@@ -136,6 +145,12 @@ describe('ChatHome', () => {
           ['mx_sso_token', 'someAccessToken'],
           ['mx_device', 'someDeviceId'],
         ]
+      })
+      afterEach(() => {
+        mockOrySessionInStorage = undefined
+        mockLoggedInUser = undefined
+        mockLoggedInUserState = undefined
+        mockMatrixSessionInStorage = []
       })
 
       it('shows empty home chat view', async () => {
@@ -163,13 +178,13 @@ describe('ChatHome', () => {
         const rooms = [bobsRoom]
 
         render(
-          <TestBed jotaiAtoms={atomsFor(rooms)} apolloMocks={queriesFor(rooms, members)}>
+          <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
             <ChatHome />
           </TestBed>
         )
 
         // then it shows the room list
-        screen.queryByTestId('chat-room-list')
+        await screen.findByTestId('chat-room-list')
 
         // and it intermediately shows a skeleton for the room
         await waitFor(() => screen.queryByTestId('room-item-BobIdentity-skeleton'))

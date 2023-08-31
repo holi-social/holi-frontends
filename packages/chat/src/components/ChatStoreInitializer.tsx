@@ -1,6 +1,5 @@
-import { Provider } from 'jotai'
-import { useHydrateAtoms } from 'jotai/utils'
-import React, { Suspense, memo, useEffect } from 'react'
+import { Provider, createStore } from 'jotai'
+import React, { type PropsWithChildren, Suspense, memo, useEffect } from 'react'
 
 import { startChat, useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatSession'
 import { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
@@ -23,16 +22,19 @@ const ChatStore = () => {
   return null
 }
 
+interface ChatStoreInitializer {
+  store?: ReturnType<typeof createStore>
+}
+
 /**
  * @name ChatStoreInitializer component
  * @description This component relies on `ChatClient` instance and renders `<ChatStore />` component when chat is initialized.
  * `<ChatStore />` mounts Jotai atoms for chat rooms and messages, which have `onMount` functions for listen to chat events.
  */
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithChildren & { initialAtoms?: any }) => {
+const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreInitializer>) => {
   const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
+
   const { user: { identity } = {} } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
@@ -49,26 +51,15 @@ const ChatStoreInitializer = ({ children, initialAtoms = [] }: React.PropsWithCh
 
   // to reset Jotai Provider for new user login we render a new one only when new identity is provided
   return (
-    <Provider key={reloadCount}>
+    <Provider key={reloadCount} store={store}>
       <Suspense>
         <ChatDevTools chatConnected={chatConnected} />
       </Suspense>
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {chatConnected && <ChatStore />}
-      <HydrateAtoms initialValues={initialAtoms}>{children}</HydrateAtoms>
+      {children}
     </Provider>
   )
-}
-
-function HydrateAtoms({
-  initialValues,
-  children,
-}: {
-  initialValues: Parameters<typeof useHydrateAtoms>[0]
-  children: React.ReactNode
-}) {
-  useHydrateAtoms(initialValues)
-  return <>{children}</>
 }
 
 export default memo(ChatStoreInitializer)

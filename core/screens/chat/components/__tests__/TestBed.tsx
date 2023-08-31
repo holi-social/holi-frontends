@@ -1,36 +1,34 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { atom } from 'jotai'
-import React from 'react'
+import { atom, createStore } from 'jotai'
+import React, { PropsWithChildren } from 'react'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
-import { ChatRoom, RoomAtomByRoomId, roomAtomsRecordInitializationAtom } from '@holi/chat/src/store'
+import { type ChatRoom, _roomAtomsRecordAtom } from '@holi/chat/src/store'
 import { usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 
-export function TestBed(
-  props: React.PropsWithChildren<{
-    // Parameters<typeof useHydrateAtoms>[0][]
-    jotaiAtoms: never[][]
-    apolloMocks: MockedResponse[]
-  }>
-) {
+interface Props {
+  store?: ReturnType<typeof createStore>
+  apolloMocks: MockedResponse[]
+}
+
+export const TestBed = ({ children, store, apolloMocks }: PropsWithChildren<Props>) => {
   return (
-    <ChatStoreInitializer initialAtoms={props.jotaiAtoms}>
-      <MockedProvider mocks={props.apolloMocks} addTypename={false}>
-        {props.children}
+    <ChatStoreInitializer store={store}>
+      <MockedProvider mocks={apolloMocks} addTypename={false}>
+        {children}
       </MockedProvider>
     </ChatStoreInitializer>
   )
 }
 
-export function atomsFor(rooms: ChatRoom[]) {
-  const roomAtomByRoomId = rooms.reduce<RoomAtomByRoomId>((acc, room) => {
-    acc[room.id] = atom(room)
-    return acc
-  }, {})
+export const storeForRoomAtoms = (rooms: ChatRoom[]) => {
+  const store = createStore()
+  rooms.forEach((room) => {
+    store.set(_roomAtomsRecordAtom, { [room.id]: atom(room) })
+  })
 
-  const roomAtomByRoomIdAtom = [roomAtomsRecordInitializationAtom, roomAtomByRoomId]
-  return [roomAtomByRoomIdAtom] as never
+  return store
 }
 
 export function queriesFor(rooms: ChatRoom[], members: ChatRoomMember[]) {

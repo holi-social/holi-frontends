@@ -84,8 +84,10 @@ const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: Chat
  * use a `createRoomAtomRecord` derived atom to set values (updating the
  * state).To edit a particular room, you need to use a selector, which can be
  * found below under the Room section (e.g `createRoomAtom`).
+ * IMPORTANT! Only import for testing in the `TestBed.tsx`.
  */
-const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
+export const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({}) // IMPORTANT! import only for testing
+
 export const roomAtomsRecordInitializationAtom = atom(null, (get, set, roomAtomsRecord: RoomAtomByRoomId) => {
   if (Object.keys(get(_roomAtomsRecordAtom)).length > 0) {
     return
