@@ -21,22 +21,49 @@ const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
 export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
+const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
+  if (uri === '/api/graphql') {
+    // web, uses relative url
+    // appending operation manually, because we want the same (relative) request
+    // (URL standard doesn't know how to transform relative urls)
+    return uri + '?op=' + operationName
+  } else if (!uri.startsWith('/')) {
+    // mobile, or any non-relative url (which can be parsed by URL)
+    try {
+      const url = new URL(uri)
+      url.searchParams.set('op', operationName)
+      return url
+    } catch (e) {
+      // should not happen, but if it does, we need to see it
+      // eslint-disable-next-line no-console
+      console.error('unable to set operation name', e)
+      return uri
+    }
+  } else {
+    return uri
+  }
+}
+
 const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
-  const body = options && options.body && typeof options.body === 'string' ? JSON.parse(options.body) : undefined
-  const operationName: string | undefined =
-    'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
-  if (typeof uri === 'string' && operationName) {
-    const url = new URL(uri)
-    url.searchParams.set('op', operationName)
-    // using custom uri for easier debugging, logging, and sentry span creation config
-    // e.g. https://staging.unified.apis.holi.social/graphql?op=hasNewNotifications
-    return fetch(url, options)
+  if (typeof uri === 'string' && typeof options?.body === 'string') {
+    const body = JSON.parse(options.body)
+    const operationName: string | undefined =
+      'operationName' in body && typeof body.operationName === 'string' ? body.operationName : undefined
+
+    if (operationName) {
+      // using custom uri for easier debugging, logging, and sentry span creation config
+      // e.g. /api/graphql?op=hasNewNotifications (web)
+      // e.g. https://staging.unified.apis.holi.social/graphql?op=hasNewNotifications (mobile)
+      return fetch(setOperationNameParam(uri, operationName), options)
+    } else {
+      return fetch(uri, options)
+    }
   } else {
     return fetch(uri, options)
   }
 }
 
-// There might be something fishy here, types dont match
+// types don't match unfortunately, this seems to be a minor issue with the library
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
