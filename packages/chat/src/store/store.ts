@@ -63,7 +63,7 @@ const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage)
   room.timestamp = message.timestamp
 })
 
-const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom, get: Getter) => {
+const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom, get: Getter) => {
   const roomId = room.id
 
   const hasRoom = roomId in roomAtoms
@@ -147,7 +147,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   // early return not to include the chat room in the store.
   if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
 
-  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom, get))
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, chatRoom, get))
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
