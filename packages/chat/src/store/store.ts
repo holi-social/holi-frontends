@@ -86,12 +86,6 @@ const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: Chat
  * found below under the Room section (e.g `createRoomAtom`).
  */
 const _roomAtomsRecordAtom = atom<RoomAtomByRoomId>({})
-export const roomAtomsRecordInitializationAtom = atom(null, (get, set, roomAtomsRecord: RoomAtomByRoomId) => {
-  if (Object.keys(get(_roomAtomsRecordAtom)).length > 0) {
-    return
-  }
-  set(_roomAtomsRecordAtom, () => roomAtomsRecord)
-})
 
 /**
  * @description A read-only atom to receive a record mapping room ids to room atoms.
@@ -243,6 +237,18 @@ const roomByIdAtomCreator = (roomId: string) => {
     return get(roomAtom)
   })
 }
+
+/**
+ * @name roomAtomsRecorAtomForTesting
+ * @description Use this read-write atom for unit testing purposes; for example,
+ * initialize the Jōtai store in the `TestBed.tsx` component.
+ */
+export const roomAtomsRecorAtomForTesting = atom(
+  (get) => get(_roomAtomsRecordAtom),
+  (_get, set, roomAtomsRecord: RoomAtomByRoomId) => {
+    set(_roomAtomsRecordAtom, () => roomAtomsRecord)
+  }
+)
 
 /**
  * Room Actions

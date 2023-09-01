@@ -1,11 +1,10 @@
 import { jest } from '@jest/globals'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
-import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
-import { createChatMemberFixture, createChatMessageFixture, createChatRoomFixture } from '@holi/chat/src/store'
-import ChatHome from '@holi/core/screens/chat/ChatHome'
-import { TestBed, atomsFor, queriesFor } from '@holi/core/screens/chat/components/__tests__/TestBed'
+import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/chat/src/components/__tests__/TestBed'
+import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
+import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import { User } from '@holi/core/screens/userprofile/types'
 
 // keep in sync with __mocks__/matrix-js-sdk.ts
@@ -23,10 +22,17 @@ jest.mock('@holi/core/helpers/config', () => ({
 }))
 
 let mockLoggedInUser: User | undefined = undefined
-let mockLoggedInUserState = {
+
+interface MockLoggedInUserState {
+  isLoggedIn: boolean
+  isLoading: boolean
+}
+
+let mockLoggedInUserState: MockLoggedInUserState | undefined = {
   isLoggedIn: false,
   isLoading: false,
 }
+
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
     user: mockLoggedInUser,
@@ -75,43 +81,20 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   }
 })
 
-describe('ChatHome', () => {
+let mockNavigationParam: string[] = []
+jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
+  useParam: () => mockNavigationParam,
+}))
+
+describe('ChatRoomView', () => {
   describe('with feature-enabled chat', () => {
-    beforeAll(() => {
+    beforeEach(() => {
       mockChatFeatureToggle = {
         loading: false,
         error: false,
         status: 'FeatureToggleStatus.PRODUCTION',
         enabled: true,
       }
-    })
-
-    describe('for guests', () => {
-      beforeAll(() => {
-        mockOrySessionInStorage = {}
-        mockLoggedInUser = undefined
-        mockLoggedInUserState = {
-          isLoggedIn: false,
-          isLoading: false,
-        }
-        mockMatrixSessionInStorage = [
-          ['mx_client_login', undefined],
-          ['mx_user_id', undefined],
-          ['mx_sso_token', undefined],
-          ['mx_device', undefined],
-        ]
-      })
-
-      it('shows login hint', async () => {
-        render(
-          <ChatStoreInitializer>
-            <ChatHome />
-          </ChatStoreInitializer>
-        )
-
-        await screen.findAllByText('loginRedirect.title')
-        await screen.findAllByText('loginRedirect.text')
-      })
     })
 
     describe('for signed-in user', () => {
@@ -138,49 +121,75 @@ describe('ChatHome', () => {
         ]
       })
 
-      it('shows empty home chat view', async () => {
-        render(
-          <ChatStoreInitializer>
-            <ChatHome />
-          </ChatStoreInitializer>
-        )
-
-        await screen.findAllByText('chat.empty.tagline')
-        await screen.findAllByText('chat.empty.headline')
-        await screen.findAllByText('chat.empty.button.text')
+      afterAll(() => {
+        mockOrySessionInStorage = undefined
+        mockLoggedInUser = undefined
+        mockLoggedInUserState = undefined
+        mockMatrixSessionInStorage = []
       })
 
-      it('shows a room in a list', async () => {
+      it('shows an invitation screen for a new room', async () => {
+        const someMember = createChatMemberFixture({ name: 'defaultUserName' })
+        const someRoom = createChatRoomFixture({
+          // we use user identities as room names?
+          name: someMember.name + 'Identity',
+          hasInvitation: true,
+          creator: someMember,
+        })
+
+        mockNavigationParam = [someRoom.id]
+        const members = [someMember]
+        const rooms = [someRoom]
+
+        render(
+          <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
+            <ChatRoomView />
+          </TestBed>
+        )
+
+        await waitForElementToBeRemoved(() => screen.queryByTestId('chat-room-loader'))
+
+        await screen.findAllByText('chat.invitation.copy')
+        await screen.findAllByText('chat.invitation.accept')
+        await screen.findAllByText('chat.invitation.reject')
+      })
+
+      it('shows a complete room with message and input field', async () => {
         const bob = createChatMemberFixture({ name: 'Bob' })
         const bobsRoom = createChatRoomFixture({
+          id: 'bobsRoom',
           // we use user identities as room names?
           name: 'BobIdentity',
           creator: bob,
+          // bob is already in his room
+          hasInvitation: false,
         })
-        bobsRoom.lastMessage = createChatMessageFixture('Moin!', bob)
+
+        mockNavigationParam = [bobsRoom.id]
+        mockMatrixSessionInStorage = [
+          ['mx_client_login', true], //fresh?
+          ['mx_user_id', 'BobIdentity'],
+          ['mx_sso_token', 'bobsAccessToken'],
+          ['mx_device', 'bobsDeviceId'],
+        ]
 
         const members = [bob]
         const rooms = [bobsRoom]
 
         render(
-          <TestBed jotaiAtoms={atomsFor(rooms)} apolloMocks={queriesFor(rooms, members)}>
-            <ChatHome />
+          <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
+            <ChatRoomView />
           </TestBed>
         )
 
-        // then it shows the room list
-        screen.queryByTestId('chat-room-list')
+        await waitForElementToBeRemoved(() => screen.queryByTestId('chat-room-loader'))
 
-        // and it intermediately shows a skeleton for the room
-        await waitFor(() => screen.queryByTestId('room-item-BobIdentity-skeleton'))
-        await waitFor(() => !screen.queryByTestId('room-item-BobIdentity-skeleton'))
+        // then it shows a message
+        // the matrix sdk mock serves a canned message that is expected here
+        await screen.findAllByText('Hello all in bobsRoom')
 
-        //then it shows bobs room in a list
-        const listedRoom = await screen.findByTestId('room-item-BobIdentity')
-        //and its creator
-        expect(listedRoom).toHaveTextContent('Bob')
-        //and its last message
-        expect(listedRoom).toHaveTextContent('Moin!')
+        // and it shows the input field
+        await screen.findAllByTestId('chat-message-input-input')
       })
     })
   })
