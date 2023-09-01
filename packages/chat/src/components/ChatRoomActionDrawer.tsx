@@ -23,8 +23,8 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
 
   const handleBlockConfirmation = async () => {
     await ignoreUser(chatPartner.id)
-    removeRoom(roomId)
     navigate('/chat')
+    removeRoom(roomId)
     openToast(t('user.profileView.block.successMessage', { name: chatPartnerFullName }), HoliToastType.SUCCESS)
   }
 
