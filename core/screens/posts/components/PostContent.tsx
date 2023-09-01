@@ -170,7 +170,9 @@ const styles = StyleSheet.create({
   },
   linkPreview: {
     marginTop: 16,
-    maxWidth: 320,
+    maxWidth: 420,
+    width: '100%',
+    alignSelf: 'center',
   },
   reactionsBar: {
     marginTop: 21,
