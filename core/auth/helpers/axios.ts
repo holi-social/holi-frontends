@@ -29,7 +29,7 @@ export const resilience = (axios: AxiosInstance) => {
 
       if (error.response && (error.response.status >= 400 || error.response.status < 500)) {
         // 4xx status means we should not retry.
-        logError(error, `[auth] Network request failed: ${{ config: error.config, error }}`)
+        logError(error, `[auth] Network request failed: ${error.config} - ${JSON.stringify(error, null, 2)}`)
         return Promise.reject(error)
       }
 
@@ -43,7 +43,7 @@ export const resilience = (axios: AxiosInstance) => {
         const err = new HoliError(
           `Unable to reach network, gave up after ${RETRY_COUNT} retries. Please restart the app and try again.`
         )
-        logError(err, `[auth] Reached max retry count: ${{ config: error.config, error }}`)
+        logError(err, `[auth] Reached max retry count: ${error.config} - ${JSON.stringify(error, null, 2)}`)
         return Promise.reject(err)
       }
 

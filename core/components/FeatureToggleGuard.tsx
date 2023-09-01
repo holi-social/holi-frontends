@@ -9,6 +9,7 @@ import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/C
 import { Zzz } from '@holi/icons/src/generated'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface FeatureToggleGuardProps {
@@ -47,7 +48,7 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
         headerLeftIcon={Zzz}
         title={t('global.maintenance.title', { feature: t(featureNameKey) })}
         disabled={true}
-        style={[mixins.container, style]}
+        style={[mixins.container, styles.container, style]}
       >
         <HoliText size="small" style={styles.maintenance}>
           {t('global.maintenance.description')}
@@ -63,6 +64,10 @@ const FeatureToggleGuard: React.FC<React.PropsWithChildren<FeatureToggleGuardPro
 export default memo(FeatureToggleGuard)
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 0,
+    backgroundColor: colors.background30,
+  },
   maintenance: {
     paddingHorizontal: 16,
     paddingBottom: 16,

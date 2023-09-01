@@ -165,7 +165,9 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
       )}
 
       {!!post.links?.length && (
-        <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        <HoliBox padding={[0, 24]}>
+          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        </HoliBox>
       )}
 
       <View style={styles.reactionsBar}>
@@ -216,6 +218,7 @@ const styles = StyleSheet.create({
   linkPreview: {
     paddingTop: 16,
     maxWidth: 420,
+    width: '100%',
     alignSelf: 'center',
   },
   reactionsBar: {

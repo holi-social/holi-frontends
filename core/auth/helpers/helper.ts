@@ -27,10 +27,13 @@ export const handleKratosSdkError =
     if (errorDetails.id && errorCodesToIgnore.includes(errorDetails.id)) {
       return error
     }
+    // Filter error details to make sure we do not send any user data
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { request, message, details, ...filteredDetails } = errorDetails
     logError(error, `[kratosSdk.${method}] ${errorDetails.reason || response?.statusText}`, {
       context: {
         method: `kratosSdk.${method}`,
-        ...errorDetails,
+        ...filteredDetails,
       },
     })
     throw error

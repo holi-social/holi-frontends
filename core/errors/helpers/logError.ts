@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 
-import { ErrorInfo } from '@holi/core/errors/helpers/logError.shared'
+import { ErrorInfo, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 
 export const logInfo = (error: unknown, message?: string) => {
   const errorMessage = message ? ` ${message}:` : ''
@@ -13,7 +13,16 @@ export const logInfoMsg = (message: string) => {
   console.info('[logError.ts]' + message)
 }
 
+/**
+ * Helper function to log an error and send it to Sentry. You can pass optional
+ * parameters to add an additional log message, a stack trace or an object
+ * containing more information about the error context that would be send to
+ * Sentry as well.
+ *
+ * (!) Make sure to never log or pass any user identifiable data.
+ */
 export const logError = (error: unknown, message?: string, { stack, context }: ErrorInfo = {}) => {
+  if (isNetworkConnectionError(error)) return
   logErrorLocal(error, message, stack)
   Sentry.captureException(error, (scope) => {
     if (stack) {
@@ -27,6 +36,7 @@ export const logError = (error: unknown, message?: string, { stack, context }: E
 }
 
 export const logErrorLocal = (error: unknown, message?: string, stack?: string) => {
+  if (isNetworkConnectionError(error)) return
   const isDevEnvironment = process.env.NODE_ENV === 'development'
   // `console.error` is being thrown by React Native ExceptionManager in
   // production builds. We left it for development to recognize the urgency to

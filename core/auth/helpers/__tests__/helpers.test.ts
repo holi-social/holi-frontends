@@ -52,7 +52,10 @@ describe('handleKratosSdkError', () => {
     scopeFunction({ setContext: setContextMock })
 
     expect(setContextMock).toHaveBeenCalledWith('Error Context', {
-      ...errorDetails,
+      id: 'session_inactive',
+      code: 401,
+      status: 'Unauthorized',
+      reason: 'No active session was found in this request.',
       method: 'kratosSdk.createBrowserLogoutFlow',
     })
   })
