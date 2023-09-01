@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { type Atom, Getter, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { EventTimeline, EventType, IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -63,13 +63,18 @@ const updateRoomAfterNewMessage = produce((room: ChatRoom, message: ChatMessage)
   room.timestamp = message.timestamp
 })
 
-const addChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom) => {
+const addOrUpdateChatRoom = produce((roomAtoms: Record<string, ChatRoomAtom>, room: ChatRoom, get: Getter) => {
   const roomId = room.id
-  const roomAtom = atom(room)
 
   const hasRoom = roomId in roomAtoms
-  if (hasRoom) return
-  roomAtoms[roomId] = roomAtom
+  const roomAtom = roomAtoms[roomId]
+
+  if (hasRoom && roomAtom) {
+    const prevRoom = get(roomAtom)
+    roomAtoms[roomId] = atom({ ...prevRoom, ...room })
+  } else {
+    roomAtoms[roomId] = atom(room)
+  }
 })
 
 /**
@@ -136,7 +141,7 @@ const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsReco
   // early return not to include the chat room in the store.
   if (hasOnlyIgnoredMembers(chatRoom.members, ignoredUsers)) return
 
-  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addChatRoom(prevRoomAtoms, chatRoom))
+  set(_roomAtomsRecordAtom, (prevRoomAtoms) => addOrUpdateChatRoom(prevRoomAtoms, chatRoom, get))
 })
 
 _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
@@ -156,6 +161,8 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
 
   // set litener for new rooms
   getChatClient().subscribeToRooms((room) => {
+    const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
+
     /**
      * @name waitForCorrectRoomName
      * @description Matrix room has `Empty room` name on creation and then Matrix updates it under the hood.
@@ -164,7 +171,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
      * @param timestamp `number` represents timestamp limit till function postponds setting the atom
      */
     const waitForCorrectRoomName = (timestamp: number) => {
-      if (room.name !== 'Empty room' || Date.now() > timestamp) {
+      if (!hasRoomEmptyName(room) || Date.now() > timestamp) {
         addRoomToStore(room, 'subscription')
       } else {
         setTimeout(() => {
@@ -173,7 +180,10 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
       }
     }
 
-    waitForCorrectRoomName(Date.now() + 2000)
+    if (hasRoomEmptyName(room)) {
+      waitForCorrectRoomName(Date.now() + 2000)
+    }
+    addRoomToStore(room, 'subscription')
   })
 }
 
@@ -682,6 +692,8 @@ export const getHoliUserForChatMember = (
  * Verifies if all the passed members (excluding the logged-in user) are ignored.
  */
 export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: MatrixId[]): boolean => {
+  if (ignoredUsers.length === 0) return false
+
   const ignoredRoomMembers = members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
   return ignoredRoomMembers.length === members.length - 1
 }
