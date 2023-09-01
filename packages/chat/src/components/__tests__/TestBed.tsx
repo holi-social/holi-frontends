@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react'
 
 import { ChatRoomMember } from '@holi/chat/src/client/types'
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
-import { type ChatRoom, _roomAtomsRecordAtom } from '@holi/chat/src/store'
+import { type ChatRoom, roomAtomsRecorAtomForTesting } from '@holi/chat/src/store'
 import { usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
 
 interface Props {
@@ -25,7 +25,8 @@ export const TestBed = ({ children, store, apolloMocks }: PropsWithChildren<Prop
 export const storeForRoomAtoms = (rooms: ChatRoom[]) => {
   const store = createStore()
   rooms.forEach((room) => {
-    store.set(_roomAtomsRecordAtom, { [room.id]: atom(room) })
+    const prevroomAtomsRecord = store.get(roomAtomsRecorAtomForTesting)
+    store.set(roomAtomsRecorAtomForTesting, { ...prevroomAtomsRecord, [room.id]: atom(room) })
   })
 
   return store
