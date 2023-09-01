@@ -2,10 +2,10 @@ import { jest } from '@jest/globals'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ChatStoreInitializer from '@holi/chat/src/components/ChatStoreInitializer'
+import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/chat/src/components/__tests__/TestBed'
 import { createChatMemberFixture, createChatMessageFixture, createChatRoomFixture } from '@holi/chat/src/store'
-import ChatHome from '@holi/core/screens/chat/ChatHome'
-import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/core/screens/chat/components/__tests__/TestBed'
 import { User } from '@holi/core/screens/userprofile/types'
 
 // keep in sync with __mocks__/matrix-js-sdk.ts
@@ -113,7 +113,7 @@ describe('ChatHome', () => {
       it('shows login hint', async () => {
         render(
           <ChatStoreInitializer>
-            <ChatHome />
+            <ChatHomeContent />
           </ChatStoreInitializer>
         )
 
@@ -156,7 +156,7 @@ describe('ChatHome', () => {
       it('shows empty home chat view', async () => {
         render(
           <ChatStoreInitializer>
-            <ChatHome />
+            <ChatHomeContent />
           </ChatStoreInitializer>
         )
 
@@ -179,7 +179,7 @@ describe('ChatHome', () => {
 
         render(
           <TestBed store={storeForRoomAtoms(rooms)} apolloMocks={queriesFor(rooms, members)}>
-            <ChatHome />
+            <ChatHomeContent />
           </TestBed>
         )
 

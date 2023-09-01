@@ -2,9 +2,9 @@ import { jest } from '@jest/globals'
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
+import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/chat/src/components/__tests__/TestBed'
 import { createChatMemberFixture, createChatRoomFixture } from '@holi/chat/src/store'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
-import { TestBed, queriesFor, storeForRoomAtoms } from '@holi/core/screens/chat/components/__tests__/TestBed'
 import { User } from '@holi/core/screens/userprofile/types'
 
 // keep in sync with __mocks__/matrix-js-sdk.ts
