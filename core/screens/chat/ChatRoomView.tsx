@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -83,6 +83,8 @@ const ChatRoomView = () => {
     })
   }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId])
 
+  const [roomAwaited, setRoomAwaited] = useState(false)
+
   useEffect(() => {
     // redirect not logged in user to Chat screen
     if (notLoggedIn) {
@@ -91,10 +93,16 @@ const ChatRoomView = () => {
     }
     // redirect logged in user to Chat screen if room not found
     if (chatInitialized && !room) {
-      openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
-      replaceRoute('/chat').catch(logError)
+      if (roomAwaited) {
+        openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
+        replaceRoute('/chat').catch(logError)
+      } else {
+        setTimeout(() => {
+          setRoomAwaited(true)
+        }, 5000)
+      }
     }
-  }, [chatInitialized, notLoggedIn, openToast, replaceRoute, room, t])
+  }, [chatInitialized, notLoggedIn, openToast, replaceRoute, room, roomAwaited, t])
 
   // request initial chunk of room messages
   useEffect(() => {
