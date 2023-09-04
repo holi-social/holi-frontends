@@ -36,12 +36,12 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
 
   const deleteAction = useCallback(() => {
     navigate('/spaces')
-    deleteSpace().catch((e) => logError(e))
+    deleteSpace().catch((e) => logError(e, '[useLeaveSpaces.ts] could not delete space'))
   }, [navigate, deleteSpace])
 
   const leaveAction = useCallback(() => {
     navigate('/spaces')
-    leaveSpace().catch((e) => logError(e))
+    leaveSpace().catch((e) => logError(e, '[useLeaveSpaces.ts] could not leave space'))
   }, [navigate, leaveSpace])
 
   const noAction = useCallback(() => {

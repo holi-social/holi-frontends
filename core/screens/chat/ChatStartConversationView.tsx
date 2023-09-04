@@ -6,6 +6,7 @@ import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View } from 'r
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -110,7 +111,7 @@ const ChatStartConversationView = () => {
 
     const identity = selectedUser.identity
     if (!identity) {
-      logError('Can not create a chat with out an user identity')
+      logError(new HoliError('Can not create a chat with out an user identity'), '[ChatSartConversationView.tsx]')
       return
     }
 
@@ -119,13 +120,13 @@ const ChatStartConversationView = () => {
 
       const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
       if (!room_id) {
-        logError('Can not open a room without a room id')
+        logError(new HoliError('Can not open a room without a room id'), '[ChatSartConversationView.tsx]')
         return
       }
 
       replaceRoute('/chat/rooms/' + room_id)
     } catch (err) {
-      logError(err)
+      logError(err, '[ChatStartConcersationView.tsx] coult not create room or navigate to it')
     } finally {
       setIsCreatingRoom(false)
     }

@@ -104,7 +104,7 @@ const SpaceDetails = () => {
 
   const deleteConfirmationAction = useCallback(() => {
     navigate('/spaces')
-    deleteSpace().catch((e) => logError(e))
+    deleteSpace().catch((e) => logError(e, '[SpaceDetail.tsx] could not delete space'))
   }, [deleteSpace, navigate])
 
   const manageCollaboratorsAction = useCallback(() => {

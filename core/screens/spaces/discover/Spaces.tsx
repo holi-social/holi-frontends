@@ -108,7 +108,7 @@ const Spaces = () => {
   useEffect(() => {
     if (mySpacesError && mySpacesError.message !== 'Unauthorized') {
       openToast(t('global.technicalError'), HoliToastType.ERROR)
-      logError(mySpacesError?.message)
+      logError(mySpacesError, `[Spaces.tsx] ${mySpacesError.message}`)
     }
   }, [mySpacesError, openToast, t])
 

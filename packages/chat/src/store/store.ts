@@ -208,7 +208,7 @@ const _roomsNotificationsSubscriberAtom = atom(
 _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
   getChatClient()
     .subscribeToUnreadRoomsNotifications(setAtom)
-    .catch((err) => logError(err))
+    .catch((err) => logError(err, '[store.ts] could not subscribe to unread room notifications'))
 }
 
 /**
@@ -494,7 +494,7 @@ export const setLatestMessagesAsRead = async (roomId: string): Promise<void> => 
   try {
     await getChatClient().setLatestMessagesAsRead(roomId)
   } catch (err) {
-    logError(err)
+    logError(err, '[store.ts] could not set last messages as read')
   }
 }
 

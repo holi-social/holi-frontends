@@ -86,13 +86,17 @@ const ChatRoomView = () => {
   useEffect(() => {
     // redirect not logged in user to Chat screen
     if (notLoggedIn) {
-      replaceRoute('/chat').catch(logError)
+      replaceRoute('/chat').catch((error) =>
+        logError(error, '[ChatRommView.tsx] could not redirect not logged in user to /chat')
+      )
       return
     }
     // redirect logged in user to Chat screen if room not found
     if (chatInitialized && !room) {
       openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
-      replaceRoute('/chat').catch(logError)
+      replaceRoute('/chat').catch((error) =>
+        logError(error, '[ChatRommView.tsx] could not redirect logged in user to /chat')
+      )
     }
   }, [chatInitialized, notLoggedIn, openToast, replaceRoute, room, t])
 

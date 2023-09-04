@@ -16,7 +16,7 @@ import headerLink from './headerLink'
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
-const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const unauthorizedErrorStatusVar = makeVar<boolean>(false)
 export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
 export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
@@ -64,6 +64,7 @@ const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
 }
 
 // types don't match unfortunately, this seems to be a minor issue with the library
+// the library includes its own node_modules with a dependency to apollo/client ^3.7.0
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({

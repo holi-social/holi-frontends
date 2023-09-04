@@ -35,7 +35,7 @@ const EditSpaceLink: React.VFC<EditSpaceLinkProps> = ({ space, link, onDismiss }
       onDismiss()
     },
     onError: (e) => {
-      logError(e)
+      logError(e, '[EditSpaceLink] error executing ExternalLinkMutation')
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
   })
