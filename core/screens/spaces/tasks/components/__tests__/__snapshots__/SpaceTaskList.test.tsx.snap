@@ -303,6 +303,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -413,6 +414,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -570,6 +572,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },
@@ -657,6 +660,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },
@@ -1069,6 +1073,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -1179,6 +1184,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -1336,6 +1342,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },
@@ -1423,6 +1430,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },
@@ -1835,6 +1843,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -1945,6 +1954,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexShrink": 1,
                   }
                 }
               >
@@ -2102,6 +2112,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },
@@ -2189,6 +2200,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                 ],
                 {
+                  "flexShrink": 1,
                   "marginRight": 6,
                   "marginTop": 4,
                 },

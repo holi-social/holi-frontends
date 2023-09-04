@@ -304,6 +304,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexShrink": 1,
                     }
                   }
                 >
@@ -414,6 +415,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexShrink": 1,
                     }
                   }
                 >
@@ -571,6 +573,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     },
                   ],
                   {
+                    "flexShrink": 1,
                     "marginRight": 6,
                     "marginTop": 4,
                   },
@@ -658,6 +661,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     },
                   ],
                   {
+                    "flexShrink": 1,
                     "marginRight": 6,
                     "marginTop": 4,
                   },
@@ -1070,6 +1074,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexShrink": 1,
                     }
                   }
                 >
@@ -1180,6 +1185,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexShrink": 1,
                     }
                   }
                 >
@@ -1337,6 +1343,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     },
                   ],
                   {
+                    "flexShrink": 1,
                     "marginRight": 6,
                     "marginTop": 4,
                   },
@@ -1424,6 +1431,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     },
                   ],
                   {
+                    "flexShrink": 1,
                     "marginRight": 6,
                     "marginTop": 4,
                   },
