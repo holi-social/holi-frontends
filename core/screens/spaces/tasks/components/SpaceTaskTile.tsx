@@ -332,6 +332,7 @@ const styles = StyleSheet.create({
   pill: {
     marginRight: 6,
     marginTop: 4,
+    flexShrink: 1,
   },
   iconsContainer: {
     marginTop: 4,
@@ -341,6 +342,7 @@ const styles = StyleSheet.create({
   iconGroupContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexShrink: 1,
   },
   iconGroupIcon: {
     marginRight: 4,
