@@ -13,7 +13,7 @@ export const logInfoMsg = (message: string) => {
   console.info('[logError.ts]' + message)
 }
 
-export const logError = (error: unknown, message?: string, { stack, context }: ErrorInfo = {}) => {
+export const logError = (error: unknown, message: string, { stack, context }: ErrorInfo = {}) => {
   if (isNetworkConnectionError(error)) return
   logErrorLocal(error, message, stack)
   Sentry.captureException(error, (scope) => {
