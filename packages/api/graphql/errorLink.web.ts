@@ -1,14 +1,10 @@
 import { ApolloError } from '@apollo/client'
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import * as Sentry from '@sentry/nextjs'
 
+import { setUnauthorizedErrorStatus } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { isErrorOfType, isServerError, logError, logErrorLocal } from '@holi/core/errors/helpers'
-
-const unauthorizedErrorStatusVar = makeVar<boolean>(false)
-export const setUnauthorizedErrorStatus = unauthorizedErrorStatusVar
-export const useUnauthorizedErrorStatusVar = () => useReactiveVar(unauthorizedErrorStatusVar)
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   // Do not log "not found" or "bad user input" errors
