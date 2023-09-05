@@ -122,7 +122,7 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "marginLeft": 8,
         }
       }
@@ -276,7 +276,7 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "marginLeft": 8,
         }
       }

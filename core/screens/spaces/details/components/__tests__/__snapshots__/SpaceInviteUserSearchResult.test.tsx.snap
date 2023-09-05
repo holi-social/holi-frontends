@@ -98,7 +98,7 @@ exports[`SpaceInviteUserSearchResult displays text if no results where found 1`]
       "fontFamily": "Circular Std Book",
       "fontSize": 16,
       "fontWeight": "400",
-      "lineHeight": 19.2,
+      "lineHeight": 22.4,
     }
   }
 >
@@ -532,7 +532,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >
@@ -820,7 +820,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >
@@ -835,7 +835,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
             >
@@ -850,7 +850,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >
@@ -1007,7 +1007,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >
@@ -1295,7 +1295,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >
@@ -1452,7 +1452,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "fontFamily": "Circular Std Book",
                   "fontSize": 12,
                   "fontWeight": "400",
-                  "lineHeight": 14.399999999999999,
+                  "lineHeight": 16.799999999999997,
                 }
               }
             >

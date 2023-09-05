@@ -136,7 +136,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 12,
                 "fontWeight": "400",
-                "lineHeight": 14.399999999999999,
+                "lineHeight": 16.799999999999997,
                 "marginTop": 8,
               }
             }
@@ -152,7 +152,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "fontFamily": "Circular Std Medium",
                 "fontSize": 12,
                 "fontWeight": "500",
-                "lineHeight": 14.399999999999999,
+                "lineHeight": 16.799999999999997,
                 "marginTop": 8,
               }
             }

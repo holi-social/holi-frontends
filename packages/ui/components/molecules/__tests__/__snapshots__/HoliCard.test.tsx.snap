@@ -96,7 +96,7 @@ exports[`HoliCard renders correctly 1`] = `
         "fontFamily": "Circular Std Book",
         "fontSize": 16,
         "fontWeight": "400",
-        "lineHeight": 19.2,
+        "lineHeight": 22.4,
       }
     }
   >
