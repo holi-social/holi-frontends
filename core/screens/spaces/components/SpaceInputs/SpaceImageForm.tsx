@@ -60,7 +60,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
             </View>
             <View style={styles.uploadButtonContainer}>
               <HoliImagePicker
-                maxFileSizeInMB={8}
+                maxFileSizeInMB={10}
                 buttonProps={{
                   label: t('spaces.input.coverImage.change.button.label'),
                   testID: 'space-upload-image-btn',
@@ -86,7 +86,7 @@ const SpaceImageForm: React.VFC<SpaceImageFormProps> = ({
         )) || (
           <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
-              maxFileSizeInMB={8}
+              maxFileSizeInMB={10}
               buttonProps={{
                 label: t('spaces.input.coverImage.upload.button.label'),
                 testID: 'space-upload-image-btn',

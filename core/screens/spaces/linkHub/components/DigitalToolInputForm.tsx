@@ -148,7 +148,7 @@ const DigitalToolInputForm: React.VFC<DigitalToolInputFormProps> = ({
         )}
         <View style={styles.uploadButtonContainer}>
           <HoliImagePicker
-            maxFileSizeInMB={8}
+            maxFileSizeInMB={10}
             buttonProps={{
               label: t('spaces.input.digitalTool.upload.button.label'),
               style: styles.imageUploadButton,
