@@ -101,15 +101,15 @@ const getStyles = (theme: HoliTheme) =>
     },
     super: {
       fontSize: 36,
-      lineHeight: 36 * 1.2,
+      lineHeight: 36 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     large: {
       fontSize: 28,
-      lineHeight: 28 * 1.2,
+      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     medium: {
       fontSize: 21,
-      lineHeight: 21 * 1.2,
+      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     small: {
       fontSize: 16,

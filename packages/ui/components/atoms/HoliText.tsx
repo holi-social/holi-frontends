@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
@@ -83,23 +83,23 @@ const getStyles = (theme: HoliTheme) =>
     },
     extralarge: {
       fontSize: 28,
-      lineHeight: 28 * 1.2,
+      lineHeight: 28 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     large: {
       fontSize: 21,
-      lineHeight: 21 * 1.2,
+      lineHeight: 21 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     default: {
       fontSize: 16,
-      lineHeight: 16 * 1.2,
+      lineHeight: 16 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     small: {
       fontSize: 14,
-      lineHeight: 14 * 1.2,
+      lineHeight: 14 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     extrasmall: {
       fontSize: 12,
-      lineHeight: 12 * 1.2,
+      lineHeight: 12 * (Platform.OS === 'ios' ? 1.4 : 1.2),
     },
     black300: {
       color: colors.foreground30,
