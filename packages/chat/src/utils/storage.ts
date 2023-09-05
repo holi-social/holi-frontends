@@ -1,28 +1,74 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 
-import type { ChatCredentials } from '@holi/chat/src/utils/types'
+import { logError } from '@holi/core/errors/helpers'
 
-import { CHAT_DEVICE_ID_KEY, CHAT_FRESH_LOGIN_KEY, CHAT_TOKEN_KEY, CHAT_URL, CHAT_USER_ID_KEY } from './constants'
+import {
+  CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+  CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  CHAT_LOCAL_STORAGE_KEY_TOKEN,
+  CHAT_LOCAL_STORAGE_KEY_USER_ID,
+} from './constants'
 
-export const getStoredSessionCreds = async (): Promise<ChatCredentials> => {
-  const values = await AsyncStore.multiGet([CHAT_TOKEN_KEY, CHAT_DEVICE_ID_KEY, CHAT_USER_ID_KEY, CHAT_FRESH_LOGIN_KEY])
+export interface StoredCredentials {
+  access_token: string
+  device_id: string
+  user_id: string
+  fresh_login: boolean
+}
 
-  const credentials: ChatCredentials = {
-    baseUrl: CHAT_URL,
-    guest: false,
-    userId: '',
-    accessToken: '',
-  }
+export const loadSessionCredentials = async (): Promise<StoredCredentials | undefined> => {
+  const values = await AsyncStore.multiGet([
+    CHAT_LOCAL_STORAGE_KEY_TOKEN,
+    CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+    CHAT_LOCAL_STORAGE_KEY_USER_ID,
+    CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  ])
 
   // TODO: implement strategy for missing values
-  return values.reduce(
+  const storedSessionCredentials = values.reduce(
     (acc, [key, value]) => ({
       ...acc,
-      ...(key === CHAT_USER_ID_KEY ? { userId: value ?? '' } : {}),
-      ...(key === CHAT_TOKEN_KEY ? { accessToken: value ?? '' } : {}),
-      ...(key === CHAT_DEVICE_ID_KEY ? { deviceId: value ?? '' } : {}),
-      ...(key === CHAT_FRESH_LOGIN_KEY ? { freshLogin: value === 'true' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_TOKEN ? { access_token: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_DEVICE_ID ? { device_id: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_USER_ID ? { user_id: value ?? '' } : {}),
+      ...(key === CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN ? { fresh_login: value === 'true' } : {}),
     }),
-    credentials
-  )
+    {}
+  ) as StoredCredentials
+  if (
+    !storedSessionCredentials.access_token ||
+    !storedSessionCredentials.device_id ||
+    !storedSessionCredentials.user_id
+  ) {
+    return undefined
+  }
+  return storedSessionCredentials
+}
+
+export const storeSessionCredentials = async (credentials: StoredCredentials): Promise<StoredCredentials> => {
+  await clearSessionCredentials()
+
+  // Reset newly received credentials
+  const multiSetCreds: [string, string][] = [
+    // TODO: the `access_token` should be stored with some kind of encryption
+    [CHAT_LOCAL_STORAGE_KEY_TOKEN, credentials.access_token],
+    [CHAT_LOCAL_STORAGE_KEY_DEVICE_ID, credentials.device_id],
+    [CHAT_LOCAL_STORAGE_KEY_USER_ID, credentials.user_id],
+    [CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN, `${credentials.fresh_login}`],
+  ]
+
+  await AsyncStore.multiSet(multiSetCreds).catch((err) => logError(err))
+  return credentials
+}
+
+/**
+ * Removes all the stored chat client credentials.
+ */
+export const clearSessionCredentials = async (): Promise<void> => {
+  await AsyncStore.multiRemove([
+    CHAT_LOCAL_STORAGE_KEY_TOKEN,
+    CHAT_LOCAL_STORAGE_KEY_DEVICE_ID,
+    CHAT_LOCAL_STORAGE_KEY_USER_ID,
+    CHAT_LOCAL_STORAGE_KEY_FRESH_LOGIN,
+  ])
 }

@@ -4,62 +4,40 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-import {
-  VolunteeringCategoriesQuery,
-  VolunteeringCategoriesQueryResult,
-  VolunteeringCitiesQuery,
-  VolunteeringCitiesQueryResult,
-} from '@holi-apps/volunteering/queries'
+import { VolunteeringCategoriesQuery, VolunteeringCategoriesQueryResult } from '@holi-apps/volunteering/queries'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
+  initialLocationSelection?: GeolocationSuggestion
   onSubmit: (filters?: VolunteeringFilters) => void
 }
 
 const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   onSubmit,
   filters = {},
+  initialLocationSelection,
 }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
-  const [location, setLocation] = useState(filters.location)
-  const [category, setCategory] = useState(filters.category)
 
-  const {
-    data: locationData,
-    loading: locationLoading,
-    error: locationError,
-  } = useQuery<VolunteeringCitiesQueryResult>(VolunteeringCitiesQuery)
+  const [category, setCategory] = useState(filters.category)
+  const [locationQuery, setLocationQuery] = useState(initialLocationSelection?.label || '')
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(initialLocationSelection)
 
   const {
     data: categoriesData,
-    loading: categoriesLoading,
-    error: categoriesError,
+    loading,
+    error,
   } = useQuery<VolunteeringCategoriesQueryResult>(VolunteeringCategoriesQuery)
-
-  const error = locationError || categoriesError
-
-  const loading = locationLoading || categoriesLoading
 
   if (error) {
     logError(error, `[VolunteeringFilterForm.tsx] ${error.message}`)
   }
-  const cities = locationData?.appVolunteering_cities.data || []
-
-  const locationOptions: HoliSelectOption[] = cities.map((city) => ({
-    id: city.name,
-    title: city.name,
-    selected: city.name === location,
-  }))
-
-  const toggleLocationSelection = useCallback(
-    (option: HoliSelectOption) => setLocation(option.selected ? undefined : option.id),
-    [setLocation]
-  )
 
   const categories = categoriesData?.appVolunteering_categories.data || []
 
@@ -74,10 +52,22 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
     [setCategory]
   )
 
+  const toggleLocationSelection = useCallback(() => {
+    setLocationQuery(initialLocationSelection?.label || '')
+    setSelectedLocation(initialLocationSelection)
+  }, [initialLocationSelection])
+
+  const submit = useCallback(() => {
+    return onSubmit({
+      location: selectedLocation?.id,
+      category,
+    })
+  }, [onSubmit, selectedLocation, category])
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('volunteering:filter.submitButton')}
-      onActionButtonPress={() => onSubmit({ location, category })}
+      onActionButtonPress={submit}
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="handled"
@@ -87,15 +77,17 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
     >
       <View style={styles.container}>
         <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
-        <HoliSelect
-          options={locationOptions}
-          inputLabel={t('volunteering:filter.location.label')}
-          accessibilityLabel={t('volunteering:filter.location.label')}
+        <PlacesAutocomplete
+          label={t('volunteering:filter.location.label')}
           placeholder={t('volunteering:filter.location.placeholder')}
-          style={[styles.filterOption, { zIndex: 1 }]}
-          onChange={toggleLocationSelection}
+          value={locationQuery}
           id="volunteering-filter-location"
           testID="volunteering-filter-location"
+          onClose={setSelectedLocation}
+          onChangeText={toggleLocationSelection}
+          style={[styles.filterOption, { zIndex: 1 }]}
+          inputProps={{ autoFocus: true }}
+          fetchDetailsOnClose
         />
         <HoliSelect
           options={topicOptions}

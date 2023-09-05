@@ -11,7 +11,16 @@ import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 const debugWithReactNativeImage = false
 
 // https://github.com/expo/expo/issues/21921 is fixed, so we can use expo-image again
-const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testID, onLayout }: MobileImageProps) => {
+const HoliImage = ({
+  source,
+  blurhash,
+  label,
+  style,
+  resizeMode = 'cover',
+  testID,
+  onLayout,
+  onError,
+}: MobileImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !!label,
     accessibilityRole: 'image',
@@ -41,6 +50,7 @@ const HoliImage = ({ source, blurhash, label, style, resizeMode = 'cover', testI
       style={style}
       contentFit={resizeMode}
       testID={testID}
+      onError={onError}
       onLayout={onLayout}
       {...accessibilityProps}
     />

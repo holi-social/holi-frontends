@@ -46,7 +46,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
     successMsg: t('global.report.successMessage'),
   })
 
-  const { deletePost, isLoadingPostDeletion } = useDeletePost(post.id)
+  const { deletePost, isLoadingPostDeletion } = useDeletePost(post, spaceIdOrName)
 
   const commenters = post.commenters.data
 
@@ -93,7 +93,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
         </HoliColumn>
         <HoliColumn>
           <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-            {!isCurrentUserPostCreator && ( // is not creator
+            {/* reporting own content makes no sense, so we hide this option */}
+            {!isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 isLoading={isLoadingReport}
                 icon={Flag}
@@ -110,7 +111,7 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
                 />
               </HoliActionDrawer.Action>
             )}
-
+            {/* editing only allowed for own content */}
             {spaceIdOrName && isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 icon={Edit2}
@@ -119,7 +120,8 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
                 handleAction={editAction}
               />
             )}
-            {isCurrentUserPostCreator && ( // is creator
+            {/* deleting only allowed for own content */}
+            {isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
                 isLoading={isLoadingPostDeletion}
                 icon={Delete}
@@ -163,7 +165,9 @@ const PostPreview = ({ hasVisibilityIcon, insightId, post, spaceIdOrName }: Post
       )}
 
       {!!post.links?.length && (
-        <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        <HoliBox padding={[0, 24]}>
+          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        </HoliBox>
       )}
 
       <View style={styles.reactionsBar}>
@@ -214,6 +218,7 @@ const styles = StyleSheet.create({
   linkPreview: {
     paddingTop: 16,
     maxWidth: 420,
+    width: '100%',
     alignSelf: 'center',
   },
   reactionsBar: {

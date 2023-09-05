@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
@@ -22,7 +21,7 @@ import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useP
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -32,9 +31,6 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 export type LoginParams = {
   return_to?: string
 }
-
-const IS_CHAT_ENABLED = false
-const chatLoginClient = new ChatLogin()
 
 const { useParam } = createParam<LoginParams>()
 
@@ -47,7 +43,7 @@ const Login = () => {
   const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const { onOnboardingStateChange } = useOnboarding()
+  const { storeOnboardingState } = useStoredOnboardingState()
   const setScreenOptions = useSetScreenOptions()
   const redirect = useRedirect()
 
@@ -93,14 +89,8 @@ const Login = () => {
       const { data } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
       await setUserLoggedIn(data as OrySessionContext)
-      await onOnboardingStateChange('finished')
+      await storeOnboardingState('finished')
       confirmOAuth2Login()
-
-      // Get Matrix Server Token
-      // Currently its disabled
-      if (IS_CHAT_ENABLED) {
-        await chatLoginClient.setSessionCredentials(true)
-      }
 
       if (Platform.OS === 'web' && return_to) {
         // server side redirect, see: See apps/web/pages/oauth2/login.tsx
@@ -111,7 +101,7 @@ const Login = () => {
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
-        await onOnboardingStateChange('emailVerification')
+        await storeOnboardingState('emailVerification')
 
         navigate('/')
         if (Platform.OS !== 'web') {
@@ -129,7 +119,7 @@ const Login = () => {
     <DefaultLayout headerOverlap={true} keyboardShouldPersistTaps="always">
       <HoliBox padding={[0, 24]}>
         <LoginRegistrationContainer>
-          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
           <View style={styles.formItemContainer}>
             <HoliTextLink

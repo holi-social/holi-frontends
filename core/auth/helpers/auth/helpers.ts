@@ -8,7 +8,7 @@ import {
 } from '@ory/kratos-client'
 import * as SecureStore from 'expo-secure-store'
 
-import { extractValue } from '@holi/core/auth/helpers/helper'
+import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
@@ -17,7 +17,7 @@ const userSessionName = 'user_session'
 // user is authenticated or null is the user is not authenticated.
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
-export const getSessionFromStorage = async () => {
+export const getSessionFromStorage = async (): Promise<OrySessionContext | null> => {
   try {
     const session = await SecureStore.getItemAsync(userSessionName)
     return session ? (JSON.parse(session) as OrySessionContext) : null
@@ -37,55 +37,74 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async () => {
-  const { data } = await newKratosSdk().createNativeLoginFlow()
-  return data
-}
+export const initLoginFlow = async () =>
+  newKratosSdk()
+    .createNativeLoginFlow()
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('createNativeLoginFlow'))
 
 export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
-  newKratosSdk().updateLoginFlow(
-    { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
-    { withCredentials: false }
-  )
+  newKratosSdk()
+    .updateLoginFlow(
+      { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
+      { withCredentials: false }
+    )
+    .catch(handleKratosSdkError('updateLoginFlow'))
 
 // Logout
 export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
-  if (payload.session_token) newKratosSdk().performNativeLogout({ performNativeLogoutBody: payload })
+  if (payload.session_token) {
+    return newKratosSdk()
+      .performNativeLogout({ performNativeLogoutBody: payload })
+      .catch(handleKratosSdkError('performNativeLogout'))
+  }
 }
 
 // Re-Auth
 export const initReauthFlow = async (sessionToken?: string) =>
-  newKratosSdk().createNativeLoginFlow({ refresh: true, xSessionToken: sessionToken })
+  newKratosSdk()
+    .createNativeLoginFlow({ refresh: true, xSessionToken: sessionToken })
+    .catch(handleKratosSdkError('createNativeLoginFlow'))
 
 export const submitReauthFlow = async (flow: LoginFlow, password: string, sessionToken?: string) => {
   const identifier = extractValue(flow, 'identifier')
-  return newKratosSdk().updateLoginFlow(
-    { flow: flow.id, updateLoginFlowBody: { method: 'password', identifier, password }, xSessionToken: sessionToken },
-    { withCredentials: true }
-  )
+  return newKratosSdk()
+    .updateLoginFlow(
+      { flow: flow.id, updateLoginFlowBody: { method: 'password', identifier, password }, xSessionToken: sessionToken },
+      { withCredentials: true }
+    )
+    .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
 // Register
-export const initRegistrationFlow = async () => newKratosSdk().createNativeRegistrationFlow()
+export const initRegistrationFlow = async () =>
+  newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
 
 // Forgot Password
-export const initPasswordRecoveryFlow = async () => newKratosSdk().createNativeRecoveryFlow()
+export const initPasswordRecoveryFlow = async () =>
+  newKratosSdk().createNativeRecoveryFlow().catch(handleKratosSdkError('createNativeRecoveryFlow'))
 
 // Change Password
 // https://www.ory.sh/docs/kratos/reference/api#tag/frontend/operation/createNativeSettingsFlow
 export const initSettingsFlow = async (sessionToken?: string) =>
-  newKratosSdk().createNativeSettingsFlow({ xSessionToken: sessionToken })
+  newKratosSdk()
+    .createNativeSettingsFlow({ xSessionToken: sessionToken })
+    .catch(handleKratosSdkError('createNativeSettingsFlow'))
 
 export const submitSettingsFlow = async (flow: SettingsFlow, password: string, sessionToken?: string) =>
-  newKratosSdk().updateSettingsFlow(
-    { flow: flow.id, xSessionToken: sessionToken, updateSettingsFlowBody: { method: 'password', password } },
-    { withCredentials: false }
-  )
+  newKratosSdk()
+    .updateSettingsFlow(
+      { flow: flow.id, xSessionToken: sessionToken, updateSettingsFlowBody: { method: 'password', password } },
+      { withCredentials: false }
+    )
+    .catch(handleKratosSdkError('updateSettingsFlow'))
 
 // Email verification flow
-export const initVerificationFlow = async () => newKratosSdk().createNativeVerificationFlow()
+export const initVerificationFlow = async () =>
+  newKratosSdk().createNativeVerificationFlow().catch(handleKratosSdkError('createNativeVerificationFlow'))
 
-export const getVerificationFlow = async (flowId: string) => newKratosSdk().getVerificationFlow({ id: flowId })
+export const getVerificationFlow = async (flowId: string) =>
+  newKratosSdk().getVerificationFlow({ id: flowId }).catch(handleKratosSdkError('getVerificationFlow'))
 
 export const submitVerificationFlow = async ({
   flow,
@@ -95,15 +114,16 @@ export const submitVerificationFlow = async ({
   flow: VerificationFlow
   code?: string
   email?: string
-}) => {
-  const newFlow = await newKratosSdk().updateVerificationFlow({
-    flow: flow.id,
-    token: code,
-    updateVerificationFlowBody: {
-      method: 'code',
-      email,
-      code,
-    },
-  })
-  return newFlow.data
-}
+}) =>
+  newKratosSdk()
+    .updateVerificationFlow({
+      flow: flow.id,
+      token: code,
+      updateVerificationFlowBody: {
+        method: 'code',
+        email,
+        code,
+      },
+    })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('updateVerificationFlow'))

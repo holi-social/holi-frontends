@@ -1,12 +1,14 @@
 import Constants from 'expo-constants'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi//ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import client from '@holi/api/graphql/client'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -92,6 +94,7 @@ const DonationsAppHome = () => {
       refreshableProps={{ isLoading: refreshing, onRefresh }}
       keyboardShouldPersistTaps="always"
       headerOverlap
+      style={styles.defaultLayout}
     >
       <HoliModal
         show={showSearchModal}
@@ -115,4 +118,18 @@ const DonationsAppHome = () => {
   )
 }
 
-export default memo(DonationsAppHome)
+const WrappedDonationsAppHome = () => (
+  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+    <DonationsAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedDonationsAppHome)
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    backgroundColor: colors.background20,
+    paddingBottom: 0,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+})

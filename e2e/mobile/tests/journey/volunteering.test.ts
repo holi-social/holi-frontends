@@ -1,3 +1,5 @@
+import { target } from '@holi/e2e-mobile/appiumConfig'
+
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
@@ -28,7 +30,9 @@ describe('@Volunteering', () => {
 
     await assertFilteringWorks()
 
-    await assertKeepsFilterAfterNavigatingToDetails()
+    await navigateToDetailview()
+    // expect filtered list
+    await waitForElementWithTestId('volunteering-list-filtered')
   })
 })
 
@@ -36,20 +40,12 @@ const assertListItemExisting = async () => {
   await waitForElementWithTestId('btn-to-volunteering-engagement')
 }
 
-const assertFilteringWorks = async ({ keepLocation = false }: { keepLocation?: boolean } = {}) => {
+const assertFilteringWorks = async () => {
   // swipe up to make header visible again
   await scrollToElementWithTestId('btn-to-volunteering-filter-modal', 'up', { maxAttempts: 5 })
 
   // open filter modal
   await tapOnElementWithTestId('btn-to-volunteering-filter-modal')
-
-  if (keepLocation) {
-    // open location dropdown
-    await tapOnElementWithTestId('volunteering-filter-location-input')
-
-    // click on first location in the list
-    await tapOnElementWithTestId('volunteering-filter-location-item')
-  }
 
   // open topics dropdown
   await tapOnElementWithTestId('volunteering-filter-category-input')
@@ -82,13 +78,4 @@ const assertAllowsPagination = async () => {
   await delay(1)
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-volunteering-list-load-more')
-}
-
-const assertKeepsFilterAfterNavigatingToDetails = async () => {
-  // remove filter except location to ensure results are shown
-  await assertFilteringWorks({ keepLocation: true })
-
-  await navigateToDetailview()
-  // expect filtered list
-  await waitForElementWithTestId('volunteering-list-filtered')
 }

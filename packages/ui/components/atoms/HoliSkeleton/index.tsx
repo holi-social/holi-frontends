@@ -33,11 +33,11 @@ const HoliSkeleton = (props: PropsWithChildren<HoliSkeletonProps>) => {
   const styles = getStyles(props)
 
   if (!layout) {
-    return <View style={styles.placeholder} onLayout={(e) => setLayout(e.nativeEvent.layout)} />
+    return <View style={styles.placeholder} onLayout={(e) => setLayout(e.nativeEvent.layout)} testID={props.testID} />
   }
 
   return (
-    <MaskedView style={styles.maskView} maskElement={<View style={styles.maskElement} />}>
+    <MaskedView style={styles.maskView} maskElement={<View style={styles.maskElement} />} testID={props.testID}>
       <View style={[StyleSheet.absoluteFill, styles.background]} />
       <Animated.View
         style={{

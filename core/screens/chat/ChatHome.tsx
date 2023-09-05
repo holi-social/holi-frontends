@@ -3,20 +3,21 @@ import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
+import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import ChatHomeContent from '@holi/core/screens/chat/ChatHomeContent'
+import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
+import { FeatureToggleStatus } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-// TODO: remove after implementing Chat
-const IS_CHAT_ENABLED = false
 
 const ChatHome = () => {
   const { t } = useTranslation()
@@ -25,9 +26,10 @@ const ChatHome = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { loading: ftLoading, enabled: ftEnabled, status } = useFeatureToggle(FeatureToggleName.CHAT)
+  const ftMaintenance = status === FeatureToggleStatus.MAINTENANCE
 
-  // TODO: remove after implementing the feature
-  useToastForNotAvailableFeature(!IS_CHAT_ENABLED)
+  useToastForNotAvailableFeature(!ftLoading && !ftEnabled && !ftMaintenance)
 
   useEffect(() => {
     setScreenOptions({
@@ -44,19 +46,25 @@ const ChatHome = () => {
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [navigate, setScreenOptions, t, title])
-
-  return IS_CHAT_ENABLED ? (
-    <ChatHomeContent />
-  ) : (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
-      <View style={mixins.container}>
-        <HoliHeading level="1" size="super">
-          {' '}
-        </HoliHeading>
-        <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
-      </View>
-    </ScrollHeaderLayout.Default>
-  )
+  if (ftLoading) {
+    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
+  } else if (ftMaintenance) {
+    return <ChatMaintenance />
+  } else if (!ftLoading && ftEnabled) {
+    return <ChatHomeContent />
+  } else {
+    // unknown status (= missing feature toggle) || disabled
+    return (
+      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+        <View style={mixins.container}>
+          <HoliHeading level="1" size="super">
+            {' '}
+          </HoliHeading>
+          <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
+        </View>
+      </ScrollHeaderLayout.Default>
+    )
+  }
 }
 
 export default withProfiler(memo(ChatHome), { name: 'ChatHome' })

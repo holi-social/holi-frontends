@@ -11,7 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { Loader4 } from '@holi/icons/src/generated'
+import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
@@ -22,6 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => void
+  scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
   loading?: boolean
@@ -44,6 +45,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       isModal = false,
       buttonLabel,
       showBottomBar = false,
+      scrollToInput = true,
       testID = 'form-wrapper',
       ...scrollViewProps
     }: FormWrapperProps,
@@ -71,6 +73,8 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
      * - prevent double scrollbars in web (no main page scrolling)
      */
     const scrollIntoView = useCallback(() => {
+      if (!scrollToInput) return
+
       if (Platform.OS === 'web') {
         scrollViewRef.current?.scrollToEnd({ animated: true })
       } else {
@@ -83,7 +87,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
           })
         )
       }
-    }, [scrollContentHeight, keyboardHeight, screenHeight])
+    }, [scrollContentHeight, keyboardHeight, screenHeight, scrollToInput])
 
     useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
     useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
@@ -99,7 +103,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       >
         <HoliKeyboardSaveView
           onHeightChange={onHeightChange}
-          style={{ position: 'relative' }}
+          style={styles.keyboardSaveView}
           initialOffsetTop={initialOffsetTop ?? (showBottomBar && Platform.OS === 'web' ? +vars.bottomBarHeight : 0)}
         >
           <ScrollView
@@ -124,7 +128,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 label={loading ? t('global.loading') : label}
                 onPress={onSave}
                 testID={`${testID}-save-btn`}
-                icon={loading ? Loader4 : undefined}
+                icon={loading ? Loader : undefined}
                 iconSpinning={saveButtonDisabled}
                 style={styles.button}
               >
@@ -150,6 +154,14 @@ const createStyles = (screenHeight: number) =>
       ...Platform.select({
         android: {
           paddingBottom: 0,
+        },
+      }),
+    },
+    keyboardSaveView: {
+      position: 'relative',
+      ...Platform.select({
+        android: {
+          minHeight: '100%',
         },
       }),
     },

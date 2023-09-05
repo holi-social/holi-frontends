@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
@@ -18,8 +19,14 @@ export const useLoggedInUser = () => {
     skip: !userId,
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
-      logout({ redirectPath: '/' })
-      displayError(error)
+      if (!isNetworkConnectionError(error)) {
+        logout({ redirectPath: '/' })
+        displayError(error)
+      }
+    },
+    // we avoid getting previous user from GraphQL cache by passing `userId`
+    variables: {
+      userId,
     },
   })
 

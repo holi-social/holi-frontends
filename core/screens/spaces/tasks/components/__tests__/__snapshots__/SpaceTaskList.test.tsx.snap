@@ -104,6 +104,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             <View
               style={
                 {
+                  "marginBottom": 16,
                   "position": "relative",
                 }
               }
@@ -132,7 +133,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ],
                     "source": [
                       {
-                        "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
                       },
                     ],
                     "tintColor": undefined,
@@ -155,27 +156,83 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "space-between",
-              "marginTop": 16,
             }
           }
         >
-          <Text
-            accessible={false}
-            ellipsizeMode="tail"
-            numberOfLines={2}
-            selectable={true}
-            style={
+          <View
+            accessibilityLabel="Task title"
+            accessibilityRole="button"
+            accessibilityState={
               {
-                "color": "#262424",
-                "fontFamily": "Circular Std Medium",
-                "fontSize": 16,
-                "fontWeight": "500",
-                "lineHeight": 19.2,
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "100%",
+                  },
+                ],
+                {
+                  "pointerEvents": "auto",
+                  "position": "relative",
+                },
+              ]
+            }
           >
-            Task title
-          </Text>
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 19.2,
+                  }
+                }
+              >
+                Task title
+              </Text>
+            </View>
+          </View>
         </View>
         <View
           accessibilityLabel="Task title"
@@ -462,190 +519,247 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 </Text>
               </View>
             </View>
-            <View
-              style={
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "marginTop": 12,
+            }
+          }
+        >
+          <View
+            accessibilityLabel="Communication skills"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
                 {
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "marginTop": 12,
-                }
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
               }
             >
-              <View
-                accessibilityLabel="Communication skills"
-                accessibilityRole="button"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
                 style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
-              >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Communication skills
-                  </Text>
-                </View>
-              </View>
-              <View
-                accessibilityLabel="Creativity"
-                accessibilityRole="button"
-                accessibilityState={
                   {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
                   }
                 }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
               >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Creativity
-                  </Text>
-                </View>
-              </View>
+                Communication skills
+              </Text>
             </View>
+          </View>
+          <View
+            accessibilityLabel="Creativity"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
+                {
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
+                  }
+                }
+              >
+                Creativity
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="Task title"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+              ],
+              {
+                "pointerEvents": "auto",
+                "position": "relative",
+              },
+            ]
+          }
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                undefined,
+              ]
+            }
+          >
             <View
               style={
                 {
@@ -756,6 +870,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             <View
               style={
                 {
+                  "marginBottom": 16,
                   "position": "relative",
                 }
               }
@@ -784,7 +899,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ],
                     "source": [
                       {
-                        "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
                       },
                     ],
                     "tintColor": undefined,
@@ -807,27 +922,83 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "space-between",
-              "marginTop": 16,
             }
           }
         >
-          <Text
-            accessible={false}
-            ellipsizeMode="tail"
-            numberOfLines={2}
-            selectable={true}
-            style={
+          <View
+            accessibilityLabel="Task title"
+            accessibilityRole="button"
+            accessibilityState={
               {
-                "color": "#262424",
-                "fontFamily": "Circular Std Medium",
-                "fontSize": 16,
-                "fontWeight": "500",
-                "lineHeight": 19.2,
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "100%",
+                  },
+                ],
+                {
+                  "pointerEvents": "auto",
+                  "position": "relative",
+                },
+              ]
+            }
           >
-            Task title
-          </Text>
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 19.2,
+                  }
+                }
+              >
+                Task title
+              </Text>
+            </View>
+          </View>
         </View>
         <View
           accessibilityLabel="Task title"
@@ -1114,190 +1285,247 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 </Text>
               </View>
             </View>
-            <View
-              style={
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "marginTop": 12,
+            }
+          }
+        >
+          <View
+            accessibilityLabel="Communication skills"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
                 {
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "marginTop": 12,
-                }
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
               }
             >
-              <View
-                accessibilityLabel="Communication skills"
-                accessibilityRole="button"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
                 style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
-              >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Communication skills
-                  </Text>
-                </View>
-              </View>
-              <View
-                accessibilityLabel="Creativity"
-                accessibilityRole="button"
-                accessibilityState={
                   {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
                   }
                 }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
               >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Creativity
-                  </Text>
-                </View>
-              </View>
+                Communication skills
+              </Text>
             </View>
+          </View>
+          <View
+            accessibilityLabel="Creativity"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
+                {
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
+                  }
+                }
+              >
+                Creativity
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="Task title"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+              ],
+              {
+                "pointerEvents": "auto",
+                "position": "relative",
+              },
+            ]
+          }
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                undefined,
+              ]
+            }
+          >
             <View
               style={
                 {
@@ -1408,6 +1636,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             <View
               style={
                 {
+                  "marginBottom": 16,
                   "position": "relative",
                 }
               }
@@ -1436,7 +1665,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ],
                     "source": [
                       {
-                        "uri": "https://www.example.com/avatar.jpg?tr=w-48",
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fit:1200:1200/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Favatar.jpg%3Ftr%3Dw-48",
                       },
                     ],
                     "tintColor": undefined,
@@ -1459,27 +1688,83 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "space-between",
-              "marginTop": 16,
             }
           }
         >
-          <Text
-            accessible={false}
-            ellipsizeMode="tail"
-            numberOfLines={2}
-            selectable={true}
-            style={
+          <View
+            accessibilityLabel="Task title"
+            accessibilityRole="button"
+            accessibilityState={
               {
-                "color": "#262424",
-                "fontFamily": "Circular Std Medium",
-                "fontSize": 16,
-                "fontWeight": "500",
-                "lineHeight": 19.2,
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "100%",
+                  },
+                ],
+                {
+                  "pointerEvents": "auto",
+                  "position": "relative",
+                },
+              ]
+            }
           >
-            Task title
-          </Text>
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 19.2,
+                  }
+                }
+              >
+                Task title
+              </Text>
+            </View>
+          </View>
         </View>
         <View
           accessibilityLabel="Task title"
@@ -1766,190 +2051,247 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 </Text>
               </View>
             </View>
-            <View
-              style={
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "marginTop": 12,
+            }
+          }
+        >
+          <View
+            accessibilityLabel="Communication skills"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
                 {
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "marginTop": 12,
-                }
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
               }
             >
-              <View
-                accessibilityLabel="Communication skills"
-                accessibilityRole="button"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
                 style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
-              >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Communication skills
-                  </Text>
-                </View>
-              </View>
-              <View
-                accessibilityLabel="Creativity"
-                accessibilityRole="button"
-                accessibilityState={
                   {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
                   }
                 }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    [
-                      {
-                        "width": "auto",
-                      },
-                    ],
-                    {
-                      "marginRight": 6,
-                      "marginTop": 4,
-                    },
-                  ]
-                }
-                testID="spaces-topic-title"
               >
-                <View
-                  pointerEvents="none"
-                  style={
-                    [
-                      false,
-                      [
-                        {
-                          "borderColor": "#262424",
-                          "borderRadius": 48,
-                          "borderWidth": 1,
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                          "paddingHorizontal": 8,
-                          "paddingVertical": 2,
-                        },
-                        {
-                          "backgroundColor": "#90ddff",
-                        },
-                      ],
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    numberOfLines={1}
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "Circular Std Book",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 16.8,
-                      }
-                    }
-                  >
-                    Creativity
-                  </Text>
-                </View>
-              </View>
+                Communication skills
+              </Text>
             </View>
+          </View>
+          <View
+            accessibilityLabel="Creativity"
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                ],
+                {
+                  "marginRight": 6,
+                  "marginTop": 4,
+                },
+              ]
+            }
+            testID="spaces-topic-title"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                [
+                  false,
+                  [
+                    {
+                      "borderColor": "#262424",
+                      "borderRadius": 48,
+                      "borderWidth": 1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "paddingHorizontal": 8,
+                      "paddingVertical": 2,
+                    },
+                    {
+                      "backgroundColor": "#90ddff",
+                    },
+                  ],
+                ]
+              }
+            >
+              <Text
+                accessible={false}
+                numberOfLines={1}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Book",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 16.8,
+                  }
+                }
+              >
+                Creativity
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="Task title"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              [
+                {
+                  "width": "100%",
+                },
+              ],
+              {
+                "pointerEvents": "auto",
+                "position": "relative",
+              },
+            ]
+          }
+        >
+          <View
+            pointerEvents="none"
+            style={
+              [
+                false,
+                undefined,
+              ]
+            }
+          >
             <View
               style={
                 {

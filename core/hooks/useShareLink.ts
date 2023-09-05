@@ -2,30 +2,55 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Clipboard, Platform, Share } from 'react-native'
 
+import { holiNextJSApiUrl } from '@holi/api/config'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-export type UseShareLink = [string, () => Promise<void>]
+export enum LinkType {
+  /**
+   * Links to external pages, video calls etc.
+   */
+  EXTERNAL = 'EXTERNAL',
+  /**
+   * Universal web links, that can also act as deep links.
+   */
+  UNIVERSAL = 'UNIVERSAL',
+  /**
+   * Deep links (scheme holi:// on mobile, requires the app to be installed)
+   */
+  DEEP = 'DEEP',
+}
 
-export const useShareLink = (title: string, link: string, externalLink = false): UseShareLink => {
+export type UseShareLink = [string, () => Promise<void>]
+export interface UseShareLinkProps {
+  link: string
+  linkType?: LinkType
+  message: string
+}
+
+export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseShareLinkProps): UseShareLink => {
   const url = useRef('')
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { t } = useTranslation()
 
   useEffect(() => {
-    // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
-    if (!process?.env?.JEST_WORKER_ID && !externalLink) {
+    if (linkType === LinkType.UNIVERSAL && Platform.OS !== 'web') {
+      url.current = `${holiNextJSApiUrl}${link}`
+    } else if ([LinkType.DEEP, LinkType.UNIVERSAL].includes(linkType) && !process?.env?.JEST_WORKER_ID) {
+      // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
       import(/* webpackPrefetch: true */ 'expo-linking').then((Linking) => (url.current = Linking.createURL(link)))
     } else {
       url.current = link
     }
-  }, [link, externalLink])
+  }, [link, linkType])
 
   const shareLinkMobile = useCallback(async () => {
     try {
+      // Add url to message on android as `url` parameter is not supported
+      const messageUrlSuffix = Platform.OS === 'android' ? (message && '\n') + url.current : ''
       const result = await Share.share({
-        message: title + (Platform.OS === 'android' ? `: ${url.current}` : ''),
+        message: message + messageUrlSuffix,
         url: url.current,
       })
       if (result.action === Share.sharedAction) {
@@ -40,12 +65,13 @@ export const useShareLink = (title: string, link: string, externalLink = false):
     } catch (error) {
       displayError(error)
     }
-  }, [displayError, title])
+  }, [message, displayError])
 
   const shareLinkWeb = useCallback(async () => {
-    Clipboard.setString(url.current)
+    const messageWithUrl = message + (message && '\n') + url.current
+    Clipboard.setString(messageWithUrl)
     openToast(t('global.share.copied'), HoliToastType.SUCCESS)
-  }, [openToast, t])
+  }, [message, openToast, t])
 
   const shareLink = Platform.OS === 'web' ? shareLinkWeb : shareLinkMobile
 

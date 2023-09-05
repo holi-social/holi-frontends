@@ -1,6 +1,7 @@
 import React from 'react'
 import { GestureResponderEvent } from 'react-native'
 
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 export type PartnerInfoRowProps = {
@@ -48,6 +49,6 @@ export type VolunteeringEngagement = {
 }
 
 export type VolunteeringFilters = {
-  location?: string
+  location?: string | GeolocationSuggestion
   category?: string
 }

@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
+import * as Notifications from 'expo-notifications'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppState, AppStateStatus, BackHandler, Linking, Platform } from 'react-native'
@@ -9,18 +10,18 @@ import { logError } from '@holi/core/errors/helpers'
 import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
+const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
+const BUILD_NUMBER =
+  Platform.OS === 'ios'
+    ? Constants.expoConfig?.ios?.buildNumber
+    : Platform.OS === 'android'
+    ? Constants.expoConfig?.android?.versionCode?.toString()
+    : null
+
 const UpdateAppModal = () => {
   const { t } = useTranslation()
-  const ANDROID_PACKAGE_NAME = Constants.manifest?.android?.package
-  const BUILD_NUMBER =
-    Platform.OS === 'ios'
-      ? Constants.manifest?.ios?.buildNumber
-      : Platform.OS === 'android'
-      ? Constants.manifest?.android?.versionCode?.toString()
-      : null
-
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
-    variables: { version: Constants.manifest?.version, buildNumber: BUILD_NUMBER },
+    variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
   })
   const [showModal, setShowModal] = useState(false)
 
@@ -49,6 +50,13 @@ const UpdateAppModal = () => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === 'active') {
         refetch()
+
+        // we don't have a badge count concept yet,
+        // so we just clear anything that is there
+        // when the app comes in foreground
+        // doing it here, because UpdateAppModal always mounted
+        // and only used on mobile
+        Notifications.setBadgeCountAsync(0)
       }
     }
     const appStateListener = AppState.addEventListener('change', handleAppStateChange)

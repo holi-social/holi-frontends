@@ -9,6 +9,7 @@ import {
 import at from 'lodash.at'
 import { useCallback, useState } from 'react'
 
+import { logError } from '@holi/core/errors/helpers'
 import { Paged } from '@holi/core/types'
 
 type PagedResponse<T, QueryName extends string> = {
@@ -25,7 +26,7 @@ interface PaginationQueryResult<TData, TFetchData> extends Partial<QueryResult<T
   isFetchingMore: boolean
   totalResults: number
   canFetchMore: boolean
-  fetchNextPage: () => Promise<TFetchData>
+  fetchNextPage: () => Promise<TFetchData | void>
 }
 
 function usePaginationQuery<TData>(
@@ -60,13 +61,16 @@ function usePaginationQuery<TData>(
   const canFetchMore = !loading && data.length < totalResults
 
   const memoizedFetchMore = useCallback(async () => {
+    if (isFetchingMore) {
+      return
+    }
     setIsFetchingMore(true)
     return fetchMore({
       variables: {
         offset: data.length,
       },
-    })
-  }, [fetchMore, data.length])
+    }).catch((error) => logError(error, '[usePaginationQuery.tsx] error fetching more'))
+  }, [isFetchingMore, data.length, fetchMore])
 
   return {
     // Sometimes there is a delay between setting loading to false and filling the pagedData/error

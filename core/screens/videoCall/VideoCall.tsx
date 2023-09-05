@@ -1,4 +1,3 @@
-// import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
@@ -79,6 +78,7 @@ const VideoCall: React.FC = () => {
 
   // Webview props for video call in webview, found on https://docs.whereby.com/embedding-rooms/in-a-mobile-app/in-react-native via https://github.com/react-native-webview/react-native-webview/issues/508
   const webViewProps = {
+    source: { uri: webViewUrl },
     mediaPlaybackRequiresUserAction: false,
     allowsInlineMediaPlayback: true,
     javaScriptEnabled: true,
@@ -88,7 +88,7 @@ const VideoCall: React.FC = () => {
   }
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <HoliWebView style={styles.webView} uri={webViewUrl} webViewProps={webViewProps} />
+      <HoliWebView style={styles.webView} webViewProps={webViewProps} />
     </DefaultLayout>
   )
 }

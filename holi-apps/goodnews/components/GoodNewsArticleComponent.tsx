@@ -65,7 +65,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
 
   return (
     <View
-      style={[styles.container, style]}
+      style={[mixins.container, styles.container, style]}
       testID={'goodnews-detailview-container'}
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
+    paddingHorizontal: 0,
   },
   /* HEADER CONTAINER */
   headerBackgroundImage: {

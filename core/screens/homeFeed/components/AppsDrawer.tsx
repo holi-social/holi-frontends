@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -19,6 +19,8 @@ const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
@@ -39,7 +41,7 @@ const AppsDrawer: React.FC = () => {
         type="secondary"
         testID="home-apps-button"
         inline
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
@@ -59,18 +61,16 @@ const AppsDrawer: React.FC = () => {
         label={t('apps.drawer.title')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
+        style={{ backgroundColor: colors.background20 }}
         testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
-          <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
-            {
-              /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              APP_SWIPER_APPS.map((app, idx) => (
-                <AppTile appData={app} key={app.id} onPress={onAppButtonClick} style={idx > 0 && { marginLeft: 15 }} />
-              ))
-            }
-          </ScrollView>
+          <View style={styles.listContents}>
+            {APP_SWIPER_APPS.map((app) => (
+              <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
+            ))}
+          </View>
         </View>
       </HoliModal>
     </>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
-    right: 16,
+    right: '50%',
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderColor: colors.background30,
@@ -101,17 +101,11 @@ const styles = StyleSheet.create({
   modalContent: {
     paddingHorizontal: 10,
   },
-  appsCarousel: {
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  iconContainer: {
-    alignSelf: 'center',
-    width: 64,
-    height: 64,
-    padding: 2,
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: colors.background30,
+  listContents: {
+    gap: 12,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 48,
   },
 })

@@ -1,16 +1,17 @@
 import { ApolloError, DocumentNode } from '@apollo/client'
-import React, { PropsWithChildren, createContext, useContext } from 'react'
+import React, { PropsWithChildren, createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import { Loader4 } from '@holi/icons/src/generated'
+import { Loader } from '@holi/icons/src/generated'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface PaginationContextType<T> {
   totalResults: number
   data: T[]
   loading: boolean | undefined
-  error: ApolloError | undefined
+  error?: ApolloError | undefined
 }
 
 export interface PaginationProps {
@@ -18,9 +19,11 @@ export interface PaginationProps {
   queryOptions: PaginationQueryHookOptions
   fetchMoreButtonProps?: Partial<HoliButtonLoadingProps>
   fetchMoreButtonLabel?: string
+  loadMoreOnScroll?: boolean
+  scrollPlaceholder?: React.ReactNode
 }
 
-const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
+export const PaginationContext = createContext<PaginationContextType<unknown>>({} as PaginationContextType<unknown>)
 
 export function usePaginationContext<T>() {
   const context = useContext(PaginationContext) as PaginationContextType<T>
@@ -37,6 +40,8 @@ export function Pagination({
   queryOptions,
   fetchMoreButtonLabel,
   fetchMoreButtonProps = {},
+  loadMoreOnScroll = false,
+  scrollPlaceholder,
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
@@ -54,21 +59,29 @@ export function Pagination({
     totalResults,
   }
 
-  return (
-    <PaginationContext.Provider value={contextValue}>
-      {children}
-      {canFetchMore && (
+  const loadMoreComponent = useMemo(
+    () =>
+      loadMoreOnScroll ? (
+        <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={scrollPlaceholder} />
+      ) : (
         <HoliButtonLoading
           type="primary"
           label={fetchMoreButtonText}
           disabled={isFetchingMore}
-          icon={isFetchingMore ? Loader4 : undefined}
+          icon={isFetchingMore ? Loader : undefined}
           iconSpinning={isFetchingMore}
           onPress={fetchNextPage}
           testID="btn-fetch-more"
           {...fetchMoreButtonProps}
         />
-      )}
+      ),
+    [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, isFetchingMore, loadMoreOnScroll, scrollPlaceholder]
+  )
+
+  return (
+    <PaginationContext.Provider value={contextValue}>
+      {children}
+      {canFetchMore && loadMoreComponent}
     </PaginationContext.Provider>
   )
 }

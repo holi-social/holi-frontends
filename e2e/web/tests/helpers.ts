@@ -95,24 +95,18 @@ export const finishAccountSetup = async (
   {
     firstName = faker.name.firstName(),
     lastName = faker.name.lastName(),
-    pronouns = '',
   }: {
     firstName?: string
     lastName?: string
-    pronouns?: string
   } = {}
 ) => {
-  // go through accound setup
-  // provide user name
-  const mandatoryFirtNameInput = await locateElementByTestId(page, 'first-name-input')
-  await mandatoryFirtNameInput.fill(firstName)
-  // provide user name
+  // go through account setup
+  // provide user names
+  const firstNameInput = await locateElementByTestId(page, 'first-name-input')
+  await firstNameInput.fill(firstName)
   const lastNameInput = await locateElementByTestId(page, 'last-name-input')
   await lastNameInput.fill(lastName)
-  // provide user name
-  const pronounsInput = await locateElementByTestId(page, 'pronouns-input')
-  await pronounsInput.fill(pronouns)
-  // submit name
+  // submit
   await clickElementByTestId(page, 'holi-wizard-next-btn')
 
   // submit pre-success step

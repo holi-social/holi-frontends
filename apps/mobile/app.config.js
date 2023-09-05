@@ -1,9 +1,21 @@
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.5.0', // user-facing value visible in stores
-  iosBuildNumber: '1.5.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 22, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.7.1', // user-facing value visible in stores
+  iosBuildNumber: '1.7.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 26, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+}
+
+// - Environment variables are available in the mobile app source code via the expo-constants package.
+// - Evaluation occurs "statically" at build time.
+// - Evaluated when running expo:dev, using the values set in the execution environment.
+//   Use `.envrc` / `.envrc.local` and the `.env.$environment` to set values.
+// - Evaluated when running eas build, using values set in the profiles in eas.json.
+const requiredEnvVar = (variableName) => {
+  if (!process.env[variableName]) {
+    throw new Error(`Missing required environment variable ${variableName}`)
+  }
+  return process.env[variableName]
 }
 
 export default {
@@ -21,7 +33,11 @@ export default {
       backgroundColor: '#F5F5F5',
     },
     updates: {
+      url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
       fallbackToCacheTimeout: 0,
+    },
+    runtimeVersion: {
+      policy: 'sdkVersion', // needed for EAS updates
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -36,15 +52,16 @@ export default {
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
         LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
+        UIBackgroundModes: [
+          'remote-notification', // enables the app to receive push notifications while app is in background
+        ],
       },
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#F5F5F5',
-      },
       package: 'social.holi.app',
       versionCode: versions.androidVersionCode,
+      // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
+      googleServicesFile: './google-services.json',
     },
     plugins: [
       ['sentry-expo'],
@@ -75,35 +92,36 @@ export default {
     },
     extra: {
       chat: {
-        serverLoginUrl: process.env.HOLI_API_GATEWAY + '/api/chatlogin',
-        serverUrl: process.env.HOLI_CHAT_SERVER_URL || 'https://staging.chat.holi.social/',
-        identityServerUrl: process.env.HOLI_CHAT_IDENTITY_SERVER_URL || 'https://vector.im',
+        serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
+        serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
+        serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
+        pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
       },
       ory: {
-        url: process.env.ORY_BASE_URL || 'https://dev-auth.holi.social',
+        url: requiredEnvVar('ORY_BASE_URL'),
       },
       holi_api: {
-        url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
-        gateway: process.env.HOLI_API_GATEWAY || 'http://10.0.2.2:4001',
+        url: requiredEnvVar('HOLI_API_URL'),
+        gateway: requiredEnvVar('HOLI_API_GATEWAY'),
       },
       holi_nextjs_api: {
-        url: process.env.HOLI_NEXTJS_API_URL || 'http://localhost:3000',
+        url: requiredEnvVar('HOLI_NEXTJS_API_URL'),
       },
-      environment: process.env.ENVIRONMENT_ID || 'development',
+      environment: requiredEnvVar('ENVIRONMENT_ID'),
       sentry: {
-        dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
+        dsn: requiredEnvVar('SENTRY_DSN'),
       },
       owncloud: {
-        url: process.env.OWNCLOUD_BASE_URL || 'https://development.cloud.holi.social',
+        url: requiredEnvVar('OWNCLOUD_BASE_URL'),
       },
       jitsi: {
-        url: process.env.JITSI_URL || 'https://development.meet.holi.social',
+        url: requiredEnvVar('JITSI_URL'),
       },
       eas: {
-        projectId: process.env.EXPO_PROJECT_ID,
+        projectId: requiredEnvVar('EXPO_PROJECT_ID'),
       },
       e2e: {
-        userId: process.env.E2E_USER_ID || '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0',
+        userId: process.env.E2E_USER_ID, // not required as not used in production
       },
     },
   },

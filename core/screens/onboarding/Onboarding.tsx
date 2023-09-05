@@ -9,7 +9,7 @@ import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import LoginRegistration from '@holi/core/auth/components/LoginRegistration'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { OnboardingStateValue, useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { OnboardingStateValue, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -90,13 +90,11 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
       <HoliStepper
         scrollEnabled={false}
         steps={[
-          // Login-Registration-Continue as a Guest step
           <LoginRegistration
             onRegistration={goNext}
             onDismiss={onOnboardingStateChange}
             key={RegistrationStep.PRE_REGISTRATION_LOGIN}
           />,
-          // Community Guidelines
           <CommunityGuidelines
             onNextPress={goToNextStep}
             onBackPress={goBack}
@@ -104,7 +102,6 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
             onAgreementChange={onCommunityGuidelinesChange}
             key={RegistrationStep.COMMUNITY_GUIDELINES}
           />,
-          // Privacy Policy step
           <DataConsent
             onNextPress={goToNextStep}
             onBackPress={goBack}
@@ -112,15 +109,12 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
             onAgreementChange={onPrivacyPolicyChange}
             key={RegistrationStep.PRIVACY_POLICY}
           />,
-          // Create Account step
           <CreateAccount onRegister={goToNextStep} key={RegistrationStep.CREATE_ACCOUNT} />,
-          // Email Verification step
           <EmailVerification
             onDismiss={onOnboardingStateChange}
             onSuccess={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}
           />,
-          // Account Setup
           <AccountSetup onFinish={onOnboardingStateChange} key="account-setup" />,
         ]}
         lazy
@@ -136,14 +130,14 @@ export interface OnboardingProps {
 
 const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
   // "onOnboardingStateChange" has default argument "finished" to dismiss onboarding
-  const { onboardingState, onOnboardingStateChange } = useOnboarding()
+  const { storedOnboardingState, storeOnboardingState } = useStoredOnboardingState()
   const [toRegistration] = useParam('registrationStep')
 
   let initialStep = RegistrationStep.PRE_REGISTRATION_LOGIN
 
-  if (onboardingState === 'emailVerification') {
+  if (storedOnboardingState === 'emailVerification') {
     initialStep = RegistrationStep.EMAIL_VERIFICATION
-  } else if (onboardingState === 'accountSetup') {
+  } else if (storedOnboardingState === 'accountSetup') {
     initialStep = RegistrationStep.ACCOUNT_SETUP
   } else if (toRegistration) {
     initialStep = RegistrationStep.COMMUNITY_GUIDELINES
@@ -153,7 +147,7 @@ const Onboarding = ({ afterAccountCreated, style }: OnboardingProps) => {
     <HoliStepperController initialStep={initialStep} stepCount={6}>
       <OnboardingStepper
         style={style}
-        onOnboardingStateChange={onOnboardingStateChange}
+        onOnboardingStateChange={storeOnboardingState}
         afterAccountCreated={afterAccountCreated}
       />
     </HoliStepperController>

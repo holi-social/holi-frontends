@@ -95,14 +95,14 @@ const InsightDetailPage = () => {
       >
         {/* Image section */}
         {initLoading ? (
-          <View style={styles.insightBackgroundImage}>
+          <View style={[mixins.container, styles.insightBackgroundImage]}>
             <HoliSkeleton height="100%" width="100%" borderRadius={0} />
           </View>
         ) : (
           <ImageBackground
             source={{ uri: insight?.headerImage }}
             resizeMode="cover"
-            style={styles.insightBackgroundImage}
+            style={[mixins.container, styles.insightBackgroundImage]}
             imageStyle={styles.insightImage}
           />
         )}
@@ -135,7 +135,7 @@ const InsightDetailPage = () => {
               <HoliButton
                 transparent
                 label={t('user.cards.modal.showInfo', { name: author?.fullName })}
-                onPress={initLoading ? () => setShowCuratorModal(true) : undefined}
+                onPress={initLoading ? undefined : () => setShowCuratorModal(true)}
               >
                 <View style={styles.authorInfoInner}>
                   <HoliAvatar
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { flex: 1 } }),
   },
   insightBackgroundImage: {
+    paddingHorizontal: 0,
     height: Platform.OS === 'web' ? 680 : 340,
     ...Platform.select({
       web: {

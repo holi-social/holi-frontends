@@ -1,59 +1,42 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { onlyCharacters } from '@holi/core/helpers'
-import { UpdateAuthenticatedUserInputSchema } from '@holi/core/screens/userprofile/queries'
+import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { Position } from '@holi/ui/helper'
 import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 
-export interface NamesValues {
-  firstName: string
-  lastName: string
-  pronouns: string
-}
-
-export const trimNames = (names: NamesValues): NamesValues => {
-  const result: NamesValues = { ...names }
-
-  for (const prop in names) {
-    const name = prop as keyof NamesValues
-    result[name] = names[name].trim()
-  }
-
-  return result
+export interface NamesStepData {
+  firstName?: string
+  lastName?: string
 }
 
 export interface NamesStepProps {
-  names: NamesValues
-  onChange: (fieldName: keyof NamesValues, value: string) => void
-  scrollToInputWithId: (id: keyof NamesValues) => ScrollToProps
+  names: NamesStepData
+  onChange: (fieldName: keyof NamesStepData, value: string) => void
+  scrollToInputWithId: (id: keyof NamesStepData) => ScrollToProps
   fieldErrors: TranslatedFieldErrors
   testID?: string
 }
 
 interface UseNamesStepOptions {
   user?: User | null
-  onValidate: (valid: boolean) => void
 }
 
-export const useNamesStep = ({ user, onValidate }: UseNamesStepOptions) => {
-  const [names, setNames] = useState({
+export const useNamesStep = ({ user }: UseNamesStepOptions) => {
+  const [names, setNames] = useState<NamesStepData>({
     firstName: user?.firstName ?? '',
     lastName: user?.lastName ?? '',
-    pronouns: user?.pronouns ?? '',
   })
 
   const { translateFieldErrors } = useFieldErrors({
     i18nPrefix: 'registration.accountSetup.names',
-    handledFieldErrors: ['firstName', 'lastName', 'pronouns'],
+    handledFieldErrors: ['firstName', 'lastName'],
   })
 
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -68,33 +51,27 @@ export const useNamesStep = ({ user, onValidate }: UseNamesStepOptions) => {
     []
   )
 
-  const onNamesChange = (fieldName: keyof NamesValues, value: string) => {
-    // set new value
+  const onNamesChange = (fieldName: keyof NamesStepData, value: string) => {
     setNames((names) => ({
       ...names,
-      [fieldName]: onlyCharacters(value),
+      [fieldName]: value,
     }))
-
-    // reset error for this field
     resetErrorsForField(fieldName)
   }
 
-  const validateOnBlur = (_: Position, __: View, id: string) => {
-    const valueObj = { [id]: names[id as keyof NamesValues]?.trim() }
-    const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(valueObj)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const validateOnBlur = () => {
+    const validationResult = RegisterUserNamesInputSchema.safeParse(names)
 
-    if (!resultSchema.success) {
-      const { fieldErrors } = resultSchema.error.flatten<FieldError>()
+    if (!validationResult.success) {
+      const { fieldErrors } = validationResult.error.flatten<FieldError>()
       setFieldErrors(translateFieldErrors(fieldErrors))
-    } else {
-      onValidate(true)
     }
   }
-
   const namesScrollViewRef = useRef<ScrollView>(null)
   const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
 
-  const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesValues) =>
+  const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesStepData) =>
     scrollToNamesInputWithId(fieldName, undefined, validateOnBlur)
 
   return {
@@ -103,13 +80,14 @@ export const useNamesStep = ({ user, onValidate }: UseNamesStepOptions) => {
     scrollToNamesInputWithId: scrollToNamesInputWithIdValidateOnBlur,
     onNamesChange,
     namesFieldErrors: fieldErrors,
+    nameStepIsValid: RegisterUserNamesInputSchema.safeParse(names).success ?? false,
   }
 }
 
 const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.PropsWithChildren<NamesStepProps>) => {
   const { t } = useTranslation()
 
-  const { firstName, lastName, pronouns } = names
+  const { firstName, lastName } = names
 
   return (
     <>
@@ -120,14 +98,15 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
       <HoliBox padding={[24, 0, 0, 0]} />
       <HoliTextInput
         value={firstName}
-        inputLabel={t('user.profileForm.firstName.mandatory')}
-        accessibilityLabel={t('user.profileForm.firstName.mandatory')}
+        inputLabel={t('user.profileForm.firstName')}
+        accessibilityLabel={t('user.profileForm.firstName')}
         placeholder={t('user.profileForm.firstNamePlaceholder')}
-        maxNoOfCharacters={30}
+        maxNoOfCharacters={192}
         onChange={(value: string) => onChange('firstName', value)}
         validationErrorText={fieldErrors?.firstName?.join()}
         // inputProps={{ autoFocus: Platform.OS === 'web' }}
         {...scrollToInputWithId('firstName')}
+        isRequired
         testID={'first-name'}
       />
 
@@ -137,30 +116,12 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
         inputLabel={t('user.profileForm.lastName')}
         accessibilityLabel={t('user.profileForm.lastName')}
         placeholder={t('user.profileForm.lastNamePlaceholder')}
-        maxNoOfCharacters={30}
+        maxNoOfCharacters={192}
         onChange={(value: string) => onChange('lastName', value)}
         validationErrorText={fieldErrors?.lastName?.join()}
         {...scrollToInputWithId('lastName')}
         testID={'last-name'}
       />
-
-      <HoliBox padding={[16, 0, 0, 0]} />
-      <HoliTextInput
-        value={pronouns}
-        inputLabel={t('user.profileForm.pronouns')}
-        accessibilityLabel={t('user.profileForm.pronouns')}
-        placeholder={t('user.profileForm.pronounsPlaceholder')}
-        validationErrorText={fieldErrors?.pronouns?.join()}
-        onChange={(value: string) => onChange('pronouns', value)}
-        {...scrollToInputWithId('pronouns')}
-        testID="pronouns"
-      />
-
-      <HoliBox padding={[6, 0, 0, 0]}>
-        <HoliText size="extrasmall" color="gray300">
-          {t('user.profileForm.pronounsHint')}
-        </HoliText>
-      </HoliBox>
     </>
   )
 }

@@ -70,11 +70,9 @@ export const defaultAuthSteps = async (
 export const finishAccountSetup = async ({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  pronouns = '',
 }: {
   firstName?: string
   lastName?: string
-  pronouns?: string
 } = {}) => {
   // go through accound setup
   // Names step
@@ -83,8 +81,6 @@ export const finishAccountSetup = async ({
   await fillFieldByTestId('first-name-input', firstName)
   // provide user name
   await fillFieldByTestId('last-name-input', lastName)
-  // provide user name
-  await fillFieldByTestId('pronouns-input', pronouns)
   // submit name changes
   await tapOnElementWithTestId('holi-wizard-next-btn')
 

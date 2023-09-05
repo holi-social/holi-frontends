@@ -19,7 +19,7 @@ export type SpaceRolesPermissionsParams = {
 
 type Permission = {
   name: string
-  admin: boolean
+  allowed: boolean
 }
 
 type RolePermissions = {
@@ -31,48 +31,55 @@ const ADMIN_PERMISSIONS: RolePermissions[] = [
   {
     role: 'spaces.rolesAndPermissions.general.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.general.edit', admin: true },
-      { name: 'spaces.rolesAndPermissions.general.delete', admin: true },
-      { name: 'spaces.rolesAndPermissions.general.share', admin: true },
-      { name: 'spaces.rolesAndPermissions.general.giveRights', admin: true },
-      { name: 'spaces.rolesAndPermissions.general.remove', admin: true },
+      { name: 'spaces.rolesAndPermissions.general.edit', allowed: true },
+      { name: 'spaces.rolesAndPermissions.general.delete', allowed: true },
+      { name: 'spaces.rolesAndPermissions.general.share', allowed: true },
+      { name: 'spaces.rolesAndPermissions.general.giveRights', allowed: true },
+      { name: 'spaces.rolesAndPermissions.general.remove', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.newCollaborators.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', admin: true },
-      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', admin: true },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', allowed: true },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.update.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.update.postCollab', admin: true },
-      { name: 'spaces.rolesAndPermissions.update.postPublic', admin: true },
+      { name: 'spaces.rolesAndPermissions.update.postCollab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.update.postPublic', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.tasks.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.tasks.postCollab', admin: true },
-      { name: 'spaces.rolesAndPermissions.tasks.postPublic', admin: true },
+      { name: 'spaces.rolesAndPermissions.tasks.postCollab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.tasks.postPublic', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.linkhub.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', admin: true },
-      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', admin: true },
-      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', allowed: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', allowed: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.filesAndDocuments.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', admin: true },
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', admin: true },
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', allowed: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', allowed: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', allowed: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.videocall.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.videocall.create', allowed: true },
+      { name: 'spaces.rolesAndPermissions.videocall.join', allowed: true },
     ],
   },
 ]
@@ -81,48 +88,55 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
   {
     role: 'spaces.rolesAndPermissions.general.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.general.edit', admin: false },
-      { name: 'spaces.rolesAndPermissions.general.delete', admin: false },
-      { name: 'spaces.rolesAndPermissions.general.share', admin: true },
-      { name: 'spaces.rolesAndPermissions.general.giveRights', admin: false },
-      { name: 'spaces.rolesAndPermissions.general.remove', admin: false },
+      { name: 'spaces.rolesAndPermissions.general.edit', allowed: false },
+      { name: 'spaces.rolesAndPermissions.general.delete', allowed: false },
+      { name: 'spaces.rolesAndPermissions.general.share', allowed: true },
+      { name: 'spaces.rolesAndPermissions.general.giveRights', allowed: false },
+      { name: 'spaces.rolesAndPermissions.general.remove', allowed: false },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.newCollaborators.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', admin: true },
-      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', admin: false },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.invite', allowed: true },
+      { name: 'spaces.rolesAndPermissions.newCollaborators.approve', allowed: false },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.update.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.update.postCollab', admin: true },
-      { name: 'spaces.rolesAndPermissions.update.postPublic', admin: false },
+      { name: 'spaces.rolesAndPermissions.update.postCollab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.update.postPublic', allowed: false },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.tasks.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.tasks.postCollab', admin: true },
-      { name: 'spaces.rolesAndPermissions.tasks.postPublic', admin: false },
+      { name: 'spaces.rolesAndPermissions.tasks.postCollab', allowed: true },
+      { name: 'spaces.rolesAndPermissions.tasks.postPublic', allowed: false },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.linkhub.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', admin: true },
-      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', admin: true },
-      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', admin: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.addLinks', allowed: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.editLinks', allowed: true },
+      { name: 'spaces.rolesAndPermissions.linkhub.deleteLinks', allowed: true },
     ],
   },
   {
     role: 'spaces.rolesAndPermissions.filesAndDocuments.title',
     permissions: [
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', admin: true },
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', admin: true },
-      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', admin: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.upload', allowed: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.create', allowed: true },
+      { name: 'spaces.rolesAndPermissions.filesAndDocuments.edit', allowed: true },
+    ],
+  },
+  {
+    role: 'spaces.rolesAndPermissions.videocall.title',
+    permissions: [
+      { name: 'spaces.rolesAndPermissions.videocall.create', allowed: true },
+      { name: 'spaces.rolesAndPermissions.videocall.join', allowed: true },
     ],
   },
 ]
@@ -151,9 +165,9 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
         {permissions.map((permission, index) => (
           <View key={index} style={styles.listing}>
             <HoliIcon
-              icon={permission.admin ? Check : Close}
+              icon={permission.allowed ? Check : Close}
               style={styles.icon}
-              color={permission.admin ? colors.brandColorB30 : colors.warning30}
+              color={permission.allowed ? colors.brandColorB30 : colors.warning30}
             />
             <HoliText>{t(permission.name)}</HoliText>
           </View>
@@ -190,18 +204,18 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
 
   return (
     <SafeAreaView>
-      <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
+      <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
         <HoliTabs
           id="collaborator-tabs"
           style={styles.tabWrapper}
           tabs={[
             {
-              title: 'Admin',
+              title: t('spaces.rolesAndPermissions.tabs.admin'),
               style: styles.tabStyle,
               children: <AdminTab />,
             },
             {
-              title: 'Collaborator',
+              title: t('spaces.rolesAndPermissions.tabs.collaborators'),
               style: styles.tabStyle,
               children: <CollaboratorTab />,
             },
@@ -213,6 +227,13 @@ const SpaceRolesPermissions: React.VFC<SpaceRolesPermissionsParams> = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      android: {
+        paddingTop: vars.topBarHeight,
+      },
+    }),
+  },
   wrapper: {
     backgroundColor: colors.background20,
     ...Platform.select({
@@ -222,7 +243,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: vars.topBarHeight + 40,
+    paddingTop: vars.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {

@@ -11,7 +11,7 @@ import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
@@ -38,8 +38,8 @@ const OwnProfile = () => {
   const { height: deviceHeight } = useWindowDimensions()
 
   const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
-  const { onboardingState } = useOnboarding()
-  const isOnboardingFinished = onboardingState === 'finished'
+  const { storedOnboardingState, storeOnboardingState } = useStoredOnboardingState()
+  const isOnboardingFinished = storedOnboardingState === 'finished'
   const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
   const { navigate } = useRouting()
@@ -64,6 +64,10 @@ const OwnProfile = () => {
     const title = t('profile.title')
 
     if (isLoggedIn && isOnboardingFinished) {
+      if (user?.firstName === null) {
+        storeOnboardingState('accountSetup')
+        return
+      }
       setScreenOptions({
         title,
         headerShown: true,
@@ -111,7 +115,17 @@ const OwnProfile = () => {
         headerShown: false,
       })
     }
-  }, [navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, isOnboardingFinished, setScreenOptions])
+  }, [
+    navigate,
+    t,
+    isLoggedIn,
+    toggleEditMode,
+    showFeatureNotImplementedToast,
+    isOnboardingFinished,
+    setScreenOptions,
+    storeOnboardingState,
+    user,
+  ])
 
   return (
     <LoginProtection>

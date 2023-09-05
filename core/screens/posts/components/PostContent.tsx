@@ -77,6 +77,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             <HoliColumn>
               <SafeAreaProvider>
                 <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                  {/* editing only allowed for own content */}
                   {spaceIdOrName && isCurrentUserPostCreator && (
                     <HoliActionDrawer.Action
                       icon={Edit2}
@@ -85,6 +86,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                       handleAction={editAction}
                     />
                   )}
+                  {/* reporting own content makes no sense, so we hide it */}
                   {!isCurrentUserPostCreator && (
                     <HoliActionDrawer.Action
                       isLoading={isLoadingReport}
@@ -168,7 +170,9 @@ const styles = StyleSheet.create({
   },
   linkPreview: {
     marginTop: 16,
-    maxWidth: 320,
+    maxWidth: 420,
+    width: '100%',
+    alignSelf: 'center',
   },
   reactionsBar: {
     marginTop: 21,

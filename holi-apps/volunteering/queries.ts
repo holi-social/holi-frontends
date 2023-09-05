@@ -22,7 +22,7 @@ export const FullEngagementFragment = gql`
 `
 
 export type VolunteeringEngagementsQueryResponse = {
-  appVolunteering_engagements: {
+  appVolunteering_engagementOpportunities: {
     totalResults: number
     data: VolunteeringEngagement[]
   }
@@ -31,8 +31,13 @@ export type VolunteeringEngagementsQueryResponse = {
 export const VolunteeringEngagementsQuery = gql`
   ${FullEngagementFragment}
 
-  query VolunteeringEngagements($location: String, $category: String, $limit: Int!, $offset: Int!) {
-    appVolunteering_engagements(location: $location, category: $category, limit: $limit, offset: $offset) {
+  query VolunteeringEngagements(
+    $location: AppVolunteering_GeoJSON
+    $category: String
+    $limit: Int! = 10
+    $offset: Int! = 0
+  ) {
+    appVolunteering_engagementOpportunities(location: $location, category: $category, limit: $limit, offset: $offset) {
       totalResults
       data {
         ...FullEngagement
@@ -62,15 +67,6 @@ export const trackEngagementViewMutation = gql`
   }
 `
 
-export const VolunteeringCitiesQuery = gql`
-  query VolunteeringCities {
-    appVolunteering_cities {
-      data {
-        name
-      }
-    }
-  }
-`
 export const VolunteeringCategoriesQuery = gql`
   query VolunteeringCategories {
     appVolunteering_categories {
@@ -85,15 +81,6 @@ export type TrackEngagementViewResponse = {
   id: string
 }
 
-export type City = {
-  name: string
-}
-
-export interface VolunteeringCitiesQueryResult {
-  appVolunteering_cities: {
-    data: City[]
-  }
-}
 export type Category = {
   name: string
 }

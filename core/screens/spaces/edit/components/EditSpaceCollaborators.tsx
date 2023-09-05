@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -16,10 +15,7 @@ import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { ArrowDown, ArrowLeft } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -42,11 +38,9 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 
   useLayoutEffect(() => {
     setScreenOptions({
-      animation: 'slide_from_bottom',
       title: t('spaces.collaborators'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDown} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -92,48 +86,21 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const AllCollaborators = () => {
-    return (
-      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
-        <Pagination
-          query={spaceMembersQuery}
-          queryOptions={queryOptions}
-          fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-        >
-          <SpaceCollaboratorList space={space!} onSelectMember={onSelectMember} />
-        </Pagination>
-      </ScrollView>
-    )
-  }
-
-  const PendingCollaborators = () => {
-    return (
-      <ScrollHeaderLayout.Default style={[mixins.container, styles.pending]} headerOverlap>
-        <View>
-          <HoliText style={styles.soon}>{t('global.comingSoon')}</HoliText>
-        </View>
-      </ScrollHeaderLayout.Default>
-    )
-  }
-
   return (
-    <ScrollHeaderLayout.Default headerOverlap style={styles.wrapper}>
-      <HoliTabs
-        id="collaborator-tabs"
-        style={styles.tabWrapper}
-        tabs={[
-          {
-            title: t('spaces.collaborators.manage.tabs.all'),
-            style: styles.tabStyle,
-            children: <AllCollaborators />,
-          },
-          {
-            title: t('spaces.collaborators.manage.tabs.pending'),
-            style: styles.tabStyle,
-            children: <PendingCollaborators />,
-          },
-        ]}
-      />
+    <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
+      <View style={styles.tabWrapper}>
+        <View style={styles.tabStyle}>
+          <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
+            <Pagination
+              query={spaceMembersQuery}
+              queryOptions={queryOptions}
+              fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+            >
+              {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
+            </Pagination>
+          </ScrollView>
+        </View>
+      </View>
       {selectedMember && !!space && (
         <SpacePermissions
           space={space}
@@ -148,6 +115,13 @@ const EditSpaceCollaborators: React.VFC<EditSpaceCollaboratorsParams> = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      native: {
+        paddingTop: vars.topBarHeight,
+      },
+    }),
+  },
   wrapper: {
     backgroundColor: colors.background20,
     ...Platform.select({
@@ -157,7 +131,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabWrapper: {
-    paddingTop: vars.topBarHeight + 40,
+    paddingTop: vars.topBarHeight,
     backgroundColor: colors.background10,
     ...Platform.select({
       native: {
@@ -179,18 +153,6 @@ const styles = StyleSheet.create({
   all: {
     paddingTop: 16,
     backgroundColor: colors.background20,
-  },
-  pending: {
-    backgroundColor: colors.background20,
-  },
-  loading: {
-    maxWidth: 60,
-    alignSelf: 'center',
-    marginTop: 16,
-    backgroundColor: colors.background20,
-  },
-  soon: {
-    marginTop: 16,
   },
 })
 

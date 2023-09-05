@@ -1,4 +1,4 @@
-import * as Font from 'expo-font'
+import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
@@ -7,14 +7,25 @@ import { Platform } from 'react-native'
 import RootProvider from '@holi/core/RootProvider'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
+import { initNotifications } from '@holi/core/helpers/notifications'
 import { initI18n } from '@holi/core/i18n'
+import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
+SplashScreen.preventAutoHideAsync()
+
+if (__DEV__) {
+  console.debug('Starting app with config', config)
+}
+
 const App = () => {
   const [isReady, setIsReady] = useState(false)
+  const [initDone, setInitDone] = useState(false)
 
-  SplashScreen.preventAutoHideAsync()
+  if (__DEV__) {
+    console.debug('App starting with config', JSON.stringify(config, null, 2))
+  }
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {
@@ -27,30 +38,35 @@ const App = () => {
     require('@formatjs/intl-pluralrules/locale-data/de')
   }
 
-  // TODO (mobile): refactor to util function
+  const fonts = {
+    ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
+    ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
+    ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
+    ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
+  }
+
+  const [fontsLoaded] = useFonts(fonts)
+
   const init = async () => {
     try {
-      await Promise.all([
-        Font.loadAsync({
-          ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
-          ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
-          ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
-          ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
-        }),
-        initI18n(),
-        initAuth(),
-      ])
+      await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
       logError(error, '[App.tsx]: Error initializing the app')
     } finally {
-      setIsReady(true)
-      await SplashScreen.hideAsync()
+      setInitDone(true)
     }
   }
 
   useEffect(() => {
     init()
-  }, [])
+  })
+
+  useEffect(() => {
+    if (fontsLoaded && initDone) {
+      setIsReady(true)
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded, initDone])
 
   if (!isReady) return null
 

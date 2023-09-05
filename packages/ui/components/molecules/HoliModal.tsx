@@ -32,11 +32,12 @@ const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
  * "relativeHeight" is a percentage value (from 0 to 1). When its value is 1 and autoHeight is false, the modal is fullscreen.
  * "relativeHeight" with "autoHeight === true" works like "max-height"
  * "relativeHeight" with "autoHeight === false" works like fixed "height"
+ * `onDismiss` is onpional, means if no function is provided the modal in undismissable and can be shown or hidden only throught `show` prop
  */
 export interface HoliModalProps extends ModalProps {
   show: boolean
   label: string
-  onDismiss: () => void
+  onDismiss?: () => void
   heading?: string
   relativeHeight?: number
   autoHeight?: boolean
@@ -106,7 +107,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
     // if dragged more than 150px down, dismiss the modal
     // TODO: use relative, screen height based value instead of absolute
     if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 150) {
-      onDismiss()
+      onDismiss?.()
     } else {
       Animated.timing(gestureShiftRef.current, {
         toValue: 0,
@@ -187,28 +188,32 @@ const HoliModal: React.FC<HoliModalProps> = ({
               {!isFullscreen && isTouchDevice ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <HoliButton
-                      label={t('modal.backdrop')}
-                      onPress={onDismiss}
-                      transparent
-                      style={styles.lineButton}
-                      testID={`btn-to-close-${testID}`}
-                    >
-                      <View style={styles.line} />
-                    </HoliButton>
+                    {onDismiss && (
+                      <HoliButton
+                        label={t('modal.backdrop')}
+                        onPress={onDismiss}
+                        transparent
+                        style={styles.lineButton}
+                        testID={`btn-to-close-${testID}`}
+                      >
+                        <View style={styles.line} />
+                      </HoliButton>
+                    )}
                   </View>
                 </PanGestureHandler>
-              ) : (
-                <View style={[styles.heading]}>
-                  <HoliButton
-                    label={t('modal.backdrop')}
-                    style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
-                    onPress={onDismiss}
-                    transparent
-                    testID={`btn-to-close-${testID}`}
-                  >
-                    <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
-                  </HoliButton>
+              ) : !!onDismiss && !!heading ? (
+                <View style={styles.heading}>
+                  {!!onDismiss && (
+                    <HoliButton
+                      label={t('modal.backdrop')}
+                      style={[styles.dismissIcon, isTouchDevice && styles.dismissIconMobile]}
+                      onPress={onDismiss}
+                      transparent
+                      testID={`btn-to-close-${testID}`}
+                    >
+                      <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={25} />
+                    </HoliButton>
+                  )}
 
                   {!!heading && (
                     <HoliHeading
@@ -222,7 +227,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     </HoliHeading>
                   )}
                 </View>
-              )}
+              ) : null}
             </SafeAreaView>
 
             {children}

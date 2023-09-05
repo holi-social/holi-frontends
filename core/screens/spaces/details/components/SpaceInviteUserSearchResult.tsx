@@ -1,0 +1,141 @@
+import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
+
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { colors } from '@holi/ui/styles/globalVars'
+
+type SpaceInviteUserSearchResultProps = {
+  spaceId: string
+  onInviteHandled: () => void
+}
+
+const SPACE_CONNECTION_STATUS_PRIORITY = [
+  SpaceConnectionType.ADMINISTRATOR,
+  SpaceConnectionType.MEMBER,
+  SpaceConnectionType.FOLLOWER,
+]
+
+const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
+  SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
+
+const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({ spaceId, onInviteHandled }) => {
+  const { t } = useTranslation()
+  const { navigate } = useRouting()
+  const navigateToUser = useCallback((user: User) => navigate(`/profile/${user.id}`), [navigate])
+
+  const { loading, data: users } = usePaginationContext<User>()
+
+  if (loading) {
+    return <HoliLoader style={styles.loader} />
+  }
+  if (!users?.length) {
+    return <HoliText>{t('spaces.invite.user.notFound')}</HoliText>
+  }
+  return (
+    <View style={styles.list}>
+      {users.map((user) => {
+        const connectedToUser = user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
+        const spaceConnection = getMostRelevantSpaceConnectionStatus(user.connectionStatusToSpace)
+        return (
+          <View style={styles.listItem} key={user.id}>
+            <HoliButton
+              style={styles.listItemContentWrapper}
+              contentStyle={styles.listItemContent}
+              inline
+              transparent
+              label={t('user.visitProfile', { name: user.fullName })}
+              onPress={() => navigateToUser(user)}
+              testID={'user-list-item'}
+            >
+              <HoliAvatar
+                imageSrc={user.avatar}
+                imageBlurhash={user.avatarBlurhash}
+                label=""
+                accessibilityLabel={user.fullName || t('user.profileView.anonymous')}
+                initials={user.avatarLabel}
+                defaultColor={user.avatarDefaultColor}
+                size="medium"
+                style={styles.avatar}
+              />
+              <View style={styles.textContainer}>
+                <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.listItemTitle}>
+                  {user.fullName || t('user.profileView.anonymous')}
+                </HoliText>
+                <View style={styles.listItemDescription}>
+                  {connectedToUser && (
+                    <HoliText style={styles.userStatus} size="extrasmall">
+                      {t('user.connectionStatus.CONNECTED')}
+                    </HoliText>
+                  )}
+                  {connectedToUser && spaceConnection && (
+                    <HoliText bold style={styles.dot}>
+                      {' ∙ '}
+                    </HoliText>
+                  )}
+                  {spaceConnection && (
+                    <HoliText style={styles.userStatus} size="extrasmall">
+                      {t(`space.userConnection.${spaceConnection}`)}
+                    </HoliText>
+                  )}
+                </View>
+              </View>
+            </HoliButton>
+            <SpaceInviteUserButton user={user} spaceId={spaceId} onInviteHandled={onInviteHandled} />
+          </View>
+        )
+      })}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  loader: {
+    marginVertical: 24,
+    position: 'relative',
+  },
+  list: {
+    paddingVertical: 20,
+  },
+  listItem: {
+    height: 64,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listItemContentWrapper: {
+    flex: 1,
+  },
+  listItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listItemTitle: {
+    lineHeight: 24,
+  },
+  listItemDescription: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  userStatus: {
+    color: colors.foreground20,
+  },
+  dot: {
+    color: colors.brandColorB30,
+  },
+  avatar: {
+    borderWidth: 1,
+  },
+  textContainer: {
+    paddingHorizontal: 16,
+  },
+})
+
+export default SpaceInviteUserSearchResult

@@ -15,7 +15,7 @@ export const getInitials = (str: string, maxLength = 3) =>
     .join('')
     .substring(0, maxLength) // maxLength is the max number of characters in the initials string
 
-export const onlyCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
+export const replaceSpecialChars = (str: string) => str.replace(/[0-9<>,._!"§$%&/()=?]/g, '')
 
 export const isString = (value: unknown): value is string => typeof value === 'string'
 

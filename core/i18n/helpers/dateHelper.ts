@@ -1,4 +1,5 @@
-export const getLocale = (language: string): string => ['en', 'de'].find((lang) => lang === language) || 'en'
+export const getLocale = (language: string): string =>
+  ['en', 'de'].find((lang) => lang === language.split('-')[0]) || 'en'
 
 const calculateNumberOfDaysAgo = (date: Date): number => {
   const today = new Date()
@@ -22,9 +23,24 @@ export const isToday = (date: Date): boolean => isTargetDate(date)
 export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
 
 /**
+ * @name getTimeFormat
+ * @param timestampOrDateStr - timestapm or stringified date
+ * @param locale - user locale (e.g. "en", "de", etc)
+ * @returns - time formated `HH:mm`
+ */
+export const getTimeFormat = (locale: string, timestampOrDateStr?: number | string): string => {
+  if (timestampOrDateStr == undefined) return ''
+
+  return new Intl.DateTimeFormat(getLocale(locale), {
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(timestampOrDateStr))
+}
+
+/**
  * @description getDisplayDate() function
  *
- * @param dateStr - stringified date
+ * @param timestampOrDateStr - timestapm or stringified date
  * @param locale - user locale (e.g. "en", "de", etc)
  *
  * @returns A formated date string for:
@@ -32,18 +48,14 @@ export const isYesterday = (date: Date): boolean => isTargetDate(date, -1)
  * - yesterday: localized "yesterday" (e.g. "gestern")
  * - for other dates: formated nummeric date (e.g. 24/12/2022)
  */
-export const getDisplayDate = (locale: string, dateStr?: string): string => {
-  if (!dateStr) return ''
+export const getDisplayDate = (locale: string, timestampOrDateStr?: number | string): string => {
+  if (timestampOrDateStr == undefined) return ''
 
   locale = getLocale(locale)
-
-  const date = new Date(dateStr)
+  const date = new Date(timestampOrDateStr)
 
   if (isToday(date)) {
-    return new Intl.DateTimeFormat(locale, {
-      hour: 'numeric',
-      minute: 'numeric',
-    }).format(date)
+    return getTimeFormat(locale, timestampOrDateStr)
   } else if (isYesterday(date)) {
     return new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }).format(-1, 'day')
   } else {

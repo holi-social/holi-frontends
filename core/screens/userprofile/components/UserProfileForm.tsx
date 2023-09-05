@@ -5,7 +5,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { FieldError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { onlyCharacters } from '@holi/core/helpers'
+import { replaceSpecialChars } from '@holi/core/helpers'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
@@ -27,6 +27,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, delayAnimation, usePositions } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type UserProfileFormProps = {
   user: User
@@ -56,6 +57,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   })
 
   const testID = props.testId || 'user-profile-edit-form'
+
+  const mixins = useStyleMixins()
 
   const resetErrorsForField = useCallback(
     (fieldName: string) =>
@@ -108,14 +111,14 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   if (!user) {
     notificationComponent = (
-      <View style={styles.notification}>
+      <View style={[mixins.container, styles.notification]}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   const header = (
-    <View style={styles.headerContainer}>
+    <View style={[mixins.container, styles.headerContainer]}>
       <HoliAvatar
         imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
         imageBlurhash={user.avatarBlurhash}
@@ -186,7 +189,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       style={styles.wrapper}
       ref={scrollViewRef}
     >
-      <View style={styles.mainContainer}>
+      <View style={[mixins.container, styles.mainContainer]}>
         <HoliTextInput
           value={firstName}
           inputLabel={t('user.profileForm.firstName')}
@@ -194,9 +197,10 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setFirstName(onlyCharacters(text))
+            setFirstName(replaceSpecialChars(text))
             resetErrorsForField('firstName')
           }}
+          isRequired
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
           inputProps={{ autoFocus: Platform.OS === 'web' }}
@@ -210,7 +214,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text: string) => {
-            setLastName(onlyCharacters(text))
+            setLastName(replaceSpecialChars(text))
             resetErrorsForField('lastName')
           }}
           style={styles.input}
@@ -274,7 +278,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainContainer: {
-    marginHorizontal: 24,
     marginTop: 30,
     paddingBottom: Platform.OS === 'ios' ? 250 : 0,
   },
@@ -297,7 +300,6 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 16,
     zIndex: 10,
     backgroundColor: colors.background10,
   },

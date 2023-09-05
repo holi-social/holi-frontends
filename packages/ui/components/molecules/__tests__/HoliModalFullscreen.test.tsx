@@ -1,19 +1,18 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
-import renderer from 'react-test-renderer'
 
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 
 describe('HoliModalFullscreen.tsx', () => {
   it('renders correctly when open', () => {
-    const tree = renderer.create(<HoliModalFullscreen label="Test" show={true} onDismiss={() => null} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliModalFullscreen label="Test" show={true} onDismiss={() => null} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly when closed', () => {
-    const tree = renderer.create(<HoliModalFullscreen label="Test" show={false} onDismiss={() => null} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliModalFullscreen label="Test" show={false} onDismiss={() => null} />)
+    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('calls onDismiss prop when close button gets clicked', async () => {

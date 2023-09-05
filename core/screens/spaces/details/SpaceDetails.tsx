@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
@@ -13,7 +13,6 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import { useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -46,7 +45,8 @@ const SpaceDetails = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-
+  const { width: screenWidth } = useWindowDimensions()
+  const screenOffset = Math.min(screenWidth, +vars.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
 
   // On initial page load on web `spaceIdOrName` is undefined
@@ -64,7 +64,6 @@ const SpaceDetails = () => {
   const id = space?.id || `${spaceIdOrName}`
 
   const [isLoading, deleteSpace] = useDeleteSpace(id)
-  const [spaceUrl] = useShareLink(space?.title ?? '', `/spaces/${space?.name}`)
   const [isLoadingReport, reportContent] = useReportContent({
     id,
     contentType: ContentType.SPACE,
@@ -209,14 +208,14 @@ const SpaceDetails = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTintColor: colors.foreground30,
       headerTitle: () => null,
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={!isMember || !isAdmin ? styles.headerRight : null}>
           {!isMember || !isAdmin ? (
-            <SpaceShareIcon spaceIdOrName={space?.name} title={space?.title} {...props} />
+            <SpaceShareIcon {...props} spaceIdOrName={space?.name || spaceIdOrName} title={space?.title} />
           ) : null}
           {renderActionDrawer()}
         </View>
@@ -225,7 +224,7 @@ const SpaceDetails = () => {
         footerShown: false,
       },
     })
-  }, [isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceUrl, t])
+  }, [id, isAdmin, isMember, isWeb, renderActionDrawer, setScreenOptions, space, spaceIdOrName, t])
 
   const onUpdateButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
@@ -236,7 +235,7 @@ const SpaceDetails = () => {
       <HoliButton
         label={t('spaces.toolKit.add.button.label')}
         testID="space-add-post-button"
-        style={styles.overlayButton}
+        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
         onPress={onUpdateButtonPress}
       >
         <HoliIcon icon={Pencil} size={20} />
@@ -331,9 +330,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     bottom: vars.topBarHeight,
-    right: 24,
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     justifyContent: 'center',
+    right: '50%',
   },
   headerRight: {
     flexDirection: 'row',

@@ -1,104 +1,72 @@
-import { useMutation, useQuery } from '@apollo/client'
-import React, { useLayoutEffect, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { z } from 'zod'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { ArrowLeftS } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpaceInviteViewParams = {
-  spaceIdOrName: string
+const isEmail = (input: string) => z.string().email().safeParse(input).success
+
+type SpaveInviteViewProps = {
+  spaceId: string
 }
 
-const { useParam } = createParam<SpaceInviteViewParams>()
-
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
-const SpaceInviteView: React.VFC<ScreenProps> = () => {
+const SpaceInviteView: React.FC<SpaveInviteViewProps> = ({ spaceId }) => {
   const [searchValue, setSearchValue] = useState('')
-  const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { openToast } = useToast()
-  const { navigate } = useRouting()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { idOrName: spaceIdOrName || '' },
-  })
+  const { displayError } = useErrorHandling()
+
+  const clearInput = useCallback(() => setSearchValue(''), [])
 
   const [inviteToSpaceByEmail, { loading: loadingInvite }] = useMutation<InviteToSpaceByEmailResponse>(
     inviteToSpaceByEmailMutation,
     {
       onCompleted() {
         openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
-        navigate(`/spaces/${spaceIdOrName}`)
+        clearInput()
       },
-      onError() {
-        openToast(t('global.technicalError'), HoliToastType.ERROR)
+      onError(error) {
+        displayError(error, t('global.technicalError'))
       },
     }
   )
 
-  const space = data?.spaceById
+  const searchValueIsEmail = isEmail(searchValue)
 
-  const setScreenOptions = useSetScreenOptions()
+  const sendInvitationEmail = useCallback(
+    () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: spaceId } }),
+    [inviteToSpaceByEmail, searchValue, spaceId]
+  )
+  const onSubmitEditing = useCallback(() => {
+    if (searchValueIsEmail) {
+      sendInvitationEmail()
+    }
+  }, [searchValueIsEmail, sendInvitationEmail])
 
-  useLayoutEffect(() => {
-    setScreenOptions({
-      headerBackTitleVisible: true,
-      headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTitle: () => <HoliText>{t('spaces.invite.btn.invite')}</HoliText>,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [setScreenOptions, t])
-
-  const sendInivitation = () => inviteToSpaceByEmail({ variables: { email: searchValue, spaceId: space?.id } })
-
-  if (error) {
-    openToast(t('global.technicalError'), HoliToastType.ERROR)
-    navigate(`/spaces/${spaceIdOrName}`)
-    return <></>
-  }
-
-  if (loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <DefaultLayout style={[styles.wrapper, styles.loading]}>
-        <View style={mixins.container}>
-          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
-  }
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   return (
     <FormWrapper
-      onSave={sendInivitation}
+      onSave={sendInvitationEmail}
       loading={loadingInvite}
-      saveButtonDisabled={!searchValue || loadingInvite}
+      saveButtonDisabled={!searchValue || !searchValueIsEmail || loadingInvite}
       style={styles.wrapper}
-      testID="space-details-container"
+      testID="space-invite-form"
       buttonLabel={t('spaces.invite.btn.send')}
+      scrollToInput={false}
       initialOffsetTop={0}
-      showBottomBar
+      keyboardShouldPersistTaps="handled"
+      {...throttledScrollEventProps}
       renderProp={() => (
         <>
           <View style={styles.whom}>
@@ -111,15 +79,19 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
             <HoliTextInput
               placeholder={t('spaces.invite.search.input')}
               value={searchValue}
-              onChange={(value: string) => setSearchValue(value)}
+              onChange={setSearchValue}
               style={styles.input}
               accessibilityLabel={t('spaces.invite.search.input')}
-              inputProps={{ onSubmitEditing: sendInivitation }}
+              inputProps={{ onSubmitEditing }}
+              testID="space-invite-user"
             />
             <HoliText size="extrasmall" style={styles.hint} skeletonOptions={{ numberOfLines: 2 }}>
               {t('spaces.invite.search.hint')}
             </HoliText>
           </View>
+          {!!searchValue && !searchValueIsEmail && (
+            <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={clearInput} />
+          )}
         </>
       )}
     />
@@ -127,19 +99,20 @@ const SpaceInviteView: React.VFC<ScreenProps> = () => {
 }
 
 const styles = StyleSheet.create({
-  loading: {
-    paddingTop: 32,
-    flex: 1,
-  },
   wrapper: {
-    marginTop: Platform.OS === 'web' ? 40 : +vars.topBarHeight + 44,
     paddingTop: 12,
     backgroundColor: colors.background30,
-    height: '100%',
   },
   whom: {
     display: 'flex',
-    paddingVertical: 24,
+    ...Platform.select({
+      native: {
+        paddingTop: +vars.topBarHeight + 52,
+      },
+      web: {
+        paddingTop: +vars.topBarHeight + 24,
+      },
+    }),
     paddingBottom: 8,
     flexDirection: 'column',
     alignItems: 'flex-start',

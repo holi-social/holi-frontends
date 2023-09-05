@@ -1,10 +1,14 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { onScreenScrollY } from '@holi/core/helpers'
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { useGeolocationDetails } from '@holi/core/location/hooks/useGeolocationDetails'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -24,6 +28,8 @@ import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 
 const VolunteeringAppHome = () => {
+  const { displayError } = useErrorHandling()
+
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const setScreenOptions = useSetScreenOptions()
@@ -34,6 +40,16 @@ const VolunteeringAppHome = () => {
   const [category] = useParam('category', singleParamConfig)
 
   const updateParams = useUpdateParams()
+
+  const { geolocationDetails, geolocationError } = useGeolocationDetails(location)
+  const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
+    return (
+      geolocationDetails && {
+        ...geolocationDetails,
+        label: geolocationDetails.name,
+      }
+    )
+  }, [geolocationDetails])
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
@@ -57,7 +73,8 @@ const VolunteeringAppHome = () => {
   )
 
   const { navigate } = useRouting()
-  const filters: VolunteeringFilters = { location, category }
+  const filters = { location: initialLocationSelection, category }
+
   const isFiltering = !!(location || category)
 
   useLayoutEffect(() => {
@@ -92,11 +109,21 @@ const VolunteeringAppHome = () => {
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
 
+  useEffect(() => {
+    if (geolocationError) {
+      displayError(geolocationError, t('volunteering:listing.error'))
+    }
+  }, [displayError, geolocationError, t])
+
+  if (geolocationError) {
+    return <></>
+  }
+
   return (
     <SafeAreaProvider>
       <DefaultLayout
         style={styles.defaultLayout}
-        scrollable={false}
+        scrollable={true}
         testID={'volunteering-list-container'}
         keyboardShouldPersistTaps="handled"
         hasFooterTabBar={false}
@@ -112,17 +139,26 @@ const VolunteeringAppHome = () => {
           <VolunteeringFilterForm onSubmit={submit} filters={filters} />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScrollY} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} />
       </DefaultLayout>
     </SafeAreaProvider>
   )
 }
 
-export default memo(VolunteeringAppHome)
+const WrappedVolunteeringAppHome = () => (
+  <FeatureToggleGuard
+    toggleName={FeatureToggleName.APPS_VOLUNTEERING}
+    featureNameKey="volunteering:maintenance.feature"
+  >
+    <VolunteeringAppHome />
+  </FeatureToggleGuard>
+)
+
+export default memo(WrappedVolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background20,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },

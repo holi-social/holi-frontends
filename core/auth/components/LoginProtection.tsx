@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
-import { useOnboarding } from '@holi/core/screens/onboarding/hooks'
+import { useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { vars } from '@holi/ui/styles/globalVars'
@@ -16,8 +16,8 @@ const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { isLoggedIn, isLoading: isUserLoading } = useLoggedInUser()
   const navigation = useNavigation()
   const [onboardingKey, setOnboardingKey] = useState(Date.now().toString())
-  const { onboardingState } = useOnboarding()
-  const isOnboardingFinished = onboardingState === 'finished'
+  const { storedOnboardingState } = useStoredOnboardingState()
+  const isOnboardingFinished = storedOnboardingState === 'finished'
   const { navigate } = useRouting()
 
   const redirectToHomeScreenOnboarding = useCallback(() => {

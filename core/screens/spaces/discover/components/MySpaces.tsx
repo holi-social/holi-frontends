@@ -33,8 +33,8 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
             {section.title}
           </HoliHeading>
 
-          {section.data.map((space) => (
-            <View key={`${sectionIndex}-${space.name}`} style={styles.spaceItemContainer}>
+          {section.data.map((space, spaceIndex) => (
+            <View key={`${sectionIndex}-${space.name}-${spaceIndex}`} style={styles.spaceItemContainer}>
               <HoliBlockItem
                 label={space.title}
                 title={space.title}

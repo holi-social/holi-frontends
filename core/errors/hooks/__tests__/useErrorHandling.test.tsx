@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
@@ -8,6 +9,12 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.unmock('@holi/ui/components/molecules/HoliToastProvider')
+
+const mockConsoleWarn = jest.fn()
+const mockConsoleError = jest.fn()
+
+global.console.warn = mockConsoleWarn
+global.console.error = mockConsoleError
 
 type ErrorComponentProps = { message?: string }
 
@@ -20,24 +27,24 @@ const ErrorComponent: React.VFC<ErrorComponentProps> = ({ message }) => {
 }
 
 describe('displays errors correctly', () => {
-  it('displays toast with global error message', () => {
+  it('displays toast with global error message', async () => {
     render(
       <ToastProvider>
         <ErrorComponent />
       </ToastProvider>
     )
 
-    screen.findByText('global.technicalError')
+    expect(await screen.findByText('global.technicalError'))
   })
 
-  it('displays toast with custom error message', () => {
+  it('displays toast with custom error message', async () => {
     render(
       <ToastProvider>
         <ErrorComponent message="Custom Error" />
       </ToastProvider>
     )
 
-    screen.findByText('Custom Error')
+    expect(await screen.findByText('Custom Error'))
   })
 
   it('warn logs and tracks error with sentry in development', () => {
@@ -50,7 +57,7 @@ describe('displays errors correctly', () => {
     )
 
     expect(console.error).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 
   it('warn logs and tracks error with sentry in production', () => {
@@ -63,6 +70,6 @@ describe('displays errors correctly', () => {
     )
 
     expect(console.warn).toHaveBeenCalledWith('[logError.ts] Custom Error:', new HoliError('Test Error'), undefined)
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test Error'), expect.any(Function))
   })
 })

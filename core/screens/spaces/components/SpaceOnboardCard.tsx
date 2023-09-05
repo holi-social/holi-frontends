@@ -16,17 +16,19 @@ type OnboardingCard = {
 
 type OnboardCardProps = {
   content: OnboardingCard
+  imgWidth: number
+  imgHeight: number
 }
 
-const SpaceOnboardCard = ({ content }: OnboardCardProps) => {
+const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) => {
   const { t } = useTranslation()
 
   return (
     <View style={styles.onboardCardContainer}>
       <HoliLocalImage
         imageSource={content.image}
-        width={240}
-        height={174}
+        width={imgWidth}
+        height={imgHeight}
         label={''}
         isSvg={true}
         resizeMode="contain"

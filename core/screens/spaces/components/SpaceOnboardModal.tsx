@@ -17,6 +17,8 @@ type OnboardingCard = {
   image: StaticImageData
   description: string
   instruction: string
+  width: number
+  height: number
 }
 
 const onboardingContentList: Array<OnboardingCard> = [
@@ -24,16 +26,22 @@ const onboardingContentList: Array<OnboardingCard> = [
     image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.svg'),
     description: 'spaces.join.onboarding.slide1.description',
     instruction: 'spaces.edit.onboarding.instruction',
+    width: 279,
+    height: 200,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_2.svg'),
     description: 'spaces.join.onboarding.slide2.description',
     instruction: '',
+    width: 279,
+    height: 200,
   },
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_3.svg'),
     description: 'spaces.join.onboarding.slide3.description',
     instruction: '',
+    width: 279,
+    height: 200,
   },
 ]
 
@@ -59,7 +67,7 @@ const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps
           slides={onboardingContentList.map((content: OnboardingCard) => ({
             children: (
               <View style={styles.carouselContainer}>
-                <SpaceOnboardCard content={content} />
+                <SpaceOnboardCard content={content} imgWidth={content.width} imgHeight={content.height} />
               </View>
             ),
           }))}
@@ -97,6 +105,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: colors.background30,
+    height: Platform.OS === 'web' ? '100%' : '75%',
   },
   carouselContainer: {
     width: '100%',

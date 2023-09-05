@@ -11,7 +11,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           "flexDirection": "row",
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
         {},
@@ -28,7 +27,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             "maxWidth": 750,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
         ]
@@ -42,7 +40,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "marginBottom": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -78,7 +75,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "paddingVertical": 15,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             false,
@@ -127,11 +123,10 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "overflow": "scroll",
               },
               {
-                "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }
@@ -235,7 +230,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           "flexDirection": "row",
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
         {},
@@ -252,7 +246,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             "maxWidth": 750,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
         ]
@@ -266,7 +259,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "marginBottom": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -302,7 +294,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "paddingVertical": 15,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             false,
@@ -353,11 +344,10 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "overflow": "scroll",
               },
               {
-                "alignSelf": "stretch",
                 "width": "100%",
               },
               {
-                "height": 31,
+                "height": 22,
               },
             ]
           }
@@ -445,7 +435,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "marginTop": 6,
               },
               {
-                "alignSelf": "stretch",
                 "width": "100%",
               },
             ]

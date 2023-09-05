@@ -8,7 +8,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -25,7 +24,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -45,7 +43,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -92,11 +89,10 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -118,7 +114,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -155,7 +150,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -172,7 +166,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -192,7 +185,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -236,11 +228,10 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 45,
+              "height": 22,
             },
           ]
         }
@@ -262,7 +253,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -299,7 +289,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -316,7 +305,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -336,7 +324,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -380,11 +367,10 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -406,7 +392,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -562,7 +547,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "maxWidth": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -620,7 +605,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -637,7 +621,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -657,7 +640,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -701,11 +683,10 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -793,7 +774,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -830,7 +810,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -847,7 +826,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -867,7 +845,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -911,11 +888,10 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -938,7 +914,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]
@@ -975,7 +950,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         "flexDirection": "row",
       },
       {
-        "alignSelf": "stretch",
         "width": "100%",
       },
       {},
@@ -992,7 +966,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           "maxWidth": 750,
         },
         {
-          "alignSelf": "stretch",
           "width": "100%",
         },
       ]
@@ -1012,7 +985,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             "paddingVertical": 15,
           },
           {
-            "alignSelf": "stretch",
             "width": "100%",
           },
           false,
@@ -1056,11 +1028,10 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "overflow": "scroll",
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
             {
-              "height": 23,
+              "height": 22,
             },
           ]
         }
@@ -1082,7 +1053,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "marginTop": 6,
             },
             {
-              "alignSelf": "stretch",
               "width": "100%",
             },
           ]

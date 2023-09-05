@@ -10,7 +10,7 @@ const DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD = -200
 const DEFAULT_PLACEHOLDER_HEIGHT = 350
 
 interface Props {
-  // below fold = top edge of component is below lower window edge
+  // below fold = top edge of the component is below lower window edge
   // negative means below fold, positive means partially visible
   // default = -200
   belowFoldThreshold?: number
@@ -28,7 +28,7 @@ const ScrollBasedRender = ({
   const placeholderRef = useRef<View>(null)
   const { height: windowHeight } = useWindowDimensions()
 
-  // scroll based check for visibility
+  // scroll-based check for visibility
   const scrollY = useAtomValue(mobileScrollYAtom)
 
   // initial & re-render based check for visibility

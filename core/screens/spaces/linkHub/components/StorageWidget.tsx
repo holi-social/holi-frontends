@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
@@ -59,67 +61,78 @@ const StorageWidget: React.VFC<StorageWidgetProps> = ({ space, style }) => {
   ]
 
   return (
-    <CollaboratorAreaCard
-      headerLeftIcon={FolderOpen}
-      headerRightIcon={Information}
-      title={t('spaces.storage.widget.title')}
-      onPressHeaderLeft={navigateToStorageScreen}
-      onPressHeaderRight={show}
-      headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
+    <FeatureToggleGuard
+      toggleName={FeatureToggleName.STORAGE}
+      featureNameKey="spaces.storage.maintenance.feature"
       style={style}
+      noLayout
     >
-      <HoliButton
-        style={styles.container}
-        transparent
-        label={t('spaces.storage.widget.description')}
-        onPress={navigateToStorageScreen}
+      <CollaboratorAreaCard
+        headerLeftIcon={FolderOpen}
+        headerRightIcon={Information}
+        title={t('spaces.storage.title')}
+        onPressHeaderLeft={navigateToStorageScreen}
+        onPressHeaderRight={show}
+        headerRightButtonLabel={t('spaces.digitalToolKit.add.button.label')}
+        style={style}
       >
-        <HoliText size="small" style={styles.descriptionText}>
-          {t('spaces.storage.widget.description')}
-        </HoliText>
-        <HoliText size="small" style={styles.instruction}>
-          {t('spaces.storage.widget.instruction')}
-        </HoliText>
-      </HoliButton>
-
-      <HoliModal label={t('spaces.storage.widget.owncloud.modal')} show={visible} onDismiss={hide}>
-        <HoliModalContentWrapper
-          actionButtonText={t('global.gotIt')}
-          onActionButtonPress={hide}
-          style={styles.modalContainer}
+        <HoliButton
+          style={styles.container}
+          transparent
+          label={t('spaces.storage.widget.description')}
+          onPress={navigateToStorageScreen}
         >
-          <HoliCarousel
-            marginHorizontal={20}
-            slides={storageWidgetList.map((widget) => ({
-              children: (
-                <View style={styles.carouselContainer}>
-                  <HoliLocalImage
-                    imageSource={widget.image}
-                    label={widget.label || ''}
-                    width={widget.imageWidth || 120}
-                    height={widget.imageHeight || 60}
-                    resizeMode="contain"
-                    style={styles.image}
-                  />
-                  <HoliHeading level="1">{widget.title}</HoliHeading>
-                  <HoliText style={styles.text}>
-                    <Trans t={t} i18nKey={widget.i18nKey}>
-                      <HoliText bold />
-                    </Trans>
-                  </HoliText>
-                  <HoliButton label={widget.visit || ''} transparent onPress={() => Linking.openURL(widget.link || '')}>
-                    <View style={styles.link}>
-                      <HoliText>{widget.visit}</HoliText>
-                      <HoliIcon icon={ExternalLink} />
-                    </View>
-                  </HoliButton>
-                </View>
-              ),
-            }))}
-          />
-        </HoliModalContentWrapper>
-      </HoliModal>
-    </CollaboratorAreaCard>
+          <HoliText size="small" style={styles.descriptionText}>
+            {t('spaces.storage.widget.description')}
+          </HoliText>
+          <HoliText size="small" style={styles.instruction}>
+            {t('spaces.storage.widget.instruction')}
+          </HoliText>
+        </HoliButton>
+
+        <HoliModal label={t('spaces.storage.widget.owncloud.modal')} show={visible} onDismiss={hide}>
+          <HoliModalContentWrapper
+            actionButtonText={t('global.gotIt')}
+            onActionButtonPress={hide}
+            style={styles.modalContainer}
+          >
+            <HoliCarousel
+              marginHorizontal={20}
+              slides={storageWidgetList.map((widget) => ({
+                children: (
+                  <View style={styles.carouselContainer}>
+                    <HoliLocalImage
+                      imageSource={widget.image}
+                      label={widget.label || ''}
+                      width={widget.imageWidth || 120}
+                      height={widget.imageHeight || 60}
+                      resizeMode="contain"
+                      style={styles.image}
+                    />
+                    <HoliHeading level="1">{widget.title}</HoliHeading>
+                    <HoliText style={styles.text}>
+                      <Trans t={t} i18nKey={widget.i18nKey}>
+                        <HoliText bold />
+                      </Trans>
+                    </HoliText>
+                    <HoliButton
+                      label={widget.visit || ''}
+                      transparent
+                      onPress={() => Linking.openURL(widget.link || '')}
+                    >
+                      <View style={styles.link}>
+                        <HoliText>{widget.visit}</HoliText>
+                        <HoliIcon icon={ExternalLink} />
+                      </View>
+                    </HoliButton>
+                  </View>
+                ),
+              }))}
+            />
+          </HoliModalContentWrapper>
+        </HoliModal>
+      </CollaboratorAreaCard>
+    </FeatureToggleGuard>
   )
 }
 

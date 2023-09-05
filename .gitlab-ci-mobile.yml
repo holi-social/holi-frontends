@@ -3,16 +3,14 @@
 .mobile_publish:
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   variables:
-    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
-    HOLI_API_URL: https://staging.unified.apis.holi.social/graphql
-    HOLI_API_GATEWAY: https://staging.unified.apis.holi.social
-    ORY_BASE_URL: https://dev-auth.holi.social
-    OWNCLOUD_BASE_URL: https://development.cloud.holi.social
-    JITSI_URL: https://development.meet.holi.social
+    ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
+    EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
   dependencies: [] # explicitly disable artifact usage
   script:
-    - cd apps/mobile
-    - expo publish --release-channel $ENVIRONMENT_ID
+    - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
+    - '. ${ENVIRONMENT_FILE}'
+    - 'cd apps/mobile'
+    - 'eas update --channel=$EXPO_PUBLISH_RELEASE_CHANNEL --auto'
   interruptible: true
   tags:
     - holi-big
@@ -20,13 +18,16 @@
 .mobile_build:
   image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
   variables:
-    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+    ENVIRONMENT_FILE: '' # must be overridden by jobs extending .mobile_build
     BUILD_PROFILE: preview
     BUILD_PLATFORM: changeme
     KEEP_ARTIFACTS: 'false'
     CHECK_VERSION_RELEASED: 'false'
+    CI_ARTIFACTS_ENVIRONMENT_NAME: $CI_COMMIT_REF_SLUG
   dependencies: [] # explicitly disable artifact usage
   script:
+    - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
+    - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
     - >
       if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
@@ -47,8 +48,8 @@
     - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
       if [ "$KEEP_ARTIFACTS" == "true" ]; then
-        mkdir -p artifacts_$ENVIRONMENT_ID
-        curl -o artifacts_$ENVIRONMENT_ID/$(basename $ARTIFACT_URL) $ARTIFACT_URL
+        mkdir -p artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME
+        curl -o artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME/$(basename $ARTIFACT_URL) $ARTIFACT_URL
       fi
   interruptible: true
   allow_failure: false
@@ -59,16 +60,19 @@
   variables:
     BUILD_PLATFORM: changeme
     TEST_SUITES: changeme
+    ENVIRONMENT_FILE: .env.staging
   script:
-    - cd apps/mobile
-    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
-    - export EAS_APK_FILE=$(basename $EAS_APK_URL)
-    - curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL # download .apk from EAS
-    - cd ../../e2e/mobile
-    - yarn install
-    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
-    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand
+    - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
+    - '. ${ENVIRONMENT_FILE}'
+    - 'cd apps/mobile'
+    - 'export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'export EAS_APK_FILE=$(basename $EAS_APK_URL)'
+    - 'curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL' # download .apk from EAS
+    - 'cd ../../e2e/mobile'
+    - 'yarn install'
+    - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")'
+    - 'export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r ".app_url")'
+    - 'APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand'
   allow_failure: false
   interruptible: true
   timeout: 2 hours
@@ -99,6 +103,8 @@ mobile_review_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
     on_stop: mobile_review_destroy
     auto_stop_in: 2 weeks
+  variables:
+    ENVIRONMENT_FILE: .env.staging
   except:
     - main
     - production
@@ -136,6 +142,7 @@ mobile_review_build_android:
   needs: ['lint_compile_test']
   variables:
     BUILD_PLATFORM: android
+    ENVIRONMENT_FILE: .env.staging
   except:
     - main
     - production
@@ -149,6 +156,7 @@ mobile_review_build_ios:
   needs: ['lint_compile_test']
   variables:
     BUILD_PLATFORM: ios
+    ENVIRONMENT_FILE: .env.staging
   except:
     - main
     - production
@@ -189,7 +197,8 @@ mobile_staging_publish:
     deployment_tier: staging
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
   variables:
-    ENVIRONMENT_ID: staging
+    ENVIRONMENT_FILE: .env.staging
+    EXPO_PUBLISH_RELEASE_CHANNEL: staging
   only:
     - main
 
@@ -197,9 +206,10 @@ mobile_staging_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
   variables:
-    ENVIRONMENT_ID: staging
+    ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
     BUILD_PLATFORM: 'android'
+    CI_ARTIFACTS_ENVIRONMENT_NAME: staging
   artifacts:
     paths:
       - apps/mobile/artifacts_staging/
@@ -211,9 +221,10 @@ mobile_staging_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
   variables:
-    ENVIRONMENT_ID: staging
+    ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
     BUILD_PLATFORM: 'ios'
+    CI_ARTIFACTS_ENVIRONMENT_NAME: staging
   artifacts:
     paths:
       - apps/mobile/artifacts_staging/
@@ -248,12 +259,8 @@ mobile_production_publish:
     deployment_tier: production
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
-    ENVIRONMENT_ID: production
-    HOLI_API_URL: https://production.unified.apis.holi.social/graphql
-    HOLI_API_GATEWAY: https://production.unified.apis.holi.social
-    ORY_BASE_URL: https://auth.holi.social
-    OWNCLOUD_BASE_URL: https://production.cloud.holi.social
-    JITSI_URL: https://meet.holi.social
+    ENVIRONMENT_FILE: .env.production
+    EXPO_PUBLISH_RELEASE_CHANNEL: production
   only:
     - production
 
@@ -262,11 +269,12 @@ mobile_production_build_android:
   needs: ['lint_compile_test']
   allow_failure: false
   variables:
-    ENVIRONMENT_ID: production
+    ENVIRONMENT_FILE: .env.production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'android'
     CHECK_VERSION_RELEASED: 'true'
+    CI_ARTIFACTS_ENVIRONMENT_NAME: production
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
@@ -279,11 +287,12 @@ mobile_production_build_ios:
   needs: ['lint_compile_test']
   allow_failure: false
   variables:
-    ENVIRONMENT_ID: production
+    ENVIRONMENT_FILE: .env.production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'ios'
     CHECK_VERSION_RELEASED: 'true'
+    CI_ARTIFACTS_ENVIRONMENT_NAME: production
   artifacts:
     paths:
       - apps/mobile/artifacts_production/

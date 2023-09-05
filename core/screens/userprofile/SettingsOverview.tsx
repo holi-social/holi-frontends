@@ -1,25 +1,19 @@
 import { withProfiler } from '@sentry/react'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import ChatLogin from '@holi/chat/src/client/ChatLogin'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { logError } from '@holi/core/errors/helpers'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { AccountCircle, Help, Lock, Notification2 } from '@holi/icons/src/generated'
+import { AccountCircle, FolderLock, Help } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const IS_CHAT_ENABLED = false
-const chatLoginClient = new ChatLogin()
 
 const SettingsOverview = () => {
   const { t } = useTranslation()
@@ -30,13 +24,6 @@ const SettingsOverview = () => {
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onConfirm: () => {
-      if (IS_CHAT_ENABLED) {
-        const logoutFromChat = async () => {
-          await chatLoginClient.logout()
-        }
-        logoutFromChat().catch((err) => logError(err))
-      }
-
       logout()
     },
   })
@@ -44,9 +31,6 @@ const SettingsOverview = () => {
   useLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.overview.title') })
   }, [setScreenOptions, t])
-
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
     <ScrollHeaderLayout.Default>
@@ -61,24 +45,15 @@ const SettingsOverview = () => {
             testID="btn-your-account"
           />
           <MoreOptionItem
-            label={t('notifications.title')}
-            icon={Notification2}
-            iconRightStyle="arrow"
-            onPress={showFeatureNotImplementedToast}
-            tintColor={colors.foreground20}
-            style={styles.settingsItem}
-          />
-          {/* testing mailto links will fail on emulators - see https://github.com/expo/expo/issues/7817 */}
-          <MoreOptionItem
-            label={t('profile.settings.overview.help')}
+            label={t('profile.settings.help.title')}
             icon={Help}
-            iconRightStyle="outlink"
-            onPress={() => Linking.openURL(t('global.support.mail.href'))}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/help')}
             style={styles.settingsItem}
           />
           <MoreOptionItem
             label={t('profile.settings.legalDocuments.title')}
-            icon={Lock}
+            icon={FolderLock}
             iconRightStyle="arrow"
             onPress={() => navigate('/profile/settings/legalDocuments')}
             style={styles.settingsItem}
