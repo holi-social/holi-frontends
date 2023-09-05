@@ -57,6 +57,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
       await sendMessage({ roomId, text })
     } catch (err) {
       setMessageText(text)
+      logError(err, '[ChatTextInput.tsx] could not send chat message')
       openToast(t('global.technicalError'))
     }
   }
@@ -79,7 +80,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
               event.nativeEvent.shiftKey
             ) {
               event.preventDefault()
-              handleSendMessage().catch(logError)
+              handleSendMessage().catch((error) => logError(error, '[ChatTextInput.tsx] could not send chat message'))
             }
           },
         }}

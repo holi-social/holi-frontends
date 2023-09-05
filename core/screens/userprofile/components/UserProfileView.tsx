@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { getOrCreateRoom } from '@holi/chat/src/store'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
@@ -42,7 +43,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
     // TODO:  the correct Matrix identity should come from Okuna
     const identity = user.identity
     if (!identity) {
-      logError('Can not create a chat with out an user identity')
+      logError(new HoliError('Can not create a chat without a user identity'), '[UserProfileView.tsx]')
       return
     }
 

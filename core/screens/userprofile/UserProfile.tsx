@@ -137,10 +137,10 @@ const UserProfile = () => {
   // see https://github.com/nandorojo/solito/issues/100
   useEffect(() => {
     if (userId && !loading && !user) {
-      fetchUser().catch((e) => logError(e))
+      fetchUser().catch((e) => logError(e, '[UserProfile.tsx] could not fetch user'))
     }
     if (error && !isNotFoundError(error)) {
-      displayError(error)
+      displayError(error, '[UserProfile.tsx]')
     }
   }, [fetchUser, userId, loading, user, error, displayError])
 

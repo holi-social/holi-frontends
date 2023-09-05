@@ -34,7 +34,7 @@ export const useErrorHandling = () => {
   const { openToast } = useToast()
 
   const displayError = useCallback(
-    (error: unknown, message?: string, timeout?: number) => {
+    (error: unknown, message: string, timeout?: number) => {
       if (!isNetworkConnectionError(error)) {
         if (isApolloError(error) && error.message === 'Bad user input') {
           logErrorLocal(error, message)

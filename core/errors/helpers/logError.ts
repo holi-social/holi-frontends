@@ -21,7 +21,7 @@ export const logInfoMsg = (message: string) => {
  *
  * (!) Make sure to never log or pass any user identifiable data.
  */
-export const logError = (error: unknown, message?: string, { stack, context }: ErrorInfo = {}) => {
+export const logError = (error: unknown, message: string, { stack, context }: ErrorInfo = {}) => {
   if (isNetworkConnectionError(error)) return
   logErrorLocal(error, message, stack)
   Sentry.captureException(error, (scope) => {
