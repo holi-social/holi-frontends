@@ -129,13 +129,6 @@ type RoomAtomsRecordAtomSubscriberArgs = { room: Room; hasPendingInvitation: boo
 const _roomAtomsRecordAtomSubscriber = atom(null, (get, set, args: RoomAtomsRecordAtomSubscriberArgs) => {
   const { room, hasPendingInvitation, ignoredUsers } = args
   const chatRoom = createChatRoom(room, hasPendingInvitation)
-  const hasRoom = room.roomId in get(_roomAtomsRecordAtom)
-
-  if (!hasRoom) {
-    getChatClient().subscribeToRoomMessages(room, (event) => {
-      set(_newMessageAtomSubscriber, event)
-    })
-  }
 
   // We hide chat rooms with only ignored members from the user. We do an
   // early return not to include the chat room in the store.
@@ -149,7 +142,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   const ignoredUsers = client.getIgnoredUsers()
 
   const addRoomToStore = (room: Room, logPhase: string) => {
-    const hasPendingInvitation = getChatClient().hasPendingInvitation(room)
+    const hasPendingInvitation = client.hasPendingInvitation(room)
     logDebug(`Chat.store [${logPhase}]`, `adding room ${room.roomId} to store`)
     setAtom({ room, hasPendingInvitation, ignoredUsers })
   }
@@ -160,7 +153,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
   setChatInitialized(true)
 
   // set litener for new rooms
-  getChatClient().subscribeToRooms((room) => {
+  return client.subscribeToRooms((room) => {
     const hasRoomEmptyName = (room: Room) => room.name === 'Empty room'
 
     /**
@@ -183,6 +176,7 @@ _roomAtomsRecordAtomSubscriber.onMount = (setAtom) => {
     if (hasRoomEmptyName(room)) {
       waitForCorrectRoomName(Date.now() + 2000)
     }
+
     addRoomToStore(room, 'subscription')
   })
 }
@@ -417,7 +411,7 @@ export const messagesAtomsRecordAtom: Atom<Record<ChatRoomId, ChatMessagesAtom>>
  * initially fetch messages, we do not need to merge them with previous, but for
  * pagination we want to merge older messages with the new ones
  */
-const _messageBunchAtomSetter = atom(null, (get, set, roomId: string, events: IRoomEvent[], merge?: boolean) => {
+const _messageBunchAtomSetter = atom(null, (_get, set, roomId: string, events: IRoomEvent[], merge?: boolean) => {
   if (!roomId) return
 
   const addMessagesToRoomThread = produce(
@@ -450,13 +444,6 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
   const roomId = event.getRoomId()
   if (!roomId) return
 
-  const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
-    threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
-    const newMessage = createChatMessage(roomId, event.event as IRoomEvent)
-    set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
-    updateRoom(roomId, newMessage)
-  })
-
   // TODO: optimize to update the room timestamp instead of updating the entire room
   // This could be done through the new room selection
   const updateRoom = produce((roomId: string, message: ChatMessage) => {
@@ -468,8 +455,20 @@ const _newMessageAtomSubscriber = atom(null, (get, set, event: MatrixEvent) => {
     set(roomAtom, (room) => updateRoomAfterNewMessage(room, message))
   })
 
+  const addMessageToRoomThread = produce((threadsRecord: Record<string, ChatMessagesAtom>, event: MatrixEvent) => {
+    threadsRecord[roomId] = threadsRecord[roomId] ?? atom<ChatMessage[]>([])
+    const newMessage = createChatMessage(roomId, event.event as IRoomEvent)
+
+    updateRoom(roomId, newMessage)
+    set(threadsRecord[roomId], (prevMessages) => updateMessages(prevMessages, newMessage))
+  })
+
   set(_messagesAtomsRecordAtom, (prevThreadsRecord) => addMessageToRoomThread(prevThreadsRecord, event))
 })
+
+_newMessageAtomSubscriber.onMount = (setAtom) => {
+  return getChatClient().subscribeToRoomMessages(setAtom)
+}
 
 /**
  * @name messagesByRoomIdAtomCreator (Write-Only)
@@ -761,4 +760,5 @@ export const useSubscribeToChat = () => {
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
   useAtom(_ignoredUsersAtomSubscriber)
+  useAtom(_newMessageAtomSubscriber)
 }
