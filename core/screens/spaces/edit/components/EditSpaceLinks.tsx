@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: colors.background20,
-    paddingHorizontal: 16,
   },
   wrapper: {
     paddingBottom: Platform.OS === 'web' ? 0 : 100,
