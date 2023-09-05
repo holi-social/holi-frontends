@@ -35,7 +35,7 @@ const HoliProgressBar: React.FC<HoliProgressBarProps> = ({
 
   return (
     <View testID={testID} style={[styles.bar, barStyle, isSmall && { height: 6 }]}>
-      <Animated.View style={[styles.progress, progressStyle, isSmall && { height: 6 }, { width: widthAnimValue }]} />
+      <Animated.View style={[styles.progress, progressStyle, isSmall && { height: 4 }, { width: widthAnimValue }]} />
     </View>
   )
 }
