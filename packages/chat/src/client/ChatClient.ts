@@ -325,67 +325,37 @@ export default class ChatClient {
     const client = this.mxClient
     const rooms = client.getRooms()
 
-    const incomingMessagesHandler = (room: Room) => (event: MatrixEvent) => {
+    // The handler to attach for each room listening
+    const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
       if (event.getType() !== EventType.RoomMessage) return
       if (room.roomId !== event.getRoomId()) return
 
       callback(event)
     }
 
-    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, incomingMessagesHandler)
+    // Partially pass the arguments we need in order to set the listeners.
+    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
+    // Collects and set listeners for existing and incoming rooms.
     const addListenersToEachRoom = createRoomsListeners(client, rooms, incomingMessagesListener)
 
     return addListenersToEachRoom()
   }
 
-  public subscribeToUnreadRoomsNotifications = async (
-    callback: (roomId: string, notificationCount: NotificationCount) => void
-  ) => {
+  public subscribeToUnreadRoomsNotifications(callback: (roomId: string, notificationCount: NotificationCount) => void) {
     const client = this.mxClient
-    await this.waitForNextSyncEvent()
     const rooms = client.getRooms()
 
-    const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {
+    // The handler to attach for each room listening
+    const handleUnreadNotifications = (room: Room) => (notificationCount?: NotificationCount) => {
       if (!notificationCount) return
-      callback(roomId, notificationCount)
+      callback(room.roomId, notificationCount)
     }
 
-    // Creates the `listener` for the `RoomEvent.UnreadNotifications` event
-    const createListener = (room: Room) => {
-      const listener = (notificationCount?: NotificationCount) => {
-        handleUnreadNotifications(room.roomId, notificationCount)
-      }
+    // Partially pass the arguments we need in order to set the listeners.
+    const unreadNotificationsListener = addRoomEventListener(RoomEvent.UnreadNotifications, handleUnreadNotifications)
+    // Collects and set listeners for existing and incoming rooms.
+    const addListenersToEachRoom = createRoomsListeners(client, rooms, unreadNotificationsListener)
 
-      room.on(RoomEvent.UnreadNotifications, listener)
-
-      return listener
-    }
-
-    // A recursive function that adds `RoomEvent.UnreadNotifications` listeners
-    // to each room after the first sync and any other new room in the future
-    // coming from the `ClientEvent.Room` event.
-    const addListeners = async (
-      room?: Room,
-      incomingListeners: ((notificationCount?: NotificationCount) => void)[] = []
-    ) => {
-      const listeners = room ? incomingListeners : rooms.map(createListener)
-
-      const roomEventListener = (room: Room) => {
-        const hasRoomIdx = rooms.findIndex((r) => r.roomId === room.roomId)
-        if (hasRoomIdx > 0) return
-
-        addListeners(room, [...incomingListeners, createListener(room)])
-      }
-
-      this.mxClient.on(ClientEvent.Room, roomEventListener)
-
-      // Returns a function that removes all the added listeners
-      return () => {
-        this.mxClient.off(ClientEvent.Room, roomEventListener)
-        client.getRooms().forEach((room, idx) => room.off(RoomEvent.UnreadNotifications, listeners[idx]))
-      }
-    }
-
-    return addListeners()
+    return addListenersToEachRoom()
   }
 }

@@ -200,9 +200,7 @@ const _roomsNotificationsSubscriberAtom = atom(
 )
 
 _roomsNotificationsSubscriberAtom.onMount = (setAtom) => {
-  getChatClient()
-    .subscribeToUnreadRoomsNotifications(setAtom)
-    .catch((err) => logError(err, '[store.ts] could not subscribe to unread room notifications'))
+  return getChatClient().subscribeToUnreadRoomsNotifications(setAtom)
 }
 
 /**
@@ -757,8 +755,8 @@ export const useRoomById = (roomId: string): [ChatRoom | undefined, ChatMessage[
 export const useSubscribeToChat = () => {
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_roomsNotificationsSubscriberAtom)
+  useAtom(_newMessageAtomSubscriber)
   useAtom(_myMembershipSubscriberAtom)
   useAtom(_membershipSubscriberAtom)
   useAtom(_ignoredUsersAtomSubscriber)
-  useAtom(_newMessageAtomSubscriber)
 }
