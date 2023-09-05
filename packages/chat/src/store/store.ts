@@ -692,7 +692,10 @@ export const getHoliUserForChatMember = (
  * Verifies if all the passed members (excluding the logged-in user) are ignored.
  */
 export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: MatrixId[]): boolean => {
-  if (ignoredUsers.length === 0) return false
+  const hasOnlyMemberLeftRoom = members.length === 1 && members[0].membership === MembershipStatus.Left
+
+  if (hasOnlyMemberLeftRoom) return true
+  if (members.length >= 1 && ignoredUsers.length === 0) return false
 
   const ignoredRoomMembers = members.map((m) => m.id).filter((id) => ignoredUsers.includes(id))
   return ignoredRoomMembers.length === members.length - 1
