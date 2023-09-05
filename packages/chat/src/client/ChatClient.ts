@@ -19,6 +19,7 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MatrixId, MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
+import { addRoomEventListener, createRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -70,10 +71,6 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public isRunning = () => {
-    return this.mxClient.clientRunning
-  }
-
   private waitForNextSyncEvent(): Promise<boolean> {
     return new Promise((resolve) => {
       const handler = (state: SyncState) => {
@@ -85,6 +82,10 @@ export default class ChatClient {
 
       this.mxClient.on(ClientEvent.Sync, handler)
     })
+  }
+
+  public isRunning() {
+    return this.mxClient.clientRunning
   }
 
   /**
@@ -292,7 +293,7 @@ export default class ChatClient {
 
   public subscribeToMyMembership(
     callback: (room: Room, membership: string, prevMembership?: string) => void
-  ): (() => void) | void {
+  ): () => void {
     const invitationHandler = (room: Room, membership: string, prevMembership?: string) => {
       callback(room, membership, prevMembership)
     }
@@ -304,7 +305,7 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void {
+  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): () => void {
     const roomEventHandler = (room: Room) => {
       callback(room, this.hasPendingInvitation(room))
     }
@@ -320,18 +321,21 @@ export default class ChatClient {
     return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
   }
 
-  public subscribeToRoomMessages(room: Room, callback: (event: MatrixEvent) => void): (() => void) | void {
-    const incomingMessagesHandler = (event: MatrixEvent) => {
+  public subscribeToRoomMessages(callback: (event: MatrixEvent) => void): () => void {
+    const client = this.mxClient
+    const rooms = client.getRooms()
+
+    const incomingMessagesHandler = (room: Room) => (event: MatrixEvent) => {
       if (event.getType() !== EventType.RoomMessage) return
       if (room.roomId !== event.getRoomId()) return
+
       callback(event)
     }
 
-    room.on(RoomEvent.Timeline, incomingMessagesHandler)
+    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, incomingMessagesHandler)
+    const addListenersToEachRoom = createRoomsListeners(client, rooms, incomingMessagesListener)
 
-    return () => {
-      room.off(RoomEvent.Timeline, incomingMessagesHandler)
-    }
+    return addListenersToEachRoom()
   }
 
   public subscribeToUnreadRoomsNotifications = async (
@@ -340,6 +344,7 @@ export default class ChatClient {
     const client = this.mxClient
     await this.waitForNextSyncEvent()
     const rooms = client.getRooms()
+
     const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {
       if (!notificationCount) return
       callback(roomId, notificationCount)
@@ -364,6 +369,7 @@ export default class ChatClient {
       incomingListeners: ((notificationCount?: NotificationCount) => void)[] = []
     ) => {
       const listeners = room ? incomingListeners : rooms.map(createListener)
+
       const roomEventListener = (room: Room) => {
         const hasRoomIdx = rooms.findIndex((r) => r.roomId === room.roomId)
         if (hasRoomIdx > 0) return
