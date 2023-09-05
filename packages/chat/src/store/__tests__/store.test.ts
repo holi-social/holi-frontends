@@ -1,6 +1,23 @@
 import { type ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import { hasOnlyIgnoredMembers } from '@holi/chat/src/store/store'
 
+it('should have ignored members', () => {
+  const members: ChatRoomMember[] = [
+    {
+      id: '@jared:holi.social',
+      name: 'Jared',
+      membership: MembershipStatus.Joined,
+    },
+    {
+      id: '@debbie:holi.social',
+      name: 'Debbie Harry',
+      membership: MembershipStatus.Left,
+    },
+  ]
+
+  expect(hasOnlyIgnoredMembers(members, ['@debbie:holi.social'])).toBeTruthy()
+})
+
 it('should not have ignored members on a single member with joined membership', () => {
   const members: ChatRoomMember[] = [
     {
