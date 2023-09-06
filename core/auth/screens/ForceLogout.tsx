@@ -2,22 +2,25 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { stopChat } from '@holi/chat/src/client/chatSession'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const ForceLogout: React.VFC = () => {
+const ForceLogout = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
   useEffect(() => {
-    setTimeout(() => {
-      navigate('/')
-    }, 3000)
-  })
+    stopChat().finally(() =>
+      setTimeout(() => {
+        navigate('/profile')
+      }, 3000)
+    )
+  }, [navigate])
 
   return (
     <DefaultLayout>
