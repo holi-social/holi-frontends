@@ -81,7 +81,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -176,7 +176,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -273,7 +273,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -362,7 +362,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -454,7 +454,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -548,7 +548,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -641,7 +641,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -737,7 +737,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -835,7 +835,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -927,7 +927,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -1022,7 +1022,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1119,7 +1119,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1208,7 +1208,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -1300,7 +1300,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1394,7 +1394,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1487,7 +1487,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -1583,7 +1583,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1681,7 +1681,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1776,7 +1776,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -1874,7 +1874,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -1974,7 +1974,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2066,7 +2066,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -2161,7 +2161,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2258,7 +2258,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2357,7 +2357,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -2459,7 +2459,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2563,7 +2563,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2658,7 +2658,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -2756,7 +2756,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2856,7 +2856,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -2948,7 +2948,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -3043,7 +3043,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3140,7 +3140,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3239,7 +3239,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -3341,7 +3341,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3445,7 +3445,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3537,7 +3537,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -3632,7 +3632,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3729,7 +3729,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -3818,7 +3818,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -3910,7 +3910,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4004,7 +4004,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4097,7 +4097,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -4193,7 +4193,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4291,7 +4291,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4383,7 +4383,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -4478,7 +4478,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4575,7 +4575,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4664,7 +4664,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -4756,7 +4756,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4850,7 +4850,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -4943,7 +4943,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -5039,7 +5039,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5137,7 +5137,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5232,7 +5232,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -5330,7 +5330,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5430,7 +5430,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5522,7 +5522,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -5617,7 +5617,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5714,7 +5714,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -5813,7 +5813,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -5915,7 +5915,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6019,7 +6019,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6114,7 +6114,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -6212,7 +6212,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6312,7 +6312,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6404,7 +6404,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -6499,7 +6499,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6596,7 +6596,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6695,7 +6695,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 16,
           "fontWeight": "500",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
           "textAlign": "center",
         }
       }
@@ -6797,7 +6797,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }
@@ -6901,7 +6901,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "fontFamily": "Circular Std Medium",
           "fontSize": 14,
           "fontWeight": "500",
-          "lineHeight": 16.8,
+          "lineHeight": 19.599999999999998,
           "textAlign": "center",
         }
       }

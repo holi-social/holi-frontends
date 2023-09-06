@@ -20,7 +20,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
             "fontFamily": "Circular Std Medium",
             "fontSize": 14,
             "fontWeight": "500",
-            "lineHeight": 16.8,
+            "lineHeight": 19.599999999999998,
           }
         }
       >
@@ -111,7 +111,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
                 "marginLeft": 12,
               }
             }
@@ -429,7 +429,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                     },
                     {
                       "fontSize": 21,
-                      "lineHeight": 25.2,
+                      "lineHeight": 29.4,
                     },
                     [
                       {
@@ -616,7 +616,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >
@@ -638,7 +638,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             "fontFamily": "Circular Std Book",
                             "fontSize": 16,
                             "fontWeight": "400",
-                            "lineHeight": 19.2,
+                            "lineHeight": 22.4,
                           }
                         }
                       >
@@ -944,7 +944,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >
@@ -966,7 +966,7 @@ exports[`HoliModalSelect correctly selects an option 1`] = `
                             "fontFamily": "Circular Std Book",
                             "fontSize": 16,
                             "fontWeight": "400",
-                            "lineHeight": 19.2,
+                            "lineHeight": 22.4,
                           }
                         }
                       >
@@ -1080,7 +1080,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
             "fontFamily": "Circular Std Medium",
             "fontSize": 14,
             "fontWeight": "500",
-            "lineHeight": 16.8,
+            "lineHeight": 19.599999999999998,
           }
         }
       >
@@ -1163,7 +1163,7 @@ exports[`HoliModalSelect renders correctly when closed 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
               "fontWeight": "400",
-              "lineHeight": 19.2,
+              "lineHeight": 22.4,
             }
           }
         />
@@ -1258,7 +1258,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
             "fontFamily": "Circular Std Medium",
             "fontSize": 14,
             "fontWeight": "500",
-            "lineHeight": 16.8,
+            "lineHeight": 19.599999999999998,
           }
         }
       >
@@ -1341,7 +1341,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
               "fontWeight": "400",
-              "lineHeight": 19.2,
+              "lineHeight": 22.4,
             }
           }
         />
@@ -1655,7 +1655,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                     },
                     {
                       "fontSize": 21,
-                      "lineHeight": 25.2,
+                      "lineHeight": 29.4,
                     },
                     [
                       {
@@ -1842,7 +1842,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >
@@ -1864,7 +1864,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                             "fontFamily": "Circular Std Book",
                             "fontSize": 16,
                             "fontWeight": "400",
-                            "lineHeight": 19.2,
+                            "lineHeight": 22.4,
                           }
                         }
                       >
@@ -2114,7 +2114,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >
@@ -2136,7 +2136,7 @@ exports[`HoliModalSelect renders correctly when opened 1`] = `
                             "fontFamily": "Circular Std Book",
                             "fontSize": 16,
                             "fontWeight": "400",
-                            "lineHeight": 19.2,
+                            "lineHeight": 22.4,
                           }
                         }
                       >
@@ -2250,7 +2250,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
             "fontFamily": "Circular Std Medium",
             "fontSize": 14,
             "fontWeight": "500",
-            "lineHeight": 16.8,
+            "lineHeight": 19.599999999999998,
           }
         }
       >
@@ -2333,7 +2333,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
               "fontWeight": "400",
-              "lineHeight": 19.2,
+              "lineHeight": 22.4,
             }
           }
         />
@@ -2647,7 +2647,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                     },
                     {
                       "fontSize": 21,
-                      "lineHeight": 25.2,
+                      "lineHeight": 29.4,
                     },
                     [
                       {
@@ -2757,7 +2757,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >
@@ -2925,7 +2925,7 @@ exports[`HoliModalSelect renders correctly when opened in dense variant 1`] = `
                           "fontFamily": "Circular Std Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
-                          "lineHeight": 19.2,
+                          "lineHeight": 22.4,
                         }
                       }
                     >

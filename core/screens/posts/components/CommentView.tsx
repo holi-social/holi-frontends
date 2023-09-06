@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    lineHeight: 20,
     marginLeft: 15,
   },
   commentConnector: {

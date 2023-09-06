@@ -60,7 +60,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
         }
       }
     >
@@ -130,7 +130,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
         }
       }
     >
@@ -200,7 +200,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
         }
       }
     >
@@ -270,7 +270,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "fontFamily": "Circular Std Medium",
           "fontSize": 21,
           "fontWeight": "500",
-          "lineHeight": 25.2,
+          "lineHeight": 29.4,
         }
       }
     >
