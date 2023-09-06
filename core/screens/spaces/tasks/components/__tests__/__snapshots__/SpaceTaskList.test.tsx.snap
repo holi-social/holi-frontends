@@ -113,6 +113,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 borderRadius={8}
                 height={166}
+                justifyContent="center"
                 onError={[Function]}
                 onLoad={[Function]}
                 onLoadStart={[Function]}
@@ -144,6 +145,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "borderRadius": 8,
                     "height": 166,
+                    "justifyContent": "center",
                   }
                 }
               />
@@ -154,6 +156,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           style={
             {
               "alignItems": "center",
+              "flex": 1,
               "flexDirection": "row",
               "justifyContent": "space-between",
             }
@@ -198,10 +201,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "width": "100%",
                   },
                 ],
-                {
-                  "pointerEvents": "auto",
-                  "position": "relative",
-                },
+                [
+                  {
+                    "pointerEvents": "auto",
+                    "position": "relative",
+                  },
+                  {
+                    "flex": 1,
+                  },
+                ],
               ]
             }
           >
@@ -883,6 +891,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 borderRadius={8}
                 height={166}
+                justifyContent="center"
                 onError={[Function]}
                 onLoad={[Function]}
                 onLoadStart={[Function]}
@@ -914,6 +923,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "borderRadius": 8,
                     "height": 166,
+                    "justifyContent": "center",
                   }
                 }
               />
@@ -924,6 +934,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           style={
             {
               "alignItems": "center",
+              "flex": 1,
               "flexDirection": "row",
               "justifyContent": "space-between",
             }
@@ -968,10 +979,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "width": "100%",
                   },
                 ],
-                {
-                  "pointerEvents": "auto",
-                  "position": "relative",
-                },
+                [
+                  {
+                    "pointerEvents": "auto",
+                    "position": "relative",
+                  },
+                  {
+                    "flex": 1,
+                  },
+                ],
               ]
             }
           >
@@ -1653,6 +1669,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessibilityRole="image"
                 borderRadius={8}
                 height={166}
+                justifyContent="center"
                 onError={[Function]}
                 onLoad={[Function]}
                 onLoadStart={[Function]}
@@ -1684,6 +1701,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   {
                     "borderRadius": 8,
                     "height": 166,
+                    "justifyContent": "center",
                   }
                 }
               />
@@ -1694,6 +1712,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           style={
             {
               "alignItems": "center",
+              "flex": 1,
               "flexDirection": "row",
               "justifyContent": "space-between",
             }
@@ -1738,10 +1757,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "width": "100%",
                   },
                 ],
-                {
-                  "pointerEvents": "auto",
-                  "position": "relative",
-                },
+                [
+                  {
+                    "pointerEvents": "auto",
+                    "position": "relative",
+                  },
+                  {
+                    "flex": 1,
+                  },
+                ],
               ]
             }
           >
