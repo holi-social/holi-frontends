@@ -168,11 +168,12 @@ export const createCache = () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
-              const { topicSlug, geolocation, skillSlugs } = args || {}
+              const { topicSlug, geolocation, skillSlugs, memberId } = args || {}
               return JSON.stringify({
                 topicSlug,
                 geolocation: geolocation?.properties?.place_id,
                 skillSlugs,
+                memberId,
               })
             },
           },
