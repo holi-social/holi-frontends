@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import client from '@holi/api/graphql/client'
 import { stopChat } from '@holi/chat/src/client/chatSession'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { setUserLoggedOut } from '@holi/core/auth/helpers/useAuth'
+import { setUserLoggedOut, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { ensureOAuth2Logout } from '@holi/core/helpers/oauth2'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -14,11 +14,13 @@ interface LogoutOptions {
   message?: string
   skipLogoutFlow?: boolean
   redirectPath?: string
+  redirect?: boolean
 }
 
 const isLoggingOutVar = makeVar(false)
 
 export const useLogout = () => {
+  const { userId } = useAuth()
   const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -26,7 +28,8 @@ export const useLogout = () => {
 
   return {
     logout: useCallback(
-      async ({ message, skipLogoutFlow = false, redirectPath = '/profile' }: LogoutOptions = {}) => {
+      async ({ message, skipLogoutFlow = false, redirectPath = '/profile', redirect = true }: LogoutOptions = {}) => {
+        if (isLoggingOut || userId === null) return
         isLoggingOutVar(true)
 
         getSessionFromStorage()
@@ -41,7 +44,7 @@ export const useLogout = () => {
           .then(() => {
             console.debug('[Logout] logout successful')
             openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
-            navigate(redirectPath)
+            if (redirect) navigate(redirectPath)
           })
           .catch((e) => {
             console.debug(e, '[Logout] logout failed, removing session from storage')
@@ -51,7 +54,7 @@ export const useLogout = () => {
           })
           .finally(() => stopChat().finally(() => isLoggingOutVar(false)))
       },
-      [navigate, openToast, t]
+      [navigate, openToast, t, isLoggingOut, userId]
     ),
     isLoggingOut,
   }
