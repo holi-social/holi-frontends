@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -211,7 +211,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
         headerOverlap
       >
         {engagement && (
-          <View style={[styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
+          <ScrollView contentContainerStyle={[styles.wrapper, { minHeight: windowHeight, maxWidth: windowWidth }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
             {!!partner && providerContainer}
@@ -220,7 +220,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
               name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />
-          </View>
+          </ScrollView>
         )}
       </ScrollHeaderLayout.Refreshable>
 
