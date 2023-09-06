@@ -40,14 +40,14 @@ export const createRoomsListeners = (
   rooms: Room[],
   createListener: (room: Room) => RoomListener
 ) => {
-  const addRoomListeners = (room?: Room, incomingListeners: ((event: MatrixEvent) => void)[] = []) => {
-    const listeners = room ? incomingListeners : rooms.map(createListener)
+  const addRoomListeners = (newIncomingRoom?: Room, existingRoomListeners: ((event: MatrixEvent) => void)[] = []) => {
+    const listeners = newIncomingRoom ? existingRoomListeners : rooms.map(createListener)
 
     const roomEventListener = (room: Room) => {
-      const hasRoomIdx = rooms.findIndex((r) => r.roomId === room.roomId)
-      if (hasRoomIdx > 0) return
+      const hasRoom = rooms.some((r) => r.roomId === room.roomId)
+      if (!hasRoom) return
 
-      addRoomListeners(room, [...incomingListeners, createListener(room)])
+      addRoomListeners(room, [...listeners, createListener(room)])
     }
 
     client.on(ClientEvent.Room, roomEventListener)
