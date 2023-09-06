@@ -189,7 +189,7 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
         )}
         <View style={styles.uploadButtonContainer}>
           <HoliImagePicker
-            maxFileSizeInMB={8}
+            maxFileSizeInMB={10}
             buttonProps={{
               label: t('spaces.input.task.upload.button.label'),
               testID: 'space-upload-image-btn',
