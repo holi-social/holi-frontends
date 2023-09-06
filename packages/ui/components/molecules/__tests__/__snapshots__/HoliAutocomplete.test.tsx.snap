@@ -54,7 +54,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
         >
@@ -273,7 +273,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "fontFamily": "Circular Std Medium",
               "fontSize": 14,
               "fontWeight": "500",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
         >
@@ -450,7 +450,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 12,
                 "fontWeight": "400",
-                "lineHeight": 14.399999999999999,
+                "lineHeight": 16.799999999999997,
               }
             }
             testID=""

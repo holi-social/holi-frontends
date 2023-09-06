@@ -106,7 +106,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Medium",
                 "fontSize": 16,
                 "fontWeight": "500",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
               }
             }
           >
@@ -185,7 +185,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
               }
             }
           >
@@ -264,7 +264,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
                 "fontWeight": "400",
-                "lineHeight": 19.2,
+                "lineHeight": 22.4,
               }
             }
           >
@@ -334,7 +334,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
               testID="profileTab"
@@ -370,7 +370,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
               testID="InsightsTab"
@@ -406,7 +406,7 @@ exports[`HoliTabs renders correctly renders correctly when open 1`] = `
                   "fontFamily": "Circular Std Book",
                   "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 19.2,
+                  "lineHeight": 22.4,
                 }
               }
               testID="SpacesTab"

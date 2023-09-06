@@ -22,7 +22,7 @@ exports[`renders correctly with long text 1`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
         }
       }
       testID="holi-readmore-text"
@@ -56,7 +56,7 @@ exports[`renders correctly with short text 1`] = `
           "fontFamily": "Circular Std Book",
           "fontSize": 16,
           "fontWeight": "400",
-          "lineHeight": 19.2,
+          "lineHeight": 22.4,
         }
       }
       testID="holi-readmore-text"

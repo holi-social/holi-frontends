@@ -120,12 +120,6 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     alignSelf: 'center',
   },
-  labelLink: {
-    fontSize: 14,
-    lineHeight: 14 * 1.2,
-    fontWeight: '700',
-    color: colors.foreground30,
-  },
   buttonContainer: {
     bottom: 0,
     paddingHorizontal: 24,

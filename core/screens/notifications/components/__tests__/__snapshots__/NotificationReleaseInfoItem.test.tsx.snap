@@ -65,7 +65,7 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 14,
               "fontWeight": "400",
-              "lineHeight": 16.8,
+              "lineHeight": 19.599999999999998,
             }
           }
         >
@@ -80,7 +80,7 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "fontFamily": "Circular Std Book",
               "fontSize": 12,
               "fontWeight": "400",
-              "lineHeight": 14.399999999999999,
+              "lineHeight": 16.799999999999997,
               "marginTop": 4,
             }
           }
