@@ -1,12 +1,4 @@
-import {
-  ClientEvent,
-  type Listener,
-  type ListenerMap,
-  MatrixClient,
-  MatrixEvent,
-  type Room,
-  RoomEvent,
-} from 'matrix-js-sdk'
+import { ClientEvent, type Listener, type ListenerMap, MatrixClient, type Room, RoomEvent } from 'matrix-js-sdk'
 
 type RoomListener = Listener<RoomEvent, ListenerMap<RoomEvent>, RoomEvent>
 
@@ -40,23 +32,28 @@ export const createRoomsListeners = (
   rooms: Room[],
   createListener: (room: Room) => RoomListener
 ) => {
-  const addRoomListeners = (newIncomingRoom?: Room, existingRoomListeners: ((event: MatrixEvent) => void)[] = []) => {
-    const listeners = newIncomingRoom ? existingRoomListeners : rooms.map(createListener)
-
-    const roomEventListener = (room: Room) => {
-      const hasRoom = rooms.some((r) => r.roomId === room.roomId)
-      if (!hasRoom) return
-
-      addRoomListeners(room, [...listeners, createListener(room)])
-    }
-
-    client.on(ClientEvent.Room, roomEventListener)
-
-    return () => {
-      client.off(ClientEvent.Room, roomEventListener)
-      client.getRooms().forEach((room, idx) => room.off(RoomEvent.Timeline, listeners[idx]))
-    }
+  const setRoomLevelEventListener = (room: Room) => {
+    const handler = createListener(room)
+    return () => room.off(RoomEvent.Timeline, handler)
   }
 
-  return addRoomListeners
+  // set listeners for initial existing rooms
+  const roomUnsibscribers = rooms.map(setRoomLevelEventListener)
+
+  // set client level listeners on new rooms comming
+  const setClientLevelRoomListener = (room: Room) => {
+    const hasRoom = rooms.some((r) => r.roomId === room.roomId)
+    if (!hasRoom) return
+
+    const unsubscribe = setRoomLevelEventListener(room)
+    roomUnsibscribers.push(unsubscribe)
+  }
+
+  client.on(ClientEvent.Room, setClientLevelRoomListener)
+
+  // return function to unsubscribe from all rooms and client
+  return () => {
+    client.off(ClientEvent.Room, setClientLevelRoomListener)
+    roomUnsibscribers.forEach((func) => func())
+  }
 }
