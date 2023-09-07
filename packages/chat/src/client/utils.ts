@@ -21,9 +21,8 @@ export const addRoomEventListener =
 /**
  *
  * @name createRoomsListeners
- * @description A partial function application that collects and sets a
- * pre-defined listener to every existing room. The produced function also
- * listens to any rooms coming in and recursively sets the listeners for these
+ * @description collects and sets a pre-defined listener to every existing room.
+ * It also listens to any rooms coming in settting the listeners for these
  * rooms. The final return result is an unsubscribe function that removes all
  * the already set listeners.
  */
@@ -38,7 +37,7 @@ export const createRoomsListeners = (
   }
 
   // set listeners for initial existing rooms
-  const roomUnsibscribers = rooms.map(setRoomLevelEventListener)
+  const unsubscribers = rooms.map(setRoomLevelEventListener)
 
   // set client level listeners on new rooms comming
   const setClientLevelRoomListener = (room: Room) => {
@@ -46,7 +45,7 @@ export const createRoomsListeners = (
     if (!hasRoom) return
 
     const unsubscribe = setRoomLevelEventListener(room)
-    roomUnsibscribers.push(unsubscribe)
+    unsubscribers.push(unsubscribe)
   }
 
   client.on(ClientEvent.Room, setClientLevelRoomListener)
@@ -54,6 +53,6 @@ export const createRoomsListeners = (
   // return function to unsubscribe from all rooms and client
   return () => {
     client.off(ClientEvent.Room, setClientLevelRoomListener)
-    roomUnsibscribers.forEach((func) => func())
+    unsubscribers.forEach((func) => func())
   }
 }
