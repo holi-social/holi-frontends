@@ -1,7 +1,7 @@
 import type { Mock } from 'jest'
 import { ClientEvent, MatrixClient, Room, RoomEvent } from 'matrix-js-sdk'
 
-import { addRoomEventListener, createRoomsListeners } from '@holi/chat/src/client/utils'
+import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import * as ClientListenersModule from '@holi/chat/src/client/utils'
 
 const createRoomMock = (): Mock<Room> =>
@@ -47,9 +47,9 @@ it('should create listeners for all existing rooms - createRoomsListeners', () =
 
   const createListener = jest.fn()
 
-  const createRoomListenersSpy = jest.spyOn(ClientListenersModule, 'createRoomsListeners')
+  const createRoomListenersSpy = jest.spyOn(ClientListenersModule, 'setRoomsListeners')
 
-  const unsubscribe = createRoomsListeners({
+  const unsubscribe = setRoomsListeners({
     client,
     rooms,
     createListener,
@@ -70,9 +70,9 @@ it('should create listeners for all existing and incoming rooms - createRoomsLis
 
   const createListener = jest.fn()
 
-  const createRoomListenersSpy = jest.spyOn(ClientListenersModule, 'createRoomsListeners')
+  const createRoomListenersSpy = jest.spyOn(ClientListenersModule, 'setRoomsListeners')
 
-  const unsubscribe = createRoomsListeners({
+  const unsubscribe = setRoomsListeners({
     client,
     rooms,
     createListener,

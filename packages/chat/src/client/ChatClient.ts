@@ -19,7 +19,7 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MatrixId, MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
-import { addRoomEventListener, createRoomsListeners } from '@holi/chat/src/client/utils'
+import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -69,19 +69,6 @@ export default class ChatClient {
 
     notifTimelineSet.getLiveTimeline().setPaginationToken('', EventTimeline.BACKWARDS)
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
-  }
-
-  private waitForNextSyncEvent(): Promise<boolean> {
-    return new Promise((resolve) => {
-      const handler = (state: SyncState) => {
-        if (state !== SyncState.Syncing) return
-
-        resolve(true)
-        this.mxClient.off(ClientEvent.Sync, handler)
-      }
-
-      this.mxClient.on(ClientEvent.Sync, handler)
-    })
   }
 
   public isRunning() {
@@ -151,7 +138,8 @@ export default class ChatClient {
   }
 
   public createRoom = async (userIds: string[]): Promise<RoomId> => {
-    if (userIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
+    const errMsg = 'Chat rooms should be created with at least one user'
+    if (userIds.length < 1) logError(Error(errMsg), errMsg)
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -211,7 +199,8 @@ export default class ChatClient {
   public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
-      logError(new Error('There was a problem joining the room after accepting invitation'))
+      const errMsg = 'There was a problem joining the room after accepting invitation'
+      logError(new Error(errMsg), errMsg)
       return null
     }
 
@@ -336,7 +325,7 @@ export default class ChatClient {
     // Partially pass the arguments we need in order to set the listeners.
     const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
     // Collects and set listeners for existing and incoming rooms.
-    return createRoomsListeners({
+    return setRoomsListeners({
       client,
       rooms,
       roomEvent: RoomEvent.Timeline,
@@ -357,7 +346,7 @@ export default class ChatClient {
     // Partially pass the arguments we need in order to set the listeners.
     const unreadNotificationsListener = addRoomEventListener(RoomEvent.UnreadNotifications, handleUnreadNotifications)
     // Collects and set listeners for existing and incoming rooms.
-    return createRoomsListeners({
+    return setRoomsListeners({
       client,
       rooms,
       roomEvent: RoomEvent.Timeline,

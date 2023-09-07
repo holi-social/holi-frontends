@@ -27,13 +27,13 @@ interface CreateListenersArgs {
 
 /**
  *
- * @name createRoomsListeners
+ * @name setRoomsListeners
  * @description collects and sets a pre-defined listener to every existing room.
  * It also listens to any rooms coming in settting the listeners for these
  * rooms. The final return result is an unsubscribe function that removes all
  * the already set listeners.
  */
-export const createRoomsListeners = ({ client, roomEvent, rooms, createListener }: CreateListenersArgs) => {
+export const setRoomsListeners = ({ client, roomEvent, rooms, createListener }: CreateListenersArgs) => {
   const setRoomLevelEventListener = (room: Room) => {
     const handler = createListener(room)
     return () => room.off(roomEvent, handler)
