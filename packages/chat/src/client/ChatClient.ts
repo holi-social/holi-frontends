@@ -336,7 +336,12 @@ export default class ChatClient {
     // Partially pass the arguments we need in order to set the listeners.
     const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
     // Collects and set listeners for existing and incoming rooms.
-    return createRoomsListeners(client, rooms, incomingMessagesListener)
+    return createRoomsListeners({
+      client,
+      rooms,
+      roomEvent: RoomEvent.Timeline,
+      createListener: incomingMessagesListener,
+    })
   }
 
   public subscribeToUnreadRoomsNotifications(callback: (roomId: string, notificationCount: NotificationCount) => void) {
@@ -352,6 +357,11 @@ export default class ChatClient {
     // Partially pass the arguments we need in order to set the listeners.
     const unreadNotificationsListener = addRoomEventListener(RoomEvent.UnreadNotifications, handleUnreadNotifications)
     // Collects and set listeners for existing and incoming rooms.
-    return createRoomsListeners(client, rooms, unreadNotificationsListener)
+    return createRoomsListeners({
+      client,
+      rooms,
+      roomEvent: RoomEvent.Timeline,
+      createListener: unreadNotificationsListener,
+    })
   }
 }

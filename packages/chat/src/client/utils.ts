@@ -18,6 +18,13 @@ export const addRoomEventListener =
     return listener
   }
 
+interface CreateListenersArgs {
+  client: MatrixClient
+  roomEvent: RoomEvent
+  rooms: Room[]
+  createListener: (room: Room) => RoomListener
+}
+
 /**
  *
  * @name createRoomsListeners
@@ -26,14 +33,10 @@ export const addRoomEventListener =
  * rooms. The final return result is an unsubscribe function that removes all
  * the already set listeners.
  */
-export const createRoomsListeners = (
-  client: MatrixClient,
-  rooms: Room[],
-  createListener: (room: Room) => RoomListener
-) => {
+export const createRoomsListeners = ({ client, roomEvent, rooms, createListener }: CreateListenersArgs) => {
   const setRoomLevelEventListener = (room: Room) => {
     const handler = createListener(room)
-    return () => room.off(RoomEvent.Timeline, handler)
+    return () => room.off(roomEvent, handler)
   }
 
   // set listeners for initial existing rooms
