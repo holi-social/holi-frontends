@@ -201,7 +201,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     )}
                   </View>
                 </PanGestureHandler>
-              ) : !!onDismiss && !!heading ? (
+              ) : !!onDismiss || !!heading ? (
                 <View style={styles.heading}>
                   {!!onDismiss && (
                     <HoliButton
