@@ -19,6 +19,7 @@ import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 
 import { MatrixId, MembershipStatus, NotificationCount } from '@holi/chat/src/client/types'
+import { addRoomEventListener, setRoomsListeners } from '@holi/chat/src/client/utils'
 import type { ChatMessageContent } from '@holi/chat/src/store'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { logError } from '@holi/core/errors/helpers'
@@ -70,21 +71,8 @@ export default class ChatClient {
     this.mxClient.setNotifTimelineSet(notifTimelineSet)
   }
 
-  public isRunning = () => {
+  public isRunning() {
     return this.mxClient.clientRunning
-  }
-
-  private waitForNextSyncEvent(): Promise<boolean> {
-    return new Promise((resolve) => {
-      const handler = (state: SyncState) => {
-        if (state !== SyncState.Syncing) return
-
-        resolve(true)
-        this.mxClient.off(ClientEvent.Sync, handler)
-      }
-
-      this.mxClient.on(ClientEvent.Sync, handler)
-    })
   }
 
   /**
@@ -150,7 +138,8 @@ export default class ChatClient {
   }
 
   public createRoom = async (userIds: string[]): Promise<RoomId> => {
-    if (userIds.length < 1) logError(Error('Chat rooms should be created with at least one user'))
+    const errMsg = 'Chat rooms should be created with at least one user'
+    if (userIds.length < 1) logError(Error(errMsg), errMsg)
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -210,7 +199,8 @@ export default class ChatClient {
   public joinRoom = async (roomId: string): Promise<Room | null> => {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
-      logError(new Error('There was a problem joining the room after accepting invitation'))
+      const errMsg = 'There was a problem joining the room after accepting invitation'
+      logError(new Error(errMsg), errMsg)
       return null
     }
 
@@ -292,7 +282,7 @@ export default class ChatClient {
 
   public subscribeToMyMembership(
     callback: (room: Room, membership: string, prevMembership?: string) => void
-  ): (() => void) | void {
+  ): () => void {
     const invitationHandler = (room: Room, membership: string, prevMembership?: string) => {
       callback(room, membership, prevMembership)
     }
@@ -304,7 +294,7 @@ export default class ChatClient {
     }
   }
 
-  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): (() => void) | void {
+  public subscribeToRooms(callback: (room: Room, hasPendingInvitation: boolean) => void): () => void {
     const roomEventHandler = (room: Room) => {
       callback(room, this.hasPendingInvitation(room))
     }
@@ -320,66 +310,47 @@ export default class ChatClient {
     return this.mxClient.createMessagesRequest(roomId, fromToken, 30, Direction.Backward)
   }
 
-  public subscribeToRoomMessages(room: Room, callback: (event: MatrixEvent) => void): (() => void) | void {
-    const incomingMessagesHandler = (event: MatrixEvent) => {
+  public subscribeToRoomMessages(callback: (event: MatrixEvent) => void): () => void {
+    const client = this.mxClient
+    const rooms = client.getRooms()
+
+    // The handler to attach for each room listening
+    const handleIncomingMessages = (room: Room) => (event: MatrixEvent) => {
       if (event.getType() !== EventType.RoomMessage) return
       if (room.roomId !== event.getRoomId()) return
+
       callback(event)
     }
 
-    room.on(RoomEvent.Timeline, incomingMessagesHandler)
-
-    return () => {
-      room.off(RoomEvent.Timeline, incomingMessagesHandler)
-    }
+    // Partially pass the arguments we need in order to set the listeners.
+    const incomingMessagesListener = addRoomEventListener(RoomEvent.Timeline, handleIncomingMessages)
+    // Collects and set listeners for existing and incoming rooms.
+    return setRoomsListeners({
+      client,
+      rooms,
+      roomEvent: RoomEvent.Timeline,
+      createListener: incomingMessagesListener,
+    })
   }
 
-  public subscribeToUnreadRoomsNotifications = async (
-    callback: (roomId: string, notificationCount: NotificationCount) => void
-  ) => {
+  public subscribeToUnreadRoomsNotifications(callback: (roomId: string, notificationCount: NotificationCount) => void) {
     const client = this.mxClient
-    await this.waitForNextSyncEvent()
     const rooms = client.getRooms()
-    const handleUnreadNotifications = (roomId: string, notificationCount?: NotificationCount) => {
+
+    // The handler to attach for each room listening
+    const handleUnreadNotifications = (room: Room) => (notificationCount?: NotificationCount) => {
       if (!notificationCount) return
-      callback(roomId, notificationCount)
+      callback(room.roomId, notificationCount)
     }
 
-    // Creates the `listener` for the `RoomEvent.UnreadNotifications` event
-    const createListener = (room: Room) => {
-      const listener = (notificationCount?: NotificationCount) => {
-        handleUnreadNotifications(room.roomId, notificationCount)
-      }
-
-      room.on(RoomEvent.UnreadNotifications, listener)
-
-      return listener
-    }
-
-    // A recursive function that adds `RoomEvent.UnreadNotifications` listeners
-    // to each room after the first sync and any other new room in the future
-    // coming from the `ClientEvent.Room` event.
-    const addListeners = async (
-      room?: Room,
-      incomingListeners: ((notificationCount?: NotificationCount) => void)[] = []
-    ) => {
-      const listeners = room ? incomingListeners : rooms.map(createListener)
-      const roomEventListener = (room: Room) => {
-        const hasRoomIdx = rooms.findIndex((r) => r.roomId === room.roomId)
-        if (hasRoomIdx > 0) return
-
-        addListeners(room, [...incomingListeners, createListener(room)])
-      }
-
-      this.mxClient.on(ClientEvent.Room, roomEventListener)
-
-      // Returns a function that removes all the added listeners
-      return () => {
-        this.mxClient.off(ClientEvent.Room, roomEventListener)
-        client.getRooms().forEach((room, idx) => room.off(RoomEvent.UnreadNotifications, listeners[idx]))
-      }
-    }
-
-    return addListeners()
+    // Partially pass the arguments we need in order to set the listeners.
+    const unreadNotificationsListener = addRoomEventListener(RoomEvent.UnreadNotifications, handleUnreadNotifications)
+    // Collects and set listeners for existing and incoming rooms.
+    return setRoomsListeners({
+      client,
+      rooms,
+      roomEvent: RoomEvent.Timeline,
+      createListener: unreadNotificationsListener,
+    })
   }
 }
