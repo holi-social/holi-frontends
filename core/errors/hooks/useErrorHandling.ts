@@ -2,6 +2,7 @@ import { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { isUnauthorizedError } from '@holi/core/errors/helpers'
 import { logError, logErrorLocal } from '@holi/core/errors/helpers/logError'
 import { isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -35,7 +36,7 @@ export const useErrorHandling = () => {
 
   const displayError = useCallback(
     (error: unknown, message: string, timeout?: number) => {
-      if (!isNetworkConnectionError(error)) {
+      if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         if (isApolloError(error) && error.message === 'Bad user input') {
           logErrorLocal(error, message)
         } else {
