@@ -45,9 +45,10 @@ export const createRoomsListeners = ({ client, roomEvent, rooms, createListener 
   // set client level listeners on new rooms comming
   const setClientLevelRoomListener = (room: Room) => {
     const hasRoom = rooms.some((r) => r.roomId === room.roomId)
-    if (!hasRoom) return
+    if (hasRoom) return
 
     const unsubscribe = setRoomLevelEventListener(room)
+
     unsubscribers.push(unsubscribe)
   }
 

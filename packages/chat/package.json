@@ -20,6 +20,7 @@
     "react-native": "0.71.6"
   },
   "devDependencies": {
+    "jest": "^29.6.4",
     "jotai-devtools": "^0.6.2"
   }
 }
