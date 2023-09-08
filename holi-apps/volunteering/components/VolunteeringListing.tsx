@@ -18,6 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -73,11 +74,11 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
 
   if (error) {
     logError(error, `[VolunteeringListing.tsx] ${error.message}`)
+    return <HoliText>{t('volunteering:listing.error')}</HoliText>
   }
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
+  if (loading) {
+    return <HoliLoader />
   }
 
   const handleCardPress = (engagement: VolunteeringEngagement) => {
