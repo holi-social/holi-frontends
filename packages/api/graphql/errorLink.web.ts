@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/nextjs'
 
 import { setUnauthorizedErrorStatus } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { isErrorOfType, isServerError, logError, logErrorLocal } from '@holi/core/errors/helpers'
+import { isErrorOfType, isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   // Do not log "not found" or "bad user input" errors
@@ -38,7 +38,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     }
   }
   if (networkError) {
-    if (isServerError(networkError) && networkError.statusCode === 401) {
+    if (isUnauthorizedError(networkError)) {
       setUnauthorizedErrorStatus(true)
     } else {
       logError(networkError, '[Network error]')

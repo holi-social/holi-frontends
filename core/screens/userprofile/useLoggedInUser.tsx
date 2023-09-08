@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { isUnauthorizedError } from '@holi/core/errors/helpers'
 import { isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
@@ -19,7 +20,7 @@ export const useLoggedInUser = () => {
     skip: !userId,
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
-      if (!isNetworkConnectionError(error)) {
+      if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
         logout({ redirectPath: '/' })
         displayError(error)
       }

@@ -9,25 +9,31 @@ import { useLogout } from '@holi/core/helpers'
 import { useIsOnline } from '@holi/core/helpers/useIsOnline'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
+let isProcessingUnauthorizedLogout = false
+export const clearProcessingUnauthorizedLogout = () => {
+  setUnauthorizedErrorStatus(false)
+  isProcessingUnauthorizedLogout = false
+}
+
 const SessionExpiryProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { logout } = useLogout()
+  const { logout, isLoggingOut } = useLogout()
 
   const isError = useUnauthorizedErrorStatusVar()
 
   const isOnline = useIsOnline()
 
   useEffect(() => {
-    if (isError) {
-      setUnauthorizedErrorStatus(false)
+    if (isError && !isLoggingOut && !isProcessingUnauthorizedLogout) {
+      isProcessingUnauthorizedLogout = true
       if (Platform.OS === 'web') {
         navigate('/forceLogout')
       } else {
-        logout({ message: t('auth.loggingOut'), skipLogoutFlow: true })
+        logout({ message: t('auth.loggingOut'), skipLogoutFlow: true }).finally(clearProcessingUnauthorizedLogout)
       }
     }
-  }, [isError, logout, navigate, t])
+  }, [isError, logout, navigate, t, isLoggingOut])
 
   return isOnline ? (
     <>{children}</>

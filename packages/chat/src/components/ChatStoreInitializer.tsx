@@ -35,7 +35,8 @@ const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreIn
   const reloadCount = useChatReloadCounter()
   const chatConnected = useChatConnected()
 
-  const { user: { identity } = {} } = useLoggedInUser()
+  const { user } = useLoggedInUser()
+  const identity = user?.identity
   const { displayError } = useErrorHandling()
   const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
 
