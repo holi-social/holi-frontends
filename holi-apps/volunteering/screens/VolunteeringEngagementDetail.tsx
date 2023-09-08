@@ -8,7 +8,6 @@ import RenderHtml from 'react-native-render-html'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers'
@@ -23,6 +22,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -147,16 +147,10 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
     }
   }, [trackEngagementView, engagementId])
 
-  // TODO: replace with proper loading indicator
   if (!engagementId || loading) {
-    return (
-      <DefaultLayout>
-        <View style={[mixins.container, styles.messageContainer]}>
-          <HoliText>{t('volunteering:listing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    return <HoliLoader />
   }
+
   if (error) {
     displayError(error, t('volunteering:listing.error'))
   }
