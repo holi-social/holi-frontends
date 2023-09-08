@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -16,9 +16,9 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowLeftS } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceInviteViewParams = {
   spaceIdOrName: string
@@ -29,7 +29,6 @@ const { useParam } = createParam<SpaceInviteViewParams>()
 type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const SpaceInvitePage: React.FC<ScreenProps> = () => {
-  const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { navigate } = useRouting()
@@ -56,14 +55,7 @@ const SpaceInvitePage: React.FC<ScreenProps> = () => {
   }, [setScreenOptions, t])
 
   if (loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <DefaultLayout style={styles.loading}>
-        <View style={mixins.container}>
-          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    return <HoliLoader />
   }
 
   if (error || !space) {

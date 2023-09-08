@@ -12,6 +12,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -69,12 +70,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
   }, [error, displayError, t])
 
   if (loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>
-      </View>
-    )
+    return <HoliLoader />
   }
 
   return (

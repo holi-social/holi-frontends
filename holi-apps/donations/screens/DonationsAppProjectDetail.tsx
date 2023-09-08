@@ -19,6 +19,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -68,14 +69,7 @@ const DonationsAppProjectDetail = () => {
   }, [error, displayError, t])
 
   if (!projectId || loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <DefaultLayout>
-        <View style={[mixins.container, styles.messageContainer]}>
-          <HoliText>{t('donations:donationListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    return <HoliLoader />
   }
 
   if (!project) {

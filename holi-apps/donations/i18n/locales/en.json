@@ -38,7 +38,6 @@
   "donationListing.heading": "Current donation project for you",
   "donationListing.error": "Loading donation projects failed",
   "donationListing.loadMoreButton.text": "See more",
-  "donationListing.loading": "Loading donation projects…",
   "donationListing.search.heading": "Search results for <0>{{location}}</0>",
   "donationListing.search.empty.headline": "Try reducing the amount of filters or changing the location",
   "donationListing.search.empty.tagline": "No search results",

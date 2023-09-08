@@ -21,8 +21,8 @@ import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -125,13 +125,7 @@ const Spaces = () => {
   }
 
   if (loading) {
-    return (
-      <DefaultLayout style={styles.layout}>
-        <View style={[mixins.container, styles.discoverSpacesContainer]} testID="spaces-loading">
-          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-        </View>
-      </DefaultLayout>
-    )
+    return <HoliLoader />
   }
 
   return (
