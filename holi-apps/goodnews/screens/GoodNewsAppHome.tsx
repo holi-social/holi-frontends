@@ -8,7 +8,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ArrowDownS } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
@@ -21,7 +20,7 @@ const GoodNewsAppHome = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
       headerTintColor: colors.background10,
