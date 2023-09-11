@@ -12,7 +12,6 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -20,6 +19,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
+import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
 import { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import PartnerModal from '@holi-apps/volunteering/components/PartnerModal'
@@ -70,7 +70,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
   }, [error, displayError, t])
 
   if (loading) {
-    return <HoliLoader />
+    return <DonationListingSkeleton isFiltering={isFiltering} amount={isFiltering ? 10 : 6} />
   }
 
   return (
@@ -170,10 +170,6 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 }
 
 const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: 50,
-  },
   searchQuery: {
     color: colors.brandColorB30,
   },
