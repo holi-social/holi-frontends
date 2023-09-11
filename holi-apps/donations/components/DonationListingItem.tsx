@@ -29,7 +29,6 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
       testID={'donations-list-item'}
     >
       <DonationImage picture={picture} label={title} style={styles.mainImage} width={imageWidth} height={imageHeight} />
-
       <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
         {title}
       </HoliHeading>
