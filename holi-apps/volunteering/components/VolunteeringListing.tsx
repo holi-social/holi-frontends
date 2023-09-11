@@ -33,13 +33,14 @@ import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screen
 import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
-  clearFilters: () => void
   filters: VolunteeringFilters
+  isFiltering?: boolean
+  clearFilters?: () => void
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters, filters = {} }) => {
+const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {}, isFiltering, clearFilters }) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -64,8 +65,8 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
     queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
     variables: {
-      location: filters.location,
-      category: filters.category,
+      location: isFiltering ? filters.location : undefined,
+      category: isFiltering ? filters.category : undefined,
     },
     fetchPolicy: 'cache-and-network',
   })
@@ -84,8 +85,6 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }
-
-  const isFiltering = !!(filters.location || filters.category)
 
   const listFooter = canFetchMore ? (
     <HoliButtonLoading
@@ -124,15 +123,15 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
           i18nNamespace={'volunteering'}
         />
 
-        {isFiltering && (
-          <View style={styles.headingRow}>
-            <HoliText bold style={{ color: colors.foreground20 }}>
-              {t('volunteering:filter.result', {
-                count: totalResults,
-              })}
-            </HoliText>
-          </View>
-        )}
+        {/* {isFiltering && ( */}
+        <View style={styles.headingRow}>
+          <HoliText bold style={{ color: colors.foreground20 }}>
+            {t('volunteering:filter.result', {
+              count: totalResults,
+            })}
+          </HoliText>
+        </View>
+        {/* )} */}
       </View>
       <HoliBox padding={[24, 0, 24, 0]}>
         {engagements.length === 0 && (

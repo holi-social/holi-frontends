@@ -63,7 +63,7 @@ const VolunteeringAppHome = () => {
     [updateParams, closeModal]
   )
 
-  const clearFilters = useCallback(
+  const clearFiltersFromUrl = useCallback(
     () =>
       updateParams({
         location: undefined,
@@ -72,10 +72,26 @@ const VolunteeringAppHome = () => {
     [updateParams]
   )
 
-  const { navigate } = useRouting()
-  const filters = { location: initialLocationSelection, category }
+  const clearFilters = useCallback(() => {
+    setFilters({ location: undefined, category: undefined })
+    clearFiltersFromUrl()
+    setIsFiltering(false)
+  }, [clearFiltersFromUrl])
 
-  const isFiltering = !!(location || category)
+  const { navigate } = useRouting()
+  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
+  const [isFiltering, setIsFiltering] = useState(!!(location || category))
+
+  useEffect(() => {
+    if (location || category) {
+      setIsFiltering(true)
+      setFilters({ location: filters.location, category })
+    } else {
+      setIsFiltering(false)
+      setFilters({ location: undefined, category: undefined })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, category])
 
   useLayoutEffect(() => {
     const filterButton = (
@@ -136,10 +152,16 @@ const VolunteeringAppHome = () => {
           autoHeight={false}
           relativeHeight={1}
         >
-          <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+          <VolunteeringFilterForm
+            onSubmit={submit}
+            filters={filters}
+            setFilters={setFilters}
+            clearFilters={clearFilters}
+            initialLocationSelection={initialLocationSelection}
+          />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} isFiltering={isFiltering} />
       </DefaultLayout>
     </SafeAreaProvider>
   )
