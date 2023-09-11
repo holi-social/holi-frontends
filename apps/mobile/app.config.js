@@ -118,7 +118,7 @@ export default {
         url: requiredEnvVar('JITSI_URL'),
       },
       eas: {
-        projectId: requiredEnvVar('EXPO_PROJECT_ID'),
+        projectId: process.env.EXPO_PROJECT_ID,
       },
       e2e: {
         userId: process.env.E2E_USER_ID, // not required as not used in production
