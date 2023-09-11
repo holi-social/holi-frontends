@@ -20,11 +20,14 @@ const ForceLogout = () => {
 
   useEffect(() => {
     if (!isLoggingOut && userId) {
-      logout({ skipLogoutFlow: true, redirectPath: '/profile', redirectTimeout: 3000, message: 'forceLogout' }).finally(
-        clearProcessingUnauthorizedLogout
-      )
+      logout({
+        message: t('auth.loggingOut'),
+        skipLogoutFlow: true,
+        redirectPath: '/profile',
+        redirectTimeout: 3000,
+      }).finally(clearProcessingUnauthorizedLogout)
     }
-  }, [navigate, logout, isLoggingOut, userId])
+  }, [t, navigate, logout, isLoggingOut, userId])
 
   return (
     <DefaultLayout>
