@@ -61,7 +61,7 @@ const SpaceTasks = () => {
 
   return (
     <>
-      {isAdmin && (
+      {isCollaborator && (
         <HoliButton
           label={t('allTools.drawer.headline')}
           inline
