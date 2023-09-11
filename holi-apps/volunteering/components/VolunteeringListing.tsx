@@ -123,15 +123,15 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
           i18nNamespace={'volunteering'}
         />
 
-        {/* {isFiltering && ( */}
-        <View style={styles.headingRow}>
-          <HoliText bold style={{ color: colors.foreground20 }}>
-            {t('volunteering:filter.result', {
-              count: totalResults,
-            })}
-          </HoliText>
-        </View>
-        {/* )} */}
+        {isFiltering && (
+          <View style={styles.headingRow}>
+            <HoliText bold style={{ color: colors.foreground20 }}>
+              {t('volunteering:filter.result', {
+                count: totalResults,
+              })}
+            </HoliText>
+          </View>
+        )}
       </View>
       <HoliBox padding={[24, 0, 24, 0]}>
         {engagements.length === 0 && (
