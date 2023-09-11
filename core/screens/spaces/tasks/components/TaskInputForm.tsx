@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Image as ReactNativeImage } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
@@ -16,7 +17,6 @@ import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -70,7 +70,6 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   contactEmail,
   thumbnail,
   currentThumbnail,
-  thumbnailBlurhash,
   contactPhone,
   skills,
   selectedLocation,
@@ -169,17 +168,17 @@ const TaskInputForm: React.VFC<TaskInputFormProps> = ({
   const ThumbnailUploader = () => {
     return (
       <View style={styles.thumbnailContainer}>
+        {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
         {thumbnail?.uri ? (
-          <HoliImage
+          <ReactNativeImage
             source={{ uri: thumbnail?.uri ?? '' }}
-            label={t('spaces.input.task.thumbnail.label')}
+            accessibilityLabel={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
         ) : currentThumbnail ? (
-          <HoliImage
+          <ReactNativeImage
             source={{ uri: currentThumbnail }}
-            blurhash={thumbnailBlurhash}
-            label={t('spaces.input.task.thumbnail.label')}
+            accessibilityLabel={t('spaces.input.task.thumbnail.label')}
             style={styles.thumbnail}
           />
         ) : (
