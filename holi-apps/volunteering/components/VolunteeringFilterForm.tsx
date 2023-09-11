@@ -20,7 +20,7 @@ type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
   initialLocationSelection?: GeolocationSuggestion
   onSubmit: (filters?: VolunteeringFilters) => void
-  setFilters?: (filters: VolunteeringFilters) => void
+  setFilters?: (filters: { location: GeolocationSuggestion | undefined; category: string | undefined }) => void
   clearFilters?: () => void
 }
 
