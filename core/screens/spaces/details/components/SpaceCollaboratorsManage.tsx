@@ -9,7 +9,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
+import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliLink from '@holi/ui/components/atoms/HoliLink'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -36,7 +36,7 @@ const SpaceCollaboratorsManage: React.VFC<ScreenProps> = () => {
       title: t('spaces.collaborators.manage.modal.title'),
       headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
-      headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDownS} />,
+      headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
       navigationCustomOptions: {
         footerShown: false,
       },
