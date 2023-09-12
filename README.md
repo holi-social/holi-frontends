@@ -64,6 +64,7 @@
       - [Configuration for mobile builds](#configuration-for-mobile-builds)
   - [sentry.io logging/tracing](#sentryio-loggingtracing)
   - [Accessibility testing](#accessibility-testing)
+  - [Supported By](#supported-by)
 
 ## Development
 
@@ -778,3 +779,7 @@ In order to test the output of screen readers on the different platforms, you ca
   - [Installation on emulators](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
 - [VoiceOver](https://support.apple.com/en-us/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) on iOS
 - [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications, including our application running within the iOS simulator
+
+## Supported By
+
+This project is tested with [BrowserStack](https://www.browserstack.com).
