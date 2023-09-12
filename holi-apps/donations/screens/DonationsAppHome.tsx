@@ -15,7 +15,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
+import { Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -83,7 +83,7 @@ const DonationsAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
