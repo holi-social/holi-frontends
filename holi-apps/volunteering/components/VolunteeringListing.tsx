@@ -21,7 +21,7 @@ import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
@@ -33,13 +33,14 @@ import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screen
 import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
-  clearFilters: () => void
   filters: VolunteeringFilters
+  isFiltering?: boolean
+  clearFilters?: () => void
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters, filters = {} }) => {
+const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {}, isFiltering, clearFilters }) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -64,8 +65,8 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
     queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
     variables: {
-      location: filters.location,
-      category: filters.category,
+      location: isFiltering ? filters.location : undefined,
+      category: isFiltering ? filters.category : undefined,
     },
     fetchPolicy: 'cache-and-network',
   })
@@ -84,8 +85,6 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ clearFilters,
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }
-
-  const isFiltering = !!(filters.location || filters.category)
 
   const listFooter = canFetchMore ? (
     <HoliButtonLoading
@@ -172,7 +171,7 @@ export default withProfiler(VolunteeringListing, { name: 'VolunteeringListing' }
 const getStyles = (bottomInset = 0) =>
   StyleSheet.create({
     list: {
-      paddingTop: vars.topBarHeight,
+      paddingTop: 24,
       backgroundColor: colors.background20,
     },
     title: {

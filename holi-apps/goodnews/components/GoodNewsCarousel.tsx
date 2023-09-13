@@ -11,7 +11,6 @@ import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ArrowDownS } from '@holi/icons/src/generated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import {
@@ -83,7 +82,7 @@ const GoodNewsCarousel = () => {
         headerBackgroundGradient: true,
         footerShown: false,
       },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
     })
   }, [activeArticleFormattedDate, setScreenOptions])
 

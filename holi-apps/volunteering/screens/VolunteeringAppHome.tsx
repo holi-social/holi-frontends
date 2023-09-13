@@ -14,7 +14,7 @@ import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useP
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowDownS, Filter3 } from '@holi/icons/src/generated'
+import { Filter3 } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -63,7 +63,7 @@ const VolunteeringAppHome = () => {
     [updateParams, closeModal]
   )
 
-  const clearFilters = useCallback(
+  const clearFiltersFromUrl = useCallback(
     () =>
       updateParams({
         location: undefined,
@@ -72,10 +72,26 @@ const VolunteeringAppHome = () => {
     [updateParams]
   )
 
-  const { navigate } = useRouting()
-  const filters = { location: initialLocationSelection, category }
+  const clearFilters = useCallback(() => {
+    setFilters({ location: undefined, category: undefined })
+    clearFiltersFromUrl()
+    setIsFiltering(false)
+  }, [clearFiltersFromUrl])
 
-  const isFiltering = !!(location || category)
+  const { navigate } = useRouting()
+  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
+  const [isFiltering, setIsFiltering] = useState(!!(location || category))
+
+  useEffect(() => {
+    if (location || category) {
+      setIsFiltering(true)
+      setFilters({ location: filters.location, category })
+    } else {
+      setIsFiltering(false)
+      setFilters({ location: undefined, category: undefined })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, category])
 
   useLayoutEffect(() => {
     const filterButton = (
@@ -104,7 +120,7 @@ const VolunteeringAppHome = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
-      headerLeft: ({ tintColor }) => <HeaderBackButton icon={ArrowDownS} tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions])
@@ -136,10 +152,16 @@ const VolunteeringAppHome = () => {
           autoHeight={false}
           relativeHeight={1}
         >
-          <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+          <VolunteeringFilterForm
+            onSubmit={submit}
+            filters={filters}
+            setFilters={setFilters}
+            clearFilters={clearFilters}
+            initialLocationSelection={initialLocationSelection}
+          />
         </HoliModal>
 
-        <VolunteeringListing filters={filters} clearFilters={clearFilters} />
+        <VolunteeringListing filters={filters} clearFilters={clearFilters} isFiltering={isFiltering} />
       </DefaultLayout>
     </SafeAreaProvider>
   )
