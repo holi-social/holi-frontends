@@ -150,8 +150,7 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
                   isSvg
                 />
               }
-              secondText={t('donations:donationListing.search.empty.headline')}
-              // style={[styles.noResultsMessage]}
+              secondText={t('volunteering:filter.notFound.description')}
             >
               <HoliButton label={t('search.filter.reset')} onPress={clearFilters}>
                 {t('search.filter.reset')}
