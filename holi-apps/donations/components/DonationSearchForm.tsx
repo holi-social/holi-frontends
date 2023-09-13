@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
 
 type DonationSearchFormProps = {
   locationQuery?: string
@@ -35,15 +36,15 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
         <View style={styles.headingRow}>
           <HoliHeading>{t('donations:search.heading')}</HoliHeading>
           <HoliButton
-            transparent
             inline
-            label={t('search.filter.reset')}
+            label={t('global.reset')}
             onPress={reset}
+            type="secondary"
+            variant="small"
             testID="donations-search-form-reset"
           >
-            <HoliText size="small" style={{ color: colors.foreground20 }}>
-              {t('search.filter.reset')}
-            </HoliText>
+            <HoliText>{t('global.reset')}</HoliText>
+            <HoliIcon icon={Close} size={20} style={styles.clearFilter} />
           </HoliButton>
         </View>
         <PlacesAutocomplete
@@ -74,7 +75,11 @@ const styles = StyleSheet.create({
   headingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginBottom: 24,
+    paddingTop: 2,
+  },
+  clearFilter: {
+    paddingLeft: 3,
   },
 })
