@@ -14,6 +14,7 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -103,46 +104,59 @@ const VolunteeringListing: React.FC<VolunteeringListingProps> = ({ filters = {},
 
   return (
     <View style={[mixins.container, styles.list]}>
-      <View>
-        <HoliBox padding={[0, 0, 16, 0]}>
-          <HoliHeading level="1" style={styles.title}>
-            {t('volunteering:listing.headline')}
-          </HoliHeading>
-        </HoliBox>
-        <PartnerInfoRow
-          rowText={t('volunteering:listing.subline')}
-          showOutlinkIcon={false}
-          partners={allPartners}
-          onPress={showPartnerModal}
-        />
-        <PartnerModal
-          headline={t('volunteering:listing.partnerModal.headline')}
-          partners={allPartners}
-          show={partnerModalVisible}
-          onDismiss={closeModal}
-          i18nNamespace={'volunteering'}
-        />
+      {engagements.length > 0 && (
+        <View>
+          <HoliBox padding={[0, 0, 16, 0]}>
+            <HoliHeading level="1" style={styles.title}>
+              {t('volunteering:listing.headline')}
+            </HoliHeading>
+          </HoliBox>
+          <PartnerInfoRow
+            rowText={t('volunteering:listing.subline')}
+            showOutlinkIcon={false}
+            partners={allPartners}
+            onPress={showPartnerModal}
+          />
+          <PartnerModal
+            headline={t('volunteering:listing.partnerModal.headline')}
+            partners={allPartners}
+            show={partnerModalVisible}
+            onDismiss={closeModal}
+            i18nNamespace={'volunteering'}
+          />
 
-        {isFiltering && (
-          <View style={styles.headingRow}>
-            <HoliText bold style={{ color: colors.foreground20 }}>
-              {t('volunteering:filter.result', {
-                count: totalResults,
-              })}
-            </HoliText>
-          </View>
-        )}
-      </View>
+          {isFiltering && (
+            <View style={styles.headingRow}>
+              <HoliText bold style={{ color: colors.foreground20 }}>
+                {t('volunteering:filter.result', {
+                  count: totalResults,
+                })}
+              </HoliText>
+            </View>
+          )}
+        </View>
+      )}
       <HoliBox padding={[24, 0, 24, 0]}>
         {engagements.length === 0 && (
-          <HoliNoResults
-            firstText={t('volunteering:filter.notFound.title')}
-            secondText={t('volunteering:filter.notFound.description')}
-          >
-            <HoliButton label={t('volunteering:filter.reset')} onPress={clearFilters} inline>
-              {t('volunteering:filter.reset')}
-            </HoliButton>
-          </HoliNoResults>
+          <View style={mixins.container}>
+            <HoliNoResults
+              firstText={t('global.noSearchResults')}
+              media={
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
+                  width={152}
+                  height={152}
+                  label=""
+                  isSvg
+                />
+              }
+              secondText={t('volunteering:filter.notFound.description')}
+            >
+              <HoliButton label={t('search.filter.reset')} onPress={clearFilters}>
+                {t('search.filter.reset')}
+              </HoliButton>
+            </HoliNoResults>
+          </View>
         )}
         <HoliGridWrapper itemsInRow={postGridItemsInRow}>
           {engagements.map((engagement) => (
