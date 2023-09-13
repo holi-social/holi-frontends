@@ -74,7 +74,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
 
   const { displayError } = useErrorHandling()
@@ -191,7 +191,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     !loadingSpace &&
-      isAdmin &&
+      isMember &&
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
@@ -206,7 +206,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isAdmin, setScreenOptions])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     if (
@@ -226,12 +226,12 @@ const EditTask: React.VFC<ScreenProps> = () => {
     logError(errorSpace, `[EditTask.tsx] ${errorSpace.message}`)
   }
 
-  if (!loadingSpace && !isAdmin) {
+  if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loadingSpace || errorSpace || !space || !isAdmin) {
+  if (loadingSpace || errorSpace || !space || !isMember) {
     return <></>
   }
 
@@ -272,7 +272,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         onChangeSelectedLocation={setSelectedLocation}
         fieldErrors={fieldErrors}
         isEdit
-        isAdmin={isAdmin}
+        isMember={isMember}
       />
     </SpaceFormScreenLayout>
   )
