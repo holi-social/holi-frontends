@@ -70,7 +70,7 @@
     - 'curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL' # download .apk from EAS
     - 'cd ../../e2e/mobile'
     - 'yarn install'
-    - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")'
+    - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}" -F "ios_keychain_support=true")'
     - 'export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r ".app_url")'
     - 'APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand'
   allow_failure: false
@@ -112,7 +112,6 @@ mobile_review_publish:
     - /^nomobile\/.*/
   when: manual
   allow_failure: false
-
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
