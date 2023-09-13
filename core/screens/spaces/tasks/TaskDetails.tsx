@@ -52,6 +52,9 @@ const TaskDetails = () => {
     id: task?.id || '',
     spaceIdOrName: space?.name || '',
     successMsg: t('spaces.tasks.delete.success'),
+    handleDelete: () => {
+      navigate(`/spaces/${space?.name}`)
+    },
   })
 
   const renderActionDrawer = useCallback(
