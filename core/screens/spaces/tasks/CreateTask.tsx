@@ -231,6 +231,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         onChangeContactPhone={setContactPhone}
         onChangeSelectedLocation={setSelectedLocation}
         fieldErrors={fieldErrors}
+        isAdmin={isAdmin}
       />
     </SpaceFormScreenLayout>
   )

@@ -272,6 +272,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         onChangeSelectedLocation={setSelectedLocation}
         fieldErrors={fieldErrors}
         isEdit
+        isAdmin={isAdmin}
       />
     </SpaceFormScreenLayout>
   )
