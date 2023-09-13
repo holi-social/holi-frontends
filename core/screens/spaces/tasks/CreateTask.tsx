@@ -70,6 +70,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { displayError } = useErrorHandling()
@@ -231,7 +232,7 @@ const CreateTask: React.VFC<ScreenProps> = () => {
         onChangeContactPhone={setContactPhone}
         onChangeSelectedLocation={setSelectedLocation}
         fieldErrors={fieldErrors}
-        isMember={isMember}
+        isAdmin={isAdmin}
       />
     </SpaceFormScreenLayout>
   )

@@ -74,6 +74,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
 
@@ -272,7 +273,7 @@ const EditTask: React.VFC<ScreenProps> = () => {
         onChangeSelectedLocation={setSelectedLocation}
         fieldErrors={fieldErrors}
         isEdit
-        isMember={isMember}
+        isAdmin={isAdmin}
       />
     </SpaceFormScreenLayout>
   )
