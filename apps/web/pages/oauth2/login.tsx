@@ -6,14 +6,14 @@ import { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 
-import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
+import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
 import { cookieNameForceLogout, extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
 const logger = pino()
 
-const OAuth2LoginPage: NextPage = (props: OAuth2RedirectProps) => <OAuth2Redirect {...props} />
+const OAuth2LoginPage: NextPage = (props: OAuth2LoginProps) => <OAuth2Login {...props} />
 
 const getSubjectIdIfLoggedIn = async (cookies: NextApiRequestCookies) => {
   const cookie = Object.entries(cookies)
@@ -58,14 +58,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 
   try {
+    const error = extractQueryParameter(req.url || '', 'error')
+    if (error) {
+      throw new Error(`Error during login: ${error}`)
+    }
+
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
 
-    const loginFormUrl = `/login?return_to=/oauth2/login?login_challenge=${loginChallenge}`
+    const loginFormProps = {
+      props: {
+        returnTo: `/oauth2/login?login_challenge=${loginChallenge}`,
+      },
+    }
 
     // Check if user wanted to logout before and force display of login form
     const forceLogout = getCookie(cookieNameForceLogout, { req, res })
     if (forceLogout) {
-      return serverSideRedirect(loginFormUrl)
+      return loginFormProps
     }
 
     // If hydra was already able to authenticate the user, skip will be true and we do not need to re-authenticate
@@ -82,8 +91,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       return acceptLoginRequest(loginChallenge, subjectId)
     }
 
-    // Redirect to login UI if authentication can't be skipped and user is not logged in.
-    return serverSideRedirect(loginFormUrl)
+    // Display login UI if authentication can't be skipped and user is not logged in.
+    return loginFormProps
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
