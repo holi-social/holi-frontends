@@ -1,0 +1,88 @@
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { useChatInitialized } from '@holi/chat/src/client/chatSession'
+import { getOrCreateRoom } from '@holi/chat/src/store'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { logError } from '@holi/core/errors/helpers'
+import { chatServerName } from '@holi/core/helpers/config'
+import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useLoginModal } from '@holi/core/provider/LoginModalProvider'
+import { User } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { Loader } from '@holi/icons/src/generated'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+
+export function StartChatButton({
+  label,
+  doReplaceRoute,
+  user,
+  ...rest
+}: {
+  user: User | null
+  label: string
+  doReplaceRoute?: boolean
+}) {
+  const { t } = useTranslation()
+  const { loading: ftLoading, enabled: ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const isChatInitialized = useChatInitialized()
+
+  const { isLoggedIn } = useLoggedInUser()
+  const { openLoginModal } = useLoginModal()
+
+  const { openToast } = useToast()
+  const { replaceRoute, navigate } = useRouting()
+
+  const [isChatOpening, setChatOpening] = useState(false)
+
+  const identity = user?.identity
+
+  const handleChat = async () => {
+    if (!isLoggedIn) return openLoginModal()
+
+    if (!identity) {
+      logError(new HoliError('Can not create a chat without a user identity'), '[UserProfileView.tsx]')
+      return
+    }
+
+    if (isChatOpening) return
+
+    try {
+      setChatOpening(true)
+
+      // TODO: the correct Matrix identity should come from Okuna
+      const fullIdentity = '@' + identity + ':' + chatServerName
+      const { room_id } = await getOrCreateRoom([fullIdentity])
+
+      if (!room_id) {
+        openToast(t('global.offline.description'))
+        return
+      }
+      if (doReplaceRoute) {
+        await replaceRoute('/chat/rooms/' + room_id)
+      } else {
+        navigate('/chat/rooms/' + room_id)
+      }
+    } catch (e) {
+      openToast(t('global.offline.description'))
+    } finally {
+      setChatOpening(false)
+    }
+  }
+
+  return (
+    <HoliButtonLoading
+      icon={isChatOpening ? Loader : undefined}
+      iconSpinning={isChatOpening}
+      disabled={ftLoading || !ftEnabled || !isChatInitialized || !identity}
+      label={label}
+      onPress={handleChat}
+      testID="user-profile-open-chat"
+      {...rest}
+    >
+      {label}
+    </HoliButtonLoading>
+  )
+}
