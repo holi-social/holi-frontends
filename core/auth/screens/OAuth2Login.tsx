@@ -115,6 +115,9 @@ export default memo(OAuth2Login)
 const styles = StyleSheet.create({
   loginForm: {
     marginTop: 80,
+    alignSelf: 'center',
+    alignItems: 'center',
+    maxWidth: 500,
     // reserves space for inputs plus submit until ory flow is done
     minHeight: 235,
     width: '100%',
