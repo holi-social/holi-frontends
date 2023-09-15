@@ -3,15 +3,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import { getOrCreateRoom } from '@holi/chat/src/store'
 import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { logError } from '@holi/core/errors/helpers'
-import { chatServerName } from '@holi/core/helpers/config'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -21,9 +18,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -40,14 +35,13 @@ const isWeb = Platform.OS === 'web'
 const ChatStartConversationView = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute, navigate } = useRouting()
+  const { navigate } = useRouting()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
 
   const [searchUserInputValue, setSearchUserInputValue] = useState('')
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const initialInput = useRef(true)
-  const [isCreatingRoom, setIsCreatingRoom] = useState(false)
 
   // if user is not logged in, redirect to home
   const { userId } = useAuth()
@@ -86,7 +80,6 @@ const ChatStartConversationView = () => {
     [fetchUserByName]
   )
   const getUsersByNameDebounced = useDebounce(getUsersByName, 300)
-  const isButtonLoading = loading || isCreatingRoom
 
   // Event handlers
   const onSearchUserInputChange = async (value: string) => {
@@ -104,32 +97,6 @@ const ChatStartConversationView = () => {
 
   const onUserSelect = (user: User) => {
     setSelectedUser(user.id !== selectedUser?.id ? user : null)
-  }
-
-  const createChatRoom = async () => {
-    if (!selectedUser) return
-
-    const identity = selectedUser.identity
-    if (!identity) {
-      logError(new HoliError('Can not create a chat with out an user identity'), '[ChatSartConversationView.tsx]')
-      return
-    }
-
-    try {
-      setIsCreatingRoom(true)
-
-      const { room_id } = await getOrCreateRoom(['@' + identity + ':' + chatServerName])
-      if (!room_id) {
-        logError(new HoliError('Can not open a room without a room id'), '[ChatSartConversationView.tsx]')
-        return
-      }
-
-      replaceRoute('/chat/rooms/' + room_id)
-    } catch (err) {
-      logError(err, '[ChatStartConcersationView.tsx] coult not create room or navigate to it')
-    } finally {
-      setIsCreatingRoom(false)
-    }
   }
 
   const trailingComponent = useMemo(() => {
@@ -212,17 +179,9 @@ const ChatStartConversationView = () => {
             )}
 
             <View style={[mixins.container, styles.overlayButtonWrapper]}>
-              <HoliButtonLoading
-                label={t('chat.start.button.label')}
-                disabled={!selectedUser || isButtonLoading}
-                icon={isButtonLoading ? Loader : undefined}
-                iconSpinning={isButtonLoading}
-                onPress={createChatRoom}
-              />
+              <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
             </View>
           </View>
-
-          {isCreatingRoom && <HoliLoader />}
         </SafeAreaView>
       )}
     />
