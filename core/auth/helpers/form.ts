@@ -136,7 +136,7 @@ export const handleFormSubmitError = (
           logErrorLocal(err.response, '400 error', { location: 'auth.helpers.form.handleFormSubmitError' })
         }
 
-        console.debug('[auth/helpers/form.ts] Form validation failed.')
+        console.debug('[auth.helpers.form.handleFormSubmitError] Form validation failed.')
         // The error response data contains a flow with error messages.
         // With this data, the view can display the errors.
         setFlow(err.response.data)

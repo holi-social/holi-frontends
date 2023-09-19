@@ -28,19 +28,17 @@ const UpdateAppModal = () => {
   const [showModal, setShowModal] = useState(false)
 
   const updateApp = () => {
-    let url: string
+    const openStoreUrl = (url: string) => {
+      Linking.openURL(url).catch((error) => {
+        logError(error, 'Error opening url on ' + Platform.OS, { location: 'UpdateAppModal.updateApp', url })
+      })
+    }
     switch (Platform.OS) {
       case 'ios':
-        url = data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757'
-        Linking.openURL(url).catch((error) => {
-          logError(error, 'Error opening url on ios', { location: 'UpdateAppModal.updateApp', url })
-        })
+        openStoreUrl(data?.checkAppVersion?.appStoreUrl ?? 'itms-apps://apps.apple.com/id6446693757')
         break
       case 'android':
-        url = data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`
-        Linking.openURL(url).catch((error) => {
-          logError(error, 'Error opening url on android', { location: 'UpdateAppModal.updateApp', url })
-        })
+        openStoreUrl(data?.checkAppVersion?.playStoreUrl ?? `market://details?id=${ANDROID_PACKAGE_NAME}`)
         break
       default:
         break

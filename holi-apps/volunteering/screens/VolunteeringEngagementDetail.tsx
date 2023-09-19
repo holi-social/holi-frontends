@@ -140,7 +140,7 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
     variables: { id: engagementId },
     onError: (error) =>
       logError(error, 'Error tracking view for volunteering engagement', {
-        location: 'VolunteeringEngagementDetail.trackEngagementView',
+        location: 'VolunteeringEngagementDetail.trackEngagementViewMutation',
         engagementId,
       }),
   })

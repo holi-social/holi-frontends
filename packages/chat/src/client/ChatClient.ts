@@ -85,7 +85,7 @@ export default class ChatClient {
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
-      logError(err, 'Could not start client', { location: 'ChatClient.start' })
+      logError(err, 'Could not start matrix client', { location: 'ChatClient.start' })
       throw err
     }
 
