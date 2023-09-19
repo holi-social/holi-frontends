@@ -25,7 +25,11 @@ const PostReactions: React.VFC<PostReactionsProps> = ({ post, onChange, style })
 
   const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
     onCompleted: () => onChange?.(),
-    onError: (error) => displayError(error),
+    onError: (error) =>
+      displayError(error, 'Failed to update post reaction', {
+        location: 'PostReactions.updatePostReaction',
+        postId: post.id,
+      }),
   })
 
   const reactOnPost = () => {

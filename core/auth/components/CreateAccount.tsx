@@ -64,8 +64,13 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
-      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t, userId, displayError])
+      .catch((error) =>
+        displayError(error, 'Failed to initialize registration flow', {
+          displayMessage: t('auth.registration.error.initialization'),
+          location: 'CreateAccount.initRegistrationFlow',
+        })
+      )
+  }, [userId, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => {
@@ -111,7 +116,11 @@ const CreateAccount = ({ onRegister }: CreateAccountProps) => {
         handleFormSubmitError(
           setFlow,
           initializeFlow,
-          (error) => displayError(error, t('auth.registration.error.registration')),
+          (error) =>
+            displayError(error, 'Failed to submit form', {
+              displayMessage: t('auth.registration.error.registration'),
+              location: 'CreateAccount.onSubmit',
+            }),
           err
         )
       } finally {

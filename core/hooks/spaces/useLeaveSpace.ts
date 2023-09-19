@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { logError } from '@holi/core/errors/helpers'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import useUpdateSpaceUserConnection from '@holi/core/hooks/spaces/useUpdateSpaceUserConnection'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -36,12 +35,12 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
 
   const deleteAction = useCallback(() => {
     navigate('/spaces')
-    deleteSpace().catch((e) => logError(e, '[useLeaveSpaces.ts] could not delete space'))
+    deleteSpace()
   }, [navigate, deleteSpace])
 
   const leaveAction = useCallback(() => {
     navigate('/spaces')
-    leaveSpace().catch((e) => logError(e, '[useLeaveSpaces.ts] could not leave space'))
+    leaveSpace()
   }, [navigate, leaveSpace])
 
   const noAction = useCallback(() => {

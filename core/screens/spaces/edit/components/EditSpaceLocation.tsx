@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/location/components/PlacesAutocomplete'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
@@ -19,6 +20,7 @@ interface EditSpaceLocationProps {
 
 const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss }: EditSpaceLocationProps) => {
   const { openToast } = useToast()
+  const { displayError } = useErrorHandling()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     space.location ? { label: space.location, id: '', coordinates: space.geolocation } : undefined
   )
@@ -29,8 +31,8 @@ const EditSpaceLocation: React.VFC<EditSpaceLocationProps> = ({ space, onDismiss
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()
     },
-    onError: () => {
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
+    onError: (error) => {
+      displayError(error, 'Failed to update space', { location: 'EditSpaceLocation.updateSpace', spaceId: space.id })
     },
   })
 

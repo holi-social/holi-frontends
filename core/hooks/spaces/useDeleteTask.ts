@@ -27,7 +27,13 @@ const useDeleteTask = ({ id, spaceIdOrName, successMsg, handleDelete }: UseDelet
       openToast(successMsg, HoliToastType.SUCCESS)
       handleDelete?.()
     },
-    onError: (error) => displayError(error, t('spaces.tasks.delete.error')),
+    onError: (error) =>
+      displayError(error, 'Failed to delete task', {
+        displayMessage: t('spaces.tasks.delete.error'),
+        location: 'useDeleteTask',
+        taskId: id,
+        spaceIdOrName,
+      }),
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 

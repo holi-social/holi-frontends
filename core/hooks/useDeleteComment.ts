@@ -19,12 +19,16 @@ const useDeleteComment = (id: string, postId: string, handleConfirm?: () => void
     {
       variables: { id },
       onCompleted: () => {
-        openToast(t('insights.posts.comment.delete.success'), HoliToastType.SUCCESS, 3000)
+        openToast(t('insights.posts.comment.delete.success'), HoliToastType.SUCCESS)
         handleConfirm?.()
       },
       onError: (error: ApolloError) => {
         handleConfirm?.()
-        displayError(error, t('global.technicalError'), 5000)
+        displayError(error, 'Failed to delete comment', {
+          location: 'useDeleteComment',
+          commentId: id,
+          postId,
+        })
       },
       refetchQueries: [{ query: PostById, variables: { id: postId } }],
     }

@@ -85,7 +85,7 @@ export default class ChatClient {
     try {
       await this.mxClient.startClient(options)
     } catch (err) {
-      logError(err, '[ChatClient] could not start client')
+      logError(err, 'Could not start client', { location: 'ChatClient.start' })
       throw err
     }
 
@@ -139,7 +139,9 @@ export default class ChatClient {
 
   public createRoom = async (userIds: string[]): Promise<RoomId> => {
     const errMsg = 'Chat rooms should be created with at least one user'
-    if (userIds.length < 1) logError(Error(errMsg), errMsg)
+    if (userIds.length < 1) {
+      logError(Error(errMsg), 'Failed to create room', { location: 'ChatClient.createRoom' })
+    }
 
     // Initially its ok if we hardcode the options.
     const dmRoomOptions: ICreateRoomOpts = {
@@ -200,7 +202,7 @@ export default class ChatClient {
     const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
     if (!room) {
       const errMsg = 'There was a problem joining the room after accepting invitation'
-      logError(new Error(errMsg), errMsg)
+      logError(new Error(errMsg), 'Failed to join room', { location: 'ChatClient.joinRoom' })
       return null
     }
 

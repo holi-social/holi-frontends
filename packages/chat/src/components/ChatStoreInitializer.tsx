@@ -43,7 +43,11 @@ const ChatStoreInitializer = ({ children, store }: PropsWithChildren<ChatStoreIn
   useEffect(() => {
     if (!ftLoading && ftEnabled) {
       if (identity) {
-        startChat().catch(displayError)
+        startChat().catch((error) =>
+          displayError(error, 'Failed to start chat', {
+            location: 'ChatStoreInitializer.startChat',
+          })
+        )
       }
     }
   }, [displayError, identity, ftLoading, ftEnabled])

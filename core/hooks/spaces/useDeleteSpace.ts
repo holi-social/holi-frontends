@@ -19,7 +19,12 @@ const useDeleteSpace = (spaceId: string): UseDeleteSpace => {
     onCompleted: () => {
       openToast(t('spaces.delete.success'), HoliToastType.SUCCESS)
     },
-    onError: (error) => displayError(error, t('spaces.delete.error')),
+    onError: (error) =>
+      displayError(error, 'Failed to delete space', {
+        displayMessage: t('spaces.delete.error'),
+        location: 'useDeleteSpace',
+        spaceId,
+      }),
     refetchQueries: [{ query: mySpaceQuery }],
   })
 

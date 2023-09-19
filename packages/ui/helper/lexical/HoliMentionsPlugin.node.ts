@@ -134,10 +134,10 @@ export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOut
       node,
     }
   } else {
-    logError(
-      new HoliError("Couldn't convert element. Data missing."),
-      `[HoliMentionsPluginNode] $convertDomInJsonElement: textContent: ${textContent}, userId: ${userId}`
-    )
+    const message = !textContent ? 'Text content missing' : 'User ID missing'
+    logError(new HoliError("Couldn't convert element. Data missing."), message, {
+      location: 'HoliMentionsPluginNode.$convertDomInJsonElement',
+    })
   }
 
   return null

@@ -87,7 +87,9 @@ const NotificationsOverview = () => {
   const [reportLastSeenNotification] = useMutation<lastSeenNotificationResponse>(LastSeenNotificationMutation, {
     variables: { notificationId: string },
     onError: (mutationError) => {
-      logError(mutationError, `[NotificationsOverview.tsx] ${mutationError.message}`)
+      logError(mutationError, 'Failed to report last seen notification', {
+        location: 'NotificationsOverview.LastSeenNotificationMutation',
+      })
     },
   })
 

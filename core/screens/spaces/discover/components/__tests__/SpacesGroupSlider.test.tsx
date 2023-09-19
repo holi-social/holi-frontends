@@ -98,12 +98,9 @@ describe('SpacesGroupSlider', () => {
       expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
       await waitFor(() =>
-        expect(global.mockOpenToast).toHaveBeenCalledWith(
-          'spaces.spaceListing.error',
-          HoliToastType.ERROR,
-          undefined,
-          'test-error'
-        )
+        expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+          testID: 'test-error',
+        })
       )
     })
 
@@ -168,12 +165,9 @@ describe('SpacesGroupSlider', () => {
       expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
       await waitFor(() =>
-        expect(global.mockOpenToast).toHaveBeenCalledWith(
-          'spaces.spaceListing.error',
-          HoliToastType.ERROR,
-          undefined,
-          'test-error'
-        )
+        expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.spaceListing.error', HoliToastType.ERROR, {
+          testID: 'test-error',
+        })
       )
     })
 

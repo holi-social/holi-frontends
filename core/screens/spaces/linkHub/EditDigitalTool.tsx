@@ -39,7 +39,7 @@ type ScreenProps = NativeStackScreenProps<SpacesScreens>
 
 const EditDigitalTool: React.VFC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [toolIdOrName] = useParam('toolIdOrName')
+  const [toolId] = useParam('toolIdOrName')
   const { navigateBack, navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
@@ -62,6 +62,12 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     loading: loadingSpace,
   } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { idOrName: spaceIdOrName },
+    onError: (error) =>
+      logError(error, 'Failed to load space', {
+        location: 'EditDigitalTool.spaceByIdQuery',
+        spaceIdOrName,
+        toolId,
+      }),
   })
 
   const space = data?.spaceById
@@ -88,7 +94,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
     updateCollaborationTool({
       variables: {
         input: {
-          id: toolIdOrName,
+          id: toolId,
           url,
           title,
           description,
@@ -121,8 +127,8 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
   useEffect(() => {
     if (space) {
       const collaborationTools = space ? space.collaborationTools : []
-      if (collaborationTools && collaborationTools.length > 0 && toolIdOrName) {
-        const digitalTool = collaborationTools.filter((tool) => tool.id === toolIdOrName)[0]
+      if (collaborationTools && collaborationTools.length > 0 && toolId) {
+        const digitalTool = collaborationTools.filter((tool) => tool.id === toolId)[0]
         const collectionType = COLLECTION_TYPES.filter(
           (collection_type) => collection_type === digitalTool.collectionType
         )[0]
@@ -139,7 +145,7 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
         setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
       }
     }
-  }, [space, toolIdOrName, t])
+  }, [space, toolId, t])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({
@@ -160,10 +166,6 @@ const EditDigitalTool: React.VFC<ScreenProps> = () => {
       setFieldErrors({})
     }
   }, [description, selectedCollection?.id, space?.id, title, url])
-
-  if (errorSpace) {
-    logError(errorSpace, `[EditSpace.tsx] ${errorSpace.message}`)
-  }
 
   if (!loadingSpace && !isMember) {
     navigate(`/spaces/${spaceIdOrName}`)

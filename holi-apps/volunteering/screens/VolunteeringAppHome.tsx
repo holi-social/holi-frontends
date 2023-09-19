@@ -127,9 +127,13 @@ const VolunteeringAppHome = () => {
 
   useEffect(() => {
     if (geolocationError) {
-      displayError(geolocationError, t('volunteering:listing.error'))
+      displayError(geolocationError, 'Failed to load geolocation details', {
+        displayMessage: t('volunteering:listing.error'),
+        location: 'VolunteeringAppHome.useEffect',
+        locationId: location,
+      })
     }
-  }, [displayError, geolocationError, t])
+  }, [displayError, geolocationError, location, t])
 
   if (geolocationError) {
     return <></>

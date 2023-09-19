@@ -47,6 +47,10 @@ const GoodNewsCarousel = () => {
       variables: {
         lastDate: undefined,
       },
+      onError: (error) =>
+        logError(error, 'Failed to load good news articles', {
+          location: 'GoodNewsCarousel.GoodNewsArticlesQuery',
+        }),
     }
   )
   const { articles = [], previousDateTeaser } = data?.appGoodNews_articles || {}
@@ -116,10 +120,6 @@ const GoodNewsCarousel = () => {
     },
     [activeArticleIndex, memoizedFetchMore, styles.article]
   )
-
-  if (error) {
-    logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error) {

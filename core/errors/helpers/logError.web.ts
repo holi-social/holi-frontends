@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
 
-import { ErrorInfo, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
+import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 
 export const logInfo = (error: unknown, message?: string) => {
   const errorMessage = message ? ` ${message}:` : ''
@@ -13,23 +13,18 @@ export const logInfoMsg = (message: string) => {
   console.info('[logError.ts]' + message)
 }
 
-export const logError = (error: unknown, message: string, { stack, context }: ErrorInfo = {}) => {
+export const logError = (error: unknown, message: string, context: ErrorContext) => {
   if (isNetworkConnectionError(error)) return
-  logErrorLocal(error, message, stack)
+  logErrorLocal(error, message, context)
   Sentry.captureException(error, (scope) => {
-    if (stack) {
-      scope.setContext('Stack', { stack })
-    }
-    if (context) {
-      scope.setContext('Error Context', context)
-    }
+    scope.setContext('Error Context', context)
     return scope
   })
 }
 
-export const logErrorLocal = (error: unknown, message?: string, stack?: string) => {
+export const logErrorLocal = (error: unknown, message: string, { location, ...context }: ErrorContext) => {
   if (isNetworkConnectionError(error)) return
   const errorMessage = message ? ` ${message}:` : ''
   // eslint-disable-next-line no-console
-  console.error('[logError.ts]' + errorMessage, error, stack)
+  console.error(`[${location}] ` + errorMessage, error, context)
 }

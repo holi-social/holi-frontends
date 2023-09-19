@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
-import React, { memo, useEffect, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -48,11 +48,17 @@ const DonationsAppProjectDetail = () => {
 
   const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
-  const { loading, data, error, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
+  const { loading, data, refetch } = useQuery<AppDonationsProjectByIdResponse>(projectByIdQuery, {
     variables: {
       id: Number(projectId),
     },
     skip: !projectId,
+    onError: (error) =>
+      displayError(error, 'Failed to load donation project', {
+        displayMessage: t('donations:donationListing.error'),
+        location: 'DonationsAppProjectDetail.projectByIdQuery',
+        projectId,
+      }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -61,12 +67,6 @@ const DonationsAppProjectDetail = () => {
   useLayoutEffect(() => {
     setScreenOptions({ title: t('donations:app.name') })
   }, [setScreenOptions, t])
-
-  useEffect(() => {
-    if (error) {
-      displayError(error, t('donations:donationListing.error'))
-    }
-  }, [error, displayError, t])
 
   if (!projectId || loading) {
     return <HoliLoader />

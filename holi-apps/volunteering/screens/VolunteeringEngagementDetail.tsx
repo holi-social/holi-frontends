@@ -124,13 +124,26 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
 
-  const { loading, data, error, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
+  const { loading, data, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
     variables: {
       id: engagementId,
     },
     skip: !engagementId,
+    onError: (error) =>
+      displayError(error, 'Failed to load volunteering engagement', {
+        displayMessage: t('volunteering:listing.error'),
+        location: 'VolunteeringEngagementDetail.engagementByIdQuery',
+        engagementId,
+      }),
   })
-  const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation)
+  const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation, {
+    variables: { id: engagementId },
+    onError: (error) =>
+      logError(error, 'Error tracking view for volunteering engagement', {
+        location: 'VolunteeringEngagementDetail.trackEngagementView',
+        engagementId,
+      }),
+  })
   const engagement = data?.appVolunteering_engagement
 
   const { refreshing, onRefresh } = useOnRefresh(refetch)
@@ -141,18 +154,12 @@ const VolunteeringEngagementDetail: React.FC<VolunteeringEngagementDetailProps> 
 
   useEffect(() => {
     if (engagementId) {
-      trackEngagementView({ variables: { id: engagementId } }).catch((error) => {
-        logError(error, `[VolunteeringEngagementDetail.tsx] Error tracking view for ${engagementId}: ${error.message}`)
-      })
+      trackEngagementView()
     }
   }, [trackEngagementView, engagementId])
 
   if (!engagementId || loading) {
     return <HoliLoader />
-  }
-
-  if (error) {
-    displayError(error, t('volunteering:listing.error'))
   }
 
   if (!engagement) {

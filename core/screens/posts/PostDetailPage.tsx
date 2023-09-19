@@ -80,6 +80,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const { loading, error, data, refetch } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
+    onError: (error) => logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId }),
   })
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
@@ -111,10 +112,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     },
     [isWeb]
   )
-
-  if (error) {
-    logError(error, `[Post.tsx] ${error.message}`)
-  }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error) {

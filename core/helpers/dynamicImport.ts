@@ -24,7 +24,7 @@ export const dynamicImport = <T>(importHandler: NextJSDynamicImport<T> | ReactLa
   if (isReactLazyImport(importHandler)) return lazy(importHandler)
 
   const error = new HoliError('Holi component dynamic import could not load your component')
-  logError(error)
+  logError(error, 'Failed to load dynamic import', { location: 'dynamicImport' })
 
   throw error
 }
