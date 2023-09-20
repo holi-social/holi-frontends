@@ -97,6 +97,10 @@ export default {
         serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
         pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
       },
+      moderation: {
+        perspectiveKey: requiredEnvVar('PERSPECTIVE_API_KEY'),
+        perspectiveUrl: requiredEnvVar('PERSPECTIVE_API_URL'),
+      },
       ory: {
         url: requiredEnvVar('ORY_BASE_URL'),
       },

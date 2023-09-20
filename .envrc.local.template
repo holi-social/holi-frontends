@@ -38,6 +38,9 @@ fi
 export SENTRY_AUTH_TOKEN=
 export EXPO_PROJECT_ID=
 export ORY_ADMIN_ACCESS_TOKEN=
+# Necessary to try the comment moderation API - currently guarded under a feature toggle. 
+export PERSPECTIVE_API_KEY=
+
 
 # Use http://localhost:4455/graphql when running frontend against the local environment
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql

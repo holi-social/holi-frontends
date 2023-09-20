@@ -1,6 +1,7 @@
 # holi-frontends
 
 <!-- TOC -->
+
 - [Development](#development)
   - [Prerequisites](#prerequisites)
     - [Android emulator](#android-emulator)
@@ -64,34 +65,44 @@
 - [sentry.io logging/tracing](#sentryio-loggingtracing)
 - [Accessibility testing](#accessibility-testing)
 - [Supported By](#supported-by)
+- [Moderation API](#moderation-api)
+
 <!-- /TOC -->
 
 ## Development
 
 ### Prerequisites
 
-Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the following node version managers are installed and properly set up on your system:
+Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the
+following node version managers are installed and properly set up on your system:
 
 - [`nodenv`](https://github.com/nodenv/nodenv) or
 - [`nvm`](https://github.com/nvm-sh/nvm)
 
 Follow the instructions in the corresponding READMEs for setup.
 
-Run `cp .envrc.local.template .envrc.local` and adjust `.envrc.local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc.local`) will automatically be loaded when you `cd` into the directory.
+Run `cp .envrc.local.template .envrc.local` and adjust `.envrc.local` to match your configuration (e.g. using the
+correct node version manager). Using `direnv`, `.envrc` (and `.envrc.local`) will automatically be loaded when you `cd`
+into the directory.
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
-It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
+It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is
+understood by both tools (e.g. a fixed version).
 
 #### Android emulator
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
 - In the SDK Manager, Untick "Hide Obsolete Packages" and install "Android SDK Tools (Obsolete)."
 - Create an adb device using the Virtual Device Manager from Android Studio
-  - In order to test accessibility features you need to have the [Android Accessibility Suite](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator) installed
-  - _Note that the **Pixel 4 API 32** was throwing a permissions error in **macOS Ventura 13.1**. We corrected the error by installing a different device, for example, the **Pixel 5 API 31**._
+  - In order to test accessibility features you need to have
+    the [Android Accessibility Suite](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
+    installed
+  - _Note that the **Pixel 4 API 32** was throwing a permissions error in **macOS Ventura 13.1**. We corrected the error
+    by installing a different device, for example, the **Pixel 5 API 31**._
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Add `<path-to-android-sdk>/platform-tools` to your `PATH` environment variable to access the `adb` command.
-- For Gnu Bash or Zsh run `export ANDROID_HOME ~/Library/Android/sdk` and `export PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools`
+- For Gnu Bash or Zsh run `export ANDROID_HOME ~/Library/Android/sdk`
+  and `export PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools`
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
 - `yarn mobile:dev` > `a`
@@ -125,9 +136,11 @@ phone.
 
 #### Unit tests
 
-The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
+The unit tests are written with [jest](https://jestjs.io/)
+and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
 
-We also use custom matchers like `toHaveTextContent` defined by [jest-native](https://github.com/testing-library/jest-native).
+We also use custom matchers like `toHaveTextContent` defined
+by [jest-native](https://github.com/testing-library/jest-native).
 
 ##### Execution
 
@@ -161,12 +174,14 @@ yarn test:watch myFileName
 yarn test:watchAll
 ```
 
-Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing functionality related to that package scope.
+Every package script should run independently from our workspaces. It also helps if you are focused on unit-testing
+functionality related to that package scope.
 
 ##### Conventions
 
 We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
-within those folders, or any files that end with a suffix of `.spec.js` or `.test.js` by default. Files named `testData.ts[x]` are excluded.
+within those folders, or any files that end with a suffix of `.spec.js` or `.test.js` by default. Files
+named `testData.ts[x]` are excluded.
 
 We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
 the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
@@ -174,20 +189,25 @@ If there is an intentional change to the UI, you can run `yarn test:update` and 
 It is recommended to always commit the snapshots folder and keep it in version control.
 Currently we only use these kinds of tests for Holi components (i.e. components defined in `@holi/ui`).
 
-We do not want to rely on actual translations, so `i18next` is configured in `jest.setup.ts` without any translations and will only render the i18n-keys instead.
+We do not want to rely on actual translations, so `i18next` is configured in `jest.setup.ts` without any translations
+and will only render the i18n-keys instead.
 
-There is a global mock to check for navigation behaviour (`mockNavigate`, used e.g. in `core/auth/components/__tests__/LoginProtection.test.tsx`).
+There is a global mock to check for navigation behaviour (`mockNavigate`, used e.g.
+in `core/auth/components/__tests__/LoginProtection.test.tsx`).
 
 #### Web e2e tests
 
 The web e2e tests are built with [Playwright](https://playwright.dev/). They are executed in the CI pipeline against
 feature branches and the staging system (before a live deployment).
 
-You can run them locally. You need to have Docker installed. Then, follow the instructions in the [README](./e2e/web/README.md).
+You can run them locally. You need to have Docker installed. Then, follow the instructions in
+the [README](./e2e/web/README.md).
 
 #### Mobile e2e tests
 
-Mobile e2e tests are written with [jest](https://jestjs.io/) and use [Appium](https://appium.io/docs/en/about-appium/getting-started/). The tests are run against real devices on [BrowserStack](https://www.browserstack.com) in CI pipelines, but can be run locally as well.
+Mobile e2e tests are written with [jest](https://jestjs.io/) and
+use [Appium](https://appium.io/docs/en/about-appium/getting-started/). The tests are run against real devices
+on [BrowserStack](https://www.browserstack.com) in CI pipelines, but can be run locally as well.
 
 For more information see the respective [README](./e2e/mobile/README.md).
 
@@ -238,9 +258,12 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-- `apps` - contains platform specific configs, styles and structurally differing code that can not be shared (e.g. the navigation and next.js pages)
-  - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
-  - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
+- `apps` - contains platform specific configs, styles and structurally differing code that can not be shared (e.g. the
+  navigation and next.js pages)
+  - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the
+    minimal platform-specific code that can not be shared with `web`.
+  - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the
+    minimal platform-specific code that can not be shared with `mobile`.
   - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
@@ -256,7 +279,8 @@ To give an overview, the project contains the following workspaces (npm packages
   - `pagination` - shared components and hooks for pagination
   - `providers` - shared providers
   - `screens` - all screens used in the core app
-    - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
+    - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared,
+      no 'Screen' suffix in name
       - `components`
       - `hooks`
       - `providers`
@@ -268,8 +292,10 @@ To give an overview, the project contains the following workspaces (npm packages
   - `mobile` - end-to-end tests for the mobile app
   - `web` - end-to-end tests for the web site
 - `holi-apps` - apps for the HOLI app "store" will eventually go here
-  - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
-- `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
+  - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally
+    equivalent to `screens` in `core`
+- `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm
+  package
   - `api` - shared client-side code for the HOLI API
   - `chat`* - components, store and utils for the matrix chat client
   - `icons` - the HOLI icon library
@@ -299,32 +325,40 @@ Components in `packages/ui` and `screens` should use the following folder struct
 
 #### Package dependencies
 
-We would like to prevent cyclic dependencies and strive for a clear hierarchy from more complex and specialized logic and components down to more general and simpler ones that can be easily shared. In order to achieve this we try to reach the following dependency hierarchy:
+We would like to prevent cyclic dependencies and strive for a clear hierarchy from more complex and specialized logic
+and components down to more general and simpler ones that can be easily shared. In order to achieve this we try to reach
+the following dependency hierarchy:
 
 1. platform and build specific packages
-   - apps/storybook
-   - apps/mobile
-   - apps/web
+  - apps/storybook
+  - apps/mobile
+  - apps/web
 2. application logic and domain specific packages
-   - core
-   - holi-apps
+  - core
+  - holi-apps
 3. shared packages
-   - api
-   - ui
-   - icons
+  - api
+  - ui
+  - icons
 
 Notes:
 
-- Packages may not depend on the packages listed above, but only to packages listed below. E.g. `packages/ui` may depend on `packages/icons`, but not vice versa. The same goes for `core` and `packages/ui`.
-- For the "shared packages" listed in 3. we like to imagine that these could be published as stand-alone `npm` packages. So ideally these should not include any domain or application specific logic or terminology.
+- Packages may not depend on the packages listed above, but only to packages listed below. E.g. `packages/ui` may depend
+  on `packages/icons`, but not vice versa. The same goes for `core` and `packages/ui`.
+- For the "shared packages" listed in 3. we like to imagine that these could be published as stand-alone `npm` packages.
+  So ideally these should not include any domain or application specific logic or terminology.
 - Our code does currently not adhere to this structure, so we can not enforce this yet.
 
 ### Code conventions
 
 - File names: camelCase
-- File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
-  - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase and might start with an underscore.
-- Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
+- File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests):
+  PascalCase
+  - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase
+    and might start with an underscore.
+- Default instead of named exports, esp. for components. I.e. every file should typically only export one component or
+  function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they
+  may be exported in the same file as the component
 
   - E.g.
 
@@ -338,7 +372,10 @@ Notes:
 
   - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
 
-- For very complex components that span over multiple files (e.g. screens or platform specific variants), group all files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and hides the complexity of the component itself.
+- For very complex components that span over multiple files (e.g. screens or platform specific variants), group all
+  files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables
+  importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and
+  hides the complexity of the component itself.
   - Example:
     - `foobar` - see `core/navigation/hooks/useRouting` as example
       - `foobar.ts` - mobile variant
@@ -354,14 +391,16 @@ Notes:
 #### Code style
 
 We use `eslint` and `prettier` to lint and format the code.
-The rules are defined in `.eslintrc.js` resp. `.prettierrc` and are checked by our commit hooks as well as during the CI pipelines.
+The rules are defined in `.eslintrc.js` resp. `.prettierrc` and are checked by our commit hooks as well as during the CI
+pipelines.
 Make sure to install appropriate IDE plugins to assist writing properly linted code and automate formatting.
 
 ### Dependencies
 
 #### Dependencies and Yarn Workspaces
 
-When adding dependencies, for convenience reasons, you might want to stay in the project root folder. From here you can add new packages with the
+When adding dependencies, for convenience reasons, you might want to stay in the project root folder. From here you can
+add new packages with the
 command:
 
 `yarn workspace [workspace-name] add [package-name]`
@@ -383,7 +422,8 @@ and might cause dependency conflicts.
 
 ### Rules for Adding Dependencies
 
-Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything work:
+Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
+work:
 
 - **root**: don't add any dependencies here
   - _exception_: dev dependencies that understand monorepos like `eslint`
@@ -399,7 +439,8 @@ It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
 
-- tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+- tslib is pinned to 2.3.1 because without this pin, there was an
+  error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -464,14 +505,15 @@ const [userId = ''] = useParam('userId')
   - render the shared screen within
 
 ```ts
-const UserProfilePage: NextPage = () => <UserProfile />
+const UserProfilePage: NextPage = () => <UserProfile / >
 export default UserProfilePage
 ```
 
 #### mobile
 
 - define the route name in `apps/mobile/navigation/routeName.ts`
-- create a route in `apps/mobile/navigation/RootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
+- create a route in `apps/mobile/navigation/RootNavigator.tsx` e.g. in the RootStack and use the shared screen component
+  to render
 
 ```tsx
 <RootStack.Screen name={RouteName.UserProfile} component={UserProfile} />
@@ -482,10 +524,12 @@ export default UserProfilePage
 ```ts
 // ...
 config: {
-    screens: {
-        // ...
-        [RouteName.UserProfile]: 'profile/:userId',
-    }
+  screens: {
+    // ...
+    [RouteName.UserProfile]
+  :
+    'profile/:userId',
+  }
 }
 ```
 
@@ -494,11 +538,16 @@ config: {
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
 ```tsx
-const {navigate} = useRouting()
+const { navigate } = useRouting()
 
-<Button onPress = {() => navigate('/profile/jasper')}>
-  jaspers profile
-</Button>
+< Button
+onPress = {()
+=>
+navigate('/profile/jasper')
+}>
+jaspers
+profile
+< /Button>
 ```
 
 #### notes
@@ -516,18 +565,25 @@ It may be configured at different places, but over all it must be unique.
 
 ### I18n (Internationalization)
 
-We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
+We use [i18next](https://www.i18next.com/) as framework for internationalization
+with [react-i18next](https://react.i18next.com/) for React/React Native support and rely
+on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale
+data (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
 
-You can find more documentation in [confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/181174275/I18n+Internationalization).
+You can find more documentation
+in [confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/181174275/I18n+Internationalization).
 
-We use [namespaces](https://www.i18next.com/principles/namespaces) to separate translations for the core application and the different holi-apps, which can be found in
+We use [namespaces](https://www.i18next.com/principles/namespaces) to separate translations for the core application and
+the different holi-apps, which can be found in
 
 - `core/i18n/locales`
 - `holi-apps/donations/i18n/locales`
 - etc.
 
-Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a flat JSON structure.
-To refer to a translation from a specific namespace use the prefix `<namespace>:`, e.g `donations:app.name`. If no namespace prefix is passed, translations from `core` are used.
+Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a
+flat JSON structure.
+To refer to a translation from a specific namespace use the prefix `<namespace>:`, e.g `donations:app.name`. If no
+namespace prefix is passed, translations from `core` are used.
 
 #### Usage example
 
@@ -555,62 +611,99 @@ t('message.key')
 t('message.interpolation', { value: 'example' })
 
 // results in: "Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>"
-<Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText style={{ fontWeight: 'bold' }}>this text will be replaced by "nested component"</HoliText>
+< Trans
+t = { t }
+i18nKey = "message.nestedComponent" >
+  < HoliText
+style = {
+{
+  fontWeight: 'bold'
+}
+}>
+this
+text
+will
+be
+replaced
+by
+"nested component" < /HoliText>
 </Trans>
 ```
 
-See `holi-apps/donations/components/DonationProgress.tsx` for an example for number formatting using `Intl.NumberFormat`.
+See `holi-apps/donations/components/DonationProgress.tsx` for an example for number formatting
+using `Intl.NumberFormat`.
 
 #### VS Code extension
 
-[i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
-translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
+[i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that
+facilitates
+translating the app with features like code completion, directly adding new or editing existing keys as well as
+displaying translations inside the code and as tooltips.
 
 ### Error handling and reporting
 
-There are several utils and hooks in `core/errors` to facilitate error handling and deal with displaying, logging and reporting errors.
+There are several utils and hooks in `core/errors` to facilitate error handling and deal with displaying, logging and
+reporting errors.
 
-- `logErrorLocal`: If the error is not relevant enough to be reported, e.g. because it was caused by "bad user input", this function can be used to log it locally, which might be helpful during development.
-- `logError`: This function will not only log the error locally, but also report it to [Sentry.io](#sentryio-loggingtracing). You can pass a custom error message as well as some information about the error context that might be helpful for future analysis. We also require the error "location" to facilitate finding the occurrence in the code, usually in the form of `<file/component name>.<method>`.
+- `logErrorLocal`: If the error is not relevant enough to be reported, e.g. because it was caused by "bad user input",
+  this function can be used to log it locally, which might be helpful during development.
+- `logError`: This function will not only log the error locally, but also report it
+  to [Sentry.io](#sentryio-loggingtracing). You can pass a custom error message as well as some information about the
+  error context that might be helpful for future analysis. We also require the error "location" to facilitate finding
+  the occurrence in the code, usually in the form of `<file/component name>.<method>`.
 
-    **Warning:** The error, message and context information is passed to Sentry.io as well and we have to make sure to never include any user identifiable data!
-- `displayError`: This method is provided by the `useErrorHandling` hook and is the most thorough way of handling errors:
+  **Warning:** The error, message and context information is passed to Sentry.io as well and we have to make sure to
+  never include any user identifiable data!
+- `displayError`: This method is provided by the `useErrorHandling` hook and is the most thorough way of handling
+  errors:
   - The error is displayed to the user in form of a toast
   - If the error was caused by "bad user input", we only log the error locally (using `logErrorLocal`, see above)
   - Otherwise we log and report the error using `logError` (see above)
-- `openToast`: If you only want to inform the user about an error, without logging or reporting it, you can use `openToast` (provided by the `useToast` hook).
+- `openToast`: If you only want to inform the user about an error, without logging or reporting it, you can
+  use `openToast` (provided by the `useToast` hook).
 
 Note: Some types of errors are filtered before being logged or displayed, e.g. network errors.
 
 ### Form validation
 
-We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
+We use [zod](https://zod.dev/) for validation, see e.g. `core/screens/spaces/edit/mutations.ts` for definition of
+validation rules and `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage.
 
-When dealing with form validation errors, that are usually caused by invalid user input, the most noteworthy hooks are the following:
+When dealing with form validation errors, that are usually caused by invalid user input, the most noteworthy hooks are
+the following:
 
-- `useFieldErrors` is a hook to handle backend validation errors (see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
-- `openToast` (provided by the `useToast` hook) can be used to display more general errors that can not be assigned to text input fields.
+- `useFieldErrors` is a hook to handle backend validation errors (
+  see `core/screens/spaces/edit/components/EditSpaceNameAndGoal.tsx` for usage example)
+- `openToast` (provided by the `useToast` hook) can be used to display more general errors that can not be assigned to
+  text input fields.
 
 Other forms of error handling are described [above](#error-handling-and-reporting).
 
-For more details see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
+For more details
+see [documentation in confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/279412742/Error+Handling).
 
 ## Creating NextJS SSR and SSG pages
 
 ### Understanding NextJS data fetching strategies
 
-NextJS supports client side rendering (CSR), server side rendering (SSR) and static-site generation (SSG). You can create pages for the web app (`apps/web`) following the same rules as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+NextJS supports client side rendering (CSR), server side rendering (SSR) and static-site generation (SSG). You can
+create pages for the web app (`apps/web`) following the same rules as described in
+the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
 
 ### Creating reusable pages for web and mobile and allowing SSR or SSG on web
 
-To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
+To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with
+the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself,
+without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to
+follow the steps below:
 
 #### Configure the page/screen component to use SSR or SSG
 
-Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
+Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen
+component to be used both for the mobile and the web apps.
 
-The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
+The first step to take would be creating the page/screen component that will be used both for the mobile and web apps.
+Let's call it `Quote` component and all it does is display a famous quote in the page.
 
 ##### `core/screens/Quote.tsx`
 
@@ -641,8 +734,11 @@ export default Quote
 ```
 
 - The `ssrData` will be passed to the page/screen component as a prop, as well as the `ssr` prop will be `true`.
-- If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it if `ssr` is `true`. We already have the `ssrData` as a prop.
-- We are using ApolloClient for data fetching, and for SSR usage, make sure to use `useLazyQuery` instead of `useQuery`, to avoid fetching data from the client side as well when using SSR. Read more about these methods on the [Apollo Docs](https://www.apollographql.com/docs/react/api/react/hooks/).
+- If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it
+  if `ssr` is `true`. We already have the `ssrData` as a prop.
+- We are using ApolloClient for data fetching, and for SSR usage, make sure to use `useLazyQuery` instead of `useQuery`,
+  to avoid fetching data from the client side as well when using SSR. Read more about these methods on
+  the [Apollo Docs](https://www.apollographql.com/docs/react/api/react/hooks/).
 
 Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
 
@@ -680,8 +776,11 @@ export const getServerSideProps = async () => {
 export default QuotesPage
 ```
 
-- Include the `ssr` and `ssrData` props in the page/screen component. Set `ssr` to `true` and pass the `ssrData` as a prop to the component. If it's client side rendering, no need to use any data fetching strategy from NextJS (no `getServerSideProps` in this example).
-- Include the corresponding pre-rendering methods (`getServerSideProps` and `getStaticProps`) as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+- Include the `ssr` and `ssrData` props in the page/screen component. Set `ssr` to `true` and pass the `ssrData` as a
+  prop to the component. If it's client side rendering, no need to use any data fetching strategy from NextJS (
+  no `getServerSideProps` in this example).
+- Include the corresponding pre-rendering methods (`getServerSideProps` and `getStaticProps`) as described in
+  the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
 - The data fetched will be passed to the page/screen component as a prop.
 
 ## Authentication
@@ -703,15 +802,20 @@ the backend (which is reverse-proxied on Next.JS server side, see `apps/web/page
 
 ### OAuth2
 
-In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://owncloud.dev/ocis/)) there are some web specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
+In order to support an OAuth2 flow (currently used for [OwnCloud/OCIS](https://owncloud.dev/ocis/)) there are some web
+specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
 
-The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
+The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As
+custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In
+order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the
+following to your `/etc/hosts` file:
 
 ```sh
 127.0.0.1 staging.dev.holi.social
 ```
 
-However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
+However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the
+urls when being redirected.
 
 ## Exploring the GraphQL API (via graphiql)
 
@@ -745,25 +849,40 @@ alternative.
 
 ### Linting and Autocomplete
 
-We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL linting and code autocompletion capabilities. By integrating GraphQL Config into our development environment, we create a seamless and efficient coding experience specifically tailored for GraphQL that guarantees we can write GraphQL queries, mutations, fragments, and so on, with ease, as it provides us with optimized features that minimize errors and maximize productivity.
+We use [GraphQL Config](https://the-guild.dev/graphql/config) to support GraphQL linting and code autocompletion
+capabilities. By integrating GraphQL Config into our development environment, we create a seamless and efficient coding
+experience specifically tailored for GraphQL that guarantees we can write GraphQL queries, mutations, fragments, and so
+on, with ease, as it provides us with optimized features that minimize errors and maximize productivity.
 
-By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT` environment variable.
+By default, the GraphQL Config is set to use the `staging` unified API schema as its endpoint. If you wish to work with
+it locally you have the option to modify the schema endpoint by updating the value of the `UNIFIED_API_SCHEMA_ENDPOINT`
+environment variable.
 
 ### Code Generation
 
-We use [GraphQL Codegen](https://the-guild.dev/graphql/codegen) to automate the process of generating strongly typed code that corresponds to `unified-api` GraphQL schema which eliminates the need for manual type definitions and helps maintain consistency between the frontend and the backend services.
+We use [GraphQL Codegen](https://the-guild.dev/graphql/codegen) to automate the process of generating strongly typed
+code that corresponds to `unified-api` GraphQL schema which eliminates the need for manual type definitions and helps
+maintain consistency between the frontend and the backend services.
 
-To use GraphQL Codegen, start by defining your GraphQL types (e.g. queries, mutations, or fragments) in a `.graphql` or `.gql` file. Afterward, run the `yarn schema:generate` command to automatically generate the corresponding TypeScript code based on your definitions.
+To use GraphQL Codegen, start by defining your GraphQL types (e.g. queries, mutations, or fragments) in a `.graphql`
+or `.gql` file. Afterward, run the `yarn schema:generate` command to automatically generate the corresponding TypeScript
+code based on your definitions.
 
-For a better local development experience, you can enable watch mode for codegen by running `yarn schema:watch`. This allows the code generation process to continuously monitor your GraphQL schema and automatically update the generated code whenever changes are detected.
+For a better local development experience, you can enable watch mode for codegen by running `yarn schema:watch`. This
+allows the code generation process to continuously monitor your GraphQL schema and automatically update the generated
+code whenever changes are detected.
 
 ## Continuous Integration and Deployment
 
 ### Feature Branches & Environments
 
-When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch
+name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g.
+feature/HOLI-1234).
 
-When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.dev.holi.social>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available
+via <https://$BRANCH_NAME.dev.holi.social>) and to mobile (available via expo). Also, E2E tests are executed against all
+platforms.
 
 ### Skipping parts of CI
 
@@ -771,41 +890,62 @@ Sometimes, changes don't need to be verified by the full pipeline, e.g. changes 
 
 #### noenv Branches
 
-When you prefix your branch name with `noenv/` (e.g. `noenv/my-readme-update`) the pipeline only lints & builds, but does not publish, deploy or run e2e test. This saves quite some time. Obviously, many things go untested so only use this if "you know what you're doing".
+When you prefix your branch name with `noenv/` (e.g. `noenv/my-readme-update`) the pipeline only lints & builds, but
+does not publish, deploy or run e2e test. This saves quite some time. Obviously, many things go untested so only use
+this if "you know what you're doing".
 
 #### noweb / nomobile Branches
 
-You can also selectively skip the web part of the pipeline by prefixing your branch name with `noweb/`, and the mobile part by prefixing your branch name with `nomobile/`.
+You can also selectively skip the web part of the pipeline by prefixing your branch name with `noweb/`, and the mobile
+part by prefixing your branch name with `nomobile/`.
 
 ### Staging and Production Environments
 
-When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
+When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against
+it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
 
 ### Environment variables
 
-Setting environment specific configurations using environment variables works differently for web and mobile: for the web server it is sufficient to provide environment variables during runtime, while for mobile and the web client these variables have to be available at build time, so they are included in the respective bundles. There are also differences between local execution and builds/deployment during CI.
+Setting environment specific configurations using environment variables works differently for web and mobile: for the
+web server it is sufficient to provide environment variables during runtime, while for mobile and the web client these
+variables have to be available at build time, so they are included in the respective bundles. There are also differences
+between local execution and builds/deployment during CI.
 
 #### Local execution and general usage
 
-For local execution environment variables can usually be provided (both for web and to some extend mobile, see [below](#usage-for-mobile)) by defining the variables in `.envrc` or `.envrc.local` or by passing them directly before issuing a command, e.g. `HOLI_API_URL=foobar yarn web:dev`.
+For local execution environment variables can usually be provided (both for web and to some extend mobile,
+see [below](#usage-for-mobile)) by defining the variables in `.envrc` or `.envrc.local` or by passing them directly
+before issuing a command, e.g. `HOLI_API_URL=foobar yarn web:dev`.
 
 They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
 
 #### Configuration for web client
 
-For the web client all environment variables that should be available in the browser, have to be provided at build time. To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (see [documentation](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
+For the web client all environment variables that should be available in the browser, have to be provided at build time.
+To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (
+see [documentation](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (
+An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
 
-There also is [runtime configuration](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) available in Next.js but we have not yet decided on a solution yet (see [HOLI-1692](https://holi.atlassian.net/browse/HOLI-1692)).
+There also is [runtime configuration](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration)
+available in Next.js but we have not yet decided on a solution yet (
+see [HOLI-1692](https://holi.atlassian.net/browse/HOLI-1692)).
 
 #### Configuration for web deployment
 
-For web deployment it is necessary to include environment variables in the terraform configuration: see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on how to pass them to the container. You can only use information available at script execution time to provide or calculate the configuration values.
+For web deployment it is necessary to include environment variables in the terraform configuration:
+see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on
+how to pass them to the container. You can only use information available at script execution time to provide or
+calculate the configuration values.
 
-You could also define environment variables in the Dockerfile itself (`apps/web/Dockerfile`), but these may not be environment specific, as the same docker image is used for different environments.
+You could also define environment variables in the Dockerfile itself (`apps/web/Dockerfile`), but these may not be
+environment specific, as the same docker image is used for different environments.
 
 #### Usage for mobile
 
-On mobile builds, environment variables are evaluated at build time and the values are therefore included in the binary as constants. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps, which can be accessed as follows:
+On mobile builds, environment variables are evaluated at build time and the values are therefore included in the binary
+as constants. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides
+configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the
+apps, which can be accessed as follows:
 
 ```ts
 import Constants from 'expo-constants'
@@ -815,23 +955,42 @@ export const holiApiUrl = Constants.expoConfig?.extra?.holi_api.url
 
 #### Configuration for mobile builds
 
-For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the pipelines), environment variables have be set for each build profile in `apps/mobile/eas.json` (see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
-You should see such variables listed as `Project environment variables` in the EAS build logs (you should also be able to find the full `app.config.js` there to check that all configuration values are filled in correctly).
+For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the
+pipelines), environment variables have be set for each build profile in `apps/mobile/eas.json` (
+see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
+You should see such variables listed as `Project environment variables` in the EAS build logs (you should also be able
+to find the full `app.config.js` there to check that all configuration values are filled in correctly).
 
 ## sentry.io logging/tracing
 
-For staging and production deployments, we are reporting logs and errors to sentry.io. Among others, we have a project for [mobile](https://sentry.io/organizations/holistic-foundation/issues/?project=6377191) and another one for [web](https://sentry.io/organizations/holistic-foundation/issues/?project=6396737). Check them out from time to time.
+For staging and production deployments, we are reporting logs and errors to sentry.io. Among others, we have a project
+for [mobile](https://sentry.io/organizations/holistic-foundation/issues/?project=6377191) and another one
+for [web](https://sentry.io/organizations/holistic-foundation/issues/?project=6396737). Check them out from time to
+time.
 
 ## Accessibility testing
 
 In order to test the output of screen readers on the different platforms, you can use the following tools
 
-- [Screen reader](https://chrome.google.com/webstore/detail/screen-reader/kgejglhpjiefppelpmljglcjbhoiplfn) on web (Chrome)
-- [TalkBack / Android Accessibility Suite](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback) on Android
+- [Screen reader](https://chrome.google.com/webstore/detail/screen-reader/kgejglhpjiefppelpmljglcjbhoiplfn) on web (
+  Chrome)
+- [TalkBack / Android Accessibility Suite](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback)
+  on Android
   - [Installation on emulators](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
 - [VoiceOver](https://support.apple.com/en-us/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) on iOS
-- [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications, including our application running within the iOS simulator
+- [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (
+  preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications,
+  including our application running within the iOS simulator
 
 ## Supported By
 
 This project is tested with [BrowserStack](https://www.browserstack.com).
+
+## Moderation API
+
+We are experimenting with large language models to avoid toxicity and guarantee a safe space in our public comment
+areas. We are trying Google's Perspective API, which allows machine learning to measure toxicity and other attributes.
+
+It is necessary to save the `PERSPECTIVE_API_KEY` found in your Passbolt and include it in the .envrc.local file. The
+feature is currently guarded under the feature
+toggle **COMMENT_MODERATION**.
