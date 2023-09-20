@@ -133,7 +133,7 @@ const CreateDigitalTool: React.VFC<ScreenProps> = () => {
     <PermissionsGuard
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
-      permissionType={PermissionsType.AUTH}
+      permissionType={PermissionsType.SPACES}
     >
       <SpaceFormScreenLayout
         title={t('spaces.digitalTool.add.title')}

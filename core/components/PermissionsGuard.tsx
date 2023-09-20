@@ -25,7 +25,7 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
 }) => {
   const { navigate } = useRouting()
 
-  // "undefined" is used on init when we do not know, if user is logged in (loading state)
+  // "undefined" is used when we do not know yet, if user is logged in (loading state)
   // "null" is used when we are SURE there is no logged user
   const { userId } = useAuth()
 
