@@ -244,9 +244,12 @@ To give an overview, the project contains the following workspaces (npm packages
   - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
+  - `components` - shared components, e.g. layout that is used by multiple screens
   - `errors` - shared components, hooks and helpers for error handling
+  - `helpers` - various helper hooks, configuration and helper functions
   - `i18n` - shared configuration for internationalization
     - `locales` - translations
+    - `helpers` - helper functions
   - `navigation` - shared components and helpers for navigation
   - `RootProvider.tsx` - shared root provider
   - `screens` - all screens used in the core app
