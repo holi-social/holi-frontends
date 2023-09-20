@@ -254,7 +254,7 @@ To give an overview, the project contains the following workspaces (npm packages
   - `location` - shared components and hooks for geolocation
   - `navigation` - shared components and helpers for navigation
   - `pagination` - shared components and hooks for pagination
-  - `provider` - shared providers
+  - `providers` - shared providers
   - `screens` - all screens used in the core app
     - `userprofile` - exmeplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
       - `components`
