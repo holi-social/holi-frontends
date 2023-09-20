@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
@@ -12,8 +12,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
+import ModerationHint from '@holi/core/components/ModerationHint'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -26,7 +25,6 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import type { InsightsScreens } from '@holi/mobile/navigation/InsightsNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -43,9 +41,7 @@ export type CommentInputPageParams = {
   postId: string
 }
 
-type ScreenProps = NativeStackScreenProps<InsightsScreens>
-
-const CommentInputPage: React.VFC<ScreenProps> = () => {
+const CommentInputPage = () => {
   const { useParam } = createParam<CommentInputPageParams>()
   const [insightId = ''] = useParam('insightId')
   const [spaceIdOrName = ''] = useParam('spaceIdOrName')
@@ -87,17 +83,15 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     }
   )
 
-  useLayoutEffect(
-    () =>
-      setScreenOptions({
-        title: t('insights.posts.comments.title'),
-        headerStyle: { backgroundColor: colors.background10 },
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      }),
-    [setScreenOptions, t]
-  )
+  useEffect(() => {
+    setScreenOptions({
+      title: t('insights.posts.comments.title'),
+      headerStyle: { backgroundColor: colors.background10 },
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t])
 
   /**
    * The view should:
@@ -129,10 +123,10 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
   useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
 
-  const onHeightChange = useCallback((newContainerHeight: number) => {
+  const onHeightChange = (newContainerHeight: number) => {
     const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
     setMaxViewPortHeight(newScrollViewHeight)
-  }, [])
+  }
 
   if (loading || error) {
     return <></>
@@ -183,12 +177,12 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
               </View>
             </View>
           </ScrollView>
+          <ModerationHint text={text} />
 
           {/* Bottom Bar */}
           <View style={[styles.bottomBar]}>
             {/* Suggestions*/}
-            <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
-
+            <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
             <View style={[styles.buttonContainer, mixins.container]}>
               <HoliButton
                 disabled={!text.trim().length || createCommentLoading}

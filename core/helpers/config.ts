@@ -6,3 +6,6 @@ export const chatServerLoginUrl = Constants.expoConfig?.extra?.chat.serverLoginU
 export const chatPushGatewayUrl = Constants.expoConfig?.extra?.chat.pushGatewayUrl
 export const owncloudUrl = Constants.expoConfig?.extra?.owncloud.url
 export const jitsiUrl = Constants.expoConfig?.extra?.jitsi.url
+
+export const perspectiveKey = Constants.expoConfig?.extra?.moderation.perspectiveKey
+export const perspectiveUrl = Constants.expoConfig?.extra?.moderation.perspectiveUrl
